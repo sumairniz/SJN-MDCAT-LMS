@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SJN MDCAT LMS Pro Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            sjn: {
+              red: '#DC2626',
+              crimson: '#991B1B',
+              darkred: '#450A0A',
+              black: '#09090B',
+              card: '#121215',
+              border: '#27272A',
+              accent: '#EF4444'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #09090b; }
+    ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #dc2626; }
+    
+    .glow-red {
+      box-shadow: 0 0 20px rgba(220, 38, 38, 0.25);
+    }
+    .glow-red-lg {
+      box-shadow: 0 0 35px rgba(220, 38, 38, 0.4);
+    }
+    .glass-card {
+      background: rgba(18, 18, 21, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .glass-red {
+      background: linear-gradient(135deg, rgba(220, 38, 38, 0.15) 0%, rgba(9, 9, 11, 0.9) 100%);
+      border: 1px solid rgba(220, 38, 38, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-sjn-black text-gray-100 font-sans antialiased min-h-screen flex flex-col selection:bg-red-600 selection:text-white">
+
+  <header class="sticky top-0 z-50 bg-sjn-card/90 backdrop-blur-md border-b border-sjn-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo Branding -->
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="switchModule('dashboard')">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-black p-0.5 glow-red flex items-center justify-center">
+            <div class="w-full h-full bg-sjn-black rounded-[10px] flex items-center justify-center">
+              <i class="fa-solid font-black text-red-500 text-xl">SJN</i>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="text-lg font-black tracking-tight text-white">SJN MDCAT <span class="text-red-500">LMS PRO</span></span>
+              <span class="px-2 py-0.5 text-[10px] font-bold uppercase bg-red-600/20 text-red-400 border border-red-500/30 rounded-full">Academy Edition</span>
+            </div>
+            <p class="text-xs text-gray-400 hidden sm:block">Medical Entrance Learning Portal</p>
+          </div>
+        </div>
+
+        <!-- Student Quick Status Header (Starts at 0) -->
+        <div class="hidden md:flex items-center space-x-6 text-xs">
+          <div class="bg-sjn-black/60 px-3 py-1.5 rounded-lg border border-sjn-border flex items-center space-x-2">
+            <span class="text-red-400"><i class="fa-solid fa-list-check"></i></span>
+            <span class="text-gray-400">MCQs:</span>
+            <span id="nav-mcqs-count" class="font-bold text-white">0</span>
+          </div>
+
+          <div class="bg-sjn-black/60 px-3 py-1.5 rounded-lg border border-sjn-border flex items-center space-x-2">
+            <span class="text-emerald-400"><i class="fa-solid fa-bullseye"></i></span>
+            <span class="text-gray-400">Accuracy:</span>
+            <span id="nav-accuracy" class="font-bold text-emerald-400">0%</span>
+          </div>
+
+          <div class="bg-sjn-black/60 px-3 py-1.5 rounded-lg border border-sjn-border flex items-center space-x-2">
+            <span class="text-amber-400"><i class="fa-solid fa-fire"></i></span>
+            <span class="text-gray-400">Streak:</span>
+            <span id="nav-streak" class="font-bold text-amber-400">0 Days</span>
+          </div>
+
+          <div class="bg-gradient-to-r from-red-950 to-sjn-card px-3 py-1.5 rounded-lg border border-red-800/40 flex items-center space-x-2">
+            <span id="nav-rank-badge" class="font-bold text-red-400 flex items-center gap-1.5">
+              <span>Beginner</span> 🔴
+            </span>
+          </div>
+
+          <button onclick="openAuthModal()" id="account-button" class="px-3 py-1.5 bg-zinc-800 hover:bg-red-600/30 border border-zinc-700 text-xs font-bold text-gray-300 hover:text-white rounded-lg transition-all flex items-center gap-1.5">
+            <i class="fa-solid fa-user"></i><span id="account-button-label">Login / Register</span>
+          </button>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-sjn-border">
+          <i class="fa-solid fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row gap-6">
+
+    <aside id="sidebar-nav" class="w-full md:w-64 flex-shrink-0 space-y-2 hidden md:block">
+      <div class="bg-sjn-card rounded-2xl p-3 border border-sjn-border space-y-1">
+        <div class="px-3 py-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Academy Navigation</div>
+        
+        <button onclick="switchModule('dashboard')" id="tab-dashboard" class="nav-tab active w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all bg-red-600 text-white shadow-lg shadow-red-600/20">
+          <div class="flex items-center space-x-3">
+            <i class="fa-solid fa-chart-pie w-5"></i>
+            <span>Dashboard</span>
+          </div>
+          <span class="text-xs opacity-75">📊</span>
+        </button>
+
+        <button onclick="switchModule('wizard')" id="tab-wizard" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
+          <div class="flex items-center space-x-3">
+            <i class="fa-solid fa-crosshair w-5 text-red-500"></i>
+            <span>Create Test</span>
+          </div>
+          <span class="text-xs text-red-400 font-mono">PRACTICE</span>
+        </button>
+
+        <button onclick="switchModule('courses')" id="tab-courses" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
+          <div class="flex items-center space-x-3">
+            <i class="fa-solid fa-book-open w-5 text-blue-400"></i>
+            <span>My Courses</span>
+          </div>
+          <span class="text-xs text-gray-500">📚</span>
+        </button>
+
+        <button onclick="switchModule('pastpapers')" id="tab-pastpapers" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
+          <div class="flex items-center space-x-3">
+            <i class="fa-solid fa-scroll w-5 text-amber-400"></i>
+            <span>Past Papers</span>
+          </div>
+          <span class="text-xs text-gray-500">📜</span>
+        </button>
+
+        <button onclick="switchModule('resources')" id="tab-resources" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
+          <div class="flex items-center space-x-3">
+            <i class="fa-solid fa-bolt w-5 text-yellow-400"></i>
+            <span>Academy Resources</span>
+          </div>
+          <span class="text-xs text-yellow-400">⚡</span>
+        </button>
+
+        <button onclick="switchModule('history')" id="tab-history" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
+          <div class="flex items-center space-x-3">
+            <i class="fa-solid fa-clock-rotate-left w-5 text-emerald-400"></i>
+            <span>Test History</span>
+          </div>
+          <span class="text-xs text-gray-500">📈</span>
+        </button>
+
+        <button onclick="switchModule('aitutor')" id="tab-aitutor" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
+          <div class="flex items-center space-x-3">
+            <i class="fa-solid fa-robot w-5 text-purple-400"></i>
+            <span>AI Doubt Solver</span>
+          </div>
+          <span class="text-xs bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-mono">AI</span>
+        </button>
+      </div>
+
+      <!-- Quick AI Doubt Card -->
+      <div class="glass-red rounded-2xl p-4 space-y-3">
+        <div class="flex items-center space-x-2 text-red-400 font-bold text-xs uppercase tracking-wide">
+          <i class="fa-solid fa-brain"></i>
+          <span>SJN AI Tutor</span>
+        </div>
+        <p class="text-xs text-gray-300">Stuck on a tricky PMDC concept or textbook question?</p>
+        <button onclick="switchModule('aitutor')" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold text-xs py-2 px-3 rounded-lg transition-all flex items-center justify-center space-x-2">
+          <span>Ask Doubt Now</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 flex flex-col space-y-6 min-w-0">
+
+      <section id="module-dashboard" class="module-view space-y-6">
+        <!-- Banner Header -->
+        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-950 via-sjn-card to-zinc-900 border border-red-900/40 p-6 md:p-8">
+          <div class="relative z-10 space-y-2">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-red-500/20 border border-red-500/40 text-red-400 text-xs font-bold uppercase">
+              <span>SJN MDCAT LMS ACADEMY PORTAL</span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              Welcome, <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-rose-500">Future Doctor! 🩺</span>
+            </h1>
+            <p class="text-sm text-gray-300 max-w-2xl">
+              Start your medical entrance preparation. Build custom practice sets from the MCQs published by the academy, including mixed subjects, chapters and topics.
+            </p>
+          </div>
+          <div class="absolute -right-8 -bottom-8 opacity-10 text-red-600 pointer-events-none">
+            <i class="fa-solid fa-user-doctor text-[180px]"></i>
+          </div>
+        </div>
+
+        <!-- Student Profile Key Stats (Zero Baseline) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-sjn-card p-5 rounded-2xl border border-sjn-border hover:border-red-500/30 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-gray-400 uppercase">MCQs Attempted</span>
+              <span class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400 flex items-center justify-center text-sm"><i class="fa-solid fa-list-check"></i></span>
+            </div>
+            <div class="mt-3">
+              <span id="dash-mcqs" class="text-2xl font-black text-white">0</span>
+              <span class="text-xs text-gray-400 ml-1">total solved</span>
+            </div>
+            <div class="mt-2 text-[11px] text-gray-400">Fresh Student Progress</div>
+          </div>
+
+          <div class="bg-sjn-card p-5 rounded-2xl border border-sjn-border hover:border-emerald-500/30 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-gray-400 uppercase">Accuracy Rate</span>
+              <span class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-sm"><i class="fa-solid fa-bullseye"></i></span>
+            </div>
+            <div class="mt-3">
+              <span id="dash-accuracy" class="text-2xl font-black text-emerald-400">0%</span>
+              <span class="text-xs text-gray-400 ml-1">target: >85%</span>
+            </div>
+            <div class="w-full bg-zinc-800 h-1.5 rounded-full mt-3 overflow-hidden">
+              <div id="dash-accuracy-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <div class="bg-sjn-card p-5 rounded-2xl border border-sjn-border hover:border-amber-500/30 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-gray-400 uppercase">Current Streak</span>
+              <span class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center text-sm"><i class="fa-solid fa-fire"></i></span>
+            </div>
+            <div class="mt-3">
+              <span id="dash-streak" class="text-2xl font-black text-amber-400">0 Days</span>
+            </div>
+            <div class="mt-2 text-[11px] text-amber-500/80 font-medium">Ready for practice ⚡</div>
+          </div>
+
+          <div class="bg-sjn-card p-5 rounded-2xl border border-sjn-border hover:border-purple-500/30 transition-all">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-gray-400 uppercase">Current Level</span>
+              <span class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center text-sm"><i class="fa-solid fa-award"></i></span>
+            </div>
+            <div class="mt-3">
+              <span id="dash-rank" class="text-xl font-black text-white flex items-center gap-1.5">
+                <span>Beginner</span> 🔴
+              </span>
+            </div>
+            <div class="mt-2 text-[11px] text-gray-400" id="dash-next-level-txt">Next Level: Cadet (10 MCQs)</div>
+          </div>
+        </div>
+
+        <!-- Subject Performance Cards & Quick Launch -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 bg-sjn-card rounded-2xl border border-sjn-border p-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-base font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-layer-group text-red-500"></i>
+                Subject Performance Metrics
+              </h3>
+              <span class="text-xs text-gray-400">PMDC Syllabus Tracker</span>
+            </div>
+
+            <div class="space-y-3">
+              <div>
+                <div class="flex justify-between text-xs font-medium mb-1">
+                  <span class="text-gray-300">Biology</span>
+                  <span id="subj-bio-acc" class="text-gray-400 font-bold">Unattempted</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
+                  <div id="subj-bio-bar" class="bg-red-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-medium mb-1">
+                  <span class="text-gray-300">Chemistry</span>
+                  <span id="subj-chem-acc" class="text-gray-400 font-bold">Unattempted</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
+                  <div id="subj-chem-bar" class="bg-blue-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-medium mb-1">
+                  <span class="text-gray-300">Physics</span>
+                  <span id="subj-phys-acc" class="text-gray-400 font-bold">Unattempted</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
+                  <div id="subj-phys-bar" class="bg-amber-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-medium mb-1">
+                  <span class="text-gray-300">English</span>
+                  <span id="subj-eng-acc" class="text-gray-400 font-bold">Unattempted</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
+                  <div id="subj-eng-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs font-medium mb-1">
+                  <span class="text-gray-300">Logical Reasoning</span>
+                  <span id="subj-lr-acc" class="text-gray-400 font-bold">Unattempted</span>
+                </div>
+                <div class="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
+                  <div id="subj-lr-bar" class="bg-purple-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Feature Launcher -->
+          <div class="bg-sjn-card rounded-2xl border border-sjn-border p-6 space-y-4 flex flex-col justify-between">
+            <div>
+              <h3 class="text-base font-bold text-white flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-bolt text-yellow-400"></i>
+                LMS Direct Access
+              </h3>
+              <p class="text-xs text-gray-400 mb-4">Choose a practice mode to start generating tests:</p>
+              
+              <div class="space-y-2">
+                <button onclick="switchModule('wizard')" class="w-full p-2.5 rounded-xl bg-zinc-800/80 hover:bg-red-950/60 hover:border-red-600/50 border border-sjn-border text-left transition-all flex items-center justify-between text-xs font-semibold">
+                  <span>🎯 Create Custom Practice Test</span>
+                  <i class="fa-solid fa-chevron-right text-gray-500"></i>
+                </button>
+
+                <button onclick="switchModule('courses')" class="w-full p-2.5 rounded-xl bg-zinc-800/80 hover:bg-blue-950/60 hover:border-blue-600/50 border border-sjn-border text-left transition-all flex items-center justify-between text-xs font-semibold">
+                  <span>📚 My Courses & Syllabus</span>
+                  <i class="fa-solid fa-chevron-right text-gray-500"></i>
+                </button>
+
+                <button onclick="switchModule('pastpapers')" class="w-full p-2.5 rounded-xl bg-zinc-800/80 hover:bg-amber-950/60 hover:border-amber-600/50 border border-sjn-border text-left transition-all flex items-center justify-between text-xs font-semibold">
+                  <span>📜 Past Papers Question Bank</span>
+                  <i class="fa-solid fa-chevron-right text-gray-500"></i>
+                </button>
+
+                <button onclick="switchModule('resources')" class="w-full p-2.5 rounded-xl bg-zinc-800/80 hover:bg-yellow-950/60 hover:border-yellow-600/50 border border-sjn-border text-left transition-all flex items-center justify-between text-xs font-semibold">
+                  <span>⚡ Mnemonics & Study Material</span>
+                  <i class="fa-solid fa-chevron-right text-gray-500"></i>
+                </button>
+              </div>
+            </div>
+
+            <button onclick="startQuick5Mcqs()" class="w-full mt-4 py-3 bg-gradient-to-r from-red-600 to-crimson hover:from-red-700 hover:to-red-900 text-white font-bold text-sm rounded-xl transition-all shadow-lg shadow-red-600/30 flex items-center justify-center space-x-2">
+              <i class="fa-solid fa-play"></i>
+              <span>Launch Quick 5-MCQ Drill</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="module-wizard" class="module-view space-y-6 hidden">
+        <div class="bg-sjn-card rounded-2xl border border-sjn-border p-6 space-y-6">
+          <div class="flex items-center justify-between border-b border-sjn-border pb-4">
+            <div class="flex items-center space-x-3">
+              <button id="wizard-back-btn" onclick="prevWizardStep()" class="hidden px-3 py-1 bg-zinc-800 hover:bg-zinc-700 text-gray-200 text-xs font-bold rounded-lg border border-zinc-700 transition-all flex items-center gap-1">
+                <i class="fa-solid fa-arrow-left"></i> Back
+              </button>
+              <div>
+                <span class="text-xs font-bold text-red-500 uppercase tracking-wider">Practice Test Generator</span>
+                <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                  🎯 Create Practice Test
+                </h2>
+              </div>
+            </div>
+            <span id="wizard-step-indicator" class="px-3 py-1 bg-red-600/20 text-red-400 border border-red-500/30 rounded-full text-xs font-bold">
+              Step 1
+            </span>
+          </div>
+
+          <!-- Wizard Progress Bar -->
+          <div class="w-full bg-zinc-800 h-2 rounded-full overflow-hidden">
+            <div id="wizard-progress" class="bg-red-600 h-full rounded-full transition-all duration-300" style="width: 20%"></div>
+          </div>
+
+          <!-- Step 1: Question Bank Selection -->
+          <div id="wizard-step-1" class="wizard-step space-y-4">
+            <h3 class="text-sm font-bold text-gray-200">Step 1: Choose Question Bank 🏦</h3>
+            <button onclick="selectWizardOption('bank', 'Past Papers Question Bank')" class="wizard-card w-full text-left p-5 rounded-xl border border-amber-500/40 bg-zinc-900/80 hover:border-amber-500 hover:bg-amber-950/20 transition-all group">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white group-hover:text-amber-400">📜 Past Papers Question Bank</span>
+                <i class="fa-solid fa-chevron-right text-gray-500"></i>
+              </div>
+              <p class="text-xs text-gray-400 mt-1">The only question bank in this LMS. It starts empty and is populated only from your code/content files.</p>
+            </button>
+          </div>
+
+          <!-- Step 2: Practice Scope Selection -->
+          <div id="wizard-step-2" class="wizard-step space-y-4 hidden">
+            <h3 class="text-sm font-bold text-gray-200">Step 2: Build Your Practice Set 🎯</h3>
+            <p class="text-xs text-gray-400">Choose exactly how you want to practice. You can mix subjects, chapters and topics in one test.</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button onclick="selectPracticeScope('all-subjects')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-red-500 text-left transition-all">
+                <div class="font-bold text-white text-sm">🌐 All Subjects</div>
+                <p class="text-xs text-gray-400 mt-1">Randomly mix Biology, Chemistry, Physics, English and Logical Reasoning.</p>
+              </button>
+              <button onclick="selectPracticeScope('subject-wise')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-blue-500 text-left transition-all">
+                <div class="font-bold text-white text-sm">📖 One Subject</div>
+                <p class="text-xs text-gray-400 mt-1">Practice everything available from one selected subject.</p>
+              </button>
+              <button onclick="selectPracticeScope('custom-mix')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-emerald-500 text-left transition-all">
+                <div class="font-bold text-white text-sm">🧩 Custom Mix</div>
+                <p class="text-xs text-gray-400 mt-1">Mix any subjects and/or chapters together in the same test.</p>
+              </button>
+              <button onclick="selectPracticeScope('topic-wise')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-amber-500 text-left transition-all">
+                <div class="font-bold text-white text-sm">🎯 Topic Drill</div>
+                <p class="text-xs text-gray-400 mt-1">Choose one or more exact topics from any available subject.</p>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3: Subject Selection -->
+          <div id="wizard-step-3" class="wizard-step space-y-4 hidden">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold text-gray-200">Step 3: Select Subject(s) 📚</h3>
+              <button onclick="toggleSelectAllSubjects()" class="text-xs text-red-400 hover:underline font-bold">Select All / Clear</button>
+            </div>
+            <p class="text-xs text-gray-400">For Custom Mix you may select multiple subjects. They will be combined into one question pool.</p>
+            <div id="subject-checkbox-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+            <button onclick="confirmSubjectSelection()" class="mt-2 px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all">
+              Continue <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+
+          <!-- Step 3a: Multi-Chapter Selection -->
+          <div id="wizard-step-3a" class="wizard-step space-y-4 hidden">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold text-gray-200">Step 3a: Select Chapter(s) 📌</h3>
+              <button onclick="toggleSelectAllChapters()" class="text-xs text-red-400 hover:underline font-bold">Select All / Clear</button>
+            </div>
+            <p class="text-xs text-gray-400">You can select chapters from different subjects. Leave chapters unselected to use all chapters of the selected subject(s).</p>
+            <div id="chapter-checkbox-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+            <button onclick="confirmChapterSelection()" class="mt-4 px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all">
+              Confirm Chapters & Continue <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+
+          <!-- Step 3b: Specific Topic Selection -->
+          <div id="wizard-step-3b" class="wizard-step space-y-4 hidden">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold text-gray-200">Step 3b: Select Topic(s) 🎯</h3>
+              <button onclick="toggleSelectAllTopics()" class="text-xs text-red-400 hover:underline font-bold">Select All / Clear</button>
+            </div>
+            <p class="text-xs text-gray-400">Pick any topics across the selected subjects.</p>
+            <div id="topic-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+            <button onclick="confirmTopicSelection()" class="mt-4 px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all">
+              Confirm Topics & Continue <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+
+          <!-- Step 4: Settings -->
+          <div id="wizard-step-4" class="wizard-step space-y-6 hidden">
+            <h3 class="text-sm font-bold text-gray-200">Step 4: Configure Test Settings ⚙️</h3>
+
+            <div class="space-y-3">
+              <label class="text-xs font-semibold text-gray-400">Number of MCQs:</label>
+              <div class="flex flex-wrap gap-2">
+                <button onclick="setMcqCount(5)" class="mcq-cnt-btn p-2.5 rounded-xl border border-sjn-border bg-zinc-900 text-gray-300 font-bold text-xs">5</button>
+                <button onclick="setMcqCount(10)" class="mcq-cnt-btn p-2.5 rounded-xl border border-sjn-border bg-zinc-900 text-gray-300 font-bold text-xs">10</button>
+                <button onclick="setMcqCount(20)" class="mcq-cnt-btn p-2.5 rounded-xl border border-sjn-border bg-zinc-900 text-gray-300 font-bold text-xs">20</button>
+                <button onclick="setMcqCount(50)" class="mcq-cnt-btn p-2.5 rounded-xl border border-sjn-border bg-zinc-900 text-gray-300 font-bold text-xs">50</button>
+                <button onclick="setMcqCount(100)" class="mcq-cnt-btn p-2.5 rounded-xl border border-sjn-border bg-zinc-900 text-gray-300 font-bold text-xs">100</button>
+              </div>
+              <div class="flex gap-2 items-center">
+                <input type="number" id="custom-mcq-count" min="1" max="100000" value="5" oninput="setCustomMcqCount(this.value)" class="flex-1 bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white font-bold" placeholder="Enter any number of MCQs">
+                <span class="text-xs text-gray-500">MCQs</span>
+              </div>
+              <p id="available-count-hint" class="text-[11px] text-gray-500">Available questions will be shown after your selection.</p>
+            </div>
+
+            <div class="space-y-3">
+              <label class="text-xs font-semibold text-gray-400">Select Test Mode:</label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button onclick="setTestMode('tutor')" id="mode-btn-tutor" class="test-mode-btn text-left p-4 rounded-xl border border-red-500 bg-red-950/30">
+                  <div class="flex items-center space-x-2 text-red-400 font-bold text-sm"><i class="fa-solid fa-graduation-cap"></i><span>Tutor Mode</span></div>
+                  <p class="text-xs text-gray-300 mt-1">Instant answer verification and explanation after each question.</p>
+                </button>
+                <button onclick="setTestMode('timed')" id="mode-btn-timed" class="test-mode-btn text-left p-4 rounded-xl border border-sjn-border bg-zinc-900 opacity-70">
+                  <div class="flex items-center space-x-2 text-amber-400 font-bold text-sm"><i class="fa-solid fa-stopwatch"></i><span>Timed Exam Mode</span></div>
+                  <p class="text-xs text-gray-300 mt-1">Timer active. Full score report appears at the end.</p>
+                </button>
+              </div>
+            </div>
+
+            <div class="bg-zinc-900/90 rounded-xl p-4 border border-sjn-border space-y-2 text-xs">
+              <div class="font-bold text-red-400 uppercase tracking-wider">Test Configuration Summary</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-gray-300">
+                <div>Bank: <span id="summary-bank" class="text-white font-semibold">-</span></div>
+                <div>Scope: <span id="summary-scope" class="text-white font-semibold">-</span></div>
+                <div>Subjects: <span id="summary-subject" class="text-white font-semibold">-</span></div>
+                <div>Chapters/Topics: <span id="summary-chapter" class="text-white font-semibold">All</span></div>
+                <div>Mode: <span id="summary-mode" class="text-white font-semibold">5 MCQs | Tutor</span></div>
+              </div>
+            </div>
+
+            <button onclick="launchGeneratedQuiz()" class="w-full py-3.5 bg-gradient-to-r from-red-600 to-crimson hover:from-red-700 hover:to-red-900 text-white font-black text-sm rounded-xl transition-all shadow-xl shadow-red-600/30 flex items-center justify-center space-x-2">
+              <i class="fa-solid fa-rocket"></i><span>START MCQs PRACTICE</span>
+            </button>
+          </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="module-quiz" class="module-view space-y-6 hidden">
+        <div class="bg-sjn-card rounded-2xl border border-sjn-border p-6 space-y-6">
+          
+          <!-- Quiz Top Meta Bar -->
+          <div class="flex items-center justify-between border-b border-sjn-border pb-4">
+            <div class="flex items-center space-x-3">
+              <span id="quiz-subject-badge" class="px-3 py-1 bg-red-600/20 text-red-400 border border-red-500/30 rounded-full text-xs font-bold">
+                Biology
+              </span>
+              <span id="quiz-counter" class="text-xs font-bold text-gray-400">
+                Question 1
+              </span>
+            </div>
+
+            <div class="flex items-center space-x-4">
+              <div id="quiz-timer-box" class="hidden items-center space-x-2 text-xs font-mono bg-zinc-900 px-3 py-1.5 rounded-lg border border-amber-500/30 text-amber-400">
+                <i class="fa-solid fa-clock"></i>
+                <span id="quiz-timer">10:00</span>
+              </div>
+
+              <button onclick="toggleBookmarkCurrentMcq()" id="bookmark-btn" class="p-2 text-gray-400 hover:text-amber-400 transition-all">
+                <i class="fa-regular fa-bookmark text-lg"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Question Text -->
+          <div class="space-y-2">
+            <div class="text-xs text-gray-400 font-mono" id="quiz-chapter-tag">Chapter Info</div>
+            <h3 id="quiz-question-text" class="text-base sm:text-lg font-bold text-white leading-relaxed">
+              Loading question statement...
+            </h3>
+          </div>
+
+          <!-- Options Grid -->
+          <div id="quiz-options-container" class="space-y-3">
+            <!-- Options dynamically generated -->
+          </div>
+
+          <!-- Tutor Mode Instant Feedback Explanation Box -->
+          <div id="quiz-explanation-box" class="hidden rounded-xl border border-sjn-border p-5 space-y-3 bg-zinc-900/90 transition-all">
+            <div id="quiz-feedback-status" class="flex items-center space-x-2 text-sm font-bold">
+              <!-- Correct or Incorrect Feedback -->
+            </div>
+
+            <div class="space-y-1">
+              <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">💡 Concept Explanation:</div>
+              <p id="quiz-explanation-text" class="text-xs text-gray-300 leading-relaxed"></p>
+            </div>
+
+            <div class="p-3 rounded-lg bg-red-950/40 border border-red-800/40 space-y-1">
+              <div class="text-xs font-bold text-red-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-bolt"></i>
+                <span>SJN Mnemonic / Tip:</span>
+              </div>
+              <p id="quiz-mnemonic-text" class="text-xs text-red-200 font-medium"></p>
+            </div>
+          </div>
+
+          <!-- Navigation Controls -->
+          <div class="flex items-center justify-between pt-4 border-t border-sjn-border">
+            <button onclick="prevQuestion()" id="prev-btn" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-gray-300 text-xs font-bold rounded-xl transition-all disabled:opacity-30">
+              <i class="fa-solid fa-arrow-left mr-1"></i> Previous
+            </button>
+
+            <button onclick="submitTutorAnswer()" id="submit-answer-btn" class="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition-all">
+              Check Answer
+            </button>
+
+            <button onclick="nextQuestion()" id="next-btn" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-gray-300 text-xs font-bold rounded-xl transition-all">
+              Next <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="module-results" class="module-view space-y-6 hidden">
+        <div class="bg-sjn-card rounded-2xl border border-sjn-border p-6 space-y-6 text-center">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-600 to-black mx-auto flex items-center justify-center glow-red">
+            <i class="fa-solid fa-trophy text-2xl text-amber-400"></i>
+          </div>
+
+          <div>
+            <h2 class="text-2xl font-black text-white">Practice Test Completed!</h2>
+            <p class="text-xs text-gray-400 mt-1">Here is your performance summary report.</p>
+          </div>
+
+          <div class="grid grid-cols-3 gap-4 max-w-lg mx-auto">
+            <div class="bg-zinc-900 p-4 rounded-xl border border-sjn-border">
+              <span class="text-xs text-gray-400 block">Total</span>
+              <span id="res-total" class="text-xl font-bold text-white">0</span>
+            </div>
+
+            <div class="bg-zinc-900 p-4 rounded-xl border border-emerald-500/30">
+              <span class="text-xs text-emerald-400 block">Correct</span>
+              <span id="res-correct" class="text-xl font-bold text-emerald-400">0</span>
+            </div>
+
+            <div class="bg-zinc-900 p-4 rounded-xl border border-red-500/30">
+              <span class="text-xs text-red-400 block">Accuracy</span>
+              <span id="res-accuracy" class="text-xl font-bold text-red-400">0%</span>
+            </div>
+          </div>
+
+          <div class="flex justify-center space-x-3 pt-4">
+            <button onclick="switchModule('dashboard')" class="px-5 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-bold rounded-xl transition-all">
+              Return to Dashboard
+            </button>
+            <button onclick="switchModule('wizard')" class="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition-all">
+              Create New Test
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="module-courses" class="module-view space-y-6 hidden">
+        <div class="bg-sjn-card rounded-2xl border border-sjn-border p-6 space-y-5">
+          <div>
+            <span class="text-xs font-bold text-blue-400 uppercase tracking-wider">Academy Courses</span>
+            <h2 class="text-xl font-bold text-white flex items-center gap-2">📚 My Courses</h2>
+            <p class="text-xs text-gray-400 mt-1">Select a course on the left; its content opens in the right-side study panel.</p>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-[minmax(220px,0.8fr)_minmax(0,1.7fr)] gap-4 min-h-[520px]">
+            <div id="courses-container" class="space-y-2 bg-zinc-950/40 rounded-xl border border-sjn-border p-3 overflow-y-auto max-h-[650px]"></div>
+            <div id="course-viewer" class="bg-zinc-950/50 rounded-xl border border-sjn-border p-5 overflow-y-auto">
+              <div class="h-full min-h-[450px] flex items-center justify-center text-center text-gray-500">
+                <div><i class="fa-solid fa-book-open text-4xl mb-3"></i><p class="text-sm">Select a course to open its content here.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="module-pastpapers" class="module-view space-y-6 hidden">
+        <div class="bg-sjn-card rounded-2xl border border-sjn-border p-6 space-y-5">
+          <div>
+            <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Past Papers Repository</span>
+            <h2 class="text-xl font-bold text-white flex items-center gap-2">📜 Past Papers</h2>
+            <p class="text-xs text-gray-400 mt-1">Select a paper on the left; details and its study/practice controls open on the right.</p>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-[minmax(220px,0.8fr)_minmax(0,1.7fr)] gap-4 min-h-[520px]">
+            <div id="pastpapers-container" class="space-y-2 bg-zinc-950/40 rounded-xl border border-sjn-border p-3 overflow-y-auto max-h-[650px]"></div>
+            <div id="pastpaper-viewer" class="bg-zinc-950/50 rounded-xl border border-sjn-border p-5 overflow-y-auto">
+              <div class="h-full min-h-[450px] flex items-center justify-center text-center text-gray-500">
+                <div><i class="fa-solid fa-scroll text-4xl mb-3"></i><p class="text-sm">Select a past paper to open it here.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="module-resources" class="module-view space-y-6 hidden">
+        <div class="bg-sjn-card rounded-2xl border border-sjn-border p-6 space-y-5">
+          <div>
+            <span class="text-xs font-bold text-yellow-400 uppercase tracking-wider">Study Resources</span>
+            <h2 class="text-xl font-bold text-white flex items-center gap-2">⚡ Academy Study Resources</h2>
+            <p class="text-xs text-gray-400 mt-1">Add PDFs in the code/content folder and students can open and study them directly inside the LMS.</p>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-[minmax(220px,0.8fr)_minmax(0,1.7fr)] gap-4 min-h-[620px]">
+            <div id="resources-container" class="space-y-2 bg-zinc-950/40 rounded-xl border border-sjn-border p-3 overflow-y-auto max-h-[700px]"></div>
+            <div id="resource-viewer" class="bg-zinc-950/50 rounded-xl border border-sjn-border overflow-hidden">
+              <div class="h-full min-h-[580px] flex items-center justify-center text-center text-gray-500 p-5">
+                <div><i class="fa-solid fa-file-pdf text-4xl mb-3"></i><p class="text-sm">Select a resource to open it here.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="module-history" class="module-view space-y-6 hidden">
+        <div class="bg-sjn-card rounded-2xl border border-sjn-border p-6 space-y-6">
+          <div>
+            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Performance Analytics</span>
+            <h2 class="text-xl font-bold text-white flex items-center gap-2">
+              📈 Test History Log
+            </h2>
+            <p class="text-xs text-gray-400 mt-1">Record of practice sessions completed on this portal.</p>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-left text-gray-300">
+              <thead class="bg-zinc-900 uppercase font-bold text-gray-400">
+                <tr>
+                  <th class="p-3">Bank / Title</th>
+                  <th class="p-3">Subject</th>
+                  <th class="p-3">Mode</th>
+                  <th class="p-3">Score</th>
+                  <th class="p-3">Accuracy</th>
+                </tr>
+              </thead>
+              <tbody id="history-table-body">
+                <tr>
+                  <td colspan="5" class="p-4 text-center text-gray-500">No tests completed yet. Start practice to record scores.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="module-aitutor" class="module-view space-y-6 hidden">
+        <div class="bg-sjn-card rounded-2xl border border-sjn-border p-6 space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">AI Doubt Solver</span>
+              <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                🤖 SJN AI Medical Assistant
+              </h2>
+              <p class="text-xs text-gray-400 mt-1">Ask questions or clarify textbook concepts instantly.</p>
+            </div>
+            <span class="px-2.5 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-full text-xs font-bold">
+              Gemini 3 Flash
+            </span>
+          </div>
+
+          <!-- Chat Output Container -->
+          <div id="ai-chat-history" class="bg-zinc-900/90 rounded-xl p-4 border border-sjn-border h-80 overflow-y-auto space-y-4 text-xs">
+            <div class="bg-purple-950/30 border border-purple-800/40 p-3 rounded-xl text-purple-200">
+              👋 <strong>SJN AI Tutor:</strong> Assalamu Alaikum Future Doctor! I am your AI Entrance Exam Tutor. Ask me any Biology, Chemistry, Physics, or English doubt!
+            </div>
+          </div>
+
+          <!-- Input Controls -->
+          <div class="flex gap-2">
+            <input type="text" id="ai-input-text" placeholder="Ask any question (e.g. 'Explain Krebs Cycle ATP yield in detail')..." class="flex-1 bg-zinc-900 border border-sjn-border rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-purple-500">
+            <button onclick="sendAiDoubt()" class="px-5 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl transition-all flex items-center space-x-2">
+              <span>Send</span>
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Footer Navigation Reminder -->
+  <footer class="bg-sjn-card border-t border-sjn-border py-4 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+      <p class="text-[11px] text-gray-400">
+        © SJN MDCAT LMS Portal — Production Entrance Exam Engine for Medical Academies.
+      </p>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT ENGINE -->
+  <script>
+    
+    // =========================================================================
+    // SJN ACADEMY DATA STRUCTURE (EASILY EDITABLE DIRECTLY IN CODE BELOW)
+    // =========================================================================
+
+    // 1. QUESTION BANK ARRAY
+    // Production content is loaded from the server database.
+    // The only permitted bank is Past Papers Question Bank and it starts EMPTY.
+    let mcqQuestionBank = [];
+
+    // 2. COURSES ARRAY (Starts empty - Add courses here in code or via Admin modal)
+    let customCourses = [];
+
+    // 3. PAST PAPERS ARRAY (Starts empty - Add past paper papers here in code or via Admin modal)
+    let pastPapersList = [];
+
+    // PMDC Syllabus Map
+    const pmdcSyllabus = {
+      'Biology': {
+        'Chapter 1: Bioenergetics': ['ATP Synthesis', 'Glycolysis', 'Krebs Cycle', 'Electron Transport Chain'],
+        'Chapter 2: Cell Structure': ['Organelles', 'Cell Membrane', 'Cytoskeleton'],
+        'Chapter 3: Coordination & Control': ['Nerve Impulse', 'Endocrine Hormones', 'Synapses'],
+        'Chapter 4: Genetics': ['DNA Replication', 'Transcription', 'Mendelian Genetics']
+      },
+      'Chemistry': {
+        'Chapter 1: Physical Chemistry': ['Stoichiometry', 'Gases', 'Chemical Equilibrium'],
+        'Chapter 2: Organic Fundamentals': ['Hydrocarbons', 'SN1 and SN2', 'Carbonyl Compounds']
+      },
+      'Physics': {
+        'Chapter 1: Motion & Force': ['Projectile Motion', 'Momentum', 'Work & Energy'],
+        'Chapter 2: Electromagnetism': ['Electric Fields', 'Capacitors', 'Ohm Law']
+      },
+      'English': {
+        'Chapter 1: Grammar': ['Subject-Verb Agreement', 'Modifiers', 'Tenses']
+      },
+      'Logical Reasoning': {
+        'Chapter 1: Logic': ['Critical Thinking', 'Syllogisms', 'Logic Gates']
+      }
+    };
+
+    // Global Student Performance State (Starts at 0)
+    let sjnProfile = JSON.parse(localStorage.getItem('sjn_student_profile')) || {
+      mcqsAttempted: 0,
+      correctAnswers: 0,
+      streakDays: 0,
+      rank: 'Beginner 🔴',
+      subjectStats: {
+        Biology: { correct: 0, total: 0 },
+        Chemistry: { correct: 0, total: 0 },
+        Physics: { correct: 0, total: 0 },
+        English: { correct: 0, total: 0 },
+        'Logical Reasoning': { correct: 0, total: 0 }
+      },
+      historyLogs: []
+    };
+
+
+    // Wizard State
+    let wizardSelection = {
+      bank: 'Past Papers Question Bank',
+      scope: 'all-subjects',
+      subject: 'All Subjects',
+      selectedSubjects: [],
+      selectedChapters: [],
+      selectedTopics: [],
+      topic: '',
+      mcqCount: 5,
+      testMode: 'tutor',
+      currentStepNum: 1
+    };
+
+    // Quiz Execution Engine Variables
+    let currentQuizList = [];
+    let currentMcqIndex = 0;
+    let userAnswers = [];
+    let quizTimerInterval = null;
+    let bookmarkedMcqs = JSON.parse(localStorage.getItem('sjn_bookmarked_mcqs')) || [];
+
+    window.onload = function () {
+      updateGlobalProfileUI();
+      renderCoursesModule();
+      renderPastPapersModule();
+      renderHistoryTable();
+      renderSubjectChoices();
+      updateWizardAvailableCount();
+    };
+
+    function switchModule(modName) {
+      document.querySelectorAll('.module-view').forEach(m => m.classList.add('hidden'));
+      document.querySelectorAll('.nav-tab').forEach(t => {
+        t.classList.remove('bg-red-600', 'text-white', 'shadow-lg', 'shadow-red-600/20');
+        t.classList.add('text-gray-300');
+      });
+      const activeModule = document.getElementById(`module-${modName}`);
+      if (activeModule) activeModule.classList.remove('hidden');
+      const activeTab = document.getElementById(`tab-${modName}`);
+      if (activeTab) {
+        activeTab.classList.add('bg-red-600', 'text-white', 'shadow-lg', 'shadow-red-600/20');
+        activeTab.classList.remove('text-gray-300');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('sidebar-nav').classList.toggle('hidden');
+    }
+
+    function setWizardStep(stepNum) {
+      wizardSelection.currentStepNum = stepNum;
+      ['wizard-step-1','wizard-step-2','wizard-step-3','wizard-step-3a','wizard-step-3b','wizard-step-4'].forEach(id => document.getElementById(id).classList.add('hidden'));
+      const backBtn = document.getElementById('wizard-back-btn');
+      if (stepNum > 1) backBtn.classList.remove('hidden'); else backBtn.classList.add('hidden');
+      const map = {
+        1: ['wizard-step-1',20,'Step 1: Bank'],
+        2: ['wizard-step-2',40,'Step 2: Build Practice Set'],
+        3: ['wizard-step-3',60,'Step 3: Subject(s)'],
+        31:['wizard-step-3a',75,'Step 3a: Chapters'],
+        32:['wizard-step-3b',75,'Step 3b: Topics'],
+        4: ['wizard-step-4',100,'Step 4: Settings']
+      };
+      const cfg = map[stepNum];
+      if (cfg) {
+        document.getElementById(cfg[0]).classList.remove('hidden');
+        updateWizardProgress(cfg[1], cfg[2]);
+        if (stepNum === 4) { updateSummaryBox(); updateWizardAvailableCount(); }
+      }
+    }
+
+    function prevWizardStep() {
+      if (wizardSelection.currentStepNum === 4) {
+        if (wizardSelection.scope === 'chapter-wise' || wizardSelection.scope === 'custom-mix') setWizardStep(31);
+        else if (wizardSelection.scope === 'topic-wise') setWizardStep(32);
+        else if (wizardSelection.scope === 'subject-wise') setWizardStep(3);
+        else setWizardStep(2);
+      } else if (wizardSelection.currentStepNum === 32 || wizardSelection.currentStepNum === 31) setWizardStep(3);
+      else if (wizardSelection.currentStepNum === 3) setWizardStep(2);
+      else if (wizardSelection.currentStepNum === 2) setWizardStep(1);
+    }
+
+    function selectWizardOption(type, val) {
+      if (type === 'bank') { wizardSelection.bank = val; setWizardStep(2); }
+    }
+
+    function selectPracticeScope(scope) {
+      wizardSelection.scope = scope;
+      wizardSelection.selectedSubjects = [];
+      wizardSelection.selectedChapters = [];
+      wizardSelection.selectedTopics = [];
+      wizardSelection.subject = 'All Subjects';
+      if (scope === 'all-subjects') {
+        wizardSelection.selectedSubjects = getAvailableSubjects();
+        setWizardStep(4);
+      } else {
+        renderSubjectChoices();
+        setWizardStep(3);
+      }
+    }
+
+    function getAvailableSubjects() {
+      const subjects = [...new Set(mcqQuestionBank.map(q => q.subject).filter(Boolean))];
+      return subjects.length ? subjects : Object.keys(pmdcSyllabus);
+    }
+
+    function renderSubjectChoices() {
+      const container = document.getElementById('subject-checkbox-container');
+      if (!container) return;
+      container.innerHTML = '';
+      const subjects = ['Biology','Chemistry','Physics','English','Logical Reasoning', ...getAvailableSubjects()];
+      const uniqueSubjects = [...new Set(subjects)];
+      uniqueSubjects.forEach(subj => {
+        const checked = wizardSelection.selectedSubjects.includes(subj) || (wizardSelection.scope === 'subject-wise' && wizardSelection.subject === subj);
+        const div = document.createElement('label');
+        div.className = 'flex items-center p-4 bg-zinc-900 border border-sjn-border rounded-xl hover:border-red-500 cursor-pointer';
+        div.innerHTML = `<input type="checkbox" value="${escapeHtml(subj)}" class="subject-chk w-4 h-4 text-red-600 rounded bg-zinc-800 border-zinc-700 mr-3" ${checked ? 'checked' : ''}><span class="text-sm font-bold text-white">${escapeHtml(subj)}</span>`;
+        container.appendChild(div);
+      });
+    }
+
+    function toggleSelectAllSubjects() {
+      const chks = document.querySelectorAll('.subject-chk');
+      const anyUnchecked = Array.from(chks).some(c => !c.checked);
+      chks.forEach(c => c.checked = anyUnchecked);
+    }
+
+    function confirmSubjectSelection() {
+      const selected = Array.from(document.querySelectorAll('.subject-chk:checked')).map(c => c.value);
+      if (!selected.length) { alert('Please select at least 1 subject.'); return; }
+      wizardSelection.selectedSubjects = selected;
+      wizardSelection.subject = selected.length === 1 ? selected[0] : 'Mixed Subjects';
+      if (wizardSelection.scope === 'subject-wise') {
+        wizardSelection.selectedChapters = ['All Chapters'];
+        setWizardStep(4);
+      } else if (wizardSelection.scope === 'topic-wise') {
+        renderTopicOptions(selected);
+        setWizardStep(32);
+      } else {
+        renderChapterCheckboxes(selected);
+        setWizardStep(31);
+      }
+    }
+
+    function renderChapterCheckboxes(subjects) {
+      const container = document.getElementById('chapter-checkbox-container');
+      container.innerHTML = '';
+      const selectedSet = new Set(wizardSelection.selectedChapters);
+      subjects.forEach(subject => {
+        const chapters = pmdcSyllabus[subject] ? Object.keys(pmdcSyllabus[subject]) : [];
+        const bankChapters = [...new Set(mcqQuestionBank.filter(q => q.subject === subject && q.chapter).map(q => q.chapter))];
+        const allChapters = [...new Set([...chapters, ...bankChapters])];
+        if (!allChapters.length) allChapters.push('General Chapter');
+        const heading = document.createElement('div');
+        heading.className = 'col-span-full text-xs font-black uppercase tracking-wider text-red-400 pt-2';
+        heading.innerText = subject;
+        container.appendChild(heading);
+        allChapters.forEach(ch => {
+          const key = `${subject}|||${ch}`;
+          const div = document.createElement('label');
+          div.className = 'flex items-center p-3 bg-zinc-900 border border-sjn-border rounded-xl hover:border-red-500 cursor-pointer';
+          div.innerHTML = `<input type="checkbox" value="${escapeHtml(key)}" class="chapter-chk w-4 h-4 text-red-600 rounded bg-zinc-800 border-zinc-700 mr-3" ${selectedSet.has(key) ? 'checked' : ''}><span class="text-xs font-bold text-white">${escapeHtml(ch)}</span>`;
+          container.appendChild(div);
+        });
+      });
+    }
+
+    function toggleSelectAllChapters() {
+      const chks = document.querySelectorAll('.chapter-chk');
+      const anyUnchecked = Array.from(chks).some(c => !c.checked);
+      chks.forEach(c => c.checked = anyUnchecked);
+    }
+
+    function confirmChapterSelection() {
+      const selected = Array.from(document.querySelectorAll('.chapter-chk:checked')).map(c => c.value);
+      if (!selected.length) {
+        wizardSelection.selectedChapters = ['All Chapters'];
+      } else {
+        wizardSelection.selectedChapters = selected;
+      }
+      setWizardStep(4);
+    }
+
+    function renderTopicOptions(subjects) {
+      const container = document.getElementById('topic-options-container');
+      container.innerHTML = '';
+      const selected = new Set(wizardSelection.selectedTopics);
+      subjects.forEach(subject => {
+        const chapters = pmdcSyllabus[subject] || {};
+        const topicItems = [];
+        Object.keys(chapters).forEach(ch => chapters[ch].forEach(topic => topicItems.push({subject, chapter:ch, topic})));
+        mcqQuestionBank.filter(q => q.subject === subject && q.topic).forEach(q => topicItems.push({subject, chapter:q.chapter || 'General Chapter', topic:q.topic}));
+        const unique = [...new Map(topicItems.map(x => [`${x.subject}|||${x.chapter}|||${x.topic}`, x])).values()];
+        if (!unique.length) unique.push({subject, chapter:'General Chapter', topic:'General Topic'});
+        unique.forEach(item => {
+          const key = `${item.subject}|||${item.chapter}|||${item.topic}`;
+          const label = document.createElement('label');
+          label.className = 'flex items-start p-3.5 rounded-xl border border-sjn-border bg-zinc-900 hover:border-amber-500 text-left cursor-pointer transition-all';
+          label.innerHTML = `<input type="checkbox" value="${escapeHtml(key)}" class="topic-chk w-4 h-4 mt-0.5 mr-3" ${selected.has(key) ? 'checked' : ''}><span><span class="font-bold text-white block text-xs">🎯 ${escapeHtml(item.topic)}</span><span class="text-[10px] text-gray-400">${escapeHtml(item.subject)} • ${escapeHtml(item.chapter)}</span></span>`;
+          container.appendChild(label);
+        });
+      });
+    }
+
+    function toggleSelectAllTopics() {
+      const chks = document.querySelectorAll('.topic-chk');
+      const anyUnchecked = Array.from(chks).some(c => !c.checked);
+      chks.forEach(c => c.checked = anyUnchecked);
+    }
+
+    function confirmTopicSelection() {
+      const selected = Array.from(document.querySelectorAll('.topic-chk:checked')).map(c => c.value);
+      if (!selected.length) { alert('Please select at least 1 topic.'); return; }
+      wizardSelection.selectedTopics = selected;
+      wizardSelection.selectedChapters = [];
+      setWizardStep(4);
+    }
+
+    function setMcqCount(count) {
+      const n = Math.max(1, Math.min(1000, parseInt(count, 10) || 1));
+      wizardSelection.mcqCount = n;
+      const input = document.getElementById('custom-mcq-count');
+      if (input) input.value = n;
+      document.querySelectorAll('.mcq-cnt-btn').forEach(btn => btn.classList.remove('border-red-500','bg-red-950/40','text-white'));
+      updateWizardAvailableCount();
+      updateSummaryBox();
+    }
+
+    function setCustomMcqCount(value) {
+      const n = Math.max(1, Math.min(1000, parseInt(value, 10) || 1));
+      wizardSelection.mcqCount = n;
+      document.querySelectorAll('.mcq-cnt-btn').forEach(btn => btn.classList.remove('border-red-500','bg-red-950/40','text-white'));
+      updateWizardAvailableCount();
+      updateSummaryBox();
+    }
+
+    function setTestMode(mode) {
+      wizardSelection.testMode = mode;
+      document.querySelectorAll('.test-mode-btn').forEach(btn => {
+        btn.classList.remove('border-red-500','bg-red-950/30');
+        btn.classList.add('border-sjn-border','bg-zinc-900','opacity-70');
+      });
+      const active = document.getElementById(`mode-btn-${mode}`);
+      if (active) { active.classList.add('border-red-500','bg-red-950/30'); active.classList.remove('opacity-70'); }
+      updateSummaryBox();
+    }
+
+    function updateSummaryBox() {
+      const bank = document.getElementById('summary-bank');
+      const scope = document.getElementById('summary-scope');
+      const subject = document.getElementById('summary-subject');
+      const chapter = document.getElementById('summary-chapter');
+      const mode = document.getElementById('summary-mode');
+      if (!bank) return;
+      bank.innerText = wizardSelection.bank;
+      scope.innerText = wizardSelection.scope === 'custom-mix' ? 'Custom Mix' : wizardSelection.scope.replaceAll('-', ' ');
+      subject.innerText = wizardSelection.selectedSubjects?.length ? wizardSelection.selectedSubjects.join(', ') : wizardSelection.subject;
+      const filters = wizardSelection.selectedTopics?.length ? `${wizardSelection.selectedTopics.length} topic(s)` : (wizardSelection.selectedChapters?.length ? `${wizardSelection.selectedChapters.length} chapter selection(s)` : 'All');
+      chapter.innerText = filters;
+      mode.innerText = `${wizardSelection.mcqCount} MCQs | ${wizardSelection.testMode === 'tutor' ? 'Tutor' : 'Timed'}`;
+    }
+
+    function updateWizardProgress(pct, text) {
+      document.getElementById('wizard-progress').style.width = `${pct}%`;
+      document.getElementById('wizard-step-indicator').innerText = text;
+    }
+
+    function getFilteredQuestionPool() {
+      const selectedSubjects = wizardSelection.selectedSubjects?.length ? wizardSelection.selectedSubjects : getAvailableSubjects();
+      return mcqQuestionBank.filter(q => {
+        if (wizardSelection.bank && q.bank !== wizardSelection.bank) return false;
+        if (selectedSubjects.length && !selectedSubjects.includes(q.subject)) return false;
+
+        if (wizardSelection.scope === 'topic-wise' && wizardSelection.selectedTopics?.length) {
+          const key = `${q.subject}|||${q.chapter || 'General Chapter'}|||${q.topic || 'General Topic'}`;
+          return wizardSelection.selectedTopics.includes(key);
+        }
+        if ((wizardSelection.scope === 'chapter-wise' || wizardSelection.scope === 'custom-mix') && wizardSelection.selectedChapters?.length && !wizardSelection.selectedChapters.includes('All Chapters')) {
+          const key = `${q.subject}|||${q.chapter || 'General Chapter'}`;
+          return wizardSelection.selectedChapters.includes(key);
+        }
+        return true;
+      });
+    }
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function updateWizardAvailableCount() {
+      const hint = document.getElementById('available-count-hint');
+      if (!hint) return;
+      const pool = getFilteredQuestionPool();
+      hint.innerText = `${pool.length} question(s) available in this selection. You requested ${wizardSelection.mcqCount}.`;
+    }
+
+    function launchGeneratedQuiz() {
+      const pool = getFilteredQuestionPool();
+      if (!pool.length) {
+        alert('No MCQs match your selected subjects/chapters/topics. Please broaden your selection or add questions to the bank.');
+        return;
+      }
+      if (wizardSelection.mcqCount > pool.length) {
+        alert(`Only ${pool.length} MCQs are available in this selection. Please choose ${pool.length} or fewer.`);
+        return;
+      }
+      currentQuizList = shuffleArray(pool).slice(0, wizardSelection.mcqCount);
+      currentMcqIndex = 0;
+      userAnswers = new Array(currentQuizList.length).fill(null);
+      switchModule('quiz');
+      renderCurrentQuestion();
+      if (wizardSelection.testMode === 'timed') {
+        document.getElementById('quiz-timer-box').classList.remove('hidden');
+        document.getElementById('quiz-timer-box').classList.add('flex');
+        startTimer(wizardSelection.mcqCount * 60);
+        document.getElementById('submit-answer-btn').innerText = 'Submit Full Exam';
+      } else {
+        document.getElementById('quiz-timer-box').classList.add('hidden');
+        document.getElementById('submit-answer-btn').innerText = 'Check Answer';
+      }
+    }
+
+    function startQuick5Mcqs() {
+      wizardSelection = {
+        bank: 'MDCAT Practice Question Bank', scope: 'all-subjects', subject: 'All Subjects',
+        selectedSubjects: getAvailableSubjects(), selectedChapters: ['All Chapters'], selectedTopics: [],
+        mcqCount: 5, testMode: 'tutor', currentStepNum: 4
+      };
+      launchGeneratedQuiz();
+    }
+
+    function renderCurrentQuestion() {
+      const q = currentQuizList[currentMcqIndex];
+      document.getElementById('quiz-subject-badge').innerText = q.subject;
+      document.getElementById('quiz-chapter-tag').innerText = `${q.chapter || 'Chapter'} | ${q.topic || 'General Topic'}`;
+      document.getElementById('quiz-counter').innerText = `Question ${currentMcqIndex + 1} of ${currentQuizList.length}`;
+      document.getElementById('quiz-question-text').innerText = q.question;
+
+      const container = document.getElementById('quiz-options-container');
+      container.innerHTML = '';
+      document.getElementById('quiz-explanation-box').classList.add('hidden');
+      updateBookmarkButton();
+
+      q.options.forEach((opt, idx) => {
+        const isSelected = userAnswers[currentMcqIndex] === idx;
+        const optBtn = document.createElement('button');
+        optBtn.className = `w-full text-left p-4 rounded-xl border transition-all text-xs font-semibold flex items-center justify-between ${
+          isSelected 
+            ? 'border-red-500 bg-red-950/40 text-white' 
+            : 'border-sjn-border bg-zinc-900/80 hover:border-gray-600 text-gray-200'
+        }`;
+        optBtn.onclick = () => {
+          userAnswers[currentMcqIndex] = idx;
+          renderCurrentQuestion();
+        };
+        optBtn.innerHTML = `
+          <span>${opt}</span>
+          <span class="w-5 h-5 rounded-full border border-sjn-border flex items-center justify-center ${isSelected ? 'border-red-500 bg-red-600 text-white' : ''}">
+            ${isSelected ? '<i class="fa-solid fa-check text-[10px]"></i>' : ''}
+          </span>
+        `;
+        container.appendChild(optBtn);
+      });
+
+      document.getElementById('prev-btn').disabled = currentMcqIndex === 0;
+    }
+
+    function submitTutorAnswer() {
+      if (wizardSelection.testMode === 'timed') {
+        finishQuiz();
+        return;
+      }
+
+      const q = currentQuizList[currentMcqIndex];
+      const selected = userAnswers[currentMcqIndex];
+
+      if (selected === null) {
+        alert("Please select an answer first.");
+        return;
+      }
+
+      const expBox = document.getElementById('quiz-explanation-box');
+      const statusBox = document.getElementById('quiz-feedback-status');
+      
+      expBox.classList.remove('hidden');
+      if (selected === q.correctIndex) {
+        statusBox.className = "flex items-center space-x-2 text-sm font-bold text-emerald-400";
+        statusBox.innerHTML = `✅ <span>Correct Answer: ${q.options[q.correctIndex]}</span>`;
+      } else {
+        statusBox.className = "flex items-center space-x-2 text-sm font-bold text-red-400";
+        statusBox.innerHTML = `❌ <span>Incorrect Choice! Correct: ${q.options[q.correctIndex]}</span>`;
+      }
+
+      document.getElementById('quiz-explanation-text').innerText = q.explanation || "No explanation provided.";
+      document.getElementById('quiz-mnemonic-text').innerText = q.mnemonic || "Follow standard PMDC rules.";
+    }
+
+    function prevQuestion() {
+      if (currentMcqIndex > 0) {
+        currentMcqIndex--;
+        renderCurrentQuestion();
+      }
+    }
+
+    function nextQuestion() {
+      if (currentMcqIndex < currentQuizList.length - 1) {
+        currentMcqIndex++;
+        renderCurrentQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function finishQuiz() {
+      if (quizTimerInterval) clearInterval(quizTimerInterval);
+
+      let correctCount = 0;
+      currentQuizList.forEach((q, idx) => {
+        if (userAnswers[idx] === q.correctIndex) {
+          correctCount++;
+        }
+      });
+
+      const totalAttempted = currentQuizList.length;
+      sjnProfile.mcqsAttempted += totalAttempted;
+      sjnProfile.correctAnswers += correctCount;
+      updateSubjectStats();
+      updateStudyStreak();
+
+      // Update Rank Logic
+      if (sjnProfile.mcqsAttempted >= 50 && sjnProfile.correctAnswers / sjnProfile.mcqsAttempted >= 0.8) {
+        sjnProfile.rank = 'Doctor Status 🎓';
+      } else if (sjnProfile.mcqsAttempted >= 25) {
+        sjnProfile.rank = 'Champion 🔴';
+      } else if (sjnProfile.mcqsAttempted >= 10) {
+        sjnProfile.rank = 'Cadet ⚫';
+      }
+
+      saveProfileToStorage();
+      updateGlobalProfileUI();
+
+      // Show Results
+      document.getElementById('res-total').innerText = totalAttempted;
+      document.getElementById('res-correct').innerText = correctCount;
+      document.getElementById('res-accuracy').innerText = `${Math.round((correctCount / totalAttempted) * 100)}%`;
+      switchModule('results');
+
+      // Log History
+      sjnProfile.historyLogs.push({
+        title: wizardSelection.bank,
+        subject: wizardSelection.subject,
+        mode: wizardSelection.testMode,
+        score: `${correctCount}/${totalAttempted}`,
+        accuracy: `${Math.round((correctCount / totalAttempted) * 100)}%`,
+        date: new Date().toLocaleString(),
+        chapters: wizardSelection.selectedChapters || [],
+        topics: wizardSelection.selectedTopics || []
+      });
+      saveProfileToStorage();
+      renderHistoryTable();
+    }
+
+    function saveProfileToStorage() {
+      localStorage.setItem('sjn_student_profile', JSON.stringify(sjnProfile));
+    }
+
+    function updateGlobalProfileUI() {
+      const accuracy = sjnProfile.mcqsAttempted > 0 
+        ? Math.round((sjnProfile.correctAnswers / sjnProfile.mcqsAttempted) * 100) 
+        : 0;
+
+      document.getElementById('nav-mcqs-count').innerText = sjnProfile.mcqsAttempted;
+      document.getElementById('nav-accuracy').innerText = `${accuracy}%`;
+      document.getElementById('nav-streak').innerText = `${sjnProfile.streakDays} Days`;
+      document.getElementById('nav-rank-badge').innerHTML = `<span>${sjnProfile.rank}</span>`;
+
+      document.getElementById('dash-mcqs').innerText = sjnProfile.mcqsAttempted;
+      document.getElementById('dash-accuracy').innerText = `${accuracy}%`;
+      document.getElementById('dash-accuracy-bar').style.width = `${accuracy}%`;
+      document.getElementById('dash-streak').innerText = `${sjnProfile.streakDays} Days`;
+      document.getElementById('dash-rank').innerHTML = `<span>${sjnProfile.rank}</span>`;
+    }
+
+    function renderHistoryTable() {
+      const tbody = document.getElementById('history-table-body');
+      tbody.innerHTML = '';
+      if (sjnProfile.historyLogs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">No practice tests completed yet.</td></tr>`;
+        return;
+      }
+
+      sjnProfile.historyLogs.forEach(log => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-sjn-border hover:bg-zinc-800/40';
+        tr.innerHTML = `
+          <td class="p-3 font-semibold text-white">${log.title}</td>
+          <td class="p-3 text-gray-300">${log.subject}</td>
+          <td class="p-3 uppercase text-[10px] font-bold text-red-400">${log.mode}</td>
+          <td class="p-3 text-emerald-400 font-bold">${log.score}</td>
+          <td class="p-3 font-bold">${log.accuracy}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function startTimer(seconds) {
+      let remaining = seconds;
+      const display = document.getElementById('quiz-timer');
+      if (quizTimerInterval) clearInterval(quizTimerInterval);
+
+      quizTimerInterval = setInterval(() => {
+        const mins = Math.floor(remaining / 60);
+        const secs = remaining % 60;
+        display.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        if (remaining <= 0) {
+          clearInterval(quizTimerInterval);
+          finishQuiz();
+        }
+        remaining--;
+      }, 1000);
+    }
+
+
+    function renderCoursesModule() {
+      const container = document.getElementById('courses-container');
+      container.innerHTML = '';
+
+      if (customCourses.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-2 text-center p-8 bg-zinc-900/60 border border-sjn-border rounded-xl space-y-2">
+            <i class="fa-solid fa-folder-open text-3xl text-gray-600"></i>
+            <h3 class="text-sm font-bold text-gray-300">No Active Courses Yet</h3>
+            <p class="text-xs text-gray-500">Add courses in the JS array 'customCourses' or click '+ Add New Course' button above.</p>
+          </div>
+        `;
+        return;
+      }
+
+      customCourses.forEach(c => {
+        const div = document.createElement('div');
+        div.className = "bg-zinc-900 rounded-xl p-5 border border-sjn-border space-y-3";
+        div.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-bold text-white">${escapeHtml(c.title)}</span>
+            <span class="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded border border-blue-500/30">${escapeHtml(c.chapters || 'Course')}</span>
+          </div>
+          <p class="text-xs text-gray-400">${escapeHtml(c.desc)}</p>
+          <button onclick="switchModule('wizard')" class="w-full py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded-lg">Practice Course MCQs</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function renderPastPapersModule() {
+      const container = document.getElementById('pastpapers-container');
+      container.innerHTML = '';
+
+      if (pastPapersList.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-3 text-center p-8 bg-zinc-900/60 border border-sjn-border rounded-xl space-y-2">
+            <i class="fa-solid fa-scroll text-3xl text-gray-600"></i>
+            <h3 class="text-sm font-bold text-gray-300">No Past Papers Added Yet</h3>
+            <p class="text-xs text-gray-500">Add past papers in the JS array 'pastPapersList' or click '+ Add Past Paper' button above.</p>
+          </div>
+        `;
+        return;
+      }
+
+      pastPapersList.forEach(p => {
+        const div = document.createElement('div');
+        div.className = "bg-zinc-900 p-4 rounded-xl border border-sjn-border hover:border-amber-500 transition-all cursor-pointer space-y-2";
+        div.onclick = () => {
+          wizardSelection.bank = p.bank || 'Past Papers Question Bank';
+          wizardSelection.scope = 'all-subjects';
+          wizardSelection.selectedSubjects = getAvailableSubjects();
+          wizardSelection.subject = 'All Subjects';
+          wizardSelection.selectedChapters = ['All Chapters'];
+          wizardSelection.selectedTopics = [];
+          launchGeneratedQuiz();
+        };
+        div.innerHTML = `
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-white text-sm">${escapeHtml(p.title)}</span>
+            <span class="text-xs text-amber-400 font-bold">${escapeHtml(p.year)}</span>
+          </div>
+          <p class="text-xs text-gray-400">${escapeHtml(p.desc)}</p>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // =========================================================================
+    // ADMIN / DEV CONTENT INGESTION TOOL
+    // =========================================================================
+
+    function toggleAdminModal() {
+      const modal = document.getElementById('admin-modal');
+      modal.classList.toggle('hidden');
+    }
+
+    function switchAdminForm() {
+      const type = document.getElementById('admin-content-type').value;
+      document.getElementById('admin-form-mcq').classList.add('hidden');
+      document.getElementById('admin-form-course').classList.add('hidden');
+      document.getElementById('admin-form-pastpaper').classList.add('hidden');
+
+      if (type === 'mcq') document.getElementById('admin-form-mcq').classList.remove('hidden');
+      if (type === 'course') document.getElementById('admin-form-course').classList.remove('hidden');
+      if (type === 'pastpaper') document.getElementById('admin-form-pastpaper').classList.remove('hidden');
+    }
+
+    function saveAdminContent() {
+      const type = document.getElementById('admin-content-type').value;
+
+      if (type === 'mcq') {
+        const newMcq = {
+          id: mcqQuestionBank.length + 1,
+          bank: document.getElementById('mcq-bank-input').value,
+          subject: document.getElementById('mcq-subj-input').value,
+          chapter: document.getElementById('mcq-chapter-input').value || 'Chapter 1',
+          topic: 'General Topic',
+          question: document.getElementById('mcq-stmt-input').value || 'Sample Question',
+          options: [
+            document.getElementById('mcq-opt0').value || 'Option A',
+            document.getElementById('mcq-opt1').value || 'Option B',
+            document.getElementById('mcq-opt2').value || 'Option C',
+            document.getElementById('mcq-opt3').value || 'Option D'
+          ],
+          correctIndex: parseInt(document.getElementById('mcq-correct-idx').value) || 0,
+          explanation: document.getElementById('mcq-exp-input').value || 'Explanation'
+        };
+        mcqQuestionBank.push(newMcq);
+        localStorage.setItem('sjn_mcqQuestionBank', JSON.stringify(mcqQuestionBank));
+        alert("MCQ added successfully to Question Bank!");
+      } else if (type === 'course') {
+        const newCourse = {
+          title: document.getElementById('course-title-input').value || 'New MDCAT Course',
+          desc: document.getElementById('course-desc-input').value || 'Academy Course',
+          chapters: document.getElementById('course-chapters-input').value || '10 Chapters'
+        };
+        customCourses.push(newCourse);
+        localStorage.setItem('sjn_customCourses', JSON.stringify(customCourses));
+        renderCoursesModule();
+        alert("Course added successfully!");
+      } else if (type === 'pastpaper') {
+        const newPaper = {
+          title: document.getElementById('pp-title-input').value || 'MDCAT Past Paper',
+          year: document.getElementById('pp-year-input').value || '2024',
+          desc: document.getElementById('pp-desc-input').value || 'Solved Entrance Exam',
+          bank: `Past Paper: ${document.getElementById('pp-title-input').value || 'MDCAT Past Paper'}`
+        };
+        pastPapersList.push(newPaper);
+        localStorage.setItem('sjn_pastPapersList', JSON.stringify(pastPapersList));
+        renderPastPapersModule();
+        alert("Past Paper added successfully!");
+      }
+
+      toggleAdminModal();
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+    }
+
+    function updateSubjectStats() {
+      if (!sjnProfile.subjectStats) sjnProfile.subjectStats = {};
+      currentQuizList.forEach((q, idx) => {
+        const subj = q.subject || 'Other';
+        if (!sjnProfile.subjectStats[subj]) sjnProfile.subjectStats[subj] = { correct: 0, total: 0 };
+        sjnProfile.subjectStats[subj].total++;
+        if (userAnswers[idx] === q.correctIndex) sjnProfile.subjectStats[subj].correct++;
+      });
+    }
+
+    function updateStudyStreak() {
+      const today = new Date().toISOString().slice(0,10);
+      const last = sjnProfile.lastPracticeDate || null;
+      if (last === today) return;
+      if (last) {
+        const diff = Math.round((new Date(today) - new Date(last)) / 86400000);
+        sjnProfile.streakDays = diff === 1 ? (sjnProfile.streakDays || 0) + 1 : 1;
+      } else {
+        sjnProfile.streakDays = 1;
+      }
+      sjnProfile.lastPracticeDate = today;
+    }
+
+    async function sendAiDoubt() {
+      const textInput = document.getElementById('ai-input-text');
+      const query = textInput.value.trim();
+      if (!query) return;
+      const history = document.getElementById('ai-chat-history');
+
+      const userDiv = document.createElement('div');
+      userDiv.className = 'bg-zinc-800 p-3 rounded-xl text-gray-100 text-right font-medium';
+      userDiv.innerHTML = `🙋‍♂️ <strong>You:</strong> ${escapeHtml(query)}`;
+      history.appendChild(userDiv);
+      textInput.value = '';
+
+      const aiDiv = document.createElement('div');
+      aiDiv.className = 'bg-purple-950/40 border border-purple-800/40 p-3 rounded-xl text-purple-100 space-y-1';
+      aiDiv.innerHTML = `🤖 <strong>SJN AI Tutor:</strong><br><span class="leading-relaxed">AI Tutor is currently disabled in this static build. Connect a secure server-side Gemini endpoint before enabling AI. Never place a Gemini API key in this HTML file.</span>`;
+      history.appendChild(aiDiv);
+      history.scrollTop = history.scrollHeight;
+    }
+
+    function toggleBookmarkCurrentMcq() {
+      const q = currentQuizList[currentMcqIndex];
+      if (!q) return;
+      const idx = bookmarkedMcqs.findIndex(id => String(id) === String(q.id));
+      if (idx >= 0) bookmarkedMcqs.splice(idx, 1); else bookmarkedMcqs.push(q.id);
+      localStorage.setItem('sjn_bookmarked_mcqs', JSON.stringify(bookmarkedMcqs));
+      updateBookmarkButton();
+    }
+
+    function updateBookmarkButton() {
+      const q = currentQuizList[currentMcqIndex];
+      const icon = document.querySelector('#bookmark-btn i');
+      if (!icon || !q) return;
+      const saved = bookmarkedMcqs.some(id => String(id) === String(q.id));
+      icon.className = saved ? 'fa-solid fa-bookmark text-amber-400 text-lg' : 'fa-regular fa-bookmark text-lg';
+    }
+
+  </script>
+
+
+  <!-- Student Authentication -->
+  <div id="auth-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] hidden items-center justify-center p-4">
+    <div class="bg-sjn-card border border-sjn-border rounded-2xl max-w-md w-full p-6 space-y-5">
+      <div class="flex items-center justify-between">
+        <div><span class="text-xs text-red-400 font-bold uppercase">Student Account</span><h3 id="auth-title" class="text-xl font-black text-white">Login</h3></div>
+        <button onclick="closeAuthModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="auth-error" class="hidden p-3 rounded-xl bg-red-950/40 border border-red-800/40 text-red-300 text-xs"></div>
+      <div id="register-name-wrap" class="hidden"><label class="text-xs text-gray-400">Full Name</label><input id="auth-name" class="mt-1 w-full bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white" placeholder="Your name"></div>
+      <div><label class="text-xs text-gray-400">Email</label><input id="auth-email" type="email" class="mt-1 w-full bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white" placeholder="student@example.com"></div>
+      <div><label class="text-xs text-gray-400">Password</label><input id="auth-password" type="password" class="mt-1 w-full bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white" placeholder="Minimum 8 characters"></div>
+      <button onclick="submitAuth()" id="auth-submit" class="w-full py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-sm">Login</button>
+      <button onclick="toggleAuthMode()" id="auth-toggle" class="w-full text-xs text-gray-400 hover:text-white">Create a new student account</button>
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    const API = '/api';
+    let authMode = 'login';
+    let authToken = localStorage.getItem('sjn_auth_token') || '';
+    let currentUser = null;
+    let remoteContentLoaded = false;
+    let selectedCourseId = null;
+    let selectedPaperId = null;
+    let selectedResourceId = null;
+    let paperSourceFilter = null;
+
+    async function api(path, options = {}) {
+      const headers = { ...(options.headers || {}) };
+      if (authToken) headers.Authorization = `Bearer ${authToken}`;
+      if (options.body && typeof options.body !== 'string') {
+        headers['Content-Type'] = 'application/json';
+        options.body = JSON.stringify(options.body);
+      }
+      const r = await fetch(API + path, { ...options, headers });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(data.error || 'Request failed.');
+      return data;
+    }
+
+    window.openAuthModal = function(mode = 'login') {
+      authMode = mode;
+      document.getElementById('auth-modal').classList.remove('hidden');
+      document.getElementById('auth-modal').classList.add('flex');
+      updateAuthModeUI();
+    };
+    window.closeAuthModal = function() {
+      document.getElementById('auth-modal').classList.add('hidden');
+      document.getElementById('auth-modal').classList.remove('flex');
+    };
+    window.toggleAuthMode = function() { authMode = authMode === 'login' ? 'register' : 'login'; updateAuthModeUI(); };
+    function updateAuthModeUI() {
+      const register = authMode === 'register';
+      document.getElementById('auth-title').innerText = register ? 'Create Student Account' : 'Login';
+      document.getElementById('auth-submit').innerText = register ? 'Create Account' : 'Login';
+      document.getElementById('auth-toggle').innerText = register ? 'Already have an account? Login' : 'Create a new student account';
+      document.getElementById('register-name-wrap').classList.toggle('hidden', !register);
+      document.getElementById('auth-error').classList.add('hidden');
+    }
+
+    window.submitAuth = async function() {
+      const error = document.getElementById('auth-error');
+      error.classList.add('hidden');
+      try {
+        const body = { email: document.getElementById('auth-email').value.trim(), password: document.getElementById('auth-password').value };
+        if (authMode === 'register') body.name = document.getElementById('auth-name').value.trim();
+        const data = await api(authMode === 'register' ? '/auth/register' : '/auth/login', { method: 'POST', body });
+        authToken = data.token; currentUser = data.user; localStorage.setItem('sjn_auth_token', authToken);
+        closeAuthModal(); await loadAccount();
+      } catch (e) { error.innerText = e.message; error.classList.remove('hidden'); }
+    };
+
+    async function loadAccount() {
+      if (!authToken) {
+        currentUser = null;
+        document.getElementById('account-button-label').innerText = 'Login / Register';
+        return;
+      }
+      try {
+        const data = await api('/me');
+        currentUser = data.user;
+        document.getElementById('account-button-label').innerText = currentUser.name;
+        sjnProfile.mcqsAttempted = Number(data.stats.total || 0);
+        sjnProfile.correctAnswers = Number(data.stats.correct || 0);
+        bookmarkedMcqs = data.bookmarks || [];
+        updateGlobalProfileUI();
+      } catch {
+        authToken = ''; localStorage.removeItem('sjn_auth_token'); currentUser = null;
+        document.getElementById('account-button-label').innerText = 'Login / Register';
+      }
+    }
+
+    async function loadContent() {
+      try {
+        const data = await api('/content');
+        mcqQuestionBank = Array.isArray(data.mcqs) ? data.mcqs : [];
+        customCourses = Array.isArray(data.courses) ? data.courses : [];
+        pastPapersList = Array.isArray(data.pastPapers) ? data.pastPapers : [];
+        window.sjnResources = Array.isArray(data.resources) ? data.resources : [];
+        // The public LMS intentionally exposes only this one bank.
+        wizardSelection.bank = 'Past Papers Question Bank';
+        wizardSelection.selectedSubjects = getAvailableSubjects();
+        wizardSelection.subject = wizardSelection.selectedSubjects.length === 1 ? wizardSelection.selectedSubjects[0] : 'All Subjects';
+        remoteContentLoaded = true;
+        renderCoursesModule(); renderPastPapersModule(); renderResourcesModule(); renderSubjectChoices(); updateWizardAvailableCount();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    window.renderCoursesModule = function() {
+      const list = document.getElementById('courses-container'); if (!list) return;
+      list.innerHTML = '';
+      if (!customCourses.length) { list.innerHTML = '<div class="p-5 text-center text-xs text-gray-500">No courses have been published yet.</div>'; document.getElementById('course-viewer').innerHTML = '<div class="h-full min-h-[450px] flex items-center justify-center text-gray-500 text-sm">No course selected.</div>'; return; }
+      customCourses.forEach((c, i) => {
+        const b = document.createElement('button'); b.className = 'w-full text-left p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-blue-500 transition-all';
+        b.innerHTML = `<div class="font-bold text-white text-sm">${escapeHtml(c.title)}</div><div class="text-[11px] text-gray-500 mt-1">${escapeHtml(c.description || '')}</div>`;
+        b.onclick = () => openCourse(c.id || i); list.appendChild(b);
+      });
+      openCourse(selectedCourseId || customCourses[0].id || 0);
+    };
+    function openCourse(id) {
+      const c = customCourses.find((x, i) => String(x.id ?? i) === String(id)) || customCourses[0]; if (!c) return;
+      selectedCourseId = c.id;
+      const chapters = Array.isArray(c.chapters) ? c.chapters : [];
+      document.getElementById('course-viewer').innerHTML = `<div class="space-y-5"><div><span class="text-xs text-blue-400 font-bold uppercase">Course</span><h3 class="text-2xl font-black text-white mt-1">${escapeHtml(c.title)}</h3><p class="text-sm text-gray-400 mt-2">${escapeHtml(c.description || '')}</p></div><div class="prose prose-invert max-w-none text-sm text-gray-300 whitespace-pre-wrap">${escapeHtml(c.body || 'Course content has not been added yet.')}</div>${chapters.length ? `<div><h4 class="font-bold text-white mb-2">Chapters / Modules</h4><div class="space-y-2">${chapters.map((x,i)=>`<div class="p-3 bg-zinc-900 rounded-lg border border-sjn-border text-xs"><span class="text-blue-400 font-bold">${i+1}.</span> ${escapeHtml(typeof x === 'string' ? x : x.title || '')}</div>`).join('')}</div></div>` : ''}<button onclick="practiceCourse(${JSON.stringify(c.id)})" class="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-xl text-white font-bold text-sm">Practice this course</button></div>`;
+    }
+    window.practiceCourse = function(id) {
+      const c = customCourses.find(x => String(x.id) === String(id));
+      if (!c) return;
+      paperSourceFilter = null;
+      wizardSelection.bank = 'Past Papers Question Bank';
+      wizardSelection.scope = 'custom-mix';
+      const chapters = (Array.isArray(c.chapters) ? c.chapters : []).map(x => `${x.subject || ''}|||${typeof x === 'string' ? x : x.title || ''}`).filter(Boolean);
+      wizardSelection.selectedSubjects = getAvailableSubjects(); wizardSelection.selectedChapters = chapters; wizardSelection.selectedTopics = []; wizardSelection.mcqCount = Math.min(20, getFilteredQuestionPool().length || 1); wizardSelection.currentStepNum = 4;
+      switchModule('wizard'); setWizardStep(4); updateWizardAvailableCount(); updateSummaryBox();
+    };
+
+    window.renderPastPapersModule = function() {
+      const list = document.getElementById('pastpapers-container'); if (!list) return;
+      list.innerHTML = '';
+      if (!pastPapersList.length) { list.innerHTML = '<div class="p-5 text-center text-xs text-gray-500">No past papers have been published yet.</div>'; document.getElementById('pastpaper-viewer').innerHTML = '<div class="h-full min-h-[450px] flex items-center justify-center text-gray-500 text-sm">No past paper selected.</div>'; return; }
+      pastPapersList.forEach((p,i) => { const b=document.createElement('button'); b.className='w-full text-left p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-amber-500 transition-all'; b.innerHTML=`<div class="flex justify-between gap-2"><span class="font-bold text-white text-sm">${escapeHtml(p.title)}</span><span class="text-[10px] text-amber-400 font-bold">${escapeHtml(p.year || '')}</span></div><div class="text-[11px] text-gray-500 mt-1">${escapeHtml(p.description || '')}</div>`; b.onclick=()=>openPastPaper(p.id || i); list.appendChild(b); });
+      openPastPaper(selectedPaperId || pastPapersList[0].id || 0);
+    };
+    function openPastPaper(id) {
+      const p = pastPapersList.find((x,i)=>String(x.id ?? i)===String(id)) || pastPapersList[0]; if(!p) return;
+      selectedPaperId=p.id; const source = p.title;
+      document.getElementById('pastpaper-viewer').innerHTML=`<div class="space-y-5"><div><span class="text-xs text-amber-400 font-bold uppercase">Past Paper</span><h3 class="text-2xl font-black text-white mt-1">${escapeHtml(p.title)}</h3><p class="text-sm text-gray-400 mt-2">${escapeHtml(p.description || '')}</p></div><div class="grid grid-cols-2 gap-3"><div class="p-4 bg-zinc-900 rounded-xl border border-sjn-border"><div class="text-xs text-gray-500">Year</div><div class="font-bold text-white">${escapeHtml(p.year || '—')}</div></div><div class="p-4 bg-zinc-900 rounded-xl border border-sjn-border"><div class="text-xs text-gray-500">Matching MCQs</div><div class="font-bold text-white">${mcqQuestionBank.filter(q=>q.source===source).length}</div></div></div>${p.pdfUrl ? `<iframe src="${escapeHtml(p.pdfUrl)}" class="w-full h-[520px] rounded-xl border border-sjn-border bg-white"></iframe>` : '<div class="p-4 rounded-xl bg-zinc-900 border border-sjn-border text-xs text-gray-400">No PDF is attached. You can still practice its imported MCQs.</div>'}<button onclick="practicePastPaper(${JSON.stringify(p.id)}, ${JSON.stringify(source)})" class="w-full py-3 bg-amber-600 hover:bg-amber-700 rounded-xl text-white font-bold text-sm">Practice this paper</button></div>`;
+    }
+    window.practicePastPaper = function(id, source) {
+      paperSourceFilter=source; wizardSelection.bank='Past Papers Question Bank'; wizardSelection.scope='all-subjects'; wizardSelection.selectedSubjects=getAvailableSubjects(); wizardSelection.selectedChapters=['All Chapters']; wizardSelection.selectedTopics=[]; wizardSelection.mcqCount=Math.min(20, getFilteredQuestionPool().length || 1); wizardSelection.currentStepNum=4; switchModule('wizard'); setWizardStep(4); updateWizardAvailableCount(); updateSummaryBox();
+    };
+
+    window.renderResourcesModule = function() {
+      const list=document.getElementById('resources-container'); if(!list) return; const resources=window.sjnResources||[]; list.innerHTML='';
+      if(!resources.length){list.innerHTML='<div class="p-5 text-center text-xs text-gray-500">No study resources have been published yet.</div>'; return;}
+      resources.forEach((r,i)=>{const b=document.createElement('button'); b.className='w-full text-left p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-yellow-500 transition-all'; b.innerHTML=`<div class="font-bold text-white text-sm">${escapeHtml(r.title)}</div><div class="text-[11px] text-gray-500 mt-1">${escapeHtml(r.description||'PDF / Study Material')}</div>`; b.onclick=()=>openResource(r.id||i); list.appendChild(b);});
+      openResource(selectedResourceId||resources[0].id||0);
+    };
+    function openResource(id){const r=(window.sjnResources||[]).find((x,i)=>String(x.id??i)===String(id)) || (window.sjnResources||[])[0]; if(!r)return; selectedResourceId=r.id; const viewer=document.getElementById('resource-viewer'); const safe=escapeHtml(r.url); if((r.type||'pdf').toLowerCase()==='pdf') viewer.innerHTML=`<iframe src="${safe}" class="w-full h-[680px] bg-white"></iframe>`; else viewer.innerHTML=`<div class="p-6"><h3 class="text-xl font-black text-white">${escapeHtml(r.title)}</h3><p class="text-sm text-gray-400 mt-2">${escapeHtml(r.description||'')}</p><a href="${safe}" target="_blank" rel="noopener" class="inline-block mt-5 px-4 py-2 bg-yellow-600 rounded-lg text-white text-xs font-bold">Open Resource</a></div>`;}
+
+    // Use only the single official bank and actual imported MCQs.
+    window.getFilteredQuestionPool = function() {
+      const selectedSubjects = wizardSelection.selectedSubjects?.length ? wizardSelection.selectedSubjects : getAvailableSubjects();
+      return mcqQuestionBank.filter(q => {
+        if (q.bank !== 'Past Papers Question Bank') return false;
+        if (paperSourceFilter && q.source !== paperSourceFilter) return false;
+        if (selectedSubjects.length && !selectedSubjects.includes(q.subject)) return false;
+        if (wizardSelection.scope === 'topic-wise' && wizardSelection.selectedTopics?.length) {
+          const key=`${q.subject}|||${q.chapter||'General Chapter'}|||${q.topic||'General Topic'}`; return wizardSelection.selectedTopics.includes(key);
+        }
+        if ((wizardSelection.scope === 'chapter-wise'||wizardSelection.scope==='custom-mix') && wizardSelection.selectedChapters?.length && !wizardSelection.selectedChapters.includes('All Chapters')) {
+          const key=`${q.subject}|||${q.chapter||'General Chapter'}`; return wizardSelection.selectedChapters.includes(key);
+        }
+        return true;
+      });
+    };
+
+    window.renderChapterOptions = function(subjects) {
+      const container=document.getElementById('chapter-checkbox-container'); container.innerHTML=''; const selected=new Set(wizardSelection.selectedChapters||[]);
+      const items=[...new Set(mcqQuestionBank.filter(q=>subjects.includes(q.subject)).map(q=>`${q.subject}|||${q.chapter||'General Chapter'}`))];
+      items.forEach(key=>{const [subject,chapter]=key.split('|||'); const label=document.createElement('label'); label.className='flex items-center p-3 rounded-xl border border-sjn-border bg-zinc-900 hover:border-red-500 cursor-pointer'; label.innerHTML=`<input type="checkbox" value="${escapeHtml(key)}" class="chapter-chk w-4 h-4 mr-3" ${selected.has(key)?'checked':''}><span class="text-xs font-bold text-white">${escapeHtml(subject)} — ${escapeHtml(chapter)}</span>`; container.appendChild(label);});
+      if(!items.length) container.innerHTML='<div class="col-span-2 p-5 text-center text-xs text-gray-500">No chapters are available because the question bank is empty.</div>';
+    };
+    window.renderTopicOptions = function(subjects) {
+      const container=document.getElementById('topic-options-container'); container.innerHTML=''; const selected=new Set(wizardSelection.selectedTopics||[]);
+      const items=[...new Map(mcqQuestionBank.filter(q=>subjects.includes(q.subject)).map(q=>{const subject=q.subject,chapter=q.chapter||'General Chapter',topic=q.topic||'General Topic';return [`${subject}|||${chapter}|||${topic}`,{subject,chapter,topic}]})).values()];
+      items.forEach(x=>{const key=`${x.subject}|||${x.chapter}|||${x.topic}`; const label=document.createElement('label'); label.className='flex items-start p-3.5 rounded-xl border border-sjn-border bg-zinc-900 hover:border-amber-500 cursor-pointer'; label.innerHTML=`<input type="checkbox" value="${escapeHtml(key)}" class="topic-chk w-4 h-4 mt-0.5 mr-3" ${selected.has(key)?'checked':''}><span><span class="font-bold text-white block text-xs">🎯 ${escapeHtml(x.topic)}</span><span class="text-[10px] text-gray-400">${escapeHtml(x.subject)} • ${escapeHtml(x.chapter)}</span></span>`; container.appendChild(label);});
+      if(!items.length) container.innerHTML='<div class="col-span-2 p-5 text-center text-xs text-gray-500">No topics are available because the question bank is empty.</div>';
+    };
+    window.setMcqCount = function(count){const n=Math.max(1,Math.min(100000,parseInt(count,10)||1)); wizardSelection.mcqCount=n; const input=document.getElementById('custom-mcq-count'); if(input)input.value=n; updateWizardAvailableCount(); updateSummaryBox();};
+    window.setCustomMcqCount=window.setMcqCount;
+    window.startQuick5Mcqs=function(){wizardSelection={bank:'Past Papers Question Bank',scope:'all-subjects',subject:'All Subjects',selectedSubjects:getAvailableSubjects(),selectedChapters:['All Chapters'],selectedTopics:[],mcqCount:5,testMode:'tutor',currentStepNum:4}; paperSourceFilter=null; launchGeneratedQuiz();};
+
+    const originalLaunch = window.launchGeneratedQuiz;
+    window.launchGeneratedQuiz = function(){
+      if (!currentUser) { openAuthModal('login'); return; }
+      originalLaunch();
+    };
+
+    const originalToggleBookmark = window.toggleBookmarkCurrentMcq;
+    window.toggleBookmarkCurrentMcq = async function(){
+      const q=currentQuizList[currentMcqIndex]; if(!q)return;
+      if(!authToken){openAuthModal('login');return;}
+      try { const r=await api('/bookmarks/toggle',{method:'POST',body:{mcqId:q.id}}); const idx=bookmarkedMcqs.findIndex(id=>String(id)===String(q.id)); if(r.bookmarked){if(idx<0)bookmarkedMcqs.push(q.id)}else if(idx>=0)bookmarkedMcqs.splice(idx,1); updateBookmarkButton(); } catch(e){alert(e.message);}
+    };
+
+    const originalFinishQuiz = window.finishQuiz;
+    window.finishQuiz = async function(){
+      originalFinishQuiz();
+      if(!authToken || !currentQuizList.length) return;
+      const correct=currentQuizList.reduce((n,q,i)=>n+(userAnswers[i]===q.correctIndex?1:0),0);
+      try { await api('/attempts',{method:'POST',body:{title:paperSourceFilter || wizardSelection.bank,total:currentQuizList.length,correct,mode:wizardSelection.testMode,subject:wizardSelection.subject,selection:{subjects:wizardSelection.selectedSubjects,chapters:wizardSelection.selectedChapters,topics:wizardSelection.selectedTopics}}}); } catch(e){console.warn(e);}
+    };
+
+    window.sendAiDoubt = async function(){
+      const input=document.getElementById('ai-input-text'); const query=input.value.trim(); if(!query)return;
+      if(!authToken){openAuthModal('login');return;}
+      const history=document.getElementById('ai-chat-history'); const u=document.createElement('div'); u.className='bg-zinc-800 p-3 rounded-xl text-gray-100 text-right font-medium'; u.innerHTML=`🙋‍♂️ <strong>You:</strong> ${escapeHtml(query)}`; history.appendChild(u); input.value='';
+      const a=document.createElement('div'); a.className='bg-purple-950/40 border border-purple-800/40 p-3 rounded-xl text-purple-100 space-y-1'; a.innerHTML='🤖 <strong>SJN AI Tutor:</strong><br><span>Thinking...</span>'; history.appendChild(a);
+      try { const data=await api('/ai/tutor',{method:'POST',body:{prompt:query}}); a.innerHTML=`🤖 <strong>SJN AI Tutor:</strong><br><span class="leading-relaxed whitespace-pre-wrap">${escapeHtml(data.answer)}</span>`; } catch(e){a.innerHTML=`🤖 <strong>SJN AI Tutor:</strong><br><span class="text-red-300">${escapeHtml(e.message)}</span>`;}
+      history.scrollTop=history.scrollHeight;
+    };
+
+    window.onload = async function(){
+      await loadAccount();
+      await loadContent();
+      renderHistoryTable();
+      updateGlobalProfileUI();
+    };
+  })();
+  </script>
+</body>
+</html>

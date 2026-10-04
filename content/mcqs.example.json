@@ -1,0 +1,13 @@
+[
+  {
+    "subject": "Biology",
+    "chapter": "Your Chapter Name",
+    "topic": "Your Topic Name",
+    "question": "Question statement",
+    "options": ["Option A", "Option B", "Option C", "Option D"],
+    "correctIndex": 0,
+    "explanation": "Explanation",
+    "mnemonic": "Optional tip",
+    "source": "Past Paper / year"
+  }
+]
