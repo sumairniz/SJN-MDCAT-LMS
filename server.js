@@ -17,9 +17,13 @@ const ADMIN_TOKEN = process.env.ADMIN_TOKEN || '';
 const ROOT = __dirname;
 const PUBLIC = path.join(ROOT, 'public');
 const CONTENT = path.join(ROOT, 'content');
-const DATA = path.join(ROOT, 'data');
-fs.mkdirSync(DATA, { recursive: true });
-fs.mkdirSync(path.join(CONTENT, 'resources'), { recursive: true });
+const DATA = process.env.VERCEL ? '/tmp' : path.join(ROOT, 'data');
+try {
+  fs.mkdirSync(DATA, { recursive: true });
+  fs.mkdirSync(path.join(CONTENT, 'resources'), { recursive: true });
+} catch (err) {
+  console.log('Serverless environment: skipped folder creation');
+}
 
 const db = new Database(path.join(DATA, 'sjn-lms.db'));
 db.pragma('journal_mode = WAL');
