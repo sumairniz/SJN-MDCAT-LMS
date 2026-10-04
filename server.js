@@ -14,6 +14,10 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || '';
 
+// Supabase Credentials
+const SUPABASE_URL = process.env.SUPABASE_URL || '';
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || '';
+
 const ROOT = __dirname;
 const PUBLIC = path.join(ROOT, 'public');
 const CONTENT = path.join(ROOT, 'content');
@@ -28,14 +32,6 @@ try {
 const db = new Database(path.join(DATA, 'sjn-lms.db'));
 db.pragma('journal_mode = WAL');
 db.exec(`
-CREATE TABLE IF NOT EXISTS users (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  email TEXT NOT NULL UNIQUE,
-  password_hash TEXT NOT NULL,
-  role TEXT NOT NULL DEFAULT 'student',
-  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
 CREATE TABLE IF NOT EXISTS mcqs (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   bank TEXT NOT NULL DEFAULT 'Past Papers Question Bank',
@@ -78,7 +74,7 @@ CREATE TABLE IF NOT EXISTS resources (
 );
 CREATE TABLE IF NOT EXISTS attempts (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id INTEGER NOT NULL,
+  user_id TEXT NOT NULL,
   title TEXT,
   total INTEGER NOT NULL,
   correct INTEGER NOT NULL,
@@ -86,15 +82,13 @@ CREATE TABLE IF NOT EXISTS attempts (
   mode TEXT,
   subject TEXT,
   selection_json TEXT,
-  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE IF NOT EXISTS bookmarks (
-  user_id INTEGER NOT NULL,
+  user_id TEXT NOT NULL,
   mcq_id INTEGER NOT NULL,
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(user_id, mcq_id),
-  FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY(mcq_id) REFERENCES mcqs(id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS idx_mcqs_subject ON mcqs(subject);
@@ -149,37 +143,85 @@ app.get('/api/questions', (req, res) => {
   res.json(rows.map(publicMcq));
 });
 
+// --- UPDATED SUPABASE REGISTRATION ---
 app.post('/api/auth/register', async (req, res) => {
   const name = String(req.body.name || '').trim();
-  
   const email = String(req.body.email || '').trim().toLowerCase();
   const password = String(req.body.password || '');
+  
   if (!name || !email || password.length < 8) return res.status(400).json({ error: 'Name, valid email and password of at least 8 characters are required.' });
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return res.status(503).json({ error: 'Database is not connected.' });
+
   try {
+    // 1. Check if user already exists in Supabase
+    const checkUser = await fetch(`${SUPABASE_URL}/rest/v1/users?email=eq.${encodeURIComponent(email)}`, {
+      headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
+    });
+    const existingUsers = await checkUser.json();
+    if (existingUsers && existingUsers.length > 0) {
+      return res.status(409).json({ error: 'An account with this email already exists.' });
+    }
+
+    // 2. Hash password and insert into Supabase
     const hash = await bcrypt.hash(password, 12);
-    const info = db.prepare('INSERT INTO users(name,email,password_hash) VALUES(?,?,?)').run(name, email, hash);
-    const user = { id: info.lastInsertRowid, name, email, role: 'student' };
+    const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/users`, {
+      method: 'POST',
+      headers: { 
+        'apikey': SUPABASE_ANON_KEY, 
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation'
+      },
+      body: JSON.stringify({ name, email, password: hash, role: 'student' })
+    });
+
+    if (!insertRes.ok) throw new Error('Database insertion failed');
+    
+    const insertedData = await insertRes.json();
+    const dbUser = insertedData[0];
+
+    // 3. Create Login Token
+    const user = { id: dbUser.id, name: dbUser.name, email: dbUser.email, role: dbUser.role };
     const token = jwt.sign(user, JWT_SECRET, { expiresIn: '30d' });
     res.json({ token, user });
   } catch (e) {
-    if (String(e.message).includes('UNIQUE')) return res.status(409).json({ error: 'An account with this email already exists.' });
     res.status(500).json({ error: 'Registration failed.' });
   }
 });
 
+// --- UPDATED SUPABASE LOGIN ---
 app.post('/api/auth/login', async (req, res) => {
   const email = String(req.body.email || '').trim().toLowerCase();
   const password = String(req.body.password || '');
-  const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
-  if (!user || !(await bcrypt.compare(password, user.password_hash))) return res.status(401).json({ error: 'Incorrect email or password.' });
-  const safe = { id: user.id, name: user.name, email: user.email, role: user.role };
-  const token = jwt.sign(safe, JWT_SECRET, { expiresIn: '30d' });
-  res.json({ token, user: safe });
+
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return res.status(503).json({ error: 'Database is not connected.' });
+
+  try {
+    // 1. Fetch user from Supabase
+    const fetchRes = await fetch(`${SUPABASE_URL}/rest/v1/users?email=eq.${encodeURIComponent(email)}`, {
+      headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
+    });
+    
+    const users = await fetchRes.json();
+    const user = users && users.length > 0 ? users[0] : null;
+
+    // 2. Verify Password
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ error: 'Incorrect email or password.' });
+    }
+
+    // 3. Create Login Token
+    const safe = { id: user.id, name: user.name, email: user.email, role: user.role };
+    const token = jwt.sign(safe, JWT_SECRET, { expiresIn: '30d' });
+    res.json({ token, user: safe });
+  } catch (e) {
+    res.status(500).json({ error: 'Login failed.' });
+  }
 });
 
+// --- UPDATED GET USER INFO ---
 app.get('/api/me', auth, (req, res) => {
-  const user = db.prepare('SELECT id,name,email,role,created_at FROM users WHERE id=?').get(req.user.id);
-  if (!user) return res.status(404).json({ error: 'User not found.' });
+  const user = req.user; // Use user from JWT token
   const stats = db.prepare('SELECT COALESCE(SUM(total),0) total, COALESCE(SUM(correct),0) correct, COUNT(*) tests FROM attempts WHERE user_id=?').get(user.id);
   const bookmarks = db.prepare('SELECT mcq_id FROM bookmarks WHERE user_id=? ORDER BY created_at DESC').all(user.id).map(x => x.mcq_id);
   res.json({ user, stats, bookmarks });
