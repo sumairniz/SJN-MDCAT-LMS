@@ -232,4 +232,8 @@ app.post('/api/dev/sync', admin, (req, res) => {
 
 app.use((req, res) => res.sendFile(path.join(PUBLIC, 'index.html')));
 
-app.listen(PORT, () => console.log(`SJN MDCAT LMS Pro running on http://localhost:${PORT}`));
+if (require.main === module) {
+  app.listen(PORT, () => console.log(`SJN MDCAT LMS Pro running on http://localhost:${PORT}`));
+}
+
+module.exports = app;
