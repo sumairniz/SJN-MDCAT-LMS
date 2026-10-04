@@ -151,6 +151,7 @@ app.get('/api/questions', (req, res) => {
 
 app.post('/api/auth/register', async (req, res) => {
   const name = String(req.body.name || '').trim();
+  
   const email = String(req.body.email || '').trim().toLowerCase();
   const password = String(req.body.password || '');
   if (!name || !email || password.length < 8) return res.status(400).json({ error: 'Name, valid email and password of at least 8 characters are required.' });
