@@ -1,21 +1,15 @@
 {
-  "name": "sjn-mdcat-lms-pro",
-  "version": "2.0.0",
-  "private": true,
-  "description": "SJN MDCAT LMS Pro - production-ready Node/SQLite LMS starter",
+  "name": "sjn-mdcat-lms",
+  "version": "1.0.0",
+  "description": "SJN MDCAT LMS Pro",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
-    "sync-content": "node scripts/sync-content.js",
-    "sync-mcqs": "node scripts/import-mcqs.js"
+    "start": "node server.js"
   },
   "dependencies": {
-    "bcryptjs": "^3.0.2",
-    "better-sqlite3": "^12.4.1",
-    "dotenv": "^17.2.2",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "multer": "^2.0.2"
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2"
   }
 }
