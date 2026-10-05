@@ -73,19 +73,41 @@
         border: 1px solid rgba(220, 38, 38, 0.3);
       }
 
-    /* === TOGGLEABLE SIDEBAR & ZERO-OVERLAP WORKSPACE FIX === */
+   /* === PROFESSIONAL DASHBOARD LAYOUT === */
+    /* 1. Dedicated Fixed Sidebar */
     #sidebar-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      z-index: 60;
       transition: width 0.3s ease, padding 0.3s ease;
+      width: 256px;
+      overflow-y: auto;
+      background-color: #09090b; 
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
     }
-    main.flex-1 {
+    
+    /* 2. Header and Main Workspace fit perfectly next to sidebar */
+    header, main.flex-1 {
       transition: margin-left 0.3s ease, width 0.3s ease;
+      margin-left: 256px !important;
+      width: calc(100% - 256px) !important;
     }
+
+    /* 3. Collapsed State Rules */
     body.sidebar-collapsed #sidebar-nav {
       width: 72px !important;
       padding: 12px 6px !important;
     }
+    body.sidebar-collapsed header,
+    body.sidebar-collapsed main.flex-1 {
+      margin-left: 72px !important;
+      width: calc(100% - 72px) !important;
+    }
+    
+    /* Hide text when collapsed */
     body.sidebar-collapsed #sidebar-nav .nav-text,
-    body.sidebar-collapsed #sidebar-nav div > div:not(:first-child),
     body.sidebar-collapsed #sidebar-nav .uppercase,
     body.sidebar-collapsed #sidebar-nav p,
     body.sidebar-collapsed #sidebar-nav span:not(.fa-solid):not(.fa-regular) {
@@ -94,10 +116,6 @@
     body.sidebar-collapsed #sidebar-nav .nav-tab {
       justify-content: center !important;
       padding: 12px !important;
-    }
-    body.sidebar-collapsed main.flex-1 {
-      margin-left: 88px !important;
-      width: calc(100% - 88px) !important;
     }
     </style>
 </head>
