@@ -99,37 +99,6 @@
       margin-left: 88px !important;
       width: calc(100% - 88px) !important;
     }
-      /* === PHASE 1: FAR-LEFT SLIM ICON SIDEBAR & WORKSPACE FIX === */
-      @media (min-width: 768px) {
-        #sidebar-nav {
-          width: 72px !important;
-          position: fixed !important;
-          top: 65px; /* Sits right below the top navbar */
-          bottom: 0;
-          left: 0;
-          z-index: 40;
-          padding: 12px 8px !important;
-          background-color: #121215 !important;
-          overflow-y: auto;
-        }
-        /* Hide text labels, show only icons in icon-only mode */
-        #sidebar-nav .nav-tab span:not(:first-child),
-        #sidebar-nav div > div:not(:first-child),
-        #sidebar-nav .uppercase,
-        #sidebar-nav p,
-        #sidebar-nav button span:not(.fa-solid):not(.fa-regular) {
-          display: none !important;
-        }
-        #sidebar-nav .nav-tab {
-          justify-content: center !important;
-          padding: 12px !important;
-        }
-        /* Expand the main workspace to fill the remaining right space */
-        main.flex-1 {
-          margin-left: 80px !important;
-          width: calc(100% - 80px) !important;
-        }
-      }
     </style>
 </head>
 <body class="bg-sjn-black text-gray-100 font-sans antialiased min-h-screen flex flex-col selection:bg-red-600 selection:text-white">
