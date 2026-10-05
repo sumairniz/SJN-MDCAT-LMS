@@ -180,9 +180,15 @@
     </div>
   </header>
 
-  <div class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row gap-6">
+<div class="flex-1 w-full px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row gap-6">
 
     <aside id="sidebar-nav" class="w-full md:w-64 flex-shrink-0 space-y-2 hidden md:block">
+      <div class="flex items-center justify-between p-4 mb-2 border-b border-gray-800">
+      <span class="nav-text text-gray-400 font-bold uppercase text-xs tracking-wider">Menu</span>
+      <button onclick="toggleSidebarCollapse()" class="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-sjn-border transition-all" title="Toggle Sidebar">
+        <i class="fa-solid fa-bars-staggered text-lg"></i>
+      </button>
+    </div>
       <div class="bg-sjn-card rounded-2xl p-3 border border-sjn-border space-y-1">
         <div class="px-3 py-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Academy Navigation</div>
         
