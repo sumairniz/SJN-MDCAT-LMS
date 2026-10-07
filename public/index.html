@@ -1659,7 +1659,7 @@
 
   </script>
 
-<!-- Student Authentication -->
+ <!-- Student Authentication -->
   <div id="auth-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[80] hidden items-center justify-center p-4">
     <div class="bg-sjn-card border border-sjn-border rounded-2xl max-w-md w-full p-6 space-y-5">
       <div class="flex items-center justify-between">
@@ -1667,29 +1667,11 @@
         <button onclick="closeAuthModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div id="auth-error" class="hidden p-3 rounded-xl bg-red-950/40 border border-red-800/40 text-red-300 text-xs"></div>
-      
-      <!-- Login & Register Fields -->
-      <div id="auth-form-wrap" class="space-y-5">
-        <div id="register-name-wrap" class="hidden"><label class="text-xs text-gray-400">Full Name</label><input id="auth-name" class="mt-1 w-full bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white" placeholder="Your name"></div>
-        <div><label class="text-xs text-gray-400">Email</label><input id="auth-email" type="email" class="mt-1 w-full bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white" placeholder="student@example.com"></div>
-        <div><label class="text-xs text-gray-400">Password</label><input id="auth-password" type="password" class="mt-1 w-full bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white" placeholder="Minimum 8 characters"></div>
-        <button onclick="submitAuth()" id="auth-submit" class="w-full py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-sm">Login</button>
-        <button onclick="toggleAuthMode()" id="auth-toggle" class="w-full text-xs text-gray-400 hover:text-white">Create a new student account</button>
-      </div>
-
-      <!-- Logged In Profile / Sign Out View -->
-      <div id="auth-profile-wrap" class="hidden space-y-5 text-center py-4">
-        <div class="w-16 h-16 bg-red-500/10 text-red-500 rounded-full flex items-center justify-center mx-auto text-3xl border border-red-500/20">
-          <i class="fa-solid fa-user-graduate"></i>
-        </div>
-        <div>
-          <p class="text-gray-400 text-xs uppercase tracking-wider">Signed in as</p>
-          <h4 id="profile-name-display" class="text-xl font-bold text-white mt-1">Student</h4>
-        </div>
-        <button onclick="logoutUser(); closeAuthModal();" class="w-full py-3 bg-zinc-800 hover:bg-red-600 hover:border-red-500 border border-zinc-700 text-white rounded-xl font-bold text-sm transition-all">
-          <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Sign Out
-        </button>
-      </div>
+      <div id="register-name-wrap" class="hidden"><label class="text-xs text-gray-400">Full Name</label><input id="auth-name" class="mt-1 w-full bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white" placeholder="Your name"></div>
+      <div><label class="text-xs text-gray-400">Email</label><input id="auth-email" type="email" class="mt-1 w-full bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white" placeholder="student@example.com"></div>
+      <div><label class="text-xs text-gray-400">Password</label><input id="auth-password" type="password" class="mt-1 w-full bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white" placeholder="Minimum 8 characters"></div>
+      <button onclick="submitAuth()" id="auth-submit" class="w-full py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-sm">Login</button>
+      <button onclick="toggleAuthMode()" id="auth-toggle" class="w-full text-xs text-gray-400 hover:text-white">Create a new student account</button>
     </div>
   </div>
 
@@ -1718,45 +1700,44 @@
       return data;
     }
 
-   window.openAuthModal = function(mode = 'login') {
+    window.openAuthModal = function(mode = 'login') {
       authMode = mode;
       document.getElementById('auth-modal').classList.remove('hidden');
       document.getElementById('auth-modal').classList.add('flex');
       updateAuthModeUI();
     };
-
     window.closeAuthModal = function() {
       document.getElementById('auth-modal').classList.add('hidden');
       document.getElementById('auth-modal').classList.remove('flex');
     };
-
-    window.toggleAuthMode = function() { 
-      if (authMode === 'profile') return; 
-      authMode = authMode === 'login' ? 'register' : 'login'; 
-      updateAuthModeUI(); 
-    };
-
+    window.toggleAuthMode = function() { authMode = authMode === 'login' ? 'register' : 'login'; updateAuthModeUI(); };
     function updateAuthModeUI() {
-      const formWrap = document.getElementById('auth-form-wrap');
-      const profileWrap = document.getElementById('auth-profile-wrap');
-      const title = document.getElementById('auth-title');
-
-      if (authMode === 'profile') {
-        title.innerText = 'Student Profile';
-        formWrap.classList.add('hidden');
-        profileWrap.classList.remove('hidden');
-        if (currentUser) document.getElementById('profile-name-display').innerText = currentUser.name;
-      } else {
-        const register = authMode === 'register';
-        title.innerText = register ? 'Create Student Account' : 'Login';
-        formWrap.classList.remove('hidden');
-        profileWrap.classList.add('hidden');
-        document.getElementById('auth-submit').innerText = register ? 'Create Account' : 'Login';
-        document.getElementById('auth-toggle').innerText = register ? 'Already have an account? Login' : 'Create a new student account';
-        document.getElementById('register-name-wrap').classList.toggle('hidden', !register);
-      }
+      const register = authMode === 'register';
+      document.getElementById('auth-title').innerText = register ? 'Create Student Account' : 'Login';
+      document.getElementById('auth-submit').innerText = register ? 'Create Account' : 'Login';
+      document.getElementById('auth-toggle').innerText = register ? 'Already have an account? Login' : 'Create a new student account';
+      document.getElementById('register-name-wrap').classList.toggle('hidden', !register);
       document.getElementById('auth-error').classList.add('hidden');
     }
+
+    window.submitAuth = async function() {
+      const error = document.getElementById('auth-error');
+      error.classList.add('hidden');
+      try {
+        const body = { email: document.getElementById('auth-email').value.trim(), password: document.getElementById('auth-password').value };
+        if (authMode === 'register') body.name = document.getElementById('auth-name').value.trim();
+        const data = await api(authMode === 'register' ? '/auth/register' : '/auth/login', { method: 'POST', body });
+        authToken = data.token; currentUser = data.user; localStorage.setItem('sjn_auth_token', authToken);
+        closeAuthModal(); await loadAccount();
+      } catch (e) { error.innerText = e.message; error.classList.remove('hidden'); }
+    };
+
+    window.logoutUser = function() {
+      authToken = '';
+      localStorage.removeItem('sjn_auth_token');
+      currentUser = null;
+      loadAccount(); 
+    };
 
     function updateAccountUI() {
       const desktopBtnLabel = document.getElementById('account-button-label');
@@ -1766,8 +1747,8 @@
       const mobileUserName = document.getElementById('mobile-user-name');
 
       if (currentUser) {
-        desktopBtnLabel.innerText = escapeHtml(currentUser.name); // Removes the ugly glued text
-        desktopBtn.onclick = () => openAuthModal('profile'); // Opens the popup profile view
+        desktopBtnLabel.innerHTML = `${escapeHtml(currentUser.name)} <span class="text-red-400 ml-1 font-bold text-[10px] uppercase">(Sign Out)</span>`;
+        desktopBtn.onclick = logoutUser;
         if (mobileLoggedOut) mobileLoggedOut.classList.add('hidden');
         if (mobileLoggedIn) mobileLoggedIn.classList.remove('hidden');
         if (mobileUserName) mobileUserName.innerText = currentUser.name;
