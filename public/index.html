@@ -254,18 +254,23 @@
               </span>
             </div>
 
-            <!-- Desktop Account Button -->
-            <button onclick="openAuthModal()" id="account-button" class="px-3 py-1.5 bg-zinc-800 hover:bg-red-600/30 border border-zinc-700 text-xs font-bold text-gray-300 hover:text-white rounded-lg transition-all flex items-center gap-1.5">
-              <i class="fa-solid fa-user"></i><span id="account-button-label">Login / Register</span>
-            </button>
-          </div>
-
-          <!-- Mobile Menu Toggle -->
-          <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-sjn-border">
-            <i class="fa-solid fa-bars text-xl"></i>
-          </button>
-        </div>
-      </div>
+      <!-- Desktop Account Button & Dropdown -->
+            <div class="relative">
+              <button onclick="handleDesktopClick()" id="account-button" class="px-3 py-1.5 bg-zinc-800 hover:bg-red-600/30 border border-zinc-700 text-xs font-bold text-gray-300 hover:text-white rounded-lg transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-user"></i><span id="account-button-label">Login / Register</span>
+              </button>
+              
+              <!-- The Dropdown (Hidden until logged in & clicked) -->
+              <div id="desktop-dropdown" class="absolute right-0 mt-2 w-48 bg-zinc-900 border border-sjn-border rounded-xl shadow-xl z-50 hidden flex-col overflow-hidden">
+                <div class="px-4 py-3 border-b border-gray-800">
+                  <p class="text-[10px] text-gray-400 font-bold uppercase">Signed in as</p>
+                  <p id="dropdown-name" class="text-sm font-bold text-white truncate"></p>
+                </div>
+                <button onclick="logoutUser(); document.getElementById('desktop-dropdown').classList.add('hidden')" class="w-full text-left px-4 py-3 text-xs font-bold text-red-400 hover:bg-zinc-800 transition-all">
+                  <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Sign Out
+                </button>
+              </div>
+            </div>
     </header>
 
     <!-- Main Workspace (Scrollable Area) -->
@@ -1739,27 +1744,40 @@
       loadAccount(); 
     };
 
+   window.handleDesktopClick = function() {
+      if (currentUser) {
+        // If logged in, toggle the dropdown menu
+        const drop = document.getElementById('desktop-dropdown');
+        drop.classList.contains('hidden') ? drop.classList.remove('hidden') : drop.classList.add('hidden');
+      } else {
+        // If logged out, open the normal login modal
+        openAuthModal('login');
+      }
+    };
+
     function updateAccountUI() {
       const desktopBtnLabel = document.getElementById('account-button-label');
-      const desktopBtn = document.getElementById('account-button');
       const mobileLoggedOut = document.getElementById('mobile-account-logged-out');
       const mobileLoggedIn = document.getElementById('mobile-account-logged-in');
       const mobileUserName = document.getElementById('mobile-user-name');
 
       if (currentUser) {
-        desktopBtnLabel.innerHTML = `${escapeHtml(currentUser.name)} <span class="text-red-400 ml-1 font-bold text-[10px] uppercase">(Sign Out)</span>`;
-        desktopBtn.onclick = logoutUser;
+        // Show just the user's name on the button (removes the ugly "SIGN OUT" text)
+        desktopBtnLabel.innerText = currentUser.name;
+        document.getElementById('dropdown-name').innerText = currentUser.name;
+        
         if (mobileLoggedOut) mobileLoggedOut.classList.add('hidden');
         if (mobileLoggedIn) mobileLoggedIn.classList.remove('hidden');
         if (mobileUserName) mobileUserName.innerText = currentUser.name;
       } else {
         desktopBtnLabel.innerText = 'Login / Register';
-        desktopBtn.onclick = () => openAuthModal('login');
+        document.getElementById('desktop-dropdown').classList.add('hidden');
+        
         if (mobileLoggedOut) mobileLoggedOut.classList.remove('hidden');
         if (mobileLoggedIn) mobileLoggedIn.classList.add('hidden');
       }
     }
-
+    
     async function loadAccount() {
       if (!authToken) {
         currentUser = null;
