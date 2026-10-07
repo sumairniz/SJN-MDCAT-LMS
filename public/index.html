@@ -37,12 +37,8 @@
     ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #dc2626; }
     
-    .glow-red {
-      box-shadow: 0 0 20px rgba(220, 38, 38, 0.25);
-    }
-    .glow-red-lg {
-      box-shadow: 0 0 35px rgba(220, 38, 38, 0.4);
-    }
+    .glow-red { box-shadow: 0 0 20px rgba(220, 38, 38, 0.25); }
+    .glow-red-lg { box-shadow: 0 0 35px rgba(220, 38, 38, 0.4); }
     .glass-card {
       background: rgba(18, 18, 21, 0.85);
       backdrop-filter: blur(12px);
@@ -52,210 +48,143 @@
       background: linear-gradient(135deg, rgba(220, 38, 38, 0.15) 0%, rgba(9, 9, 11, 0.9) 100%);
       border: 1px solid rgba(220, 38, 38, 0.3);
     }
-      ::-webkit-scrollbar { width: 6px; height: 6px; }
-      ::-webkit-scrollbar-track { background: #09090b; }
-      ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
-      ::-webkit-scrollbar-thumb:hover { background: #dc2626; }
-      
-      .glow-red {
-        box-shadow: 0 0 20px rgba(220, 38, 38, 0.25);
-      }
-      .glow-red-lg {
-        box-shadow: 0 0 35px rgba(220, 38, 38, 0.4);
-      }
-      .glass-card {
-        background: rgba(18, 18, 21, 0.85);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.07);
-      }
-      .glass-red {
-        background: linear-gradient(135deg, rgba(220, 38, 38, 0.15) 0%, rgba(9, 9, 11, 0.9) 100%);
-        border: 1px solid rgba(220, 38, 38, 0.3);
-      }
 
-/* === COMPLETE LAYOUT & ALIGNMENT FIX === */
+    /* === CLEAN FLEX LAYOUT & COLLAPSE STYLES === */
+    /* Strict override to guarantee inactive modules never overlap */
+    .hidden { display: none !important; }
 
-    /* 1. Base Sidebar Styling */
-    #sidebar-nav {
-      transition: width 0.3s ease, padding 0.3s ease, transform 0.3s ease;
-      background-color: #09090b; 
-      border-right: 1px solid rgba(255, 255, 255, 0.05);
-      z-index: 60;
-    }
-
-    /* 2. Desktop-Only Sidebar & Workspace Rules (Fixes Mobile Break) */
+    /* Desktop Collapsed State Styles */
     @media (min-width: 768px) {
-      #sidebar-nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 256px;
-        overflow-y: auto;
-      }
-      
-      header, main.flex-1 {
-        transition: margin-left 0.3s ease, width 0.3s ease;
-        margin-left: 256px !important;
-        width: calc(100% - 256px) !important;
-      }
-
-      /* Desktop Collapsed State */
       body.sidebar-collapsed #sidebar-nav {
         width: 72px !important;
-        padding: 12px 6px !important;
       }
-      body.sidebar-collapsed header,
-      body.sidebar-collapsed main.flex-1 {
-        margin-left: 72px !important;
-        width: calc(100% - 72px) !important;
-      }
-      
-      /* Hide text when collapsed */
       body.sidebar-collapsed #sidebar-nav .nav-text,
       body.sidebar-collapsed #sidebar-nav .uppercase,
       body.sidebar-collapsed #sidebar-nav p,
-      body.sidebar-collapsed #sidebar-nav span:not(.fa-solid):not(.fa-regular) {
+      body.sidebar-collapsed #sidebar-nav span:not(.fa-solid):not(.fa-regular),
+      body.sidebar-collapsed #sidebar-nav .hidden-collapsed {
         display: none !important;
       }
       body.sidebar-collapsed #sidebar-nav .nav-tab {
         justify-content: center !important;
         padding: 12px !important;
       }
+      body.sidebar-collapsed #sidebar-nav::-webkit-scrollbar {
+        display: none;
+      }
     }
-    </style>
+  </style>
 </head>
-<body class="bg-sjn-black text-gray-100 font-sans antialiased min-h-screen flex flex-col selection:bg-red-600 selection:text-white">
 
-  <header class="sticky top-0 z-50 bg-sjn-card/90 backdrop-blur-md border-b border-sjn-border">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-       
-        <!-- Logo Branding -->
-        <div class="flex items-center space-x-3 cursor-pointer" onclick="switchModule('dashboard')">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-black p-0.5 glow-red flex items-center justify-center">
-            <div class="w-full h-full bg-sjn-black rounded-[10px] flex items-center justify-center">
-              <i class="fa-solid font-black text-red-500 text-xl">SJN</i>
-            </div>
-          </div>
-          <div>
-            <div class="flex items-center space-x-2">
-              <span class="text-lg font-black tracking-tight text-white">SJN MDCAT <span class="text-red-500">LMS PRO</span></span>
-              <span class="px-2 py-0.5 text-[10px] font-bold uppercase bg-red-600/20 text-red-400 border border-red-500/30 rounded-full">Academy Edition</span>
-            </div>
-            <p class="text-xs text-gray-400 hidden sm:block">Medical Entrance Learning Portal</p>
-          </div>
+<body class="bg-sjn-black text-gray-100 font-sans antialiased h-screen flex overflow-hidden selection:bg-red-600 selection:text-white">
+
+  <!-- ========================================== -->
+  <!-- LEFT: DEDICATED NAVIGATION SIDEBAR/DRAWER  -->
+  <!-- ========================================== -->
+  <aside id="sidebar-nav" class="fixed inset-y-0 right-0 z-[70] w-72 bg-sjn-card border-l border-sjn-border transform translate-x-full transition-all duration-300 md:relative md:left-0 md:translate-x-0 md:w-64 md:border-r md:border-l-0 flex flex-col flex-shrink-0 h-screen overflow-y-auto">
+    
+    <!-- Mobile Drawer Header & Close Button -->
+    <div class="md:hidden flex items-center justify-between p-4 border-b border-gray-800">
+      <span class="text-gray-100 font-black tracking-tight text-lg">SJN MDCAT</span>
+      <button onclick="closeMobileMenu()" class="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-sjn-border transition-all" title="Close Menu">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer Account Section -->
+    <div class="md:hidden flex flex-col border-b border-gray-800 p-4 space-y-3">
+      <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">Account</div>
+      
+      <!-- Logged Out Mobile View -->
+      <div id="mobile-account-logged-out" class="block">
+        <button onclick="closeMobileMenu(); openAuthModal('login')" class="w-full py-2.5 bg-zinc-800 hover:bg-red-600/30 border border-zinc-700 text-xs font-bold text-gray-300 hover:text-white rounded-lg transition-all flex items-center justify-center gap-2">
+          <i class="fa-solid fa-user"></i> Login / Register
+        </button>
+      </div>
+      
+      <!-- Logged In Mobile View -->
+      <div id="mobile-account-logged-in" class="hidden space-y-2">
+        <div class="flex items-center space-x-3 text-white text-sm font-bold bg-zinc-900 p-3 rounded-lg border border-sjn-border">
+          <i class="fa-solid fa-circle-user text-red-500 text-2xl"></i>
+          <span id="mobile-user-name">Student Name</span>
         </div>
-
-        <!-- Student Quick Status Header (Starts at 0) -->
-        <div class="hidden md:flex items-center space-x-6 text-xs">
-          <div class="bg-sjn-black/60 px-3 py-1.5 rounded-lg border border-sjn-border flex items-center space-x-2">
-            <span class="text-red-400"><i class="fa-solid fa-list-check"></i></span>
-            <span class="text-gray-400">MCQs:</span>
-            <span id="nav-mcqs-count" class="font-bold text-white">0</span>
-          </div>
-
-          <div class="bg-sjn-black/60 px-3 py-1.5 rounded-lg border border-sjn-border flex items-center space-x-2">
-            <span class="text-emerald-400"><i class="fa-solid fa-bullseye"></i></span>
-            <span class="text-gray-400">Accuracy:</span>
-            <span id="nav-accuracy" class="font-bold text-emerald-400">0%</span>
-          </div>
-
-          <div class="bg-sjn-black/60 px-3 py-1.5 rounded-lg border border-sjn-border flex items-center space-x-2">
-            <span class="text-amber-400"><i class="fa-solid fa-fire"></i></span>
-            <span class="text-gray-400">Streak:</span>
-            <span id="nav-streak" class="font-bold text-amber-400">0 Days</span>
-          </div>
-
-          <div class="bg-gradient-to-r from-red-950 to-sjn-card px-3 py-1.5 rounded-lg border border-red-800/40 flex items-center space-x-2">
-            <span id="nav-rank-badge" class="font-bold text-red-400 flex items-center gap-1.5">
-              <span>Beginner</span> 🔴
-            </span>
-          </div>
-
-          <button onclick="openAuthModal()" id="account-button" class="px-3 py-1.5 bg-zinc-800 hover:bg-red-600/30 border border-zinc-700 text-xs font-bold text-gray-300 hover:text-white rounded-lg transition-all flex items-center gap-1.5">
-            <i class="fa-solid fa-user"></i><span id="account-button-label">Login / Register</span>
-          </button>
-        </div>
-
-        <!-- Mobile Menu Toggle -->
-        <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-sjn-border">
-          <i class="fa-solid fa-bars text-xl"></i>
+        <button onclick="closeMobileMenu(); logoutUser()" class="w-full py-2.5 bg-red-950/40 hover:bg-red-900 border border-red-900/50 text-xs font-bold text-red-300 hover:text-white rounded-lg transition-all flex items-center justify-center gap-2">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
         </button>
       </div>
     </div>
-  </header>
 
-<div class="flex-1 w-full px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row gap-6">
-
-    <aside id="sidebar-nav" class="w-full md:w-64 flex-shrink-0 space-y-2 hidden md:block">
-      <div class="flex items-center justify-between p-4 mb-2 border-b border-gray-800">
+    <!-- Desktop Sidebar Collapse Toggle Button -->
+    <div class="hidden md:flex items-center justify-between p-4 mb-2 border-b border-gray-800">
       <span class="nav-text text-gray-400 font-bold uppercase text-xs tracking-wider">Menu</span>
       <button onclick="toggleSidebarCollapse()" class="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-sjn-border transition-all" title="Toggle Sidebar">
         <i class="fa-solid fa-bars-staggered text-lg"></i>
       </button>
     </div>
-      <div class="bg-sjn-card rounded-2xl p-3 border border-sjn-border space-y-1">
-        <div class="px-3 py-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Academy Navigation</div>
-        
-        <button onclick="switchModule('dashboard')" id="tab-dashboard" class="nav-tab active w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all bg-red-600 text-white shadow-lg shadow-red-600/20">
-          <div class="flex items-center space-x-3">
-            <i class="fa-solid fa-chart-pie w-5"></i>
-            <span>Dashboard</span>
-          </div>
-          <span class="text-xs opacity-75">📊</span>
-        </button>
 
-        <button onclick="switchModule('wizard')" id="tab-wizard" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
-          <div class="flex items-center space-x-3">
-            <i class="fa-solid fa-crosshair w-5 text-red-500"></i>
-            <span>Create Test</span>
-          </div>
-          <span class="text-xs text-red-400 font-mono">PRACTICE</span>
-        </button>
+    <!-- Navigation Links -->
+    <div class="p-3 space-y-1">
+      <div class="px-3 py-2 text-[11px] font-bold text-gray-400 uppercase tracking-wider">Academy Navigation</div>
+      
+      <button onclick="switchModule('dashboard')" id="tab-dashboard" class="nav-tab active w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all bg-red-600 text-white shadow-lg shadow-red-600/20">
+        <div class="flex items-center space-x-3">
+          <i class="fa-solid fa-chart-pie w-5"></i>
+          <span>Dashboard</span>
+        </div>
+        <span class="text-xs opacity-75">📊</span>
+      </button>
 
-        <button onclick="switchModule('courses')" id="tab-courses" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
-          <div class="flex items-center space-x-3">
-            <i class="fa-solid fa-book-open w-5 text-blue-400"></i>
-            <span>My Courses</span>
-          </div>
-          <span class="text-xs text-gray-500">📚</span>
-        </button>
+      <button onclick="switchModule('wizard')" id="tab-wizard" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
+        <div class="flex items-center space-x-3">
+          <i class="fa-solid fa-file-signature w-5 text-red-500"></i>
+          <span>Create Test</span>
+        </div>
+        <span class="text-xs text-red-400 font-mono hidden-collapsed">PRACTICE</span>
+      </button>
 
-        <button onclick="switchModule('pastpapers')" id="tab-pastpapers" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
-          <div class="flex items-center space-x-3">
-            <i class="fa-solid fa-scroll w-5 text-amber-400"></i>
-            <span>Past Papers</span>
-          </div>
-          <span class="text-xs text-gray-500">📜</span>
-        </button>
+      <button onclick="switchModule('courses')" id="tab-courses" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
+        <div class="flex items-center space-x-3">
+          <i class="fa-solid fa-book-open w-5 text-blue-400"></i>
+          <span>My Courses</span>
+        </div>
+        <span class="text-xs text-gray-500">📚</span>
+      </button>
 
-        <button onclick="switchModule('resources')" id="tab-resources" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
-          <div class="flex items-center space-x-3">
-            <i class="fa-solid fa-bolt w-5 text-yellow-400"></i>
-            <span>Academy Resources</span>
-          </div>
-          <span class="text-xs text-yellow-400">⚡</span>
-        </button>
+      <button onclick="switchModule('pastpapers')" id="tab-pastpapers" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
+        <div class="flex items-center space-x-3">
+          <i class="fa-solid fa-scroll w-5 text-amber-400"></i>
+          <span>Past Papers</span>
+        </div>
+        <span class="text-xs text-gray-500">📜</span>
+      </button>
 
-        <button onclick="switchModule('history')" id="tab-history" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
-          <div class="flex items-center space-x-3">
-            <i class="fa-solid fa-clock-rotate-left w-5 text-emerald-400"></i>
-            <span>Test History</span>
-          </div>
-          <span class="text-xs text-gray-500">📈</span>
-        </button>
+      <button onclick="switchModule('resources')" id="tab-resources" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
+        <div class="flex items-center space-x-3">
+          <i class="fa-solid fa-bolt w-5 text-yellow-400"></i>
+          <span>Academy Resources</span>
+        </div>
+        <span class="text-xs text-yellow-400">⚡</span>
+      </button>
 
-        <button onclick="switchModule('aitutor')" id="tab-aitutor" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
-          <div class="flex items-center space-x-3">
-            <i class="fa-solid fa-robot w-5 text-purple-400"></i>
-            <span>AI Doubt Solver</span>
-          </div>
-          <span class="text-xs bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-mono">AI</span>
-        </button>
-      </div>
+      <button onclick="switchModule('history')" id="tab-history" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
+        <div class="flex items-center space-x-3">
+          <i class="fa-solid fa-clock-rotate-left w-5 text-emerald-400"></i>
+          <span>Test History</span>
+        </div>
+        <span class="text-xs text-gray-500">📈</span>
+      </button>
 
-      <!-- Quick AI Doubt Card -->
+      <button onclick="switchModule('aitutor')" id="tab-aitutor" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
+        <div class="flex items-center space-x-3">
+          <i class="fa-solid fa-robot w-5 text-purple-400"></i>
+          <span>AI Doubt Solver</span>
+        </div>
+        <span class="text-xs bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-mono hidden-collapsed">AI</span>
+      </button>
+    </div>
+
+    <!-- Quick AI Doubt Card (Hides on desktop collapse) -->
+    <div class="hidden-collapsed mt-auto p-4">
       <div class="glass-red rounded-2xl p-4 space-y-3">
         <div class="flex items-center space-x-2 text-red-400 font-bold text-xs uppercase tracking-wide">
           <i class="fa-solid fa-brain"></i>
@@ -267,11 +196,81 @@
           <i class="fa-solid fa-arrow-right text-[10px]"></i>
         </button>
       </div>
-    </aside>
+    </div>
+  </aside>
 
-    <!-- Main Workspace -->
-    <main class="flex-1 flex flex-col space-y-6 min-w-0">
+  <!-- Mobile Overlay Backdrop -->
+  <div id="mobile-backdrop" onclick="closeMobileMenu()" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] hidden md:hidden transition-opacity"></div>
 
+  <!-- ========================================== -->
+  <!-- RIGHT: MAIN WORKSPACE CONTAINER            -->
+  <!-- ========================================== -->
+  <div class="flex-1 flex flex-col h-screen min-w-0 overflow-hidden bg-sjn-black">
+    
+    <!-- Top Header -->
+    <header class="sticky top-0 z-50 bg-sjn-card/90 backdrop-blur-md border-b border-sjn-border flex-shrink-0">
+      <div class="w-full px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          
+          <!-- Logo Branding -->
+          <div class="flex items-center space-x-3 cursor-pointer" onclick="switchModule('dashboard')">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-black p-0.5 glow-red flex items-center justify-center">
+              <div class="w-full h-full bg-sjn-black rounded-[10px] flex items-center justify-center">
+                <i class="fa-solid font-black text-red-500 text-xl">SJN</i>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="text-lg font-black tracking-tight text-white">SJN MDCAT <span class="text-red-500">LMS PRO</span></span>
+                <span class="px-2 py-0.5 text-[10px] font-bold uppercase bg-red-600/20 text-red-400 border border-red-500/30 rounded-full hidden sm:inline-block">Academy Edition</span>
+              </div>
+              <p class="text-xs text-gray-400 hidden sm:block">Medical Entrance Learning Portal</p>
+            </div>
+          </div>
+
+          <!-- Student Quick Status Header (Desktop Only) -->
+          <div class="hidden md:flex items-center space-x-6 text-xs">
+            <div class="bg-sjn-black/60 px-3 py-1.5 rounded-lg border border-sjn-border flex items-center space-x-2">
+              <span class="text-red-400"><i class="fa-solid fa-list-check"></i></span>
+              <span class="text-gray-400">MCQs:</span>
+              <span id="nav-mcqs-count" class="font-bold text-white">0</span>
+            </div>
+
+            <div class="bg-sjn-black/60 px-3 py-1.5 rounded-lg border border-sjn-border flex items-center space-x-2">
+              <span class="text-emerald-400"><i class="fa-solid fa-bullseye"></i></span>
+              <span class="text-gray-400">Accuracy:</span>
+              <span id="nav-accuracy" class="font-bold text-emerald-400">0%</span>
+            </div>
+
+            <div class="bg-sjn-black/60 px-3 py-1.5 rounded-lg border border-sjn-border flex items-center space-x-2">
+              <span class="text-amber-400"><i class="fa-solid fa-fire"></i></span>
+              <span class="text-gray-400">Streak:</span>
+              <span id="nav-streak" class="font-bold text-amber-400">0 Days</span>
+            </div>
+
+            <div class="bg-gradient-to-r from-red-950 to-sjn-card px-3 py-1.5 rounded-lg border border-red-800/40 flex items-center space-x-2">
+              <span id="nav-rank-badge" class="font-bold text-red-400 flex items-center gap-1.5">
+                <span>Beginner</span> 🔴
+              </span>
+            </div>
+
+            <!-- Desktop Account Button -->
+            <button onclick="openAuthModal()" id="account-button" class="px-3 py-1.5 bg-zinc-800 hover:bg-red-600/30 border border-zinc-700 text-xs font-bold text-gray-300 hover:text-white rounded-lg transition-all flex items-center gap-1.5">
+              <i class="fa-solid fa-user"></i><span id="account-button-label">Login / Register</span>
+            </button>
+          </div>
+
+          <!-- Mobile Menu Toggle -->
+          <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-sjn-border">
+            <i class="fa-solid fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace (Scrollable Area) -->
+    <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative scroll-smooth bg-sjn-black">
+      
       <section id="module-dashboard" class="module-view space-y-6">
         <!-- Banner Header -->
         <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-950 via-sjn-card to-zinc-900 border border-red-900/40 p-6 md:p-8">
@@ -597,7 +596,6 @@
               <i class="fa-solid fa-rocket"></i><span>START MCQs PRACTICE</span>
             </button>
           </div>
-          </div>
         </div>
       </section>
 
@@ -727,7 +725,7 @@
             <div id="courses-container" class="space-y-2 bg-zinc-950/40 rounded-xl border border-sjn-border p-3 overflow-y-auto max-h-[650px]"></div>
             <div id="course-viewer" class="bg-zinc-950/50 rounded-xl border border-sjn-border p-5 overflow-y-auto">
               <div class="h-full min-h-[450px] flex items-center justify-center text-center text-gray-500">
-                <div><i class="fa-solid fa-book-open text-4xl mb-3"></i><p class="text-sm">Select a course to open its content here.</p></div>
+                <div><i class="fa-solid fa-book-open text-4xl mb-3"></i><p class="text-sm">Select a course to open it here.</p></div>
               </div>
             </div>
           </div>
@@ -811,7 +809,7 @@
               </h2>
               <p class="text-xs text-gray-400 mt-1">Ask questions or clarify textbook concepts instantly.</p>
             </div>
-            <span class="px-2.5 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-full text-xs font-bold">
+            <span class="px-2.5 py-1 bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-full text-xs font-bold hidden sm:inline-block">
               Gemini 3 Flash
             </span>
           </div>
@@ -825,7 +823,7 @@
 
           <!-- Input Controls -->
           <div class="flex gap-2">
-            <input type="text" id="ai-input-text" placeholder="Ask any question (e.g. 'Explain Krebs Cycle ATP yield in detail')..." class="flex-1 bg-zinc-900 border border-sjn-border rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-purple-500">
+            <input type="text" id="ai-input-text" placeholder="Ask any question (e.g. 'Explain Krebs Cycle')..." class="flex-1 bg-zinc-900 border border-sjn-border rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-purple-500">
             <button onclick="sendAiDoubt()" class="px-5 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs rounded-xl transition-all flex items-center space-x-2">
               <span>Send</span>
               <i class="fa-solid fa-paper-plane"></i>
@@ -833,18 +831,18 @@
           </div>
         </div>
       </section>
+      
+      <!-- Footer Reminder -->
+      <footer class="bg-sjn-card border-t border-sjn-border py-4 mt-8 flex-shrink-0">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+          <p class="text-[11px] text-gray-400">
+            © SJN MDCAT LMS Portal — Production Entrance Exam Engine for Medical Academies.
+          </p>
+        </div>
+      </footer>
 
     </main>
   </div>
-
-  <!-- Footer Navigation Reminder -->
-  <footer class="bg-sjn-card border-t border-sjn-border py-4 mt-auto">
-    <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
-      <p class="text-[11px] text-gray-400">
-        © SJN MDCAT LMS Portal — Production Entrance Exam Engine for Medical Academies.
-      </p>
-    </div>
-  </footer>
 
   <!-- JAVASCRIPT ENGINE -->
   <script>
@@ -854,14 +852,12 @@
     // =========================================================================
 
     // 1. QUESTION BANK ARRAY
-    // Production content is loaded from the server database.
-    // The only permitted bank is Past Papers Question Bank and it starts EMPTY.
     let mcqQuestionBank = [];
 
-    // 2. COURSES ARRAY (Starts empty - Add courses here in code or via Admin modal)
+    // 2. COURSES ARRAY
     let customCourses = [];
 
-    // 3. PAST PAPERS ARRAY (Starts empty - Add past paper papers here in code or via Admin modal)
+    // 3. PAST PAPERS ARRAY 
     let pastPapersList = [];
 
     // PMDC Syllabus Map
@@ -888,7 +884,7 @@
       }
     };
 
-    // Global Student Performance State (Starts at 0)
+    // Global Student Performance State
     let sjnProfile = JSON.parse(localStorage.getItem('sjn_student_profile')) || {
       mcqsAttempted: 0,
       correctAnswers: 0,
@@ -903,7 +899,6 @@
       },
       historyLogs: []
     };
-
 
     // Wizard State
     let wizardSelection = {
@@ -925,6 +920,34 @@
     let userAnswers = [];
     let quizTimerInterval = null;
     let bookmarkedMcqs = JSON.parse(localStorage.getItem('sjn_bookmarked_mcqs')) || [];
+
+    // ==========================================
+    // MOBILE MENU LOGIC
+    // ==========================================
+    window.toggleMobileMenu = function() {
+      const sidebar = document.getElementById('sidebar-nav');
+      const backdrop = document.getElementById('mobile-backdrop');
+      const isClosed = sidebar.classList.contains('translate-x-full');
+      
+      if (isClosed) {
+        sidebar.classList.remove('hidden'); 
+        setTimeout(() => {
+          sidebar.classList.remove('translate-x-full');
+          backdrop.classList.remove('hidden');
+          document.body.classList.add('overflow-hidden');
+        }, 10);
+      } else {
+        closeMobileMenu();
+      }
+    };
+
+    window.closeMobileMenu = function() {
+      const sidebar = document.getElementById('sidebar-nav');
+      const backdrop = document.getElementById('mobile-backdrop');
+      sidebar.classList.add('translate-x-full');
+      backdrop.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    };
 
     window.onload = function () {
       updateGlobalProfileUI();
@@ -949,10 +972,11 @@
         activeTab.classList.remove('text-gray-300');
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function toggleMobileMenu() {
-      document.getElementById('sidebar-nav').classList.toggle('hidden');
+      
+      // Auto-close mobile drawer when navigating
+      if (window.innerWidth < 768 && typeof closeMobileMenu === 'function') {
+        closeMobileMenu();
+      }
     }
 
     function setWizardStep(stepNum) {
@@ -1478,7 +1502,7 @@
         return;
       }
 
-      pastPapersList.forEach(p => {
+      pastPapersList.forEach((p,i) => {
         const div = document.createElement('div');
         div.className = "bg-zinc-900 p-4 rounded-xl border border-sjn-border hover:border-amber-500 transition-all cursor-pointer space-y-2";
         div.onclick = () => {
@@ -1635,9 +1659,8 @@
 
   </script>
 
-
   <!-- Student Authentication -->
-  <div id="auth-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] hidden items-center justify-center p-4">
+  <div id="auth-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[80] hidden items-center justify-center p-4">
     <div class="bg-sjn-card border border-sjn-border rounded-2xl max-w-md w-full p-6 space-y-5">
       <div class="flex items-center justify-between">
         <div><span class="text-xs text-red-400 font-bold uppercase">Student Account</span><h3 id="auth-title" class="text-xl font-black text-white">Login</h3></div>
@@ -1709,23 +1732,51 @@
       } catch (e) { error.innerText = e.message; error.classList.remove('hidden'); }
     };
 
+    window.logoutUser = function() {
+      authToken = '';
+      localStorage.removeItem('sjn_auth_token');
+      currentUser = null;
+      loadAccount(); 
+    };
+
+    function updateAccountUI() {
+      const desktopBtnLabel = document.getElementById('account-button-label');
+      const desktopBtn = document.getElementById('account-button');
+      const mobileLoggedOut = document.getElementById('mobile-account-logged-out');
+      const mobileLoggedIn = document.getElementById('mobile-account-logged-in');
+      const mobileUserName = document.getElementById('mobile-user-name');
+
+      if (currentUser) {
+        desktopBtnLabel.innerHTML = `${escapeHtml(currentUser.name)} <span class="text-red-400 ml-1 font-bold text-[10px] uppercase">(Sign Out)</span>`;
+        desktopBtn.onclick = logoutUser;
+        if (mobileLoggedOut) mobileLoggedOut.classList.add('hidden');
+        if (mobileLoggedIn) mobileLoggedIn.classList.remove('hidden');
+        if (mobileUserName) mobileUserName.innerText = currentUser.name;
+      } else {
+        desktopBtnLabel.innerText = 'Login / Register';
+        desktopBtn.onclick = () => openAuthModal('login');
+        if (mobileLoggedOut) mobileLoggedOut.classList.remove('hidden');
+        if (mobileLoggedIn) mobileLoggedIn.classList.add('hidden');
+      }
+    }
+
     async function loadAccount() {
       if (!authToken) {
         currentUser = null;
-        document.getElementById('account-button-label').innerText = 'Login / Register';
+        updateAccountUI();
         return;
       }
       try {
         const data = await api('/me');
         currentUser = data.user;
-        document.getElementById('account-button-label').innerText = currentUser.name;
         sjnProfile.mcqsAttempted = Number(data.stats.total || 0);
         sjnProfile.correctAnswers = Number(data.stats.correct || 0);
         bookmarkedMcqs = data.bookmarks || [];
         updateGlobalProfileUI();
+        updateAccountUI();
       } catch {
         authToken = ''; localStorage.removeItem('sjn_auth_token'); currentUser = null;
-        document.getElementById('account-button-label').innerText = 'Login / Register';
+        updateAccountUI();
       }
     }
 
@@ -1736,7 +1787,6 @@
         customCourses = Array.isArray(data.courses) ? data.courses : [];
         pastPapersList = Array.isArray(data.pastPapers) ? data.pastPapers : [];
         window.sjnResources = Array.isArray(data.resources) ? data.resources : [];
-        // The public LMS intentionally exposes only this one bank.
         wizardSelection.bank = 'Past Papers Question Bank';
         wizardSelection.selectedSubjects = getAvailableSubjects();
         wizardSelection.subject = wizardSelection.selectedSubjects.length === 1 ? wizardSelection.selectedSubjects[0] : 'All Subjects';
@@ -1799,7 +1849,6 @@
     };
     function openResource(id){const r=(window.sjnResources||[]).find((x,i)=>String(x.id??i)===String(id)) || (window.sjnResources||[])[0]; if(!r)return; selectedResourceId=r.id; const viewer=document.getElementById('resource-viewer'); const safe=escapeHtml(r.url); if((r.type||'pdf').toLowerCase()==='pdf') viewer.innerHTML=`<iframe src="${safe}" class="w-full h-[680px] bg-white"></iframe>`; else viewer.innerHTML=`<div class="p-6"><h3 class="text-xl font-black text-white">${escapeHtml(r.title)}</h3><p class="text-sm text-gray-400 mt-2">${escapeHtml(r.description||'')}</p><a href="${safe}" target="_blank" rel="noopener" class="inline-block mt-5 px-4 py-2 bg-yellow-600 rounded-lg text-white text-xs font-bold">Open Resource</a></div>`;}
 
-    // Use only the single official bank and actual imported MCQs.
     window.getFilteredQuestionPool = function() {
       const selectedSubjects = wizardSelection.selectedSubjects?.length ? wizardSelection.selectedSubjects : getAvailableSubjects();
       return mcqQuestionBank.filter(q => {
@@ -1870,10 +1919,10 @@
     };
   })();
   </script>
-</body>
   <script>
   window.toggleSidebarCollapse = function() {
     document.body.classList.toggle('sidebar-collapsed');
   };
-</script>
+  </script>
+</body>
 </html>
