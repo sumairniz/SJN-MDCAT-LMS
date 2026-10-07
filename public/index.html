@@ -248,19 +248,19 @@
               <span id="nav-streak" class="font-bold text-amber-400">0 Days</span>
             </div>
 
-            <div class="bg-gradient-to-r from-red-950 to-sjn-card px-3 py-1.5 rounded-lg border border-red-800/40 flex items-center space-x-2">
+           <div class="bg-gradient-to-r from-red-950 to-sjn-card px-3 py-1.5 rounded-lg border border-red-800/40 flex items-center space-x-2">
               <span id="nav-rank-badge" class="font-bold text-red-400 flex items-center gap-1.5">
                 <span>Beginner</span> 🔴
               </span>
             </div>
 
-            <!-- Desktop Account Button & Dropdown -->
+            <!-- Desktop Account Button & Dropdown (Now safely inside desktop view) -->
             <div class="relative">
               <button onclick="handleDesktopClick()" id="account-button" class="px-3 py-1.5 bg-zinc-800 hover:bg-red-600/30 border border-zinc-700 text-xs font-bold text-gray-300 hover:text-white rounded-lg transition-all flex items-center gap-1.5">
                 <i class="fa-solid fa-user"></i><span id="account-button-label">Login / Register</span>
               </button>
               
-              <!-- The Dropdown (Hidden until logged in & clicked) -->
+              <!-- The Dropdown -->
               <div id="desktop-dropdown" class="absolute right-0 mt-2 w-48 bg-zinc-900 border border-sjn-border rounded-xl shadow-xl z-50 hidden flex-col overflow-hidden">
                 <div class="px-4 py-3 border-b border-gray-800">
                   <p class="text-[10px] text-gray-400 font-bold uppercase">Signed in as</p>
@@ -271,6 +271,8 @@
                 </button>
               </div>
             </div>
+
+          </div> <!-- Closes the hidden md:flex desktop container -->
 
           <!-- Mobile Menu Toggle -->
           <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-sjn-border">
