@@ -73,7 +73,7 @@
         border: 1px solid rgba(220, 38, 38, 0.3);
       }
 
-  /* === COMPLETE LAYOUT & ALIGNMENT FIX === */
+/* === COMPLETE LAYOUT & ALIGNMENT FIX === */
 
     /* 1. Base Sidebar Styling */
     #sidebar-nav {
@@ -122,23 +122,6 @@
         justify-content: center !important;
         padding: 12px !important;
       }
-    }
-
-    /* 3. Global Workspace & Module Alignment (Fixes Overlaps & Middle/Bottom Positioning) */
-    main.flex-1 {
-      display: flex !important;
-      flex-direction: column !important;
-      justify-content: flex-start !important; /* Forces content to the exact top */
-      align-items: flex-start !important;     /* Forces content to the exact left */
-      position: relative;
-      height: 100%;
-    }
-
-    /* Ensure active modules start at the top and stretch fully */
-    main.flex-1 > div {
-      width: 100% !important;
-      margin-top: 0 !important;
-      align-self: flex-start !important;
     }
     </style>
 </head>
