@@ -2947,14 +2947,24 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     document.body.classList.toggle('sidebar-collapsed');
   };
     
-    // Restore dashboard stats from local storage on page load
-window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        if (typeof updateGlobalProfileUI === 'function') {
-            updateGlobalProfileUI();
-        }
-    }, 100);
-});
+   // Restore profile data AND dashboard stats from local storage on page load
+    window.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+            try {
+                const savedData = localStorage.getItem('sjn_student_profile');
+                if (savedData) {
+                    // Pull the saved numbers from storage and load them into memory
+                    Object.assign(sjnProfile, JSON.parse(savedData)); 
+                }
+                if (typeof updateGlobalProfileUI === 'function') {
+                    // Now update the UI using the loaded numbers
+                    updateGlobalProfileUI(); 
+                }
+            } catch (e) {
+                console.error("Error restoring stats:", e);
+            }
+        }, 200); // 200ms delay to ensure page is ready
+    });
     
   </script>
 </body>
