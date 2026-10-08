@@ -2277,8 +2277,8 @@
     function renderCurrentQuestion() {
       const q = currentQuizList[currentMcqIndex];
       document.getElementById('quiz-subject-badge').innerText = q.subject;
-     const sourceBadge = q.source ? `<span class="ml-3 px-2 py-0.5 bg-amber-950/80 border border-amber-700/50 text-amber-400 rounded text-[11px] font-bold uppercase tracking-wider inline-flex items-center gap-1"><i class="fa-solid fa-certificate"></i> ${q.source}</span>` : '';
-document.getElementById('quiz-chapter-tag').innerHTML = `${q.chapter || 'Chapter'} | ${q.topic || 'General Topic'} ${sourceBadge}`;
+    const sourceBadge = q.source ? `<span class="shrink-0 px-2 py-0.5 bg-amber-950/80 border border-amber-700/50 text-amber-400 rounded text-[11px] font-bold uppercase tracking-wider inline-flex items-center gap-1"><i class="fa-solid fa-certificate"></i> ${q.source}</span>` : '';
+document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items-center gap-2 overflow-hidden w-full"><span class="truncate">${q.chapter || 'Chapter'} | ${q.topic || 'General Topic'}</span>${sourceBadge}</span>`;
       document.getElementById('quiz-counter').innerText = `Question ${currentMcqIndex + 1} of ${currentQuizList.length}`;
       document.getElementById('quiz-question-text').innerText = q.question;
 
