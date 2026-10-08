@@ -2805,7 +2805,7 @@
     async function loadContent() {
       try {
         const data = await api('/content');
-        mcqQuestionBank = Array.isArray(data.mcqs) ? data.mcqs : [];
+        if (Array.isArray(data.mcqs) && data.mcqs.length > 0) mcqQuestionBank = data.mcqs;
         customCourses = Array.isArray(data.courses) ? data.courses : [];
         pastPapersList = Array.isArray(data.pastPapers) ? data.pastPapers : [];
         window.sjnResources = Array.isArray(data.resources) ? data.resources : [];
