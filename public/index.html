@@ -2946,6 +2946,16 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
   window.toggleSidebarCollapse = function() {
     document.body.classList.toggle('sidebar-collapsed');
   };
+    
+    // Restore dashboard stats from local storage on page load
+window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        if (typeof updateGlobalProfileUI === 'function') {
+            updateGlobalProfileUI();
+        }
+    }, 100);
+});
+    
   </script>
 </body>
 </html>
