@@ -332,7 +332,7 @@
 
   <footer class="site-footer"><div class="container footer-inner"><div><div class="footer-brand">SJN MDCAT <span>ACADEMY</span></div><div class="footer-sub">SJN, A step today for a better tomorrow.</div></div><div class="footer-right">Medical Entrance Learning Portal<br>Designed for aspiring doctors</div></div></footer>
 
-  <!-- Front-end AUTH preview. Does not store, send, or verify credentials. -->
+  <!-- Student authentication: uses the existing SJN LMS API. -->
   <div class="modal-overlay" id="authOverlay" aria-hidden="true">
     <section class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle" aria-describedby="authIntro">
       <button class="close-modal" id="closeAuth" type="button" aria-label="Close dialog">×</button>
@@ -342,25 +342,62 @@
       <form id="authForm">
         <div class="auth-field" id="nameField" hidden><label for="studentName">Full name</label><input id="studentName" name="name" type="text" autocomplete="name" placeholder="Enter your full name" /></div>
         <div class="auth-field"><label for="studentEmail">Email address</label><input id="studentEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required /></div>
-        <div class="auth-field"><label for="studentPassword">Password</label><input id="studentPassword" name="password" type="password" autocomplete="current-password" minlength="6" placeholder="Enter your password" required /></div>
+        <div class="auth-field"><label for="studentPassword">Password</label><input id="studentPassword" name="password" type="password" autocomplete="current-password" minlength="8" placeholder="Enter your password" required /></div>
         <button class="btn btn-primary auth-submit" type="submit" id="authSubmit">Sign In</button>
         <p class="auth-response" id="authResponse" role="status" aria-live="polite"></p>
       </form>
-      <p class="auth-notice">UI preview only: connect this page to your existing website's secure Sign In / Register system before accepting real accounts.</p>
+      <p class="auth-notice">Use your existing SJN MDCAT Academy account to access the student dashboard. New student? Create your account here.</p>
     </section>
   </div>
 
   <script>
-    /*
-      CHANGE ONLY THESE TWO URLs once you know your existing auth routes.
-      Examples: signInUrl: '/login', registerUrl: '/register'
-      - Leave empty to view the front-end modal preview.
-      - Do not point directly to a protected dashboard as a substitute for authentication.
-    */
-    const AUTH_URLS = {
-      signInUrl: '',
-      registerUrl: ''
+    // SAME SERVER, SAME LOGIN SYSTEM AS YOUR ORIGINAL index.html.
+    // IMPORTANT: Keep this dashboard URL pointing at index.html, not '/'.
+    // When Vercel serves landing.html at '/', '/' would create a redirect loop.
+    const SJN_AUTH = {
+      apiBase: '/api',
+      dashboard: '/index.html',
+      tokenKey: 'sjn_auth_token'
     };
+
+    // Verify an existing session with /api/me before readirecting.
+    // A token existing in storage is not proof that the student is logged in.
+    let authSubmitting = false;
+    async function checkSavedSession() {
+      let token;
+      try {
+        token = localStorage.getItem(SJN_AUTH.tokenKey);
+      } catch (error) {
+        console.warn('Browser storage is unavailable:', error);
+        return;
+      }
+      if (!token) return;
+      try {
+        const r = await fetch(SJN_AUTH.apiBase + '/me', {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${token}` },
+          cache: 'no-store'
+        });
+        if (authSubmitting) return;
+        if (r.ok) {
+          const data = await r.json().catch(() => ({}));
+          // Match your original LMS: successful /me has a data.user object.
+          if (data.user && localStorage.getItem(SJN_AUTH.tokenKey) === token) {
+            window.location.replace(SJN_AUTH.dashboard);
+            return;
+          }
+        }
+        if (r.status === 401 || r.status === 403) {
+          if (localStorage.getItem(SJN_AUTH.tokenKey) === token) {
+            localStorage.removeItem(SJN_AUTH.tokenKey);
+          }
+        }
+      } catch (error) {
+        // An offline or temporarily unavailable API must not cause redirect loops.
+        console.warn('Session verification unavailable:', error);
+      }
+    }
+    checkSavedSession();
 
     const overlay = document.getElementById('authOverlay');
     const modal = overlay.querySelector('.auth-modal');
@@ -391,11 +428,6 @@
       response.textContent = '';
     }
     function openAuth(mode) {
-      const destination = mode === 'register' ? AUTH_URLS.registerUrl : AUTH_URLS.signInUrl;
-      if (destination && destination.trim()) {
-        window.location.assign(destination);
-        return;
-      }
       returnFocus = document.activeElement;
       switchAuth(mode);
       overlay.classList.add('is-open');
@@ -431,12 +463,42 @@
         else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
       }
     });
-    authForm.addEventListener('submit', event => {
+    authForm.addEventListener('submit', async event => {
       event.preventDefault();
-      // Front-end demonstration only. Never pretend to log the student in.
-      // Connect to your EXISTING authentication handler (Firebase, Supabase, server, etc.).
-      // Do not log, store, or transmit password from this example.
-      response.textContent = 'This is a preview form. Please connect your website\'s existing ' + (activeMode === 'register' ? 'registration' : 'sign-in') + ' system to activate it.';
+      if (authSubmitting) return;
+      authSubmitting = true;
+      const registration = activeMode === 'register';
+      const submitButton = document.getElementById('authSubmit');
+      submitButton.disabled = true;
+      response.textContent = registration ? 'Creating your account…' : 'Signing in…';
+
+      const payload = {
+        email: emailInput.value.trim(),
+        password: passwordInput.value
+      };
+      if (registration) payload.name = nameInput.value.trim();
+
+      try {
+        // Identical authentication endpoints and payload names to index.html.
+        const r = await fetch(SJN_AUTH.apiBase + (registration ? '/auth/register' : '/auth/login'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(data.error || 'Authentication failed. Please try again.');
+        if (!data.token || !data.user) {
+          throw new Error('The server did not return a valid student login session.');
+        }
+        // The original LMS reads the very same key when index.html opens.
+        localStorage.setItem(SJN_AUTH.tokenKey, data.token);
+        response.textContent = 'Success! Opening your student dashboard…';
+        window.location.replace(SJN_AUTH.dashboard);
+      } catch (error) {
+        response.textContent = error.message || 'Unable to connect. Please try again.';
+        submitButton.disabled = false;
+        authSubmitting = false;
+      }
     });
     const toggle = document.getElementById('menuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
