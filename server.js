@@ -24,8 +24,7 @@ const CONTENT = path.join(ROOT, 'content');
 const app = express();
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-app.use(express.static(PUBLIC));
-app.use('/resources', express.static(path.join(CONTENT, 'resources')));
+
 
 // Middleware to verify Supabase Auth tokens passed from the frontend
 async function auth(req, res, next) {
@@ -259,6 +258,9 @@ app.post('/api/dev/sync', admin, (req, res) => {
 app.get('/', (req, res) => {
   res.sendFile(path.join(PUBLIC, 'landing.html'));
 });
+
+app.use(express.static(PUBLIC));
+app.use('/resources', express.static(path.join(CONTENT, 'resources')));
 
 
 app.use((req, res) => res.sendFile(path.join(PUBLIC, 'index.html')));
