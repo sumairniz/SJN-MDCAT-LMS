@@ -2747,6 +2747,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       localStorage.removeItem('sjn_auth_token');
       currentUser = null;
       loadAccount(); 
+      window.location.replace("/index.html")
     };
 
     window.handleDesktopClick = function() {
