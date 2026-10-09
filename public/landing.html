@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090a0e" />
+  <meta name="description" content="SJN MDCAT Academy is a medical entrance learning portal with custom MDCAT practice tests, past papers, subject-wise learning, performance analytics, and AI doubt solving." />
+  <title>SJN MDCAT Academy | A Step Today for a Better Tomorrow</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090a0e;
+      --panel: #111217;
+      --panel2: #17181e;
+      --text: #f8f8fb;
+      --muted: #a1a4b0;
+      --dim: #777b89;
+      --red: #e2262c;
+      --redLight: #ff5d6d;
+      --border: rgba(255,255,255,.105);
+      --line: rgba(255,255,255,.075);
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--redLight); outline-offset: 4px; }
+    ::selection { background: rgba(226,38,44,.45); }
+    .container { width: min(1196px, calc(100% - 48px)); margin: 0 auto; }
+    .pill { display: inline-flex; align-items: center; gap: 9px; padding: 8px 13px; background: rgba(226,38,44,.11); border: 1px solid rgba(255,93,109,.26); border-radius: 999px; color: #ff858e; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--redLight); box-shadow: 0 0 12px rgba(255,93,109,.8); }
+    .muted { color: var(--muted); }
+    .red { color: var(--redLight); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 46px; padding: 0 20px; border: 1px solid transparent; border-radius: 10px; font-size: 13px; font-weight: 800; transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease; white-space: nowrap; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: #e12429; color: #fff; box-shadow: 0 9px 24px rgba(225,36,41,.19); }
+    .btn-primary:hover { background: #f0353b; box-shadow: 0 12px 35px rgba(225,36,41,.28); }
+    .btn-outline { background: rgba(255,255,255,.035); color: #fff; border-color: rgba(255,255,255,.18); }
+    .btn-outline:hover { background: rgba(255,255,255,.085); border-color: rgba(255,255,255,.34); }
+    .btn svg { width: 16px; height: 16px; }
+
+    /* Navigation */
+    .site-header { position: relative; z-index: 10; border-bottom: 1px solid var(--line); background: rgba(9,10,14,.93); backdrop-filter: blur(18px); }
+    .navbar { min-height: 80px; display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+    .brand { display: inline-flex; align-items: center; gap: 13px; min-width: 0; }
+    .brand-mark { flex-shrink: 0; width: 46px; height: 46px; display: grid; place-items: center; border: 1.5px solid #dd1820; border-radius: 13px; background: linear-gradient(145deg,#180b0e,#0b0b0d); color: #ff515d; font-size: 19px; font-weight: 900; font-style: italic; letter-spacing: -1.6px; box-shadow: 0 0 24px rgba(226,38,44,.14); }
+    .brand-name { display: flex; align-items: center; gap: 6px; font-weight: 950; font-size: 19px; letter-spacing: -.65px; line-height: 1.15; }
+    .brand-name span { color: #ff4a55; }
+    .brand-sub { margin-top: 4px; font-size: 11px; font-weight: 600; color: #9196a2; }
+    .navlinks { display: flex; align-items: center; gap: 27px; margin-left: auto; }
+    .navlinks a { color: #a9adba; font-size: 12px; font-weight: 700; transition: color .2s ease; }
+    .navlinks a:hover { color: #fff; }
+    .header-actions { display: flex; gap: 10px; align-items: center; }
+    .header-actions .btn { min-height: 41px; }
+    .menu-toggle { display: none; width: 42px; height: 42px; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 10px; background: #17181e; color: #fff; }
+    .mobile-menu { display: none; }
+
+    /* Hero */
+    .hero { position: relative; overflow: hidden; isolation: isolate; background:
+      radial-gradient(ellipse 55% 75% at 83% 30%,rgba(161,23,36,.15),transparent 70%),
+      radial-gradient(ellipse 45% 55% at 4% 5%,rgba(103,14,23,.17),transparent 74%),
+      #090a0e; }
+    .hero::before { content: ""; position: absolute; pointer-events: none; inset: 0; z-index: -1; opacity: .27; background-image: linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px); background-size: 58px 58px; mask-image: linear-gradient(to bottom,#000,transparent 93%); }
+    .hero-inner { display: grid; grid-template-columns: 1.02fr .98fr; gap: clamp(32px, 5vw, 76px); align-items: center; padding: 101px 0 108px; }
+    .hero-copy { max-width: 604px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin: 26px 0 22px; font-size: clamp(42px,5.1vw,72px); line-height: 1.055; font-weight: 950; letter-spacing: -.058em; }
+    h1 .gradient { display: block; background: linear-gradient(90deg,#ff6474 5%,#f33b49 59%,#e42935); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero-description { max-width: 530px; color: #b6bac5; font-size: 15px; line-height: 1.85; margin-bottom: 29px; }
+    .hero-buttons { display: flex; align-items: center; flex-wrap: wrap; gap: 13px; }
+    .hero-buttons .btn { min-height: 51px; padding-inline: 23px; }
+    .hero-message { margin-top: 35px; padding-left: 16px; border-left: 3px solid var(--red); color: #eaebee; font-size: 14px; font-style: italic; font-weight: 700; line-height: 1.5; }
+    .hero-message strong { font-style: normal; color: #ff606b; }
+    .hero-foot { display: flex; flex-wrap: wrap; gap: 16px 21px; color: #9296a5; font-size: 11px; margin-top: 34px; font-weight: 650; }
+    .hero-foot span { display: inline-flex; gap: 7px; align-items: center; }
+    .hero-foot svg { width: 14px; height: 14px; color: #29cd93; }
+
+    /* Mock dashboard (illustration only, not live user data) */
+    .dashboard-wrap { position: relative; min-width: 0; }
+    .dashboard-glow { position: absolute; width: 72%; height: 64%; left: 12%; top: 18%; border-radius: 50%; filter: blur(84px); background: rgba(215,31,42,.18); z-index: -1; }
+    .dashboard-card { border: 1px solid rgba(255,255,255,.13); border-radius: 17px; background: #111116; box-shadow: 0 35px 100px rgba(0,0,0,.52),0 0 0 6px rgba(255,255,255,.025); transform: rotate(1.4deg); overflow: hidden; }
+    .mock-topbar { display: flex; align-items: center; justify-content: space-between; background: #131318; border-bottom: 1px solid var(--border); padding: 15px 17px; gap: 10px; }
+    .mock-brand { font-weight: 900; font-size: 13px; letter-spacing: -.3px; }
+    .mock-brand span { color: #f14a56; }
+    .mock-badge { padding: 5px 8px; border: 1px solid rgba(228,50,59,.3); border-radius: 6px; color: #fa606b; font-size: 8px; background: rgba(228,50,59,.08); font-weight: 900; letter-spacing: .05em; }
+    .mock-avatar { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; color: #fff; background: #222229; font-weight: 850; font-size: 10px; }
+    .mock-body { padding: 20px; }
+    .mock-hero { min-height: 129px; padding: 20px; display: flex; flex-direction: column; justify-content: center; border: 1px solid rgba(232,37,46,.28); border-radius: 12px; background: linear-gradient(112deg,#450a0b 0%,#261114 55%,#16161b 100%); }
+    .mock-hero small { width: fit-content; font-size: 8px; color: #ff7580; font-weight: 850; padding: 4px 8px; border-radius: 100px; background: rgba(255,84,94,.13); }
+    .mock-hero strong { margin-top: 10px; font-size: clamp(16px,1.65vw,23px); letter-spacing: -.5px; }
+    .mock-hero strong span { color: #ff5d70; }
+    .mock-hero p { color: #c4b5bb; font-size: 9px; margin: 6px 0 0; line-height: 1.5; }
+    .mock-metrics { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; margin-top: 13px; }
+    .mock-metric { min-width: 0; background: #19191e; border: 1px solid #303038; border-radius: 10px; padding: 15px 12px; }
+    .mock-metric small { display: block; color: #959ba9; font-size: 8px; font-weight: 750; text-transform: uppercase; letter-spacing: .04em; }
+    .mock-metric strong { display: block; margin: 12px 0 3px; font-size: 18px; }
+    .mock-metric p { font-size: 8px; color: #9398a8; margin-bottom: 0; }
+    .mock-bottom { display: grid; grid-template-columns: 1.3fr .8fr; gap: 12px; margin-top: 12px; }
+    .mock-subjects,.mock-actions { background: #17171c; border: 1px solid #303038; border-radius: 11px; padding: 16px; }
+    .mock-section-title { font-size: 10px; margin-bottom: 14px; font-weight: 850; }
+    .mock-subject { margin-bottom: 10px; }
+    .mock-subject:last-child { margin-bottom: 0; }
+    .mock-subject span { font-size: 8px; color: #bcbfca; display: block; margin-bottom: 5px; }
+    .mock-track { height: 5px; border-radius: 9px; background: #2e2f35; overflow: hidden; }
+    .mock-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg,#e42a32,#ff6b70); }
+    .mock-action { background: #28282e; padding: 8px; color: #bec2cc; margin-bottom: 6px; border-radius: 5px; font-size: 8px; font-weight: 750; }
+    .mock-action::before { content: "↗"; color: #fe5665; margin-right: 6px; }
+    .preview-label { position: absolute; bottom: -22px; right: -18px; padding: 11px 15px; display: flex; gap: 9px; align-items: center; color: #fff; font-size: 11px; font-weight: 850; background: #23232b; border: 1px solid rgba(255,255,255,.19); border-radius: 10px; box-shadow: 0 14px 30px rgba(0,0,0,.35); transform: rotate(-1deg); }
+    .preview-label span { width: 8px; height: 8px; background: #f15461; border-radius: 50%; box-shadow: 0 0 0 4px rgba(241,84,97,.15); }
+    .mock-caption { text-align: center; margin-top: 32px; color: #797e8a; font-size: 10px; }
+
+    /* Sections */
+    section.section { padding: 95px 0; }
+    .section-head { max-width: 650px; margin: 0 auto 44px; text-align: center; }
+    .eyebrow { text-transform: uppercase; color: #ff5966; font-size: 11px; letter-spacing: .19em; font-weight: 900; margin-bottom: 15px; }
+    .section-head h2, .split-copy h2 { font-size: clamp(30px,3.3vw,43px); line-height: 1.14; letter-spacing: -.04em; font-weight: 900; margin: 0 0 14px; }
+    .section-head p, .split-copy > p { color: #a9adba; font-size: 14px; line-height: 1.85; }
+    .features-section { border-top: 1px solid rgba(255,255,255,.06); background: #0e0e13; }
+    .features-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+    .feature { min-height: 218px; border: 1px solid #292930; background: linear-gradient(155deg,#19191e,#141419); border-radius: 15px; padding: 26px; transition: border-color .2s ease,transform .2s ease; }
+    .feature:hover { border-color: rgba(255,91,104,.43); transform: translateY(-3px); }
+    .feature-icon { width: 42px; height: 42px; border-radius: 11px; display: grid; place-items: center; color: #ff5865; background: rgba(239,66,76,.10); border: 1px solid rgba(239,66,76,.13); }
+    .feature-icon svg { width: 21px; height: 21px; stroke-width: 1.9; }
+    .feature h3 { font-size: 15px; font-weight: 850; margin: 19px 0 10px; }
+    .feature p { margin: 0; color: #9da2af; line-height: 1.75; font-size: 12px; }
+    .learning-section { background: var(--bg); }
+    .split { display: grid; grid-template-columns: .93fr 1.07fr; align-items: center; gap: clamp(40px,7vw,105px); }
+    .split-copy { max-width: 520px; }
+    .subjects { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 27px; }
+    .subject { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #32323a; border-radius: 9px; padding: 10px 13px; background: #17171d; font-weight: 780; color: #dee0e8; font-size: 12px; }
+    .subject i { width: 7px; height: 7px; background: #f04b58; border-radius: 50%; }
+    .steps { display: flex; flex-direction: column; gap: 12px; }
+    .step { display: flex; gap: 17px; border: 1px solid #292a31; border-radius: 13px; background: #141419; padding: 20px; }
+    .step-number { min-width: 35px; height: 35px; border-radius: 9px; display: grid; place-items: center; background: #351316; color: #ff6671; font-weight: 950; font-size: 13px; }
+    .step h3 { font-size: 14px; margin: 1px 0 7px; }
+    .step p { margin: 0; color: #a1a6b2; font-size: 12px; line-height: 1.7; }
+    .cta-section { padding: 20px 0 93px; }
+    .cta-panel { text-align: center; position: relative; overflow: hidden; border: 1px solid rgba(226,38,44,.30); border-radius: 20px; padding: 66px 28px; background: linear-gradient(115deg,#37090e 0%,#1c1115 46%,#161519 100%); }
+    .cta-panel::after { content: "SJN"; pointer-events: none; position: absolute; top: -66px; right: -10px; font-size: 265px; color: rgba(255,255,255,.025); font-weight: 1000; font-style: italic; letter-spacing: -.09em; }
+    .cta-panel > * { position: relative; z-index: 1; }
+    .cta-panel h2 { font-size: clamp(30px,3.8vw,48px); max-width: 650px; margin: 0 auto 14px; letter-spacing: -.04em; line-height: 1.1; }
+    .cta-panel p { font-size: 14px; margin: 0 auto 25px; color: #c7b9bf; max-width: 500px; line-height: 1.7; }
+    .cta-panel .btn { min-height: 50px; }
+    .site-footer { border-top: 1px solid #292930; padding: 31px 0; background: #0d0d12; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 25px; }
+    .footer-brand { color: #f0f0f4; font-size: 13px; font-weight: 900; }
+    .footer-brand span { color: #fa5460; }
+    .footer-sub { color: #8f929e; font-size: 11px; margin-top: 5px; }
+    .footer-right { color: #9195a2; font-size: 11px; text-align: right; line-height: 1.8; }
+
+    /* Sign in / Register UI. Connect to YOUR EXISTING authentication before production. */
+    .modal-overlay { display: none; position: fixed; z-index: 1000; inset: 0; background: rgba(0,0,0,.77); backdrop-filter: blur(9px); align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.is-open { display: flex; }
+    .auth-modal { width: min(100%,450px); max-height: 95vh; overflow-y: auto; padding: 29px; border: 1px solid #3b3034; background: #16161c; border-radius: 18px; box-shadow: 0 35px 95px rgba(0,0,0,.6); position: relative; }
+    .close-modal { position: absolute; top: 16px; right: 16px; width: 33px; height: 33px; display: grid; place-items: center; background: #28282e; border: 1px solid #3b3b43; border-radius: 8px; color: #fff; font-size: 20px; }
+    .auth-logo { margin-bottom: 17px; }
+    .auth-modal h2 { font-size: 26px; letter-spacing: -.04em; margin: 0 0 6px; }
+    .auth-intro { color: #a0a4b0; font-size: 12px; line-height: 1.6; margin-bottom: 22px; }
+    .auth-switch { display: grid; grid-template-columns: 1fr 1fr; padding: 4px; gap: 4px; background: #24242b; border-radius: 9px; margin-bottom: 22px; }
+    .auth-switch button { border: 0; background: transparent; color: #a5a8b1; padding: 10px; font-size: 12px; font-weight: 850; border-radius: 7px; }
+    .auth-switch button.active { color: #fff; background: #dc252d; box-shadow: 0 3px 15px rgba(220,37,45,.25); }
+    .auth-field { margin-bottom: 15px; }
+    .auth-field label { display: block; margin-bottom: 7px; color: #dedfe5; font-size: 11px; font-weight: 800; }
+    .auth-field input { width: 100%; border-radius: 9px; background: #212128; border: 1px solid #3a3a42; color: #fff; min-height: 44px; padding: 0 12px; font-size: 13px; outline: none; }
+    .auth-field input:focus { border-color: #ef4651; box-shadow: 0 0 0 2px rgba(239,70,81,.12); }
+    .auth-submit { width: 100%; margin-top: 6px; }
+    .auth-notice { background: rgba(241,166,63,.075); border: 1px solid rgba(241,166,63,.19); color: #c9b59b; border-radius: 9px; padding: 11px; margin-top: 15px; font-size: 11px; line-height: 1.6; }
+    .auth-response { min-height: 0; color: #ffb8a2; font-size: 11px; line-height: 1.6; margin-top: 12px; }
+    [hidden] { display: none !important; }
+
+    @media (max-width: 1070px) {
+      .navlinks { gap: 15px; }
+      .hero-inner { gap: 30px; }
+      .hero-copy h1 { font-size: clamp(42px,5.4vw,62px); }
+    }
+    @media (max-width: 860px) {
+      .navlinks, .header-actions { display: none; }
+      .menu-toggle { display: inline-flex; }
+      .mobile-menu.is-open { display: flex; flex-direction: column; gap: 6px; padding-bottom: 20px; }
+      .mobile-menu > a { display: block; padding: 12px; color: #c3c5d0; font-size: 13px; border-radius: 8px; background: #18181d; }
+      .mobile-buttons { display: flex; gap: 9px; margin-top: 7px; }
+      .mobile-buttons .btn { flex: 1; }
+      .hero-inner { grid-template-columns: 1fr; padding: 74px 0 86px; }
+      .hero-copy { max-width: 730px; }
+      .hero-description { max-width: 680px; }
+      .dashboard-wrap { max-width: 630px; width: 100%; margin: 10px auto 0; }
+      .hero-copy h1 { font-size: clamp(44px,8vw,72px); }
+      .features-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .split { grid-template-columns: 1fr; gap: 34px; }
+      .split-copy { max-width: 100%; }
+    }
+    @media (max-width: 560px) {
+      .container { width: min(100% - 32px,1196px); }
+      .navbar { min-height: 69px; }
+      .brand-mark { width: 39px; height: 39px; font-size: 17px; border-radius: 10px; }
+      .brand-name { font-size: 16px; }
+      .brand-sub { font-size: 9px; }
+      .hero-inner { padding: 66px 0 72px; }
+      h1, .hero-copy h1 { font-size: clamp(40px,10vw,52px); }
+      .hero-description { font-size: 13px; line-height: 1.8; }
+      .hero-buttons { align-items: stretch; }
+      .hero-buttons .btn { flex: 1; padding: 0 12px; font-size: 12px; }
+      .hero-message { font-size: 12px; }
+      .mock-body { padding: 12px; }
+      .mock-topbar { padding: 12px; }
+      .mock-hero { padding: 14px; min-height: 115px; }
+      .mock-hero strong { font-size: 16px; }
+      .mock-metric { padding: 10px 8px; }
+      .mock-metric small { font-size: 6.8px; }
+      .mock-metric strong { font-size: 15px; }
+      .mock-metric p { font-size: 7px; }
+      .mock-bottom { grid-template-columns: 1fr; }
+      .mock-actions { display: none; }
+      .preview-label { right: -4px; bottom: -19px; font-size: 9px; }
+      section.section { padding: 74px 0; }
+      .features-grid { grid-template-columns: 1fr; }
+      .feature { min-height: auto; padding: 24px; }
+      .section-head { margin-bottom: 31px; }
+      .section-head h2, .split-copy h2 { font-size: 31px; }
+      .cta-section { padding-bottom: 73px; }
+      .cta-panel { padding: 52px 20px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .footer-right { text-align: left; }
+      .auth-modal { padding: 23px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="#top" class="brand" aria-label="SJN MDCAT Academy home">
+        <span class="brand-mark">SJN</span>
+        <span><span class="brand-name">SJN MDCAT <span>LMS PRO</span></span><span class="brand-sub">Medical Entrance Learning Portal</span></span>
+      </a>
+      <nav class="navlinks" aria-label="Main navigation">
+        <a href="#features">Features</a>
+        <a href="#subjects">Subjects</a>
+        <a href="#how-it-works">How It Works</a>
+      </nav>
+      <div class="header-actions">
+        <button class="btn btn-outline" type="button" data-auth="signin">Sign In</button>
+        <button class="btn btn-primary" type="button" data-auth="register">Register <span aria-hidden="true">↗</span></button>
+      </div>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+    <nav class="container mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
+      <a href="#features">Features</a><a href="#subjects">Subjects</a><a href="#how-it-works">How It Works</a>
+      <div class="mobile-buttons"><button type="button" class="btn btn-outline" data-auth="signin">Sign In</button><button type="button" class="btn btn-primary" data-auth="register">Register</button></div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <span class="pill"><span class="pill-dot"></span>SJN MDCAT Academy · Academy Edition</span>
+          <h1 id="hero-title">Your journey to becoming a <span class="gradient">future doctor.</span></h1>
+          <p class="hero-description">Welcome to <strong style="color:#fff">SJN MDCAT Academy</strong> — your dedicated medical entrance preparation platform. Build personalized MDCAT practice tests, learn from past-paper MCQs, monitor your progress, and prepare with purpose.</p>
+          <div class="hero-buttons">
+            <button type="button" class="btn btn-primary" data-auth="register">Start Learning — Register
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <button type="button" class="btn btn-outline" data-auth="signin">Already a student? Sign In</button>
+          </div>
+          <div class="hero-message"><strong>SJN,</strong> A step today for a better tomorrow.</div>
+          <div class="hero-foot">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m5 12 4 4L19 6"/></svg>Topic-wise & chapter-wise practice</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m5 12 4 4L19 6"/></svg>Past-paper MCQs</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m5 12 4 4L19 6"/></svg>Performance insights</span>
+          </div>
+        </div>
+        <div class="dashboard-wrap" aria-label="Illustrative academy dashboard preview">
+          <div class="dashboard-glow" aria-hidden="true"></div>
+          <div class="dashboard-card">
+            <div class="mock-topbar"><div class="mock-brand">SJN MDCAT <span>LMS PRO</span></div><div class="mock-badge">ACADEMY EDITION</div><div class="mock-avatar" aria-hidden="true">S</div></div>
+            <div class="mock-body">
+              <div class="mock-hero"><small>SJN MDCAT ACADEMY</small><strong>Welcome, <span>Future Doctor!</span> 🩺</strong><p>Make every practice session count.</p></div>
+              <div class="mock-metrics">
+                <div class="mock-metric"><small>MCQs Practice</small><strong style="color:#fff">5</strong><p>Core MDCAT subjects</p></div>
+                <div class="mock-metric"><small>Accuracy</small><strong style="color:#28ce96">↗</strong><p>Track your progress</p></div>
+                <div class="mock-metric"><small>Daily Streak</small><strong style="color:#ffc42f">⚡</strong><p>Build consistency</p></div>
+              </div>
+              <div class="mock-bottom">
+                <div class="mock-subjects"><div class="mock-section-title">Subject Performance</div>
+                  <div class="mock-subject"><span>Biology</span><div class="mock-track"><div class="mock-fill" style="width:76%"></div></div></div>
+                  <div class="mock-subject"><span>Chemistry</span><div class="mock-track"><div class="mock-fill" style="width:56%"></div></div></div>
+                  <div class="mock-subject"><span>Physics</span><div class="mock-track"><div class="mock-fill" style="width:38%"></div></div></div>
+                </div>
+                <div class="mock-actions"><div class="mock-section-title">Quick Access</div><div class="mock-action">Create Practice Test</div><div class="mock-action">Past Papers</div><div class="mock-action">My Courses</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="preview-label"><span></span>YOUR ACADEMY. YOUR PROGRESS.</div>
+          <div class="mock-caption">Illustrative dashboard preview · Not actual student data</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section features-section" id="features">
+      <div class="container">
+        <div class="section-head"><p class="eyebrow">Everything in one place</p><h2>Smarter preparation starts with the <span class="red">right tools.</span></h2><p>One academy portal for practicing, revising, checking your progress, and finding the resources you need for MDCAT.</p></div>
+        <div class="features-grid">
+          <article class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="m8 9 2 2 4-4M8 16h8"/></svg></div><h3>Custom Practice Tests</h3><p>Create MCQ tests using your preferred subjects, chapters, and topics — including mixed-subject practice sets.</p></article>
+          <article class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M5 5v14h14V5M8 12l3 3 5-6"/></svg></div><h3>Past Papers Question Bank</h3><p>Practice previous MDCAT-style MCQs and strengthen your familiarity with exam-oriented questions.</p></article>
+          <article class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 17l4-5 3 2 5-7"/></svg></div><h3>Performance Analytics</h3><p>Review attempted MCQs, accuracy, streaks, and subject performance from your personal dashboard.</p></article>
+          <article class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5c3-1 5-1 8 1 3-2 5-2 8-1v14c-3-1-5-1-8 1-3-2-5-2-8-1zM12 6v14"/></svg></div><h3>Courses & Syllabus</h3><p>Navigate learning material and organize your preparation around MDCAT subjects and syllabus topics.</p></article>
+          <article class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="6" width="14" height="13" rx="3"/><path d="M9 3h6M12 3v3M9 11h.01M15 11h.01M9 15c2 1 4 1 6 0M2 11v4M22 11v4"/></svg></div><h3>AI Doubt Solver</h3><p>Use the academy's AI doubt-solving area to explore tricky concepts and questions during revision.</p></article>
+          <article class="feature"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4zM8 9h8M8 13h8M8 17h5"/></svg></div><h3>Resources & Test History</h3><p>Revisit earlier test attempts and access mnemonics and study resources in one place.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section learning-section" id="subjects">
+      <div class="container split">
+        <div class="split-copy"><p class="eyebrow">Built around your MDCAT journey</p><h2>Prepare across <span class="red">every core subject.</span></h2><p>From focused chapter revision to complete mixed-subject practice, SJN MDCAT Academy helps you build a routine that works for you.</p><div class="subjects"><span class="subject"><i></i>Biology</span><span class="subject"><i></i>Chemistry</span><span class="subject"><i></i>Physics</span><span class="subject"><i></i>English</span><span class="subject"><i></i>Logical Reasoning</span></div></div>
+        <div class="steps" id="how-it-works"><article class="step"><div class="step-number">01</div><div><h3>Create your student account</h3><p>Register or sign in through the academy's authentication system to reach your student portal.</p></div></article><article class="step"><div class="step-number">02</div><div><h3>Choose what you want to practice</h3><p>Select subjects, chapters, and topics, then create a targeted practice test.</p></div></article><article class="step"><div class="step-number">03</div><div><h3>Solve MCQs and review progress</h3><p>Track attempts and accuracy, review your history, and keep improving one session at a time.</p></div></article></div>
+      </div>
+    </section>
+
+    <section class="cta-section"><div class="container"><div class="cta-panel"><p class="eyebrow">Your next chapter begins here</p><h2>A small step today.<br><span class="red">A stronger tomorrow.</span></h2><p>Join the SJN MDCAT Academy learning portal and make your next practice session count.</p><button type="button" class="btn btn-primary" data-auth="register">Create Your Account <span aria-hidden="true">→</span></button></div></div></section>
+  </main>
+
+  <footer class="site-footer"><div class="container footer-inner"><div><div class="footer-brand">SJN MDCAT <span>ACADEMY</span></div><div class="footer-sub">SJN, A step today for a better tomorrow.</div></div><div class="footer-right">Medical Entrance Learning Portal<br>Designed for aspiring doctors</div></div></footer>
+
+  <!-- Front-end AUTH preview. Does not store, send, or verify credentials. -->
+  <div class="modal-overlay" id="authOverlay" aria-hidden="true">
+    <section class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle" aria-describedby="authIntro">
+      <button class="close-modal" id="closeAuth" type="button" aria-label="Close dialog">×</button>
+      <div class="brand-mark auth-logo">SJN</div>
+      <h2 id="authTitle">Welcome back.</h2><p class="auth-intro" id="authIntro">Sign in to continue your preparation.</p>
+      <div class="auth-switch" role="group" aria-label="Choose authentication mode"><button type="button" id="signInTab" class="active" aria-pressed="true">Sign In</button><button type="button" id="registerTab" aria-pressed="false">Register</button></div>
+      <form id="authForm">
+        <div class="auth-field" id="nameField" hidden><label for="studentName">Full name</label><input id="studentName" name="name" type="text" autocomplete="name" placeholder="Enter your full name" /></div>
+        <div class="auth-field"><label for="studentEmail">Email address</label><input id="studentEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required /></div>
+        <div class="auth-field"><label for="studentPassword">Password</label><input id="studentPassword" name="password" type="password" autocomplete="current-password" minlength="6" placeholder="Enter your password" required /></div>
+        <button class="btn btn-primary auth-submit" type="submit" id="authSubmit">Sign In</button>
+        <p class="auth-response" id="authResponse" role="status" aria-live="polite"></p>
+      </form>
+      <p class="auth-notice">UI preview only: connect this page to your existing website's secure Sign In / Register system before accepting real accounts.</p>
+    </section>
+  </div>
+
+  <script>
+    /*
+      CHANGE ONLY THESE TWO URLs once you know your existing auth routes.
+      Examples: signInUrl: '/login', registerUrl: '/register'
+      - Leave empty to view the front-end modal preview.
+      - Do not point directly to a protected dashboard as a substitute for authentication.
+    */
+    const AUTH_URLS = {
+      signInUrl: '',
+      registerUrl: ''
+    };
+
+    const overlay = document.getElementById('authOverlay');
+    const modal = overlay.querySelector('.auth-modal');
+    const signinTab = document.getElementById('signInTab');
+    const registerTab = document.getElementById('registerTab');
+    const authForm = document.getElementById('authForm');
+    const response = document.getElementById('authResponse');
+    const nameField = document.getElementById('nameField');
+    const nameInput = document.getElementById('studentName');
+    const passwordInput = document.getElementById('studentPassword');
+    const emailInput = document.getElementById('studentEmail');
+    let activeMode = 'signin';
+    let returnFocus = null;
+
+    function switchAuth(mode) {
+      activeMode = mode;
+      const registration = mode === 'register';
+      document.getElementById('authTitle').textContent = registration ? 'Join SJN Academy.' : 'Welcome back.';
+      document.getElementById('authIntro').textContent = registration ? 'Create an account to begin your MDCAT journey.' : 'Sign in to continue your preparation.';
+      document.getElementById('authSubmit').textContent = registration ? 'Create Account' : 'Sign In';
+      nameField.hidden = !registration;
+      nameInput.required = registration;
+      passwordInput.autocomplete = registration ? 'new-password' : 'current-password';
+      signinTab.classList.toggle('active', !registration);
+      registerTab.classList.toggle('active', registration);
+      signinTab.setAttribute('aria-pressed', String(!registration));
+      registerTab.setAttribute('aria-pressed', String(registration));
+      response.textContent = '';
+    }
+    function openAuth(mode) {
+      const destination = mode === 'register' ? AUTH_URLS.registerUrl : AUTH_URLS.signInUrl;
+      if (destination && destination.trim()) {
+        window.location.assign(destination);
+        return;
+      }
+      returnFocus = document.activeElement;
+      switchAuth(mode);
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+      (mode === 'register' ? nameInput : emailInput).focus();
+    }
+    function closeAuth() {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+      authForm.reset();
+      response.textContent = '';
+      if (returnFocus && typeof returnFocus.focus === 'function') returnFocus.focus();
+    }
+    document.querySelectorAll('[data-auth]').forEach(button => button.addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.remove('is-open');
+      document.getElementById('menuToggle').setAttribute('aria-expanded','false');
+      openAuth(button.dataset.auth);
+    }));
+    signinTab.addEventListener('click', () => switchAuth('signin'));
+    registerTab.addEventListener('click', () => switchAuth('register'));
+    document.getElementById('closeAuth').addEventListener('click', closeAuth);
+    overlay.addEventListener('mousedown', event => { if (event.target === overlay) closeAuth(); });
+    document.addEventListener('keydown', event => {
+      if (!overlay.classList.contains('is-open')) return;
+      if (event.key === 'Escape') closeAuth();
+      if (event.key === 'Tab') {
+        const focusable = [...modal.querySelectorAll('button, input:not([disabled]):not([hidden])')].filter(el => el.offsetParent !== null);
+        if (!focusable.length) return;
+        const first = focusable[0], last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      }
+    });
+    authForm.addEventListener('submit', event => {
+      event.preventDefault();
+      // Front-end demonstration only. Never pretend to log the student in.
+      // Connect to your EXISTING authentication handler (Firebase, Supabase, server, etc.).
+      // Do not log, store, or transmit password from this example.
+      response.textContent = 'This is a preview form. Please connect your website\'s existing ' + (activeMode === 'register' ? 'registration' : 'sign-in') + ' system to activate it.';
+    });
+    const toggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    toggle.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mobileMenu.classList.remove('is-open'); toggle.setAttribute('aria-expanded','false'); }));
+  </script>
+</body>
+</html>
