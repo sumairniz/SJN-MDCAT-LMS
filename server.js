@@ -256,6 +256,11 @@ app.post('/api/dev/sync', admin, (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(PUBLIC, 'landing.html'));
+});
+
+
 app.use((req, res) => res.sendFile(path.join(PUBLIC, 'index.html')));
 
 if (require.main === module) {
