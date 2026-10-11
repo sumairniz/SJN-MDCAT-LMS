@@ -56,6 +56,9 @@
     .navlinks a:hover { color: #fff; }
     .header-actions { display: flex; gap: 10px; align-items: center; }
     .header-actions .btn { min-height: 41px; }
+    [hidden] { display: none !important; }
+    /* Session checks run before showing account actions, avoiding misleading Login flashes. */
+    body[data-session-state="checking"] [data-auth] { visibility: hidden; }
     .menu-toggle { display: none; width: 42px; height: 42px; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 10px; background: #17181e; color: #fff; }
     .mobile-menu { display: none; }
 
@@ -233,7 +236,7 @@
     }
   </style>
 </head>
-<body>
+<body data-session-state="checking">
   <header class="site-header">
     <div class="container navbar">
       <a href="#top" class="brand" aria-label="SJN MDCAT Academy home">
@@ -246,8 +249,10 @@
         <a href="#how-it-works">How It Works</a>
       </nav>
       <div class="header-actions">
-        <button class="btn btn-outline" type="button" data-auth="signin">Sign In</button>
+        <button class="btn btn-outline" type="button" data-auth="signin">Login</button>
         <button class="btn btn-primary" type="button" data-auth="register">Register <span aria-hidden="true">↗</span></button>
+        <a class="btn btn-primary" href="/index.html" data-session-only="signed" hidden>Go to Dashboard</a>
+        <button class="btn btn-outline" type="button" data-session-only="signed" data-logout hidden>Logout</button>
       </div>
       <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle menu">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -255,7 +260,7 @@
     </div>
     <nav class="container mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
       <a href="#features">Features</a><a href="#subjects">Subjects</a><a href="#how-it-works">How It Works</a>
-      <div class="mobile-buttons"><button type="button" class="btn btn-outline" data-auth="signin">Sign In</button><button type="button" class="btn btn-primary" data-auth="register">Register</button></div>
+      <div class="mobile-buttons"><button type="button" class="btn btn-outline" data-auth="signin">Login</button><button type="button" class="btn btn-primary" data-auth="register">Register</button><a href="/index.html" class="btn btn-primary" data-session-only="signed" hidden>Go to Dashboard</a><button type="button" class="btn btn-outline" data-session-only="signed" data-logout hidden>Logout</button></div>
     </nav>
   </header>
 
@@ -270,7 +275,8 @@
             <button type="button" class="btn btn-primary" data-auth="register">Start Learning — Register
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
-            <button type="button" class="btn btn-outline" data-auth="signin">Already a student? Sign In</button>
+            <button type="button" class="btn btn-outline" data-auth="signin">Already a student? Login</button>
+            <a href="/index.html" class="btn btn-primary" data-session-only="signed" hidden>Continue to Dashboard</a>
           </div>
           <div class="hero-message"><strong>SJN,</strong> A step today for a better tomorrow.</div>
           <div class="hero-foot">
@@ -327,7 +333,7 @@
       </div>
     </section>
 
-    <section class="cta-section"><div class="container"><div class="cta-panel"><p class="eyebrow">Your next chapter begins here</p><h2>A small step today.<br><span class="red">A stronger tomorrow.</span></h2><p>Join the SJN MDCAT Academy learning portal and make your next practice session count.</p><button type="button" class="btn btn-primary" data-auth="register">Create Your Account <span aria-hidden="true">→</span></button></div></div></section>
+    <section class="cta-section"><div class="container"><div class="cta-panel"><p class="eyebrow">Your next chapter begins here</p><h2>A small step today.<br><span class="red">A stronger tomorrow.</span></h2><p>Join the SJN MDCAT Academy learning portal and make your next practice session count.</p><button type="button" class="btn btn-primary" data-auth="register">Create Your Account <span aria-hidden="true">→</span></button><a href="/index.html" class="btn btn-primary" data-session-only="signed" hidden>Return to Dashboard <span aria-hidden="true">→</span></a></div></div></section>
   </main>
 
   <footer class="site-footer"><div class="container footer-inner"><div><div class="footer-brand">SJN MDCAT <span>ACADEMY</span></div><div class="footer-sub">SJN, A step today for a better tomorrow.</div></div><div class="footer-right">Medical Entrance Learning Portal<br>Designed for aspiring doctors</div></div></footer>
@@ -337,13 +343,13 @@
     <section class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle" aria-describedby="authIntro">
       <button class="close-modal" id="closeAuth" type="button" aria-label="Close dialog">×</button>
       <div class="brand-mark auth-logo">SJN</div>
-      <h2 id="authTitle">Welcome back.</h2><p class="auth-intro" id="authIntro">Sign in to continue your preparation.</p>
-      <div class="auth-switch" role="group" aria-label="Choose authentication mode"><button type="button" id="signInTab" class="active" aria-pressed="true">Sign In</button><button type="button" id="registerTab" aria-pressed="false">Register</button></div>
+      <h2 id="authTitle">Welcome back.</h2><p class="auth-intro" id="authIntro">Login to continue your preparation.</p>
+      <div class="auth-switch" role="group" aria-label="Choose authentication mode"><button type="button" id="signInTab" class="active" aria-pressed="true">Login</button><button type="button" id="registerTab" aria-pressed="false">Register</button></div>
       <form id="authForm">
         <div class="auth-field" id="nameField" hidden><label for="studentName">Full name</label><input id="studentName" name="name" type="text" autocomplete="name" placeholder="Enter your full name" /></div>
         <div class="auth-field"><label for="studentEmail">Email address</label><input id="studentEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required /></div>
         <div class="auth-field"><label for="studentPassword">Password</label><input id="studentPassword" name="password" type="password" autocomplete="current-password" minlength="8" placeholder="Enter your password" required /></div>
-        <button class="btn btn-primary auth-submit" type="submit" id="authSubmit">Sign In</button>
+        <button class="btn btn-primary auth-submit" type="submit" id="authSubmit">Login</button>
         <p class="auth-response" id="authResponse" role="status" aria-live="polite"></p>
       </form>
       <p class="auth-notice">Use your existing SJN MDCAT Academy account to access the student dashboard. New student? Create your account here.</p>
@@ -360,9 +366,23 @@
       tokenKey: 'sjn_auth_token'
     };
 
-    // Verify an existing refresh cookie before redirecting to the dashboard.
-    // Legacy localStorage access tokens are accepted once for migration.
+    // The landing page is ALWAYS the home page, even for authenticated students.
+    // It must remain available so they can log out here, not inside the dashboard.
     let authSubmitting = false;
+    let checkingSession = true;
+    let currentLandingUser = null;
+
+    function renderLandingSession(user) {
+      currentLandingUser = user || null;
+      document.body.dataset.sessionState = user ? 'signed' : 'guest';
+      document.querySelectorAll('[data-auth]').forEach(el => {
+        el.hidden = Boolean(user);
+      });
+      document.querySelectorAll('[data-session-only="signed"]').forEach(el => {
+        el.hidden = !user;
+      });
+    }
+
     async function checkSavedSession() {
       try {
         let token = localStorage.getItem(SJN_AUTH.tokenKey);
@@ -370,26 +390,68 @@
           const refresh = await fetch(SJN_AUTH.apiBase + '/auth/refresh', {
             method: 'POST', credentials: 'same-origin', cache: 'no-store'
           });
-          if (!refresh.ok) return;
+          if (refresh.status === 401) { renderLandingSession(null); return; }
+          if (!refresh.ok) throw new Error('Unable to check the current session.');
           const session = await refresh.json();
           token = session.token;
         }
         if (!token || authSubmitting) return;
-        const response = await fetch(SJN_AUTH.apiBase + '/me', {
+        let response = await fetch(SJN_AUTH.apiBase + '/me', {
           headers: { Authorization: `Bearer ${token}` }, cache: 'no-store'
         });
+        if (response.status === 401) {
+          // A saved access token may have expired; retry through the refresh cookie.
+          const refresh = await fetch(SJN_AUTH.apiBase + '/auth/refresh', {
+            method: 'POST', credentials: 'same-origin', cache: 'no-store'
+          });
+          if (refresh.ok) {
+            const session = await refresh.json();
+            response = await fetch(SJN_AUTH.apiBase + '/me', {
+              headers: { Authorization: `Bearer ${session.token}` }, cache: 'no-store'
+            });
+          }
+        }
         if (authSubmitting) return;
-        if (response.ok && (await response.json()).user) {
-          window.location.replace(SJN_AUTH.dashboard);
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.removeItem(SJN_AUTH.tokenKey);
+          renderLandingSession(data.user);
         } else if (response.status === 401) {
           localStorage.removeItem(SJN_AUTH.tokenKey);
+          renderLandingSession(null);
+        } else {
+          throw new Error('Could not verify account status.');
         }
       } catch (error) {
-        // Network failures should neither clear cookies nor cause redirect loops.
+        // A temporary outage is not evidence that the session has ended.
         console.warn('Session verification unavailable:', error);
+        document.body.dataset.sessionState = 'checking';
+        return;
+      } finally {
+        checkingSession = false;
       }
     }
     checkSavedSession();
+
+    document.querySelectorAll('[data-logout]').forEach(button => {
+      button.addEventListener('click', async () => {
+        if (button.disabled) return;
+        document.querySelectorAll('[data-logout]').forEach(el => { el.disabled = true; });
+        try {
+          const response = await fetch(SJN_AUTH.apiBase + '/auth/logout', {
+            method: 'POST', credentials: 'same-origin', cache: 'no-store'
+          });
+          if (!response.ok) throw new Error('Unable to log out. Please try again.');
+          localStorage.removeItem(SJN_AUTH.tokenKey);
+          localStorage.setItem('sjn_logout_event', String(Date.now()));
+          renderLandingSession(null);
+        } catch (error) {
+          alert(error.message || 'Unable to log out. Please try again.');
+        } finally {
+          document.querySelectorAll('[data-logout]').forEach(el => { el.disabled = false; });
+        }
+      });
+    });
 
     const overlay = document.getElementById('authOverlay');
     const modal = overlay.querySelector('.auth-modal');
@@ -408,8 +470,8 @@
       activeMode = mode;
       const registration = mode === 'register';
       document.getElementById('authTitle').textContent = registration ? 'Join SJN Academy.' : 'Welcome back.';
-      document.getElementById('authIntro').textContent = registration ? 'Create an account to begin your MDCAT journey.' : 'Sign in to continue your preparation.';
-      document.getElementById('authSubmit').textContent = registration ? 'Create Account' : 'Sign In';
+      document.getElementById('authIntro').textContent = registration ? 'Create an account to begin your MDCAT journey.' : 'Login to continue your preparation.';
+      document.getElementById('authSubmit').textContent = registration ? 'Create Account' : 'Login';
       nameField.hidden = !registration;
       nameInput.required = registration;
       passwordInput.autocomplete = registration ? 'new-password' : 'current-password';

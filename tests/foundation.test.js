@@ -224,3 +224,39 @@ test("dashboard and landing pages have explicit refresh-session integration", ()
   assert.doesNotMatch(landing, /localStorage\.setItem\(SJN_AUTH\.tokenKey,\s*data\.token/);
   assert.doesNotMatch(dash, /localStorage\.setItem\('sjn_auth_token'/);
 });
+
+
+test("landing page exclusively owns Login, Register, and Logout", () => {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  const dash = fs.readFileSync(path.join(__dirname, "../public/index.html"), "utf8");
+  const landing = fs.readFileSync(path.join(__dirname, "../public/landing.html"), "utf8");
+  assert.doesNotMatch(dash, /openAuthModal\(|logoutUser\(|id="auth-modal"|id="account-button"/);
+  assert.doesNotMatch(dash, /onclick="[^"]*logout|onclick="[^"]*openAuthModal/);
+  assert.match(dash, /href="\/landing\.html"/);
+  assert.match(dash, /id="session-guard"/);
+  assert.match(dash, /if \(!\(await loadAccount\(\)\)\) return/);
+  assert.match(landing, /data-auth="signin">Login/);
+  assert.match(landing, /data-auth="register"/);
+  assert.match(landing, /data-session-only="signed"/);
+  assert.match(landing, /data-logout/);
+  assert.match(landing, /function renderLandingSession\(user\)/);
+  assert.doesNotMatch(landing, /if \(response\.ok && \(await response\.json\(\)\)\.user\) \{\s*window\.location\.replace/);
+  assert.match(landing, /window\.location\.replace\(SJN_AUTH\.dashboard\)/);
+  assert.match(landing, /auth\/logout/);
+});
+
+test("dashboard and landing inline scripts remain syntactically valid", () => {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  for (const name of ["index.html", "landing.html"]) {
+    const html = fs.readFileSync(path.join(__dirname, "../public", name), "utf8");
+    let checked = 0;
+    for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {
+      if (/\bsrc\s*=/.test(match[1])) continue;
+      assert.doesNotThrow(() => new Function(match[2]), name + " inline script syntax");
+      checked++;
+    }
+    assert.ok(checked > 0);
+  }
+});
