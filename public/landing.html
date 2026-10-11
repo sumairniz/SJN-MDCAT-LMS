@@ -360,40 +360,32 @@
       tokenKey: 'sjn_auth_token'
     };
 
-    // Verify an existing session with /api/me before readirecting.
-    // A token existing in storage is not proof that the student is logged in.
+    // Verify an existing refresh cookie before redirecting to the dashboard.
+    // Legacy localStorage access tokens are accepted once for migration.
     let authSubmitting = false;
     async function checkSavedSession() {
-      let token;
       try {
-        token = localStorage.getItem(SJN_AUTH.tokenKey);
-      } catch (error) {
-        console.warn('Browser storage is unavailable:', error);
-        return;
-      }
-      if (!token) return;
-      try {
-        const r = await fetch(SJN_AUTH.apiBase + '/me', {
-          method: 'GET',
-          headers: { Authorization: `Bearer ${token}` },
-          cache: 'no-store'
+        let token = localStorage.getItem(SJN_AUTH.tokenKey);
+        if (!token) {
+          const refresh = await fetch(SJN_AUTH.apiBase + '/auth/refresh', {
+            method: 'POST', credentials: 'same-origin', cache: 'no-store'
+          });
+          if (!refresh.ok) return;
+          const session = await refresh.json();
+          token = session.token;
+        }
+        if (!token || authSubmitting) return;
+        const response = await fetch(SJN_AUTH.apiBase + '/me', {
+          headers: { Authorization: `Bearer ${token}` }, cache: 'no-store'
         });
         if (authSubmitting) return;
-        if (r.ok) {
-          const data = await r.json().catch(() => ({}));
-          // Match your original LMS: successful /me has a data.user object.
-          if (data.user && localStorage.getItem(SJN_AUTH.tokenKey) === token) {
-            window.location.replace(SJN_AUTH.dashboard);
-            return;
-          }
-        }
-        if (r.status === 401 || r.status === 403) {
-          if (localStorage.getItem(SJN_AUTH.tokenKey) === token) {
-            localStorage.removeItem(SJN_AUTH.tokenKey);
-          }
+        if (response.ok && (await response.json()).user) {
+          window.location.replace(SJN_AUTH.dashboard);
+        } else if (response.status === 401) {
+          localStorage.removeItem(SJN_AUTH.tokenKey);
         }
       } catch (error) {
-        // An offline or temporarily unavailable API must not cause redirect loops.
+        // Network failures should neither clear cookies nor cause redirect loops.
         console.warn('Session verification unavailable:', error);
       }
     }
@@ -488,10 +480,16 @@
         const data = await r.json().catch(() => ({}));
         if (!r.ok) throw new Error(data.error || 'Authentication failed. Please try again.');
         if (!data.token || !data.user) {
+          if (data.requiresEmailConfirmation) {
+            response.textContent = 'Check your email to confirm your account, then sign in.';
+            submitButton.disabled = false;
+            authSubmitting = false;
+            return;
+          }
           throw new Error('The server did not return a valid student login session.');
         }
-        // The original LMS reads the very same key when index.html opens.
-        localStorage.setItem(SJN_AUTH.tokenKey, data.token);
+        // The dashboard securely obtains its access token from the server cookie.
+        localStorage.removeItem(SJN_AUTH.tokenKey);
         response.textContent = 'Success! Opening your student dashboard…';
         window.location.replace(SJN_AUTH.dashboard);
       } catch (error) {

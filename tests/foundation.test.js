@@ -41,19 +41,25 @@ function fakeCreateClient(url, key, options = {}) {
   return {
     auth: {
       async getUser(token) {
-        if (token !== "token-a" && token !== "token-b") {
+        if (token !== "token-a" && token !== "token-b" && token !== "token-a-rotated") {
           return { data: { user: null }, error: new Error("Invalid session") };
         }
         return {
-          data: { user: { id: token === "token-a" ? "student-a" : "student-b", email: "student@example.com", user_metadata: {} } },
+          data: { user: { id: token === "token-b" ? "student-b" : "student-a", email: "student@example.com", user_metadata: {} } },
           error: null
         };
       },
       async signInWithPassword() {
-        return { data: { user: { id: "student-a", email: "student@example.com", user_metadata: {} }, session: { access_token: "token-a" } }, error: null };
+        return { data: { user: { id: "student-a", email: "student@example.com", user_metadata: {} }, session: { access_token: "token-a", refresh_token: "refresh-a" } }, error: null };
       },
       async signUp() {
-        return { data: { user: { id: "student-a" }, session: { access_token: "token-a" } }, error: null };
+        return { data: { user: { id: "student-a" }, session: { access_token: "token-a", refresh_token: "refresh-a" } }, error: null };
+      },
+      async refreshSession({ refresh_token }) {
+        if (refresh_token !== "refresh-a") {
+          return { data: { session: null }, error: new Error("Invalid refresh token") };
+        }
+        return { data: { session: { access_token: "token-a-rotated", refresh_token: "refresh-rotated" } }, error: null };
       }
     },
     from(table) { return makeQuery(table, authorization); }
@@ -148,4 +154,73 @@ test("login profile queries use the freshly signed-in student's token", async ()
   } finally {
     await new Promise((resolve, reject) => server.close(err => err ? reject(err) : resolve()));
   }
+});
+
+
+test("login sets an HttpOnly refresh cookie and never exposes the refresh token in JSON", async () => {
+  const server = await new Promise(resolve => {
+    const s = app.listen(0, "127.0.0.1", () => resolve(s));
+  });
+  try {
+    const root = "http://127.0.0.1:" + server.address().port;
+    let r = await fetch(root + "/api/auth/login", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "student@example.com", password: "password123" })
+    });
+    assert.equal(r.status, 200);
+    const sessionBody = await r.json();
+    assert.equal(sessionBody.token, "token-a");
+    assert.equal(Object.hasOwn(sessionBody, "refresh_token"), false);
+    const cookie = r.headers.get("set-cookie");
+    assert.ok(cookie.startsWith("sjn_refresh="));
+    assert.match(cookie, /httponly/i);
+    assert.match(cookie, /samesite=lax/i);
+    assert.match(cookie, /path=\/api\/auth/i);
+
+    r = await fetch(root + "/api/auth/refresh", { method: "POST" });
+    assert.equal(r.status, 401, "No cookie cannot renew a session");
+
+    r = await fetch(root + "/api/auth/refresh", {
+      method: "POST", headers: { Cookie: "sjn_refresh=refresh-a" }
+    });
+    assert.equal(r.status, 200);
+    assert.deepEqual(await r.json(), { token: "token-a-rotated" });
+    assert.match(r.headers.get("set-cookie"), /sjn_refresh=refresh-rotated/);
+    assert.match(r.headers.get("cache-control"), /no-store/);
+
+    r = await fetch(root + "/api/me", {
+      headers: { Authorization: "Bearer token-a-rotated" }
+    });
+    assert.equal(r.status, 200);
+    assert.ok(databaseCalls.splice(0).filter(x => x.table === "attempts").every(x =>
+      x.authorization === "Bearer token-a-rotated"));
+
+    r = await fetch(root + "/api/auth/refresh", {
+      method: "POST", headers: { Cookie: "sjn_refresh=bad-token" }
+    });
+    assert.equal(r.status, 401);
+    assert.match(r.headers.get("set-cookie"), /max-age=0/i);
+
+    r = await fetch(root + "/api/auth/logout", {
+      method: "POST", headers: { Cookie: "sjn_refresh=refresh-rotated" }
+    });
+    assert.equal(r.status, 200);
+    assert.equal((await r.json()).ok, true);
+    assert.match(r.headers.get("set-cookie"), /max-age=0/i);
+  } finally {
+    await new Promise((resolve, reject) => server.close(err => err ? reject(err) : resolve()));
+  }
+});
+
+test("dashboard and landing pages have explicit refresh-session integration", () => {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  const dash = fs.readFileSync(path.join(__dirname, "../public/index.html"), "utf8");
+  const landing = fs.readFileSync(path.join(__dirname, "../public/landing.html"), "utf8");
+  assert.match(dash, /function renewAccessToken\(\)/);
+  assert.match(dash, /response\.status === 401/);
+  assert.match(dash, /refreshPromise/);
+  assert.match(landing, /auth\/refresh/);
+  assert.doesNotMatch(landing, /localStorage\.setItem\(SJN_AUTH\.tokenKey,\s*data\.token/);
+  assert.doesNotMatch(dash, /localStorage\.setItem\('sjn_auth_token'/);
 });

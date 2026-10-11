@@ -32,6 +32,37 @@ function studentClient(accessToken) {
   });
 }
 
+// Refresh tokens stay in an HttpOnly cookie, never in JavaScript or localStorage.
+// Each session refresh uses an isolated Supabase client; rotation is respected.
+const REFRESH_COOKIE = 'sjn_refresh';
+const REFRESH_MAX_AGE = 30 * 24 * 60 * 60 * 1000;
+function refreshCookieOptions() {
+  return {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production' || Boolean(process.env.VERCEL),
+    sameSite: 'lax',
+    path: '/api/auth'
+  };
+}
+function setRefreshCookie(res, refreshToken) {
+  if (refreshToken) res.cookie(REFRESH_COOKIE, refreshToken, {
+    ...refreshCookieOptions(), maxAge: REFRESH_MAX_AGE
+  });
+}
+function clearRefreshCookie(res) {
+  res.clearCookie(REFRESH_COOKIE, refreshCookieOptions());
+}
+function readRefreshCookie(req) {
+  const raw = req.headers.cookie || '';
+  for (const part of raw.split(';')) {
+    const divider = part.indexOf('=');
+    if (divider < 0 || part.slice(0, divider).trim() !== REFRESH_COOKIE) continue;
+    try { return decodeURIComponent(part.slice(divider + 1).trim()); }
+    catch { return null; }
+  }
+  return null;
+}
+
 const ROOT = __dirname;
 const PUBLIC = path.join(ROOT, 'public');
 const CONTENT = path.join(ROOT, 'content');
@@ -122,7 +153,12 @@ app.post('/api/auth/register', async (req, res) => {
     if (error) return res.status(400).json({ error: error.message });
 
     const user = { id: data.user.id, name, email, role: 'student' };
-    res.json({ token: data.session?.access_token, user });
+    setRefreshCookie(res, data.session?.refresh_token);
+    res.json({
+      token: data.session?.access_token || null,
+      requiresEmailConfirmation: !data.session,
+      user
+    });
   } catch (e) {
     res.status(500).json({ error: 'Registration server error.' });
   }
@@ -151,10 +187,35 @@ app.post('/api/auth/login', async (req, res) => {
       role: profile?.role || 'student' 
     };
 
+    setRefreshCookie(res, data.session.refresh_token);
     res.json({ token: data.session.access_token, user });
   } catch (e) {
     res.status(500).json({ error: 'Login server error.' });
   }
+});
+
+// Rotation is handled server-side, so the browser never stores a refresh token.
+app.post('/api/auth/refresh', async (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  const refreshToken = readRefreshCookie(req);
+  if (!refreshToken) return res.status(401).json({ error: 'Please sign in to continue.' });
+  try {
+    const { data, error } = await newAuthClient().auth.refreshSession({ refresh_token: refreshToken });
+    if (error || !data?.session?.access_token || !data.session.refresh_token) {
+      clearRefreshCookie(res);
+      return res.status(401).json({ error: 'Session expired. Please sign in again.' });
+    }
+    setRefreshCookie(res, data.session.refresh_token);
+    return res.json({ token: data.session.access_token });
+  } catch (e) {
+    return res.status(503).json({ error: 'Could not renew the session. Please try again.' });
+  }
+});
+
+app.post('/api/auth/logout', (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  clearRefreshCookie(res);
+  res.json({ ok: true });
 });
 
 // LMS Student User Data & Interactions

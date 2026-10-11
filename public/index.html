@@ -2689,7 +2689,10 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
   (() => {
     const API = '/api';
     let authMode = 'login';
+    // Accept an old access token once for migration, but don't keep tokens in localStorage.
     let authToken = localStorage.getItem('sjn_auth_token') || '';
+    localStorage.removeItem('sjn_auth_token');
+    let refreshPromise = null;
     let currentUser = null;
     let remoteContentLoaded = false;
     let selectedCourseId = null;
@@ -2697,16 +2700,46 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     let selectedResourceId = null;
     let paperSourceFilter = null;
 
+    function renewAccessToken() {
+      if (!refreshPromise) {
+        refreshPromise = (async () => {
+          const response = await fetch(API + '/auth/refresh', {
+            method: 'POST', credentials: 'same-origin', cache: 'no-store'
+          });
+          if (response.status === 401) { authToken = ''; return false; }
+          const data = await response.json().catch(() => ({}));
+          if (!response.ok) throw new Error(data.error || 'Unable to renew login. Please retry.');
+          if (!data.token) throw new Error('Session renewal returned no access token.');
+          authToken = data.token;
+          return true;
+        })().finally(() => { refreshPromise = null; });
+      }
+      return refreshPromise;
+    }
+
     async function api(path, options = {}) {
       const headers = { ...(options.headers || {}) };
+      const body = options.body && typeof options.body !== 'string'
+        ? JSON.stringify(options.body) : options.body;
+      if (options.body && typeof options.body !== 'string') headers['Content-Type'] = 'application/json';
+      const request = () => fetch(API + path, {
+        ...options, body, credentials: 'same-origin', headers
+      });
       if (authToken) headers.Authorization = `Bearer ${authToken}`;
-      if (options.body && typeof options.body !== 'string') {
-        headers['Content-Type'] = 'application/json';
-        options.body = JSON.stringify(options.body);
+      let response = await request();
+      // A denied authenticated request is safe to retry once after renewal.
+      if (response.status === 401 && !path.startsWith('/auth/')) {
+        if (await renewAccessToken()) {
+          headers.Authorization = `Bearer ${authToken}`;
+          response = await request();
+        }
       }
-      const r = await fetch(API + path, { ...options, headers });
-      const data = await r.json().catch(() => ({}));
-      if (!r.ok) throw new Error(data.error || 'Request failed.');
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const error = new Error(data.error || 'Request failed.');
+        error.status = response.status;
+        throw error;
+      }
       return data;
     }
 
@@ -2737,17 +2770,33 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         const body = { email: document.getElementById('auth-email').value.trim(), password: document.getElementById('auth-password').value };
         if (authMode === 'register') body.name = document.getElementById('auth-name').value.trim();
         const data = await api(authMode === 'register' ? '/auth/register' : '/auth/login', { method: 'POST', body });
-        authToken = data.token; currentUser = data.user; localStorage.setItem('sjn_auth_token', authToken);
+        if (!data.token) {
+          error.innerText = data.requiresEmailConfirmation
+            ? 'Check your email to confirm your account, then sign in.'
+            : 'No login session was returned. Please sign in.';
+          error.classList.remove('hidden');
+          return;
+        }
+        authToken = data.token;
+        currentUser = data.user;
+        localStorage.removeItem('sjn_auth_token');
         closeAuthModal(); await loadAccount();
       } catch (e) { error.innerText = e.message; error.classList.remove('hidden'); }
     };
 
-    window.logoutUser = function() {
-      authToken = '';
-      localStorage.removeItem('sjn_auth_token');
-      currentUser = null;
-      loadAccount(); 
-      window.location.replace("/landing.html")
+    window.logoutUser = async function() {
+      try {
+        const response = await fetch(API + '/auth/logout', {
+          method: 'POST', credentials: 'same-origin'
+        });
+        if (!response.ok) throw new Error('Could not sign out. Please retry.');
+        authToken = '';
+        currentUser = null;
+        localStorage.removeItem('sjn_auth_token');
+        window.location.replace('/landing.html');
+      } catch (error) {
+        alert(error.message || 'Could not sign out. Please retry.');
+      }
     };
 
     window.handleDesktopClick = function() {
@@ -2785,12 +2834,12 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     }
     
     async function loadAccount() {
-      if (!authToken) {
-        currentUser = null;
-        updateAccountUI();
-        return;
-      }
       try {
+        if (!authToken && !(await renewAccessToken())) {
+          currentUser = null;
+          updateAccountUI();
+          return;
+        }
         const data = await api('/me');
         currentUser = data.user;
         sjnProfile.mcqsAttempted = Number(data.stats.total || 0);
@@ -2798,9 +2847,12 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         bookmarkedMcqs = data.bookmarks || [];
         updateGlobalProfileUI();
         updateAccountUI();
-      } catch {
-        authToken = ''; localStorage.removeItem('sjn_auth_token'); currentUser = null;
+      } catch (error) {
+        // Never erase a valid session for a temporary network or server error.
+        if (error.status === 401) authToken = '';
+        currentUser = null;
         updateAccountUI();
+        console.warn('Unable to load student account:', error);
       }
     }
 
