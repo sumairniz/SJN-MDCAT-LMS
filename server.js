@@ -15,7 +15,22 @@ const ADMIN_TOKEN = process.env.ADMIN_TOKEN || '';
 // Official Supabase Client Initialization
 const SUPABASE_URL = process.env.SUPABASE_URL || '';
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || '';
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Auth state must never be shared between different student requests.
+const CLIENT_OPTIONS = {
+  auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+};
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, CLIENT_OPTIONS);
+
+function newAuthClient() {
+  return createClient(SUPABASE_URL, SUPABASE_ANON_KEY, CLIENT_OPTIONS);
+}
+
+function studentClient(accessToken) {
+  return createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    ...CLIENT_OPTIONS,
+    global: { headers: { Authorization: `Bearer ${accessToken}` } }
+  });
+}
 
 const ROOT = __dirname;
 const PUBLIC = path.join(ROOT, 'public');
@@ -34,10 +49,12 @@ async function auth(req, res, next) {
   
   try {
     // Verify token directly using Supabase Auth
-    const { data: { user }, error } = await supabase.auth.getUser(token);
+    const db = studentClient(token);
+    const { data: { user }, error } = await db.auth.getUser(token);
     if (error || !user) return res.status(401).json({ error: 'Invalid or expired session.' });
     
     req.user = user;
+    req.db = db;
     next();
   } catch (e) {
     return res.status(401).json({ error: 'Authentication verification failed.' });
@@ -96,7 +113,7 @@ app.post('/api/auth/register', async (req, res) => {
 
   try {
     // Native Supabase Auth Sign Up
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await newAuthClient().auth.signUp({
       email,
       password,
       options: { data: { name } }
@@ -117,11 +134,11 @@ app.post('/api/auth/login', async (req, res) => {
 
   try {
     // Native Supabase Auth Sign In
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await newAuthClient().auth.signInWithPassword({ email, password });
     if (error) return res.status(401).json({ error: 'Incorrect email or password.' });
 
     // Fetch user profile name from public.profiles table
-    const { data: profile } = await supabase
+    const { data: profile } = await studentClient(data.session.access_token)
       .from('profiles')
       .select('name, role')
       .eq('id', data.user.id)
@@ -145,13 +162,16 @@ app.get('/api/me', auth, async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const { data: profile } = await supabase.from('profiles').select('*').eq('id', userId).single();
-    const { data: attempts } = await supabase.from('attempts').select('total, correct').eq('user_id', userId);
+    const { data: profile, error: profileError } = await req.db.from('profiles').select('name, role').eq('id', userId).single();
+    if (profileError && profileError.code !== 'PGRST116') throw profileError;
+    const { data: attempts, error: attemptsError } = await req.db.from('attempts').select('total, correct').eq('user_id', userId);
+    if (attemptsError) throw attemptsError;
     const total = (attempts || []).reduce((acc, x) => acc + x.total, 0);
     const correct = (attempts || []).reduce((acc, x) => acc + x.correct, 0);
     const stats = { total, correct, tests: (attempts || []).length };
 
-    const { data: bookmarksData } = await supabase.from('bookmarks').select('mcq_id').eq('user_id', userId).order('created_at', { ascending: false });
+    const { data: bookmarksData, error: bookmarksError } = await req.db.from('bookmarks').select('mcq_id').eq('user_id', userId).order('created_at', { ascending: false });
+    if (bookmarksError) throw bookmarksError;
     const bookmarks = (bookmarksData || []).map(x => x.mcq_id);
 
     const user = { id: userId, name: profile?.name || req.user.user_metadata?.name || 'Student', email: req.user.email, role: profile?.role || 'student' };
@@ -163,7 +183,7 @@ app.get('/api/me', auth, async (req, res) => {
 
 app.get('/api/history', auth, async (req, res) => {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await req.db
       .from('attempts')
       .select('id, title, total, correct, accuracy, mode, subject, selection_json, created_at')
       .eq('user_id', req.user.id)
@@ -183,7 +203,7 @@ app.post('/api/attempts', auth, async (req, res) => {
     const correct = Math.max(0, Math.min(total, Number(b.correct || 0)));
     const accuracy = total ? (correct / total) * 100 : 0;
 
-    const { data, error } = await supabase.from('attempts').insert([{
+    const { data, error } = await req.db.from('attempts').insert([{
       user_id: req.user.id,
       title: String(b.title || 'Practice Test'),
       total,
@@ -204,24 +224,34 @@ app.post('/api/attempts', auth, async (req, res) => {
 app.post('/api/bookmarks/toggle', auth, async (req, res) => {
   try {
     const mcqId = Number(req.body.mcqId);
+    if (!Number.isSafeInteger(mcqId) || mcqId < 1) {
+      return res.status(400).json({ error: 'A valid MCQ ID is required.' });
+    }
     const userId = req.user.id;
 
-    const { data: existing } = await supabase
+    const { data: existing, error: lookupError } = await req.db
       .from('bookmarks')
       .select('mcq_id')
       .eq('user_id', userId)
       .eq('mcq_id', mcqId)
       .maybeSingle();
+    if (lookupError) throw lookupError;
 
     if (existing) {
-      await supabase.from('bookmarks').delete().eq('user_id', userId).eq('mcq_id', mcqId);
+      const { error: writeError } = await req.db.from('bookmarks').delete().eq('user_id', userId).eq('mcq_id', mcqId);
+      if (writeError) throw writeError;
       res.json({ bookmarked: false });
     } else {
-      await supabase.from('bookmarks').insert([{ user_id: userId, mcq_id: mcqId }]);
+      const { error: writeError } = await req.db.from('bookmarks').insert([{ user_id: userId, mcq_id: mcqId }]);
+      if (writeError) throw writeError;
       res.json({ bookmarked: true });
     }
   } catch (e) {
-    res.status(500).json({ error: 'Failed to update bookmark.' });
+    res.status(e.code === '23503' ? 409 : 500).json({
+      error: e.code === '23503'
+        ? 'This question must be published to the database before it can be marked.'
+        : 'Failed to update marked question.'
+    });
   }
 });
 

@@ -1,0 +1,25 @@
+name: Foundation checks
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [sjn-phase1a-foundation]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Check backend syntax
+        run: node --check server.js
+      - name: Run isolated authentication and RLS-context tests
+        run: npm test
