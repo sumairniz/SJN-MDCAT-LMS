@@ -199,14 +199,14 @@ test("login sets an HttpOnly refresh cookie and never exposes the refresh token 
       method: "POST", headers: { Cookie: "sjn_refresh=bad-token" }
     });
     assert.equal(r.status, 401);
-    assert.match(r.headers.get("set-cookie"), /max-age=0/i);
+    assert.match(r.headers.get("set-cookie"), /expires=Thu, 01 Jan 1970 00:00:00 GMT|Max-Age=0/i);
 
     r = await fetch(root + "/api/auth/logout", {
       method: "POST", headers: { Cookie: "sjn_refresh=refresh-rotated" }
     });
     assert.equal(r.status, 200);
     assert.equal((await r.json()).ok, true);
-    assert.match(r.headers.get("set-cookie"), /max-age=0/i);
+    assert.match(r.headers.get("set-cookie"), /expires=Thu, 01 Jan 1970 00:00:00 GMT|Max-Age=0/i);
   } finally {
     await new Promise((resolve, reject) => server.close(err => err ? reject(err) : resolve()));
   }
