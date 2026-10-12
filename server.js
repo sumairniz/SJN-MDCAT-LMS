@@ -250,12 +250,18 @@ app.post('/api/auth/refresh', async (req, res) => {
       refresh_token: session.refreshToken
     });
     if (error || !data?.session?.access_token || !data.session.refresh_token ||
+        !data.user || data.user.id !== session.userId ||
         Date.now() >= session.expiresAt) {
       clearSession(res);
       return res.status(401).json({ error: 'Session expired. Please sign in again.' });
     }
     issueSession(res, data.session.refresh_token, session.userId, session.expiresAt);
-    return res.json({ token: data.session.access_token, expiresAt: session.expiresAt });
+    const payload={token:data.session.access_token,expiresAt:session.expiresAt};
+    if(req.query.bootstrap==='1') {
+      // Auth already verified the refresh token and user; the DB uses student RLS.
+      Object.assign(payload,await studentOverview(studentClient(data.session.access_token),data.user));
+    }
+    return res.json(payload);
   } catch (e) {
     return res.status(503).json({ error: 'Could not renew the session. Please try again.' });
   }
@@ -267,28 +273,30 @@ app.post('/api/auth/logout', (req, res) => {
   res.json({ ok: true });
 });
 
+// Parallel, RLS-scoped student summary used by /me and one-request startup.
+async function studentOverview(db, authUser) {
+  const uid = authUser.id;
+  const [p,a,b] = await Promise.all([
+    db.from('profiles').select('name, role').eq('id',uid).single(),
+    db.from('attempts').select('total, correct').eq('user_id',uid),
+    db.from('bookmarks').select('mcq_id').eq('user_id',uid).order('created_at',{ascending:false})
+  ]);
+  if (p.error && p.error.code !== 'PGRST116') throw p.error;
+  if (a.error) throw a.error;
+  if (b.error) throw b.error;
+  const attempts=a.data||[];
+  return {
+    user:{id:uid,name:p.data?.name||authUser.user_metadata?.name||'Student',email:authUser.email,role:p.data?.role||'student'},
+    stats:{total:attempts.reduce((n,x)=>n+x.total,0),
+           correct:attempts.reduce((n,x)=>n+x.correct,0),tests:attempts.length},
+    bookmarks:(b.data||[]).map(x=>x.mcq_id)
+  };
+}
+
 // LMS Student User Data & Interactions
 app.get('/api/me', auth, async (req, res) => {
-  try {
-    const userId = req.user.id;
-
-    const { data: profile, error: profileError } = await req.db.from('profiles').select('name, role').eq('id', userId).single();
-    if (profileError && profileError.code !== 'PGRST116') throw profileError;
-    const { data: attempts, error: attemptsError } = await req.db.from('attempts').select('total, correct').eq('user_id', userId);
-    if (attemptsError) throw attemptsError;
-    const total = (attempts || []).reduce((acc, x) => acc + x.total, 0);
-    const correct = (attempts || []).reduce((acc, x) => acc + x.correct, 0);
-    const stats = { total, correct, tests: (attempts || []).length };
-
-    const { data: bookmarksData, error: bookmarksError } = await req.db.from('bookmarks').select('mcq_id').eq('user_id', userId).order('created_at', { ascending: false });
-    if (bookmarksError) throw bookmarksError;
-    const bookmarks = (bookmarksData || []).map(x => x.mcq_id);
-
-    const user = { id: userId, name: profile?.name || req.user.user_metadata?.name || 'Student', email: req.user.email, role: profile?.role || 'student' };
-    res.json({ user, stats, bookmarks });
-  } catch (e) {
-    res.status(500).json({ error: 'Failed to fetch user data.' });
-  }
+  try { res.json(await studentOverview(req.db,req.user)); }
+  catch(e) { res.status(500).json({error:'Failed to fetch user data.'}); }
 });
 
 app.get('/api/history', auth, async (req, res) => {

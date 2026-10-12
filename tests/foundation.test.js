@@ -60,7 +60,7 @@ function fakeCreateClient(url, key, options = {}) {
         if (refresh_token !== "refresh-a") {
           return { data: { session: null }, error: new Error("Invalid refresh token") };
         }
-        return { data: { session: { access_token: "token-a-rotated", refresh_token: "refresh-rotated" } }, error: null };
+        return { data: { user: { id: "student-a", email: "student@example.com", user_metadata: {} }, session: { access_token: "token-a-rotated", refresh_token: "refresh-rotated" } }, error: null };
       }
     },
     from(table) { return makeQuery(table, authorization); }
@@ -253,6 +253,28 @@ test("login sets signed HttpOnly cookies and token refresh keeps original 24-hou
   }
 });
 
+test("bootstrap combines auth and RLS-scoped student data in one response",async()=>{
+  const server=await new Promise(resolve=>{const s=app.listen(0,"127.0.0.1",()=>resolve(s));});
+  try{
+    const root="http://127.0.0.1:"+server.address().port;
+    const login=await loginSession(root);
+    databaseCalls.splice(0);
+    const r=await fetch(root+"/api/auth/refresh?bootstrap=1",{method:"POST",headers:{Cookie:login.cookies}});
+    assert.equal(r.status,200);
+    const d=await r.json();
+    assert.equal(d.user.id,"student-a");
+    assert.equal(d.token,"token-a-rotated");
+    assert.equal(d.expiresAt,login.body.expiresAt);
+    assert.equal(d.stats.total,5);
+    assert.deepEqual(d.bookmarks,[]);
+    const calls=databaseCalls.splice(0);
+    assert.equal(calls.length,3);
+    assert.ok(calls.every(c=>c.authorization==="Bearer token-a-rotated"));
+  }finally{
+    await new Promise((resolve,reject)=>server.close(err=>err?reject(err):resolve()));
+  }
+});
+
 test("normal navigation keeps verification splash hidden while protecting dashboard", () => {
   const fs = require("node:fs");
   const path = require("node:path");
@@ -266,6 +288,8 @@ test("normal navigation keeps verification splash hidden while protecting dashbo
   assert.match(dash, /session-guard/);
   assert.match(landing, /#session-check-message \{ display: none; \}/);
   assert.match(landing, /sjn_recent_logout/);
+  assert.match(dash, /sjn-load-shell/);
+  assert.match(dash, /initialAccount \|\| await api/);
 });
 
 test("dashboard and landing pages have explicit refresh-session integration", () => {
@@ -273,7 +297,7 @@ test("dashboard and landing pages have explicit refresh-session integration", ()
   const path = require("node:path");
   const dash = fs.readFileSync(path.join(__dirname, "../public/index.html"), "utf8");
   const landing = fs.readFileSync(path.join(__dirname, "../public/landing.html"), "utf8");
-  assert.match(dash, /function renewAccessToken\(\)/);
+  assert.match(dash, /function renewAccessToken\(bootstrap = false\)/);
   assert.match(dash, /response\.status === 401/);
   assert.match(dash, /refreshPromise/);
   assert.match(landing, /auth\/refresh/);

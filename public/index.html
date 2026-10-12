@@ -74,6 +74,16 @@
       }
     }
 
+    /* Authentication placeholder is safe to show before private data loads. */
+    .sjn-load-shell{width:min(800px,calc(100% - 48px));display:grid;gap:22px;text-align:left}
+    .sjn-load-brand{color:#f4f4f5;font:800 18px/1.3 system-ui,sans-serif}
+    .sjn-load-brand span{color:#ef4444}
+    .sjn-load-top{height:1px;background:#27272a}
+    .sjn-load-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .sjn-load-card{height:106px;border:1px solid #242429;border-radius:12px;background:#151518}
+    .sjn-load-line{height:16px;width:57%;border-radius:5px;background:#27272a}
+    .sjn-load-wide{height:150px;border:1px solid #242429;border-radius:12px;background:#151518}
+    @media(max-width:600px){.sjn-load-grid{grid-template-columns:1fr 1fr}.sjn-load-grid .sjn-load-card:last-child{display:none}}
     /* Hide scrollbar for mobile navigation drawer */
     #sidebar-nav::-webkit-scrollbar {
       display: none;
@@ -91,6 +101,12 @@
   <div id="session-guard" role="status" aria-live="polite" class="fixed inset-0 z-[100] bg-sjn-black flex flex-col items-center justify-center gap-4 p-6 text-center">
     <!-- Keep the private workspace covered during authorization without an intrusive splash.
          Only reveal an explanation and Retry if an actual connection error occurs. -->
+    <div class="sjn-load-shell" aria-hidden="true">
+      <div class="sjn-load-brand">SJN <span>MDCAT LMS PRO</span></div>
+      <div class="sjn-load-top"></div>
+      <div class="sjn-load-grid"><div class="sjn-load-card"></div><div class="sjn-load-card"></div><div class="sjn-load-card"></div></div>
+      <div class="sjn-load-line"></div><div class="sjn-load-wide"></div>
+    </div>
     <p id="session-guard-message" class="hidden text-sm text-gray-200 font-semibold"></p>
     <button id="session-guard-retry" onclick="window.location.reload()" class="hidden px-5 py-2.5 bg-red-600 text-white font-bold text-xs rounded-lg">Retry connection</button>
   </div>
@@ -2679,6 +2695,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     let authToken = localStorage.getItem('sjn_auth_token') || '';
     localStorage.removeItem('sjn_auth_token');
     let refreshPromise = null;
+    let initialAccount = null;
     let sessionExpiresAt = null;
     let expiryTimer = null;
     function expireSessionIfNeeded() {
@@ -2714,10 +2731,10 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     let selectedResourceId = null;
     let paperSourceFilter = null;
 
-    function renewAccessToken() {
+    function renewAccessToken(bootstrap = false) {
       if (!refreshPromise) {
         refreshPromise = (async () => {
-          const response = await fetch(API + '/auth/refresh', {
+          const response = await fetch(API + '/auth/refresh' + (bootstrap ? '?bootstrap=1' : ''), {
             method: 'POST', credentials: 'same-origin', cache: 'no-store'
           });
           if (response.status === 401) { authToken = ''; return false; }
@@ -2726,6 +2743,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
           if (!data.token) throw new Error('Session renewal returned no access token.');
           authToken = data.token;
           scheduleSessionExpiry(data.expiresAt);
+          if (bootstrap && data.user) initialAccount = data;
           return true;
         })().finally(() => { refreshPromise = null; });
       }
@@ -2792,13 +2810,15 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     };
 
     async function loadAccount() {
+      const startedAt = performance.now();
       const guard = document.getElementById('session-guard');
       try {
-        if (!authToken && !(await renewAccessToken())) {
+        if (!authToken && !(await renewAccessToken(true))) {
           window.location.replace('/landing.html');
           return false;
         }
-        const data = await api('/me');
+        const data = initialAccount || await api('/me');
+        initialAccount = null;
         if (!data.user) throw Object.assign(new Error('Student account missing.'), { status: 401 });
         currentUser = data.user;
         updateDashboardAccountUI(currentUser);
@@ -2807,6 +2827,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         bookmarkedMcqs = data.bookmarks || [];
         updateGlobalProfileUI();
         guard.classList.add('hidden');
+        console.info('SJN dashboard authenticated in', Math.round(performance.now()-startedAt), 'ms');
         return true;
       } catch (error) {
         if (error.status === 401) {
@@ -2817,6 +2838,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         // Outages must not pretend the user logged out or expose private workspace.
         document.getElementById('session-guard-message').textContent =
           'Unable to verify your session. Check your connection and retry.';
+        document.querySelector('.sjn-load-shell')?.remove();
         document.getElementById('session-guard-message').classList.remove('hidden');
         document.getElementById('session-guard-retry').classList.remove('hidden');
         console.warn('Unable to verify student account:', error);
