@@ -57,8 +57,15 @@
     .header-actions { display: flex; gap: 10px; align-items: center; }
     .header-actions .btn { min-height: 41px; }
     [hidden] { display: none !important; }
-    /* Session checks run before showing account actions, avoiding misleading Login flashes. */
-    body[data-session-state="checking"] [data-auth] { visibility: hidden; }
+    /* Public content is not shown while a valid student session is checked. */
+    body[data-session-state="checking"] > :not(#session-check) { visibility: hidden; }
+    #session-check { display: none; position: fixed; inset: 0; z-index: 9999;
+      align-items: center; justify-content: center; flex-direction: column;
+      gap: 12px; padding: 24px; background: #090a0e; color: #f8f8fb; text-align: center; }
+    body[data-session-state="checking"] #session-check { display: flex; }
+    #session-check .brand-mark { margin-bottom: 8px; }
+    #session-check-retry { display: none; }
+    body[data-session-error="true"] #session-check-retry { display: inline-flex; }
     .menu-toggle { display: none; width: 42px; height: 42px; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 10px; background: #17181e; color: #fff; }
     .mobile-menu { display: none; }
 
@@ -237,6 +244,11 @@
   </style>
 </head>
 <body data-session-state="checking">
+  <div id="session-check" role="status" aria-live="polite">
+    <span class="brand-mark" aria-hidden="true">SJN</span>
+    <strong id="session-check-message">Verifying your student session…</strong>
+    <button id="session-check-retry" class="btn btn-primary" type="button" onclick="window.location.reload()">Retry connection</button>
+  </div>
   <header class="site-header">
     <div class="container navbar">
       <a href="#top" class="brand" aria-label="SJN MDCAT Academy home">
@@ -251,8 +263,6 @@
       <div class="header-actions">
         <button class="btn btn-outline" type="button" data-auth="signin">Login</button>
         <button class="btn btn-primary" type="button" data-auth="register">Register <span aria-hidden="true">↗</span></button>
-        <a class="btn btn-primary" href="/index.html" data-session-only="signed" hidden>Go to Dashboard</a>
-        <button class="btn btn-outline" type="button" data-session-only="signed" data-logout hidden>Logout</button>
       </div>
       <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle menu">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -260,7 +270,7 @@
     </div>
     <nav class="container mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
       <a href="#features">Features</a><a href="#subjects">Subjects</a><a href="#how-it-works">How It Works</a>
-      <div class="mobile-buttons"><button type="button" class="btn btn-outline" data-auth="signin">Login</button><button type="button" class="btn btn-primary" data-auth="register">Register</button><a href="/index.html" class="btn btn-primary" data-session-only="signed" hidden>Go to Dashboard</a><button type="button" class="btn btn-outline" data-session-only="signed" data-logout hidden>Logout</button></div>
+      <div class="mobile-buttons"><button type="button" class="btn btn-outline" data-auth="signin">Login</button><button type="button" class="btn btn-primary" data-auth="register">Register</button></div>
     </nav>
   </header>
 
@@ -276,7 +286,6 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
             <button type="button" class="btn btn-outline" data-auth="signin">Already a student? Login</button>
-            <a href="/index.html" class="btn btn-primary" data-session-only="signed" hidden>Continue to Dashboard</a>
           </div>
           <div class="hero-message"><strong>SJN,</strong> A step today for a better tomorrow.</div>
           <div class="hero-foot">
@@ -333,7 +342,7 @@
       </div>
     </section>
 
-    <section class="cta-section"><div class="container"><div class="cta-panel"><p class="eyebrow">Your next chapter begins here</p><h2>A small step today.<br><span class="red">A stronger tomorrow.</span></h2><p>Join the SJN MDCAT Academy learning portal and make your next practice session count.</p><button type="button" class="btn btn-primary" data-auth="register">Create Your Account <span aria-hidden="true">→</span></button><a href="/index.html" class="btn btn-primary" data-session-only="signed" hidden>Return to Dashboard <span aria-hidden="true">→</span></a></div></div></section>
+    <section class="cta-section"><div class="container"><div class="cta-panel"><p class="eyebrow">Your next chapter begins here</p><h2>A small step today.<br><span class="red">A stronger tomorrow.</span></h2><p>Join the SJN MDCAT Academy learning portal and make your next practice session count.</p><button type="button" class="btn btn-primary" data-auth="register">Create Your Account <span aria-hidden="true">→</span></button></div></div></section>
   </main>
 
   <footer class="site-footer"><div class="container footer-inner"><div><div class="footer-brand">SJN MDCAT <span>ACADEMY</span></div><div class="footer-sub">SJN, A step today for a better tomorrow.</div></div><div class="footer-right">Medical Entrance Learning Portal<br>Designed for aspiring doctors</div></div></footer>
@@ -366,92 +375,73 @@
       tokenKey: 'sjn_auth_token'
     };
 
-    // The landing page is ALWAYS the home page, even for authenticated students.
-    // It must remain available so they can log out here, not inside the dashboard.
+    // Landing remains public only for visitors without a valid student session.
+    // Returning students are verified before the landing page is revealed.
     let authSubmitting = false;
-    let checkingSession = true;
-    let currentLandingUser = null;
-
-    function renderLandingSession(user) {
-      currentLandingUser = user || null;
-      document.body.dataset.sessionState = user ? 'signed' : 'guest';
-      document.querySelectorAll('[data-auth]').forEach(el => {
-        el.hidden = Boolean(user);
-      });
-      document.querySelectorAll('[data-session-only="signed"]').forEach(el => {
-        el.hidden = !user;
-      });
+    function showGuestLanding() {
+      document.body.dataset.sessionState = 'guest';
+    }
+    function showSessionError() {
+      document.body.dataset.sessionError = 'true';
+      document.getElementById('session-check-message').textContent =
+        'Unable to verify your session. Check your connection and retry.';
     }
 
     async function checkSavedSession() {
       try {
+        // One-time migration for students signed in before refresh cookies existed.
         let token = localStorage.getItem(SJN_AUTH.tokenKey);
         if (!token) {
           const refresh = await fetch(SJN_AUTH.apiBase + '/auth/refresh', {
             method: 'POST', credentials: 'same-origin', cache: 'no-store'
           });
-          if (refresh.status === 401) { renderLandingSession(null); return; }
-          if (!refresh.ok) throw new Error('Unable to check the current session.');
-          const session = await refresh.json();
-          token = session.token;
+          if (refresh.status === 401) { showGuestLanding(); return; }
+          if (!refresh.ok) throw new Error('Could not verify your session.');
+          token = (await refresh.json()).token;
         }
-        if (!token || authSubmitting) return;
+        if (!token || authSubmitting) {
+          if (!authSubmitting) showGuestLanding();
+          return;
+        }
         let response = await fetch(SJN_AUTH.apiBase + '/me', {
-          headers: { Authorization: `Bearer ${token}` }, cache: 'no-store'
+          headers: { Authorization: 'Bearer ' + token }, cache: 'no-store'
         });
         if (response.status === 401) {
-          // A saved access token may have expired; retry through the refresh cookie.
+          // Old access tokens may have expired; try the refresh cookie once.
           const refresh = await fetch(SJN_AUTH.apiBase + '/auth/refresh', {
             method: 'POST', credentials: 'same-origin', cache: 'no-store'
           });
-          if (refresh.ok) {
-            const session = await refresh.json();
-            response = await fetch(SJN_AUTH.apiBase + '/me', {
-              headers: { Authorization: `Bearer ${session.token}` }, cache: 'no-store'
-            });
+          if (refresh.status === 401) {
+            localStorage.removeItem(SJN_AUTH.tokenKey);
+            showGuestLanding();
+            return;
           }
+          if (!refresh.ok) throw new Error('Could not renew your session.');
+          token = (await refresh.json()).token;
+          response = await fetch(SJN_AUTH.apiBase + '/me', {
+            headers: { Authorization: 'Bearer ' + token }, cache: 'no-store'
+          });
         }
         if (authSubmitting) return;
         if (response.ok) {
           const data = await response.json();
+          if (!data.user) throw new Error('Could not verify student identity.');
+          // Legacy token is consumed by the dashboard on its first load.
+          window.location.replace(SJN_AUTH.dashboard);
+          return;
+        }
+        if (response.status === 401) {
           localStorage.removeItem(SJN_AUTH.tokenKey);
-          renderLandingSession(data.user);
-        } else if (response.status === 401) {
-          localStorage.removeItem(SJN_AUTH.tokenKey);
-          renderLandingSession(null);
+          showGuestLanding();
         } else {
-          throw new Error('Could not verify account status.');
+          throw new Error('Session verification is temporarily unavailable.');
         }
       } catch (error) {
-        // A temporary outage is not evidence that the session has ended.
         console.warn('Session verification unavailable:', error);
-        document.body.dataset.sessionState = 'checking';
-        return;
-      } finally {
-        checkingSession = false;
+        showSessionError();
       }
     }
     checkSavedSession();
-
-    document.querySelectorAll('[data-logout]').forEach(button => {
-      button.addEventListener('click', async () => {
-        if (button.disabled) return;
-        document.querySelectorAll('[data-logout]').forEach(el => { el.disabled = true; });
-        try {
-          const response = await fetch(SJN_AUTH.apiBase + '/auth/logout', {
-            method: 'POST', credentials: 'same-origin', cache: 'no-store'
-          });
-          if (!response.ok) throw new Error('Unable to log out. Please try again.');
-          localStorage.removeItem(SJN_AUTH.tokenKey);
-          localStorage.setItem('sjn_logout_event', String(Date.now()));
-          renderLandingSession(null);
-        } catch (error) {
-          alert(error.message || 'Unable to log out. Please try again.');
-        } finally {
-          document.querySelectorAll('[data-logout]').forEach(el => { el.disabled = false; });
-        }
-      });
-    });
 
     const overlay = document.getElementById('authOverlay');
     const modal = overlay.querySelector('.auth-modal');

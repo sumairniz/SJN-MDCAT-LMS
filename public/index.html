@@ -92,7 +92,6 @@
     <div class="w-12 h-12 rounded-xl border border-red-700 bg-red-950/30 flex items-center justify-center text-red-400 font-black">SJN</div>
     <p id="session-guard-message" class="text-sm text-gray-200 font-semibold">Verifying your student session…</p>
     <button id="session-guard-retry" onclick="window.location.reload()" class="hidden px-5 py-2.5 bg-red-600 text-white font-bold text-xs rounded-lg">Retry connection</button>
-    <a href="/landing.html" class="text-sm text-red-400 hover:text-red-300 underline">Academy Home</a>
   </div>
 
   <!-- ========================================== -->
@@ -108,12 +107,20 @@
       </button>
     </div>
 
-    <!-- Student account access lives on the landing page only. -->
-    <div class="md:hidden p-4 border-b border-gray-800">
-      <a href="/landing.html" class="flex items-center gap-3 p-3 rounded-xl bg-zinc-900 border border-sjn-border text-sm font-semibold text-gray-200 hover:text-white hover:border-red-500/50">
-        <i class="fa-solid fa-house text-red-500"></i>
-        Academy Home
-      </a>
+    <!-- Mobile Drawer Account Section -->
+    <div class="md:hidden flex flex-col border-b border-gray-800 p-4 space-y-3">
+      <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">Account</div>
+      
+      <!-- Logged In Mobile View -->
+      <div id="mobile-account-logged-in" class="space-y-2">
+        <div class="flex items-center space-x-3 text-white text-sm font-bold bg-zinc-900 p-3 rounded-lg border border-sjn-border">
+          <i class="fa-solid fa-circle-user text-red-500 text-2xl"></i>
+          <span id="mobile-user-name">Student Name</span>
+        </div>
+        <button onclick="closeMobileMenu(); logoutUser()" class="w-full py-2.5 bg-red-950/40 hover:bg-red-900 border border-red-900/50 text-xs font-bold text-red-300 hover:text-white rounded-lg transition-all flex items-center justify-center gap-2">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+        </button>
+      </div>
     </div>
 
     <!-- Desktop Sidebar Collapse Toggle Button -->
@@ -256,11 +263,23 @@
               </span>
             </div>
 
-            <!-- No Login or Logout actions inside the student dashboard. -->
-            <a href="/landing.html" class="px-3 py-1.5 bg-zinc-800 hover:bg-red-600/30 border border-zinc-700 text-xs font-bold text-gray-200 hover:text-white rounded-lg transition-all flex items-center gap-2">
-              <i class="fa-solid fa-house text-red-400"></i>
-              Academy Home
-            </a>
+            <!-- Desktop Account Button & Dropdown (Now safely inside desktop view) -->
+            <div class="relative">
+              <button onclick="handleDesktopClick()" id="account-button" class="px-3 py-1.5 bg-zinc-800 hover:bg-red-600/30 border border-zinc-700 text-xs font-bold text-gray-300 hover:text-white rounded-lg transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-user"></i><span id="account-button-label">Student</span>
+              </button>
+              
+              <!-- The Dropdown -->
+              <div id="desktop-dropdown" class="absolute right-0 mt-2 w-48 bg-zinc-900 border border-sjn-border rounded-xl shadow-xl z-50 hidden flex-col overflow-hidden">
+                <div class="px-4 py-3 border-b border-gray-800">
+                  <p class="text-[10px] text-gray-400 font-bold uppercase">Signed in as</p>
+                  <p id="dropdown-name" class="text-sm font-bold text-white truncate"></p>
+                </div>
+                <button onclick="logoutUser()" class="w-full text-left px-4 py-3 text-xs font-bold text-red-400 hover:bg-zinc-800 transition-all">
+                  <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Sign Out
+                </button>
+              </div>
+            </div>
 
           </div> <!-- Closes the hidden md:flex desktop container -->
 
@@ -2709,6 +2728,36 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       return data;
     }
 
+    let signingOut = false;
+    window.handleDesktopClick = function() {
+      document.getElementById('desktop-dropdown').classList.toggle('hidden');
+    };
+    function updateDashboardAccountUI(user) {
+      const name = user?.name || 'Student';
+      for (const id of ['account-button-label', 'dropdown-name', 'mobile-user-name']) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = name;
+      }
+    }
+    window.logoutUser = async function() {
+      if (signingOut) return;
+      signingOut = true;
+      try {
+        const response = await fetch(API + '/auth/logout', {
+          method: 'POST', credentials: 'same-origin', cache: 'no-store'
+        });
+        if (!response.ok) throw new Error('Unable to sign out. Please retry.');
+        authToken = '';
+        currentUser = null;
+        localStorage.removeItem('sjn_auth_token');
+        localStorage.setItem('sjn_logout_event', String(Date.now()));
+        window.location.replace('/landing.html');
+      } catch (error) {
+        signingOut = false;
+        alert(error.message || 'Unable to sign out. Please retry.');
+      }
+    };
+
     async function loadAccount() {
       const guard = document.getElementById('session-guard');
       try {
@@ -2719,6 +2768,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         const data = await api('/me');
         if (!data.user) throw Object.assign(new Error('Student account missing.'), { status: 401 });
         currentUser = data.user;
+        updateDashboardAccountUI(currentUser);
         sjnProfile.mcqsAttempted = Number(data.stats.total || 0);
         sjnProfile.correctAnswers = Number(data.stats.correct || 0);
         bookmarkedMcqs = data.bookmarks || [];

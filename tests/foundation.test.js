@@ -226,24 +226,30 @@ test("dashboard and landing pages have explicit refresh-session integration", ()
 });
 
 
-test("landing page exclusively owns Login, Register, and Logout", () => {
+test("confirmed flow: Login/Register only on landing; Sign Out only in dashboard", () => {
   const fs = require("node:fs");
   const path = require("node:path");
   const dash = fs.readFileSync(path.join(__dirname, "../public/index.html"), "utf8");
   const landing = fs.readFileSync(path.join(__dirname, "../public/landing.html"), "utf8");
-  assert.doesNotMatch(dash, /openAuthModal\(|logoutUser\(|id="auth-modal"|id="account-button"/);
-  assert.doesNotMatch(dash, /onclick="[^"]*logout|onclick="[^"]*openAuthModal/);
-  assert.match(dash, /href="\/landing\.html"/);
-  assert.match(dash, /id="session-guard"/);
-  assert.match(dash, /if \(!\(await loadAccount\(\)\)\) return/);
   assert.match(landing, /data-auth="signin">Login/);
   assert.match(landing, /data-auth="register"/);
-  assert.match(landing, /data-session-only="signed"/);
-  assert.match(landing, /data-logout/);
-  assert.match(landing, /function renderLandingSession\(user\)/);
-  assert.doesNotMatch(landing, /if \(response\.ok && \(await response\.json\(\)\)\.user\) \{\s*window\.location\.replace/);
+  assert.doesNotMatch(landing, /data-logout|data-session-only="signed"/);
+  assert.match(landing, /function checkSavedSession\(\)/);
   assert.match(landing, /window\.location\.replace\(SJN_AUTH\.dashboard\)/);
-  assert.match(landing, /auth\/logout/);
+  assert.match(landing, /body\[data-session-state="checking"\] > :not\(#session-check\)/);
+  assert.match(landing, /showGuestLanding\(\)/);
+  assert.doesNotMatch(dash, /openAuthModal\(|window\.submitAuth\s*=|id="auth-modal"/);
+  assert.doesNotMatch(dash, /Academy Home|href="\/landing\.html"/);
+  assert.match(dash, /id="account-button"/);
+  assert.match(dash, /id="desktop-dropdown"/);
+  assert.match(dash, /id="mobile-user-name"/);
+  assert.match(dash, /onclick="logoutUser\(\)"/);
+  assert.match(dash, /window\.logoutUser = async function\(\)/);
+  assert.match(dash, /fetch\(API \+ '\/auth\/logout'/);
+  assert.match(dash, /window\.location\.replace\('\/landing\.html'\)/);
+  assert.match(dash, /if \(!\(await loadAccount\(\)\)\) return/);
+  assert.match(dash, /id="session-guard"/);
+  assert.match(dash, /updateDashboardAccountUI\(currentUser\)/);
 });
 
 test("dashboard and landing inline scripts remain syntactically valid", () => {
