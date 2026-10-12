@@ -49,8 +49,9 @@ function fakeCreateClient(url, key, options = {}) {
           error: null
         };
       },
-      async signInWithPassword() {
-        return { data: { user: { id: "student-a", email: "student@example.com", user_metadata: {} }, session: { access_token: "token-a", refresh_token: "refresh-a" } }, error: null };
+      async signInWithPassword({ email }) {
+        const isB = email === "student-b@example.com";
+        return { data: { user: { id: isB ? "student-b" : "student-a", email, user_metadata: {} }, session: { access_token: isB ? "token-b" : "token-a", refresh_token: isB ? "refresh-b" : "refresh-a" } }, error: null };
       },
       async signUp() {
         return { data: { user: { id: "student-a" }, session: { access_token: "token-a", refresh_token: "refresh-a" } }, error: null };
@@ -78,14 +79,33 @@ try {
   Module._load = originalLoad;
 }
 
+function sessionCookies(response) {
+  const setCookie = response.headers.get("set-cookie") || "";
+  return ["sjn_refresh_v2", "sjn_session_v2"].map(name => {
+    const found = setCookie.match(new RegExp("(?:^|,\\s*)" + name + "=([^;]+)"));
+    assert.ok(found, "Expected signed session cookie " + name);
+    return name + "=" + found[1];
+  }).join("; ");
+}
+async function loginSession(root, email = "student@example.com") {
+  const response = await fetch(root + "/api/auth/login", {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password: "password123" })
+  });
+  assert.equal(response.status, 200);
+  return { body: await response.json(), cookies: sessionCookies(response), response };
+}
+
 test("authenticated student queries carry the correct Supabase bearer token", async () => {
   const server = await new Promise(resolve => {
     const s = app.listen(0, "127.0.0.1", () => resolve(s));
   });
   try {
     const root = "http://127.0.0.1:" + server.address().port;
-    const headersA = { Authorization: "Bearer token-a" };
-    const headersB = { Authorization: "Bearer token-b" };
+    const a = await loginSession(root);
+    const b = await loginSession(root, "student-b@example.com");
+    const headersA = { Authorization: "Bearer token-a", Cookie: a.cookies };
+    const headersB = { Authorization: "Bearer token-b", Cookie: b.cookies };
     let r = await fetch(root + "/api/me", { headers: headersA });
     assert.equal(r.status, 200);
     let data = await r.json();
@@ -157,59 +177,94 @@ test("login profile queries use the freshly signed-in student's token", async ()
 });
 
 
-test("login sets an HttpOnly refresh cookie and never exposes the refresh token in JSON", async () => {
+test("login sets signed HttpOnly cookies and token refresh keeps original 24-hour deadline", async () => {
   const server = await new Promise(resolve => {
     const s = app.listen(0, "127.0.0.1", () => resolve(s));
   });
+  const realNow = Date.now;
+  const start = realNow();
   try {
+    Date.now = () => start;
     const root = "http://127.0.0.1:" + server.address().port;
-    let r = await fetch(root + "/api/auth/login", {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: "student@example.com", password: "password123" })
-    });
-    assert.equal(r.status, 200);
-    const sessionBody = await r.json();
-    assert.equal(sessionBody.token, "token-a");
-    assert.equal(Object.hasOwn(sessionBody, "refresh_token"), false);
-    const cookie = r.headers.get("set-cookie");
-    assert.ok(cookie.startsWith("sjn_refresh="));
-    assert.match(cookie, /httponly/i);
-    assert.match(cookie, /samesite=lax/i);
-    assert.match(cookie, /path=\/api\/auth/i);
+    const login = await loginSession(root);
+    assert.equal(login.body.token, "token-a");
+    assert.equal(login.body.expiresAt, start + 24 * 60 * 60 * 1000);
+    assert.equal(Object.hasOwn(login.body, "refresh_token"), false);
+    const cookieHeader = login.response.headers.get("set-cookie");
+    assert.match(cookieHeader, /httponly/i);
+    assert.match(cookieHeader, /samesite=lax/i);
+    assert.match(cookieHeader, /path=\/api/i);
+    assert.doesNotMatch(cookieHeader, /sjn_refresh=refresh-a(;|,)/);
 
-    r = await fetch(root + "/api/auth/refresh", { method: "POST" });
+    let r = await fetch(root + "/api/auth/refresh", { method: "POST" });
     assert.equal(r.status, 401, "No cookie cannot renew a session");
 
+    Date.now = () => start + 23 * 60 * 60 * 1000;
     r = await fetch(root + "/api/auth/refresh", {
-      method: "POST", headers: { Cookie: "sjn_refresh=refresh-a" }
+      method: "POST", headers: { Cookie: login.cookies }
     });
     assert.equal(r.status, 200);
-    assert.deepEqual(await r.json(), { token: "token-a-rotated" });
-    assert.match(r.headers.get("set-cookie"), /sjn_refresh=refresh-rotated/);
+    const renewed = await r.json();
+    assert.equal(renewed.token, "token-a-rotated");
+    assert.equal(renewed.expiresAt, login.body.expiresAt,
+      "Refresh must never extend the login's original deadline");
+    assert.match(r.headers.get("set-cookie"), /sjn_refresh_v2=refresh-rotated/);
     assert.match(r.headers.get("cache-control"), /no-store/);
+    const rotatedCookies = sessionCookies(r);
 
     r = await fetch(root + "/api/me", {
-      headers: { Authorization: "Bearer token-a-rotated" }
+      headers: { Authorization: "Bearer token-a-rotated", Cookie: rotatedCookies }
     });
     assert.equal(r.status, 200);
     assert.ok(databaseCalls.splice(0).filter(x => x.table === "attempts").every(x =>
       x.authorization === "Bearer token-a-rotated"));
 
-    r = await fetch(root + "/api/auth/refresh", {
-      method: "POST", headers: { Cookie: "sjn_refresh=bad-token" }
+    r = await fetch(root + "/api/me", {
+      headers: { Authorization: "Bearer token-b", Cookie: rotatedCookies }
     });
-    assert.equal(r.status, 401);
-    assert.match(r.headers.get("set-cookie"), /expires=Thu, 01 Jan 1970 00:00:00 GMT|Max-Age=0/i);
+    assert.equal(r.status, 401, "Session cookie must belong to the same student as bearer token");
+
+    r = await fetch(root + "/api/auth/refresh", {
+      method: "POST",
+      headers: { Cookie: rotatedCookies.replace("sjn_refresh_v2=refresh-rotated", "sjn_refresh_v2=forged") }
+    });
+    assert.equal(r.status, 401, "Forging refresh cookie cannot extend or reuse timebox");
+
+    Date.now = () => start + 24 * 60 * 60 * 1000;
+    r = await fetch(root + "/api/me", {
+      headers: { Authorization: "Bearer token-a-rotated", Cookie: rotatedCookies }
+    });
+    assert.equal(r.status, 401, "Bearer token must stop at exactly 24 hours");
+    r = await fetch(root + "/api/auth/refresh", {
+      method: "POST", headers: { Cookie: rotatedCookies }
+    });
+    assert.equal(r.status, 401, "Refresh must be denied at the original deadline");
 
     r = await fetch(root + "/api/auth/logout", {
-      method: "POST", headers: { Cookie: "sjn_refresh=refresh-rotated" }
+      method: "POST", headers: { Cookie: rotatedCookies }
     });
     assert.equal(r.status, 200);
     assert.equal((await r.json()).ok, true);
     assert.match(r.headers.get("set-cookie"), /expires=Thu, 01 Jan 1970 00:00:00 GMT|Max-Age=0/i);
   } finally {
+    Date.now = realNow;
     await new Promise((resolve, reject) => server.close(err => err ? reject(err) : resolve()));
   }
+});
+
+test("normal navigation keeps verification splash hidden while protecting dashboard", () => {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  const dash = fs.readFileSync(path.join(__dirname, "../public/index.html"), "utf8");
+  const landing = fs.readFileSync(path.join(__dirname, "../public/landing.html"), "utf8");
+  assert.doesNotMatch(dash, /Verifying your student session/);
+  assert.doesNotMatch(landing, /Verifying your student session/);
+  assert.match(dash, /window\.addEventListener\('DOMContentLoaded', async/);
+  assert.match(dash, /function scheduleSessionExpiry\(value\)/);
+  assert.match(dash, /function expireSessionIfNeeded\(\)/);
+  assert.match(dash, /session-guard/);
+  assert.match(landing, /#session-check-message \{ display: none; \}/);
+  assert.match(landing, /sjn_recent_logout/);
 });
 
 test("dashboard and landing pages have explicit refresh-session integration", () => {

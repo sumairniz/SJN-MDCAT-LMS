@@ -63,7 +63,10 @@
       align-items: center; justify-content: center; flex-direction: column;
       gap: 12px; padding: 24px; background: #090a0e; color: #f8f8fb; text-align: center; }
     body[data-session-state="checking"] #session-check { display: flex; }
-    #session-check .brand-mark { margin-bottom: 8px; }
+    /* Normal session check is visually silent. Show feedback only on a real error. */
+    #session-check .brand-mark, #session-check-message { display: none; }
+    body[data-session-error="true"] #session-check .brand-mark { display: grid; }
+    body[data-session-error="true"] #session-check-message { display: block; }
     #session-check-retry { display: none; }
     body[data-session-error="true"] #session-check-retry { display: inline-flex; }
     .menu-toggle { display: none; width: 42px; height: 42px; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 10px; background: #17181e; color: #fff; }
@@ -246,7 +249,7 @@
 <body data-session-state="checking">
   <div id="session-check" role="status" aria-live="polite">
     <span class="brand-mark" aria-hidden="true">SJN</span>
-    <strong id="session-check-message">Verifying your student session…</strong>
+    <strong id="session-check-message"></strong>
     <button id="session-check-retry" class="btn btn-primary" type="button" onclick="window.location.reload()">Retry connection</button>
   </div>
   <header class="site-header">
@@ -388,6 +391,11 @@
     }
 
     async function checkSavedSession() {
+      if (sessionStorage.getItem('sjn_recent_logout') === '1') {
+        sessionStorage.removeItem('sjn_recent_logout');
+        showGuestLanding();
+        return;
+      }
       try {
         // One-time migration for students signed in before refresh cookies existed.
         let token = localStorage.getItem(SJN_AUTH.tokenKey);

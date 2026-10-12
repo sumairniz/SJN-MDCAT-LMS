@@ -89,8 +89,9 @@
 
   <!-- Prevent protected workspace controls from appearing before session verification. -->
   <div id="session-guard" role="status" aria-live="polite" class="fixed inset-0 z-[100] bg-sjn-black flex flex-col items-center justify-center gap-4 p-6 text-center">
-    <div class="w-12 h-12 rounded-xl border border-red-700 bg-red-950/30 flex items-center justify-center text-red-400 font-black">SJN</div>
-    <p id="session-guard-message" class="text-sm text-gray-200 font-semibold">Verifying your student session…</p>
+    <!-- Keep the private workspace covered during authorization without an intrusive splash.
+         Only reveal an explanation and Retry if an actual connection error occurs. -->
+    <p id="session-guard-message" class="hidden text-sm text-gray-200 font-semibold"></p>
     <button id="session-guard-retry" onclick="window.location.reload()" class="hidden px-5 py-2.5 bg-red-600 text-white font-bold text-xs rounded-lg">Retry connection</button>
   </div>
 
@@ -2678,6 +2679,34 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     let authToken = localStorage.getItem('sjn_auth_token') || '';
     localStorage.removeItem('sjn_auth_token');
     let refreshPromise = null;
+    let sessionExpiresAt = null;
+    let expiryTimer = null;
+    function expireSessionIfNeeded() {
+      if (!sessionExpiresAt || Date.now() < sessionExpiresAt) return;
+      clearTimeout(expiryTimer);
+      sessionExpiresAt = null;
+      authToken = '';
+      currentUser = null;
+      localStorage.removeItem('sjn_auth_token');
+      // Server rejects this session even if a background-tab timer fires late.
+      fetch(API + '/auth/logout', {
+        method: 'POST', credentials: 'same-origin', cache: 'no-store'
+      }).catch(() => {});
+      sessionStorage.setItem('sjn_recent_logout', '1');
+      window.location.replace('/landing.html');
+    }
+    function scheduleSessionExpiry(value) {
+      const expiry = Number(value);
+      if (!Number.isSafeInteger(expiry)) throw new Error('Missing session expiry.');
+      sessionExpiresAt = expiry;
+      clearTimeout(expiryTimer);
+      expiryTimer = setTimeout(expireSessionIfNeeded, Math.max(0, expiry - Date.now()));
+      expireSessionIfNeeded();
+    }
+    window.addEventListener('focus', expireSessionIfNeeded);
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) expireSessionIfNeeded();
+    });
     let currentUser = null;
     let remoteContentLoaded = false;
     let selectedCourseId = null;
@@ -2696,6 +2725,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
           if (!response.ok) throw new Error(data.error || 'Unable to renew login. Please retry.');
           if (!data.token) throw new Error('Session renewal returned no access token.');
           authToken = data.token;
+          scheduleSessionExpiry(data.expiresAt);
           return true;
         })().finally(() => { refreshPromise = null; });
       }
@@ -2751,6 +2781,9 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         currentUser = null;
         localStorage.removeItem('sjn_auth_token');
         localStorage.setItem('sjn_logout_event', String(Date.now()));
+        sessionStorage.setItem('sjn_recent_logout', '1');
+        clearTimeout(expiryTimer);
+        sessionExpiresAt = null;
         window.location.replace('/landing.html');
       } catch (error) {
         signingOut = false;
@@ -2784,6 +2817,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         // Outages must not pretend the user logged out or expose private workspace.
         document.getElementById('session-guard-message').textContent =
           'Unable to verify your session. Check your connection and retry.';
+        document.getElementById('session-guard-message').classList.remove('hidden');
         document.getElementById('session-guard-retry').classList.remove('hidden');
         console.warn('Unable to verify student account:', error);
         return false;
@@ -2928,12 +2962,13 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       }
     });
 
-    window.onload = async function(){
+    // DOM-ready starts verification before images and external resources finish loading.
+    window.addEventListener('DOMContentLoaded', async () => {
       if (!(await loadAccount())) return;
       await loadContent();
       renderHistoryTable();
       updateGlobalProfileUI();
-    };
+    });
   })();
   </script>
   <script>
