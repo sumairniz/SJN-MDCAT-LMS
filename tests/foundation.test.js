@@ -106,6 +106,7 @@ test("authenticated student queries carry the correct Supabase bearer token", as
     const b = await loginSession(root, "student-b@example.com");
     const headersA = { Authorization: "Bearer token-a", Cookie: a.cookies };
     const headersB = { Authorization: "Bearer token-b", Cookie: b.cookies };
+    databaseCalls.splice(0); // Ignore profile lookups performed during the two login calls.
     let r = await fetch(root + "/api/me", { headers: headersA });
     assert.equal(r.status, 200);
     let data = await r.json();
