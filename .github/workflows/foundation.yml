@@ -17,6 +17,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - name: Generate lockfile for reproducible dependency review
+        run: |
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+          printf '%s\n' 'SJN_LOCKFILE_BEGIN'
+          cat package-lock.json
+          printf '%s\n' 'SJN_LOCKFILE_END'
       - name: Install dependencies
         run: npm install --ignore-scripts --no-audit --no-fund
       - name: Check backend syntax
