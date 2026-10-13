@@ -152,6 +152,15 @@ Staging has seven public tables with RLS: `profiles`, `mcqs`, `courses`, `past_p
 - **Checks:** both GitHub workflows passed, staging preview READY. **Real-browser UX and multi-tab regressions still require owner validation**. These changes do not solve the separate initial-login/page-refresh black-screen concern.
 - **Next:** ask owner to leave an MCQ in progress, visit another tab and return, then re-check synchronized logout/account switching. After successful checks, investigate first-load black screen with timing evidence before proposing another fix.
 
+
+### 2026-10-13 — Two already-open LMS tabs: background login regression (staging)
+
+- **User-confirmed regression:** after the ordinary Google/LMS tab-switch loading fix, one previously opened logged-out LMS tab could remain behind its session guard when another existing tab signed in. Freshly opened tabs after login worked; synchronous sign-out still worked. This did **not** occur in the earlier successful multi-tab test.
+- **Code cause:** authenticated `loadAccount()` only removed the guard if `!document.hidden`; a second dashboard loading in a background tab left the guard visible after successful verification. The prior tab-switch fix deliberately removed the focus-time recheck that had inadvertently cleared it.
+- **Owner approved** development/staging-only correction. Commit `e55aa60d70addb7e49f3573eb8b43ce92e7a2318` now removes the guard unconditionally **after successful authentication**, plus a pending-account-change check before rendering personal data.
+- **Verification:** two GitHub workflows PASSED and branch staging preview READY at the code commit. Automated tests execute actual `loadAccount` for visible and background tabs and ensure a pending account change does not uncover old data. **Browser confirmation still needed** for two already-open LMS tabs, cross-tab sign-out/account switching and a return from Google mid-MCQ.
+- **Scope:** No student records, 74 hardcoded Biology MCQs, production, GitHub `main`, auth settings or database schema changed. The distinct first-load/refresh black-screen analysis remains open.
+
 ## 8. Decision log
 
 - **2026-10-12:** Separate staging Supabase project and development-only Vercel Preview configured, migration/RLS and trigger hardening applied under scoped approval. No student records copied from production.
