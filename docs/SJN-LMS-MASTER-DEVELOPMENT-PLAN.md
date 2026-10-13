@@ -142,6 +142,16 @@ Staging has seven public tables with RLS: `profiles`, `mcqs`, `courses`, `past_p
 | P3 | Consider local compiled CSS after measurement and visual regression plan | Owner + assistant | DEFERRED |
 | P3 | Production go-live checklist, pricing limits and auth safeguards | Owner + assistant | LATER |
 
+
+### 2026-10-13 — Ordinary tab-return loading fix (staging only)
+
+- **Owner report:** leaving an in-progress MCQ to visit another browser tab and returning caused a 1–2-second skeleton/black loading overlay, although the MCQ remained at the same position.
+- **Confirmed in code:** `visibilitychange` covered the workspace on tab hide, and `focus`/tab activation invoked `verifyReturnedTab()`, which performed a network status check and kept the overlay visible until it returned. This is distinct from initial login or full-refresh loading.
+- **Scoped owner approval:** remove unnecessary overlay/network verification on ordinary tab switching while maintaining account change, logout, and fixed 24-hour expiry protection. No production changes authorized.
+- **Implemented:** commit `5f752e88ff3df0095282450d4bab8df770a27cfe` on `sjn-phase1a-foundation`: ordinary hide/focus no longer covers the MCQ or contacts the server; synchronous comparison with cross-tab authentication change signals protects sleeping tabs; real account change broadcasts still conceal the old account; BFCache restoration continues to verify the session.
+- **Checks:** both GitHub workflows passed, staging preview READY. **Real-browser UX and multi-tab regressions still require owner validation**. These changes do not solve the separate initial-login/page-refresh black-screen concern.
+- **Next:** ask owner to leave an MCQ in progress, visit another tab and return, then re-check synchronized logout/account switching. After successful checks, investigate first-load black screen with timing evidence before proposing another fix.
+
 ## 8. Decision log
 
 - **2026-10-12:** Separate staging Supabase project and development-only Vercel Preview configured, migration/RLS and trigger hardening applied under scoped approval. No student records copied from production.
