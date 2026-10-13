@@ -63,10 +63,15 @@
       align-items: center; justify-content: center; flex-direction: column;
       gap: 12px; padding: 24px; background: #090a0e; color: #f8f8fb; text-align: center; }
     body[data-session-state="checking"] #session-check { display: flex; }
-    /* Normal session check is visually silent. Show feedback only on a real error. */
-    #session-check .brand-mark, #session-check-message { display: none; }
-    body[data-session-error="true"] #session-check .brand-mark { display: grid; }
-    body[data-session-error="true"] #session-check-message { display: block; }
+    /* Render a privacy-safe restoring screen immediately, before any auth request. */
+    #session-check .brand-mark { display: grid; width: 58px; height: 58px; }
+    #session-check-message { display: block; margin: 0; font-size: 13px; font-weight: 700;
+      letter-spacing: .055em; color: #e2e3e9; }
+    #session-check-spinner { width: 24px; height: 24px; border: 2px solid rgba(255,255,255,.15);
+      border-top-color: #ff5d6d; border-radius: 50%; animation: sjn-restore-spin .8s linear infinite; }
+    @keyframes sjn-restore-spin { to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { #session-check-spinner { animation: none; } }
+    body[data-session-error="true"] #session-check-spinner { display: none; }
     #session-check-retry { display: none; }
     body[data-session-error="true"] #session-check-retry { display: inline-flex; }
     .menu-toggle { display: none; width: 42px; height: 42px; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 10px; background: #17181e; color: #fff; }
@@ -249,7 +254,8 @@
 <body data-session-state="checking">
   <div id="session-check" role="status" aria-live="polite">
     <span class="brand-mark" aria-hidden="true">SJN</span>
-    <strong id="session-check-message"></strong>
+    <strong id="session-check-message">Restoring your session…</strong>
+    <span id="session-check-spinner" aria-hidden="true"></span>
     <button id="session-check-retry" class="btn btn-primary" type="button" onclick="window.location.reload()">Retry connection</button>
   </div>
   <header class="site-header">
@@ -412,12 +418,19 @@
           );
           if (refresh.status === 401) { showGuestLanding(); return; }
           if (!refresh.ok) throw new Error('Could not verify your session.');
-          token = (await refresh.json()).token;
-        }
-        if (!token || authSubmitting) {
-          if (!authSubmitting) showGuestLanding();
+          const verified = await refresh.json();
+          // The refresh endpoint already verifies Supabase identity against the
+          // signed, unexpired cookie. Do not repeat /me on the normal return path.
+          // The dashboard still independently verifies identity before revealing
+          // any student content, even if the session changed during navigation.
+          if (!verified.token || !verified.userId ||
+              !Number.isSafeInteger(verified.expiresAt)) {
+            throw new Error('Session verification response incomplete.');
+          }
+          if (!authSubmitting) window.location.replace(SJN_AUTH.dashboard);
           return;
         }
+        if (authSubmitting) return;
         let response = await fetch(SJN_AUTH.apiBase + '/me', {
           headers: { Authorization: 'Bearer ' + token }, cache: 'no-store'
         });

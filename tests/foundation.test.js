@@ -286,7 +286,7 @@ test("bootstrap combines auth and RLS-scoped student data in one response",async
   }
 });
 
-test("normal navigation keeps verification splash hidden while protecting dashboard", () => {
+test("normal navigation shows privacy-safe restoring feedback while protecting dashboard", () => {
   const fs = require("node:fs");
   const path = require("node:path");
   const dash = fs.readFileSync(path.join(__dirname, "../public/index.html"), "utf8");
@@ -297,7 +297,9 @@ test("normal navigation keeps verification splash hidden while protecting dashbo
   assert.match(dash, /function scheduleSessionExpiry\(value\)/);
   assert.match(dash, /function expireSessionIfNeeded\(\)/);
   assert.match(dash, /session-guard/);
-  assert.match(landing, /#session-check-message \{ display: none; \}/);
+  assert.match(landing, /id="session-check-message">Restoring your session/);
+  assert.match(landing, /#session-check-spinner/);
+  assert.match(landing, /body\[data-session-state="checking"\] > :not\(#session-check\) \{ visibility: hidden; \}/);
   assert.match(landing, /sjn_recent_logout/);
   assert.match(dash, /sjn-load-shell/);
   assert.match(dash, /initialAccount \|\| await api/);
