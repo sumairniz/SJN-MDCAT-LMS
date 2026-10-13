@@ -43,8 +43,11 @@ async function runReturn({ legacy = false, status = 200, token = "valid", userId
   };
   const SJN_AUTH = {apiBase: "/api", dashboard: "/index.html", tokenKey: "sjn_auth_token"};
   const SJNSessionCoord = {withCookieLock: fn => fn()};
+  function showGuestLanding() { body.dataset.sessionState = "guest"; }
+  function showSessionError() { body.dataset.sessionError = "true"; }
   const ctx = {sessionStorage, localStorage, document, window, fetch,
     SJN_AUTH, SJNSessionCoord, authSubmitting: submitting,
+    showGuestLanding, showSessionError,
     console: {warn: (...args) => errors.push(args)}};
   vm.runInNewContext(restorationCode + "\ncheckSavedSession();", ctx);
   await new Promise(resolve => setImmediate(resolve));
