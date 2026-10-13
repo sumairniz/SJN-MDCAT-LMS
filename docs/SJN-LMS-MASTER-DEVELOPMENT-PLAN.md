@@ -9,6 +9,15 @@
 
 > **Source-of-truth rule:** Mark a decision **CONFIRMED** only when the owner actually approved it. Label findings from source code **OBSERVED IN CODE**, test results **VERIFIED**, and design proposals **PROPOSED**. Do not fill gaps in previously agreed MCQ requirements from memory. Preserve the complete original chat discussion when available and obtain confirmation for any missing detail.
 
+## Permanent release-safety process — OWNER APPROVED 2026-10-14
+
+- The owner explicitly approved repository-persistent safeguards so no future assistant or developer must rely on chat memory to remove temporary diagnostics.
+- The permanent checklist is [RELEASE-SAFETY-CHECKLIST.md](RELEASE-SAFETY-CHECKLIST.md). Experimental measurement code belongs on a separately approved, short-lived diagnostic branch with independently verified staging-only configuration, **never** as a casually merged change into the primary development branch.
+- GitHub CI runs `npm run check:release` as well as `npm test`, checking known temporary instrumentation markers, paths and tracked private environment files. A [pull-request template](../.github/PULL_REQUEST_TEMPLATE.md) prompts manual full-diff review, account/MCQ regression testing, environment checks and rollback planning.
+- **Limit:** these checks do not prove an arbitrary diff is safe or enforce permissions. No GitHub branch protection/rulesets have been configured in this step; that would require separate approval and access. PR #1 remains draft. The owner must separately approve a future production merge and deployment.
+- **Staging-only implementation commit:** `058a9e008e6b7f900cbe0c40378666c1a5c4a001` (release-safety documentation and CI); automated verification to be assessed independently.
+- The black-screen issue remains open. No temporary performance instrumentation or production changes were made as part of these guardrails.
+
 ## 1. Mission and non-negotiables — CONFIRMED
 
 Build a long-term, professional, secure and maintainable MDCAT learning business, rather than a temporary demonstration. Optimize the existing architecture before adding a new one. Do not sacrifice security, correctness, scalability or maintainability to achieve a superficial loading-time target. Explain realistic limits plainly.
