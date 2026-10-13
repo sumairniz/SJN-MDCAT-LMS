@@ -28,10 +28,14 @@
       } catch (_) { /* Never trust storage as authentication. */ }
     });
   }
+  function latestSignal() {
+    try { return global.localStorage.getItem(KEY); }
+    catch (_) { return null; }
+  }
   function status() {
     return global.fetch('/api/auth/session', {
       method: 'GET', credentials: 'same-origin', cache: 'no-store'
     });
   }
-  global.SJNSessionCoord = { withCookieLock, signal, subscribe, status };
+  global.SJNSessionCoord = { withCookieLock, signal, subscribe, status, latestSignal };
 })(window);

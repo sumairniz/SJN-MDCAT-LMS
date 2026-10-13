@@ -2708,19 +2708,22 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       expiryTimer = setTimeout(expireSessionIfNeeded, Math.max(0, expiry - Date.now()));
       expireSessionIfNeeded();
     }
+    // Merely switching browser tabs must never cover or reload an active quiz.
+    // Check the latest local account-change signal synchronously on return:
+    // a sleeping tab may have missed the normal storage event.
     window.addEventListener('focus', () => {
+      if (checkForAccountChange()) return;
       expireSessionIfNeeded();
-      if (currentUser && !document.hidden) void verifyReturnedTab();
     });
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        if (currentUser) coverWorkspaceOverlay();
-      } else {
+      if (!document.hidden) {
+        if (checkForAccountChange()) return;
         expireSessionIfNeeded();
-        if (currentUser) void verifyReturnedTab();
       }
     });
     window.addEventListener('pageshow', e => {
+      if (checkForAccountChange()) return;
+      // BFCache restores, unlike tab switching, can revive old page state.
       if (e.persisted && currentUser) void verifyReturnedTab();
     });
     let currentUser = null;
@@ -2834,7 +2837,25 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       })().finally(() => { returnCheck = null; });
       return returnCheck;
     }
+    // A storage notification may be delayed while the browser suspends a tab.
+    // A synchronous marker comparison catches it when that tab is reactivated.
+    // No overlay or request is needed when nothing about the login has changed.
+    let knownAuthSignal = SJNSessionCoord.latestSignal();
+    let accountChangePending = false;
+    function checkForAccountChange() {
+      if (accountChangePending) return true;
+      const latest = SJNSessionCoord.latestSignal();
+      if (latest === knownAuthSignal) return false;
+      accountChangePending = true;
+      coverPrivateWorkspace();
+      let type = null;
+      try { type = JSON.parse(latest)?.type; } catch (_) {}
+      window.location.replace(type === 'logout' ? '/landing.html' : '/index.html');
+      return true;
+    }
     SJNSessionCoord.subscribe(event => {
+      if (accountChangePending) return;
+      accountChangePending = true;
       coverPrivateWorkspace();
       window.location.replace(event.type === 'login' ? '/index.html' : '/landing.html');
     });

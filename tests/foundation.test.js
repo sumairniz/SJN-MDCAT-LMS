@@ -495,6 +495,91 @@ test("session notifications and cookie locks coordinate independent tabs", async
   assert.doesNotMatch(dash, /fetch\(API \+ '\/auth\/logout', \{[\s\S]*?\}\)\.catch\(\(\) => \{\}\)/);
 });
 
+test("ordinary tab switching preserves the visible MCQ and makes no session request", () => {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  const vm = require("node:vm");
+  const dash = fs.readFileSync(path.join(__dirname, "../public/index.html"), "utf8");
+  const start = dash.indexOf("    window.addEventListener('focus', () => {");
+  const stop = dash.indexOf("    let currentUser = null;", start);
+  assert.ok(start > 0 && stop > start);
+  const handlers = dash.slice(start, stop);
+  assert.doesNotMatch(handlers, /coverWorkspaceOverlay\(\)|verifyReturnedTab\(\).*focus/);
+  const actions = {};
+  const documentActions = {};
+  let isHidden = false;
+  let expiryChecks = 0;
+  let accountChecks = 0;
+  let sessionRequests = 0;
+  const fakeWindow = {
+    addEventListener(name, fn) { actions[name] = fn; }
+  };
+  const fakeDocument = {
+    addEventListener(name, fn) { documentActions[name] = fn; },
+    get hidden() { return isHidden; }
+  };
+  vm.runInNewContext(handlers, {
+    window: fakeWindow, document: fakeDocument,
+    currentUser: { id: "student-a" },
+    checkForAccountChange() { accountChecks++; return false; },
+    expireSessionIfNeeded() { expiryChecks++; },
+    verifyReturnedTab() { sessionRequests++; }
+  });
+  // Student is midway through Q4, visits Google, then returns to the same tab.
+  isHidden = true;
+  documentActions.visibilitychange();
+  assert.equal(accountChecks, 0);
+  assert.equal(expiryChecks, 0);
+  isHidden = false;
+  documentActions.visibilitychange();
+  actions.focus();
+  assert.equal(accountChecks, 2);
+  assert.equal(expiryChecks, 2);
+  assert.equal(sessionRequests, 0, "Returning to a normal tab must not reverify the session");
+});
+
+test("suspended tabs detect an actual account switch before exposing stale data", () => {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  const vm = require("node:vm");
+  const dash = fs.readFileSync(path.join(__dirname, "../public/index.html"), "utf8");
+  const coord = fs.readFileSync(path.join(__dirname, "../public/session-coordination.js"), "utf8");
+  const start = dash.indexOf("    let knownAuthSignal = SJNSessionCoord.latestSignal();");
+  const stop = dash.indexOf("    window.handleDesktopClick", start);
+  assert.ok(start > 0 && stop > start);
+  const body = dash.slice(start, stop);
+  let marker = JSON.stringify({ type: "login", nonce: "first" });
+  let hidden = 0;
+  const destinations = [];
+  const scope = {
+    SJNSessionCoord: {
+      latestSignal() { return marker; },
+      subscribe() {}
+    },
+    coverPrivateWorkspace() { hidden++; },
+    window: { location: { replace(p) { destinations.push(p); } } }
+  };
+  vm.runInNewContext(body + "\nthis.checkForAccountChange = checkForAccountChange;", scope);
+  assert.equal(scope.checkForAccountChange(), false, "No account change is a no-op");
+  assert.equal(hidden, 0);
+  assert.deepEqual(destinations, []);
+  marker = JSON.stringify({ type: "login", nonce: "second" });
+  assert.equal(scope.checkForAccountChange(), true);
+  assert.equal(hidden, 1);
+  assert.deepEqual(destinations, ["/index.html"]);
+  marker = JSON.stringify({ type: "logout", nonce: "third" });
+  scope.checkForAccountChange();
+  assert.equal(hidden, 1, "An already navigating tab must not reveal its workspace");
+  assert.deepEqual(destinations, ["/index.html"]);
+
+  // The current marker is readable without making a network request.
+  const storage = { getItem() { return marker; }, setItem() {} };
+  const win = { navigator: {}, localStorage: storage, addEventListener() {},
+    fetch() { throw new Error("Tab return must not contact the server"); } };
+  vm.runInNewContext(coord, { window: win, console, Promise, Date, Math, JSON });
+  assert.equal(win.SJNSessionCoord.latestSignal(), marker);
+});
+
 test("dashboard and landing inline scripts remain syntactically valid", () => {
   const fs = require("node:fs");
   const path = require("node:path");
