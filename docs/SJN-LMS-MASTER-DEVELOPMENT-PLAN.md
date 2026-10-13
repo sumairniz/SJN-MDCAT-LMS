@@ -43,6 +43,13 @@
 - **Owner manual regression PASS (2026-10-14):** following the specific four-point staging test request, owner responded **“all are working fine.”** Record as owner-confirmed PASS for (1) log out, close tab, reopen root URL → public landing; (2) regular login → dashboard; (3) switch Student A → Student B without mixed personal data; (4) start an MCQ, switch to a Google tab and return → quiz preserved. Returning-session visual regression was separately PASS above. No independent browser replay was captured by the assistant; owner is the test source.
 - **Remaining release gate:** exact 24-hour hard expiry, broader browser/device coverage, simultaneous-tab logout/account-switch edge cases, and full security/data acceptance remain subject to dedicated release testing; do not infer these are exhaustively verified from this four-case PASS. Normal returning-student landing `/api/me` was removed; mandatory Supabase refresh and dashboard verification remain. Do not change `main` or production without separate explicit owner authorization.
 
+## 2026-10-14 — Reproducible CSS build and npm dependency maintenance (STAGING ONLY)
+
+- **Owner approval:** proceed with dependency lockfile and CSS reproducibility checks after owner confirmed all four auth/MCQ return regression scenarios PASS.
+- **Implementation:** npm-generated and committed `package-lock.json` (lockfile v3, 164 package entries) from the repository's existing `package.json`; pinned existing Tailwind v3.4.17. CI installs with `npm ci --ignore-scripts --no-audit --no-fund`, builds stylesheet twice, compares bytes using `cmp`, verifies required selectors, and retains authentication/RLS and release-safety tests. Added lockfile consistency and Tailwind integrity assertions.
+- **Scope:** no changes to CSS design rules, HTML, JavaScript application behavior, authentication, Supabase settings, student data, original MCQs, or Vercel production configuration. Generated CSS still produced by the existing `postinstall` path on deployment. No paid service.
+- **Validation:** final strict-install CI/deployment status **pending** at implementation; record exact SHA and results once checked. Use existing Vercel staging preview only. Never merge to `main` or production without separate owner approval.
+
 ## 1. Mission and non-negotiables — CONFIRMED
 
 Build a long-term, professional, secure and maintainable MDCAT learning business, rather than a temporary demonstration. Optimize the existing architecture before adding a new one. Do not sacrifice security, correctness, scalability or maintainability to achieve a superficial loading-time target. Explain realistic limits plainly.

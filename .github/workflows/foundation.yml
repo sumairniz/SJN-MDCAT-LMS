@@ -17,14 +17,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Generate lockfile for reproducible dependency review
-        run: |
-          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
-          printf '%s\n' 'SJN_LOCKFILE_BEGIN'
-          cat package-lock.json
-          printf '%s\n' 'SJN_LOCKFILE_END'
-      - name: Install dependencies
-        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Install exact locked dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Check backend syntax
         run: node --check server.js
       - name: Run isolated authentication and RLS-context tests
@@ -33,5 +27,11 @@ jobs:
         run: npm run build:css
       - name: Verify local CSS contains critical dashboard classes
         run: npm run check:css
+      - name: Verify CSS rebuild is byte-for-byte reproducible
+        run: |
+          cp public/dashboard.css /tmp/sjn-dashboard-first.css
+          npm run build:css
+          cmp /tmp/sjn-dashboard-first.css public/dashboard.css
+          npm run check:css
       - name: Check release hygiene (known temporary code and paths)
         run: npm run check:release

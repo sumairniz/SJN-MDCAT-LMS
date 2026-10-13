@@ -22,3 +22,16 @@ test("dashboard uses precompiled CSS, preserving its Tailwind v3 theme", () => {
   assert.deepEqual(config.theme.extend.fontFamily.sans, ["Inter", "sans-serif"]);
   assert.ok(config.content.includes("./public/index.html"));
 });
+
+test("npm lockfile pins the installed Tailwind toolchain", () => {
+  const root = path.resolve(__dirname, "..");
+  const pkg = require("../package.json");
+  const lock = require("../package-lock.json");
+  assert.equal(lock.lockfileVersion, 3);
+  assert.deepEqual(lock.packages[""].dependencies, pkg.dependencies);
+  assert.equal(lock.packages["node_modules/tailwindcss"].version, "3.4.17");
+  assert.ok(lock.packages["node_modules/tailwindcss"].integrity, "Tailwind package integrity missing");
+  for (const [name, version] of Object.entries(pkg.dependencies)) {
+    assert.ok(lock.packages["node_modules/" + name], "Missing lockfile package " + name);
+  }
+});
