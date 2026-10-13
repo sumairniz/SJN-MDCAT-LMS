@@ -3,7 +3,7 @@
 **Document type:** Living project decision log, roadmap, acceptance criteria and risk register  
 **Established:** 2026-10-13 (Pakistan time)  
 **Owner:** Academy project owner; changes to application, database, environments and production always require scoped permission  
-**Current active code baseline:** `bb25cc02f217b29a13087ffb97a1c0354a713363` on `sjn-phase1a-foundation`  
+**Current active code baseline:** `659e375924a542e48e4fdf33c88c20d5c6e84891` on `sjn-phase1a-foundation` (student-history isolation fix; automated CI passed; staging READY)  
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
@@ -58,7 +58,7 @@ Staging has seven public tables with RLS: `profiles`, `mcqs`, `courses`, `past_p
 
 **Exit gate:** Core navigation performs acceptably, no blocker to security/MCQ development, and the remaining transient loading state is recorded as an open UX item rather than falsely marked fixed.
 
-### Phase 2 — Authentication and student isolation: **MOST BASIC CHECKS PASS; EDGE CASES OPEN**
+### Phase 2 — Authentication and student isolation: **STUDENT-HISTORY MIXING FIX VERIFIED; CROSS-TAB LOGIN AND EDGE CASES OPEN**
 
 **Verified 2026-10-13 in staging, read-only:**
 - **2 Auth users, 2 matching profiles**.
@@ -69,25 +69,38 @@ Staging has seven public tables with RLS: `profiles`, `mcqs`, `courses`, `past_p
 - Supabase Security Advisor has one warning: built-in leaked-password protection disabled; official built-in feature needs a paid plan. **Do not upgrade.** Prefer no-cost password requirements and anti-abuse mitigations during a separately approved security task.
 - The latest GitHub CI checks passed on the current development baseline.
 
-**Still pending — do not claim complete:**
-1. Browser A and B must independently inspect histories and confirm neither sees the other's entries after both have attempts.
-2. Explicit logout in one tab -> other tab should not retain usable private access.
-3. Fixed expiry at exactly 24 hours, including asleep background tab; verify with safe automated test and separate real integration validation when practical.
-4. Lost network, slow network, server errors and retry behavior must not reveal private content, drop valid student history or accidentally log out.
-5. Simultaneous refresh in multiple browser tabs, cookies disabled and re-login paths should be checked.
-6. Signup without email verification needs bot protection, password-reset/recovery and account-ownership risk review before production rollout.
+**Verified after the 2026-10-13 frontend history isolation fix:**
+- The owner switched between two staging accounts and confirmed both now display **only their own saved test history**; no cross-account mixing was visible.
+- The source of the bug was unscoped browser `sjn_student_profile` state (including a delayed restore). The fix uses the authenticated `/api/history` endpoint and server-derived totals; the endpoint checks the signed-in user and responds with the corresponding user ID. Older browser storage was left untouched and is no longer used for personal history.
+- GitHub CI **2 successful runs** and staging Preview **READY** for fix commit `659e375924a542e48e4fdf33c88c20d5c6e84891`.
+- Read-only DB verification after owner testing: **2 Auth users, 2 profiles, 6 saved test rows, 35 attempted MCQs, 2 different students with records, 0 staged MCQ rows**. The original 74 Biology questions remain hardcoded in the app; no database migration was performed.
+- Owner previously reported manual checks passed for logout propagating across two tabs, navigating away from protected dashboard after logout, and a brief network interruption. These are limited manual observations, not complete browser integration coverage.
+
+**New multi-tab behavior CONFIRMED IN DISCUSSION, NOT YET IMPLEMENTED:**
+- **One currently active student account per browser profile**, shared securely among tabs.
+- Logging into Student B replaces Student A's account across ordinary tabs. Logging out in one tab logs out all tabs. A tab must never continue displaying Student A's protected information after account B becomes active; verify session identity and clear the old workspace.
+- Two independent students should use separate browser profiles or an Incognito window rather than two conflicting accounts in ordinary tabs.
+- Preserve the original fixed 24-hour login deadline; avoid racing refresh-token rotations between tabs.
+- Code implementation requires a **new scoped approval** for development branch/staging only.
+
+**Still pending — do not claim Phase 2 complete:**
+1. Implement and verify synchronized login/account-switch behavior across tabs, including tabs sleeping in the background; never display the previous student's private information.
+2. Test simultaneous requests and token refresh rotation across tabs under the fixed 24-hour boundary.
+3. Test expiry at exactly 24 hours in a real browser where practical; mock-based expiry tests have passed.
+4. Broader intermittent/slow network and error/retry behavior, preserving account isolation and correctly reporting failed saves.
+5. Signup without email verification needs bot protection, password reset/recovery, and ownership/security risk review before production rollout.
 
 ### Phase 3 — Foundation freeze and handoff: **BASELINE DOCUMENTED; FINAL ACCEPTANCE PENDING EDGE CHECKS**
 
-- Record active **application baseline** `bb25cc02f217b29a13087ffb97a1c0354a713363`. Keep PR #1 **DRAFT** and `main` unchanged.
+- Record active **application baseline** `659e375924a542e48e4fdf33c88c20d5c6e84891`. Keep PR #1 **DRAFT** and `main` unchanged.
 - Save decisions and outstanding questions in this living file; future updates should add dated, attributable decision-log entries with explicit owner approval.
 - Preserve existing UI, original 74 Biology questions, test history, schema and RLS. No speculative redesigns.
 - Audit result: no immediate need for another speed-focused architecture change; prioritize privacy/session edge cases.
 - Handoff to MCQ planning can proceed after the owner accepts the foundation baseline with documented non-blocking issues. Do **not** imply a production launch is approved.
 
-## 5. MCQ interface — scheduled for next working session, 2026-10-14 (not today)
+## 5. MCQ interface — after foundation gates are accepted
 
-**Confirmed constraints:** Focus on previously agreed MCQ interface design; protect all 74 original Biology MCQs and existing quiz functionality. Do not start implementing during today's foundation work. Review the original discussion/specification before making changes.
+**Confirmed constraints:** Focus on previously agreed MCQ interface design; protect all 74 original Biology MCQs and existing quiz functionality. Do not start implementing until the current student-session and account-switching foundation issues have passed their staging checks. Review the original discussion/specification before making changes.
 
 **Existing features OBSERVED IN SOURCE, not a reconstruction of every approved design choice:** Subject/chapter/topic selection wizard, practice question and answer choices, previous/next navigation, Tutor-style feedback and explanations, mnemonic/tip content, timer/test modes, bookmarking controls, and results/history.
 
@@ -116,9 +129,11 @@ Staging has seven public tables with RLS: `profiles`, `mcqs`, `courses`, `past_p
 | P0 | Preserve current staging source and baseline; do not merge | Assistant | DONE |
 | P0 | Record verified foundation decisions in this plan | Assistant | DONE |
 | P0 | Read-only staging account/attempt counts and RLS policies | Assistant | DONE |
-| P1 | Owner checks both students' actual history screens after each has attempts | Owner + assistant | PENDING |
-| P1 | Owner checks logout across two tabs | Owner + assistant | PENDING |
-| P1 | Validate 24-hour expiry and network interruption cases | Owner + assistant | PENDING |
+| P1 | Owner checks both students' actual history screens after each has attempts | Owner + assistant | DONE — owner confirmed isolated histories on staging |
+| P1 | Owner checks logout across two tabs | Owner + assistant | DONE — manual check, broader cases pending |
+| P1 | Validate 24-hour expiry and network interruption cases | Owner + assistant | PARTIAL — brief network interruption passed; real expiry pending |
+| P1 | Implement safe, synchronized cross-tab login/account switching after scoped approval | Assistant | NEXT — approval pending |
+| P2 | Diagnose remaining blank/skeleton loading delay with browser measurements | Owner + assistant | OPEN, NONBLOCKING |
 | P2 | Decide whether remaining brief loader is acceptable or needs measured optimization | Owner | OPEN, NONBLOCKING |
 | P2 | Reconfirm exact previously agreed MCQ interface specifications | Owner + assistant | NEXT SESSION |
 | P2 | Design and implement MCQ interface on dev branch only, once approved | Assistant | NOT STARTED |
@@ -131,6 +146,8 @@ Staging has seven public tables with RLS: `profiles`, `mcqs`, `courses`, `past_p
 - **2026-10-13:** Owner confirms onboarding tests, separate second student account, current **under-2-second** subjective login/refresh results and preference for stability over risky speed shortcuts.
 - **2026-10-13:** Owner instructs us to create this master plan, complete foundation Phases 1–3 as far as safely possible today, and **postpone MCQ implementation until tomorrow**.
 - **2026-10-13:** Master plan created in development branch; this is **documentation only** and not approval to deploy or merge code to production.
+- **2026-10-13:** Scoped owner approval led to history-isolation fix deployed at `659e375924a542e48e4fdf33c88c20d5c6e84891`. Both CI workflows passed. Owner manually confirmed the separate account histories display correctly. Supabase staging record counts remain preserved.
+- **2026-10-13:** Owner accepted synchronized multi-tab login policy **in principle**. Implementation of this separate change remains subject to explicit development/staging-only scope approval.
 
 ## 9. How to update this document
 
@@ -141,4 +158,4 @@ At each session's end:
 4. Preserve unresolved questions rather than guessing.
 5. Never record student passwords, private email addresses, tokens, secrets or personal data.
 
-**Next session starting instruction:** Read this document, inspect the existing UI/MCQ source and available chat records, then recover the previously agreed MCQ interface requirements. Do not begin redesigning or writing MCQ code until the plan is confirmed and scoped authorization is obtained.
+**Next work instruction:** Finish the approved multi-tab account synchronization after getting a new scoped development/staging-only approval, then perform real browser checks and measure the blank-screen delay. Only after foundation acceptance, inspect the existing UI/MCQ source and available chat records to recover the previously agreed MCQ interface requirements. Do not redesign or write MCQ code without scoped authorization.
