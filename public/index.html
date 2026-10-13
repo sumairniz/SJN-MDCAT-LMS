@@ -2980,6 +2980,9 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         const data = initialAccount || await api('/me');
         initialAccount = null;
         if (!data.user) throw Object.assign(new Error('Student account missing.'), { status: 401 });
+        // Another tab may have switched accounts while bootstrap was in flight.
+        // Never reveal an account that is already being replaced.
+        if (accountChangePending || checkForAccountChange()) return false;
         currentUser = data.user;
         // Start with a clean in-memory account; never use another student's browser profile.
         sjnProfile = emptyStudentProfile();
@@ -2987,7 +2990,9 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         updateDashboardAccountUI(currentUser);
         applyAuthenticatedStats(data.stats);
         bookmarkedMcqs = Array.isArray(data.bookmarks) ? data.bookmarks : [];
-        if (!document.hidden) guard.classList.add('hidden');
+        // A successfully verified background tab must finish opening. Otherwise
+        // it stays stuck behind this guard when brought back into view.
+        guard.classList.add('hidden');
         console.info('SJN dashboard authenticated in', Math.round(performance.now()-startedAt), 'ms');
         return true;
       } catch (error) {

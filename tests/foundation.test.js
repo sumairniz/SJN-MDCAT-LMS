@@ -580,6 +580,79 @@ test("suspended tabs detect an actual account switch before exposing stale data"
   assert.equal(win.SJNSessionCoord.latestSignal(), marker);
 });
 
+
+test("authenticated background LMS tab opens without a stuck loading guard", async () => {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  const vm = require("node:vm");
+  const dash = fs.readFileSync(path.join(__dirname, "../public/index.html"), "utf8");
+  const start = dash.indexOf("    async function loadAccount() {");
+  const end = dash.indexOf("    async function loadContent() {", start);
+  assert.ok(start >= 0 && end > start, "Extract the actual dashboard loadAccount implementation");
+  const actualLoadAccount = dash.slice(start, end) + "\nthis.loadAccount = loadAccount;";
+  for (const background of [false, true]) {
+    const revealed = [];
+    const redirects = [];
+    const guard = { classList: { add(name) { revealed.push(name); } } };
+    const context = {
+      performance: { now: () => 100 },
+      console: { info() {}, warn() {} },
+      document: { hidden: background, getElementById(name) {
+        assert.equal(name, "session-guard");
+        return guard;
+      } },
+      authToken: "mock-access-token",
+      initialAccount: { user: { id: "student-a" },
+        stats: { total: 15, correct: 12 }, bookmarks: [74] },
+      currentUser: null,
+      accountChangePending: false,
+      checkForAccountChange: () => false,
+      emptyStudentProfile: () => ({ historyLogs: [], mcqsAttempted: 0 }),
+      sjnProfile: null, historyLoadStatus: "loading", bookmarkedMcqs: [],
+      updateDashboardAccountUI() {},
+      applyAuthenticatedStats() {},
+      window: { location: { replace(url) { redirects.push(url); } } }
+    };
+    vm.runInNewContext(actualLoadAccount, context);
+    assert.equal(await context.loadAccount(), true);
+    assert.equal(context.currentUser.id, "student-a");
+    assert.deepEqual(revealed, ["hidden"],
+      "A verified student must see the dashboard even when its tab loaded in the background");
+    assert.deepEqual(redirects, []);
+  }
+});
+
+test("in-flight bootstrap never uncovers an account after another tab changes login", async () => {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  const vm = require("node:vm");
+  const dash = fs.readFileSync(path.join(__dirname, "../public/index.html"), "utf8");
+  const start = dash.indexOf("    async function loadAccount() {");
+  const end = dash.indexOf("    async function loadContent() {", start);
+  assert.ok(start >= 0 && end > start);
+  const script = dash.slice(start, end) + "\nthis.loadAccount = loadAccount;";
+  const visible = [];
+  const redirects = [];
+  const context = {
+    performance: { now: () => 200 }, console: { info() {}, warn() {} },
+    document: { hidden: true, getElementById() {
+      return { classList: { add(name) { visible.push(name); } } };
+    } },
+    authToken: "old-token",
+    initialAccount: { user: { id: "student-a" }, stats: { total: 15 }, bookmarks: [] },
+    currentUser: null,
+    accountChangePending: true,
+    checkForAccountChange() { throw Error("Should not recheck an already pending change"); },
+    updateDashboardAccountUI() { throw Error("Old student should not be rendered"); },
+    window: { location: { replace(path) { redirects.push(path); } } }
+  };
+  vm.runInNewContext(script, context);
+  assert.equal(await context.loadAccount(), false);
+  assert.deepEqual(visible, [], "Old student dashboard must remain covered");
+  assert.equal(context.currentUser, null);
+  assert.deepEqual(redirects, [], "Navigation is already being handled by the change event");
+});
+
 test("dashboard and landing inline scripts remain syntactically valid", () => {
   const fs = require("node:fs");
   const path = require("node:path");
