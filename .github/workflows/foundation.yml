@@ -23,3 +23,5 @@ jobs:
         run: node --check server.js
       - name: Run isolated authentication and RLS-context tests
         run: npm test
+      - name: Check release hygiene (known temporary code and paths)
+        run: npm run check:release
