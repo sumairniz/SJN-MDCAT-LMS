@@ -23,5 +23,9 @@ jobs:
         run: node --check server.js
       - name: Run isolated authentication and RLS-context tests
         run: npm test
+      - name: Build local Tailwind CSS
+        run: npm run build:css
+      - name: Verify local CSS contains critical dashboard classes
+        run: npm run check:css
       - name: Check release hygiene (known temporary code and paths)
         run: npm run check:release
