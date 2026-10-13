@@ -420,6 +420,81 @@ test("dashboard never reads browser-wide personal history or restores stale stat
   assert.match(dash, /td\.textContent = String\(value \?\? ''\)/);
 });
 
+
+test("signed-cookie session status is read-only and preserves login deadline", async () => {
+  const server = await new Promise(resolve => {
+    const s = app.listen(0, "127.0.0.1", () => resolve(s));
+  });
+  try {
+    const root = "http://127.0.0.1:" + server.address().port;
+    const a = await loginSession(root);
+    const missing = await fetch(root + "/api/auth/session");
+    assert.equal(missing.status, 401);
+    assert.match(missing.headers.get("cache-control"), /no-store/);
+    const response = await fetch(root + "/api/auth/session", {
+      headers: { Cookie: a.cookies }
+    });
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get("set-cookie"), null);
+    assert.deepEqual(await response.json(), {
+      authenticated: true, userId: "student-a", expiresAt: a.body.expiresAt
+    });
+  } finally {
+    await new Promise((resolve, reject) => server.close(err => err ? reject(err) : resolve()));
+  }
+});
+
+test("session notifications and cookie locks coordinate independent tabs", async () => {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  const vm = require("node:vm");
+  const js = fs.readFileSync(path.join(__dirname, "../public/session-coordination.js"), "utf8");
+  const dash = fs.readFileSync(path.join(__dirname, "../public/index.html"), "utf8");
+  const landing = fs.readFileSync(path.join(__dirname, "../public/landing.html"), "utf8");
+  const events = [], messages = [];
+  let release;
+  const firstWait = new Promise(done => { release = done; });
+  let queue = Promise.resolve();
+  const locks = { request(name, opts, cb) {
+    assert.equal(name, "sjn_cookie_operations_v1");
+    assert.equal(opts.mode, "exclusive");
+    const task = queue.then(cb);
+    queue = task.then(() => {}, () => {});
+    return task;
+  }};
+  const window = {
+    navigator: { locks },
+    localStorage: { setItem(key, value) { messages.push({key, value}); } },
+    addEventListener(name, cb) { if (name === "storage") events.push(cb); },
+    fetch: async () => ({ status: 200 })
+  };
+  vm.runInNewContext(js, { window, Date, Math, JSON, Promise, console });
+  let secondRan = false;
+  const a = window.SJNSessionCoord.withCookieLock(() => firstWait);
+  const b = window.SJNSessionCoord.withCookieLock(async () => { secondRan = true; });
+  await Promise.resolve();
+  await Promise.resolve();
+  assert.equal(secondRan, false);
+  release();
+  await Promise.all([a, b]);
+  assert.equal(secondRan, true);
+
+  let received;
+  window.SJNSessionCoord.subscribe(event => { received = event; });
+  window.SJNSessionCoord.signal("login");
+  events[0]({ key: messages[0].key, newValue: messages[0].value });
+  assert.equal(received.type, "login");
+  assert.doesNotMatch(messages[0].value, /refresh_token|access_token|password|email/);
+
+  assert.match(landing, /SJNSessionCoord\.signal\('login'\)/);
+  assert.match(dash, /SJNSessionCoord\.signal\('logout'\)/);
+  assert.match(dash, /function verifyReturnedTab\(\)/);
+  assert.match(dash, /active\.userId !== expectedUserId \|\| active\.expiresAt !== expectedExpiry/);
+  assert.match(dash, /SJNSessionCoord\.withCookieLock/);
+  assert.match(landing, /SJNSessionCoord\.withCookieLock/);
+  assert.doesNotMatch(dash, /fetch\(API \+ '\/auth\/logout', \{[\s\S]*?\}\)\.catch\(\(\) => \{\}\)/);
+});
+
 test("dashboard and landing inline scripts remain syntactically valid", () => {
   const fs = require("node:fs");
   const path = require("node:path");

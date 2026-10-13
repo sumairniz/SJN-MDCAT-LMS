@@ -2678,7 +2678,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
   </script>
 
   <!-- Authentication is exclusively handled on landing.html. -->
-
+  <script src="/session-coordination.js"></script>
   <script>
   (() => {
     const API = '/api';
@@ -2696,11 +2696,8 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       authToken = '';
       currentUser = null;
       localStorage.removeItem('sjn_auth_token');
-      // Server rejects this session even if a background-tab timer fires late.
-      fetch(API + '/auth/logout', {
-        method: 'POST', credentials: 'same-origin', cache: 'no-store'
-      }).catch(() => {});
-      sessionStorage.setItem('sjn_recent_logout', '1');
+      // Expired older tabs must not clear a more recently logged-in student.
+      coverPrivateWorkspace();
       window.location.replace('/landing.html');
     }
     function scheduleSessionExpiry(value) {
@@ -2711,9 +2708,20 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       expiryTimer = setTimeout(expireSessionIfNeeded, Math.max(0, expiry - Date.now()));
       expireSessionIfNeeded();
     }
-    window.addEventListener('focus', expireSessionIfNeeded);
+    window.addEventListener('focus', () => {
+      expireSessionIfNeeded();
+      if (currentUser && !document.hidden) void verifyReturnedTab();
+    });
     document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) expireSessionIfNeeded();
+      if (document.hidden) {
+        if (currentUser) coverWorkspaceOverlay();
+      } else {
+        expireSessionIfNeeded();
+        if (currentUser) void verifyReturnedTab();
+      }
+    });
+    window.addEventListener('pageshow', e => {
+      if (e.persisted && currentUser) void verifyReturnedTab();
     });
     let currentUser = null;
     let remoteContentLoaded = false;
@@ -2725,13 +2733,20 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     function renewAccessToken(bootstrap = false) {
       if (!refreshPromise) {
         refreshPromise = (async () => {
-          const response = await fetch(API + '/auth/refresh' + (bootstrap ? '?bootstrap=1' : ''), {
-            method: 'POST', credentials: 'same-origin', cache: 'no-store'
+          const { response, data } = await SJNSessionCoord.withCookieLock(async () => {
+            const response = await fetch(API + '/auth/refresh' + (bootstrap ? '?bootstrap=1' : ''), {
+              method: 'POST', credentials: 'same-origin', cache: 'no-store'
+            });
+            return { response, data: await response.json().catch(() => ({})) };
           });
           if (response.status === 401) { authToken = ''; return false; }
-          const data = await response.json().catch(() => ({}));
           if (!response.ok) throw new Error(data.error || 'Unable to renew login. Please retry.');
-          if (!data.token) throw new Error('Session renewal returned no access token.');
+          if (!data.token || !data.userId) throw new Error('Refresh returned incomplete session.');
+          if (currentUser && currentUser.id !== data.userId) {
+            coverPrivateWorkspace();
+            window.location.replace('/index.html');
+            return false;
+          }
           authToken = data.token;
           scheduleSessionExpiry(data.expiresAt);
           if (bootstrap && data.user) initialAccount = data;
@@ -2768,6 +2783,62 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     }
 
     let signingOut = false;
+    function coverWorkspaceOverlay() {
+      document.getElementById('session-guard').classList.remove('hidden');
+    }
+    function coverPrivateWorkspace() {
+      coverWorkspaceOverlay();
+      authToken = '';
+      initialAccount = null;
+      currentUser = null;
+      sjnProfile = emptyStudentProfile();
+      bookmarkedMcqs = [];
+      historyLoadStatus = 'loading';
+      clearTimeout(expiryTimer);
+      sessionExpiresAt = null;
+    }
+    let returnCheck = null;
+    function verifyReturnedTab() {
+      if (returnCheck) return returnCheck;
+      if (!currentUser || signingOut) return Promise.resolve();
+      const expectedUserId = currentUser.id;
+      const expectedExpiry = sessionExpiresAt;
+      coverWorkspaceOverlay();
+      returnCheck = (async () => {
+        try {
+          const response = await SJNSessionCoord.status();
+          if (response.status === 401) {
+            coverPrivateWorkspace();
+            window.location.replace('/landing.html');
+            return;
+          }
+          if (!response.ok) throw new Error('Session check unavailable.');
+          const active = await response.json();
+          if (active.userId !== expectedUserId || active.expiresAt !== expectedExpiry) {
+            coverPrivateWorkspace();
+            window.location.replace('/index.html');
+            return;
+          }
+          if (!document.hidden && currentUser?.id === expectedUserId) {
+            document.getElementById('session-guard-message').classList.add('hidden');
+            document.getElementById('session-guard-retry').classList.add('hidden');
+            document.getElementById('session-guard').classList.add('hidden');
+          }
+        } catch (error) {
+          const label = document.getElementById('session-guard-message');
+          label.textContent = 'Unable to verify your session. Check your connection and retry.';
+          label.classList.remove('hidden');
+          document.getElementById('session-guard-retry').classList.remove('hidden');
+          console.warn('Unable to recheck student session:', error);
+        }
+      })().finally(() => { returnCheck = null; });
+      return returnCheck;
+    }
+    SJNSessionCoord.subscribe(event => {
+      coverPrivateWorkspace();
+      window.location.replace(event.type === 'login' ? '/index.html' : '/landing.html');
+    });
+
     window.handleDesktopClick = function() {
       document.getElementById('desktop-dropdown').classList.toggle('hidden');
     };
@@ -2782,13 +2853,16 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       if (signingOut) return;
       signingOut = true;
       try {
-        const response = await fetch(API + '/auth/logout', {
-          method: 'POST', credentials: 'same-origin', cache: 'no-store'
-        });
+        const response = await SJNSessionCoord.withCookieLock(() =>
+          fetch(API + '/auth/logout', {
+            method: 'POST', credentials: 'same-origin', cache: 'no-store'
+          })
+        );
         if (!response.ok) throw new Error('Unable to sign out. Please retry.');
         authToken = '';
         currentUser = null;
         localStorage.removeItem('sjn_auth_token');
+        SJNSessionCoord.signal('logout');
         localStorage.setItem('sjn_logout_event', String(Date.now()));
         sessionStorage.setItem('sjn_recent_logout', '1');
         clearTimeout(expiryTimer);
@@ -2892,7 +2966,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         updateDashboardAccountUI(currentUser);
         applyAuthenticatedStats(data.stats);
         bookmarkedMcqs = Array.isArray(data.bookmarks) ? data.bookmarks : [];
-        guard.classList.add('hidden');
+        if (!document.hidden) guard.classList.add('hidden');
         console.info('SJN dashboard authenticated in', Math.round(performance.now()-startedAt), 'ms');
         return true;
       } catch (error) {
@@ -3081,7 +3155,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
 
     window.addEventListener('storage', event => {
       if (event.key === 'sjn_logout_event') {
-        authToken = '';
+        coverPrivateWorkspace();
         window.location.replace('/landing.html');
       }
     });

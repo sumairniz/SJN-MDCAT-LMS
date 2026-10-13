@@ -113,7 +113,7 @@ async function auth(req, res, next) {
   if (!token) return res.status(401).json({ error: 'Authentication required.' });
   const session = readSession(req);
   if (!session) {
-    clearSession(res);
+    // An old tab's response must never erase a new login's cookies.
     return res.status(401).json({ error: 'Session expired. Please sign in again.' });
   }
 
@@ -237,12 +237,21 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
+// Read-only signed-cookie check for tabs resuming after another login/logout.
+// Protected APIs still require a valid Supabase access token and user match.
+app.get('/api/auth/session', (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  const session = readSession(req);
+  if (!session) return res.status(401).json({ authenticated: false });
+  return res.json({ authenticated: true, userId: session.userId, expiresAt: session.expiresAt });
+});
+
 // A refresh rotates the Supabase token but never extends the 24-hour deadline.
 app.post('/api/auth/refresh', async (req, res) => {
   res.set('Cache-Control', 'no-store');
   const session = readSession(req);
   if (!session) {
-    clearSession(res);
+    // Stale refresh replies must not delete newer cookies in another tab.
     return res.status(401).json({ error: 'Session expired. Please sign in again.' });
   }
   try {
@@ -252,11 +261,10 @@ app.post('/api/auth/refresh', async (req, res) => {
     if (error || !data?.session?.access_token || !data.session.refresh_token ||
         !data.user || data.user.id !== session.userId ||
         Date.now() >= session.expiresAt) {
-      clearSession(res);
       return res.status(401).json({ error: 'Session expired. Please sign in again.' });
     }
     issueSession(res, data.session.refresh_token, session.userId, session.expiresAt);
-    const payload={token:data.session.access_token,expiresAt:session.expiresAt};
+    const payload={token:data.session.access_token,userId:session.userId,expiresAt:session.expiresAt};
     if(req.query.bootstrap==='1') {
       // Auth already verified the refresh token and user; the DB uses student RLS.
       Object.assign(payload,await studentOverview(studentClient(data.session.access_token),data.user));
