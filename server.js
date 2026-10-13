@@ -300,6 +300,7 @@ app.get('/api/me', auth, async (req, res) => {
 });
 
 app.get('/api/history', auth, async (req, res) => {
+  res.set('Cache-Control', 'no-store');
   try {
     const { data, error } = await req.db
       .from('attempts')
@@ -308,13 +309,18 @@ app.get('/api/history', auth, async (req, res) => {
       .order('id', { ascending: false });
 
     if (error) throw error;
-    res.json(data || []);
+    res.json({ userId: req.user.id, attempts: data || [] });
   } catch (e) {
     res.status(500).json({ error: 'Failed to load test history.' });
   }
 });
 
 app.post('/api/attempts', auth, async (req, res) => {
+  // Prevent a stale tab from saving Student A's test into Student B's new session.
+  const expectedStudentId = req.get('X-SJN-Expected-Student');
+  if (expectedStudentId && expectedStudentId !== req.user.id) {
+    return res.status(409).json({ error: 'Active student changed. Reload before saving.' });
+  }
   try {
     const b = req.body || {};
     const total = Math.max(0, Number(b.total || 0));

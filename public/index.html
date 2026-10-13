@@ -1911,7 +1911,7 @@
     };
 
     // Global Student Performance State
-    let sjnProfile = JSON.parse(localStorage.getItem('sjn_student_profile')) || {
+    function emptyStudentProfile() { return {
       mcqsAttempted: 0,
       correctAnswers: 0,
       streakDays: 0,
@@ -1924,7 +1924,10 @@
         'Logical Reasoning': { correct: 0, total: 0 }
       },
       historyLogs: []
-    };
+    }; }
+    // A student's identity must be verified before any personal data is loaded.
+    let sjnProfile = emptyStudentProfile();
+    let historyLoadStatus = 'loading';
 
     // Wizard State
     let wizardSelection = {
@@ -1945,7 +1948,7 @@
     let currentMcqIndex = 0;
     let userAnswers = [];
     let quizTimerInterval = null;
-    let bookmarkedMcqs = JSON.parse(localStorage.getItem('sjn_bookmarked_mcqs')) || [];
+    let bookmarkedMcqs = []; // Loaded from the authenticated student's Supabase session.
 
     // ==========================================
     // MOBILE MENU LOGIC
@@ -2376,58 +2379,21 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
 
     function finishQuiz() {
       if (quizTimerInterval) clearInterval(quizTimerInterval);
-
-      let correctCount = 0;
-      currentQuizList.forEach((q, idx) => {
-        if (userAnswers[idx] === q.correctIndex) {
-          correctCount++;
-        }
-      });
-
+      const correctCount = currentQuizList.reduce((n, q, idx) =>
+        n + (userAnswers[idx] === q.correctIndex ? 1 : 0), 0);
       const totalAttempted = currentQuizList.length;
-      sjnProfile.mcqsAttempted += totalAttempted;
-      sjnProfile.correctAnswers += correctCount;
-      updateSubjectStats();
-      updateStudyStreak();
+      if (!totalAttempted) return;
 
-      // Update Rank Logic
-      if (sjnProfile.mcqsAttempted >= 50 && sjnProfile.correctAnswers / sjnProfile.mcqsAttempted >= 0.8) {
-        sjnProfile.rank = 'Doctor Status 🎓';
-      } else if (sjnProfile.mcqsAttempted >= 25) {
-        sjnProfile.rank = 'Champion 🔴';
-      } else if (sjnProfile.mcqsAttempted >= 10) {
-        sjnProfile.rank = 'Cadet ⚫';
-      }
-
-      saveProfileToStorage();
-      updateGlobalProfileUI();
-
-      // Show Results
+      // Display this session's result, but never add a browser-wide history entry.
+      // The authenticated server will save the attempt and then refresh the totals.
       document.getElementById('res-total').innerText = totalAttempted;
       document.getElementById('res-correct').innerText = correctCount;
-      document.getElementById('res-accuracy').innerText = `${Math.round((correctCount / totalAttempted) * 100)}%`;
+      document.getElementById('res-accuracy').innerText =
+        Math.round((correctCount / totalAttempted) * 100) + '%';
       switchModule('results');
-
-      // Log History
-      sjnProfile.historyLogs.push({
-        title: wizardSelection.bank,
-        subject: wizardSelection.subject,
-        mode: wizardSelection.testMode,
-        score: `${correctCount}/${totalAttempted}`,
-        accuracy: `${Math.round((correctCount / totalAttempted) * 100)}%`,
-        date: new Date().toLocaleString(),
-        chapters: wizardSelection.selectedChapters || [],
-        topics: wizardSelection.selectedTopics || []
-      });
-      saveProfileToStorage();
-      renderHistoryTable();
     }
 
-    function saveProfileToStorage() {
-      localStorage.setItem('sjn_student_profile', JSON.stringify(sjnProfile));
-    }
-
-    function updateGlobalProfileUI() {
+        function updateGlobalProfileUI() {
       const accuracy = sjnProfile.mcqsAttempted > 0 
         ? Math.round((sjnProfile.correctAnswers / sjnProfile.mcqsAttempted) * 100) 
         : 0;
@@ -2446,27 +2412,52 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
 
     function renderHistoryTable() {
       const tbody = document.getElementById('history-table-body');
-      tbody.innerHTML = '';
-      if (sjnProfile.historyLogs.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">No practice tests completed yet.</td></tr>`;
+      tbody.replaceChildren();
+      const infoRow = message => {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 5;
+        td.className = 'p-4 text-center text-gray-400';
+        td.textContent = message;
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return td;
+      };
+      if (historyLoadStatus === 'loading') {
+        infoRow('Loading your test history…');
         return;
       }
-
-      sjnProfile.historyLogs.forEach(log => {
+      if (historyLoadStatus === 'error') {
+        const cell = infoRow('Unable to load your saved test history. ');
+        const retry = document.createElement('button');
+        retry.type = 'button';
+        retry.textContent = 'Retry';
+        retry.className = 'ml-2 text-red-400 underline';
+        retry.addEventListener('click', () => window.reloadStudentHistory());
+        cell.appendChild(retry);
+        return;
+      }
+      if (!sjnProfile.historyLogs.length) {
+        infoRow('No practice tests completed yet.');
+        return;
+      }
+      const classes = ['p-3 font-semibold text-white', 'p-3 text-gray-300',
+        'p-3 uppercase text-[10px] font-bold text-red-400',
+        'p-3 text-emerald-400 font-bold', 'p-3 font-bold'];
+      for (const log of sjnProfile.historyLogs) {
         const tr = document.createElement('tr');
         tr.className = 'border-b border-sjn-border hover:bg-zinc-800/40';
-        tr.innerHTML = `
-          <td class="p-3 font-semibold text-white">${log.title}</td>
-          <td class="p-3 text-gray-300">${log.subject}</td>
-          <td class="p-3 uppercase text-[10px] font-bold text-red-400">${log.mode}</td>
-          <td class="p-3 text-emerald-400 font-bold">${log.score}</td>
-          <td class="p-3 font-bold">${log.accuracy}</td>
-        `;
+        [log.title, log.subject, log.mode, log.score, log.accuracy].forEach((value, i) => {
+          const td = document.createElement('td');
+          td.className = classes[i];
+          td.textContent = String(value ?? '');
+          tr.appendChild(td);
+        });
         tbody.appendChild(tr);
-      });
+      }
     }
 
-    function startTimer(seconds) {
+        function startTimer(seconds) {
       let remaining = seconds;
       const display = document.getElementById('quiz-timer');
       if (quizTimerInterval) clearInterval(quizTimerInterval);
@@ -2672,7 +2663,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       if (!q) return;
       const idx = bookmarkedMcqs.findIndex(id => String(id) === String(q.id));
       if (idx >= 0) bookmarkedMcqs.splice(idx, 1); else bookmarkedMcqs.push(q.id);
-      localStorage.setItem('sjn_bookmarked_mcqs', JSON.stringify(bookmarkedMcqs));
+      // Do not cache student bookmarks under a browser-wide key.
       updateBookmarkButton();
     }
 
@@ -2809,6 +2800,80 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       }
     };
 
+    function applyAuthenticatedStats(stats) {
+      sjnProfile.mcqsAttempted = Number(stats?.total || 0);
+      sjnProfile.correctAnswers = Number(stats?.correct || 0);
+      const { mcqsAttempted: total, correctAnswers: correct } = sjnProfile;
+      sjnProfile.rank = total >= 50 && correct / total >= 0.8
+        ? 'Doctor Status 🎓' : total >= 25 ? 'Champion 🔴'
+        : total >= 10 ? 'Cadet ⚫' : 'Beginner 🔴';
+      updateGlobalProfileUI();
+    }
+
+    async function refreshAuthenticatedStats(expectedStudentId) {
+      const data = await api('/me');
+      if (!currentUser || currentUser.id !== expectedStudentId ||
+          data.user?.id !== expectedStudentId) {
+        throw new Error('The active student changed. Reload your dashboard.');
+      }
+      applyAuthenticatedStats(data.stats);
+    }
+
+    function countStudyStreak(attempts) {
+      const days = new Set(attempts.map(row => String(row.created_at || '').slice(0, 10)));
+      const day = new Date();
+      day.setUTCHours(0, 0, 0, 0);
+      const iso = () => day.toISOString().slice(0, 10);
+      if (!days.has(iso())) day.setUTCDate(day.getUTCDate() - 1);
+      let count = 0;
+      while (days.has(iso())) {
+        count++;
+        day.setUTCDate(day.getUTCDate() - 1);
+      }
+      return count;
+    }
+
+    async function loadStudentHistory() {
+      const expectedStudentId = currentUser?.id;
+      if (!expectedStudentId) return false;
+      historyLoadStatus = 'loading';
+      sjnProfile.historyLogs = [];
+      renderHistoryTable();
+      try {
+        const payload = await api('/history');
+        // The account can change while a tab is awaiting a request.
+        if (!currentUser || currentUser.id !== expectedStudentId ||
+            payload.userId !== expectedStudentId || !Array.isArray(payload.attempts)) {
+          throw new Error('The active student changed. Reload your dashboard.');
+        }
+        sjnProfile.historyLogs = payload.attempts.map(row => {
+          const total = Number(row.total || 0);
+          const correct = Number(row.correct || 0);
+          return {
+            title: row.title || 'Practice Test',
+            subject: row.subject || 'Mixed',
+            mode: row.mode || 'tutor',
+            score: correct + '/' + total,
+            accuracy: Math.round(total ? 100 * correct / total : 0) + '%',
+            date: row.created_at,
+            chapters: row.selection_json?.chapters || [],
+            topics: row.selection_json?.topics || []
+          };
+        });
+        sjnProfile.streakDays = countStudyStreak(payload.attempts);
+        historyLoadStatus = 'ready';
+        updateGlobalProfileUI();
+      } catch (error) {
+        if (currentUser?.id !== expectedStudentId) return false;
+        historyLoadStatus = 'error';
+        sjnProfile.historyLogs = [];
+        console.warn('Unable to load student history:', error);
+      }
+      renderHistoryTable();
+      return historyLoadStatus === 'ready';
+    }
+    window.reloadStudentHistory = loadStudentHistory;
+
     async function loadAccount() {
       const startedAt = performance.now();
       const guard = document.getElementById('session-guard');
@@ -2821,11 +2886,12 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         initialAccount = null;
         if (!data.user) throw Object.assign(new Error('Student account missing.'), { status: 401 });
         currentUser = data.user;
+        // Start with a clean in-memory account; never use another student's browser profile.
+        sjnProfile = emptyStudentProfile();
+        historyLoadStatus = 'loading';
         updateDashboardAccountUI(currentUser);
-        sjnProfile.mcqsAttempted = Number(data.stats.total || 0);
-        sjnProfile.correctAnswers = Number(data.stats.correct || 0);
-        bookmarkedMcqs = data.bookmarks || [];
-        updateGlobalProfileUI();
+        applyAuthenticatedStats(data.stats);
+        bookmarkedMcqs = Array.isArray(data.bookmarks) ? data.bookmarks : [];
         guard.classList.add('hidden');
         console.info('SJN dashboard authenticated in', Math.round(performance.now()-startedAt), 'ms');
         return true;
@@ -2961,11 +3027,47 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     };
 
     const originalFinishQuiz = window.finishQuiz;
-    window.finishQuiz = async function(){
+    let savingAttempt = false;
+    window.finishQuiz = async function() {
+      if (savingAttempt) return; // Multiple Next/timer events must not double-save.
+      if (!authToken || !currentUser) { window.location.replace('/landing.html'); return; }
+      if (!currentQuizList.length) return;
+      savingAttempt = true;
+      const expectedStudentId = currentUser.id;
+      const correct = currentQuizList.reduce((n, q, i) =>
+        n + (userAnswers[i] === q.correctIndex ? 1 : 0), 0);
+      const attempted = currentQuizList.length;
+      const submission = {
+        title: paperSourceFilter || wizardSelection.bank, total: attempted, correct,
+        mode: wizardSelection.testMode, subject: wizardSelection.subject,
+        selection: { subjects: wizardSelection.selectedSubjects,
+          chapters: wizardSelection.selectedChapters, topics: wizardSelection.selectedTopics }
+      };
       originalFinishQuiz();
-      if(!authToken || !currentQuizList.length) return;
-      const correct=currentQuizList.reduce((n,q,i)=>n+(userAnswers[i]===q.correctIndex?1:0),0);
-      try { await api('/attempts',{method:'POST',body:{title:paperSourceFilter || wizardSelection.bank,total:currentQuizList.length,correct,mode:wizardSelection.testMode,subject:wizardSelection.subject,selection:{subjects:wizardSelection.selectedSubjects,chapters:wizardSelection.selectedChapters,topics:wizardSelection.selectedTopics}}}); } catch(e){console.warn(e);}
+      try {
+        const saved = await api('/attempts', {
+          method: 'POST',
+          headers: { 'X-SJN-Expected-Student': expectedStudentId },
+          body: submission
+        });
+        if (!saved?.id) throw new Error('No saved attempt was confirmed.');
+        const [stats, history] = await Promise.allSettled([
+          refreshAuthenticatedStats(expectedStudentId), loadStudentHistory()
+        ]);
+        if (stats.status === 'rejected' || history.status === 'rejected' ||
+            history.value !== true) {
+          console.warn('Saved result; dashboard summary could not fully refresh.');
+        }
+      } catch (error) {
+        console.warn('Practice test save not confirmed:', error);
+        alert('Your test result could not be confirmed as saved. Check Test History before trying again.');
+        // Restore the server-owned figures, never a browser-wide copy.
+        await Promise.allSettled([
+          refreshAuthenticatedStats(expectedStudentId), loadStudentHistory()
+        ]);
+      } finally {
+        savingAttempt = false;
+      }
     };
 
     window.sendAiDoubt = async function(){
@@ -2987,9 +3089,9 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     // DOM-ready starts verification before images and external resources finish loading.
     window.addEventListener('DOMContentLoaded', async () => {
       if (!(await loadAccount())) return;
+      // Fetch personal history separately, after verified dashboard content is visible.
+      void loadStudentHistory();
       await loadContent();
-      renderHistoryTable();
-      updateGlobalProfileUI();
     });
   })();
   </script>
@@ -2998,25 +3100,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     document.body.classList.toggle('sidebar-collapsed');
   };
     
-   // Restore profile data AND dashboard stats from local storage on page load
-    window.addEventListener('DOMContentLoaded', () => {
-        setTimeout(() => {
-            try {
-                const savedData = localStorage.getItem('sjn_student_profile');
-                if (savedData) {
-                    // Pull the saved numbers from storage and load them into memory
-                    Object.assign(sjnProfile, JSON.parse(savedData)); 
-                }
-                if (typeof updateGlobalProfileUI === 'function') {
-                    // Now update the UI using the loaded numbers
-                    updateGlobalProfileUI(); 
-                }
-            } catch (e) {
-                console.error("Error restoring stats:", e);
-            }
-        }, 200); // 200ms delay to ensure page is ready
-    });
-    
+   // Student data is loaded from the authenticated API, never shared browser storage.
   </script>
 </body>
 </html>

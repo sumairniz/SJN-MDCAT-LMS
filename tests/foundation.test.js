@@ -13,10 +13,21 @@ let failBookmarkInsert = false;
 function makeQuery(table, authorization) {
   const filters = {};
   let action = "select";
+  let selectedColumns = "";
   function result(kind) {
     databaseCalls.push({ table, authorization, filters: { ...filters }, action });
     if (table === "profiles") return { data: { name: "Student", role: "student" }, error: null };
-    if (table === "attempts") return { data: kind === "single" ? { id: 42 } : [{ total: 5, correct: 3 }], error: null };
+    if (table === "attempts") {
+      if (kind === "single") return { data: { id: 42 }, error: null };
+      if (selectedColumns.includes("selection_json")) {
+        const isB = authorization === "Bearer token-b";
+        const total = isB ? 20 : 15;
+        return { data: [{ id: isB ? 202 : 101, title: "Biology practice", total,
+          correct: isB ? 16 : 12, mode: "tutor", subject: "Biology",
+          selection_json: {}, created_at: "2026-10-13T11:00:00Z" }], error: null };
+      }
+      return { data: [{ total: 5, correct: 3 }], error: null };
+    }
     if (table === "bookmarks") {
       if (action === "insert" && failBookmarkInsert) return { data: null, error: { code: "23503" } };
       return { data: kind === "maybeSingle" ? null : [], error: null };
@@ -24,7 +35,7 @@ function makeQuery(table, authorization) {
     return { data: [], error: null };
   }
   const q = {
-    select() { return q; },
+    select(columns) { selectedColumns = columns || ""; return q; },
     eq(key, val) { filters[key] = val; return q; },
     order() { return q; },
     insert() { action = "insert"; return q; },
@@ -330,6 +341,83 @@ test("confirmed flow: Login/Register only on landing; Sign Out only in dashboard
   assert.match(dash, /if \(!\(await loadAccount\(\)\)\) return/);
   assert.match(dash, /id="session-guard"/);
   assert.match(dash, /updateDashboardAccountUI\(currentUser\)/);
+});
+
+test("student history is scoped and tagged by authenticated student, never combined", async () => {
+  const server = await new Promise(resolve => {
+    const s = app.listen(0, "127.0.0.1", () => resolve(s));
+  });
+  try {
+    const root = "http://127.0.0.1:" + server.address().port;
+    const a = await loginSession(root);
+    const b = await loginSession(root, "student-b@example.com");
+    databaseCalls.splice(0);
+
+    const responseA = await fetch(root + "/api/history", {
+      headers: { Authorization: "Bearer token-a", Cookie: a.cookies }
+    });
+    assert.equal(responseA.status, 200);
+    assert.match(responseA.headers.get("cache-control"), /no-store/);
+    const historyA = await responseA.json();
+    assert.equal(historyA.userId, "student-a");
+    assert.deepEqual(historyA.attempts.map(x => x.total), [15]);
+    const callsA = databaseCalls.splice(0);
+    assert.ok(callsA.every(c => c.authorization === "Bearer token-a" &&
+      c.filters.user_id === "student-a"));
+
+    const responseB = await fetch(root + "/api/history", {
+      headers: { Authorization: "Bearer token-b", Cookie: b.cookies }
+    });
+    assert.equal(responseB.status, 200);
+    const historyB = await responseB.json();
+    assert.equal(historyB.userId, "student-b");
+    assert.deepEqual(historyB.attempts.map(x => x.total), [20]);
+    const callsB = databaseCalls.splice(0);
+    assert.ok(callsB.every(c => c.authorization === "Bearer token-b" &&
+      c.filters.user_id === "student-b"));
+
+    const mismatched = await fetch(root + "/api/history", {
+      headers: { Authorization: "Bearer token-a", Cookie: b.cookies }
+    });
+    assert.equal(mismatched.status, 401);
+  } finally {
+    await new Promise((resolve, reject) => server.close(err => err ? reject(err) : resolve()));
+  }
+});
+
+test("stale account cannot save a test attempt into newly switched account", async () => {
+  const server = await new Promise(resolve => {
+    const s = app.listen(0, "127.0.0.1", () => resolve(s));
+  });
+  try {
+    const root = "http://127.0.0.1:" + server.address().port;
+    const b = await loginSession(root, "student-b@example.com");
+    databaseCalls.splice(0);
+    const denied = await fetch(root + "/api/attempts", {
+      method: "POST",
+      headers: { Authorization: "Bearer token-b", Cookie: b.cookies,
+        "Content-Type": "application/json", "X-SJN-Expected-Student": "student-a" },
+      body: JSON.stringify({ total: 5, correct: 3 })
+    });
+    assert.equal(denied.status, 409);
+    assert.equal(databaseCalls.length, 0, "No wrong-student database write should occur");
+  } finally {
+    await new Promise((resolve, reject) => server.close(err => err ? reject(err) : resolve()));
+  }
+});
+
+test("dashboard never reads browser-wide personal history or restores stale statistics", () => {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  const dash = fs.readFileSync(path.join(__dirname, "../public/index.html"), "utf8");
+  assert.doesNotMatch(dash, /localStorage\.(?:getItem|setItem)\(['"]sjn_student_profile['"]/);
+  assert.doesNotMatch(dash, /localStorage\.(?:getItem|setItem)\(['"]sjn_bookmarked_mcqs['"]/);
+  assert.doesNotMatch(dash, /setTimeout\([^]*Object\.assign\(sjnProfile/);
+  assert.match(dash, /api\('\/history'\)/);
+  assert.match(dash, /payload\.userId !== expectedStudentId/);
+  assert.match(dash, /sjnProfile\.historyLogs = payload\.attempts\.map/);
+  assert.match(dash, /X-SJN-Expected-Student/);
+  assert.match(dash, /td\.textContent = String\(value \?\? ''\)/);
 });
 
 test("dashboard and landing inline scripts remain syntactically valid", () => {
