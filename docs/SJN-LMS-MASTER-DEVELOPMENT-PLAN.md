@@ -18,6 +18,13 @@
 - **Staging-only implementation commit:** `058a9e008e6b7f900cbe0c40378666c1a5c4a001` (release-safety documentation and CI); automated verification to be assessed independently.
 - The black-screen issue remains open. No temporary performance instrumentation or production changes were made as part of these guardrails.
 
+## 2026-10-14 — Tailwind initial-render performance change (STAGING ONLY)
+
+- **Owner approved** a permanent build-time CSS optimization, separate from temporary diagnostics. Dashboard browser Tailwind CDN compiler and inline `tailwind.config` were replaced with a locally served `/dashboard.css` and equivalent pinned Tailwind v3.4.17 configuration. `npm install` generates and checks CSS using the `postinstall` step; GitHub CI also runs explicit build and selector checks.
+- Code commit `1ba6ce925aedb675080ea0980bdd34ab64fbe12e`: both GitHub workflows PASSED and Vercel branch staging preview READY at that commit. No production merge or database change.
+- **Browser acceptance PENDING:** verify dashboard appearance and interactions on desktop/mobile, quiz questions/answers/explanations, navigation, student history, account-switching and background-tab login; compare page rendering and auth request times with prior Chrome screenshot. Automated CSS selector checks do **not** prove visual parity.
+- Existing source shows the server authentication bootstrap still includes Supabase refresh and student-summary queries. Browser screenshot previously measured ~1.19 s refresh response waiting, which this CSS migration cannot directly shorten. No performance-speed guarantee or backend change is implied.
+
 ## 1. Mission and non-negotiables — CONFIRMED
 
 Build a long-term, professional, secure and maintainable MDCAT learning business, rather than a temporary demonstration. Optimize the existing architecture before adding a new one. Do not sacrifice security, correctness, scalability or maintainability to achieve a superficial loading-time target. Explain realistic limits plainly.
