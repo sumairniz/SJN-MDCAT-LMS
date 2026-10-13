@@ -58,7 +58,7 @@ Staging has seven public tables with RLS: `profiles`, `mcqs`, `courses`, `past_p
 
 **Exit gate:** Core navigation performs acceptably, no blocker to security/MCQ development, and the remaining transient loading state is recorded as an open UX item rather than falsely marked fixed.
 
-### Phase 2 — Authentication and student isolation: **HISTORY MIXING VERIFIED FIXED; CROSS-TAB IMPLEMENTED, MANUAL CHECKS PENDING**
+### Phase 2 — Authentication and student isolation: **CORE STUDENT PRIVACY AND CROSS-TAB MANUAL TESTS PASS; EDGE CHECKS OPEN**
 
 **Verified 2026-10-13 in staging, read-only:**
 - **2 Auth users, 2 matching profiles**.
@@ -83,12 +83,14 @@ Staging has seven public tables with RLS: `profiles`, `mcqs`, `courses`, `past_p
 - Preserve the original fixed 24-hour login deadline; avoid racing refresh-token rotations between tabs.
 - The owner gave explicit scoped staging/development-branch approval. The feature is implemented at `c31033331af9069ad60cb648c7d60cde97a6b625`; two GitHub CI checks passed and staging was READY. It uses browser storage events carrying **no credentials**, a same-origin Web Lock for cookie-changing requests where available, and a read-only signed-cookie `GET /api/auth/session` status check for resumed tabs. Browsers without Web Locks retain server identity validation, but simultaneous-refresh handling may be weaker and needs testing.
 
-**Still pending — do not claim Phase 2 complete:**
-1. **Browser-verify** synchronized login/account-switch behavior across tabs, including tabs sleeping in the background; never display the previous student's private information. Implementation and mocked automated tests have passed, not the end-to-end browser test.
-2. Test simultaneous requests and token refresh rotation across tabs under the fixed 24-hour boundary.
-3. Test expiry at exactly 24 hours in a real browser where practical; mock-based expiry tests have passed.
-4. Broader intermittent/slow network and error/retry behavior, preserving account isolation and correctly reporting failed saves.
-5. Signup without email verification needs bot protection, password reset/recovery, and ownership/security risk review before production rollout.
+**Owner browser verification of all four basic multi-tab scenarios — PASSED (2026-10-13):** same Student A in two tabs; logout propagates; after switching to Student B, tabs use B without displaying A's history; refreshing tabs retains B and B's history. These are owner-reported manual observations, not independently instrumented browser logs. Supabase privacy fix was also separately owner-verified.
+
+**Still pending — do not claim full Phase 2 complete:**
+1. Background/suspended tab recovery and high-concurrency refresh under overlapping requests; verify no old student information can reappear.
+2. Test simultaneous token refresh rotation across tabs and browsers without Web Locks while preserving the fixed 24-hour session boundary.
+3. Verify exact 24-hour expiry in a real browser where practical; automated simulated expiry checks have passed.
+4. Broader intermittent/slow network, retry, failed-save and multi-device account-change behavior, keeping student data isolated.
+5. Before production: signup without email verification needs bot protection, password recovery and account-ownership risk review.
 
 ### Phase 3 — Foundation freeze and handoff: **BASELINE DOCUMENTED; FINAL ACCEPTANCE PENDING EDGE CHECKS**
 
@@ -132,7 +134,7 @@ Staging has seven public tables with RLS: `profiles`, `mcqs`, `courses`, `past_p
 | P1 | Owner checks both students' actual history screens after each has attempts | Owner + assistant | DONE — owner confirmed isolated histories on staging |
 | P1 | Owner checks logout across two tabs | Owner + assistant | DONE — manual check, broader cases pending |
 | P1 | Validate 24-hour expiry and network interruption cases | Owner + assistant | PARTIAL — brief network interruption passed; real expiry pending |
-| P1 | Implement safe, synchronized cross-tab login/account switching after scoped approval | Assistant | IMPLEMENTED; CI PASS; staging browser test pending |
+| P1 | Implement safe, synchronized cross-tab login/account switching after scoped approval | Assistant | DONE — implemented; CI PASS; owner confirms all four basic manual tests PASS |
 | P2 | Diagnose remaining blank/skeleton loading delay with browser measurements | Owner + assistant | OPEN, NONBLOCKING |
 | P2 | Decide whether remaining brief loader is acceptable or needs measured optimization | Owner | OPEN, NONBLOCKING |
 | P2 | Reconfirm exact previously agreed MCQ interface specifications | Owner + assistant | NEXT SESSION |
@@ -148,7 +150,8 @@ Staging has seven public tables with RLS: `profiles`, `mcqs`, `courses`, `past_p
 - **2026-10-13:** Master plan created in development branch; this is **documentation only** and not approval to deploy or merge code to production.
 - **2026-10-13:** Scoped owner approval led to history-isolation fix deployed at `659e375924a542e48e4fdf33c88c20d5c6e84891`. Both CI workflows passed. Owner manually confirmed the separate account histories display correctly. Supabase staging record counts remain preserved.
 - **2026-10-13:** Owner accepted synchronized multi-tab login policy and explicitly approved development/staging-only implementation.
-- **2026-10-13:** Cross-tab authentication update committed as `c31033331af9069ad60cb648c7d60cde97a6b625`; both GitHub CI workflows succeeded and preview was READY. No production release or PR merge; real-browser verification still pending.
+- **2026-10-13:** Cross-tab authentication update committed as `c31033331af9069ad60cb648c7d60cde97a6b625`; both GitHub CI workflows succeeded and preview was READY. No production release or PR merge.
+- **2026-10-13:** Owner reports **all four basic staging multi-tab tests passed** (two tabs with same account, synchronized logout, account B switching without A's history, and two-tab refresh). Mark core tests verified by owner; long-duration expiry/refresh races and slow-network checks remain pending. Next priority is measured diagnosis of the blank/skeleton screen; do not replace it with an unmeasured cosmetic change.
 
 ## 9. How to update this document
 
@@ -159,4 +162,4 @@ At each session's end:
 4. Preserve unresolved questions rather than guessing.
 5. Never record student passwords, private email addresses, tokens, secrets or personal data.
 
-**Next work instruction:** Manually verify multi-tab account synchronization in the development preview (same student in two tabs, logout, re-login as another, refresh/focus and old-account privacy), then measure the blank-screen delay. Only after foundation acceptance, inspect the existing UI/MCQ source and available chat records to recover the previously agreed MCQ interface requirements. Do not redesign or write MCQ code without scoped authorization.
+**Next work instruction:** Core multi-tab checks have passed. Investigate the blank/skeleton loading delay using actual browser timings, separate browser-resource load from auth and Supabase time, and propose only evidence-backed staging changes after owner approval.  Only after foundation acceptance, inspect the existing UI/MCQ source and available chat records to recover the previously agreed MCQ interface requirements. Do not redesign or write MCQ code without scoped authorization.
