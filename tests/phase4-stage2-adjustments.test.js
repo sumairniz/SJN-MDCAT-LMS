@@ -95,3 +95,20 @@ test('Desktop outlined controls stay icon-only on mobile; scrollbar is thin and 
   assert.match(css, /\.sjn-exam-navigator::-webkit-scrollbar,[^}]*width: 3px; height: 3px;/);
   assert.doesNotMatch(css, /::-webkit-scrollbar \{ width: auto;/);
 });
+
+
+test('Navigator numbered tiles compact responsively without resizing the panel', () => {
+  // auto-fill retains compact empty tracks when a test contains very few MCQs.
+  assert.match(css, /\.sjn-exam-number-grid \{ display: grid; grid-template-columns: repeat\(auto-fill,minmax\(28px,1fr\)\); gap: 5px; \}/);
+  assert.match(css, /\.sjn-exam-number \{ aspect-ratio: 1; min-height: 30px; border-radius: 7px;/);
+  assert.doesNotMatch(css, /grid-template-columns: repeat\(5,minmax\(0,1fr\)\)/);
+  // Keep the existing desktop sticky height limit, width determined by layout, and scrolling.
+  assert.match(css, /\.sjn-exam-layout \{ display: grid; grid-template-columns: minmax\(0,1fr\) minmax\(236px,280px\);/);
+  assert.match(css, /\.sjn-exam-navigator \{ padding: 17px; position: sticky; top: 14px; max-height: calc\(100vh - 75px\); overflow-y: auto; \}/);
+  // The pre-existing mobile drawer keeps its dimensions, with larger touch-friendly tiles.
+  assert.match(css, /width: min\(330px,88vw\); max-height: none;/);
+  assert.match(css, /\.sjn-exam-number-grid \{ grid-template-columns: repeat\(auto-fill,minmax\(40px,1fr\)\); gap: 6px; \}/);
+  assert.match(css, /\.sjn-exam-number \{ min-height: 40px; \}/);
+  assert.match(js, /button\.addEventListener\('click', \(\) => goTo\(i\)\)/);
+  assert.match(css, /\.sjn-exam-number\.is-marked::after/);
+});

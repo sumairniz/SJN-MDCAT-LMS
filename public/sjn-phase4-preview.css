@@ -55,8 +55,8 @@ body.sjn-phase4-exam-active #sjn-workspace-main { scroll-behavior: auto; }
 .sjn-exam-secondary:disabled { cursor: not-allowed; opacity: .35; }
 .sjn-exam-navigator { padding: 17px; position: sticky; top: 14px; max-height: calc(100vh - 75px); overflow-y: auto; }
 .sjn-exam-nav-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 17px; font-size: 14px; }
-.sjn-exam-number-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 7px; }
-.sjn-exam-number { aspect-ratio: 1; min-height: 36px; border-radius: 7px; border: 1px solid #52525b; background: #27272a; color: #d4d4d8; font-size: 11px; font-weight: 800; cursor: pointer; position: relative; }
+.sjn-exam-number-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(28px,1fr)); gap: 5px; }
+.sjn-exam-number { aspect-ratio: 1; min-height: 30px; border-radius: 7px; border: 1px solid #52525b; background: #27272a; color: #d4d4d8; font-size: 11px; font-weight: 800; cursor: pointer; position: relative; }
 .sjn-exam-number.is-correct { border-color: #16a34a; background: #14532d; color: #dcfce7; }
 .sjn-exam-number.is-incorrect { border-color: #dc2626; background: #7f1d1d; color: #fee2e2; }
 .sjn-exam-number.is-answered { border-color: #64748b; background: #334155; color: white; }
@@ -93,6 +93,9 @@ body.sjn-phase4-exam-active #sjn-workspace-main { scroll-behavior: auto; }
   .sjn-exam-question { font-size: 17px; }
   .sjn-exam-option { min-height: 56px; }
   .sjn-exam-navigator { display: block; position: fixed; z-index: 90; right: 0; top: 0; bottom: 0; width: min(330px,88vw); max-height: none; border-radius: 12px 0 0 12px; background: #18181b; overflow-y: auto; box-shadow: -12px 0 45px #000a; }
+  /* Keep mobile question targets comfortably tappable while fitting more per row. */
+  .sjn-exam-number-grid { grid-template-columns: repeat(auto-fill,minmax(40px,1fr)); gap: 6px; }
+  .sjn-exam-number { min-height: 40px; }
   .sjn-exam-layout.nav-hidden .sjn-exam-navigator { display: none; }
   .sjn-exam-close-nav { display: inline-flex; }
   .sjn-exam-backdrop:not(.hidden) { display: block; position: fixed; z-index: 85; inset: 0; background: #000b; }

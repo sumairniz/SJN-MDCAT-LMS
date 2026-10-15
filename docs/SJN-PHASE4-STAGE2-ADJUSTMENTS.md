@@ -25,3 +25,11 @@ Staging-only feature switch: `?sjnPhase4Preview=1`. Old student quiz remains def
 - On the last MCQ only, in-card **Next** becomes a **red Finish** button. It calls the same `requestSubmission()` confirmation as the unchanged header Submit button (including unanswered review); it does not submit automatically. Earlier questions retain Next, and Previous remains available.
 - Original 74 MCQs, Tutor/Timed answer logic, answered-progress, authentication, student data, Supabase schema and production are unchanged.
 - Automated regression checks added; **final Stage 2 owner visual acceptance remains pending**.
+
+## 2026-10-16 — Owner-approved compact Question Navigator blocks (staging only)
+
+- **Only** resize the numbered question tiles and allow the grid to automatically accommodate additional columns.
+- Desktop: replace the fixed five-column arrangement with CSS `auto-fill` tracks sized from a compact 28px minimum, 5px gaps, and minimum tile height of 30px. `auto-fill` prevents sparse tests from stretching a few tiles into oversized blocks.
+- Mobile: use at least 40px-wide/40px-high tap targets with 6px gaps where possible; the responsive grid chooses how many fit without horizontal overflow.
+- Preserve the existing outer navigator's width, placement, original auto-sizing height (subject to its existing scroll limit), mobile drawer dimensions, colors, marks, statuses, click navigation, and exam interactions. **Do not change the panel's own layout or height rules.**
+- No original MCQ edits, backend changes, database migrations, production changes, or PR merge. Owner visual acceptance is still pending. Bookmark/report backend functionality remains deferred.
