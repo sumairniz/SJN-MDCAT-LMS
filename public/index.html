@@ -6,6 +6,7 @@
   <title>SJN MDCAT LMS Pro Portal</title>
   <!-- Compiled Tailwind v3 CSS (no browser compiler). -->
   <link rel="stylesheet" href="/dashboard.css">
+  <link rel="stylesheet" href="/sjn-phase4-preview.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
@@ -212,7 +213,7 @@
   <div class="flex-1 flex flex-col h-screen min-w-0 overflow-hidden bg-sjn-black">
     
     <!-- Top Header -->
-    <header class="sticky top-0 z-50 bg-sjn-card/90 backdrop-blur-md border-b border-sjn-border flex-shrink-0">
+    <header id="sjn-student-header" class="sticky top-0 z-50 bg-sjn-card/90 backdrop-blur-md border-b border-sjn-border flex-shrink-0">
       <div class="w-full px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           
@@ -287,7 +288,7 @@
     </header>
 
     <!-- Main Workspace (Scrollable Area) -->
-    <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative scroll-smooth bg-sjn-black">
+    <main id="sjn-workspace-main" class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative scroll-smooth bg-sjn-black">
       
       <section id="module-dashboard" class="module-view space-y-6">
         <!-- Banner Header -->
@@ -851,7 +852,7 @@
       </section>
       
       <!-- Footer Reminder -->
-      <footer class="bg-sjn-card border-t border-sjn-border py-4 mt-8 flex-shrink-0">
+      <footer id="sjn-student-footer" class="bg-sjn-card border-t border-sjn-border py-4 mt-8 flex-shrink-0">
         <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
           <p class="text-[11px] text-gray-400">
             © SJN MDCAT LMS Portal — Production Entrance Exam Engine for Medical Academies.
@@ -3180,5 +3181,6 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     
    // Student data is loaded from the authenticated API, never shared browser storage.
   </script>
+  <script src="/sjn-phase4-preview.js"></script>
 </body>
 </html>
