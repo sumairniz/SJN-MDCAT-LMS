@@ -23,6 +23,9 @@
           <span class="sjn-exam-brand" aria-label="SJN MDCAT LMS Pro">SJN <span>EXAM</span></span>
           <span class="sjn-exam-mode" id="sjn-exam-mode">Tutor</span>
           <span class="sjn-exam-progress" id="sjn-exam-progress" aria-live="polite">1 / 1</span>
+          <div class="sjn-exam-progress-track" id="sjn-exam-answered-progress" role="progressbar" aria-label="Answered question progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0 of 0 questions answered" title="Answered questions">
+            <span id="sjn-exam-answered-bar" class="sjn-exam-progress-fill"></span>
+          </div>
           <div class="sjn-exam-timer" title="Minutes and seconds"><i class="fa-regular fa-clock" aria-hidden="true"></i> <span id="sjn-exam-clock">00:00</span></div>
           <button type="button" id="sjn-exam-nav-toggle" class="sjn-exam-icon" aria-label="Toggle question navigator" aria-controls="sjn-exam-navigator" aria-expanded="true" title="Question navigator"><i class="fa-solid fa-table-cells" aria-hidden="true"></i></button>
           <button type="button" id="sjn-exam-submit" class="sjn-exam-submit">Submit</button>
@@ -32,18 +35,23 @@
             <div class="sjn-exam-card-top">
               <div class="sjn-exam-meta">
                 <span class="sjn-exam-subject" id="sjn-exam-subject">Biology</span>
-                <span class="sjn-exam-counter" id="sjn-exam-counter">Question 1</span>
+                <span class="sjn-exam-chapter" id="sjn-exam-chapter"></span>
+                <span class="sjn-exam-source-row" id="sjn-exam-source-row"></span>
               </div>
-              <button type="button" class="sjn-exam-mark" id="sjn-exam-mark" aria-pressed="false"><i class="fa-regular fa-bookmark" aria-hidden="true"></i><span>Mark for Review</span></button>
+              <div class="sjn-exam-card-actions">
+                <button type="button" class="sjn-exam-mark" id="sjn-exam-mark" aria-pressed="false" aria-label="Mark for Review" title="Mark for Review"><i class="fa-regular fa-bookmark" aria-hidden="true"></i><span>Mark for Review</span></button>
+                <button type="button" class="sjn-exam-report-trigger" id="sjn-exam-report-trigger" aria-label="Report MCQ Issue" title="Report MCQ Issue"><i class="fa-regular fa-flag" aria-hidden="true"></i><span>Report Issue</span></button>
+              </div>
             </div>
-            <div class="sjn-exam-chapter" id="sjn-exam-chapter"></div>
-            <div class="sjn-exam-source-row" id="sjn-exam-source-row"></div>
+            <p class="sjn-exam-counter" id="sjn-exam-counter">Question 1</p>
             <h1 class="sjn-exam-question" id="sjn-exam-question"></h1>
             <div id="sjn-exam-options" class="sjn-exam-options" role="group" aria-label="Answer options"></div>
             <div id="sjn-exam-feedback" class="sjn-exam-feedback hidden" aria-live="polite">
               <p id="sjn-exam-feedback-label" class="sjn-exam-feedback-title"></p>
-              <p class="sjn-exam-explanation-heading">Concept Explanation</p>
-              <p id="sjn-exam-explanation"></p>
+              <div class="sjn-exam-explanation-panel">
+                <p class="sjn-exam-explanation-heading">Concept Explanation</p>
+                <p id="sjn-exam-explanation"></p>
+              </div>
               <div class="sjn-exam-mnemonic"><strong>SJN Mnemonic / Tip</strong><p id="sjn-exam-mnemonic"></p></div>
             </div>
             <div class="sjn-exam-bottom">
@@ -70,6 +78,41 @@
           <div id="sjn-exam-dialog-actions" class="sjn-exam-dialog-actions"></div>
         </div>
       </div>
+      <!-- Phase 4 Stage 2: report dialog is visual-only until secure storage is built. -->
+      <div id="sjn-exam-report-layer" class="sjn-exam-report-layer hidden" role="presentation">
+        <div class="sjn-exam-report-panel" role="dialog" aria-modal="true" aria-labelledby="sjn-exam-report-title" aria-describedby="sjn-exam-report-subtitle">
+          <div class="sjn-exam-report-head">
+            <div>
+              <h2 id="sjn-exam-report-title">Report an Issue</h2>
+              <p id="sjn-exam-report-subtitle">What's wrong with this question?</p>
+            </div>
+            <button type="button" class="sjn-exam-report-close sjn-exam-icon" id="sjn-exam-report-close" aria-label="Close report dialog"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+          </div>
+          <form id="sjn-exam-report-form">
+            <fieldset class="sjn-exam-report-reasons">
+              <legend class="sjn-exam-report-legend">Select one reason</legend>
+              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="wrong-answer-key"><i class="fa-solid fa-key" aria-hidden="true"></i><span>Wrong answer key</span></label>
+              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="question-statement-error"><i class="fa-solid fa-file-circle-exclamation" aria-hidden="true"></i><span>Question statement error</span></label>
+              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="incorrect-option"><i class="fa-solid fa-list-ul" aria-hidden="true"></i><span>Incorrect option</span></label>
+              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="wrong-explanation"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span>Wrong explanation</span></label>
+              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="missing-explanation"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i><span>Missing explanation</span></label>
+              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="typo-spelling"><i class="fa-solid fa-pencil" aria-hidden="true"></i><span>Typo / spelling error</span></label>
+              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="ambiguous-wording"><i class="fa-regular fa-circle-question" aria-hidden="true"></i><span>Ambiguous wording</span></label>
+              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="duplicate-question"><i class="fa-regular fa-copy" aria-hidden="true"></i><span>Duplicate question</span></label>
+              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="outdated-information"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>Outdated information</span></label>
+              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="technical-issue"><i class="fa-solid fa-gear" aria-hidden="true"></i><span>Technical issue</span></label>
+            </fieldset>
+            <label class="sjn-exam-report-details-label" for="sjn-exam-report-details">Additional details <span>(optional)</span></label>
+            <textarea id="sjn-exam-report-details" class="sjn-exam-report-details" rows="3" maxlength="2000" placeholder="Describe the issue, if you like..."></textarea>
+            <p class="sjn-exam-report-notice">Interface preview only — reports are not being saved or sent yet.</p>
+            <p class="sjn-exam-report-status" id="sjn-exam-report-status" aria-live="polite"></p>
+            <div class="sjn-exam-report-actions">
+              <button type="button" id="sjn-exam-report-cancel" class="sjn-exam-secondary">Cancel</button>
+              <button type="submit" id="sjn-exam-report-submit" class="sjn-exam-dialog-primary" disabled>Submit Report</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </section>`;
 
   const workspace = document.querySelector('main');
@@ -80,6 +123,9 @@
   const clock = (seconds) => numeric(Math.floor(seconds / 60)) + ':' + numeric(seconds % 60);
   const isMobile = () => window.matchMedia('(max-width: 767px)').matches;
   const answers = () => currentQuizList.reduce((n, q, i) => n + (userAnswers[i] !== null ? 1 : 0), 0);
+  function calculateAnsweredProgress(answerList, total) {
+    return total > 0 ? Math.round(100 * answerList.filter(answer => answer !== null && answer !== undefined).length / total) : 0;
+  }
   const marked = (q) => bookmarkedMcqs.some(id => String(id) === String(q.id));
 
   function setURL(url, replace = false) {
@@ -168,7 +214,13 @@
     if (!state.open || !q) return;
     $('sjn-exam-subject').textContent = q.subject;
     $('sjn-exam-progress').textContent = (currentMcqIndex + 1) + ' / ' + currentQuizList.length;
-    $('sjn-exam-counter').textContent = 'Question ' + (currentMcqIndex + 1) + ' of ' + currentQuizList.length;
+    const completed = answers();
+    const percent = calculateAnsweredProgress(userAnswers, currentQuizList.length);
+    $('sjn-exam-answered-bar').style.width = percent + '%';
+    $('sjn-exam-answered-progress').setAttribute('aria-valuenow', String(percent));
+    $('sjn-exam-answered-progress').setAttribute('aria-valuetext', completed + ' of ' + currentQuizList.length + ' questions answered');
+    $('sjn-exam-answered-progress').title = completed + ' of ' + currentQuizList.length + ' questions answered';
+    $('sjn-exam-counter').textContent = 'Question ' + (currentMcqIndex + 1);
     $('sjn-exam-question').textContent = q.question;
     // Keep the existing SJN chapter/topic treatment: plain muted text, not new colored pills.
     $('sjn-exam-chapter').textContent = (q.chapter || 'Chapter') + '  |  ' + (q.topic || 'General Topic');
@@ -203,6 +255,17 @@
       const label = document.createElement('span');
       label.className = 'sjn-exam-option-label'; label.textContent = option;
       b.append(letter, label);
+      if (checked && (i === q.correctIndex || selected)) {
+        const indicator = document.createElement('span');
+        const correctChoice = i === q.correctIndex;
+        indicator.className = 'sjn-exam-answer-indicator' + (correctChoice ? ' is-correct' : ' is-incorrect');
+        indicator.setAttribute('aria-label', correctChoice ? 'Correct answer' : 'Incorrect selection');
+        const icon = document.createElement('i');
+        icon.className = correctChoice ? 'fa-solid fa-check' : 'fa-solid fa-xmark';
+        icon.setAttribute('aria-hidden', 'true');
+        indicator.append(icon);
+        b.append(indicator);
+      }
       b.addEventListener('click', () => {
         if (checked) return;
         userAnswers[currentMcqIndex] = i;
@@ -214,10 +277,9 @@
     const box = $('sjn-exam-feedback');
     box.classList.toggle('hidden', !checked);
     if (checked) {
-      const correct = userAnswers[currentMcqIndex] === q.correctIndex;
       const label = $('sjn-exam-feedback-label');
-      label.textContent = (correct ? 'Correct' : 'Incorrect') + ' — Correct Answer: ' + 'ABCD'[q.correctIndex] + ' — ' + q.options[q.correctIndex];
-      label.className = 'sjn-exam-feedback-title ' + (correct ? 'is-correct' : 'is-incorrect');
+      label.textContent = 'Correct Answer: ' + 'ABCD'[q.correctIndex] + '. ' + q.options[q.correctIndex];
+      label.className = 'sjn-exam-feedback-title is-correct';
       $('sjn-exam-explanation').textContent = q.explanation || 'No explanation provided.';
       $('sjn-exam-mnemonic').textContent = q.mnemonic || 'No mnemonic provided.';
     }
@@ -248,6 +310,7 @@
   }
   function closeExam() {
     if (!state.open) return;
+    closeReport(false);
     stopClock();
     state.open = false;
     closeModal();
@@ -313,6 +376,51 @@
     workspace.scrollTop = 0;
     $('sjn-exam-question').focus?.();
   }
+  const reportLayer = $('sjn-exam-report-layer');
+  const reportForm = $('sjn-exam-report-form');
+  const reportSubmit = $('sjn-exam-report-submit');
+  const reportStatus = $('sjn-exam-report-status');
+  function closeReport(restoreFocus = true) {
+    const wasOpen = !reportLayer.classList.contains('hidden');
+    reportLayer.classList.add('hidden');
+    document.body.classList.remove('sjn-phase4-report-open');
+    reportForm.reset();
+    reportSubmit.disabled = true;
+    reportStatus.textContent = '';
+    if (wasOpen && restoreFocus && state.open) $('sjn-exam-report-trigger').focus();
+  }
+  function openReport() {
+    if (!state.open) return;
+    closeModal();
+    reportForm.reset();
+    reportSubmit.disabled = true;
+    reportStatus.textContent = '';
+    reportLayer.classList.remove('hidden');
+    document.body.classList.add('sjn-phase4-report-open');
+    reportLayer.querySelector('input[type="radio"]')?.focus();
+  }
+  $('sjn-exam-report-trigger').addEventListener('click', openReport);
+  $('sjn-exam-report-close').addEventListener('click', () => closeReport());
+  $('sjn-exam-report-cancel').addEventListener('click', () => closeReport());
+  reportLayer.addEventListener('click', (event) => { if (event.target === reportLayer) closeReport(); });
+  reportForm.addEventListener('change', () => {
+    reportSubmit.disabled = !reportForm.querySelector('input[name="sjn-report-reason"]:checked');
+    reportStatus.textContent = '';
+  });
+  reportForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (reportSubmit.disabled) return;
+    // Backend and authenticated report storage are deliberately deferred.
+    // Never tell a student that a report was submitted when it was not.
+    reportStatus.textContent = 'Report submission is not active yet. Nothing has been sent or saved.';
+  });
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !reportLayer.classList.contains('hidden')) {
+      event.preventDefault();
+      closeReport();
+    }
+  });
+
   $('sjn-exam-exit').addEventListener('click', requestExit);
   $('sjn-exam-submit').addEventListener('click', requestSubmission);
   $('sjn-exam-prev').addEventListener('click', () => goTo(currentMcqIndex - 1));
