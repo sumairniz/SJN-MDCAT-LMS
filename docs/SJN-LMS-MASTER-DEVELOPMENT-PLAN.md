@@ -223,3 +223,12 @@ At each session's end:
 5. Never record student passwords, private email addresses, tokens, secrets or personal data.
 
 **Next work instruction:** Core multi-tab checks have passed. Investigate the blank/skeleton loading delay using actual browser timings, separate browser-resource load from auth and Supabase time, and propose only evidence-backed staging changes after owner approval.  Only after foundation acceptance, inspect the existing UI/MCQ source and available chat records to recover the previously agreed MCQ interface requirements. Do not redesign or write MCQ code without scoped authorization.
+
+## 2026-10-15 — Phase 4 development startup and SPA architecture approval
+
+- **Owner authorized Phase 4 development** on the existing development/staging branch, subject to existing preservation/testing gates and **no production change or draft PR merge** without separate approval.
+- Preservation/audit/docs baseline commit `02c0e1319a3ad83c259c71d9909ef47ddcacba4f`: original 74 MCQs fingerprint checks, staging schema audit, v1.2 confirmed interface decisions. Both GitHub CI workflows passed; Vercel staging preview READY. **No student UI or Supabase data changed** in that commit.
+- **Owner then reversed the conditional `quiz.html` preference and APPROVED SPA-style dynamic quiz navigation.** A dedicated *visual* examination workspace will replace the dashboard UI during tests without full page reload. See `docs/SJN-PHASE4-INTERFACE-BLUEPRINT-v1.3.md` and `docs/SJN-PHASE4-SPA-AND-SCALE-DECISION.md`. Do not implement a disconnected `quiz.html`.
+- Owner expects future question-bank scale of 20,000–50,000+ MCQs and later a separately specified full Admin Panel to manage MCQs, courses, reports, resources and academy operations. This is **architectural direction, not permission to implement the Admin Panel now**. Retain all 74 hardcoded questions; future PostgreSQL/Storage organization and import tooling must be scoped and reviewed separately.
+- **Owner's engineering feedback:** proactively explain technical alternatives and their tradeoffs in plain English; recommend sound architecture for the real SJN implementation instead of making the owner discover alternatives or decide unexplained implementation details.
+- **Next technical work:** SPA-focused exam workspace with regression checks for auth, Back/Forward, direct-link refresh, no data-loss, current 74-MCQ bank and the approved styling. Staging only, incremental and reversible. User acceptance and production release remain separate decisions.
