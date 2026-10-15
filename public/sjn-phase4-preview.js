@@ -56,7 +56,7 @@
             </div>
             <div class="sjn-exam-bottom">
               <button type="button" id="sjn-exam-prev" class="sjn-exam-secondary"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Previous</button>
-              <button type="button" id="sjn-exam-next" class="sjn-exam-secondary">Next <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+              <button type="button" id="sjn-exam-next" class="sjn-exam-secondary sjn-exam-next"><span id="sjn-exam-next-label">Next</span> <i id="sjn-exam-next-icon" class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
             </div>
           </article>
           <aside id="sjn-exam-navigator" class="sjn-exam-navigator" aria-label="Question navigator">
@@ -125,6 +125,9 @@
   const answers = () => currentQuizList.reduce((n, q, i) => n + (userAnswers[i] !== null ? 1 : 0), 0);
   function calculateAnsweredProgress(answerList, total) {
     return total > 0 ? Math.round(100 * answerList.filter(answer => answer !== null && answer !== undefined).length / total) : 0;
+  }
+  function isLastQuestion(index, total) {
+    return total > 0 && index === total - 1;
   }
   const marked = (q) => bookmarkedMcqs.some(id => String(id) === String(q.id));
 
@@ -284,7 +287,12 @@
       $('sjn-exam-mnemonic').textContent = q.mnemonic || 'No mnemonic provided.';
     }
     $('sjn-exam-prev').disabled = currentMcqIndex === 0;
-    $('sjn-exam-next').disabled = currentMcqIndex === currentQuizList.length - 1;
+    const finalQuestion = isLastQuestion(currentMcqIndex, currentQuizList.length);
+    const nextButton = $('sjn-exam-next');
+    nextButton.classList.toggle('is-finish', finalQuestion);
+    $('sjn-exam-next-label').textContent = finalQuestion ? 'Finish' : 'Next';
+    $('sjn-exam-next-icon').className = finalQuestion ? 'fa-solid fa-check' : 'fa-solid fa-arrow-right';
+    nextButton.disabled = false;
     renderNumbers();
   }
   function closeNavigator() {
@@ -424,7 +432,10 @@
   $('sjn-exam-exit').addEventListener('click', requestExit);
   $('sjn-exam-submit').addEventListener('click', requestSubmission);
   $('sjn-exam-prev').addEventListener('click', () => goTo(currentMcqIndex - 1));
-  $('sjn-exam-next').addEventListener('click', () => goTo(currentMcqIndex + 1));
+  $('sjn-exam-next').addEventListener('click', () => {
+    if (isLastQuestion(currentMcqIndex, currentQuizList.length)) requestSubmission();
+    else goTo(currentMcqIndex + 1);
+  });
   $('sjn-exam-nav-toggle').addEventListener('click', toggleNavigator);
   $('sjn-exam-close-nav').addEventListener('click', closeNavigator);
   $('sjn-exam-nav-backdrop').addEventListener('click', closeNavigator);

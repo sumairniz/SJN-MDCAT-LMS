@@ -117,7 +117,7 @@ body.sjn-phase4-exam-active #sjn-workspace-main { scroll-behavior: auto; }
 .sjn-exam-chapter { font-size: 12px; color: #a1a1aa; margin: 0; line-height: 1.5; overflow-wrap: anywhere; min-width: 0; }
 .sjn-exam-source-row { display: inline-flex; flex: 0 0 auto; margin: 0; gap: 6px; }
 .sjn-exam-card-actions { flex: 0 0 auto; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
-.sjn-exam-mark,.sjn-exam-report-trigger { min-height: 38px; padding: 7px; display: inline-flex; justify-content: center; align-items: center; gap: 7px; border: 0; background: transparent; cursor: pointer; font-size: 11px; }
+.sjn-exam-mark,.sjn-exam-report-trigger { min-height: 38px; padding: 7px; display: inline-flex; justify-content: center; align-items: center; gap: 7px; border: 1px solid #414148; border-radius: 8px; background: transparent; cursor: pointer; font-size: 11px; }
 .sjn-exam-mark { color: #d4d4d8; }
 .sjn-exam-mark.is-marked { color: #fbbf24; }
 .sjn-exam-report-trigger { color: #f87171; }
@@ -137,6 +137,8 @@ body.sjn-phase4-exam-active #sjn-workspace-main { scroll-behavior: auto; }
 #sjn-exam-explanation { font-size: 13px; line-height: 1.75; font-weight: 500; }
 .sjn-exam-mnemonic { margin-top: 10px; }
 .sjn-exam-bottom { margin-top: 14px; padding-top: 12px; }
+.sjn-exam-next.is-finish { background: #dc2626; border-color: #ef4444; color: #fff; }
+.sjn-exam-next.is-finish:not(:disabled):hover { background: #b91c1c; border-color: #f87171; }
 
 /* Report Issue presentation only. Real submission is intentionally deferred. */
 .sjn-exam-report-layer { position: fixed; z-index: 96; inset: 0; display: flex; align-items: center; justify-content: center; padding: 18px; background: #000c; }
@@ -174,7 +176,7 @@ body.sjn-phase4-report-open #sjn-workspace-main { overflow: hidden !important; }
   .sjn-exam-meta { gap: 5px 8px; }
   .sjn-exam-chapter { flex-basis: auto; line-height: 1.4; }
   .sjn-exam-source-row { flex-basis: auto; }
-  .sjn-exam-mark,.sjn-exam-report-trigger { min-width: 33px; min-height: 38px; padding: 6px; font-size: 15px; }
+  .sjn-exam-mark,.sjn-exam-report-trigger { min-width: 33px; min-height: 38px; padding: 6px; font-size: 15px; border: 0; }
   .sjn-exam-card-actions { gap: 2px; }
   .sjn-exam-mark span,.sjn-exam-report-trigger span { display: none; }
   .sjn-exam-counter { margin: 12px 0 5px; font-size: 11px; }
@@ -187,7 +189,11 @@ body.sjn-phase4-report-open #sjn-workspace-main { overflow: hidden !important; }
   .sjn-exam-report-panel::before { content: ''; display: block; width: 40px; height: 4px; background: #52525b; border-radius: 99px; margin: 0 auto 13px; }
   .sjn-exam-report-reason { min-height: 43px; }
   .sjn-exam-report-actions>button { flex: 1 1 0; }
-  /* Let mobile browsers choose transient indicators; don't force a persistent 6px scrollbar. */
+  /* Thin indicators only in the staged exam scroll containers; auto-hide remains browser-controlled. */
+  body.sjn-phase4-exam-active #sjn-workspace-main,
+  body.sjn-phase4-exam-active .sjn-exam-navigator,
+  body.sjn-phase4-report-open .sjn-exam-report-panel { scrollbar-width: thin; }
   body.sjn-phase4-exam-active #sjn-workspace-main::-webkit-scrollbar,
-  body.sjn-phase4-exam-active .sjn-exam-navigator::-webkit-scrollbar { width: auto; }
+  body.sjn-phase4-exam-active .sjn-exam-navigator::-webkit-scrollbar,
+  body.sjn-phase4-report-open .sjn-exam-report-panel::-webkit-scrollbar { width: 3px; height: 3px; }
 }

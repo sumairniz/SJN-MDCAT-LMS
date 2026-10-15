@@ -17,3 +17,11 @@ Owner-reported original Stage 2 tests: 14/14 passed, subject to later visual adj
 **Not yet implemented:** real report persistence/admin review, Save & Exit, autosave/Resume, permanent Mark for Review compatibility with 74 inline MCQs, redesigned results/review/retake, production launch. These remain subject to separate implementation and acceptance. Vercel Deployment Protection may require authenticated Vercel session or approved shareable testing access for actual-phone manual review; do not disable protection without owner consent.
 
 Staging-only feature switch: `?sjnPhase4Preview=1`. Old student quiz remains default. Owner to review this latest visual version before proceeding to Stage 3.
+
+## 2026-10-16 — Three owner-approved Stage 2 final refinements (staging only)
+
+- Desktop Mark for Review and Report Issue use matching compact subtle outlined borders. Their existing bookmark/flag colors remain distinct; mobile icons stay borderless and text-free.
+- Mobile exam workspace, question navigator and report-sheet scrollbars use thin scoped styling rather than the previous `width: auto` override. Native overlay/auto-hide is browser/OS-controlled; real-phone review is still required.
+- On the last MCQ only, in-card **Next** becomes a **red Finish** button. It calls the same `requestSubmission()` confirmation as the unchanged header Submit button (including unanswered review); it does not submit automatically. Earlier questions retain Next, and Previous remains available.
+- Original 74 MCQs, Tutor/Timed answer logic, answered-progress, authentication, student data, Supabase schema and production are unchanged.
+- Automated regression checks added; **final Stage 2 owner visual acceptance remains pending**.

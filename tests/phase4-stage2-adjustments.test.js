@@ -66,3 +66,32 @@ test('Stage 2 remains a visual preview; durable progress is still not claimed', 
   assert.match(js, /window\.addEventListener\('beforeunload'/);
   assert.match(css, /\.sjn-exam-explanation-panel/);
 });
+
+test('Last question switches Next to red Finish and reuses Submit confirmation', () => {
+  const helper = js.match(/function isLastQuestion\(index, total\) \{[\s\S]*?\n  \}/);
+  assert.ok(helper, 'Last-question function should be testable');
+  const isLastQuestion = vm.runInNewContext('(' + helper[0] + ')');
+  assert.equal(isLastQuestion(0, 0), false);
+  assert.equal(isLastQuestion(0, 1), true);
+  assert.equal(isLastQuestion(8, 10), false);
+  assert.equal(isLastQuestion(9, 10), true);
+  assert.match(js, /id="sjn-exam-next-label">Next<\/span>/);
+  assert.match(js, /finalQuestion \? 'Finish' : 'Next'/);
+  assert.match(js, /nextButton\.classList\.toggle\('is-finish', finalQuestion\)/);
+  assert.match(js, /nextButton\.disabled = false/);
+  assert.match(js, /if \(isLastQuestion\(currentMcqIndex, currentQuizList\.length\)\) requestSubmission\(\)/);
+  assert.match(js, /\$\('sjn-exam-submit'\)\.addEventListener\('click', requestSubmission\)/);
+  assert.match(css, /\.sjn-exam-next\.is-finish \{[^}]*background: #dc2626/);
+  assert.match(js, /Review Unanswered/);
+  assert.match(js, /Submit Anyway/);
+  assert.match(js, /Submit Test', run: completeTest/);
+});
+
+test('Desktop outlined controls stay icon-only on mobile; scrollbar is thin and scoped', () => {
+  assert.match(css, /\.sjn-exam-mark,\.sjn-exam-report-trigger \{[^}]*border: 1px solid #414148; border-radius: 8px/);
+  assert.match(css, /\.sjn-exam-mark,\.sjn-exam-report-trigger \{[^}]*min-width: 33px;[^}]*border: 0;/);
+  assert.match(css, /\.sjn-exam-mark span,\.sjn-exam-report-trigger span \{ display: none; \}/);
+  assert.match(css, /scrollbar-width: thin;/);
+  assert.match(css, /\.sjn-exam-navigator::-webkit-scrollbar,[^}]*width: 3px; height: 3px;/);
+  assert.doesNotMatch(css, /::-webkit-scrollbar \{ width: auto;/);
+});
