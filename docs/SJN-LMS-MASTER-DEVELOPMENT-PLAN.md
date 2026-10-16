@@ -7,6 +7,16 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-17 — Documentation-first handover and current MCQ Database Foundation (OWNER REQUESTED)
+
+- **Current checkpoint:** Phase 4 **MCQ Database Foundation, read-only architecture review**, before moving/copying any of the original 74 Biology MCQs or implementing Question-Level Test History/Review/Retake. The current accepted opt-in Results Screen source baseline is development commit `656f97de1ca8e00d3bd7f831286565c0bc060792`; documentation-only updates may move HEAD beyond this baseline.
+- Owner's changeable long-term direction—including **Past Papers Question Bank** and **SJN Question Bank**, future Used/Unused/Incorrect/Marked filters, one persistent Mark for Review/Bookmark, History actions, later Analytics, future Admin Panel and possible Light appearance—is recorded with CONFIRMED vs PROPOSED distinctions in [Future Question Banks & Create Test](SJN-FUTURE-QUESTION-BANKS-AND-CREATE-TEST.md). **Not permission to implement future features now.**
+- Live read-only staging Supabase and current source audit: [MCQ Database Foundation Review](SJN-MCQ-DATABASE-FOUNDATION-REVIEW-2026-10-17.md). Snapshot: **0** database MCQs, **74** inline questions, **37** testing attempts, **0** bookmarks, **4** testing profiles; current `mcqs` schema can represent original question fields but current `attempts` has no question-level answers. RLS checked. Staging and production remain separate.
+- Owner confirms no official students yet and is **open to deletion of testing attempt history if required**, not a blanket instruction to delete. Backup/effect summary and **separate explicit approval** required before data reset.
+- The permanent non-secret [Developer / AI Handover & Access Guide](SJN-DEVELOPER-HANDOVER-AND-ACCESS.md) defines how future ChatGPT/Gemini/human developers recover project access, current baseline, service locations and context. **GitHub branches have no passwords. Never put provider credentials, tokens, database passwords or student-identifying data in repository documentation.** Use provider role invitations, password manager and separate owner-approved secret access.
+- Owner approves concise **significant architectural decision / experiments / outcome / tests** documentation tied to Git history, not verbose descriptions of every small edit. Every temporary runtime change remains tracked under [Temporary Change Register](SJN-TEMPORARY-CHANGE-REGISTER.md). No application, database, hosting or production configuration modification is authorized by this docs commit.
+- **Next action:** Review precise schema/migration plan for 74-question import and future two-bank representation; ask the owner before any SQL DDL/DML, staging data reset, code source-switch or production action.
+
 > **Source-of-truth rule:** Mark a decision **CONFIRMED** only when the owner actually approved it. Label findings from source code **OBSERVED IN CODE**, test results **VERIFIED**, and design proposals **PROPOSED**. Do not fill gaps in previously agreed MCQ requirements from memory. Preserve the complete original chat discussion when available and obtain confirmation for any missing detail.
 
 ## 2026-10-16 — Permanent temporary-change inventory — OWNER REQUESTED
@@ -229,7 +239,7 @@ At each session's end:
 4. Preserve unresolved questions rather than guessing.
 5. Never record student passwords, private email addresses, tokens, secrets or personal data.
 
-**Next work instruction:** Core multi-tab checks have passed. Investigate the blank/skeleton loading delay using actual browser timings, separate browser-resource load from auth and Supabase time, and propose only evidence-backed staging changes after owner approval.  Only after foundation acceptance, inspect the existing UI/MCQ source and available chat records to recover the previously agreed MCQ interface requirements. Do not redesign or write MCQ code without scoped authorization.
+**Historical 2026-10-13 instruction (superseded by the dated current checkpoint at top):** The earlier multi-tab and initial-render diagnosis instructions were for the initial foundation stage. Do not treat them as the current priority. The current next work instruction is Phase 4 **MCQ Database Foundation**, as documented above.
 
 ## 2026-10-15 — Phase 4 development startup and SPA architecture approval
 
