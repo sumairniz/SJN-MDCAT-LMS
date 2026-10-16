@@ -1,7 +1,14 @@
 ## SJN LMS change summary
 Describe the owner-approved scope, exact code areas affected and why the change is permanent.
 
+## Temporary-code declaration (required, even if none)
+- **New or changed temporary IDs:** list `TEMP-...` entries, or write `none` after full diff review.
+- **Files/config, rationale and owner approval:** point to exact register sections and commit.
+- **Pre-merge disposition:** identify removal, safe permanent replacement and verification plan, including blockers. Do not assume staging-only workarounds can ship.
+- **Register:** [SJN Temporary Changes & Pre-Merge Cleanup Register](../docs/SJN-TEMPORARY-CHANGE-REGISTER.md).
+
 ## Required review before main/production
+- [ ] Temporary-change register reconciled with the full diff; all temporary runtime items resolved and verified or individually reviewed under an explicit owner release-scope decision. No diagnostic code is included.
 - [ ] All changed files and the complete diff against \`main\` reviewed; no temporary measurements, experiments, dead code or debug endpoints.
 - [ ] \`npm test\`, \`npm run check:release\`, syntax and GitHub CI checks passed.
 - [ ] Staging browser checks completed for relevant login, logout, MCQ, history and multi-tab behavior.

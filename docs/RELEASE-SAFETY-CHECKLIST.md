@@ -22,6 +22,13 @@ limited change on the development branch, with tests.
 - [ ] Keep all diagnostic code on this branch. If instrumentation is added to runtime code, label it \`SJN_TEMP_DIAGNOSTIC\`. Never put credentials or student-identifying data into logs.
 - [ ] Record findings, then retire the diagnostic branch. Do not cherry-pick its measurement code; independently implement only verified, approved permanent improvements.
 
+## Mandatory temporary-change register — OWNER REQUESTED 2026-10-16
+
+- [ ] Read and reconcile [SJN Temporary Changes & Pre-Merge Cleanup Register](SJN-TEMPORARY-CHANGE-REGISTER.md) with the **actual branch diff and environment configuration**. A newly introduced preview-only flag, test workaround, placeholder, debug code or staging setting must be entered **in the same approved commit**, with an ID, owner permission, location, risk and removal/replacement plan.
+- [ ] Before preparing a release candidate, resolve and test every temporary runtime item, or obtain an explicitly documented owner release-scope decision for a deliberately deferred, safely disabled feature. Never carry diagnostic instrumentation into `main`; do not mistake approved permanent functionality for temporary scaffolding.
+- [ ] Inspect `TEMP-P4-...` entries for the Phase 4 preview gate, mock Report Issue submit, unavailable Save & Exit and real bookmarks, SPA refresh fallback and transitional results flow. Verify mobile guest-to-login testing, Auth settings and restricted Vercel share access.
+- [ ] Record resolution commit, automated checks, manual browser testing and owner acceptance for each resolved item. **A passing existing release guard does not automatically check the register.** The mandatory register review remains a human gate until separately approved enforcement exists.
+
 ## Before proposing any pull request to main
 
 - [ ] Obtain the explicit owner-approved **scope for preparing a release candidate**. This is distinct from authorization to actually merge or deploy.

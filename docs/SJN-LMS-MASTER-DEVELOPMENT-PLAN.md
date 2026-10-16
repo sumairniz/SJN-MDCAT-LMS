@@ -9,6 +9,13 @@
 
 > **Source-of-truth rule:** Mark a decision **CONFIRMED** only when the owner actually approved it. Label findings from source code **OBSERVED IN CODE**, test results **VERIFIED**, and design proposals **PROPOSED**. Do not fill gaps in previously agreed MCQ requirements from memory. Preserve the complete original chat discussion when available and obtain confirmation for any missing detail.
 
+## 2026-10-16 — Permanent temporary-change inventory — OWNER REQUESTED
+
+- The owner explicitly requires **every** future temporary preview feature, workaround, diagnostic, placeholder and staging-only configuration to be documented **when introduced** with exact locations and a safe remove/replace plan for production. No reliance on ChatGPT conversation memory.
+- The persistent source of truth is [SJN Temporary Changes & Pre-Merge Cleanup Register](SJN-TEMPORARY-CHANGE-REGISTER.md). It inventories current Phase 4 preview-only paths, incomplete Report Issue/Save & Exit/Mark for Review integrations, preview route fallback, legacy submission bridge, staging signup settings and external preview-share access.
+- Before **any** merge into `main`, reconcile that register with the diff, resolve/review each open item, preserve approved permanent features, run required tests and obtain separate owner authorizations. The existing `npm run check:release` only detects known diagnostics; it does not automatically enforce this new register.
+- Documentation process only in this change: **no application code, Supabase data/config, Vercel settings or production release authorized**.
+
 ## Permanent release-safety process — OWNER APPROVED 2026-10-14
 
 - The owner explicitly approved repository-persistent safeguards so no future assistant or developer must rely on chat memory to remove temporary diagnostics.

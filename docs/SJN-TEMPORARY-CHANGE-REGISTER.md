@@ -1,0 +1,72 @@
+# SJN MDCAT LMS Pro — Temporary Changes & Pre-Merge Cleanup Register
+
+**Created:** 2026-10-16 (Pakistan time)  
+**Status:** PERMANENT PROJECT PROCESS — requested by the owner. Open items below are **not** release-approved.  
+**Scope:** All future short-lived code, preview-only paths, placeholders, temporary feature flags, diagnostic instrumentation, testing workarounds, links/configuration and incomplete staging integrations, wherever they live.  
+**Repository / branch at initial audit:** `sumairniz/SJN-MDCAT-LMS` / `sjn-phase1a-foundation`, inspected at `981b8a2103ad190c9203e13dc3a12e74a1539b44`.  
+**Release gate:** This register must be reconciled against the actual release diff and all entries explicitly disposed of **before any merge to main**. This document itself does not authorize code/database changes, a merge or deployment.
+
+## 1. Non-negotiable lifecycle for EVERY new temporary change
+
+1. **Before adding it:** Explain to the owner why a temporary change is necessary, the cleaner permanent alternative, impact on the eventual LMS, and obtain scoped approval. Prefer no temporary code. Instrumentation/measurement belongs on a **separately approved diagnostic branch** and must never be cherry-picked into the development branch.
+2. **In the SAME commit as any approved temporary change:** Add/update a row in this register with a unique `TEMP-...` ID, introduced date, commit/PR, exact filenames and entry points, environment, owner approval, purpose, risks/affected student flows, dependencies, and a concrete removal-or-replacement plan and trigger. Add an in-code comment referencing its ID where appropriate. **Do not introduce undocumented temporary code**, even for a quick test.
+3. **Track its status:** `OPEN`, `REPLACEMENT IN PROGRESS`, `READY FOR OWNER VERIFICATION`, or `RESOLVED`. Record actual test and review evidence, not a guessed PASS. Review this document on every handoff/new chat.
+4. **Before proposing a production merge:** Audit the full diff against `main` and search for undocumented experiments, placeholders, test credentials, debug assets, branches, flags, and temporary environment configuration. Every runtime `OPEN` item **blocks promotion**; remove it or replace it with the owner-approved, tested permanent behavior. If the owner wants a limited/inactive feature intentionally shipped, record a specific **separate release-scope decision** after security/UX review; do not silently treat an unfinished preview as production-ready.
+5. **Close with evidence:** For each `RESOLVED` item add the resolving commit, tests, manual device/auth review where applicable, owner acceptance and a link to release decision. Delete only disposable scaffolding; **preserve approved interface work and all original MCQs/student data** when replacing preview mechanisms.
+6. **Maintain a release gate:** Check [Release Safety Checklist](RELEASE-SAFETY-CHECKLIST.md), [Master Development Plan](SJN-LMS-MASTER-DEVELOPMENT-PLAN.md), and [PR template](../.github/PULL_REQUEST_TEMPLATE.md). The existing `npm run check:release` catches **known diagnostic markers and paths**, not the whole register. Documentation plus human review are currently **not a machine-enforced block**; branch protection/rulesets require separate approval.
+
+**Classification:** `REMOVE` means delete disposable scaffolding; `REPLACE` means implement a real, tested feature then remove its placeholder; `REVIEW CONFIG` means verify/reset external testing-only configuration. A feature developed on staging is **not automatically temporary**: do not erase legitimate, owner-approved final LMS functionality just because a preview flag or placeholder around it is temporary.
+
+## 2. Current known open items — audited 2026-10-16
+
+| ID / state | Exact location and reason | Before production merge (not yet authorized) |
+| --- | --- | --- |
+| **TEMP-P4-001 — OPEN / REMOVE or integrate** | `public/sjn-phase4-preview.js` checks `?sjnPhase4Preview=1`, maintains preview-specific URLs and mounts the opt-in exam workspace; `public/index.html` imports the preview JS/CSS; `public/sjn-phase4-preview.css` supplies scoped design. This flag deliberately keeps the unfinished Phase 4 exam off the default student route. | After Phase 4 functionality and migration are approved, integrate the **approved exam interface** into the ordinary SPA flow; retire the preview-only URL gate, preview-only copy and stale scripts/conditions, but **do not remove the actual accepted interface**. Regression-test dashboard, wizard, exam, sign-in, logout, account-switching and previous 74 MCQs. A controlled feature rollout requires its own explicit design and approval. |
+| **TEMP-P4-002 — OPEN / REPLACE** | `public/sjn-phase4-preview.js`: Report Issue dialog is visual-only; its submit handler says nothing was sent or saved. No authenticated reporting persistence/API was implemented in this stage. | Build reviewed student-scoped report storage/API and future admin-access design, with appropriate authorization, validation, quotas, auditing and tests, **or** remove/disable the unfinished action with truthful UX under a separately approved release scope. Never claim a report was sent unless stored. Do not leak one student's reports to others. |
+| **TEMP-P4-003 — OPEN / REPLACE** | `public/sjn-phase4-preview.js`: Exit Without Saving warning and `leaveUnsaved()` discard unfinished work; Save & Exit and autosave are not real. | Implement authorized, account-isolated durable drafts, stable question order/IDs, answers, marks, timer and Resume from history, with refresh/failure tests. Remove the transitional preview-only loss warning after feature acceptance; don't falsely claim data was saved. |
+| **TEMP-P4-004 — OPEN / REPLACE** | `public/sjn-phase4-preview.js` delegates Mark for Review to the existing bookmark call. Original 74 inline Biology MCQs lack rows in staging `public.mcqs` (zero at last read-only inspection); `public.bookmarks.mcq_id` has a foreign key to `public.mcqs.id`. | Independently approve and verify stable MCQ identity/migration and per-user mark persistence before enabling this as real. Keep all original MCQ content/explanations/mnemonics and current accounts/history intact. Do not 'fix' by bypassing FK/RLS or using global localStorage. |
+| **TEMP-P4-005 — OPEN / REPLACE** | `public/sjn-phase4-preview.js` direct-entry/refresh guard for `/quiz/session` redirects to wizard with a 'cannot restore' note. It intentionally avoids inventing a recovered in-progress test. | After durable draft recovery, implement safe direct entry, refresh and Back/Forward for SPA routes. Remove the temporary fallback message only when actual recovery is verified under the authenticated student's identity and 24-hour deadline. |
+| **TEMP-P4-006 — OPEN / INTEGRATE** | `public/sjn-phase4-preview.js` final completion calls existing `window.finishQuiz()`, reusing the old authenticated save and results pipeline; approved complete Phase 4 Results, Review, Retake and detailed attempt history are not yet ready. | Preserve authenticated saving and old records while implementing the approved results/review/retake/history experience. Review the bridge for removal or clean integration; test exact question set/order and immutable historical results. Do not simply delete the current functioning save path. |
+| **TEMP-CONFIG-001 — OPEN / REVIEW CONFIG** | Staging Supabase Auth signup/email-confirmation setting was adjusted for convenient test-account creation, per the Master Plan. This is **external configuration**, not proof the production policy is decided. | Audit actual staging and production Auth policies and choose the production email verification, account recovery and anti-abuse design by separate owner approval. **Never copy a staging Auth setting by assumption.** |
+| **TEMP-ACCESS-001 — OPEN / REVIEW CONFIG** | Vercel preview share links and their access parameters are temporary external testing access, **not application code**. Trusted friends may use these to access the preview; link access does not bypass LMS student authentication. | Review/revoke unnecessary share permissions at release and verify staging/production deployment protection. Never copy share secrets, tokens, student logins or complete bypass URLs into GitHub, logs or screenshots. |
+
+### Known test blocker — not a patch to add by default
+
+- **TEMP-P4-001 / fresh-visitor activation:** The opt-in preview query parameter is currently lost on guest landing/login/register redirect to `/index.html` (observed in `public/landing.html` and related redirects). Friends opening a preview share link while signed out may therefore see the **old** quiz after login. **No redirect workaround has been implemented or approved as of this audit.** Before changing anything, choose a minimal, future-proof way to handle testing access; if any extra staging-only code is introduced, register it as a separate `TEMP-...` entry in the same commit. Avoid storing share-link credentials in source code.
+
+### NOT identified as temporary cleanup
+
+- Approved desktop Finish button, compact navigator, SJN design and responsive CSS represent intended interface improvements, not code to remove solely because they were tested on staging.
+- Permanent account isolation, signed-cookie security, fixed 24-hour expiry, and the locally compiled Tailwind build are intended long-term foundations; they must be preserved and regression-tested, not removed in a blanket cleanup.
+- Existing original 74 hardcoded Biology MCQs must never be deleted without a separately approved **lossless** migration.
+- No active `SJN_TEMP_DIAGNOSTIC` measurement implementation is reported in the reviewed project documents. **This is not an exhaustive guarantee**; inspect the entire diff and run the release guard before release. Unapproved experiments may exist outside this inventory and must be searched for.
+
+## 3. Required entry template for each future addition
+
+```md
+### TEMP-YYYY-NNN — OPEN
+- Introduced (date / commit / PR):
+- Owner approval and exact scoped purpose:
+- Kind: REMOVE / REPLACE / REVIEW CONFIG
+- Exact files, code markers, APIs or external config (no secrets):
+- Environment(s): development diagnostic branch / staging / other
+- Why temporary, what it changes, and why no safer permanent solution is suitable now:
+- User/data/security impact; affected login, exam, history and mobile flows:
+- Planned permanent implementation or exact safe removal:
+- Trigger/deadline (e.g. before main merge), prerequisites and rollback:
+- Verification: automated, real browser/mobile, student data isolation:
+- Status and evidence for removal/replacement:
+- Owner's explicit final release decision:
+```
+
+## 4. Production candidate signoff — mandatory human review
+
+- [ ] Inventory matched to full code diff and actual environment configuration; no unregistered temporary code or tokens.
+- [ ] Every `OPEN` temporary runtime item resolved/replaced and evidence logged, or a separately approved, reviewed release-scope exception recorded before merge; never merge experimental diagnostics.
+- [ ] Feature preview flag is retired/converted safely, without losing the approved examination UI or breaking registration/login.
+- [ ] Incomplete Save & Exit, Mark for Review, Report Issue, Results/Review/Retake are either production-ready **or** explicitly out of scope with non-deceptive, safe UI.
+- [ ] Staging-only Auth and Vercel sharing/protection settings checked, not copied blindly.
+- [ ] `npm test`, `npm run check:release`, diff review, staging device/auth tests, data-preservation and rollback plan completed.
+- [ ] Owner separately authorizes: (1) release scope, (2) merge into `main`, and (3) production deployment.
+
+**Handoff instruction:** In every new ChatGPT conversation or developer handoff, open this file and the Master Development Plan *before* proposing code changes. Update this register whenever temporary code/config is introduced, changed or removed. Do not rely on previous-chat memory.
