@@ -7,6 +7,7 @@
   <!-- Compiled Tailwind v3 CSS (no browser compiler). -->
   <link rel="stylesheet" href="/dashboard.css">
   <link rel="stylesheet" href="/sjn-phase4-preview.css">
+  <link rel="stylesheet" href="/sjn-phase4-results.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
@@ -3137,6 +3138,9 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
             history.value !== true) {
           console.warn('Saved result; dashboard summary could not fully refresh.');
         }
+        // Return a verified outcome to the opt-in results view, without altering
+        // the original UI or the account-scoped POST /api/attempts endpoint.
+        return { saved: true, id: saved.id };
       } catch (error) {
         console.warn('Practice test save not confirmed:', error);
         alert('Your test result could not be confirmed as saved. Check Test History before trying again.');
@@ -3144,6 +3148,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         await Promise.allSettled([
           refreshAuthenticatedStats(expectedStudentId), loadStudentHistory()
         ]);
+        return { saved: false };
       } finally {
         savingAttempt = false;
       }
@@ -3182,5 +3187,6 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
    // Student data is loaded from the authenticated API, never shared browser storage.
   </script>
   <script src="/sjn-phase4-preview.js"></script>
+  <script src="/sjn-phase4-results.js"></script>
 </body>
 </html>

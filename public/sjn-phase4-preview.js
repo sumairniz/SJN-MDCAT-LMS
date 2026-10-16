@@ -346,9 +346,19 @@
     state.ending = true;
     closeExam();
     setURL(HOME_URL, true);
-    // This is the existing authenticated save pipeline; do not bypass the
-    // server's student-ID and 24-hour session checks.
-    Promise.resolve(window.finishQuiz()).finally(() => { state.ending = false; });
+    // Capture the completed attempt before the existing authenticated saver runs.
+    // The result view uses no browser-wide storage; history review waits for Stage 3B.
+    const snapshot = {
+      questions: currentQuizList.map(q => ({
+        subject: q.subject, chapter: q.chapter, topic: q.topic, correctIndex: q.correctIndex
+      })),
+      answers: userAnswers.slice(),
+      elapsedSeconds: Math.max(0, Math.floor((Date.now() - state.startedAt) / 1000))
+    };
+    // Preserve the original authenticated save path, student-ID and 24-hour checks.
+    const savePromise = window.finishQuiz();
+    if (window.SJNPhase4Results) window.SJNPhase4Results.show(snapshot, savePromise);
+    Promise.resolve(savePromise).finally(() => { state.ending = false; });
   }
   function requestSubmission() {
     if (state.ending) return;
