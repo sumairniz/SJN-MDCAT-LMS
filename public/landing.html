@@ -375,13 +375,14 @@
   </div>
 
   <script src="/session-coordination.js"></script>
+  <script src="/sjn-preview-auth-route.js"></script>
   <script>
     // SAME SERVER, SAME LOGIN SYSTEM AS YOUR ORIGINAL index.html.
     // IMPORTANT: Keep this dashboard URL pointing at index.html, not '/'.
     // When Vercel serves landing.html at '/', '/' would create a redirect loop.
     const SJN_AUTH = {
       apiBase: '/api',
-      dashboard: '/index.html' + (new URLSearchParams(window.location.search).get('sjnPhase4Preview') === '1' ? '?sjnPhase4Preview=1' : ''),
+      dashboard: SJNPreviewAuthRoute.to('/index.html'),
       tokenKey: 'sjn_auth_token'
     };
 

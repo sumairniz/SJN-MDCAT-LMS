@@ -47,6 +47,14 @@
 - Owner reports a previous 74-MCQ import completed around an internet dropout and Retry. That explains their experience and is consistent with 74 exact existing records; tool audit provenance remains unverified independently.
 - Scope: development branch only; no Supabase DB/schema mutation, Vercel config or production action.
 
+### 2026-10-18 — Corrected follow-up after owner screenshot (TEMP-P4-001 / TEMP-P4-007)
+
+- **Observed regression:** After signing out then signing back in, the owner still landed on `/index.html` (no preview flag), showing the older interface and no status. Opening the original `/index.html?sjnPhase4Preview=1` link while signed in showed **commit `5118f055` and 74 MCQs**; the earlier fix did not address conditional auth-event/cross-tab routes. The owner confirmed the Phase 4 examination appeared and performed as expected when opened in preview mode; do not infer that guest-login acceptance passed.
+- **Correction:** all 14 `window.location.replace` auth redirects in `public/index.html` use a single allowlisted `SJNPreviewAuthRoute.to()` function from `public/sjn-preview-auth-route.js`. `public/landing.html` uses the same helper when restoring and signing in. This preserves only `sjnPhase4Preview=1` and discards other query parameters, without using localStorage or treating the preview flag as auth. Production deploy/merge still forbidden.
+- **TEMP-P4-007 visibility refinement:** `public/sjn-phase4-preview.js` now labels an unflagged page as **LEGACY EXAM MODE** and an explicitly opted-in one as **PHASE 4 PREVIEW**, in addition to the existing nonsecret build/database indicator when active. A status banner cannot guarantee the MCQ payload, and manual guest/returning-account acceptance is still required.
+- **Tests:** `tests/preview-continuity.test.js` covers the real guest → landing → login sequence, cross-tab redirects, URL allowlist and mode banners. Existing account-switch test `tests/foundation.test.js` uses an identity route mock so existing normal auth behavior can be checked. CI and Vercel status must be recorded **after** verification; these notes do not claim completion.
+- **Removal condition:** preview-specific helper, legacy indicator and `/api/preview-status` should be removed/merged into standard release identification when the approved new exam replaces the legacy default and real question-history persistence ships. Keep all owner-approved exam/result UI.
+
 ### NOT identified as temporary cleanup
 
 - Approved desktop Finish button, compact navigator, SJN design and responsive CSS represent intended interface improvements, not code to remove solely because they were tested on staging.

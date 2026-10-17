@@ -339,7 +339,7 @@ test("confirmed flow: Login/Register only on landing; Sign Out only in dashboard
   assert.match(dash, /onclick="logoutUser\(\)"/);
   assert.match(dash, /window\.logoutUser = async function\(\)/);
   assert.match(dash, /fetch\(API \+ '\/auth\/logout'/);
-  assert.ok(dash.includes("window.location.replace('/landing.html' + (new URLSearchParams(window.location.search).get('sjnPhase4Preview') === '1'"), 'Logout redirects should preserve the requested preview URL');
+  assert.ok(dash.includes("window.location.replace(SJNPreviewAuthRoute.to('/landing.html'))"), 'All logout redirects must use allowlisted preview-preserving routing');
   assert.match(dash, /if \(!\(await loadAccount\(\)\)\) return/);
   assert.match(dash, /id="session-guard"/);
   assert.match(dash, /updateDashboardAccountUI\(currentUser\)/);
@@ -558,6 +558,7 @@ test("suspended tabs detect an actual account switch before exposing stale data"
       latestSignal() { return marker; },
       subscribe() {}
     },
+    SJNPreviewAuthRoute: { to: path => path },
     coverPrivateWorkspace() { hidden++; },
     window: { location: { replace(p) { destinations.push(p); } } }
   };

@@ -6,7 +6,25 @@
 (() => {
   'use strict';
   const search = new URLSearchParams(window.location.search);
-  if (search.get('sjnPhase4Preview') !== '1') return;
+  if (search.get('sjnPhase4Preview') !== '1') {
+    // TEMP-P4-001: Preview is intentionally opt-in, but never leave a staging
+    // tester guessing which exam is active when auth removes the URL flag.
+    const announceLegacy = () => {
+      const dashboard = document.getElementById('module-dashboard');
+      const wizard = document.getElementById('module-wizard');
+      if (!dashboard || !wizard) return;
+      for (const section of [dashboard, wizard]) {
+        const label = document.createElement('p');
+        label.setAttribute('role', 'status');
+        label.style.cssText = 'padding:8px 12px;margin:0 0 12px;border:1px solid #a16207;border-radius:8px;background:#18181b;color:#fcd34d;font-size:11px;font-weight:600';
+        label.textContent = 'LEGACY EXAM MODE · Phase 4 preview is not active. Use the authorized staging preview link to test the new exam.';
+        section.prepend(label);
+      }
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', announceLegacy, { once: true });
+    else announceLegacy();
+    return;
+  }
 
   const $ = (id) => document.getElementById(id);
   const EXAM_URL = '/quiz/session?sjnPhase4Preview=1';
@@ -127,7 +145,7 @@
       const label = document.createElement('p');
       label.style.cssText = 'padding:8px 12px;margin:0 0 12px;border:1px solid #52525b;border-radius:8px;background:#18181b;color:#d4d4d8;font-size:11px;font-weight:600;line-height:1.5;overflow-wrap:anywhere';
       label.setAttribute('role', 'status');
-      label.textContent = 'STAGING PREVIEW · Checking deployed build and database…';
+      label.textContent = 'PHASE 4 PREVIEW · Checking deployed build and database…';
       area.prepend(label);
       return label;
     }).filter(Boolean);
@@ -139,14 +157,14 @@
       .then(s => {
         if (s.environment !== 'preview' || !Number.isSafeInteger(s.mcqCount)) throw new Error('Invalid status');
         if (s.project !== 'aozknkrwafowsrehdwlr') {
-          display('STAGING PREVIEW · WRONG DATABASE — DO NOT TEST', true); return;
+          display('PHASE 4 PREVIEW · WRONG DATABASE — DO NOT TEST', true); return;
         }
         const commit = /^[a-f0-9]{40}$/.test(s.commit || '') ? s.commit.slice(0, 8) : 'unavailable';
-        display('STAGING PREVIEW · Commit ' + commit + ' · Supabase ' + s.project +
+        display('PHASE 4 PREVIEW · Commit ' + commit + ' · Supabase ' + s.project +
           ' · ' + s.mcqCount + ' MCQs' + (commit === 'unavailable' ? ' · BUILD NOT VERIFIED' : ''),
           commit === 'unavailable');
       })
-      .catch(() => display('STAGING PREVIEW · Build/database verification unavailable; do not approve technical tests', true));
+      .catch(() => display('PHASE 4 PREVIEW · Build/database verification unavailable; do not approve technical tests', true));
   }
   showBuildVerification();
 

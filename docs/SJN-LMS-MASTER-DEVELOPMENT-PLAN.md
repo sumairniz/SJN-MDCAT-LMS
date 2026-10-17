@@ -7,6 +7,12 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-18 — Owner-provided screenshots: guest preview still old; further correction
+
+- Owner screenshot after logout/login shows plain `/index.html` (no preview opt-in), legacy mode; reopening while already signed in shows `/index.html?sjnPhase4Preview=1` with **staging commit `5118f055` and 74 MCQs**. Thus Vercel was on the right build but the guest auth flow still dropped preview mode, and prior "fix passed" claim was not substantiated by a real guest check.
+- Follow-up owner-approved scope: preserve Phase 4 flag in **all 14** authentication redirect paths via allowlisted `public/sjn-preview-auth-route.js`, apply same helper in `public/landing.html`, label legacy vs preview so backend/visual testers can tell their mode, and add regression tests. The flag is opt-in, not permission/authentication.
+- **Mandatory gate:** GitHub tests and Vercel branch deployment must pass; owner retests signed-out and signed-in flows. Supabase staging 74/74 original MCQ content verified; no new import or production modification.
+
 ## 2026-10-17 — 74-MCQ staging parity VERIFIED; approved import unnecessary
 
 - Owner approved the atomic migration of 74 original Biology MCQs to **staging only**. The preflight found that staging `public.mcqs` already had 74 rows with IDs 1–74, unlike the previous read-only snapshot reporting 0. **The actor/method responsible for this pre-existing import is unknown and no new insert was attempted.**
