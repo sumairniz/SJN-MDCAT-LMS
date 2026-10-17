@@ -60,6 +60,13 @@
 - After CI and preview readiness were observed for the redirect fix, final review caught that a legacy-mode notice would render even on the unflagged production dashboard. Updated `public/sjn-phase4-preview.js` so the legacy notice renders **only after** the server's preview-only `/api/preview-status` confirms `environment=preview` and the expected staging project. On production (404) it quietly does nothing; no production code or deployment was modified.
 - Added regression test in `tests/preview-continuity.test.js`. New CI and owner fresh-login testing are still required to close acceptance; the temporary status endpoint remains tracked under TEMP-P4-007.
 
+### 2026-10-18 — Canonical staging hostname defaults to Phase 4 after second failed guest-login test
+
+- **User-observed failure:** Even after commit `150ec82a`, the normal sign-in journey ended at plain `/index.html` with a LEGACY EXAM MODE warning. Reopening an explicit `?sjnPhase4Preview=1` URL showed the same deployment and 74 staging MCQs. Therefore the previous query-preservation approach did not pass real signed-out acceptance.
+- **TEMP-P4-001 — server-side staging-only correction:** `server.js` intercepts GET `/index.html` **before static serving**, only when `VERCEL_ENV=preview` and the request hostname is exactly `sjn-mdcat-lms-git-sjn-phase1a-foundation-sjn1.vercel.app`. If the Phase 4 opt-in is missing, HTTP 302 redirects to `/index.html?sjnPhase4Preview=1`, with `Cache-Control: private, no-store`. Existing authorized preview flag continues normally. This is a staging-host rollout default, not an auth bypass, and not a change to production URLs or sessions.
+- **Tests added:** `tests/foundation.test.js` real HTTP requests cover unflagged staging, already-flagged URL/no redirect loop, unknown query discarded, other hosts unchanged and production-mode unchanged. `tests/preview-continuity.test.js` verifies routing priority, alias and preview guard. CI/staging deployment and owner fresh sign-in still need verification.
+- **Release cleanup:** This is temporary PREVIEW host behavior under TEMP-P4-001 and must be re-evaluated when the final Phase 4 exam becomes the ordinary LMS. Keep owner-approved exam/results code. No Supabase data/schema or production changes.
+
 ### NOT identified as temporary cleanup
 
 - Approved desktop Finish button, compact navigator, SJN design and responsive CSS represent intended interface improvements, not code to remove solely because they were tested on staging.

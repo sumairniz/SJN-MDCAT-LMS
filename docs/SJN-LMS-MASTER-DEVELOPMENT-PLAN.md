@@ -7,6 +7,12 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-18 — Final corrective direction: server-side staging Phase 4 default
+
+- The owner's repeated screenshot proved query-string preservation through individual JavaScript auth redirects was not sufficient. The same staging deployment showed LEGACY EXAM MODE at `/index.html` but PHASE 4 PREVIEW with 74 MCQs when explicitly flagged.
+- Added a **staging-alias-only HTTP redirect** in `server.js`: unflagged `/index.html` on the canonical development branch hostname redirects to the explicitly opted-in Phase 4 URL, whether login dropped the flag or not. Other hosts, production and authenticated user state are unchanged. Real HTTP regression tests and TEMP-P4-001 documentation accompany the code. Do not assert the browser issue is resolved until the owner tests it.
+- Existing staging question content remains the verified 74/74; no SQL migrations or production changes. Future production integration must retire the temporary preview flag safely.
+
 ## 2026-10-18 — Owner-provided screenshots: guest preview still old; further correction
 
 - Owner screenshot after logout/login shows plain `/index.html` (no preview opt-in), legacy mode; reopening while already signed in shows `/index.html?sjnPhase4Preview=1` with **staging commit `5118f055` and 74 MCQs**. Thus Vercel was on the right build but the guest auth flow still dropped preview mode, and prior "fix passed" claim was not substantiated by a real guest check.

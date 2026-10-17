@@ -670,3 +670,49 @@ test("dashboard and landing inline scripts remain syntactically valid", () => {
     assert.ok(checked > 0);
   }
 });
+
+test("canonical staging alias loads Phase 4 after login even when the URL opt-in was lost", async () => {
+  const http = require("node:http");
+  const old = process.env.VERCEL_ENV;
+  const alias = "sjn-mdcat-lms-git-sjn-phase1a-foundation-sjn1.vercel.app";
+  const server = await new Promise(resolve => {
+    const s = app.listen(0, "127.0.0.1", () => resolve(s));
+  });
+  const request = (host, path) => new Promise((resolve, reject) => {
+    const req = http.get({
+      hostname: "127.0.0.1",
+      port: server.address().port,
+      path,
+      headers: { Host: host }
+    }, response => {
+      response.resume();
+      response.on("end", () => resolve({
+        status: response.statusCode,
+        location: response.headers.location,
+        cache: response.headers["cache-control"]
+      }));
+    });
+    req.on("error", reject);
+  });
+  try {
+    process.env.VERCEL_ENV = "preview";
+    const redirect = await request(alias, "/index.html");
+    assert.equal(redirect.status, 302);
+    assert.equal(redirect.location, "/index.html?sjnPhase4Preview=1");
+    assert.match(redirect.cache, /no-store/);
+    const flagged = await request(alias, "/index.html?sjnPhase4Preview=1");
+    assert.equal(flagged.status, 200, "Already-normalized preview must not loop");
+    const tracking = await request(alias, "/index.html?utm_source=chatgpt.com&next=https://evil.invalid");
+    assert.equal(tracking.status, 302);
+    assert.equal(tracking.location, "/index.html?sjnPhase4Preview=1");
+    const otherHost = await request("different-preview.vercel.app", "/index.html");
+    assert.equal(otherHost.status, 200, "Other preview hosts must not change");
+    process.env.VERCEL_ENV = "production";
+    const production = await request(alias, "/index.html");
+    assert.equal(production.status, 200, "Production cannot be redirected by this staging fix");
+  } finally {
+    if (old === undefined) delete process.env.VERCEL_ENV;
+    else process.env.VERCEL_ENV = old;
+    await new Promise((resolve, reject) => server.close(err => err ? reject(err) : resolve()));
+  }
+});

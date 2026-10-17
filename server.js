@@ -435,6 +435,18 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(PUBLIC, 'landing.html'));
 });
 
+// TEMP-P4-001: On the dedicated Vercel branch preview, Phase 4 is the default.
+// Server-side normalization remains reliable even when login navigation drops
+// the opt-in query parameter. The standard production route is unchanged.
+const PHASE4_STAGING_HOST = 'sjn-mdcat-lms-git-sjn-phase1a-foundation-sjn1.vercel.app';
+app.get('/index.html', (req, res, next) => {
+  if (process.env.VERCEL_ENV !== 'preview' ||
+      String(req.hostname || '').toLowerCase() !== PHASE4_STAGING_HOST ||
+      req.query.sjnPhase4Preview === '1') return next();
+  res.set('Cache-Control', 'private, no-store');
+  return res.redirect(302, '/index.html?sjnPhase4Preview=1');
+});
+
 app.use(express.static(PUBLIC));
 app.use('/resources', express.static(path.join(CONTENT, 'resources')));
 

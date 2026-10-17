@@ -64,3 +64,13 @@ test('legacy mode notices are staging-verified and never shown in production by 
   assert.match(preview, /info\.environment !== 'preview'/);
   assert.match(preview, /info\.project !== 'aozknkrwafowsrehdwlr'/);
 });
+
+test('dedicated preview HTTP redirect is routed before static dashboard and only on staging', () => {
+  const start = server.indexOf('const PHASE4_STAGING_HOST =');
+  const redirect = server.indexOf("app.get('/index.html'", start);
+  const staticServe = server.indexOf('app.use(express.static(PUBLIC))', redirect);
+  assert.ok(start > 0 && redirect > start && staticServe > redirect);
+  assert.match(server, /process\.env\.VERCEL_ENV !== 'preview'/);
+  assert.match(server, /req\.query\.sjnPhase4Preview === '1'/);
+  assert.match(server, /res\.redirect\(302, '\/index\.html\?sjnPhase4Preview=1'\)/);
+});
