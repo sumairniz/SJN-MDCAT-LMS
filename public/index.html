@@ -4,33 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SJN MDCAT LMS Pro Portal</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Compiled Tailwind v3 CSS (no browser compiler). -->
+  <link rel="stylesheet" href="/dashboard.css">
+  <link rel="stylesheet" href="/sjn-phase4-preview.css">
+  <link rel="stylesheet" href="/sjn-phase4-results.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            sjn: {
-              red: '#DC2626',
-              crimson: '#991B1B',
-              darkred: '#450A0A',
-              black: '#09090B',
-              card: '#121215',
-              border: '#27272A',
-              accent: '#EF4444'
-            }
-          },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace']
-          }
-        }
-      }
-    }
-  </script>
+
   <style>
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #09090b; }
@@ -74,6 +54,16 @@
       }
     }
 
+    /* Authentication placeholder is safe to show before private data loads. */
+    .sjn-load-shell{width:min(800px,calc(100% - 48px));display:grid;gap:22px;text-align:left}
+    .sjn-load-brand{color:#f4f4f5;font:800 18px/1.3 system-ui,sans-serif}
+    .sjn-load-brand span{color:#ef4444}
+    .sjn-load-top{height:1px;background:#27272a}
+    .sjn-load-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .sjn-load-card{height:106px;border:1px solid #242429;border-radius:12px;background:#151518}
+    .sjn-load-line{height:16px;width:57%;border-radius:5px;background:#27272a}
+    .sjn-load-wide{height:150px;border:1px solid #242429;border-radius:12px;background:#151518}
+    @media(max-width:600px){.sjn-load-grid{grid-template-columns:1fr 1fr}.sjn-load-grid .sjn-load-card:last-child{display:none}}
     /* Hide scrollbar for mobile navigation drawer */
     #sidebar-nav::-webkit-scrollbar {
       display: none;
@@ -86,6 +76,20 @@
 </head>
 
 <body class="bg-sjn-black text-gray-100 font-sans antialiased h-screen flex overflow-hidden selection:bg-red-600 selection:text-white">
+
+  <!-- Prevent protected workspace controls from appearing before session verification. -->
+  <div id="session-guard" role="status" aria-live="polite" class="fixed inset-0 z-[100] bg-sjn-black flex flex-col items-center justify-center gap-4 p-6 text-center">
+    <!-- Keep the private workspace covered during authorization without an intrusive splash.
+         Only reveal an explanation and Retry if an actual connection error occurs. -->
+    <div class="sjn-load-shell" aria-hidden="true">
+      <div class="sjn-load-brand">SJN <span>MDCAT LMS PRO</span></div>
+      <div class="sjn-load-top"></div>
+      <div class="sjn-load-grid"><div class="sjn-load-card"></div><div class="sjn-load-card"></div><div class="sjn-load-card"></div></div>
+      <div class="sjn-load-line"></div><div class="sjn-load-wide"></div>
+    </div>
+    <p id="session-guard-message" class="hidden text-sm text-gray-200 font-semibold"></p>
+    <button id="session-guard-retry" onclick="window.location.reload()" class="hidden px-5 py-2.5 bg-red-600 text-white font-bold text-xs rounded-lg">Retry connection</button>
+  </div>
 
   <!-- ========================================== -->
   <!-- LEFT: DEDICATED NAVIGATION SIDEBAR/DRAWER  -->
@@ -104,15 +108,8 @@
     <div class="md:hidden flex flex-col border-b border-gray-800 p-4 space-y-3">
       <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">Account</div>
       
-      <!-- Logged Out Mobile View -->
-      <div id="mobile-account-logged-out" class="block">
-        <button onclick="closeMobileMenu(); openAuthModal('login')" class="w-full py-2.5 bg-zinc-800 hover:bg-red-600/30 border border-zinc-700 text-xs font-bold text-gray-300 hover:text-white rounded-lg transition-all flex items-center justify-center gap-2">
-          <i class="fa-solid fa-user"></i> Login / Register
-        </button>
-      </div>
-      
       <!-- Logged In Mobile View -->
-      <div id="mobile-account-logged-in" class="hidden space-y-2">
+      <div id="mobile-account-logged-in" class="space-y-2">
         <div class="flex items-center space-x-3 text-white text-sm font-bold bg-zinc-900 p-3 rounded-lg border border-sjn-border">
           <i class="fa-solid fa-circle-user text-red-500 text-2xl"></i>
           <span id="mobile-user-name">Student Name</span>
@@ -217,7 +214,7 @@
   <div class="flex-1 flex flex-col h-screen min-w-0 overflow-hidden bg-sjn-black">
     
     <!-- Top Header -->
-    <header class="sticky top-0 z-50 bg-sjn-card/90 backdrop-blur-md border-b border-sjn-border flex-shrink-0">
+    <header id="sjn-student-header" class="sticky top-0 z-50 bg-sjn-card/90 backdrop-blur-md border-b border-sjn-border flex-shrink-0">
       <div class="w-full px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           
@@ -266,7 +263,7 @@
             <!-- Desktop Account Button & Dropdown (Now safely inside desktop view) -->
             <div class="relative">
               <button onclick="handleDesktopClick()" id="account-button" class="px-3 py-1.5 bg-zinc-800 hover:bg-red-600/30 border border-zinc-700 text-xs font-bold text-gray-300 hover:text-white rounded-lg transition-all flex items-center gap-1.5">
-                <i class="fa-solid fa-user"></i><span id="account-button-label">Login / Register</span>
+                <i class="fa-solid fa-user"></i><span id="account-button-label">Student</span>
               </button>
               
               <!-- The Dropdown -->
@@ -275,7 +272,7 @@
                   <p class="text-[10px] text-gray-400 font-bold uppercase">Signed in as</p>
                   <p id="dropdown-name" class="text-sm font-bold text-white truncate"></p>
                 </div>
-                <button onclick="logoutUser(); document.getElementById('desktop-dropdown').classList.add('hidden')" class="w-full text-left px-4 py-3 text-xs font-bold text-red-400 hover:bg-zinc-800 transition-all">
+                <button onclick="logoutUser()" class="w-full text-left px-4 py-3 text-xs font-bold text-red-400 hover:bg-zinc-800 transition-all">
                   <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Sign Out
                 </button>
               </div>
@@ -292,7 +289,7 @@
     </header>
 
     <!-- Main Workspace (Scrollable Area) -->
-    <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative scroll-smooth bg-sjn-black">
+    <main id="sjn-workspace-main" class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative scroll-smooth bg-sjn-black">
       
       <section id="module-dashboard" class="module-view space-y-6">
         <!-- Banner Header -->
@@ -856,7 +853,7 @@
       </section>
       
       <!-- Footer Reminder -->
-      <footer class="bg-sjn-card border-t border-sjn-border py-4 mt-8 flex-shrink-0">
+      <footer id="sjn-student-footer" class="bg-sjn-card border-t border-sjn-border py-4 mt-8 flex-shrink-0">
         <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
           <p class="text-[11px] text-gray-400">
             © SJN MDCAT LMS Portal — Production Entrance Exam Engine for Medical Academies.
@@ -867,6 +864,8 @@
     </main>
   </div>
 
+  <!-- TEMP-P4-001: allowlisted preview URL preservation during authentication -->
+  <script src="/sjn-preview-auth-route.js"></script>
   <!-- JAVASCRIPT ENGINE -->
   <script>
     
@@ -1894,7 +1893,7 @@
     };
 
     // Global Student Performance State
-    let sjnProfile = JSON.parse(localStorage.getItem('sjn_student_profile')) || {
+    function emptyStudentProfile() { return {
       mcqsAttempted: 0,
       correctAnswers: 0,
       streakDays: 0,
@@ -1907,7 +1906,10 @@
         'Logical Reasoning': { correct: 0, total: 0 }
       },
       historyLogs: []
-    };
+    }; }
+    // A student's identity must be verified before any personal data is loaded.
+    let sjnProfile = emptyStudentProfile();
+    let historyLoadStatus = 'loading';
 
     // Wizard State
     let wizardSelection = {
@@ -1928,7 +1930,7 @@
     let currentMcqIndex = 0;
     let userAnswers = [];
     let quizTimerInterval = null;
-    let bookmarkedMcqs = JSON.parse(localStorage.getItem('sjn_bookmarked_mcqs')) || [];
+    let bookmarkedMcqs = []; // Loaded from the authenticated student's Supabase session.
 
     // ==========================================
     // MOBILE MENU LOGIC
@@ -2359,58 +2361,21 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
 
     function finishQuiz() {
       if (quizTimerInterval) clearInterval(quizTimerInterval);
-
-      let correctCount = 0;
-      currentQuizList.forEach((q, idx) => {
-        if (userAnswers[idx] === q.correctIndex) {
-          correctCount++;
-        }
-      });
-
+      const correctCount = currentQuizList.reduce((n, q, idx) =>
+        n + (userAnswers[idx] === q.correctIndex ? 1 : 0), 0);
       const totalAttempted = currentQuizList.length;
-      sjnProfile.mcqsAttempted += totalAttempted;
-      sjnProfile.correctAnswers += correctCount;
-      updateSubjectStats();
-      updateStudyStreak();
+      if (!totalAttempted) return;
 
-      // Update Rank Logic
-      if (sjnProfile.mcqsAttempted >= 50 && sjnProfile.correctAnswers / sjnProfile.mcqsAttempted >= 0.8) {
-        sjnProfile.rank = 'Doctor Status 🎓';
-      } else if (sjnProfile.mcqsAttempted >= 25) {
-        sjnProfile.rank = 'Champion 🔴';
-      } else if (sjnProfile.mcqsAttempted >= 10) {
-        sjnProfile.rank = 'Cadet ⚫';
-      }
-
-      saveProfileToStorage();
-      updateGlobalProfileUI();
-
-      // Show Results
+      // Display this session's result, but never add a browser-wide history entry.
+      // The authenticated server will save the attempt and then refresh the totals.
       document.getElementById('res-total').innerText = totalAttempted;
       document.getElementById('res-correct').innerText = correctCount;
-      document.getElementById('res-accuracy').innerText = `${Math.round((correctCount / totalAttempted) * 100)}%`;
+      document.getElementById('res-accuracy').innerText =
+        Math.round((correctCount / totalAttempted) * 100) + '%';
       switchModule('results');
-
-      // Log History
-      sjnProfile.historyLogs.push({
-        title: wizardSelection.bank,
-        subject: wizardSelection.subject,
-        mode: wizardSelection.testMode,
-        score: `${correctCount}/${totalAttempted}`,
-        accuracy: `${Math.round((correctCount / totalAttempted) * 100)}%`,
-        date: new Date().toLocaleString(),
-        chapters: wizardSelection.selectedChapters || [],
-        topics: wizardSelection.selectedTopics || []
-      });
-      saveProfileToStorage();
-      renderHistoryTable();
     }
 
-    function saveProfileToStorage() {
-      localStorage.setItem('sjn_student_profile', JSON.stringify(sjnProfile));
-    }
-
-    function updateGlobalProfileUI() {
+        function updateGlobalProfileUI() {
       const accuracy = sjnProfile.mcqsAttempted > 0 
         ? Math.round((sjnProfile.correctAnswers / sjnProfile.mcqsAttempted) * 100) 
         : 0;
@@ -2429,27 +2394,52 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
 
     function renderHistoryTable() {
       const tbody = document.getElementById('history-table-body');
-      tbody.innerHTML = '';
-      if (sjnProfile.historyLogs.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">No practice tests completed yet.</td></tr>`;
+      tbody.replaceChildren();
+      const infoRow = message => {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 5;
+        td.className = 'p-4 text-center text-gray-400';
+        td.textContent = message;
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return td;
+      };
+      if (historyLoadStatus === 'loading') {
+        infoRow('Loading your test history…');
         return;
       }
-
-      sjnProfile.historyLogs.forEach(log => {
+      if (historyLoadStatus === 'error') {
+        const cell = infoRow('Unable to load your saved test history. ');
+        const retry = document.createElement('button');
+        retry.type = 'button';
+        retry.textContent = 'Retry';
+        retry.className = 'ml-2 text-red-400 underline';
+        retry.addEventListener('click', () => window.reloadStudentHistory());
+        cell.appendChild(retry);
+        return;
+      }
+      if (!sjnProfile.historyLogs.length) {
+        infoRow('No practice tests completed yet.');
+        return;
+      }
+      const classes = ['p-3 font-semibold text-white', 'p-3 text-gray-300',
+        'p-3 uppercase text-[10px] font-bold text-red-400',
+        'p-3 text-emerald-400 font-bold', 'p-3 font-bold'];
+      for (const log of sjnProfile.historyLogs) {
         const tr = document.createElement('tr');
         tr.className = 'border-b border-sjn-border hover:bg-zinc-800/40';
-        tr.innerHTML = `
-          <td class="p-3 font-semibold text-white">${log.title}</td>
-          <td class="p-3 text-gray-300">${log.subject}</td>
-          <td class="p-3 uppercase text-[10px] font-bold text-red-400">${log.mode}</td>
-          <td class="p-3 text-emerald-400 font-bold">${log.score}</td>
-          <td class="p-3 font-bold">${log.accuracy}</td>
-        `;
+        [log.title, log.subject, log.mode, log.score, log.accuracy].forEach((value, i) => {
+          const td = document.createElement('td');
+          td.className = classes[i];
+          td.textContent = String(value ?? '');
+          tr.appendChild(td);
+        });
         tbody.appendChild(tr);
-      });
+      }
     }
 
-    function startTimer(seconds) {
+        function startTimer(seconds) {
       let remaining = seconds;
       const display = document.getElementById('quiz-timer');
       if (quizTimerInterval) clearInterval(quizTimerInterval);
@@ -2655,7 +2645,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       if (!q) return;
       const idx = bookmarkedMcqs.findIndex(id => String(id) === String(q.id));
       if (idx >= 0) bookmarkedMcqs.splice(idx, 1); else bookmarkedMcqs.push(q.id);
-      localStorage.setItem('sjn_bookmarked_mcqs', JSON.stringify(bookmarkedMcqs));
+      // Do not cache student bookmarks under a browser-wide key.
       updateBookmarkButton();
     }
 
@@ -2669,27 +2659,55 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
 
   </script>
 
-  <!-- Student Authentication -->
-  <div id="auth-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[80] hidden items-center justify-center p-4">
-    <div class="bg-sjn-card border border-sjn-border rounded-2xl max-w-md w-full p-6 space-y-5">
-      <div class="flex items-center justify-between">
-        <div><span class="text-xs text-red-400 font-bold uppercase">Student Account</span><h3 id="auth-title" class="text-xl font-black text-white">Login</h3></div>
-        <button onclick="closeAuthModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div id="auth-error" class="hidden p-3 rounded-xl bg-red-950/40 border border-red-800/40 text-red-300 text-xs"></div>
-      <div id="register-name-wrap" class="hidden"><label class="text-xs text-gray-400">Full Name</label><input id="auth-name" class="mt-1 w-full bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white" placeholder="Your name"></div>
-      <div><label class="text-xs text-gray-400">Email</label><input id="auth-email" type="email" class="mt-1 w-full bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white" placeholder="student@example.com"></div>
-      <div><label class="text-xs text-gray-400">Password</label><input id="auth-password" type="password" class="mt-1 w-full bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white" placeholder="Minimum 8 characters"></div>
-      <button onclick="submitAuth()" id="auth-submit" class="w-full py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-sm">Login</button>
-      <button onclick="toggleAuthMode()" id="auth-toggle" class="w-full text-xs text-gray-400 hover:text-white">Create a new student account</button>
-    </div>
-  </div>
-
+  <!-- Authentication is exclusively handled on landing.html. -->
+  <script src="/session-coordination.js"></script>
   <script>
   (() => {
     const API = '/api';
-    let authMode = 'login';
+    // Accept an old access token once for migration, but don't keep tokens in localStorage.
     let authToken = localStorage.getItem('sjn_auth_token') || '';
+    localStorage.removeItem('sjn_auth_token');
+    let refreshPromise = null;
+    let initialAccount = null;
+    let sessionExpiresAt = null;
+    let expiryTimer = null;
+    function expireSessionIfNeeded() {
+      if (!sessionExpiresAt || Date.now() < sessionExpiresAt) return;
+      clearTimeout(expiryTimer);
+      sessionExpiresAt = null;
+      authToken = '';
+      currentUser = null;
+      localStorage.removeItem('sjn_auth_token');
+      // Expired older tabs must not clear a more recently logged-in student.
+      coverPrivateWorkspace();
+      window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));
+    }
+    function scheduleSessionExpiry(value) {
+      const expiry = Number(value);
+      if (!Number.isSafeInteger(expiry)) throw new Error('Missing session expiry.');
+      sessionExpiresAt = expiry;
+      clearTimeout(expiryTimer);
+      expiryTimer = setTimeout(expireSessionIfNeeded, Math.max(0, expiry - Date.now()));
+      expireSessionIfNeeded();
+    }
+    // Merely switching browser tabs must never cover or reload an active quiz.
+    // Check the latest local account-change signal synchronously on return:
+    // a sleeping tab may have missed the normal storage event.
+    window.addEventListener('focus', () => {
+      if (checkForAccountChange()) return;
+      expireSessionIfNeeded();
+    });
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        if (checkForAccountChange()) return;
+        expireSessionIfNeeded();
+      }
+    });
+    window.addEventListener('pageshow', e => {
+      if (checkForAccountChange()) return;
+      // BFCache restores, unlike tab switching, can revive old page state.
+      if (e.persisted && currentUser) void verifyReturnedTab();
+    });
     let currentUser = null;
     let remoteContentLoaded = false;
     let selectedCourseId = null;
@@ -2697,110 +2715,282 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     let selectedResourceId = null;
     let paperSourceFilter = null;
 
+    function renewAccessToken(bootstrap = false) {
+      if (!refreshPromise) {
+        refreshPromise = (async () => {
+          const { response, data } = await SJNSessionCoord.withCookieLock(async () => {
+            const response = await fetch(API + '/auth/refresh' + (bootstrap ? '?bootstrap=1' : ''), {
+              method: 'POST', credentials: 'same-origin', cache: 'no-store'
+            });
+            return { response, data: await response.json().catch(() => ({})) };
+          });
+          if (response.status === 401) { authToken = ''; return false; }
+          if (!response.ok) throw new Error(data.error || 'Unable to renew login. Please retry.');
+          if (!data.token || !data.userId) throw new Error('Refresh returned incomplete session.');
+          if (currentUser && currentUser.id !== data.userId) {
+            coverPrivateWorkspace();
+            window.location.replace(SJNPreviewAuthRoute.to('/index.html'));
+            return false;
+          }
+          authToken = data.token;
+          scheduleSessionExpiry(data.expiresAt);
+          if (bootstrap && data.user) initialAccount = data;
+          return true;
+        })().finally(() => { refreshPromise = null; });
+      }
+      return refreshPromise;
+    }
+
     async function api(path, options = {}) {
       const headers = { ...(options.headers || {}) };
+      const body = options.body && typeof options.body !== 'string'
+        ? JSON.stringify(options.body) : options.body;
+      if (options.body && typeof options.body !== 'string') headers['Content-Type'] = 'application/json';
+      const request = () => fetch(API + path, {
+        ...options, body, credentials: 'same-origin', headers
+      });
       if (authToken) headers.Authorization = `Bearer ${authToken}`;
-      if (options.body && typeof options.body !== 'string') {
-        headers['Content-Type'] = 'application/json';
-        options.body = JSON.stringify(options.body);
+      let response = await request();
+      // A denied authenticated request is safe to retry once after renewal.
+      if (response.status === 401 && !path.startsWith('/auth/')) {
+        if (await renewAccessToken()) {
+          headers.Authorization = `Bearer ${authToken}`;
+          response = await request();
+        }
       }
-      const r = await fetch(API + path, { ...options, headers });
-      const data = await r.json().catch(() => ({}));
-      if (!r.ok) throw new Error(data.error || 'Request failed.');
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const error = new Error(data.error || 'Request failed.');
+        error.status = response.status;
+        throw error;
+      }
       return data;
     }
 
-    window.openAuthModal = function(mode = 'login') {
-      authMode = mode;
-      document.getElementById('auth-modal').classList.remove('hidden');
-      document.getElementById('auth-modal').classList.add('flex');
-      updateAuthModeUI();
-    };
-    window.closeAuthModal = function() {
-      document.getElementById('auth-modal').classList.add('hidden');
-      document.getElementById('auth-modal').classList.remove('flex');
-    };
-    window.toggleAuthMode = function() { authMode = authMode === 'login' ? 'register' : 'login'; updateAuthModeUI(); };
-    function updateAuthModeUI() {
-      const register = authMode === 'register';
-      document.getElementById('auth-title').innerText = register ? 'Create Student Account' : 'Login';
-      document.getElementById('auth-submit').innerText = register ? 'Create Account' : 'Login';
-      document.getElementById('auth-toggle').innerText = register ? 'Already have an account? Login' : 'Create a new student account';
-      document.getElementById('register-name-wrap').classList.toggle('hidden', !register);
-      document.getElementById('auth-error').classList.add('hidden');
+    let signingOut = false;
+    function coverWorkspaceOverlay() {
+      document.getElementById('session-guard').classList.remove('hidden');
     }
-
-    window.submitAuth = async function() {
-      const error = document.getElementById('auth-error');
-      error.classList.add('hidden');
-      try {
-        const body = { email: document.getElementById('auth-email').value.trim(), password: document.getElementById('auth-password').value };
-        if (authMode === 'register') body.name = document.getElementById('auth-name').value.trim();
-        const data = await api(authMode === 'register' ? '/auth/register' : '/auth/login', { method: 'POST', body });
-        authToken = data.token; currentUser = data.user; localStorage.setItem('sjn_auth_token', authToken);
-        closeAuthModal(); await loadAccount();
-      } catch (e) { error.innerText = e.message; error.classList.remove('hidden'); }
-    };
-
-    window.logoutUser = function() {
+    function coverPrivateWorkspace() {
+      coverWorkspaceOverlay();
       authToken = '';
-      localStorage.removeItem('sjn_auth_token');
+      initialAccount = null;
       currentUser = null;
-      loadAccount(); 
-      window.location.replace("/landing.html")
-    };
+      sjnProfile = emptyStudentProfile();
+      bookmarkedMcqs = [];
+      historyLoadStatus = 'loading';
+      clearTimeout(expiryTimer);
+      sessionExpiresAt = null;
+    }
+    let returnCheck = null;
+    function verifyReturnedTab() {
+      if (returnCheck) return returnCheck;
+      if (!currentUser || signingOut) return Promise.resolve();
+      const expectedUserId = currentUser.id;
+      const expectedExpiry = sessionExpiresAt;
+      coverWorkspaceOverlay();
+      returnCheck = (async () => {
+        try {
+          const response = await SJNSessionCoord.status();
+          if (response.status === 401) {
+            coverPrivateWorkspace();
+            window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));
+            return;
+          }
+          if (!response.ok) throw new Error('Session check unavailable.');
+          const active = await response.json();
+          if (active.userId !== expectedUserId || active.expiresAt !== expectedExpiry) {
+            coverPrivateWorkspace();
+            window.location.replace(SJNPreviewAuthRoute.to('/index.html'));
+            return;
+          }
+          if (!document.hidden && currentUser?.id === expectedUserId) {
+            document.getElementById('session-guard-message').classList.add('hidden');
+            document.getElementById('session-guard-retry').classList.add('hidden');
+            document.getElementById('session-guard').classList.add('hidden');
+          }
+        } catch (error) {
+          const label = document.getElementById('session-guard-message');
+          label.textContent = 'Unable to verify your session. Check your connection and retry.';
+          label.classList.remove('hidden');
+          document.getElementById('session-guard-retry').classList.remove('hidden');
+          console.warn('Unable to recheck student session:', error);
+        }
+      })().finally(() => { returnCheck = null; });
+      return returnCheck;
+    }
+    // A storage notification may be delayed while the browser suspends a tab.
+    // A synchronous marker comparison catches it when that tab is reactivated.
+    // No overlay or request is needed when nothing about the login has changed.
+    let knownAuthSignal = SJNSessionCoord.latestSignal();
+    let accountChangePending = false;
+    function checkForAccountChange() {
+      if (accountChangePending) return true;
+      const latest = SJNSessionCoord.latestSignal();
+      if (latest === knownAuthSignal) return false;
+      accountChangePending = true;
+      coverPrivateWorkspace();
+      let type = null;
+      try { type = JSON.parse(latest)?.type; } catch (_) {}
+      window.location.replace(SJNPreviewAuthRoute.to(type === 'logout' ? '/landing.html' : '/index.html'));
+      return true;
+    }
+    SJNSessionCoord.subscribe(event => {
+      if (accountChangePending) return;
+      accountChangePending = true;
+      coverPrivateWorkspace();
+      window.location.replace(SJNPreviewAuthRoute.to(event.type === 'login' ? '/index.html' : '/landing.html'));
+    });
 
     window.handleDesktopClick = function() {
-      if (currentUser) {
-        // If logged in, toggle the dropdown menu
-        const drop = document.getElementById('desktop-dropdown');
-        drop.classList.contains('hidden') ? drop.classList.remove('hidden') : drop.classList.add('hidden');
-      } else {
-        // If logged out, open the normal login modal
-        openAuthModal('login');
+      document.getElementById('desktop-dropdown').classList.toggle('hidden');
+    };
+    function updateDashboardAccountUI(user) {
+      const name = user?.name || 'Student';
+      for (const id of ['account-button-label', 'dropdown-name', 'mobile-user-name']) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = name;
+      }
+    }
+    window.logoutUser = async function() {
+      if (signingOut) return;
+      signingOut = true;
+      try {
+        const response = await SJNSessionCoord.withCookieLock(() =>
+          fetch(API + '/auth/logout', {
+            method: 'POST', credentials: 'same-origin', cache: 'no-store'
+          })
+        );
+        if (!response.ok) throw new Error('Unable to sign out. Please retry.');
+        authToken = '';
+        currentUser = null;
+        localStorage.removeItem('sjn_auth_token');
+        SJNSessionCoord.signal('logout');
+        localStorage.setItem('sjn_logout_event', String(Date.now()));
+        sessionStorage.setItem('sjn_recent_logout', '1');
+        clearTimeout(expiryTimer);
+        sessionExpiresAt = null;
+        window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));
+      } catch (error) {
+        signingOut = false;
+        alert(error.message || 'Unable to sign out. Please retry.');
       }
     };
 
-    function updateAccountUI() {
-      const desktopBtnLabel = document.getElementById('account-button-label');
-      const mobileLoggedOut = document.getElementById('mobile-account-logged-out');
-      const mobileLoggedIn = document.getElementById('mobile-account-logged-in');
-      const mobileUserName = document.getElementById('mobile-user-name');
-
-      if (currentUser) {
-        // Show just the user's name on the button (removes the ugly "SIGN OUT" text)
-        desktopBtnLabel.innerText = currentUser.name;
-        document.getElementById('dropdown-name').innerText = currentUser.name;
-        
-        if (mobileLoggedOut) mobileLoggedOut.classList.add('hidden');
-        if (mobileLoggedIn) mobileLoggedIn.classList.remove('hidden');
-        if (mobileUserName) mobileUserName.innerText = currentUser.name;
-      } else {
-        desktopBtnLabel.innerText = 'Login / Register';
-        document.getElementById('desktop-dropdown').classList.add('hidden');
-        
-        if (mobileLoggedOut) mobileLoggedOut.classList.remove('hidden');
-        if (mobileLoggedIn) mobileLoggedIn.classList.add('hidden');
-      }
+    function applyAuthenticatedStats(stats) {
+      sjnProfile.mcqsAttempted = Number(stats?.total || 0);
+      sjnProfile.correctAnswers = Number(stats?.correct || 0);
+      const { mcqsAttempted: total, correctAnswers: correct } = sjnProfile;
+      sjnProfile.rank = total >= 50 && correct / total >= 0.8
+        ? 'Doctor Status 🎓' : total >= 25 ? 'Champion 🔴'
+        : total >= 10 ? 'Cadet ⚫' : 'Beginner 🔴';
+      updateGlobalProfileUI();
     }
-    
-    async function loadAccount() {
-      if (!authToken) {
-        currentUser = null;
-        updateAccountUI();
-        return;
+
+    async function refreshAuthenticatedStats(expectedStudentId) {
+      const data = await api('/me');
+      if (!currentUser || currentUser.id !== expectedStudentId ||
+          data.user?.id !== expectedStudentId) {
+        throw new Error('The active student changed. Reload your dashboard.');
       }
+      applyAuthenticatedStats(data.stats);
+    }
+
+    function countStudyStreak(attempts) {
+      const days = new Set(attempts.map(row => String(row.created_at || '').slice(0, 10)));
+      const day = new Date();
+      day.setUTCHours(0, 0, 0, 0);
+      const iso = () => day.toISOString().slice(0, 10);
+      if (!days.has(iso())) day.setUTCDate(day.getUTCDate() - 1);
+      let count = 0;
+      while (days.has(iso())) {
+        count++;
+        day.setUTCDate(day.getUTCDate() - 1);
+      }
+      return count;
+    }
+
+    async function loadStudentHistory() {
+      const expectedStudentId = currentUser?.id;
+      if (!expectedStudentId) return false;
+      historyLoadStatus = 'loading';
+      sjnProfile.historyLogs = [];
+      renderHistoryTable();
       try {
-        const data = await api('/me');
-        currentUser = data.user;
-        sjnProfile.mcqsAttempted = Number(data.stats.total || 0);
-        sjnProfile.correctAnswers = Number(data.stats.correct || 0);
-        bookmarkedMcqs = data.bookmarks || [];
+        const payload = await api('/history');
+        // The account can change while a tab is awaiting a request.
+        if (!currentUser || currentUser.id !== expectedStudentId ||
+            payload.userId !== expectedStudentId || !Array.isArray(payload.attempts)) {
+          throw new Error('The active student changed. Reload your dashboard.');
+        }
+        sjnProfile.historyLogs = payload.attempts.map(row => {
+          const total = Number(row.total || 0);
+          const correct = Number(row.correct || 0);
+          return {
+            title: row.title || 'Practice Test',
+            subject: row.subject || 'Mixed',
+            mode: row.mode || 'tutor',
+            score: correct + '/' + total,
+            accuracy: Math.round(total ? 100 * correct / total : 0) + '%',
+            date: row.created_at,
+            chapters: row.selection_json?.chapters || [],
+            topics: row.selection_json?.topics || []
+          };
+        });
+        sjnProfile.streakDays = countStudyStreak(payload.attempts);
+        historyLoadStatus = 'ready';
         updateGlobalProfileUI();
-        updateAccountUI();
-      } catch {
-        authToken = ''; localStorage.removeItem('sjn_auth_token'); currentUser = null;
-        updateAccountUI();
+      } catch (error) {
+        if (currentUser?.id !== expectedStudentId) return false;
+        historyLoadStatus = 'error';
+        sjnProfile.historyLogs = [];
+        console.warn('Unable to load student history:', error);
+      }
+      renderHistoryTable();
+      return historyLoadStatus === 'ready';
+    }
+    window.reloadStudentHistory = loadStudentHistory;
+
+    async function loadAccount() {
+      const startedAt = performance.now();
+      const guard = document.getElementById('session-guard');
+      try {
+        if (!authToken && !(await renewAccessToken(true))) {
+          window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));
+          return false;
+        }
+        const data = initialAccount || await api('/me');
+        initialAccount = null;
+        if (!data.user) throw Object.assign(new Error('Student account missing.'), { status: 401 });
+        // Another tab may have switched accounts while bootstrap was in flight.
+        // Never reveal an account that is already being replaced.
+        if (accountChangePending || checkForAccountChange()) return false;
+        currentUser = data.user;
+        // Start with a clean in-memory account; never use another student's browser profile.
+        sjnProfile = emptyStudentProfile();
+        historyLoadStatus = 'loading';
+        updateDashboardAccountUI(currentUser);
+        applyAuthenticatedStats(data.stats);
+        bookmarkedMcqs = Array.isArray(data.bookmarks) ? data.bookmarks : [];
+        // A successfully verified background tab must finish opening. Otherwise
+        // it stays stuck behind this guard when brought back into view.
+        guard.classList.add('hidden');
+        console.info('SJN dashboard authenticated in', Math.round(performance.now()-startedAt), 'ms');
+        return true;
+      } catch (error) {
+        if (error.status === 401) {
+          authToken = '';
+          window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));
+          return false;
+        }
+        // Outages must not pretend the user logged out or expose private workspace.
+        document.getElementById('session-guard-message').textContent =
+          'Unable to verify your session. Check your connection and retry.';
+        document.querySelector('.sjn-load-shell')?.remove();
+        document.getElementById('session-guard-message').classList.remove('hidden');
+        document.getElementById('session-guard-retry').classList.remove('hidden');
+        console.warn('Unable to verify student account:', error);
+        return false;
       }
     }
 
@@ -2907,40 +3097,88 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
 
     const originalLaunch = window.launchGeneratedQuiz;
     window.launchGeneratedQuiz = function(){
-      if (!currentUser) { openAuthModal('login'); return; }
+      if (!currentUser) { window.location.replace(SJNPreviewAuthRoute.to('/landing.html')); return; }
       originalLaunch();
     };
 
     const originalToggleBookmark = window.toggleBookmarkCurrentMcq;
     window.toggleBookmarkCurrentMcq = async function(){
       const q=currentQuizList[currentMcqIndex]; if(!q)return;
-      if(!authToken){openAuthModal('login');return;}
+      if(!authToken){window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));return;}
       try { const r=await api('/bookmarks/toggle',{method:'POST',body:{mcqId:q.id}}); const idx=bookmarkedMcqs.findIndex(id=>String(id)===String(q.id)); if(r.bookmarked){if(idx<0)bookmarkedMcqs.push(q.id)}else if(idx>=0)bookmarkedMcqs.splice(idx,1); updateBookmarkButton(); } catch(e){alert(e.message);}
     };
 
     const originalFinishQuiz = window.finishQuiz;
-    window.finishQuiz = async function(){
+    let savingAttempt = false;
+    window.finishQuiz = async function() {
+      if (savingAttempt) return; // Multiple Next/timer events must not double-save.
+      if (!authToken || !currentUser) { window.location.replace(SJNPreviewAuthRoute.to('/landing.html')); return; }
+      if (!currentQuizList.length) return;
+      savingAttempt = true;
+      const expectedStudentId = currentUser.id;
+      const correct = currentQuizList.reduce((n, q, i) =>
+        n + (userAnswers[i] === q.correctIndex ? 1 : 0), 0);
+      const attempted = currentQuizList.length;
+      const submission = {
+        title: paperSourceFilter || wizardSelection.bank, total: attempted, correct,
+        mode: wizardSelection.testMode, subject: wizardSelection.subject,
+        selection: { subjects: wizardSelection.selectedSubjects,
+          chapters: wizardSelection.selectedChapters, topics: wizardSelection.selectedTopics }
+      };
       originalFinishQuiz();
-      if(!authToken || !currentQuizList.length) return;
-      const correct=currentQuizList.reduce((n,q,i)=>n+(userAnswers[i]===q.correctIndex?1:0),0);
-      try { await api('/attempts',{method:'POST',body:{title:paperSourceFilter || wizardSelection.bank,total:currentQuizList.length,correct,mode:wizardSelection.testMode,subject:wizardSelection.subject,selection:{subjects:wizardSelection.selectedSubjects,chapters:wizardSelection.selectedChapters,topics:wizardSelection.selectedTopics}}}); } catch(e){console.warn(e);}
+      try {
+        const saved = await api('/attempts', {
+          method: 'POST',
+          headers: { 'X-SJN-Expected-Student': expectedStudentId },
+          body: submission
+        });
+        if (!saved?.id) throw new Error('No saved attempt was confirmed.');
+        const [stats, history] = await Promise.allSettled([
+          refreshAuthenticatedStats(expectedStudentId), loadStudentHistory()
+        ]);
+        if (stats.status === 'rejected' || history.status === 'rejected' ||
+            history.value !== true) {
+          console.warn('Saved result; dashboard summary could not fully refresh.');
+        }
+        // Return a verified outcome to the opt-in results view, without altering
+        // the original UI or the account-scoped POST /api/attempts endpoint.
+        return { saved: true, id: saved.id };
+      } catch (error) {
+        console.warn('Practice test save not confirmed:', error);
+        alert('Your test result could not be confirmed as saved. Check Test History before trying again.');
+        // Restore the server-owned figures, never a browser-wide copy.
+        await Promise.allSettled([
+          refreshAuthenticatedStats(expectedStudentId), loadStudentHistory()
+        ]);
+        return { saved: false };
+      } finally {
+        savingAttempt = false;
+      }
     };
 
     window.sendAiDoubt = async function(){
       const input=document.getElementById('ai-input-text'); const query=input.value.trim(); if(!query)return;
-      if(!authToken){openAuthModal('login');return;}
+      if(!authToken){window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));return;}
       const history=document.getElementById('ai-chat-history'); const u=document.createElement('div'); u.className='bg-zinc-800 p-3 rounded-xl text-gray-100 text-right font-medium'; u.innerHTML=`🙋‍♂️ <strong>You:</strong> ${escapeHtml(query)}`; history.appendChild(u); input.value='';
       const a=document.createElement('div'); a.className='bg-purple-950/40 border border-purple-800/40 p-3 rounded-xl text-purple-100 space-y-1'; a.innerHTML='🤖 <strong>SJN AI Tutor:</strong><br><span>Thinking...</span>'; history.appendChild(a);
       try { const data=await api('/ai/tutor',{method:'POST',body:{prompt:query}}); a.innerHTML=`🤖 <strong>SJN AI Tutor:</strong><br><span class="leading-relaxed whitespace-pre-wrap">${escapeHtml(data.answer)}</span>`; } catch(e){a.innerHTML=`🤖 <strong>SJN AI Tutor:</strong><br><span class="text-red-300">${escapeHtml(e.message)}</span>`;}
       history.scrollTop=history.scrollHeight;
     };
 
-    window.onload = async function(){
-      await loadAccount();
+    window.addEventListener('storage', event => {
+      if (event.key === 'sjn_logout_event') {
+        coverPrivateWorkspace();
+        window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));
+      }
+    });
+
+    // DOM-ready starts verification before images and external resources finish loading.
+    window.addEventListener('DOMContentLoaded', async () => {
+      if (!(await loadAccount())) return;
+      // Fetch personal history separately, after verified dashboard content is visible.
+      void loadStudentHistory();
       await loadContent();
-      renderHistoryTable();
-      updateGlobalProfileUI();
-    };
+    });
   })();
   </script>
   <script>
@@ -2948,25 +3186,9 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     document.body.classList.toggle('sidebar-collapsed');
   };
     
-   // Restore profile data AND dashboard stats from local storage on page load
-    window.addEventListener('DOMContentLoaded', () => {
-        setTimeout(() => {
-            try {
-                const savedData = localStorage.getItem('sjn_student_profile');
-                if (savedData) {
-                    // Pull the saved numbers from storage and load them into memory
-                    Object.assign(sjnProfile, JSON.parse(savedData)); 
-                }
-                if (typeof updateGlobalProfileUI === 'function') {
-                    // Now update the UI using the loaded numbers
-                    updateGlobalProfileUI(); 
-                }
-            } catch (e) {
-                console.error("Error restoring stats:", e);
-            }
-        }, 200); // 200ms delay to ensure page is ready
-    });
-    
+   // Student data is loaded from the authenticated API, never shared browser storage.
   </script>
+  <script src="/sjn-phase4-preview.js"></script>
+  <script src="/sjn-phase4-results.js"></script>
 </body>
 </html>
