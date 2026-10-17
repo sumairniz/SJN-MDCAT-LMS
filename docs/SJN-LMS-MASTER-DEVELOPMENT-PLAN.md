@@ -7,6 +7,12 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-17 — Future filter choices and 74-question staging import checkpoint
+
+- Owner's **future** Create Practice Quiz direction: Unused selected by default, Used/Incorrect/Marked selectable together, including all four. Exact filter algebra/UX deferred until after per-student question history. No wizard change now.
+- Owner clarification: manually publishing selected premium course questions into an ordinary bank is for the **owner/authorized Admin Panel team only**, never students. Require API/DB permissions; future phase only.
+- The read-only review has produced [74-MCQ Staging Migration Plan](SJN-74-MCQ-STAGING-MIGRATION-PLAN.md). Database already has required original question fields. **The first nonempty DB content response triggers the existing frontend switch**: import all 74 atomically, verify parity and preserve old bank/source. No code or DB writes in this documentation step; obtain separate permission before any staging import.
+
 ## 2026-10-17 — Owner's bank separation correction and future product ideas
 
 - **CONFIRMED OWNER CORRECTION:** The same MCQ should **not** appear in both ordinary banks. Previous assistant suggestion to share a question across both banks was rejected. One ordinary bank per question is the present design premise for the 74-question migration.

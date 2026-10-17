@@ -20,7 +20,8 @@ Both names are recovered from the owner-approved MCQ planning discussion. The ow
 ### Planned Create Test experience (future phase)
 
 - **Keep and enhance the existing wizard** (bank → All Subjects / One Subject / Custom Mix / Topic Drill → subjects/chapters/topics → MCQ count → Tutor/Timed mode). Do not redesign it in the present MCQ Database Foundation phase.
-- **Student-history-aware question filters:** **Used**, **Unused**, **Incorrect**, and **Marked/Bookmarked (Marked Questions)**. Recoverable early brainstorming also mentioned **Correct** and **Omitted/Skipped**, but treat those as **proposals**, not separately approved committed filter scope.
+- **Owner-confirmed future Create Practice Quiz filters (2026-10-17):** **Unused is selected by default**. Students may additionally select **Used, Incorrect and Marked/Bookmarked**, including combinations and selecting **all four at once**. Filters are multi-select, not mutually exclusive. **Only this product direction is confirmed**; detailed user interface and precise combined-selection semantics will be decided when the Create Test wizard phase begins. Earlier Correct and Omitted/Skipped suggestions remain proposals, not approved additional filters.
+- **Open questions for later:** Does a multi-selection use union, priority or other logic? What is Used (seen vs attempted)? How do incorrect retakes affect eligibility? Incorrect and Marked overlap Used. Do not implement an accidental all-filter AND intersection. Do not build these filters before verified question-level student history.
 - **Needed before those filters work:** persistent student- and question-level history under RLS, with stable question identity. Do not derive Used/Incorrect solely from aggregate test scores.
 - **Open filter semantics requiring explicit owner confirmation:** what counts as Used (seen vs selected answer vs completed test); how Unused treats abandoned drafts; whether Incorrect means ever wrong vs latest attempt wrong vs currently unresolved; how retakes affect status and filtered pool; priority/order when combining filters; how many marks are shown and how to handle too-few matches.
 - **Direction discussed, detail not finalized:** available MCQ counts beside banks, subjects, chapters and topics; readable final wizard summary. Per-chapter custom MCQ allocation is **optional future proposal**, not approved implementation. Avoid loading 50k answers or all records to every browser to calculate counts.
@@ -50,6 +51,11 @@ Both names are recovered from the owner-approved MCQ planning discussion. The ow
 
 - A separate authorized administrator workspace to curate questions and banks, import and validate batches, correct/version/archive/publish, manage academy content/courses/resources, and handle student MCQ issue reports.
 - Detailed admin roles, workflow, moderation, permissions and bulk-upload rules **will be supplied later**. Do **not** implement or expose admin functionality based on these directional notes alone. Protect role elevation and privileged service access separately from normal student paths.
+
+### Owner/admin-team-only premium question publishing — owner clarification (2026-10-17)
+
+- Only the **owner and authorized Admin Panel management team** may review, categorize and manually publish chosen premium course-test questions to ONE ordinary bank after the permitted release stage. **Students must never move, import, transfer, publish or relabel questions.** This must be enforced by database/API authorization, not only by hiding buttons.
+- This is a future Admin Panel design direction, not current implementation approval.
 
 ### Future premium Course Tests — preliminary owner idea (not final scope, 2026-10-17)
 

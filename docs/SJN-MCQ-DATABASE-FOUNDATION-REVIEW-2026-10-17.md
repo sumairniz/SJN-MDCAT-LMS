@@ -5,6 +5,12 @@
 **Status:** READ-ONLY FINDINGS + ENGINEERING PROPOSAL. **NO migration, INSERT, UPDATE, DELETE, auth policy change or production action approved.**  
 **Related:** [Future Question Banks and Create Test](SJN-FUTURE-QUESTION-BANKS-AND-CREATE-TEST.md), [Blueprint v1.3](SJN-PHASE4-INTERFACE-BLUEPRINT-v1.3.md), [Temporary Change Register](SJN-TEMPORARY-CHANGE-REGISTER.md).
 
+## 2026-10-17 — exact 74-question import strategy documented, staging write NOT authorized
+
+See [74-MCQ Staging Migration Plan](SJN-74-MCQ-STAGING-MIGRATION-PLAN.md) for the source-to-database field mapping, original source fingerprint, 1–74 stable IDs, atomic import, checks and rollback. **Critical:** after any nonempty DB return, current `loadContent()` automatically replaces the inline question array, so incomplete uploads would be visible to testers. This design work is documentation-only; migration awaits separate approval.
+
+Confirmed future wizard direction: Unused default, Used/Incorrect/Marked as optional simultaneous selections including all four. Implementation is after question-level history, not in this import.
+
 ## 2026-10-17 owner clarification — bank separation and premium content
 
 **CONFIRMED:** The owner does **not** want the same MCQ in both `Past Papers Question Bank` and `SJN Question Bank`. The earlier open question about multi-bank membership is resolved **against sharing**. For this foundation plan, use one ordinary bank classification per MCQ, and design duplicate-detection/curation without manufacturing separate tables per bank. The current 74 questions are all Past Papers.

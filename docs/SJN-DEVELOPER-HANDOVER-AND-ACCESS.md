@@ -43,7 +43,7 @@
 
 1. [Master Development Plan](SJN-LMS-MASTER-DEVELOPMENT-PLAN.md): project intent, feature baseline, approved/rejected decisions, outstanding risks.
 2. [Phase 4 Interface Blueprint v1.3](SJN-PHASE4-INTERFACE-BLUEPRINT-v1.3.md): latest approved exam/results behavior (later owner changes supersede).
-3. [MCQ Database Foundation Review](SJN-MCQ-DATABASE-FOUNDATION-REVIEW-2026-10-17.md): exact read-only schema snapshot and proposed current phase.
+3. [MCQ Database Foundation Review](SJN-MCQ-DATABASE-FOUNDATION-REVIEW-2026-10-17.md) and [74-MCQ Staging Migration Plan](SJN-74-MCQ-STAGING-MIGRATION-PLAN.md): audited schema, exact mapping and next proposed staging-only import; not approved yet.
 4. [Future Question Banks & Create Test](SJN-FUTURE-QUESTION-BANKS-AND-CREATE-TEST.md): **changeable** future two-bank, history filter, mark, admin, analytics and theme plan.
 5. [Temporary Change Register](SJN-TEMPORARY-CHANGE-REGISTER.md) and [Release Safety Checklist](RELEASE-SAFETY-CHECKLIST.md): pre-merge blockers.
 6. Latest GitHub branch commits, open draft PR and CI; validate staging/production environment and current HEAD again before any write.
