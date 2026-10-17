@@ -7,6 +7,13 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-17 — Owner's bank separation correction and future product ideas
+
+- **CONFIRMED OWNER CORRECTION:** The same MCQ should **not** appear in both ordinary banks. Previous assistant suggestion to share a question across both banks was rejected. One ordinary bank per question is the present design premise for the 74-question migration.
+- **PRELIMINARY OWNER IDEAS (NOT FINAL REQUIREMENTS):** Course chapter/multi-chapter/mock tests contain separately authored/managed premium MCQs, not regular bank questions. Chapter/topic names should not be visible during course tests. Owner may manually publish selected premium MCQs into one bank after a course ends; no automatic release or anonymous answer-key exposure. Future overall Analytics may have separate Question Bank (total/correct/incorrect/skipped; subject/chapter/topic) and Courses/Tests (subject and test-score trajectory) sections. Future Mistake Diary may let students classify errors manually (information, concept, silly, retention), with exact categories deferred.
+- **CURRENT PRIORITY UNCHANGED:** Phase 4 MCQ Database Foundation, then safe staging migration of 74 original Past Papers Biology MCQs after a separately reviewed SQL/import plan and owner approval. Later review/retake, reporting, marking and Create Test revisions each require separate scope. See [Future Question Banks & Create Test](SJN-FUTURE-QUESTION-BANKS-AND-CREATE-TEST.md) and [Database Foundation Review](SJN-MCQ-DATABASE-FOUNDATION-REVIEW-2026-10-17.md).
+- **Documentation-only:** No new app feature, database migration/data change, hosting configuration change or production release is authorized or performed with this update.
+
 ## 2026-10-17 — Documentation-first handover and current MCQ Database Foundation (OWNER REQUESTED)
 
 - **Current checkpoint:** Phase 4 **MCQ Database Foundation, read-only architecture review**, before moving/copying any of the original 74 Biology MCQs or implementing Question-Level Test History/Review/Retake. The current accepted opt-in Results Screen source baseline is development commit `656f97de1ca8e00d3bd7f831286565c0bc060792`; documentation-only updates may move HEAD beyond this baseline.

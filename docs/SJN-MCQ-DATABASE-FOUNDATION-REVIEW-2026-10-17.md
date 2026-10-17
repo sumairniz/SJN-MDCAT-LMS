@@ -5,6 +5,16 @@
 **Status:** READ-ONLY FINDINGS + ENGINEERING PROPOSAL. **NO migration, INSERT, UPDATE, DELETE, auth policy change or production action approved.**  
 **Related:** [Future Question Banks and Create Test](SJN-FUTURE-QUESTION-BANKS-AND-CREATE-TEST.md), [Blueprint v1.3](SJN-PHASE4-INTERFACE-BLUEPRINT-v1.3.md), [Temporary Change Register](SJN-TEMPORARY-CHANGE-REGISTER.md).
 
+## 2026-10-17 owner clarification — bank separation and premium content
+
+**CONFIRMED:** The owner does **not** want the same MCQ in both `Past Papers Question Bank` and `SJN Question Bank`. The earlier open question about multi-bank membership is resolved **against sharing**. For this foundation plan, use one ordinary bank classification per MCQ, and design duplicate-detection/curation without manufacturing separate tables per bank. The current 74 questions are all Past Papers.
+
+**PRELIMINARY DIRECTION, not implementation authorization:** Courses may offer chapter, multi-chapter or strict mock tests with distinct premium question sets, not sourced from either regular question bank. Hide chapter/topic names during course assessments; classification may remain private for future authorized uses. When the course ends, the owner *may manually publish* some/all selected premium MCQs into **one** regular question bank. **Do not automatically disclose or publish premium content.**
+
+**SECURITY DESIGN GATE:** The current `mcqs` SELECT policy is available to anonymous users and `/api/content` returns MCQs with correct answer keys. That is not a safe storage/exposure policy for paid or strict mock-exam questions. The eventual course assessment store or protection layer needs authorization and carefully scoped answer release. Do not insert premium course questions in the presently public `mcqs` path. No course tests have been implemented as part of this phase.
+
+**NEXT:** Continue only with the approved design process for migrating the existing 74 **Past Papers** questions to staging, preserving original content and not creating any premium questions. Later work remains: secure question-level test history, Review/Retake, functional Report Issue and Mark for Review, Create Quiz improvements, then separately specified Analytics/Mistake Diary/course assessments.
+
 ## 1. Confirmed current architecture (OBSERVED/VERIFIED)
 
 - Repository: \`sumairniz/SJN-MDCAT-LMS\`; development branch \`sjn-phase1a-foundation\`; separate production \`main\`. Production Supabase project **\`yapvnevvjfewvafbjcgc\`** is out of scope. The owner must independently authorize staging writes and later production merges/deployments.
@@ -39,7 +49,7 @@
 
 ### Foundation first; build for future features without overengineering
 
-1. **MCQ identity and two-bank readiness:** retain a globally stable MCQ ID and add a small explicit bank definition/metadata structure when designing the first migration. Existing \`mcqs\` can remain the core question table. Decide whether a question can belong to multiple banks before picking single bank FK vs a membership association. **Do not create one separate MCQ table per question bank.**
+1. **MCQ identity and two-bank readiness:** retain a globally stable MCQ ID and add a small explicit bank definition/metadata structure when designing the first migration. Existing \`mcqs\` can remain the core question table. Owner disallows the same MCQ across banks, so favor **exactly one ordinary bank per MCQ** and no many-to-many bank membership. **Do not create one separate MCQ table per question bank.**
 2. **Taxonomy and source:** store and index bank/subject/chapter/topic efficiently with unambiguous stable references; preserve all original literal metadata. Plan examination source/year separately where useful, without fabricating a year for unknown sources or rewriting question wording. Use version/publishing state to correct questions safely without silently changing historic attempts.
 3. **Question privacy:** student access serves only permitted published content and should paginate/filter rather than return 50,000 records. For future strict timed mock exams, hide answer keys until authorized completion using separate checked server endpoints; ordinary Tutor practice and future mock security requirements are **different**.
 4. **Question-level attempts:** later Stage 3B can add RLS-scoped attempt items with immutable ordered question IDs, selected answer, skipped state and question snapshot/version, elapsed time/mode, linked to completed \`attempts\`. This supports Review Test, exact-order Retake, Used/Unused/Incorrect, future analytics and robust handling of updated questions. Retake must create a **new** attempt, preserving the previous result.
@@ -57,7 +67,7 @@ Owner confirms no official enrolled students yet and accepts possible cleanup of
 ## 3. Proposed next stage after this documentation — require owner approval
 
 **First, produce the reviewed migration design and reversible SQL plan**, with exact mapping of 74 inline records and the minimum bank/metadata structure needed. Before modifying staging:
-- [ ] Decide bank ownership/multi-bank membership and source-year parsing rules.
+- [ ] Implement planned **one-bank-per-MCQ ownership (no cross-bank duplication)** in proposed import design and decide source-year parsing rules; keep premium course content off public question APIs.
 - [ ] Compare generated database rows vs all source fields and original MCQ fingerprints. Record ID mapping, unique constraints, import idempotency and sequence reset if explicit IDs are inserted.
 - [ ] Audit RLS/access for student content and marks; ensure authenticated admin writes cannot be forged by students. Don't expose privileged keys to clients.
 - [ ] Run additive schema migration in **staging only after separate explicit approval**; verify expected tables/policies/counts and existing auth/history functionality.

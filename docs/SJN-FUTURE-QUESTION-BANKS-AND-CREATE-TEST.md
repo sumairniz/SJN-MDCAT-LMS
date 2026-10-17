@@ -15,7 +15,7 @@ This is the owner's **current direction, not a frozen specification**. The owner
 1. **Past Papers Question Bank** — MCQs associated with past examination source/year and subject/chapter/topic where known.
 2. **SJN Question Bank** — academy-curated and organized practice MCQs with relevant educational metadata.
 
-Both names are recovered from the owner-approved MCQ planning discussion. The owner expects potentially **30,000–50,000+ MCQs** across bank(s) in the longer term. Exact per-bank totals, whether a question can belong to both banks, import/duplicate policy, and bank-specific publishing rules remain to be decided. **Do not create a separate physical question table for every bank by default.** Future storage architecture should support both and grow safely.
+Both names are recovered from the owner-approved MCQ planning discussion. The owner expects potentially **30,000–50,000+ MCQs** across bank(s) in the longer term. **OWNER CORRECTION 2026-10-17: The same MCQ must not appear in both Past Papers and SJN question banks.** This overrides the assistant's earlier dual-bank sharing recommendation. One ordinary-bank classification per question is the current design direction; define exactly how to detect duplicates later. A shared physical `mcqs` table with one bank field does NOT imply sharing questions across both banks. The exact import/review policy may evolve.
 
 ### Planned Create Test experience (future phase)
 
@@ -51,23 +51,44 @@ Both names are recovered from the owner-approved MCQ planning discussion. The ow
 - A separate authorized administrator workspace to curate questions and banks, import and validate batches, correct/version/archive/publish, manage academy content/courses/resources, and handle student MCQ issue reports.
 - Detailed admin roles, workflow, moderation, permissions and bulk-upload rules **will be supplied later**. Do **not** implement or expose admin functionality based on these directional notes alone. Protect role elevation and privileged service access separately from normal student paths.
 
+### Future premium Course Tests — preliminary owner idea (not final scope, 2026-10-17)
+
+- Course chapter-based, multi-chapter and mock tests would initially use **separate premium questions**, not questions taken from the normal Past Papers or SJN practice banks.
+- **Hide chapter and topic labels during ALL course tests**, even if the test covers one chapter; the goal is to avoid giving clues or distracting students. Hiding labels does not forbid storing taxonomy privately where useful.
+- After a course finishes, the owner may **manually select all or some premium questions for publication to ONE regular bank**. There is no automatic conversion on course expiration and no permission to publish premium content ahead of time.
+- Course questions, answer keys and restricted assessment content must never be inadvertently disclosed through the currently public practice `/api/content` route or anonymous `mcqs` SELECT. Plan authorization and bank/course content boundaries before implementing course tests.
+
+### Future Overall Analytics — preliminary owner idea (not final scope, 2026-10-17)
+
+- **Question Bank Analytics:** total attempted, correct, incorrect and skipped plus **Subject → Chapter → Topic** performance breakdowns.
+- **Courses / Tests Analytics:** separate results for course assessments, subject-wise performance and possibly a test-by-test marks trend (e.g., score for Test 1, Test 2, etc.). Exact visualization, history view and metrics are not decided.
+- A hidden chapter/topic label in exam UI does **not** technically prevent chapter/topic analytics if tagged metadata exists. The owner currently proposes **subject-wise** course-test analytics; whether to collect/use deeper internal metadata is a later decision.
+- Avoid mixing bank-practice and premium-course attempt statistics without defining suitable denominators, permissions and retake rules.
+
+### Future Mistake Diary — preliminary owner idea (not final scope, 2026-10-17)
+
+- Students may review their wrong MCQs and **manually classify** the reason for an error. Example category candidates (not finalized): **Information-based, Concept-based, Silly Mistake, Retention-based**.
+- The eventual number/names of categories, category editing UX, whether category belongs to a question or a particular attempt, and premium-test question availability remain undecided.
+- Do not automatically classify mistakes or modify historical scores. Student-specific question-level history and appropriate access policies must precede this feature.
+
 ### Future Appearance setting (later, optional)
 
 - Owner wants a simple **Dark/Light** UI preference, with legible black/white contrast and preserved meaningful answer/status colors. Technically feasible via systematic theme tokens; avoid naive whole-page color inversion. This is **not the current phase**, and precise design remains open.
 
 ## Current phase and boundaries
 
-**NOW: Phase 4 — MCQ Database Foundation.** Review Supabase schema, stable IDs, question-bank representation, original 74-question preservation, migration design, RLS, and compatibility with future question-level history. The planned Create Test filters, Admin Panel, overall Analytics, theme switch and strict mock system all come **later**, under fresh scoped approvals. Read [Database Foundation Review](SJN-MCQ-DATABASE-FOUNDATION-REVIEW-2026-10-17.md) before designing SQL.
+**NOW: Phase 4 — MCQ Database Foundation.** Review Supabase schema, stable IDs, **single ordinary-bank assignment without cross-bank duplicates**, original 74-question preservation, migration design, RLS, and compatibility with future question-level history. Premium course tests remain future separate protected content. The planned Create Test filters, Admin Panel, overall Analytics, theme switch and strict mock system all come **later**, under fresh scoped approvals. Read [Database Foundation Review](SJN-MCQ-DATABASE-FOUNDATION-REVIEW-2026-10-17.md) before designing SQL.
 
 **Owner clarification on test data (2026-10-17):** No officially enrolled students; current accounts and previous attempts are for testing. Owner is open to removing **testing attempt history** if needed. This is **not approval to perform a deletion now**. Record the specific affected staging records, backup/rollback implications and obtain separate consent before any reset; do not alter production or remove the source 74 MCQs.
 
 ## Pending choices — do not silently assume
 
-- The final taxonomy, future bank overlap rules and origin/source/year metadata constraints.
+- The final taxonomy, **duplicate-detection criteria with NO cross-bank duplication**, and origin/source/year metadata constraints.
 - Which historical attempts are included in Used/Incorrect and overall analytics.
 - Whether Correct/Omitted become standalone Create Test filters.
 - How question revisions, duplicate discovery and retakes affect existing results.
-- Who may access which paid course/mock-bank questions (future policy).
+- Who may access which premium course/mock questions, and the separately controlled future owner-selected publication of some course questions into one regular bank (future policy).
+- Course-test subject analytics and marks trends, and Mistake Diary category/editing details (preliminary ideas, not finalized).
 - The detailed admin editor/import/reports UI and Light theme design.
 
 ## Change-log protocol
