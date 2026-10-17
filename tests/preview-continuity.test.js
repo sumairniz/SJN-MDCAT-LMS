@@ -57,3 +57,10 @@ test('staging banners distinguish old exam flow from Phase 4 even on identical d
   assert.match(preview, /LEGACY EXAM MODE/);
   assert.match(preview, /PHASE 4 PREVIEW/);
 });
+
+test('legacy mode notices are staging-verified and never shown in production by default', () => {
+  assert.match(preview, /fetch\('\/api\/preview-status'/);
+  assert.match(preview, /response\.ok \? response\.json\(\) : null/);
+  assert.match(preview, /info\.environment !== 'preview'/);
+  assert.match(preview, /info\.project !== 'aozknkrwafowsrehdwlr'/);
+});

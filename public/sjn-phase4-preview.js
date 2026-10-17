@@ -10,16 +10,25 @@
     // TEMP-P4-001: Preview is intentionally opt-in, but never leave a staging
     // tester guessing which exam is active when auth removes the URL flag.
     const announceLegacy = () => {
-      const dashboard = document.getElementById('module-dashboard');
-      const wizard = document.getElementById('module-wizard');
-      if (!dashboard || !wizard) return;
-      for (const section of [dashboard, wizard]) {
-        const label = document.createElement('p');
-        label.setAttribute('role', 'status');
-        label.style.cssText = 'padding:8px 12px;margin:0 0 12px;border:1px solid #a16207;border-radius:8px;background:#18181b;color:#fcd34d;font-size:11px;font-weight:600';
-        label.textContent = 'LEGACY EXAM MODE · Phase 4 preview is not active. Use the authorized staging preview link to test the new exam.';
-        section.prepend(label);
-      }
+      // A legacy-mode indicator must not appear on the production dashboard.
+      // The server exposes this endpoint only in Vercel Preview.
+      fetch('/api/preview-status', { credentials: 'same-origin', cache: 'no-store' })
+        .then(async response => response.ok ? response.json() : null)
+        .then(info => {
+          if (!info || info.environment !== 'preview' ||
+              info.project !== 'aozknkrwafowsrehdwlr') return;
+          const dashboard = document.getElementById('module-dashboard');
+          const wizard = document.getElementById('module-wizard');
+          if (!dashboard || !wizard) return;
+          for (const section of [dashboard, wizard]) {
+            const label = document.createElement('p');
+            label.setAttribute('role', 'status');
+            label.style.cssText = 'padding:8px 12px;margin:0 0 12px;border:1px solid #a16207;border-radius:8px;background:#18181b;color:#fcd34d;font-size:11px;font-weight:600';
+            label.textContent = 'LEGACY EXAM MODE · Phase 4 preview is not active. Use the authorized staging preview link to test the new exam.';
+            section.prepend(label);
+          }
+        })
+        .catch(() => {});
     };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', announceLegacy, { once: true });
     else announceLegacy();

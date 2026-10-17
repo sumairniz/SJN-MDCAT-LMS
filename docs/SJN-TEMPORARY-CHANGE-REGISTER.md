@@ -55,6 +55,11 @@
 - **Tests:** `tests/preview-continuity.test.js` covers the real guest → landing → login sequence, cross-tab redirects, URL allowlist and mode banners. Existing account-switch test `tests/foundation.test.js` uses an identity route mock so existing normal auth behavior can be checked. CI and Vercel status must be recorded **after** verification; these notes do not claim completion.
 - **Removal condition:** preview-specific helper, legacy indicator and `/api/preview-status` should be removed/merged into standard release identification when the approved new exam replaces the legacy default and real question-history persistence ships. Keep all owner-approved exam/result UI.
 
+### 2026-10-18 — Production visibility guard on staging legacy notice
+
+- After CI and preview readiness were observed for the redirect fix, final review caught that a legacy-mode notice would render even on the unflagged production dashboard. Updated `public/sjn-phase4-preview.js` so the legacy notice renders **only after** the server's preview-only `/api/preview-status` confirms `environment=preview` and the expected staging project. On production (404) it quietly does nothing; no production code or deployment was modified.
+- Added regression test in `tests/preview-continuity.test.js`. New CI and owner fresh-login testing are still required to close acceptance; the temporary status endpoint remains tracked under TEMP-P4-007.
+
 ### NOT identified as temporary cleanup
 
 - Approved desktop Finish button, compact navigator, SJN design and responsive CSS represent intended interface improvements, not code to remove solely because they were tested on staging.
