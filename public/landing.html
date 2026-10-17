@@ -381,7 +381,7 @@
     // When Vercel serves landing.html at '/', '/' would create a redirect loop.
     const SJN_AUTH = {
       apiBase: '/api',
-      dashboard: '/index.html',
+      dashboard: '/index.html' + (new URLSearchParams(window.location.search).get('sjnPhase4Preview') === '1' ? '?sjnPhase4Preview=1' : ''),
       tokenKey: 'sjn_auth_token'
     };
 

@@ -2678,7 +2678,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       localStorage.removeItem('sjn_auth_token');
       // Expired older tabs must not clear a more recently logged-in student.
       coverPrivateWorkspace();
-      window.location.replace('/landing.html');
+      window.location.replace('/landing.html' + (new URLSearchParams(window.location.search).get('sjnPhase4Preview') === '1' ? '?sjnPhase4Preview=1' : ''));
     }
     function scheduleSessionExpiry(value) {
       const expiry = Number(value);
@@ -2792,7 +2792,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
           const response = await SJNSessionCoord.status();
           if (response.status === 401) {
             coverPrivateWorkspace();
-            window.location.replace('/landing.html');
+            window.location.replace('/landing.html' + (new URLSearchParams(window.location.search).get('sjnPhase4Preview') === '1' ? '?sjnPhase4Preview=1' : ''));
             return;
           }
           if (!response.ok) throw new Error('Session check unavailable.');
@@ -2868,7 +2868,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         sessionStorage.setItem('sjn_recent_logout', '1');
         clearTimeout(expiryTimer);
         sessionExpiresAt = null;
-        window.location.replace('/landing.html');
+        window.location.replace('/landing.html' + (new URLSearchParams(window.location.search).get('sjnPhase4Preview') === '1' ? '?sjnPhase4Preview=1' : ''));
       } catch (error) {
         signingOut = false;
         alert(error.message || 'Unable to sign out. Please retry.');
@@ -2954,7 +2954,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       const guard = document.getElementById('session-guard');
       try {
         if (!authToken && !(await renewAccessToken(true))) {
-          window.location.replace('/landing.html');
+          window.location.replace('/landing.html' + (new URLSearchParams(window.location.search).get('sjnPhase4Preview') === '1' ? '?sjnPhase4Preview=1' : ''));
           return false;
         }
         const data = initialAccount || await api('/me');
@@ -2978,7 +2978,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       } catch (error) {
         if (error.status === 401) {
           authToken = '';
-          window.location.replace('/landing.html');
+          window.location.replace('/landing.html' + (new URLSearchParams(window.location.search).get('sjnPhase4Preview') === '1' ? '?sjnPhase4Preview=1' : ''));
           return false;
         }
         // Outages must not pretend the user logged out or expose private workspace.
@@ -3095,14 +3095,14 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
 
     const originalLaunch = window.launchGeneratedQuiz;
     window.launchGeneratedQuiz = function(){
-      if (!currentUser) { window.location.replace('/landing.html'); return; }
+      if (!currentUser) { window.location.replace('/landing.html' + (new URLSearchParams(window.location.search).get('sjnPhase4Preview') === '1' ? '?sjnPhase4Preview=1' : '')); return; }
       originalLaunch();
     };
 
     const originalToggleBookmark = window.toggleBookmarkCurrentMcq;
     window.toggleBookmarkCurrentMcq = async function(){
       const q=currentQuizList[currentMcqIndex]; if(!q)return;
-      if(!authToken){window.location.replace('/landing.html');return;}
+      if(!authToken){window.location.replace('/landing.html' + (new URLSearchParams(window.location.search).get('sjnPhase4Preview') === '1' ? '?sjnPhase4Preview=1' : ''));return;}
       try { const r=await api('/bookmarks/toggle',{method:'POST',body:{mcqId:q.id}}); const idx=bookmarkedMcqs.findIndex(id=>String(id)===String(q.id)); if(r.bookmarked){if(idx<0)bookmarkedMcqs.push(q.id)}else if(idx>=0)bookmarkedMcqs.splice(idx,1); updateBookmarkButton(); } catch(e){alert(e.message);}
     };
 
@@ -3110,7 +3110,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     let savingAttempt = false;
     window.finishQuiz = async function() {
       if (savingAttempt) return; // Multiple Next/timer events must not double-save.
-      if (!authToken || !currentUser) { window.location.replace('/landing.html'); return; }
+      if (!authToken || !currentUser) { window.location.replace('/landing.html' + (new URLSearchParams(window.location.search).get('sjnPhase4Preview') === '1' ? '?sjnPhase4Preview=1' : '')); return; }
       if (!currentQuizList.length) return;
       savingAttempt = true;
       const expectedStudentId = currentUser.id;
@@ -3156,7 +3156,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
 
     window.sendAiDoubt = async function(){
       const input=document.getElementById('ai-input-text'); const query=input.value.trim(); if(!query)return;
-      if(!authToken){window.location.replace('/landing.html');return;}
+      if(!authToken){window.location.replace('/landing.html' + (new URLSearchParams(window.location.search).get('sjnPhase4Preview') === '1' ? '?sjnPhase4Preview=1' : ''));return;}
       const history=document.getElementById('ai-chat-history'); const u=document.createElement('div'); u.className='bg-zinc-800 p-3 rounded-xl text-gray-100 text-right font-medium'; u.innerHTML=`🙋‍♂️ <strong>You:</strong> ${escapeHtml(query)}`; history.appendChild(u); input.value='';
       const a=document.createElement('div'); a.className='bg-purple-950/40 border border-purple-800/40 p-3 rounded-xl text-purple-100 space-y-1'; a.innerHTML='🤖 <strong>SJN AI Tutor:</strong><br><span>Thinking...</span>'; history.appendChild(a);
       try { const data=await api('/ai/tutor',{method:'POST',body:{prompt:query}}); a.innerHTML=`🤖 <strong>SJN AI Tutor:</strong><br><span class="leading-relaxed whitespace-pre-wrap">${escapeHtml(data.answer)}</span>`; } catch(e){a.innerHTML=`🤖 <strong>SJN AI Tutor:</strong><br><span class="text-red-300">${escapeHtml(e.message)}</span>`;}
@@ -3166,7 +3166,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     window.addEventListener('storage', event => {
       if (event.key === 'sjn_logout_event') {
         coverPrivateWorkspace();
-        window.location.replace('/landing.html');
+        window.location.replace('/landing.html' + (new URLSearchParams(window.location.search).get('sjnPhase4Preview') === '1' ? '?sjnPhase4Preview=1' : ''));
       }
     });
 

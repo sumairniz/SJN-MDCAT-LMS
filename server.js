@@ -150,6 +150,20 @@ function publicMcq(row) {
 // System Endpoints
 app.get('/api/health', (req, res) => res.json({ ok: true, service: 'SJN MDCAT LMS Pro - Supabase Cloud' }));
 
+// TEMP-P4-007: preview-only nonsecret deployment and live MCQ count diagnostics.
+app.get('/api/preview-status', async (req, res) => {
+  if (process.env.VERCEL_ENV !== 'preview') return res.status(404).end();
+  res.set('Cache-Control', 'no-store');
+  try {
+    const { count, error } = await supabase.from('mcqs').select('id', { head: true, count: 'exact' });
+    if (error || !Number.isSafeInteger(count)) throw new Error('MCQ count unavailable');
+    const sha = String(process.env.VERCEL_GIT_COMMIT_SHA || '');
+    const project = new URL(SUPABASE_URL).hostname.match(/^([a-z0-9-]+)\.supabase\.co$/)?.[1] || null;
+    res.json({ environment: 'preview', commit: /^[a-f0-9]{40}$/.test(sha) ? sha : null,
+      project, mcqCount: count });
+  } catch (_) { res.status(503).json({ error: 'Preview verification unavailable.' }); }
+});
+
 // Fetch content from persistent Supabase tables
 app.get('/api/content', async (req, res) => {
   try {

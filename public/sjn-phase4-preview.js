@@ -119,6 +119,37 @@
   if (!workspace) return;
   workspace.insertAdjacentHTML('beforeend', html);
   const stage = $('sjn-exam-preview');
+  // TEMP-P4-007: visual and database changes can be verified against the deployed commit.
+  function showBuildVerification() {
+    const targets = ['module-dashboard', 'module-wizard'].map(id => {
+      const area = $(id);
+      if (!area) return null;
+      const label = document.createElement('p');
+      label.style.cssText = 'padding:8px 12px;margin:0 0 12px;border:1px solid #52525b;border-radius:8px;background:#18181b;color:#d4d4d8;font-size:11px;font-weight:600;line-height:1.5;overflow-wrap:anywhere';
+      label.setAttribute('role', 'status');
+      label.textContent = 'STAGING PREVIEW · Checking deployed build and database…';
+      area.prepend(label);
+      return label;
+    }).filter(Boolean);
+    const display = (message, warn) => targets.forEach(label => {
+      label.textContent = message; label.style.color = warn ? '#fcd34d' : '#d4d4d8';
+    });
+    fetch('/api/preview-status', { cache: 'no-store', credentials: 'same-origin' })
+      .then(async r => { if (!r.ok) throw new Error('Status failed'); return r.json(); })
+      .then(s => {
+        if (s.environment !== 'preview' || !Number.isSafeInteger(s.mcqCount)) throw new Error('Invalid status');
+        if (s.project !== 'aozknkrwafowsrehdwlr') {
+          display('STAGING PREVIEW · WRONG DATABASE — DO NOT TEST', true); return;
+        }
+        const commit = /^[a-f0-9]{40}$/.test(s.commit || '') ? s.commit.slice(0, 8) : 'unavailable';
+        display('STAGING PREVIEW · Commit ' + commit + ' · Supabase ' + s.project +
+          ' · ' + s.mcqCount + ' MCQs' + (commit === 'unavailable' ? ' · BUILD NOT VERIFIED' : ''),
+          commit === 'unavailable');
+      })
+      .catch(() => display('STAGING PREVIEW · Build/database verification unavailable; do not approve technical tests', true));
+  }
+  showBuildVerification();
+
   const numeric = (value) => String(Math.max(0, value)).padStart(2, '0');
   const clock = (seconds) => numeric(Math.floor(seconds / 60)) + ':' + numeric(seconds % 60);
   const isMobile = () => window.matchMedia('(max-width: 767px)').matches;
