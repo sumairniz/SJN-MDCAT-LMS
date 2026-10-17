@@ -5,6 +5,10 @@
 **Status:** READ-ONLY FINDINGS + ENGINEERING PROPOSAL. **NO migration, INSERT, UPDATE, DELETE, auth policy change or production action approved.**  
 **Related:** [Future Question Banks and Create Test](SJN-FUTURE-QUESTION-BANKS-AND-CREATE-TEST.md), [Blueprint v1.3](SJN-PHASE4-INTERFACE-BLUEPRINT-v1.3.md), [Temporary Change Register](SJN-TEMPORARY-CHANGE-REGISTER.md).
 
+## 2026-10-17 — Staging 74-question data verified after owner approval, no import performed
+
+Staging currently holds **74 MCQs** matching 74 source records exactly across all 11 original fields with **0 mismatches**. Earlier snapshot in this document (0 MCQs) is a historical observation and has changed. Preflight detected existing rows, so the approved import did not run and no data was overwritten. Sequence last value 74; test attempts 37 unchanged. **How/when/by whom 74 rows were inserted is unverified.** See [74-MCQ Staging Migration Plan](SJN-74-MCQ-STAGING-MIGRATION-PLAN.md) for the detailed verification outcome, remaining staging browser acceptance and previous contingency plan.
+
 ## 2026-10-17 — exact 74-question import strategy documented, staging write NOT authorized
 
 See [74-MCQ Staging Migration Plan](SJN-74-MCQ-STAGING-MIGRATION-PLAN.md) for the source-to-database field mapping, original source fingerprint, 1–74 stable IDs, atomic import, checks and rollback. **Critical:** after any nonempty DB return, current `loadContent()` automatically replaces the inline question array, so incomplete uploads would be visible to testers. This design work is documentation-only; migration awaits separate approval.

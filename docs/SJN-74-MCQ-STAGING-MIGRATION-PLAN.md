@@ -5,6 +5,22 @@
 **Audited source code:** Development branch `sjn-phase1a-foundation`, commit `5aee094f718c955aa055cb7751edb2d7c9b372f6`. Always reverify HEAD before execution.  
 **Authorized review scope:** Staging Supabase project `aozknkrwafowsrehdwlr`; production Supabase `yapvnevvjfewvafbjcgc` and `main` are strictly out of scope.
 
+## 2026-10-17 — Approved staging import request: pre-existing data, FULL PARITY VERIFIED (NO INSERT PERFORMED)
+
+**User approval:** Owner authorized only the staging import of the original 74 Biology MCQs, preserving IDs/content and performing verification. This approval does not permit production, testing history deletion, schema redesign, or quiz UI changes.
+
+**Unexpected preflight observation:** On preflight, staging `public.mcqs` ALREADY contained **74 rows**, IDs 1–74. Prior read-only snapshot from earlier this date reported zero. **The insertion occurred before this execution, through an unknown actor or path. We did NOT execute an import/INSERT/UPDATE/DELETE or claim credit for the insertion.** Two tracked staging migrations remain: `20261012215543_create_staging_lms_schema_and_rls` and `20261012221323_restrict_staging_signup_trigger_execution`; no separate database migration for this import was listed. Do not infer who uploaded the questions.
+
+**Verification performed:** Re-fetched `public/index.html` from branch HEAD `ab037208ae340c5bf73f2630758a55df2f621786`, extracted the original inline array without editing it, and confirmed the established literal FNV1a64 checksum `a2e57e72716394e8`. It parsed **74** original question records with unique IDs 1–74, required original eleven fields, four answer options and valid correct indices. A read-only SELECT retrieved all **74 existing staging MCQs** and compared every source property against its DB field: `id`, `bank`, `subject`, `chapter`, `topic`, `source`, `question`, `options` ↔ `options_json`, `correctIndex` ↔ `correct_index`, `explanation`, `mnemonic`. Result: **74/74 exact matches, zero mismatches, zero missing, zero extras**. This establishes data-content parity, not the origin of the unexpected import.
+
+**Additional read-only checks:** `pg_get_serial_sequence('public.mcqs','id')` returns `public.mcqs_id_seq`; `pg_sequences.last_value=74`, which is consistent with assigning 75 for the next identity-generated insert under normal conditions (not a guarantee against concurrent writes). `public.attempts` remains **37**, `public.bookmarks` **0**. All source question data is still present in the website code. Staging Vercel branch's last checked deployment for code commit `ab037208ae340c5bf73f2630758a55df2f621786` showed **READY**; this is deployment status, not independent authenticated/mobile E2E test success.
+
+**Outcome:** Intended 74-question data presence and exact parity achieved already; **do not run another import**. No rollback is needed. The detailed import algorithm in this document is retained as the *proposed contingency* for a future fresh environment and should not be mistaken for an executed migration.
+
+**Pending quality gate:** Confirm via owner/browser testing of staging Create Test → Tutor/Timed → results and Phase 4 opt-in, since the remote bank is now nonempty and `loadContent()` uses it. No claim of manual browser acceptance, authoritatively timed deploy, or end-to-end student-account isolation testing has been made by this check. Later Stage 3B per-question attempt persistence still needs a new explicitly approved design/implementation scope.
+
+**Security/release boundary:** No app code, staging DB records/config, GitHub `main`, production Supabase or production Vercel modified. The only committed change from this verification is documentation of observed results.
+
 ## Product rules that affect data modeling
 
 - An ordinary question belongs to **either Past Papers Question Bank or SJN Question Bank, never both**. A single `mcqs` table with exactly one `bank` field per record is consistent with that rule; a dual-bank membership/junction system is not required. Future admin-controlled duplicate detection rules can be added without requiring one table per bank.

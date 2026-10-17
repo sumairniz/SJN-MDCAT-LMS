@@ -7,6 +7,12 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-17 — 74-MCQ staging parity VERIFIED; approved import unnecessary
+
+- Owner approved the atomic migration of 74 original Biology MCQs to **staging only**. The preflight found that staging `public.mcqs` already had 74 rows with IDs 1–74, unlike the previous read-only snapshot reporting 0. **The actor/method responsible for this pre-existing import is unknown and no new insert was attempted.**
+- Source bank fingerprint `a2e57e72716394e8` verified; each of 74 existing staging records matched original source on **all 11 fields** including options and answer key. **No mismatch, missing record or extra record.** Identity sequence at 74, test attempts still 37, marks 0. No source, database, environment or production modifications during verification.
+- Deployment at the documentation-before-verification branch head `ab037208ae340c5bf73f2630758a55df2f621786` was checked as READY; this is **not** a substitute for owner/browser validation of Create Test, Tutor/Timed and Phase 4 opt-in. [Detailed Staging Verification Report](SJN-74-MCQ-STAGING-MIGRATION-PLAN.md). Stop: do not import duplicate 74. Next ask the owner to test the existing bank-backed staging quiz or separately authorize further technical implementation.
+
 ## 2026-10-17 — Future filter choices and 74-question staging import checkpoint
 
 - Owner's **future** Create Practice Quiz direction: Unused selected by default, Used/Incorrect/Marked selectable together, including all four. Exact filter algebra/UX deferred until after per-student question history. No wizard change now.
