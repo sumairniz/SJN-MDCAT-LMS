@@ -7,6 +7,13 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-18 — Stage 3B-2 authorized: atomic server-graded submission rollout
+
+- Owner authorized starting secure Stage 3B-2 on development branch, retaining the approved exam/results UI, 74 MCQs, 39 legacy summaries and 2 marks; production untouched. Designed a **staging-first additive** `SECURITY DEFINER` RPC `public.sjn_submit_practice_attempt` in [versioned migration](../database/migrations/20261018_stage3b_atomic_practice_submission.sql), using the authenticated JWT, validation, immutable current revision keys, single-transaction summary+ordered item inserts, server-grade score, rate limits and idempotency key/fingerprint with same-student serialization.
+- **Security limits retained as explicit blockers:** Current `/api/attempts` and direct authenticated `attempts` DML remain possible until the new client is deployed and tested. The public ordinary practice `/api/content` still serves answer keys, so this is score-authority work, **not** anti-cheating protection for future premium mocks. RPC accepts a valid Supabase JWT independently of the application's 24-hour signed cookie; the app HTTP endpoint checks both. Further hardened database privilege and session policy needs separate review.
+- **Rollout protocol:** add the RPC first in staging; verify its catalog grants without writing synthetic student attempts; then commit and test backend/quiz UI against the RPC and staging. Tighten legacy route and direct attempts grants only after acceptance with a separately audited compatibility migration. Avoid temporary shadow writers or dual saving.
+- Document actual SQL result, CI and user acceptance with factual evidence, not presumptions.
+
 ## 2026-10-18 — Stage 3B-1 executed on staging and VERIFIED
 
 - Owner explicitly authorized executing the reviewed additive Stage 3B-1 SQL against staging `aozknkrwafowsrehdwlr` only. Disposable testing accounts/history remain untouched; the owner requires a professional, production-ready design and requested confirmation before any resets.
