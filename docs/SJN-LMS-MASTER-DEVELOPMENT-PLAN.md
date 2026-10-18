@@ -7,6 +7,12 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-18 — Stage 3B-1 staging execution: SQL preflight syntax correction
+
+- **OWNER AUTHORIZED** applying the Stage 3B-1 additive migration to staging project `aozknkrwafowsrehdwlr` only; expressly preserve durable production-quality design and ask before deleting disposable testing data.
+- First `apply_migration` call was rejected with PostgreSQL syntax error `42601` due to an extra closing parenthesis in the original MCQ preflight condition. A post-error check showed the original **7 public tables, 74 MCQs, 39 attempts and 2 bookmarks**, with no new tables or recorded migration. No reset or destructive operation occurred.
+- Corrected the exact extra parenthesis in version-controlled SQL, added a static regression assertion, and will retry **the same approved, staging-only operation** after the correction is committed. Record actual result separately; never claim migration success until checked.
+
 ## 2026-10-18 — Owner-approved Stage 3B architecture, SQL prepared but NOT applied
 
 - **Owner APPROVED** the long-term Stage 3B architecture of immutable `mcq_revisions` and ordered, per-user `attempt_items`; this is **not** separate permission to run SQL or update application code. Existing owner goal: robust permanent LMS that never ships temporary scaffolding into production.

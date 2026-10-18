@@ -43,3 +43,8 @@ test("Stage 3B proposal scopes student reads without breaking the current legacy
   assert.doesNotMatch(sql, /TRUNCATE\s+/i);
   assert.doesNotMatch(sql, /DELETE\s+FROM\s+public\.(?:attempts|mcqs|bookmarks)/i);
 });
+
+test("preflight remains correctly parenthesized after Stage 3B syntax fix", () => {
+  assert.match(sql, /jsonb_array_length\(options_json\) <> 4 ELSE TRUE END\)/);
+  assert.doesNotMatch(sql, /jsonb_array_length\(options_json\) <> 4 ELSE TRUE END\)\)/);
+});

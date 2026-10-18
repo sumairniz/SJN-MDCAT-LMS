@@ -24,7 +24,7 @@ BEGIN
        OR chapter IS DISTINCT FROM 'Biological Molecules'
        OR correct_index NOT BETWEEN 0 AND 3
        OR CASE WHEN jsonb_typeof(options_json) = 'array'
-         THEN jsonb_array_length(options_json) <> 4 ELSE TRUE END))
+         THEN jsonb_array_length(options_json) <> 4 ELSE TRUE END)
   THEN
     RAISE EXCEPTION 'Stage 3B aborted: original MCQ identities/content changed';
   END IF;
