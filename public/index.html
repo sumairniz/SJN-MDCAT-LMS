@@ -1852,6 +1852,10 @@
         mnemonic: 'Proteins + Carbohydrates = Glycoproteins!'
       }
     ];
+    // Original 74-question source is retained byte-for-byte for migration
+    // auditing only. Active practice MUST load published, versioned Supabase
+    // records. Never silently use this inline archive as a fallback.
+    mcqQuestionBank = [];
 
     // 2. COURSES ARRAY
     let customCourses = [];
@@ -2246,6 +2250,13 @@
     }
 
     function launchGeneratedQuiz() {
+      // Do not start a test that cannot be saved with permanent revision IDs.
+      // Tutor and Timed modes use the same database-only preflight.
+      if (!remoteContentLoaded || !mcqQuestionBank.length ||
+          mcqQuestionBank.some(q => !Number.isSafeInteger(q.revisionId) || q.revisionId < 1)) {
+        alert('Database questions are not ready. Please use Retry loading questions on your Dashboard or Create Test page.');
+        return;
+      }
       const pool = getFilteredQuestionPool();
       if (!pool.length) {
         alert('No MCQs match your selected subjects/chapters/topics. Please broaden your selection or add questions to the bank.');
@@ -2556,25 +2567,11 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       const type = document.getElementById('admin-content-type').value;
 
       if (type === 'mcq') {
-        const newMcq = {
-          id: mcqQuestionBank.length + 1,
-          bank: document.getElementById('mcq-bank-input').value,
-          subject: document.getElementById('mcq-subj-input').value,
-          chapter: document.getElementById('mcq-chapter-input').value || 'Chapter 1',
-          topic: 'General Topic',
-          question: document.getElementById('mcq-stmt-input').value || 'Sample Question',
-          options: [
-            document.getElementById('mcq-opt0').value || 'Option A',
-            document.getElementById('mcq-opt1').value || 'Option B',
-            document.getElementById('mcq-opt2').value || 'Option C',
-            document.getElementById('mcq-opt3').value || 'Option D'
-          ],
-          correctIndex: parseInt(document.getElementById('mcq-correct-idx').value) || 0,
-          explanation: document.getElementById('mcq-exp-input').value || 'Explanation'
-        };
-        mcqQuestionBank.push(newMcq);
-        localStorage.setItem('sjn_mcqQuestionBank', JSON.stringify(mcqQuestionBank));
-        alert("MCQ added successfully to Question Bank!");
+        // The old development form only edited this browser's memory, creating
+        // unsavable questions with no DB revision. Publishing belongs to the
+        // future authenticated, role-enforced Admin Panel.
+        alert('MCQ publishing is not available in this development form. Authorized admins will publish questions through the secure Admin Panel.');
+        return;
       } else if (type === 'course') {
         const newCourse = {
           title: document.getElementById('course-title-input').value || 'New MDCAT Course',
@@ -3001,10 +2998,54 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       }
     }
 
+    // This is a permanent fail-closed load state, not a staging bypass.
+    // A failed or incomplete bank response must never fall back to stale HTML.
+    let questionBankLoading = false;
+    function setQuestionBankLoadNotice(unavailable) {
+      for (const moduleName of ['dashboard', 'wizard']) {
+        const host = document.getElementById('module-' + moduleName);
+        if (!host) continue;
+        let notice = host.querySelector('.sjn-question-bank-unavailable');
+        if (!unavailable) {
+          if (notice) notice.remove();
+          continue;
+        }
+        if (notice) continue;
+        notice = document.createElement('section');
+        notice.className = 'sjn-question-bank-unavailable rounded-xl border border-amber-700 bg-amber-950/30 p-4 text-sm text-amber-200 space-y-2';
+        notice.setAttribute('role', 'alert');
+        const message = document.createElement('p');
+        message.textContent = 'Questions could not be verified from the database. A test will not start until valid questions load.';
+        const retry = document.createElement('button');
+        retry.type = 'button';
+        retry.className = 'rounded-lg border border-amber-500 px-3 py-2 text-xs font-bold hover:bg-amber-900';
+        retry.textContent = 'Retry loading questions';
+        retry.addEventListener('click', () => { void loadContent(); });
+        notice.append(message, retry);
+        host.prepend(notice);
+      }
+    }
+
     async function loadContent() {
+      if (questionBankLoading) return;
+      questionBankLoading = true;
+      remoteContentLoaded = false;
+      mcqQuestionBank = [];
       try {
         const data = await api('/content');
-        if (Array.isArray(data.mcqs) && data.mcqs.length > 0) mcqQuestionBank = data.mcqs;
+        const rows = data?.mcqs;
+        const valid = Array.isArray(rows) && rows.length > 0 && rows.every(q =>
+          Number.isSafeInteger(q.id) && q.id > 0 &&
+          Number.isSafeInteger(q.revisionId) && q.revisionId > 0 &&
+          typeof q.bank === 'string' && q.bank.length > 0 &&
+          typeof q.subject === 'string' && q.subject.length > 0 &&
+          typeof q.question === 'string' && q.question.length > 0 &&
+          Array.isArray(q.options) && q.options.length === 4 &&
+          q.options.every(opt => typeof opt === 'string' && opt.trim().length > 0) &&
+          Number.isInteger(q.correctIndex) && q.correctIndex >= 0 && q.correctIndex < 4
+        ) && new Set(rows.map(q => q.id)).size === rows.length;
+        if (!valid) throw new Error('Published database questions are missing or have invalid revision metadata');
+        mcqQuestionBank = rows;
         customCourses = Array.isArray(data.courses) ? data.courses : [];
         pastPapersList = Array.isArray(data.pastPapers) ? data.pastPapers : [];
         window.sjnResources = Array.isArray(data.resources) ? data.resources : [];
@@ -3012,9 +3053,16 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         wizardSelection.selectedSubjects = getAvailableSubjects();
         wizardSelection.subject = wizardSelection.selectedSubjects.length === 1 ? wizardSelection.selectedSubjects[0] : 'All Subjects';
         remoteContentLoaded = true;
+        setQuestionBankLoadNotice(false);
         renderCoursesModule(); renderPastPapersModule(); renderResourcesModule(); renderSubjectChoices(); updateWizardAvailableCount();
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+        remoteContentLoaded = false;
+        mcqQuestionBank = [];
+        updateWizardAvailableCount();
+        setQuestionBankLoadNotice(true);
+        console.warn('Verified question bank unavailable:', error);
+      } finally {
+        questionBankLoading = false;
       }
     }
 

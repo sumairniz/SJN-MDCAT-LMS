@@ -50,9 +50,13 @@ test('Phase 4: original 74 Biology questions remain byte-identical to the accept
   for (let id = 1; id <= 74; id++) assert.ok(ids.has(id), 'Original MCQ ID missing: ' + id);
 });
 
-test('Phase 4: empty asynchronous Supabase MCQ list cannot overwrite the original questions', () => {
-  assert.match(dashboard, /Array\.isArray\(data\.mcqs\)\s*&&\s*data\.mcqs\.length\s*>\s*0\)\s*mcqQuestionBank\s*=\s*data\.mcqs/,
-    'The LMS must preserve the original bank when the staging mcqs table is empty');
+test('Phase 4: preserve the original source text but never use unsavable HTML as active quiz fallback', () => {
+  assert.match(dashboard, /mcqQuestionBank = \[\];\s*\/\/ 2\. COURSES ARRAY/);
+  assert.match(dashboard, /remoteContentLoaded = false;\s*mcqQuestionBank = \[\];/);
+  assert.match(dashboard, /!remoteContentLoaded \|\| !mcqQuestionBank\.length/);
+  assert.match(dashboard, /setQuestionBankLoadNotice\(true\)/);
+  assert.match(dashboard, /Retry loading questions/);
+  assert.doesNotMatch(dashboard, /mcqQuestionBank\.push\(newMcq\)/);
 });
 
 test('Phase 4: existing finished attempts remain server-owned and student-scoped', () => {
@@ -62,4 +66,12 @@ test('Phase 4: existing finished attempts remain server-owned and student-scoped
   assert.match(server, /app\.post\('\/api\/attempts',\s*auth/);
   assert.match(server, /user_id:\s*req\.user\.id/);
   assert.match(server, /X-SJN-Expected-Student/);
+});
+
+test('Phase 4: server rejects failed MCQ queries and missing published revision references', () => {
+  const server = fs.readFileSync(path.join(__dirname, '..', 'server.js'), 'utf8');
+  assert.match(server, /data: mcqs, error: mcqError/);
+  assert.match(server, /if \(mcqError \|\| !Array\.isArray\(mcqs\)/);
+  assert.match(server, /q\.current_revision_id/);
+  assert.match(server, /Failed to fetch content from database/);
 });

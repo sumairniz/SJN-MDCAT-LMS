@@ -169,16 +169,24 @@ app.get('/api/preview-status', async (req, res) => {
 // Fetch content from persistent Supabase tables
 app.get('/api/content', async (req, res) => {
   try {
-    const [{ data: mcqs }, { data: courses }, { data: pastPapers }, { data: resources }] = await Promise.all([
+    const [{ data: mcqs, error: mcqError }, { data: courses }, { data: pastPapers }, { data: resources }] = await Promise.all([
       supabase.from('mcqs').select('*').order('id'),
       supabase.from('courses').select('*').order('id'),
       supabase.from('past_papers').select('*').order('year', { ascending: false }),
       supabase.from('resources').select('*').order('id', { ascending: false })
     ]);
 
+    // Do not convert a Supabase error to an apparently valid empty bank,
+    // or return published questions without the current grading revision.
+    if (mcqError || !Array.isArray(mcqs) ||
+        mcqs.some(q => !Number.isSafeInteger(Number(q.current_revision_id)) ||
+                       Number(q.current_revision_id) < 1)) {
+      throw new Error('Published question bank or revision lookup failed');
+    }
+    res.set('Cache-Control', 'no-store');
     res.json({
-      banks: ['Past Papers Question Bank'],
-      mcqs: (mcqs || []).map(publicMcq),
+      banks: [...new Set(mcqs.map(q => q.bank))],
+      mcqs: mcqs.map(publicMcq),
       courses: (courses || []).map(r => ({ ...r, chapters: r.chapters_json || [] })),
       pastPapers: (pastPapers || []).map(r => ({ ...r, mcqIds: r.mcq_ids_json || [] })),
       resources: resources || []
