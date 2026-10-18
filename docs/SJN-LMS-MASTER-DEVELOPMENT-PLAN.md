@@ -7,6 +7,13 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-18 — Stage 3B-2 rollback-only integration test caught a PostgreSQL ambiguity
+
+- CI on feature code `4d9cc67` initially failed **three old contract assertions** tied to `window.finishQuiz()` and the old summary-only return; no runtime question-loss issue was identified. Updated tests in commit `39fe964`; both GitHub workflows passed. New staging deployment READY.
+- **Rollback-only test of newly installed RPC** using an existing staging test identity and 3 original MCQs failed with PostgreSQL `42702`: unqualified `attempt_id` in an `INSERT INTO attempt_items ... SELECT count(*)` subquery conflicts with the `RETURNS TABLE attempt_id` PL/pgSQL output argument. The function call rolled back completely; read-only counts immediately after showed **39 attempts, 0 attempt items, 74 MCQs, 74 MCQ revisions**, unchanged.
+- Corrective SQL is a **new forward migration** `database/migrations/20261018_stage3b_submission_attempt_id_qualification.sql`, keeping the original historical applied migration intact; it changes the subquery to `FROM public.attempt_items AS i WHERE i.attempt_id = v_attempt_id`. Revalidate in rollback-only database test after applying the correction; do not declare historical submission active until verified.
+- No production modifications, student-history deletions, temporary workarounds or original question edits. This entry documents the failure so future developers do not repeat it.
+
 ## 2026-10-18 — Stage 3B-2 implementation and RPC staging deployment (owner authorized)
 
 - Owner approved Stage 3B-2: permanent question-level submission and authoritative scoring on the development branch / staging Supabase only; no production, history reset or untracked temporary features.
