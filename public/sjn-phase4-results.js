@@ -250,10 +250,38 @@
     Promise.resolve(savePromise).then(outcome => {
       if (!visible) return;
       const confirmed = outcome && outcome.saved === true && outcome.id;
+      const mismatch = confirmed && (
+        outcome.total !== report.total ||
+        outcome.correct !== report.correct ||
+        outcome.incorrect !== report.incorrect ||
+        outcome.skipped !== report.skipped
+      );
+      if (mismatch) {
+        // Never present a provisional browser-calculated result as the
+        // authoritative saved score. The database result always wins.
+        const serverPercent = Math.round(outcome.accuracy);
+        $('sjn-results-score').textContent = outcome.correct + ' / ' + outcome.total;
+        $('sjn-results-correct').textContent = String(outcome.correct);
+        $('sjn-results-incorrect').textContent = String(outcome.incorrect);
+        $('sjn-results-skipped').textContent = String(outcome.skipped).padStart(2, '0');
+        $('sjn-results-accuracy').textContent = serverPercent + '%';
+        $('sjn-results-ring-svg').setAttribute('aria-label', 'Accuracy: ' + serverPercent + ' percent');
+        ring.className = 'sjn-results-ring is-' + accuracyBand(serverPercent);
+        const serverDash = String(CIRCUMFERENCE * serverPercent / 100) + ' ' + String(CIRCUMFERENCE);
+        for (const id of ['sjn-results-ring-progress', 'sjn-results-ring-braid', 'sjn-results-ring-glow']) {
+          $(id).style.strokeDasharray = serverDash;
+        }
+        $('sjn-results-insights').open = false;
+        $('sjn-results-insights').hidden = true;
+      } else {
+        $('sjn-results-insights').hidden = false;
+      }
       status.className = 'sjn-results-save ' + (confirmed ? 'is-saved' : 'is-error');
-      status.textContent = confirmed
-        ? 'Saved to your Test History.'
-        : 'Saving could not be confirmed. Check Test History before trying again.';
+      status.textContent = !confirmed
+        ? 'Saving could not be confirmed. Check Test History before trying again.'
+        : mismatch
+          ? 'Saved with database-verified score. Provisional insights were hidden because the local calculation differed.'
+          : 'Saved with database-verified answers to your Test History.';
     }).catch(() => {
       if (!visible) return;
       status.className = 'sjn-results-save is-error';

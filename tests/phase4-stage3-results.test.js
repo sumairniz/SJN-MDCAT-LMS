@@ -27,7 +27,7 @@ test('Stage 3A source parses and remains opt-in with no production navigation ch
   assert.match(dashboard, /sjn-phase4-results.css/);
   assert.match(dashboard, /sjn-phase4-results.js/);
   assert.match(examJs, /window\.SJNPhase4Results\.show\(snapshot, savePromise\)/);
-  assert.match(examJs, /window\.finishQuiz\(\)/);
+  assert.match(examJs, /window\.finishQuiz\(\{ elapsedSeconds: snapshot\.elapsedSeconds \}\)/);
 });
 
 test('Correct/incorrect/skipped and accuracy use actual variable test sizes', () => {

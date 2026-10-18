@@ -414,7 +414,7 @@
       elapsedSeconds: Math.max(0, Math.floor((Date.now() - state.startedAt) / 1000))
     };
     // Preserve the original authenticated save path, student-ID and 24-hour checks.
-    const savePromise = window.finishQuiz();
+    const savePromise = window.finishQuiz({ elapsedSeconds: snapshot.elapsedSeconds });
     if (window.SJNPhase4Results) window.SJNPhase4Results.show(snapshot, savePromise);
     Promise.resolve(savePromise).finally(() => { state.ending = false; });
   }

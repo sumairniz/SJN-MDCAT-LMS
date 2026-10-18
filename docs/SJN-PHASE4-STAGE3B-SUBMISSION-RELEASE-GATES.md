@@ -1,0 +1,22 @@
+# SJN Stage 3B-2 — Server-graded atomic submission implementation and safety gates
+
+**Status:** RPC installed in staging and development code prepared; automated CI and real student browser acceptance are separately tracked.  
+**Environment:** Only `sjn-phase1a-foundation` / Supabase staging `aozknkrwafowsrehdwlr`; production is out of scope.  
+**Migration registry:** `20261018133942_stage3b_atomic_practice_submission` (applied).  
+**Versioned SQL:** [Atomic Submission Migration](../database/migrations/20261018_stage3b_atomic_practice_submission.sql).
+
+## Permanent design
+The normal practice API reads current question revision IDs from `mcqs`, then sends a stable submission UUID, ordered `mcqId/revisionId/selectedIndex`, title, selected mode, subject, selection and elapsed time. The authenticated server validates the signed 24-hour cookie, bearer token and expected student identity. PostgreSQL verifies ownership, grades from immutable current revision keys and atomically inserts one summary + ordered items; unique submission keys and fingerprints prevent duplicate saves or changed-answer retries. All old and approved Phase 4 quiz routes use the same saver; no extra browser cache or temporary dual writer.
+
+The database routine enforces student identity under PostgREST JWT but can also be called directly by an authenticated Supabase token: **the 24-hour application cookie guard applies to `/api/practice/submit`, not necessarily direct RPC calls**. Review before a premium-exam threat model.
+
+## Verify
+- **Source preservation:** original inline 74 MCQs remain byte-identical; the existing Phase 4 preservation test guards them.
+- **Unit tests:** reject missing UUID, selected-index out of range, duplicate MCQs, forged `correct`, missing/extra fields, wrong user, and conflicting retry. Confirm server scores from mocked DB response and forwards authenticated JWT.
+- **Live database:** verify RPC EXECUTE granted to authenticated, not anon; verify migration registry and existing 74 MCQs, 74 revisions, 39 historic summaries, 2 bookmarks and unchanged old history before making student test attempts.
+- **Actual student A/B E2E:** create a small quiz with Correct/Incorrect/Skipped, submit once; inspect returned score, `details_version=1`, ordered `attempt_items`, and per-user History, then retry same key and ensure one attempt. Verify a separate student cannot read or modify it. Use only dedicated test accounts with owner approval.
+- **Browser regression:** fresh-login and returning sessions both open Phase 4 on dedicated staging host; timed and tutor still work; last item Finish and Submit still reach approved result; incorrect-mismatch hides unverified insights; no scores added twice; session expiry and account switch fail closed.
+- **Release gate:** **DO NOT MERGE** yet. Existing `/api/attempts` still lets clients submit scores and old authenticated DML grants remain in Supabase. These must be replaced/revoked after successful new-path E2E; preserve legitimate old summaries and student data. No Review/Retake UI activated.
+
+## Failure and rollback
+If saving fails, the UI must never say it was saved; it tells the student to check History. If the backend receives an invalid question revision, the RPC rejects the full transaction. Avoid removing historical rows after data is written; use forward-compatible SQL to fix defects. The migration's SQL file and staged commits remain the permanent handover, not untracked SQL.

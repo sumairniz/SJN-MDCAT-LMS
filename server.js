@@ -3,6 +3,7 @@ const crypto = require('node:crypto');
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const { createClient } = require('@supabase/supabase-js');
+const { validatePracticeSubmission } = require('./lib/practice-submission');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -143,6 +144,7 @@ function publicMcq(row) {
   return {
     id: row.id, bank: row.bank, subject: row.subject, chapter: row.chapter || '', topic: row.topic || '',
     question: row.question, options: row.options_json, correctIndex: row.correct_index,
+    revisionId: row.current_revision_id ?? null,
     explanation: row.explanation || '', mnemonic: row.mnemonic || '', source: row.source || ''
   };
 }
@@ -334,6 +336,47 @@ app.get('/api/history', auth, async (req, res) => {
     res.json({ userId: req.user.id, attempts: data || [] });
   } catch (e) {
     res.status(500).json({ error: 'Failed to load test history.' });
+  }
+});
+
+// Stage 3B-2: PostgreSQL scores the immutable current revisions and saves
+// both the summary and ordered question history as one atomic transaction.
+app.post('/api/practice/submit', auth, async (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  const expectedStudentId = req.get('X-SJN-Expected-Student');
+  if (!expectedStudentId || expectedStudentId !== req.user.id)
+    return res.status(409).json({ error: 'Active student changed. Reload before submitting.' });
+  const payload = validatePracticeSubmission(req.body);
+  if (!payload) return res.status(400).json({ error: 'Invalid practice submission. Nothing was saved.' });
+  try {
+    const { data, error } = await req.db.rpc('sjn_submit_practice_attempt', {
+      p_submission_key: payload.submissionKey,
+      p_items: payload.items,
+      p_title: payload.title,
+      p_mode: payload.mode,
+      p_subject: payload.subject,
+      p_selection: payload.selection,
+      p_elapsed_seconds: payload.elapsedSeconds
+    });
+    if (error) {
+      if (error.code === '23505') return res.status(409).json({ error: 'Submission key conflict. Check Test History before trying again.' });
+      if (error.code === '28000') return res.status(401).json({ error: 'Session expired. Please sign in again.' });
+      if (error.code === '22023') return res.status(400).json({ error: 'Invalid or unavailable practice questions.' });
+      throw error;
+    }
+    const saved = Array.isArray(data) ? data[0] : data;
+    const id = Number(saved?.attempt_id), total = Number(saved?.total_questions);
+    const correct = Number(saved?.correct_answers), incorrect = Number(saved?.incorrect_answers),
+      skipped = Number(saved?.skipped_answers), accuracy = Number(saved?.accuracy_percent);
+    if (!Number.isSafeInteger(id) || id < 1 || total !== payload.items.length ||
+      ![correct,incorrect,skipped].every(n => Number.isSafeInteger(n) && n >= 0) ||
+      correct + incorrect + skipped !== total || !Number.isFinite(accuracy) ||
+      accuracy < 0 || accuracy > 100) throw new Error('Unexpected trusted grading response');
+    res.json({ saved: true, id, total, correct, incorrect, skipped, accuracy,
+      alreadySaved: saved.already_saved === true });
+  } catch (e) {
+    console.error('Verified practice submit failed:', e?.code || e?.message || 'unknown');
+    res.status(503).json({ error: 'Saving could not be verified. Check Test History before retrying.' });
   }
 });
 

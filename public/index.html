@@ -1929,6 +1929,10 @@
     let currentQuizList = [];
     let currentMcqIndex = 0;
     let userAnswers = [];
+    // One permanent submission key per generated test, reused for network retry
+    // and never persisted in browser-wide storage or reused for a new test.
+    let currentSubmissionKey = null;
+    let currentQuizStartedAt = null;
     let quizTimerInterval = null;
     let bookmarkedMcqs = []; // Loaded from the authenticated student's Supabase session.
 
@@ -2254,6 +2258,9 @@
       currentQuizList = shuffleArray(pool).slice(0, wizardSelection.mcqCount);
       currentMcqIndex = 0;
       userAnswers = new Array(currentQuizList.length).fill(null);
+      currentSubmissionKey = window.crypto?.randomUUID?.() || null;
+      savedAttemptOutcome = null;
+      currentQuizStartedAt = Date.now();
       switchModule('quiz');
       renderCurrentQuestion();
       if (wizardSelection.testMode === 'timed') {
@@ -3110,29 +3117,66 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
 
     const originalFinishQuiz = window.finishQuiz;
     let savingAttempt = false;
-    window.finishQuiz = async function() {
-      if (savingAttempt) return; // Multiple Next/timer events must not double-save.
-      if (!authToken || !currentUser) { window.location.replace(SJNPreviewAuthRoute.to('/landing.html')); return; }
-      if (!currentQuizList.length) return;
+    let savedAttemptOutcome = null;
+    window.finishQuiz = async function(details = {}) {
+      if (savingAttempt) return { saved: false, pending: true };
+      if (!authToken || !currentUser) {
+        window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));
+        return { saved: false };
+      }
+      if (!currentQuizList.length) return { saved: false };
+      // The original result view is still displayed with its accepted layout,
+      // but only the new server-graded RPC can confirm a saved score.
+      if (savedAttemptOutcome) return savedAttemptOutcome;
       savingAttempt = true;
       const expectedStudentId = currentUser.id;
-      const correct = currentQuizList.reduce((n, q, i) =>
-        n + (userAnswers[i] === q.correctIndex ? 1 : 0), 0);
-      const attempted = currentQuizList.length;
+      const rawSeconds = Number.isFinite(details.elapsedSeconds)
+        ? details.elapsedSeconds
+        : Math.floor((Date.now() - (currentQuizStartedAt || Date.now())) / 1000);
+      const elapsedSeconds = Math.max(0, Math.min(86400, Math.floor(rawSeconds)));
+      const items = currentQuizList.map((q, i) => ({
+        mcqId: q.id, revisionId: q.revisionId,
+        selectedIndex: userAnswers[i] === undefined ? null : userAnswers[i]
+      }));
+      const selection = {
+        subjects: wizardSelection.selectedSubjects,
+        chapters: wizardSelection.selectedChapters,
+        topics: wizardSelection.selectedTopics
+      };
       const submission = {
-        title: paperSourceFilter || wizardSelection.bank, total: attempted, correct,
-        mode: wizardSelection.testMode, subject: wizardSelection.subject,
-        selection: { subjects: wizardSelection.selectedSubjects,
-          chapters: wizardSelection.selectedChapters, topics: wizardSelection.selectedTopics }
+        submissionKey: currentSubmissionKey, items,
+        title: String(paperSourceFilter || wizardSelection.bank),
+        mode: wizardSelection.testMode,
+        subject: wizardSelection.subject,
+        selection, elapsedSeconds
       };
       originalFinishQuiz();
       try {
-        const saved = await api('/attempts', {
+        if (!submission.submissionKey ||
+            items.some(item => !Number.isSafeInteger(item.mcqId) ||
+                              !Number.isSafeInteger(item.revisionId))) {
+          throw new Error('Database question revisions could not be verified. Restart this test.');
+        }
+        const saved = await api('/practice/submit', {
           method: 'POST',
           headers: { 'X-SJN-Expected-Student': expectedStudentId },
           body: submission
         });
-        if (!saved?.id) throw new Error('No saved attempt was confirmed.');
+        if (!saved?.saved || !saved?.id || saved.total !== items.length)
+          throw new Error('No verified attempt was returned.');
+        const outcome = {
+          saved: true, id: saved.id, total: saved.total, correct: saved.correct,
+          incorrect: saved.incorrect, skipped: saved.skipped, accuracy: saved.accuracy
+        };
+        // A later retry of an already-confirmed result must not create a new
+        // attempt. A new test resets this state in launchGeneratedQuiz.
+        savedAttemptOutcome = outcome;
+        // The original legacy results workspace should also reflect the
+        // database-confirmed score, not only a browser-computed provisional one.
+        document.getElementById('res-total').innerText = saved.total;
+        document.getElementById('res-correct').innerText = saved.correct;
+        document.getElementById('res-accuracy').innerText =
+          Math.round(saved.accuracy) + '%';
         const [stats, history] = await Promise.allSettled([
           refreshAuthenticatedStats(expectedStudentId), loadStudentHistory()
         ]);
@@ -3140,13 +3184,10 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
             history.value !== true) {
           console.warn('Saved result; dashboard summary could not fully refresh.');
         }
-        // Return a verified outcome to the opt-in results view, without altering
-        // the original UI or the account-scoped POST /api/attempts endpoint.
-        return { saved: true, id: saved.id };
+        return outcome;
       } catch (error) {
-        console.warn('Practice test save not confirmed:', error);
-        alert('Your test result could not be confirmed as saved. Check Test History before trying again.');
-        // Restore the server-owned figures, never a browser-wide copy.
+        console.warn('Atomic practice test save not confirmed:', error?.message || error);
+        alert('Your test result could not be confirmed as saved. Check Test History before retrying.');
         await Promise.allSettled([
           refreshAuthenticatedStats(expectedStudentId), loadStudentHistory()
         ]);

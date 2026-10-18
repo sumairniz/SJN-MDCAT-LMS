@@ -8,6 +8,8 @@ process.env.SUPABASE_URL = "https://example.supabase.co";
 process.env.SUPABASE_ANON_KEY = "test-anon-key";
 
 const databaseCalls = [];
+const practiceRpcCalls = [];
+let practiceRpcError = null;
 let failBookmarkInsert = false;
 
 function makeQuery(table, authorization) {
@@ -74,7 +76,22 @@ function fakeCreateClient(url, key, options = {}) {
         return { data: { user: { id: "student-a", email: "student@example.com", user_metadata: {} }, session: { access_token: "token-a-rotated", refresh_token: "refresh-rotated" } }, error: null };
       }
     },
-    from(table) { return makeQuery(table, authorization); }
+    from(table) { return makeQuery(table, authorization); },
+    async rpc(name, args) {
+      practiceRpcCalls.push({ name, args, authorization });
+      if (practiceRpcError) return { data: null, error: practiceRpcError };
+      const total = args.p_items.length;
+      const skipped = args.p_items.filter(x => x.selectedIndex === null).length;
+      const correct = args.p_items.filter(x =>
+        x.selectedIndex !== null && x.selectedIndex === (x.mcqId === 1 ? 2 : 0)
+      ).length;
+      return { data: [{
+        attempt_id: 999, total_questions: total,
+        correct_answers: correct, incorrect_answers: total - correct - skipped,
+        skipped_answers: skipped, accuracy_percent: (100 * correct / total),
+        already_saved: false
+      }], error: null };
+    }
   };
 }
 
@@ -714,5 +731,94 @@ test("canonical staging alias loads Phase 4 after login even when the URL opt-in
     if (old === undefined) delete process.env.VERCEL_ENV;
     else process.env.VERCEL_ENV = old;
     await new Promise((resolve, reject) => server.close(err => err ? reject(err) : resolve()));
+  }
+});
+
+test("Stage 3B-2 saves database-graded ordered answers, not browser scores", async () => {
+  const s = await new Promise(resolve => {
+    const server = app.listen(0, "127.0.0.1", () => resolve(server));
+  });
+  try {
+    const root = "http://127.0.0.1:" + s.address().port;
+    const a = await loginSession(root);
+    const key = "fa151abc-2fe0-4c18-970e-10f1d1d2f999";
+    const submission = {
+      submissionKey: key,
+      title: "Past Papers Question Bank", subject: "Biology", mode: "tutor",
+      selection: { chapters: ["Biological Molecules"] }, elapsedSeconds: 67,
+      items: [{ mcqId: 1, revisionId: 1, selectedIndex: 2 },
+              { mcqId: 2, revisionId: 2, selectedIndex: null }]
+    };
+    const before = practiceRpcCalls.length;
+    const response = await fetch(root + "/api/practice/submit", {
+      method: "POST", headers: {
+        Authorization: "Bearer token-a", Cookie: a.cookies,
+        "X-SJN-Expected-Student": "student-a",
+        "Content-Type": "application/json"
+      }, body: JSON.stringify(submission)
+    });
+    assert.equal(response.status, 200);
+    const body = await response.json();
+    assert.equal(body.saved, true);
+    assert.equal(body.id, 999);
+    assert.equal(body.correct, 1);
+    assert.equal(body.skipped, 1);
+    assert.equal(body.incorrect, 0);
+    assert.equal(body.total, 2);
+    assert.equal(body.accuracy, 50);
+    assert.equal(practiceRpcCalls.length, before + 1);
+    assert.equal(practiceRpcCalls.at(-1).name, "sjn_submit_practice_attempt");
+    assert.equal(practiceRpcCalls.at(-1).authorization, "Bearer token-a");
+    assert.deepEqual(practiceRpcCalls.at(-1).args.p_items, submission.items);
+    assert.equal(Object.hasOwn(practiceRpcCalls.at(-1).args, "p_correct"), false);
+  } finally {
+    await new Promise((resolve, reject) => s.close(e => e ? reject(e) : resolve()));
+  }
+});
+
+test("Stage 3B-2 never submits on identity mismatch or malformed answer input", async () => {
+  const s = await new Promise(resolve => {
+    const server = app.listen(0, "127.0.0.1", () => resolve(server));
+  });
+  try {
+    const root = "http://127.0.0.1:" + s.address().port;
+    const a = await loginSession(root);
+    const valid = {
+      submissionKey: "fa151abc-2fe0-4c18-970e-10f1d1d2f999",
+      title: "Practice", subject: "Biology", mode: "tutor", selection: {},
+      elapsedSeconds: 60, items: [{ mcqId: 1, revisionId: 1, selectedIndex: 0 }]
+    };
+    const headers = {
+      Authorization: "Bearer token-a", Cookie: a.cookies,
+      "Content-Type": "application/json", "X-SJN-Expected-Student": "student-b"
+    };
+    const before = practiceRpcCalls.length;
+    let r = await fetch(root + "/api/practice/submit", {
+      method: "POST", headers, body: JSON.stringify(valid)
+    });
+    assert.equal(r.status, 409);
+    assert.equal(practiceRpcCalls.length, before);
+    headers["X-SJN-Expected-Student"] = "student-a";
+    for (const override of [
+      { correct: 100 }, // browser score is untrusted and never accepted
+      { items: [valid.items[0], valid.items[0]] },
+      { items: [{ mcqId: 1, revisionId: 1, selectedIndex: 9 }] },
+      { submissionKey: "not-a-uuid" }
+    ]) {
+      r = await fetch(root + "/api/practice/submit", {
+        method: "POST", headers, body: JSON.stringify({ ...valid, ...override })
+      });
+      assert.equal(r.status, 400);
+    }
+    assert.equal(practiceRpcCalls.length, before);
+    practiceRpcError = { code: "23505", message: "conflicting retry" };
+    r = await fetch(root + "/api/practice/submit", {
+      method: "POST", headers, body: JSON.stringify(valid)
+    });
+    assert.equal(r.status, 409);
+    practiceRpcError = null;
+  } finally {
+    practiceRpcError = null;
+    await new Promise((resolve, reject) => s.close(e => e ? reject(e) : resolve()));
   }
 });
