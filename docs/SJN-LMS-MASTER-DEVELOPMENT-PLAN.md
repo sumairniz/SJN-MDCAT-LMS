@@ -7,6 +7,14 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-18 — User-reported Create Practice Test launch failure after DB-only loader fix
+
+- **Observed by owner:** clicking Start MCQs Practice at the last Create Practice Test step did nothing. No Timed Mode test had been completed after the DB-only bank migration.
+- **Root cause traced to JavaScript scope (not Supabase):** global `launchGeneratedQuiz()` (first `<script>`) was modified in commit `a697873b` to read `remoteContentLoaded`; that `let` exists only within the later authenticated IIFE (second `<script>`), so the click threw a `ReferenceError` before switching to the quiz. The existing validated loader already empties the active question list while unavailable; checking `mcqQuestionBank.length` and each `revisionId` is sufficient without reaching across scopes.
+- **Second scope bug discovered during inspection:** global quiz launcher assigns `savedAttemptOutcome=null` while the new authenticated saver had declared a separate `let savedAttemptOutcome` inside its IIFE. Repeated tests could have reused an old confirmed result. Move this variable to the shared main script and remove the duplicate private declaration so both launcher and saver read/write the same state.
+- **Fix (staging branch only):** remove invalid loader-flag access, keep safe DB-only preflight, unify the saved attempt state and preserve original 74 Biology source exactly. Add executable Node VM test `tests/phase4-quiz-launch.test.js` to launch both Tutor and Timed tests **without** any auth-private state and assert mode, timer, question selection and state reset; ensure missing/unversioned banks fail safely.
+- **Scope:** no Supabase schema/data, legacy attempts or production changes. Require two CI workflows and Vercel READY before asking owner to retest. User confirmation of the actual browser workflow remains outstanding.
+
 ## 2026-10-18 — Stage 3B-2 before Timed Mode: prevent unsavable HTML fallback (staging source hardening)
 
 - Owner confirmed actual 5-MCQ Tutor test #42 (3 correct, 1 incorrect, 1 skipped). Read-only Supabase integrity check verified exactly **5 ordered attempt_items**, 5 matching immutable MCQ revision references and **0 scoring mismatches**, with 39 older summaries intact. Owner asked assistant to prepare the next test and gradually retire obsolete code without sacrificing any long-term LMS features.

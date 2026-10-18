@@ -1937,6 +1937,9 @@
     // and never persisted in browser-wide storage or reused for a new test.
     let currentSubmissionKey = null;
     let currentQuizStartedAt = null;
+    // Declared in the main script, shared by the launcher and authenticated
+    // saver below. A new generated test must never reuse an old saved result.
+    let savedAttemptOutcome = null;
     let quizTimerInterval = null;
     let bookmarkedMcqs = []; // Loaded from the authenticated student's Supabase session.
 
@@ -2252,7 +2255,10 @@
     function launchGeneratedQuiz() {
       // Do not start a test that cannot be saved with permanent revision IDs.
       // Tutor and Timed modes use the same database-only preflight.
-      if (!remoteContentLoaded || !mcqQuestionBank.length ||
+      // loadContent() keeps this active bank empty until verified data loads.
+      // The scoped loader flag is deliberately not accessed in this global
+      // launch function: it is private to the later auth IIFE.
+      if (!mcqQuestionBank.length ||
           mcqQuestionBank.some(q => !Number.isSafeInteger(q.revisionId) || q.revisionId < 1)) {
         alert('Database questions are not ready. Please use Retry loading questions on your Dashboard or Create Test page.');
         return;
@@ -3165,7 +3171,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
 
     const originalFinishQuiz = window.finishQuiz;
     let savingAttempt = false;
-    let savedAttemptOutcome = null;
+    // Uses shared savedAttemptOutcome from the original global quiz engine.
     window.finishQuiz = async function(details = {}) {
       if (savingAttempt) return { saved: false, pending: true };
       if (!authToken || !currentUser) {
