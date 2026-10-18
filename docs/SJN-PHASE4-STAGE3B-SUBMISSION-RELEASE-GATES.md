@@ -1,6 +1,6 @@
 # SJN Stage 3B-2 — Server-graded atomic submission implementation and safety gates
 
-**Status:** RPC installed in staging and development code prepared; automated CI and real student browser acceptance are separately tracked.  
+**Status:** RPC and corrective migration installed in staging. Rollback-only database transaction test and 2 GitHub workflows PASSED; real browser / Student A–B isolation acceptance and legacy writer lockdown remain OPEN.  
 **Environment:** Only `sjn-phase1a-foundation` / Supabase staging `aozknkrwafowsrehdwlr`; production is out of scope.  
 **Migration registry:** `20261018133942_stage3b_atomic_practice_submission` (applied).  
 **Versioned SQL:** [Atomic Submission Migration](../database/migrations/20261018_stage3b_atomic_practice_submission.sql).
@@ -20,3 +20,12 @@ The database routine enforces student identity under PostgREST JWT but can also 
 
 ## Failure and rollback
 If saving fails, the UI must never say it was saved; it tells the student to check History. If the backend receives an invalid question revision, the RPC rejects the full transaction. Avoid removing historical rows after data is written; use forward-compatible SQL to fix defects. The migration's SQL file and staged commits remain the permanent handover, not untracked SQL.
+
+## Verified staging results — 2026-10-18
+
+- Corrected alias ambiguity in forward migration `20261018135309_stage3b_submission_attempt_id_qualification`; see Master Development Plan for the initial `42702` failure and correction.
+- New PostgreSQL RPC was tested with three questions (1 correct, 1 incorrect, 1 skipped), 3 committed-within-test items, 1 parent, and same UUID retry returning same parent with `already_saved=true`; a nested exception rolled back all test inserts.
+- Immediately afterward live counts: `attempts=39`, `attempt_items=0`, `mcqs=74`, `mcq_revisions=74`, `details_version=1 count=0`. Current bookmarks count=3, which may reflect legitimate tester activity; this feature did not write bookmarks.
+- Routine EXECUTE: authenticated **allowed**, anon **denied**. Vercel staging branch commit `638b1e5` reports READY; two GitHub Actions runs PASSED.
+- **Pending owner E2E check** with a normal test under their staging account before we rely on this in production. Check authoritative new History data and whether saved results and subject/chapter/topic insights display correctly.
+- **Blocking security debt:** legacy score-only endpoint and direct DML on old `attempts`; do not merge or release as full secure grading until these are removed or safely restricted after the new route passes acceptance.
