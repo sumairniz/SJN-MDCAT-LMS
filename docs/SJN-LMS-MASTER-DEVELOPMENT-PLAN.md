@@ -7,6 +7,24 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-18 — Stage 3B-1 executed on staging and VERIFIED
+
+- Owner explicitly authorized executing the reviewed additive Stage 3B-1 SQL against staging `aozknkrwafowsrehdwlr` only. Disposable testing accounts/history remain untouched; the owner requires a professional, production-ready design and requested confirmation before any resets.
+- **Attempt 1 — FAILED, no partial changes:** Supabase `apply_migration` reported PostgreSQL syntax error `42601` from an extra closing parenthesis in the original `DO $preflight# SJN MDCAT LMS Pro — Master Development Plan
+
+**Document type:** Living project decision log, roadmap, acceptance criteria and risk register  
+**Established:** 2026-10-13 (Pakistan time)  
+**Owner:** Academy project owner; changes to application, database, environments and production always require scoped permission  
+**Current active code baseline:** `c31033331af9069ad60cb648c7d60cde97a6b625` on `sjn-phase1a-foundation` (cross-tab authentication synchronization; CI passed, staging READY)  
+**Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
+**Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
+
+ condition. Subsequent read-only table/migration listing showed the original 7 tables, no history tables, and no new migration record. Corrected exact SQL parenthesis in Git commit `26c158ee52d7a5c0411794de835b723be5c1bdf8`, and added a static regression test. Two GitHub workflows on that correction passed.
+- **Attempt 2 — SUCCEEDED:** Executed the exact corrected, version-controlled SQL via Supabase `apply_migration` in **staging** only with name `stage3b_question_history_foundation`; tool returned `success:true`. Supabase recorded migration **`20261018122510_stage3b_question_history_foundation`**.
+- **Read-only post-migration evidence:** 74 source MCQs + **74 immutable revision-1 records**; full field-by-field MCQ/revision parity check **0 mismatches**; every source MCQ linked to current revision (0 missing); **39 old attempt summaries preserved** with `details_version=0` (0 unexpectedly changed); **0 attempt_items** as expected before wiring submissions; **2 bookmarks** and **4 profiles** preserved. Both new tables report RLS enabled. Catalog verified `attempt_items` and `mcq_revisions` authenticated **SELECT-only grants**, their owner-scoped SELECT policies, matching student-parent and MCQ-revision foreign keys, and uniqueness/answer-index constraints. Prior `attempts` ALL RLS/grants remain intentionally unchanged for legacy compatibility.
+- **Security and scope disclaimer:** Catalog inspection proves the policies/grants exist; *independent signed-in Student A/B/anonymous access tests and transactional score submission are NOT yet complete*. Current `POST /api/attempts` still trusts browser totals. The database foundation is **implemented**, but **Stage 3B feature is NOT complete**. Do not activate Review/Retake or promise permanent server-grade score integrity yet.
+- **Next approved-work boundary:** Design and review server-graded atomic submission/RPC + compatibility with old and Phase 4 quiz flows, then new frontend implementation and RLS tightening behind separate stage approvals. No production, main merge, staging history deletion, or source 74 changes.
+
 ## 2026-10-18 — Stage 3B-1 staging execution: SQL preflight syntax correction
 
 - **OWNER AUTHORIZED** applying the Stage 3B-1 additive migration to staging project `aozknkrwafowsrehdwlr` only; expressly preserve durable production-quality design and ask before deleting disposable testing data.

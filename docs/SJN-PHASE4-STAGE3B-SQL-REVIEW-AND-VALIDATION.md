@@ -1,15 +1,24 @@
 # Stage 3B-1 — Staging SQL Review, Validation, and Execution Gate
 
 **Created:** 2026-10-18 (Pakistan time)  
-**Status:** REVIEW / NOT EXECUTED. The owner approved the *architecture*, not application of SQL.  
+**Status:** EXECUTED & VERIFIED IN STAGING on 2026-10-18, after separate owner approval. SQL is still NOT authorized for production.  
 **Proposed SQL:** [database/migrations/20261018_stage3b_question_history_foundation.sql](../database/migrations/20261018_stage3b_question_history_foundation.sql)  
 **Architecture:** [Question-Level History Design](SJN-PHASE4-STAGE3B-QUESTION-HISTORY-DESIGN.md)
+
+## Execution history and verified outcome — 2026-10-18
+
+- **Owner approval:** applied to the staging project `aozknkrwafowsrehdwlr` only.
+- **First attempt failed:** PostgreSQL `42601`, extra `) ` in preflight condition; the transaction applied no objects. Correction committed under `26c158e`; two GitHub workflows passed before re-execution.
+- **Second attempt succeeded** with Supabase `apply_migration`: `20261018122510_stage3b_question_history_foundation`.
+- **Current verified rows:** MCQs 74; MCQ revisions 74; source↔revision mismatches **0**; attempts 39 (all old records `details_version=0`); question-level attempt items **0**; bookmarks **2**; profiles **4**.
+- **Catalog checks passed:** new tables have RLS enabled, authenticated SELECT-only table grants and own-student read policies; composite owner and revision FK constraints recorded; existing legacy `attempts` privileges not changed. Signed-in cross-student isolation tests are **pending** and must not be reported as passed.
+- **Production untouched.** No test-account history deletion or source MCQ rewrite. SQL has been applied **exactly once successfully** to staging; do not apply again to the same database.
 
 ## Approved concept versus execution authorization
 
 The owner approved a permanent architecture using **immutable MCQ revisions** and **student-specific ordered attempt items**. This approval authorizes designing and reviewing the SQL and tests, but the author must **not silently run a schema migration** or change `main` / production. Staging database ref is `aozknkrwafowsrehdwlr`; production `yapvnevvjfewvafbjcgc` is excluded.
 
-The review-only SQL is a *foundation*, not the complete History feature. It backfills 74 revision-1 rows from the existing preserved Biology MCQs. It adds `mcqs.current_revision_id`, `attempts.details_version/submission_key/submission_fingerprint/elapsed_seconds`, and new `attempt_items` and `mcq_revisions` tables. **It does not yet implement atomic grading RPC, the authenticated submission endpoint, Review, Retake, or draft recovery.** Existing attempts continue to use their legacy saving route until a later controlled switchover.
+The now-applied staging SQL is a *foundation*, not the complete History feature. It backfills 74 revision-1 rows from the existing preserved Biology MCQs. It adds `mcqs.current_revision_id`, `attempts.details_version/submission_key/submission_fingerprint/elapsed_seconds`, and new `attempt_items` and `mcq_revisions` tables. **It does not yet implement atomic grading RPC, the authenticated submission endpoint, Review, Retake, or draft recovery.** Existing attempts continue to use their legacy saving route until a later controlled switchover.
 
 ## Why this is safer
 
@@ -33,7 +42,7 @@ The review-only SQL is a *foundation*, not the complete History feature. It back
 
 ## Read-only verification queries to run AFTER an approved migration
 
-The following are intended **verification queries**, not migration steps. Use a read-only database role if possible.
+The following are **read-only post-migration verification queries**; the staging counts/parity/policy catalog have now been checked. Do not use them against production without authorization. Use a read-only database role if possible.
 
 ```sql
 SELECT 'mcqs' AS source, count(*) AS records FROM public.mcqs
@@ -98,4 +107,4 @@ ORDER BY tablename,indexname;
 
 **Rollback:** If the uncommitted transaction fails, PostgreSQL should roll it back. After committed use, dropping history tables would risk losing new records; prefer an owner-reviewed forward fix or a scoped staging restore. Do not apply an unconditional DROP-table rollback.
 
-**Current outcome:** One SQL file and one static safety test prepared. **Not yet applied**, no Supabase data/schema changes. CI/actual SQL compilation and live RLS behavior require verification in the intended staging environment after separate approval.
+**Current outcome:** SQL foundation successfully applied to staging and post-migration parity, count, catalog and legacy-preservation checks passed. Full student A/B RLS integration and server-scored history functionality are still pending. Production remains untouched.
