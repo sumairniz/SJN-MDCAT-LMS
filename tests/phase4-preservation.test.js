@@ -53,7 +53,7 @@ test('Phase 4: original 74 Biology questions remain byte-identical to the accept
 test('Phase 4: preserve the original source text but never use unsavable HTML as active quiz fallback', () => {
   assert.match(dashboard, /mcqQuestionBank = \[\];\s*\/\/ 2\. COURSES ARRAY/);
   assert.match(dashboard, /remoteContentLoaded = false;\s*mcqQuestionBank = \[\];/);
-  assert.match(dashboard, /!remoteContentLoaded \|\| !mcqQuestionBank\.length/);
+  assert.match(dashboard, /!mcqQuestionBank\.length\s*\|\|\s*mcqQuestionBank\.some\(q => !Number\.isSafeInteger\(q\.revisionId\)/);
   assert.match(dashboard, /setQuestionBankLoadNotice\(true\)/);
   assert.match(dashboard, /Retry loading questions/);
   assert.doesNotMatch(dashboard, /mcqQuestionBank\.push\(newMcq\)/);

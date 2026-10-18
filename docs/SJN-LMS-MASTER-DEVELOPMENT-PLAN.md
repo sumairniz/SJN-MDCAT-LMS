@@ -7,6 +7,12 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-18 — Create Quiz scope fix CI test contract updated
+
+- GitHub commit `a48d16f` fixed an actual frontend scope crash and the separate stale-result cache. New executable launcher tests for Tutor/Timed, absent/unversioned question banks, and saved-result reset all passed, as did original 74-MCQ checksum verification.
+- First CI run `39138057406` reported **72 passed, 1 failed** solely because a preservation test still demanded the removed `!remoteContentLoaded` global cross-scope reference. Replaced that obsolete source assertion with verification of `!mcqQuestionBank.length` and revisionId preflight. Retain loader reset and retry checks; rerun all GitHub workflows and staging deployment before owner browser acceptance.
+- Previous failure/attempt and correction are retained in permanent development history; do not declare fixed until latest CI passes and owner confirms Start MCQs Practice works.
+
 ## 2026-10-18 — User-reported Create Practice Test launch failure after DB-only loader fix
 
 - **Observed by owner:** clicking Start MCQs Practice at the last Create Practice Test step did nothing. No Timed Mode test had been completed after the DB-only bank migration.
