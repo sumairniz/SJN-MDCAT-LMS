@@ -106,7 +106,8 @@ test('Results do not falsely promise historical Review or Retake and use server-
   assert.match(resultJs, /id="sjn-results-retake" disabled/);
   assert.match(resultJs, /Review Answers and Retake Test will be available after secure question-level attempt history/);
   assert.match(resultJs, /outcome\.saved === true && outcome\.id/);
-  assert.match(dashboard, /return \{ saved: true, id: saved\.id \};/);
+  assert.match(dashboard, /savedAttemptOutcome = outcome;/);
+  assert.match(dashboard, /return outcome;/);
   assert.match(dashboard, /return \{ saved: false \};/);
   assert.match(dashboard, /headers: \{ 'X-SJN-Expected-Student': expectedStudentId \}/);
   assert.doesNotMatch(resultJs, /localStorage|sessionStorage|fetch\(/);

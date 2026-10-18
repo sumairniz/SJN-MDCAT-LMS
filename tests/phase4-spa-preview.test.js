@@ -39,7 +39,7 @@ test('Stage 2: no false saving or leaking Timed Practice answer feedback', () =>
   assert.match(js, /isTutor && state\.checked\[i\]/);
   assert.match(js, /const checked = isTutor && state\.checked\[currentMcqIndex\]/);
   assert.match(js, /if \(isTutor\) state\.checked\[currentMcqIndex\] = true/);
-  assert.match(js, /window\.finishQuiz\(\)/);
+  assert.match(js, /window\.finishQuiz\(\{ elapsedSeconds: snapshot\.elapsedSeconds \}\)/);
   assert.match(js, /Review Unanswered/);
   assert.match(js, /Submit Anyway/);
   assert.match(js, /window\.addEventListener\('beforeunload'/);
