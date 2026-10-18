@@ -7,6 +7,13 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-18 — Owner-approved Stage 3B architecture, SQL prepared but NOT applied
+
+- **Owner APPROVED** the long-term Stage 3B architecture of immutable `mcq_revisions` and ordered, per-user `attempt_items`; this is **not** separate permission to run SQL or update application code. Existing owner goal: robust permanent LMS that never ships temporary scaffolding into production.
+- Re-audited staging schema/grants/migrations read-only: **74 `mcqs`**, **39 `attempts`**, **2 `bookmarks`** at review; student `attempts` currently has authenticated INSERT/UPDATE/DELETE/SELECT grants and an own-row ALL RLS policy. Keep the legacy writer working until later secure cutover. The question bank source remains unchanged.
+- Prepared **review-only, UNAPPLIED** versioned SQL [Stage 3B foundation migration](../database/migrations/20261018_stage3b_question_history_foundation.sql), static proposal safety tests [Stage 3B schema-plan tests](../tests/phase4-stage3b-schema-plan.test.js), and [SQL Review & Validation Checklist](SJN-PHASE4-STAGE3B-SQL-REVIEW-AND-VALIDATION.md). SQL would snapshot 74 immutable revision-1 records and add new owner-scoped attempt-item structure, indexes and compatibility columns; it does **not** yet grade tests, introduce submission RPC, or revoke legacy attempts grants.
+- **Next explicit gate:** owner reviews and separately authorizes applying that precise SQL to **staging** `aozknkrwafowsrehdwlr`. Confirm SQL compile/security/PostgREST behavior and live owner-account testing before any frontend cutover. Do not touch `main`, production Supabase `yapvnevvjfewvafbjcgc`, test-account history, or permanent approved exam/results design.
+
 ## 2026-10-18 — Phase 4 Stage 3B Question-Level History: read-only architecture review
 
 - Owner requested to start the next stage after verification of 74 original database MCQs, owner-accepted preview login correction and Stage 3A Results Screen. Reviewed staging Supabase tables, RLS policies, constraints, indexes, existing `/api/attempts` and `/api/history` routes, current exam/results, and blueprint v1.3 **READ-ONLY**.
