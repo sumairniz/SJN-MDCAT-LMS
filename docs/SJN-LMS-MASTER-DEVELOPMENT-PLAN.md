@@ -7,6 +7,14 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-18 — Phase 4 Stage 3B Question-Level History: read-only architecture review
+
+- Owner requested to start the next stage after verification of 74 original database MCQs, owner-accepted preview login correction and Stage 3A Results Screen. Reviewed staging Supabase tables, RLS policies, constraints, indexes, existing `/api/attempts` and `/api/history` routes, current exam/results, and blueprint v1.3 **READ-ONLY**.
+- Current staging inspection: **74 MCQs, 39 aggregate-only attempts, 2 bookmarks, 4 profiles**. These counts are a snapshot and may change through ongoing student testing. Old 39 attempts contain no question-level answers, so preserve them as summary-only; do not reconstruct fictional history.
+- **Critical finding:** legacy `POST /api/attempts` trusts browser-supplied `correct` count, and an existing authenticated per-owner `ALL` RLS policy permits attempts DML. This is a historical-result integrity gap. Do not revoke grants before replacing all legacy submission paths.
+- **Design PROPOSED, NOT YET APPROVED FOR DATABASE/APP WRITES:** [Stage 3B Question-Level History Design](SJN-PHASE4-STAGE3B-QUESTION-HISTORY-DESIGN.md). Recommends immutable MCQ revisions, ordered student-scoped attempt items, atomic server-side verified grading with idempotent retries, account isolation, authenticated read-only Review, independent Retake, and additive migrations with RLS and rollback gates. Clarifies limited anti-cheating while ordinary `/api/content` publicly includes answer keys.
+- **Next owner decision:** Review the proposed revision/item architecture, then authorize separately scoped staging-only SQL design/application and subsequent code gates. No Supabase write, test-history deletion, production change, draft-PR merge or UI enablement occurred during this documentation review.
+
 ## 2026-10-18 — Final corrective direction: server-side staging Phase 4 default
 
 - The owner's repeated screenshot proved query-string preservation through individual JavaScript auth redirects was not sufficient. The same staging deployment showed LEGACY EXAM MODE at `/index.html` but PHASE 4 PREVIEW with 74 MCQs when explicitly flagged.
