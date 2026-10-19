@@ -29,3 +29,10 @@ If saving fails, the UI must never say it was saved; it tells the student to che
 - Routine EXECUTE: authenticated **allowed**, anon **denied**. Vercel staging branch commit `638b1e5` reports READY; two GitHub Actions runs PASSED.
 - **Pending owner E2E check** with a normal test under their staging account before we rely on this in production. Check authoritative new History data and whether saved results and subject/chapter/topic insights display correctly.
 - **Blocking security debt:** legacy score-only endpoint and direct DML on old `attempts`; do not merge or release as full secure grading until these are removed or safely restricted after the new route passes acceptance.
+
+## Owner-accepted browser flow and outstanding security gate — 2026-10-19
+
+- Owner confirmed Create Practice Quiz, Tutor Mode, and Timed Mode worked in the actual staging browser after the cross-script-launch fix.
+- Independent **read-only staging SQL** confirms **74 mcqs, 74 mcq_revisions, 49 attempts, 10 details_version=1 completed attempts, 50 attempt_items, and 3 bookmarks**. The original **39 summary-only** attempts are preserved. Latest live detailed tests include both `tutor` and `timed`; each inspected example had five recorded items, with saved score breakdowns reconciling.
+- The old score-only `POST /api/attempts` and direct authenticated write grants on `public.attempts` are *still to be retired/restricted* with a compatibility-safe, owner-authorized staging plan. No change is made by this documentation update.
+- **Separate deferred Results UI task:** owner reported ~4s disabled Return to Dashboard/Create New Test buttons after submit. No immediate change requested. [DEFERRED-RESULTS-001](SJN-DEFERRED-WORK-AND-OWNER-DECISIONS.md) records first trying a long-term safe optimization, or restoring normal “Saving…” → “Saved in History” feedback at the old position if delay must remain. This is outside the active Stage 3B work.
