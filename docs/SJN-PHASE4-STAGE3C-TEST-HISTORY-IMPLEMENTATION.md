@@ -43,3 +43,18 @@ Initial implementation committed; CI and Vercel READY verified. Owner live-brows
 - **Read-only staging snapshot:** 74 MCQs; 74 revisions; 62 attempts (23 detailed; original 39 summary-only intact); 165 attempt items; 3 bookmarks. No data edits from the continuity check.
 - **Outstanding production gate:** Explicit signed-in account A/B foreign detailed-history request denial and other unverified auth/session/refresh/Retake/mobile regressions remain to be validated where not already evidenced. An owner-approved visual review is not a substitute for these security checks.
 - **Next design discussion:** Save & Exit, durable autosave and Resume via In Progress history according to approved Blueprint v1.3; separate scoped approval required before implementing SQL or app changes. Do not change the accepted MCQ/Results/Review/Retake interface unnecessarily or merge the development PR.
+
+## 2026-10-20 — Final development-stage closeout (not a production release)
+
+**Stage 3C FEATURE IMPLEMENTATION / OWNER VISUAL APPROVAL: COMPLETE ON STAGING.** The owner reviewed the latest deployment and reported that the interface was correct. No further UI feature work is requested in this session. This closes the Stage 3C implementation/refinement checkpoint, **not all production acceptance/security gates**.
+
+**Verified evidence:**
+- Feature commit `95770f739844cac3683317872537d5993146a063`; GitHub Foundation checks workflow `39325601496` passed; exact Vercel deployment `dpl_84CQU9aW9aUE9KYXQuWxZfydzCLT` READY.
+- Read-only staging counts: 74 MCQs, 74 immutable revisions, 62 attempts (23 detailed; all 39 older summaries preserved), 165 attempt items and 3 bookmarks.
+- 165 records: 0 account/parent ownership mismatches, 0 question/revision mismatches, 0 authoritative grading mismatches, 0 invalid option indices.
+- 23 detailed attempts: 0 incomplete/misordered answer sets and 0 saved-score mismatches.
+- `GET /api/history/:attemptId` implementation validates cookie + bearer identity and filters the parent and its answer rows by student ID; missing/foreign parent shares the same 404 response. Staging `attempts` and `attempt_items` RLS SELECT policies require `auth.uid()=user_id`, and authenticated table grants are read-only.
+
+**Explicit OPEN release/production gates:** Real signed-in Student A/B *foreign detailed-history request denial* was not executed in this documentation/integrity audit (no test-account sessions were available). Other unverified account-switch, expiry, browser-refresh, mobile and both-mode Retake scenarios should be rechecked as appropriate before release. Do not claim a real cross-account attack test passed based on SQL catalog policies or mocks.
+
+**Change scope:** Documentation-only closeout on `sjn-phase1a-foundation`. No UI, backend, database schema/data, production, `main`, or PR-merge changes. Do not overwrite older audit results. Future Save & Exit/autosave/Resume belongs to a newly reviewed and separately authorized feature stage; Results navigation delay remains deferred.
