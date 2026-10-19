@@ -1,7 +1,7 @@
 # SJN MDCAT LMS Pro — Deferred Work & Owner Decisions
 
 **Purpose:** Permanent, easily searchable list of tasks the Academy owner explicitly deferred, so a future developer or ChatGPT conversation can answer: **“What do we still need to do?”**  
-**Updated:** 2026-10-19 (Pakistan time)  
+**Updated:** 2026-10-20 (Pakistan time)  
 **Branch:** `sjn-phase1a-foundation` (staging development only); production unaffected.
 
 ## DEFERRED-RESULTS-001 — Reduce Results Screen navigation delay (Owner deferred 2026-10-19)
@@ -20,7 +20,11 @@
 
 **Future acceptance:** Measure stage-by-stage timings (server scoring transaction, HTTP, post-save stats/history refresh), propose minimal correct refactoring only if supported, test Tutor/Timed, stalled/failed network, double submission, account switch, refresh/back, mobile, score corrections, and persisted History. Keep navigation guarded until a secure save has completed. Follow normal staging → tests → owner acceptance → eventual production release. No production changes without separate permission.
 
-## Current active checkpoint — Phase 4 Stage 3B, NOT the deferred item
+## Current checkpoint — Phase 4 Stage 3C accepted visually; security gate and future Save & Exit design next
+
+**2026-10-20 owner update:** Latest Stage 3C Test History/Review refinements were accepted visually by the owner on the development preview, with CI and Vercel READY verified. The detailed cross-account history-access gate and unverified edge cases remain pending before production readiness. Next separately scoped design area is Save & Exit/autosave/Resume (not yet authorized for implementation). **DEFERRED-RESULTS-001 remains deferred** and is not the next task.
+
+## Historical checkpoint — Stage 3B (recorded 2026-10-19; preserved for audit; superseded by Stage 3C)
 
 **Stage 3B-2:** Owner completed real Tutor and Timed mode tests; database verification on 2026-10-19 confirms 74 MCQs + 74 revisions, **39 original summary-only attempts preserved**, **10 new detailed attempts**, and **50 saved attempt item records**. Recent tests include both `tutor` and `timed` with each new attempt having the expected five item records. Current `/api/practice/submit` writes score+items atomically; earlier original five-item score example was 3 correct, 1 incorrect, 1 skipped.
 
