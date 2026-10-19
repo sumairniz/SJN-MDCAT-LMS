@@ -7,6 +7,15 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-19 — Stage 3B old score-only writer RETIRED on staging (verified)
+
+- **Code:** `f06e369` replaces historical browser-score writer `POST /api/attempts` with non-writing HTTP **410 Gone** reload response. Normal Tutor and Timed use authenticated `/api/practice/submit` and postgres `sjn_submit_practice_attempt`. Updated account-switch, legacy route, source preservation tests; **both GitHub Actions workflows PASSED**, dedicated Vercel preview alias READY at `f06e369`.
+- **Staging SQL:** Versioned forward-only `database/migrations/20261019_stage3b_restrict_legacy_attempt_writes.sql` successfully applied to staging ref `aozknkrwafowsrehdwlr` as Supabase migration **`20261019164649_stage3b_restrict_legacy_attempt_writes`**. Replaced broad authenticated own-row `ALL` policy on `attempts` with own-row `SELECT` policy `sjn_attempts_read_own_history`. Authenticated now has `SELECT=true`; `INSERT/UPDATE/DELETE=false`; anonymous has no attempts table access. Secure SECURITY DEFINER grading RPC remains `EXECUTE=true` for authenticated and false for anonymous.
+- **Post-migration database smoke test:** A disposable three-question submission under an authenticated JWT-claim context passed: **1 correct, 1 incorrect, 1 skipped**; exactly three ordered attempt item records and one detailed parent during transaction; second submit with same key returned the same attempt with `already_saved=true`. Test subtransaction deliberately rolled back. No synthetic test attempt persisted.
+- **Post-migration read-only count/parity checks:** MCQs **74**, revisions **74**, original content/revision mismatches **0**, attempts **49** (39 legacy summary-only, 10 detailed), attempt items **50**, bookmarks **3**, rollback fixture persisted rows **0**. No database data resets/deletions.
+- **Remaining before production merge:** Real signed-in end-to-end browser submission **after** lockdown, with normal Tutor + Timed modes; Student A/B authentication/RLS isolation test and invalid-session retry; full acceptance under restricted student role, not just grants/metadata. Existing Phase 4 preview-only features still require release cleanup and owner-approved production plan. Results navigation delay stays **DEFERRED**, unchanged.
+- **No change** to `main`, production Supabase `yapvnevvjfewvafbjcgc`, original 74 question text, staging student history, or approved MCQ/Results UI. Stage 3B detailed Review Answers and Retake Test remain later development.
+
 ## 2026-10-19 — Stage 3B old score writer cleanup authorized
 
 - **Owner approved** returning to Phase 4 Stage 3B legacy-writer retirement, scoped to development branch and staging only. The separate results-delay/performance item remains DEFERRED; no fast-UI changes.

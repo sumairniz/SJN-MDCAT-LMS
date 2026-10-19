@@ -21,5 +21,13 @@ Do **not** restore browser-scored saving as an emergency workaround: it would re
 ## Outcome log
 
 - Prepared: versioned server tombstone, tests, RLS/grant migration and rollback-only verification protocol.
-- Applied SQL and checked: **PENDING** until actually executed.
+- Applied SQL and checked: **SUCCEEDED ON STAGING**, migration `20261019164649_stage3b_restrict_legacy_attempt_writes`; see verification below.
 - Production/main: **UNCHANGED**.
+
+## Verified outcome — 2026-10-19
+
+- Development commit `f06e369`: old score-only POST route returns 410 and cannot write; automated route/security assertions passed in 2 GitHub workflows. Preview Vercel alias reports READY at the same commit.
+- Versioned SQL successfully applied on **staging only** as migration `20261019164649_stage3b_restrict_legacy_attempt_writes`. The old own-user `ALL` policy on `attempts` was replaced with authenticated own-user `SELECT` only, and direct authenticated INSERT, UPDATE, DELETE grants were revoked. Anon has no attempts access. Postgres-owned `sjn_submit_practice_attempt` remains granted EXECUTE to authenticated, not anon.
+- Rollback-only RPC test with synthetic 3-MCQ submission in authenticated JWT context passed: 1 correct, 1 incorrect, 1 skipped, 1 detailed parent, 3 ordered items; retry with same UUID returned existing result; synthetic parent/items rolled back.
+- Post-test read-only verification: `mcqs=74`, `mcq_revisions=74`, `mcq/source mismatches=0`, `attempts=49` (39 older aggregate summaries, 10 detailed), `attempt_items=50`, `bookmarks=3`, persisted rollback test records=0. No production DB writes or main merges.
+- **Open acceptance:** a real student must complete a small Tutor and Timed test **after this restriction**, then we should recheck saved item/score records and signed-in Student A/B cross-account RLS. Only then mark this permanent security cutover fully accepted. The deferred Results Screen navigation delay is unchanged.
