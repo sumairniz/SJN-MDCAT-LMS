@@ -63,8 +63,10 @@ test('Phase 4: existing finished attempts remain server-owned and student-scoped
   const server = fs.readFileSync(path.join(__dirname, '..', 'server.js'), 'utf8');
   assert.match(server, /app\.get\('\/api\/history',\s*auth/);
   assert.match(server, /\.from\('attempts'\)[\s\S]{0,230}\.eq\('user_id',\s*req\.user\.id\)/);
-  assert.match(server, /app\.post\('\/api\/attempts',\s*auth/);
-  assert.match(server, /user_id:\s*req\.user\.id/);
+  assert.match(server, /app\.post\('\/api\/practice\/submit',\s*auth/);
+  assert.match(server, /app\.post\('\/api\/attempts',\s*\(req, res\) =>/);
+  assert.match(server, /res\.status\(410\)\.json/);
+  assert.doesNotMatch(server, /\.from\('attempts'\)\.insert/);
   assert.match(server, /X-SJN-Expected-Student/);
 });
 

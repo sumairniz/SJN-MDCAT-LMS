@@ -7,6 +7,13 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-19 — Stage 3B old score writer cleanup authorized
+
+- **Owner approved** returning to Phase 4 Stage 3B legacy-writer retirement, scoped to development branch and staging only. The separate results-delay/performance item remains DEFERRED; no fast-UI changes.
+- **Observed baseline before cutoff:** 74 MCQs, 74 revisions, 49 test summaries (39 legacy summary-only, 10 detailed), 50 ordered attempt item records. `authenticated` had SELECT, INSERT, UPDATE and DELETE direct table privileges and one own-user ALL RLS policy, permitting browser-reported score tampering. `sjn_submit_practice_attempt` remains authenticated-only SECURITY DEFINER RPC owned by postgres, and the frontend exclusively calls `/api/practice/submit`.
+- **Long-term controlled replacement:** Change old `POST /api/attempts` into non-writing HTTP 410 Gone compatibility response; replace broad attempts RLS with per-user SELECT-only and revoke direct authenticated INSERT/UPDATE/DELETE in an audited forward-only staged migration. Maintain all existing History and score/answer data unchanged and verify secure RPC still inserts after privilege lockdown.
+- **Procedure, migration, tests and outcome record:** [Stage 3B Legacy Score Writer Retirement](SJN-PHASE4-STAGE3B-LEGACY-WRITER-RETIREMENT.md). GitHub CI, Vercel READY, signed-in Student A/B isolation and database rollback-only tests must pass before declaring staging security checkpoint completed. No production merge or original question deletion.
+
 ## 2026-10-19 — DEFERRED results navigation delay; return to Stage 3B legacy-writer cleanup
 
 - **Owner explicitly deferred** work on the ~4-second Results Screen button delay. Although yellow/green normal-save messages were removed successfully in commit `59d5acd`, **Return to Dashboard** and **Create New Test** remain disabled until `finishQuiz()` finishes verified saving and post-save stats/history refresh. Precise per-operation timing has NOT been measured. Owner values long-term security and correctness over short-term perceived speed. **No UI/server changes are authorized for this delay now.**

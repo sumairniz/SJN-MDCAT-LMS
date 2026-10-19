@@ -388,34 +388,15 @@ app.post('/api/practice/submit', auth, async (req, res) => {
   }
 });
 
-app.post('/api/attempts', auth, async (req, res) => {
-  // Prevent a stale tab from saving Student A's test into Student B's new session.
-  const expectedStudentId = req.get('X-SJN-Expected-Student');
-  if (expectedStudentId && expectedStudentId !== req.user.id) {
-    return res.status(409).json({ error: 'Active student changed. Reload before saving.' });
-  }
-  try {
-    const b = req.body || {};
-    const total = Math.max(0, Number(b.total || 0));
-    const correct = Math.max(0, Math.min(total, Number(b.correct || 0)));
-    const accuracy = total ? (correct / total) * 100 : 0;
-
-    const { data, error } = await req.db.from('attempts').insert([{
-      user_id: req.user.id,
-      title: String(b.title || 'Practice Test'),
-      total,
-      correct,
-      accuracy,
-      mode: String(b.mode || 'tutor'),
-      subject: String(b.subject || 'Mixed'),
-      selection_json: b.selection || {}
-    }]).select('id').single();
-
-    if (error) throw error;
-    res.json({ id: data.id });
-  } catch (e) {
-    res.status(500).json({ error: 'Failed to save test attempt.' });
-  }
+// Permanent compatibility tombstone: obsolete client-score submissions cannot
+// write history. Older cached tabs receive a clear upgrade instruction rather
+// than an SPA HTML 200 response from the catch-all route.
+// New Tutor and Timed practice tests use /api/practice/submit exclusively.
+app.post('/api/attempts', (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  return res.status(410).json({
+    error: 'This score-only submission method has been retired. Reload the LMS to submit your test securely.'
+  });
 });
 
 app.post('/api/bookmarks/toggle', auth, async (req, res) => {

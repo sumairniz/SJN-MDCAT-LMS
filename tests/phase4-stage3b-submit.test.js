@@ -36,6 +36,9 @@ test('stage 3B normal and Phase 4 flows both use the server-graded route exactly
   assert.match(server, /app.post\('\/api\/practice\/submit', auth/);
   assert.match(server, /revisionId: row.current_revision_id/);
   assert.match(dashboard, /api\('\/practice\/submit'/);
+  assert.match(server, /app\.post\('\/api\/attempts', \(req, res\) =>/);
+  assert.match(server, /res\.status\(410\)\.json/);
+  assert.doesNotMatch(server, /\.from\('attempts'\)\.insert/);
   assert.doesNotMatch(dashboard, /api\('\/attempts',\s*\{/);
   assert.match(dashboard, /currentSubmissionKey = window.crypto\?\.randomUUID/);
   assert.match(dashboard, /savedAttemptOutcome = null/);

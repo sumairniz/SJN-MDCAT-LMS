@@ -404,7 +404,7 @@ test("student history is scoped and tagged by authenticated student, never combi
   }
 });
 
-test("stale account cannot save a test attempt into newly switched account", async () => {
+test("retired client-score submission is non-writing even with a valid session", async () => {
   const server = await new Promise(resolve => {
     const s = app.listen(0, "127.0.0.1", () => resolve(s));
   });
@@ -412,14 +412,44 @@ test("stale account cannot save a test attempt into newly switched account", asy
     const root = "http://127.0.0.1:" + server.address().port;
     const b = await loginSession(root, "student-b@example.com");
     databaseCalls.splice(0);
+    const beforeRpc = practiceRpcCalls.length;
     const denied = await fetch(root + "/api/attempts", {
       method: "POST",
       headers: { Authorization: "Bearer token-b", Cookie: b.cookies,
-        "Content-Type": "application/json", "X-SJN-Expected-Student": "student-a" },
-      body: JSON.stringify({ total: 5, correct: 3 })
+        "Content-Type": "application/json", "X-SJN-Expected-Student": "student-b" },
+      body: JSON.stringify({ total: 5, correct: 5, accuracy: 100 })
     });
-    assert.equal(denied.status, 409);
-    assert.equal(databaseCalls.length, 0, "No wrong-student database write should occur");
+    assert.equal(denied.status, 410);
+    assert.match(denied.headers.get("cache-control"), /no-store/);
+    assert.match((await denied.json()).error, /retired/i);
+    assert.equal(databaseCalls.length, 0, "Retired submission must never write database rows");
+    assert.equal(practiceRpcCalls.length, beforeRpc, "Retired route must not call grading RPC");
+  } finally {
+    await new Promise((resolve, reject) => server.close(err => err ? reject(err) : resolve()));
+  }
+});
+
+test("secure submission still blocks stale-account requests after legacy retirement", async () => {
+  const server = await new Promise(resolve => {
+    const s = app.listen(0, "127.0.0.1", () => resolve(s));
+  });
+  try {
+    const root = "http://127.0.0.1:" + server.address().port;
+    const b = await loginSession(root, "student-b@example.com");
+    const startRpc = practiceRpcCalls.length;
+    const response = await fetch(root + "/api/practice/submit", {
+      method: "POST",
+      headers: { Authorization: "Bearer token-b", Cookie: b.cookies,
+        "Content-Type": "application/json", "X-SJN-Expected-Student": "student-a" },
+      body: JSON.stringify({
+        submissionKey: "422a58ec-97c1-4b4a-8000-264235641764",
+        items: [{ mcqId: 1, revisionId: 1, selectedIndex: 0 }],
+        title: "Practice", mode: "timed", subject: "Biology",
+        selection: {}, elapsedSeconds: 5
+      })
+    });
+    assert.equal(response.status, 409);
+    assert.equal(practiceRpcCalls.length, startRpc, "No wrong-account score is saved");
   } finally {
     await new Promise((resolve, reject) => server.close(err => err ? reject(err) : resolve()));
   }
