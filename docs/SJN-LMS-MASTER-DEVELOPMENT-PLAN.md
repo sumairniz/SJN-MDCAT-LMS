@@ -7,6 +7,18 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-20 — Stage 3C staging feature-completion review (owner-approved interface; production gates remain)
+
+**Decision:** Close Stage 3C **implementation / visual refinement** as complete for the development/staging checkpoint, based on the owner's latest staging inspection and existing verified automated tests. **Do not** call the entire release security validation complete or merge PR #1.
+
+- **Owner:** Reported that the latest staged interface is correct after reviewing History, Review and Retake changes; no additional visual corrections requested today. This is owner-reported staging visual acceptance, not evidence of all cross-account adversarial browser checks.
+- **Code baseline:** Stage 3C feature commit `95770f739844cac3683317872537d5993146a063`, GitHub Foundation checks run `39325601496` SUCCESS; Vercel staging deployment `dpl_84CQU9aW9aUE9KYXQuWxZfydzCLT` READY at that exact code commit. No new Stage 3C UI/API code changes were needed in this closure review.
+- **Fresh read-only staging database audit:** original `mcqs=74`, `mcq_revisions=74`, `attempts=62` (23 detailed; original 39 summary-only), `attempt_items=165`, `bookmarks=3`. All 165 item records: **0 parent/student ownership mismatches, 0 question/revision mismatches, 0 grading mismatches, 0 invalid answer indices**. All 23 detailed attempts: **0 malformed item counts/position sequences, 0 saved-score mismatches**. Read-only checks did not modify records.
+- **Security design verified, NOT a full live penetration test:** Student detail API requires valid matching cookie + Supabase bearer identity, returns indistinguishable 404 for foreign/missing parent, explicitly filters both parent and items by authenticated user ID. `attempts` and `attempt_items` have enabled RLS SELECT policies restricted to `auth.uid() = user_id`. Catalog grants for `authenticated` on both tables are SELECT-only, with no direct student write privileges. These findings support safe design but do **not** prove cross-account detail denial from two real signed-in browser sessions.
+- **Remaining independent production/release gates:** Real Student A/B denied attempt to fetch the other student's `GET /api/history/:attemptId` (without sharing credentials), invalid/expired-session, account-switch and refresh scenarios; any not-yet-observed Tutor+Timed exact-order Retake and mobile edge cases. They remain OPEN until actually observed with evidence. Preserve all existing student data.
+- **Boundary for next day:** Stage 3C feature development is at an accepted staging checkpoint; next scoped project task can be a separately approved architectural design for Save & Exit/autosave/In Progress/Resume. That work must not start as an unreviewed SQL/app migration. Deferred Results delay remains deferred.
+- **No production authorization:** Development PR remains DRAFT; no merge, main change or production database deployment from this checkpoint.
+
 ## 2026-10-20 — Owner accepts latest Stage 3C staging interface; next planning checkpoint
 
 - **OWNER-REPORTED VISUAL ACCEPTANCE:** In the new continuity chat, after opening the latest staging preview, the owner reported that everything checked looked correct. This accepts the latest Test History/Review appearance and October 20 refinement pass from the owner's review; it does **not** independently prove unreported browser E2E scenarios or security penetration tests.
