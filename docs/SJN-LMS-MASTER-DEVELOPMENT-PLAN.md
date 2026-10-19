@@ -7,6 +7,12 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-19 — Stage 3C owner-approved unified Test History implementation
+
+- Owner approves two counters, Source/Mode/Status/Date search and filtering, tight desktop table, scroll-free mobile test cards, unified future assessment history, and three actions: neutral Results (only red chart bars), solid-red Review, subtle dark-red Retake. Owner explicitly declined extra 3D/glow enhancement. Keep the exam MCQ interface visually unchanged.
+- Security implementation: authenticated per-user historical detail route using immutable revision snapshots, accurate Results, per-question Review, safe exact-order retake through the existing verified scoring path. Summary-only old tests retain real Results but no invented Review/Retake. Source metadata is identified conservatively until real Courses/Mock builders supply their types.
+- [Implementation plan and release gates](SJN-PHASE4-STAGE3C-TEST-HISTORY-IMPLEMENTATION.md). CI/staging and owner browser acceptance remain necessary. No production merge or database/schema migration in this UI stage.
+
 ## 2026-10-19 — OWNER ACCEPTANCE: two-account Test History separation confirmed in browser
 
 - **Owner personally tested both staged login accounts:** First account shows **only its own Test History**; second account also shows **only its own Test History**. This is the explicit real-browser bidirectional privacy check requested after test #55 (first account) and #56/#57 (second account). Mark **Student A/B summary Test History visibility — OWNER-CONFIRMED PASS**.

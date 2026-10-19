@@ -6,7 +6,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const dashboard = fs.readFileSync(path.join(__dirname, '..', 'public/index.html'), 'utf8');
-const start = dashboard.indexOf('    function launchGeneratedQuiz() {');
+const start = dashboard.indexOf('    function launchGeneratedQuiz(preselectedQuestions = null) {');
 const end = dashboard.indexOf('\n    function startQuick5Mcqs()', start);
 assert.ok(start !== -1 && end > start, 'Original quiz launcher must be present');
 const launcher = dashboard.slice(start, end);
@@ -39,7 +39,8 @@ function createQuizContext(mode = 'timed', bank = [{id: 1, revisionId: 4, bank: 
   vm.runInContext(
     'let currentQuizList = []; let currentMcqIndex = -1; let userAnswers = []; ' +
     'let currentSubmissionKey = null; let currentQuizStartedAt = null; ' +
-    'let savedAttemptOutcome = { saved: true, id: 12 };\n' + launcher,
+    'let savedAttemptOutcome = { saved: true, id: 12 }; ' +
+    'let historyRetakeTitle = null;\n' + launcher,
     ctx, { timeout: 1000 }
   );
   return { ctx, calls, nodes };
@@ -87,4 +88,29 @@ test('Global launcher must not access auth-private loader state or keep private 
   const declarations = dashboard.match(/\blet savedAttemptOutcome = null;/g) || [];
   assert.equal(declarations.length, 1, 'One shared state used by global launcher and saving logic');
   assert.match(dashboard, /savedAttemptOutcome = null;\s*currentQuizStartedAt = Date\.now\(\);/);
+});
+
+
+test('Retake uses the saved verified question order and resets previous score', () => {
+  const bank=[
+    {id:1,revisionId:4,bank:'Past Papers Question Bank',subject:'Biology'},
+    {id:2,revisionId:5,bank:'Past Papers Question Bank',subject:'Biology'},
+    {id:3,revisionId:6,bank:'Past Papers Question Bank',subject:'Biology'}
+  ];
+  const {ctx,calls}=createQuizContext('timed',bank);
+  vm.runInContext('launchGeneratedQuiz([mcqQuestionBank[2],mcqQuestionBank[0],mcqQuestionBank[1]])',ctx);
+  const detail=vm.runInContext('({ids:currentQuizList.map(q=>q.id),answers:userAnswers,key:currentSubmissionKey,saved:savedAttemptOutcome})',ctx);
+  assert.deepEqual(Array.from(detail.ids),[3,1,2]);
+  assert.deepEqual(Array.from(detail.answers),[null,null,null]);
+  assert.equal(detail.saved,null);
+  assert.equal(detail.key,'c1838a32-d04b-432a-a546-189794517afa');
+  assert.deepEqual(calls.module,['quiz']);
+  assert.deepEqual(calls.timer,[60]);
+});
+
+test('Retake rejects a foreign or mismatched question object without opening an exam', () => {
+  const {ctx,calls}=createQuizContext();
+  vm.runInContext("launchGeneratedQuiz([{id:1,revisionId:4}])",ctx);
+  assert.equal(calls.alerts.length,1);
+  assert.deepEqual(calls.module,[]);
 });

@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="/dashboard.css">
   <link rel="stylesheet" href="/sjn-phase4-preview.css">
   <link rel="stylesheet" href="/sjn-phase4-results.css">
+  <link rel="stylesheet" href="/sjn-history.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
@@ -789,32 +790,79 @@
       </section>
 
       <section id="module-history" class="module-view space-y-6 hidden">
-        <div class="bg-sjn-card rounded-2xl border border-sjn-border p-6 space-y-6">
-          <div>
-            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Performance Analytics</span>
-            <h2 class="text-xl font-bold text-white flex items-center gap-2">
-              📈 Test History Log
-            </h2>
-            <p class="text-xs text-gray-400 mt-1">Record of practice sessions completed on this portal.</p>
+        <div class="bg-sjn-card rounded-2xl border border-sjn-border sjn-history-container">
+          <div id="sjn-history-list-view">
+            <div>
+              <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Performance Analytics</span>
+              <h2 class="text-xl font-bold text-white flex items-center gap-2">📈 Test History Log</h2>
+              <p class="text-xs text-gray-400 mt-1">Your completed tests from across the Academy.</p>
+            </div>
+            <div class="sjn-history-summary" aria-label="Test History counts">
+              <div class="sjn-history-summary-card"><div><span>Total Tests</span>
+                <strong id="sjn-history-total">0</strong><small>All recorded attempts</small></div>
+                <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i></div>
+              <div class="sjn-history-summary-card is-complete"><div><span>Completed Tests</span>
+                <strong id="sjn-history-completed">0</strong><small>Successfully submitted</small></div>
+                <i class="fa-solid fa-circle-check" aria-hidden="true"></i></div>
+            </div>
+            <div class="sjn-history-tools" aria-label="Search and filter your tests">
+              <input id="sjn-history-search" type="search" placeholder="Search test, course, subject, chapter, year…" aria-label="Search test history" autocomplete="off">
+              <button type="button" id="sjn-history-filter-toggle" class="sjn-history-filter-toggle" aria-controls="sjn-history-filter-grid" aria-expanded="false">
+                <i class="fa-solid fa-sliders" aria-hidden="true"></i> Filters
+              </button>
+              <div class="sjn-history-filter-grid" id="sjn-history-filter-grid">
+                <select id="sjn-history-source" aria-label="Source filter">
+                  <option value="all">All Sources</option><option value="past">Past Papers</option>
+                  <option value="sjn">SJN Question Bank</option><option value="courses">Courses</option>
+                  <option value="mock">Mock Tests</option><option value="other">Other Tests</option>
+                </select>
+                <select id="sjn-history-mode" aria-label="Mode filter">
+                  <option value="all">All Modes</option><option value="tutor">Tutor</option><option value="timed">Timed</option>
+                </select>
+                <select id="sjn-history-status" aria-label="Status filter">
+                  <option value="all">All Statuses</option><option value="completed">Completed</option>
+                  <option value="in-progress" disabled>In Progress (coming later)</option>
+                </select>
+                <select id="sjn-history-date" aria-label="Sort by date">
+                  <option value="newest">Newest First</option><option value="oldest">Oldest First</option>
+                </select>
+              </div>
+            </div>
+            <p class="sjn-history-found" id="sjn-history-found" aria-live="polite"></p>
+            <div class="sjn-history-table-wrap">
+              <table class="sjn-history-table">
+                <thead><tr><th>Bank / Test Title</th><th>Subject</th><th>Mode</th>
+                  <th>Score</th><th>Accuracy</th><th>Actions</th></tr></thead>
+                <tbody id="history-table-body"><tr><td colspan="6">Loading your test history…</td></tr></tbody>
+              </table>
+            </div>
+            <div id="sjn-history-mobile-list" class="sjn-history-mobile-list" aria-label="Completed tests"></div>
           </div>
-
-          <div class="overflow-x-auto">
-            <table class="w-full text-xs text-left text-gray-300">
-              <thead class="bg-zinc-900 uppercase font-bold text-gray-400">
-                <tr>
-                  <th class="p-3">Bank / Title</th>
-                  <th class="p-3">Subject</th>
-                  <th class="p-3">Mode</th>
-                  <th class="p-3">Score</th>
-                  <th class="p-3">Accuracy</th>
-                </tr>
-              </thead>
-              <tbody id="history-table-body">
-                <tr>
-                  <td colspan="5" class="p-4 text-center text-gray-500">No tests completed yet. Start practice to record scores.</td>
-                </tr>
-              </tbody>
-            </table>
+          <div id="sjn-history-detail" class="sjn-history-detail hidden">
+            <div class="sjn-history-detail-heading">
+              <button type="button" id="sjn-history-back" class="sjn-history-back"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Test History</button>
+              <div class="sjn-history-detail-score" id="sjn-history-detail-score"></div>
+            </div>
+            <h2 class="sjn-history-detail-title" id="sjn-history-detail-title"></h2>
+            <p id="sjn-history-detail-subtitle" class="sjn-history-detail-subtitle"></p>
+            <p id="sjn-history-summary-only" class="sjn-history-empty hidden"></p>
+            <p id="sjn-history-detail-error" class="sjn-history-detail-error hidden" role="alert"></p>
+            <div id="sjn-history-review-area">
+              <div class="sjn-history-review-toolbar">
+                <select id="sjn-history-review-filter" aria-label="Filter reviewed questions">
+                  <option value="all">All Questions</option><option value="correct">Correct</option>
+                  <option value="incorrect">Incorrect</option><option value="unanswered">Unanswered</option>
+                  <option value="marked">Marked</option>
+                </select>
+                <span id="sjn-history-index"></span>
+              </div>
+              <nav id="sjn-history-question-nav" class="sjn-history-question-nav" aria-label="Review question navigator"></nav>
+              <div id="sjn-history-question" class="sjn-history-question"></div>
+              <div class="sjn-history-pager">
+                <button type="button" id="sjn-history-prev">Previous</button>
+                <button type="button" id="sjn-history-next">Next</button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -1914,6 +1962,7 @@
     // A student's identity must be verified before any personal data is loaded.
     let sjnProfile = emptyStudentProfile();
     let historyLoadStatus = 'loading';
+    let historyRetakeTitle = null;
 
     // Wizard State
     let wizardSelection = {
@@ -2252,7 +2301,7 @@
       hint.innerText = `${pool.length} question(s) available in this selection. You requested ${wizardSelection.mcqCount}.`;
     }
 
-    function launchGeneratedQuiz() {
+    function launchGeneratedQuiz(preselectedQuestions = null) {
       // Do not start a test that cannot be saved with permanent revision IDs.
       // Tutor and Timed modes use the same database-only preflight.
       // loadContent() keeps this active bank empty until verified data loads.
@@ -2263,16 +2312,25 @@
         alert('Database questions are not ready. Please use Retry loading questions on your Dashboard or Create Test page.');
         return;
       }
-      const pool = getFilteredQuestionPool();
+      const retaking = Array.isArray(preselectedQuestions);
+      const pool = retaking ? preselectedQuestions : getFilteredQuestionPool();
       if (!pool.length) {
-        alert('No MCQs match your selected subjects/chapters/topics. Please broaden your selection or add questions to the bank.');
+        alert('No MCQs match this test selection. Please check the question bank.');
         return;
       }
-      if (wizardSelection.mcqCount > pool.length) {
+      if (retaking) {
+        const canonical = new Map(mcqQuestionBank.map(q => [Number(q.id),q]));
+        if (pool.length > 200 || pool.some(q => canonical.get(Number(q.id)) !== q) ||
+            new Set(pool.map(q => q.id)).size !== pool.length) {
+          alert('Unable to verify the original test questions. Nothing was started.');
+          return;
+        }
+      } else if (wizardSelection.mcqCount > pool.length) {
         alert(`Only ${pool.length} MCQs are available in this selection. Please choose ${pool.length} or fewer.`);
         return;
       }
-      currentQuizList = shuffleArray(pool).slice(0, wizardSelection.mcqCount);
+      if (!retaking) historyRetakeTitle = null;
+      currentQuizList = retaking ? pool.slice() : shuffleArray(pool).slice(0, wizardSelection.mcqCount);
       currentMcqIndex = 0;
       userAnswers = new Array(currentQuizList.length).fill(null);
       currentSubmissionKey = window.crypto?.randomUUID?.() || null;
@@ -2417,6 +2475,10 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     }
 
     function renderHistoryTable() {
+      if (window.SJNHistory) {
+        window.SJNHistory.render(sjnProfile.historyLogs, historyLoadStatus);
+        return;
+      }
       const tbody = document.getElementById('history-table-body');
       tbody.replaceChildren();
       const infoRow = message => {
@@ -2937,7 +2999,11 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
           const total = Number(row.total || 0);
           const correct = Number(row.correct || 0);
           return {
+            id: Number(row.id),
+            detailsVersion: Number(row.details_version) || 0,
             title: row.title || 'Practice Test',
+            sourceKind: ['past','sjn','courses','mock'].includes(row.selection_json?.sourceKind)
+              ? row.selection_json.sourceKind : null,
             subject: row.subject || 'Mixed',
             mode: row.mode || 'tutor',
             score: correct + '/' + total,
@@ -3157,9 +3223,54 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     window.startQuick5Mcqs=function(){wizardSelection={bank:'Past Papers Question Bank',scope:'all-subjects',subject:'All Subjects',selectedSubjects:getAvailableSubjects(),selectedChapters:['All Chapters'],selectedTopics:[],mcqCount:5,testMode:'tutor',currentStepNum:4}; paperSourceFilter=null; launchGeneratedQuiz();};
 
     const originalLaunch = window.launchGeneratedQuiz;
-    window.launchGeneratedQuiz = function(){
+    window.launchGeneratedQuiz = function(...args){
       if (!currentUser) { window.location.replace(SJNPreviewAuthRoute.to('/landing.html')); return; }
-      originalLaunch();
+      originalLaunch(...args);
+    };
+    window.SJNHistoryLaunchRetake = async function(payload) {
+      if (!currentUser || !payload?.retakeAvailable || !Array.isArray(payload.items) ||
+          !payload.items.length || !remoteContentLoaded)
+        throw new Error('Retake is unavailable until the verified question bank is ready.');
+      const currentById = new Map(mcqQuestionBank.map(q => [Number(q.id),q]));
+      const questions = payload.items.map(item => {
+        const q=currentById.get(Number(item.mcqId));
+        if (!q || Number(q.revisionId)!==Number(item.revisionId))
+          throw new Error('This question has changed since the previous test. Retake requires the original revision and cannot be started safely.');
+        return q;
+      });
+      if (new Set(questions.map(q=>q.id)).size!==questions.length ||
+          questions.length!==Number(payload.attempt.total))
+        throw new Error('Saved test question order could not be verified.');
+      wizardSelection = {
+        bank: questions[0].bank || 'Past Papers Question Bank',
+        scope: 'all-subjects', subject: payload.attempt.subject || 'All Subjects',
+        selectedSubjects: [...new Set(questions.map(q=>q.subject))],
+        selectedChapters: [], selectedTopics: [], topic: '',
+        mcqCount: questions.length, testMode: payload.attempt.mode === 'timed'?'timed':'tutor',
+        currentStepNum: 4
+      };
+      paperSourceFilter = null;
+      historyRetakeTitle = String(payload.attempt.title || wizardSelection.bank);
+      window.launchGeneratedQuiz(questions);
+    };
+    window.SJNHistoryFetchAttempt = async function(id) {
+      if (!currentUser || !Number.isSafeInteger(id) || id<1)
+        throw new Error('Sign in to see your test history.');
+      const expectedStudentId=currentUser.id;
+      const result=await api('/history/'+id);
+      if (!currentUser || currentUser.id!==expectedStudentId ||
+          result.userId!==expectedStudentId)
+        throw new Error('Active student changed. Please reload your history.');
+      return result;
+    };
+    window.SJNHistoryToggleMark = async function(mcqId) {
+      if (!currentUser || !Number.isSafeInteger(Number(mcqId)))
+        throw new Error('Sign in to manage your marked questions.');
+      const expectedStudentId=currentUser.id;
+      const result=await api('/bookmarks/toggle',{method:'POST',body:{mcqId:Number(mcqId)}});
+      if (!currentUser || currentUser.id!==expectedStudentId)
+        throw new Error('Active student changed. Please reload your history.');
+      return result;
     };
 
     const originalToggleBookmark = window.toggleBookmarkCurrentMcq;
@@ -3199,7 +3310,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       };
       const submission = {
         submissionKey: currentSubmissionKey, items,
-        title: String(paperSourceFilter || wizardSelection.bank),
+        title: String(historyRetakeTitle || paperSourceFilter || wizardSelection.bank),
         mode: wizardSelection.testMode,
         subject: wizardSelection.subject,
         selection, elapsedSeconds
@@ -3283,6 +3394,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     
    // Student data is loaded from the authenticated API, never shared browser storage.
   </script>
+  <script src="/sjn-history.js"></script>
   <script src="/sjn-phase4-preview.js"></script>
   <script src="/sjn-phase4-results.js"></script>
 </body>

@@ -21,6 +21,17 @@ function makeQuery(table, authorization) {
     if (table === "profiles") return { data: { name: "Student", role: "student" }, error: null };
     if (table === "attempts") {
       if (kind === "single") return { data: { id: 42 }, error: null };
+      if (kind === "maybeSingle" && filters.id != null) {
+        const owner = Number(filters.id) === 101 ? "student-a" :
+          Number(filters.id) === 202 ? "student-b" : null;
+        const current = authorization === "Bearer token-b" ? "student-b" : "student-a";
+        if (!owner || owner !== current || filters.user_id !== current)
+          return { data: null, error: null };
+        return { data: { id: Number(filters.id), title: "Saved Biology", total: 1,
+          correct: 1, accuracy: 100, mode: "tutor", subject: "Biology",
+          selection_json: {}, created_at: "2026-10-19T17:00:00Z",
+          details_version: 1, elapsed_seconds: 20 }, error: null };
+      }
       if (selectedColumns.includes("selection_json")) {
         const isB = authorization === "Bearer token-b";
         const total = isB ? 20 : 15;
@@ -30,6 +41,20 @@ function makeQuery(table, authorization) {
       }
       return { data: [{ total: 5, correct: 3 }], error: null };
     }
+    if (table === "attempt_items") {
+      const owner = Number(filters.attempt_id) === 101 ? "student-a" :
+        Number(filters.attempt_id) === 202 ? "student-b" : null;
+      const current = authorization === "Bearer token-b" ? "student-b" : "student-a";
+      return { data: owner && owner === current && filters.user_id === current ?
+        [{ position: 1, mcq_id: 1, mcq_revision_id: 10,
+           selected_index: 2, is_correct: true }] : [], error: null };
+    }
+    if (table === "mcq_revisions") return { data: [{
+      id: 10, mcq_id: 1, bank: "Past Papers Question Bank", subject: "Biology",
+      chapter: "Biomolecules", topic: "Proteins", source: "IBA",
+      question: "Test question?", options_json: ["A","B","C","D"],
+      correct_index: 2, explanation: "Source-explanation", mnemonic: ""
+    }], error: null };
     if (table === "bookmarks") {
       if (action === "insert" && failBookmarkInsert) return { data: null, error: { code: "23503" } };
       return { data: kind === "maybeSingle" ? null : [], error: null };
@@ -39,6 +64,7 @@ function makeQuery(table, authorization) {
   const q = {
     select(columns) { selectedColumns = columns || ""; return q; },
     eq(key, val) { filters[key] = val; return q; },
+    in(key, vals) { filters[key] = vals; return q; },
     order() { return q; },
     insert() { action = "insert"; return q; },
     delete() { action = "delete"; return q; },
@@ -850,5 +876,44 @@ test("Stage 3B-2 never submits on identity mismatch or malformed answer input", 
   } finally {
     practiceRpcError = null;
     await new Promise((resolve, reject) => s.close(e => e ? reject(e) : resolve()));
+  }
+});
+
+
+test("historical detail route reads its own completed snapshot and rejects a foreign student", async () => {
+  const s = await new Promise(resolve => {
+    const server = app.listen(0, "127.0.0.1", () => resolve(server));
+  });
+  try {
+    const root = "http://127.0.0.1:" + s.address().port;
+    const accountA = await loginSession(root);
+    const accountB = await loginSession(root, "student-b@example.com");
+    const headersA = { Authorization: "Bearer token-a", Cookie: accountA.cookies };
+    const headersB = { Authorization: "Bearer token-b", Cookie: accountB.cookies };
+    let r = await fetch(root + "/api/history/101", { headers: headersA });
+    assert.equal(r.status, 200);
+    assert.match(r.headers.get("cache-control"), /no-store/);
+    const saved = await r.json();
+    assert.equal(saved.userId, "student-a");
+    assert.equal(saved.attempt.id, 101);
+    assert.equal(saved.reviewAvailable, true);
+    assert.equal(saved.retakeAvailable, true);
+    assert.equal(saved.items.length, 1);
+    assert.equal(saved.items[0].selectedIndex, 2);
+    assert.equal(saved.items[0].revisionId, 10);
+    assert.equal(saved.items[0].question, "Test question?");
+    r = await fetch(root + "/api/history/101", { headers: headersB });
+    assert.equal(r.status, 404, "Another student cannot open a saved answer set");
+    r = await fetch(root + "/api/history/202", { headers: headersA });
+    assert.equal(r.status, 404);
+    r = await fetch(root + "/api/history/202", { headers: headersB });
+    assert.equal(r.status, 200);
+    assert.equal((await r.json()).userId, "student-b");
+    r = await fetch(root + "/api/history/101");
+    assert.equal(r.status, 401);
+    r = await fetch(root + "/api/history/abc", { headers: headersA });
+    assert.equal(r.status, 400);
+  } finally {
+    await new Promise((resolve, reject) => s.close(err => err ? reject(err) : resolve()));
   }
 });

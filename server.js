@@ -336,7 +336,7 @@ app.get('/api/history', auth, async (req, res) => {
   try {
     const { data, error } = await req.db
       .from('attempts')
-      .select('id, title, total, correct, accuracy, mode, subject, selection_json, created_at')
+      .select('id, title, total, correct, accuracy, mode, subject, selection_json, created_at, details_version')
       .eq('user_id', req.user.id)
       .order('id', { ascending: false });
 
@@ -344,6 +344,91 @@ app.get('/api/history', auth, async (req, res) => {
     res.json({ userId: req.user.id, attempts: data || [] });
   } catch (e) {
     res.status(500).json({ error: 'Failed to load test history.' });
+  }
+});
+
+// Stage 3B historical result and question review: authenticated, per-student
+// read-only endpoint. A foreign or missing attempt returns the same 404.
+app.get('/api/history/:attemptId', auth, async (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  const rawId = String(req.params.attemptId || '');
+  const id = Number(rawId);
+  if (!/^[1-9][0-9]{0,14}$/.test(rawId) || !Number.isSafeInteger(id))
+    return res.status(400).json({ error: 'Invalid test identifier.' });
+  const studentId = req.user.id;
+  try {
+    const { data: attempt, error: parentError } = await req.db
+      .from('attempts')
+      .select('id, title, total, correct, accuracy, mode, subject, selection_json, created_at, details_version, elapsed_seconds')
+      .eq('user_id', studentId).eq('id', id).maybeSingle();
+    if (parentError) throw parentError;
+    if (!attempt) return res.status(404).json({ error: 'Test not found.' });
+    const basic = {
+      id: attempt.id, title: attempt.title || 'Practice Test',
+      total: attempt.total, correct: attempt.correct,
+      accuracy: attempt.accuracy, mode: attempt.mode,
+      subject: attempt.subject, selection: attempt.selection_json || {},
+      date: attempt.created_at, elapsedSeconds: attempt.elapsed_seconds,
+      detailsVersion: attempt.details_version
+    };
+    // The original summary-only attempts never stored selected questions.
+    // Preserve their score; never reconstruct fake answers or allow Retake.
+    if (attempt.details_version !== 1) {
+      return res.json({
+        userId: studentId, attempt: basic, items: [],
+        reviewAvailable: false, retakeAvailable: false
+      });
+    }
+    const { data: rows, error: itemError } = await req.db
+      .from('attempt_items')
+      .select('position, mcq_id, mcq_revision_id, selected_index, is_correct')
+      .eq('user_id', studentId).eq('attempt_id', id)
+      .order('position', { ascending: true });
+    if (itemError) throw itemError;
+    if (!Array.isArray(rows) || rows.length !== attempt.total || !rows.length ||
+        rows.some((r, i) => r.position !== i + 1)) throw new Error('Incomplete historical attempt');
+    const revisionIds = rows.map(r => r.mcq_revision_id);
+    const { data: revisions, error: revisionError } = await req.db
+      .from('mcq_revisions')
+      .select('id, mcq_id, bank, subject, chapter, topic, source, question, options_json, correct_index, explanation, mnemonic')
+      .in('id', revisionIds);
+    if (revisionError) throw revisionError;
+    const byRevisionId = new Map((revisions || []).map(row => [String(row.id), row]));
+    const items = rows.map(row => {
+      const rev = byRevisionId.get(String(row.mcq_revision_id));
+      if (!rev || Number(rev.mcq_id) !== Number(row.mcq_id) ||
+          !Array.isArray(rev.options_json) || rev.options_json.length !== 4 ||
+          !Number.isInteger(rev.correct_index) ||
+          rev.correct_index < 0 || rev.correct_index > 3 ||
+          (row.selected_index !== null &&
+           (!Number.isInteger(row.selected_index) || row.selected_index < 0 || row.selected_index > 3)) ||
+          row.is_correct !== (row.selected_index !== null && row.selected_index === rev.correct_index))
+        throw new Error('Historical question revision integrity check failed');
+      return {
+        position: row.position, mcqId: row.mcq_id,
+        revisionId: row.mcq_revision_id, selectedIndex: row.selected_index,
+        isCorrect: row.is_correct, bank: rev.bank, subject: rev.subject,
+        chapter: rev.chapter || '', topic: rev.topic || '', source: rev.source || '',
+        question: rev.question, options: rev.options_json, correctIndex: rev.correct_index,
+        explanation: rev.explanation || '', mnemonic: rev.mnemonic || ''
+      };
+    });
+    const correct = items.filter(item => item.isCorrect).length;
+    if (correct !== attempt.correct) throw new Error('Historical score integrity mismatch');
+    const ids = items.map(row => row.mcqId);
+    const { data: marks, error: markError } = await req.db
+      .from('bookmarks').select('mcq_id')
+      .eq('user_id', studentId).in('mcq_id', ids);
+    if (markError) throw markError;
+    const marked = new Set((marks || []).map(row => String(row.mcq_id)));
+    res.json({
+      userId: studentId, attempt: basic,
+      items: items.map(item => ({ ...item, marked: marked.has(String(item.mcqId)) })),
+      reviewAvailable: true, retakeAvailable: true
+    });
+  } catch (error) {
+    console.error('Historical attempt read failed:', error?.code || error?.message || 'unknown');
+    res.status(503).json({ error: 'Unable to verify the saved test details. Please retry.' });
   }
 });
 
