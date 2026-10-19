@@ -812,7 +812,7 @@
               </button>
               <div class="sjn-history-filter-grid" id="sjn-history-filter-grid">
                 <select id="sjn-history-source" aria-label="Source filter">
-                  <option value="all">All Sources</option><option value="past">Past Papers</option>
+                  <option value="all">All Sources</option><option value="past">Past Papers Question Bank</option>
                   <option value="sjn">SJN Question Bank</option><option value="courses">Courses</option>
                   <option value="mock">Mock Tests</option><option value="other">Other Tests</option>
                 </select>
@@ -855,6 +855,12 @@
                   <option value="marked">Marked</option>
                 </select>
                 <span id="sjn-history-index"></span>
+              </div>
+              <div class="sjn-history-navigator-heading">
+                <span>Question Navigator</span>
+                <button type="button" id="sjn-history-nav-toggle" class="sjn-history-nav-toggle" aria-controls="sjn-history-question-nav" aria-expanded="true" aria-label="Hide Question Navigator">
+                  <i class="fa-solid fa-eye-slash" aria-hidden="true"></i><span id="sjn-history-nav-toggle-label">Hide Navigator</span>
+                </button>
               </div>
               <nav id="sjn-history-question-nav" class="sjn-history-question-nav" aria-label="Review question navigator"></nav>
               <div id="sjn-history-question" class="sjn-history-question"></div>
@@ -3005,6 +3011,8 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
             sourceKind: ['past','sjn','courses','mock'].includes(row.selection_json?.sourceKind)
               ? row.selection_json.sourceKind : null,
             subject: row.subject || 'Mixed',
+            subjects: Array.isArray(row.selection_json?.subjects)
+              ? row.selection_json.subjects.filter(x=>typeof x==='string') : [],
             mode: row.mode || 'tutor',
             score: correct + '/' + total,
             accuracy: Math.round(total ? 100 * correct / total : 0) + '%',

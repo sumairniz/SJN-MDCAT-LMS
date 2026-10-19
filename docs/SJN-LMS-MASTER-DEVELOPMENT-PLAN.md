@@ -7,6 +7,12 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-20 — Owner-approved Review/History refinements
+
+- Owner approved: rename Source filter **Past Papers Question Bank** (not generic Past Papers); preserve distinction from future full-length Past Papers; show multi-subject names on desktop and compact “N Subjects” on mobile from saved selection metadata; add visible-by-default **Show/Hide Question Navigator** on Review on desktop and mobile; fill Correct green / Incorrect red / Skipped amber number tiles; overlay a small violet bookmark icon **and subtle violet border** on any marked number, without replacing its result color; display saved Time Taken in both Tutor and Timed Review, only when actually recorded.
+- Restrict these adjustments to **Test History and Review**. Owner confirmed the working Retake/examination UI must not change. No added 3D/glow. Source integrations for courses, full papers and mocks remain future tasks, not fictional filter results.
+- Implementation and tests: exact source label/search classification, account-saved `selection_json.subjects` for multi-subject history, immutable revision item subjects in detailed Review, faithful `elapsed_seconds` formatting, navigator toggle and independent marked badge state, scoped styling and updated regressions. No DB/schema/data change.
+
 ## 2026-10-19 — Stage 3C history staging build READY (owner browser validation pending)
 
 - Dev commit a3fe5e0 implemented responsive Test History cards/table, 2 verified completed counters, source/mode/status/date search filters, account-scoped immutable historical Results/Review, version-safe exact-order Retake. All changes restricted to Stage 3C History presentation/authenticated historical read/retake launch; no visual change to the exam question interface.

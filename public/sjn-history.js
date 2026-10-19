@@ -7,7 +7,7 @@
   const state = {
     logs: [], status: 'loading', source: 'all', mode: 'all',
     statusFilter: 'all', date: 'newest', query: '',
-    detail: null, filter: 'all', current: 0, busy: false
+    detail: null, filter: 'all', current: 0, busy: false, navigatorVisible: true
   };
   const text = value => String(value == null ? '' : value);
   const dateLabel = value => {
@@ -20,16 +20,28 @@
     if (log.sourceKind && ['past','sjn','courses','mock'].includes(log.sourceKind))
       return log.sourceKind;
     const value = text(log.title).toLowerCase();
-    if (value.includes('past papers') || value.includes('mdcat 20') ||
-        value.includes('iba mdcat')) return 'past';
+    if (value.includes('past papers question bank')) return 'past';
+    // A full past-paper examination has its own separate source class in
+    // future assessment builders; never classify a paper as the question bank
+    // merely because it mentions IBA/MDCAT or a year.
     if (value.includes('sjn question bank')) return 'sjn';
     // Other titles have no reliable source type in pre-existing summary data.
     return 'other';
   }
   const sourceTitle = key => ({
-    past:'Past Papers',sjn:'SJN Question Bank',courses:'Courses',
+    past:'Past Papers Question Bank',sjn:'SJN Question Bank',courses:'Courses',
     mock:'Mock Tests',other:'Other tests'
   })[key] || 'Other tests';
+  function subjectNames(log) {
+    const names = Array.isArray(log.subjects) ? log.subjects : [];
+    const clean = [...new Set(names.filter(x => typeof x === 'string' &&
+      x.trim() && x.trim().toLowerCase() !== 'all subjects').map(x=>x.trim()))];
+    return clean.length ? clean : [text(log.subject || 'Mixed')];
+  }
+  const displaySubjects = (log,mobile=false) => {
+    const names=subjectNames(log);
+    return mobile && names.length>2 ? names.length+' Subjects' : names.join(' · ');
+  };
   const el = (tag, cls, value) => {
     const node = document.createElement(tag);
     if (cls) node.className = cls;
@@ -69,7 +81,7 @@
       if (state.mode !== 'all' && log.mode !== state.mode) return false;
       // No draft rows exist in the current DB. Do not invent a completed count.
       if (state.statusFilter === 'in-progress') return false;
-      const search = [log.title,log.subject,log.mode,sourceTitle(sourceOf(log)),
+      const search = [log.title,log.subject,...subjectNames(log),log.mode,sourceTitle(sourceOf(log)),
         ...(Array.isArray(log.chapters)?log.chapters:[]),
         ...(Array.isArray(log.topics)?log.topics:[])
       ].map(text).join(' ').toLowerCase();
@@ -110,7 +122,7 @@
       const tr=el('tr','sjn-history-row');
       const titleCell=el('td','sjn-history-title-cell');
       titleCell.append(el('strong','',log.title),el('small','',dateLabel(log.date)));
-      const subject=el('td','',log.subject);
+      const subject=el('td','',displaySubjects(log));
       const mode=el('td','sjn-history-mode-cell',text(log.mode).toUpperCase());
       const score=el('td','sjn-history-score-cell',log.score);
       const acc=el('td','',log.accuracy);
@@ -125,7 +137,9 @@
       heading.append(left,scoreBlock);
       card.append(heading,metadata(log));
       const line=el('div','sjn-history-card-footer');
-      line.append(el('span','',log.subject),el('span','', 'Completed'));
+      const subjectLabel=el('span','',displaySubjects(log,true));
+      subjectLabel.title=displaySubjects(log);
+      line.append(subjectLabel,el('span','', 'Completed'));
       card.append(line,actions(log));
       mobile.append(card);
     }
@@ -164,6 +178,10 @@
       $(id)?.addEventListener(id.endsWith('-search')?'input':'change',setFilters);
     });
     $('sjn-history-back')?.addEventListener('click',closeDetail);
+    $('sjn-history-nav-toggle')?.addEventListener('click',()=>{
+      state.navigatorVisible=!state.navigatorVisible;
+      syncNavigatorVisibility();
+    });
     $('sjn-history-prev')?.addEventListener('click',()=>selectQuestion(state.current-1));
     $('sjn-history-next')?.addEventListener('click',()=>selectQuestion(state.current+1));
     $('sjn-history-filter-toggle')?.addEventListener('click', () => {
@@ -175,6 +193,23 @@
     $('sjn-history-review-filter')?.addEventListener('change',e=>{
       state.filter=e.target.value;selectQuestion(0,true);
     });
+  }
+  function syncNavigatorVisibility(){
+    const navigator=$('sjn-history-question-nav');
+    const toggle=$('sjn-history-nav-toggle');
+    if(!navigator||!toggle)return;
+    navigator.classList.toggle('hidden',!state.navigatorVisible);
+    toggle.setAttribute('aria-expanded',String(state.navigatorVisible));
+    toggle.setAttribute('aria-label',state.navigatorVisible?'Hide Question Navigator':'Show Question Navigator');
+    const label=$('sjn-history-nav-toggle-label');
+    if(label)label.textContent=state.navigatorVisible?'Hide Navigator':'Show Navigator';
+    const eye=toggle.querySelector('i');
+    if(eye)eye.className=state.navigatorVisible?'fa-solid fa-eye-slash':'fa-solid fa-eye';
+  }
+  function formatTimeTaken(seconds){
+    if(!Number.isFinite(seconds)||seconds<0)return null;
+    const n=Math.floor(seconds),h=Math.floor(n/3600),m=Math.floor(n%3600/60),s=n%60;
+    return h ? h+'h '+m+'m '+s+'s' : m ? m+'m '+s+'s' : s+'s';
   }
   function closeDetail() {
     $('sjn-history-detail')?.classList.add('hidden');
@@ -212,7 +247,13 @@
     if(!list.length){area.append(el('p','sjn-history-empty','No questions match this filter.'));return;}
     list.forEach((item,index)=>{
       const btn=el('button','sjn-history-number'+(index===state.current?' is-current':'')+
-        ' is-'+outcomeOf(item),String(item.position));
+        ' is-'+outcomeOf(item)+(item.marked?' is-marked':''),String(item.position));
+      if(item.marked){
+        const flag=icon('bookmark');
+        flag.classList.add('sjn-history-number-bookmark');
+        btn.append(flag);
+        btn.title='Question '+item.position+' · '+outcomeOf(item)+' · marked';
+      }
       btn.type='button';btn.addEventListener('click',()=>selectQuestion(index));
       navigator.append(btn);
     });
@@ -252,6 +293,8 @@
   }
   function showDetail(payload,mode) {
     state.detail=payload;state.filter='all';state.current=0;
+    state.navigatorVisible=true;
+    syncNavigatorVisibility();
     $('sjn-history-list-view').classList.add('hidden');
     $('sjn-history-detail').classList.remove('hidden');
     $('sjn-history-detail-error').classList.add('hidden');
@@ -260,9 +303,16 @@
     $('sjn-history-detail-title').textContent=attempt.title || 'Practice Test';
     const total=Number(attempt.total)||0, correct=Number(attempt.correct)||0;
     $('sjn-history-detail-score').textContent=correct+' / '+total+' · '+Math.round(Number(attempt.accuracy)||0)+'%';
+    const actualSubjects=payload.reviewAvailable && Array.isArray(payload.items)
+      ? [...new Set(payload.items.map(item=>item.subject).filter(Boolean))]
+      : Array.isArray(attempt.selection?.subjects)
+        ? attempt.selection.subjects.filter(x=>typeof x==='string' && x!=='All Subjects') : [];
+    const subjectText=actualSubjects.length ? actualSubjects.join(' · ') :
+      text(attempt.subject || 'Mixed');
+    const duration=formatTimeTaken(attempt.elapsedSeconds);
     $('sjn-history-detail-subtitle').textContent=
-      text(attempt.subject || 'Mixed')+' · '+text(attempt.mode).toUpperCase()+
-      ' · '+dateLabel(attempt.date);
+      subjectText+' · '+text(attempt.mode).toUpperCase()+
+      ' · '+dateLabel(attempt.date)+(duration===null?'':' · Time Taken: '+duration);
     $('sjn-history-review-area').classList.toggle('hidden',mode!=='review');
     $('sjn-history-summary-only').classList.toggle('hidden',payload.reviewAvailable);
     $('sjn-history-summary-only').textContent=payload.reviewAvailable?

@@ -67,3 +67,30 @@ test('Historical answers are account-bound, exact revision-validated and scored 
   assert.match(html,/new Set\(questions\.map\(q=>q\.id\)\)\.size!==questions\.length/);
   assert.match(html,/window\.launchGeneratedQuiz\(questions\)/);
 });
+
+test('Approved review adjustments keep the status fill and violet bookmark separate',()=>{
+  assert.match(html,/Past Papers Question Bank<\/option>/);
+  assert.match(js,/past:'Past Papers Question Bank'/);
+  assert.doesNotMatch(js,/value\.includes\('iba mdcat'\)/);
+  assert.match(html,/id="sjn-history-nav-toggle"/);
+  assert.match(html,/aria-expanded="true"/);
+  assert.match(js,/state\.navigatorVisible=true/);
+  assert.match(js,/navigator\.classList\.toggle\('hidden',!state\.navigatorVisible\)/);
+  assert.match(js,/item\.marked\?' is-marked':''/);
+  assert.match(js,/sjn-history-number-bookmark/);
+  assert.match(css,/sjn-history-number\.is-correct\{background:#166534/);
+  assert.match(css,/sjn-history-number\.is-incorrect\{background:#991b1b/);
+  assert.match(css,/sjn-history-number\.is-unanswered\{background:#a16207/);
+  assert.match(css,/sjn-history-number\.is-marked\{border:2px solid #a78bfa/);
+  assert.doesNotMatch(css,/\.sjn-exam-/);
+});
+
+test('Review duration and multiple saved subjects use real attempt metadata',()=>{
+  assert.match(html,/subjects: Array\.isArray\(row\.selection_json\?\.subjects\)/);
+  assert.match(js,/function subjectNames\(log\)/);
+  assert.match(js,/const displaySubjects = \(log,mobile=false\)/);
+  assert.match(js,/displaySubjects\(log,true\)/);
+  assert.match(js,/payload\.items\.map\(item=>item\.subject\)/);
+  assert.match(js,/Time Taken: /);
+  assert.match(js,/function formatTimeTaken\(seconds\)/);
+});
