@@ -31,3 +31,13 @@ Do **not** restore browser-scored saving as an emergency workaround: it would re
 - Rollback-only RPC test with synthetic 3-MCQ submission in authenticated JWT context passed: 1 correct, 1 incorrect, 1 skipped, 1 detailed parent, 3 ordered items; retry with same UUID returned existing result; synthetic parent/items rolled back.
 - Post-test read-only verification: `mcqs=74`, `mcq_revisions=74`, `mcq/source mismatches=0`, `attempts=49` (39 older aggregate summaries, 10 detailed), `attempt_items=50`, `bookmarks=3`, persisted rollback test records=0. No production DB writes or main merges.
 - **Open acceptance:** a real student must complete a small Tutor and Timed test **after this restriction**, then we should recheck saved item/score records and signed-in Student A/B cross-account RLS. Only then mark this permanent security cutover fully accepted. The deferred Results Screen navigation delay is unchanged.
+
+## Post-lockdown owner browser attempt check — 2026-10-19
+
+- Owner reported completing the requested small browser test; checked live staging Supabase **read-only**.
+- Two newly saved attempt records **#53** (16:52 UTC) and **#54** (16:54 UTC) both have `details_version=1`, 5 of 5 saved ordered answer items (positions 1–5), **3 correct / 1 incorrect / 1 skipped** (60%), **0 revision mismatches and 0 server-grade mismatches**, with no missing items.
+- **Important unresolved mode distinction:** The database recorded **both as `mode='tutor'`**, not Timed. Existing previous Timed test #45 was **before** the lockdown migration. Current frontend serializes the selected `wizardSelection.testMode` to the submission RPC. Do NOT mark post-lockdown Timed browser acceptance as verified yet; ask owner to confirm they selected Timed Exam Mode or do one new 5-MCQ Timed run, then inspect its saved mode.
+- Current staging totals: **74 MCQs, 74 revisions, 51 attempts (39 original summary-only and 12 detailed), 60 detailed question items, 3 bookmarks; 0 incomplete detailed attempts**.
+- Catalog reconfirms: `authenticated` may SELECT `attempts` but not INSERT/UPDATE/DELETE, and the trusted PostgreSQL grading RPC remains executable by authenticated users.
+- **What this verifies:** A real post-lockdown browser save persisted detailed question-level history with the expected authoritative score. **What remains:** actual post-lockdown Timed submission, Student A/B account-isolation tests in authenticated client context, and owner release acceptance. No code/SQL/production changes during this read-only verification.
+

@@ -7,6 +7,12 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-19 — Post-lockdown owner browser submission verified; Timed Mode confirmation pending
+
+- Verified recent owner-reported post-lockdown browser attempts **#53 and #54** in staging Supabase, each **5/5 item records**, score **3 correct, 1 wrong, 1 skipped (60%)**, with 0 revision/answer-score mismatches. 51 total attempts: 39 preserved aggregate-only and 12 detailed, 60 ordered answer rows, no incomplete detailed records. Direct authenticated attempts DML remains revoked.
+- Both latest records are explicitly labeled **Tutor** by the database, so do **not** infer post-lockdown Timed acceptance from them. Previous known Timed records were saved before lockdown. Next ask owner for confirmation/one Timed 5-MCQ submission, then verify `mode=timed`. Student A/B live RLS privacy tests remain an additional release gate.
+- Documentation only; no production change, data deletion, schema change or Results Screen-delay work.
+
 ## 2026-10-19 — Stage 3B old score-only writer RETIRED on staging (verified)
 
 - **Code:** `f06e369` replaces historical browser-score writer `POST /api/attempts` with non-writing HTTP **410 Gone** reload response. Normal Tutor and Timed use authenticated `/api/practice/submit` and postgres `sjn_submit_practice_attempt`. Updated account-switch, legacy route, source preservation tests; **both GitHub Actions workflows PASSED**, dedicated Vercel preview alias READY at `f06e369`.
