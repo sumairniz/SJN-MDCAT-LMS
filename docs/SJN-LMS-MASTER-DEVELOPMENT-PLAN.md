@@ -7,6 +7,16 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-19 — POST-LOCKDOWN Timed Mode accepted and verified in staging DB
+
+- **Owner report:** completed the requested real-browser Timed Mode practice test after the permanent `/api/attempts` legacy score writer retirement and `attempts` direct DML lockdown.
+- **READ-ONLY Supabase verification:** latest attempt **#55** (`2026-10-19 17:04:35 UTC`) is `mode='timed'`, `details_version=1`, `total=5`, `correct=3`, `accuracy=60%`. Precisely **5** owned answer items are saved in positions 1–5 (5 distinct positions): 3 correct, 1 incorrect, 1 skipped, **0 revision mismatches, 0 authoritative grading mismatches**. These are database facts, not merely a frontend screenshot.
+- Previously tested Tutor after lockdown: attempts #53 and #54, each 5/5 responses, 3 correct / 1 wrong / 1 skipped, matching SQL scoring. **Both modes now passed** post-lockdown real-browser submission + DB verification; no UI mode-selection bug.
+- **Preservation totals:** 74 original MCQs, 74 revisions; **52** attempt summaries, of which the original **39** remain legacy summary-only and **13** are detailed; **65** individual answer records; 3 bookmarks; **0 incomplete detailed attempts**.
+- **Security privileges remain restricted:** `authenticated` may SELECT their `attempts` rows but cannot directly INSERT, UPDATE or DELETE; secure `sjn_submit_practice_attempt` RPC EXECUTE remains available to authenticated only. Frontend continues to use the new endpoint; legacy `POST /api/attempts` returns 410.
+- **Remaining release gate:** independent authenticated **Student A / Student B RLS isolation** and invalid identity/session checks after these changes; do not claim them tested solely from policies or read-only aggregate SQL. Further release work includes preview-only flags retirements, historical Review/Retake feature implementation and separately authorized production merge. Results-screen delay and fallback messages remain explicitly DEFERRED.
+- Documentation-only update: NO code/schema/data edits, user account resets or production changes.
+
 ## 2026-10-19 — Post-lockdown owner browser submission verified; Timed Mode confirmation pending
 
 - Verified recent owner-reported post-lockdown browser attempts **#53 and #54** in staging Supabase, each **5/5 item records**, score **3 correct, 1 wrong, 1 skipped (60%)**, with 0 revision/answer-score mismatches. 51 total attempts: 39 preserved aggregate-only and 12 detailed, 60 ordered answer rows, no incomplete detailed records. Direct authenticated attempts DML remains revoked.

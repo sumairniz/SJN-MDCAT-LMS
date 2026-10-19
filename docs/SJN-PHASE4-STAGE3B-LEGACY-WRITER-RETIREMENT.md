@@ -41,3 +41,14 @@ Do **not** restore browser-scored saving as an emergency workaround: it would re
 - Catalog reconfirms: `authenticated` may SELECT `attempts` but not INSERT/UPDATE/DELETE, and the trusted PostgreSQL grading RPC remains executable by authenticated users.
 - **What this verifies:** A real post-lockdown browser save persisted detailed question-level history with the expected authoritative score. **What remains:** actual post-lockdown Timed submission, Student A/B account-isolation tests in authenticated client context, and owner release acceptance. No code/SQL/production changes during this read-only verification.
 
+
+## 2026-10-19 — POST-LOCKDOWN Timed Mode accepted and verified in staging DB
+
+- **Owner report:** completed the requested real-browser Timed Mode practice test after the permanent `/api/attempts` legacy score writer retirement and `attempts` direct DML lockdown.
+- **READ-ONLY Supabase verification:** latest attempt **#55** (`2026-10-19 17:04:35 UTC`) is `mode='timed'`, `details_version=1`, `total=5`, `correct=3`, `accuracy=60%`. Precisely **5** owned answer items are saved in positions 1–5 (5 distinct positions): 3 correct, 1 incorrect, 1 skipped, **0 revision mismatches, 0 authoritative grading mismatches**. These are database facts, not merely a frontend screenshot.
+- Previously tested Tutor after lockdown: attempts #53 and #54, each 5/5 responses, 3 correct / 1 wrong / 1 skipped, matching SQL scoring. **Both modes now passed** post-lockdown real-browser submission + DB verification; no UI mode-selection bug.
+- **Preservation totals:** 74 original MCQs, 74 revisions; **52** attempt summaries, of which the original **39** remain legacy summary-only and **13** are detailed; **65** individual answer records; 3 bookmarks; **0 incomplete detailed attempts**.
+- **Security privileges remain restricted:** `authenticated` may SELECT their `attempts` rows but cannot directly INSERT, UPDATE or DELETE; secure `sjn_submit_practice_attempt` RPC EXECUTE remains available to authenticated only. Frontend continues to use the new endpoint; legacy `POST /api/attempts` returns 410.
+- **Remaining release gate:** independent authenticated **Student A / Student B RLS isolation** and invalid identity/session checks after these changes; do not claim them tested solely from policies or read-only aggregate SQL. Further release work includes preview-only flags retirements, historical Review/Retake feature implementation and separately authorized production merge. Results-screen delay and fallback messages remain explicitly DEFERRED.
+- Documentation-only update: NO code/schema/data edits, user account resets or production changes.
+
