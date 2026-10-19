@@ -25,4 +25,13 @@ GitHub CI and staging Vercel READY; original 74 preserved; no stale-bearer or cr
 
 ## Outcome
 
-Initial implementation prepared; CI, staging browser and owner acceptance pending. Do not claim completion of those gates until verified.
+Initial implementation committed; CI and Vercel READY verified. Owner live-browser UI/feature acceptance remains pending; do not claim it is verified before actual owner tests.
+
+## 2026-10-19 — Staging build verification
+
+- **Commit:** a3fe5e092c648d69ec32d9aa07ada9d360e0e46e, Stage 3C responsive History and saved-result actions, with no Supabase migration.
+- **GitHub CI:** runs 39300392518 and 39300381158 both completed successfully, including Node tests, student-scoped mock request isolation, quiz-launch exact-order retake regression, original 74 preservation, CSS build reproducibility and release guardrails.
+- **Vercel Preview:** dedicated branch host READY at the exact same commit.
+- **Read-only staging DB preservation:** mcqs 74, revisions 74, attempts 55 (39 old summary-only, 16 detailed), attempt_items 80, bookmarks 3. User activity can change totals independently of this deployment; these are a timestamped post-deploy snapshot.
+- **Still requires owner browser approval:** mobile ~375 px history without horizontal scroll; desktop action sizes/colors; search and Source/Mode/Status/Date filters; saved Results from History; Review filters, correct key and explanations; marked toggle; Tutor/Timed Retake with exact question order, newly saved independent score and earlier history unchanged; a second student cannot request the first student's detailed attempt (live, not only mocked).
+- **Important limitation:** Existing old score-only attempts cannot offer Review/Retake; they remain accessible for honest summary Results. A change in active MCQ revision blocks Retake to avoid silently substituting different historical questions. Future Courses/Mocks and In Progress have no active data/source integration yet and must be connected with real source metadata and draft persistence before advertising them as active.

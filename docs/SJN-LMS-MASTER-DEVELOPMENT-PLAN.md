@@ -7,6 +7,12 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-19 — Stage 3C history staging build READY (owner browser validation pending)
+
+- Dev commit a3fe5e0 implemented responsive Test History cards/table, 2 verified completed counters, source/mode/status/date search filters, account-scoped immutable historical Results/Review, version-safe exact-order Retake. All changes restricted to Stage 3C History presentation/authenticated historical read/retake launch; no visual change to the exam question interface.
+- **Both GitHub Actions PASSED:** 39300392518, 39300381158. Vercel staging preview host READY at a3fe5e0. Read-only Supabase preserves 74 MCQs, 74 revisions, 55 attempts (39 original summary-only), 80 detailed answer items and 3 bookmarks.
+- **Owner visual and functional acceptance still PENDING**, especially mobile zero-horizontal-scrolling, actual saved Results/Review/Retake in browser, and independent two-account foreign-detail denial. Documented in [Stage 3C Implementation](SJN-PHASE4-STAGE3C-TEST-HISTORY-IMPLEMENTATION.md). No staging SQL or production changes.
+
 ## 2026-10-19 — Stage 3C owner-approved unified Test History implementation
 
 - Owner approves two counters, Source/Mode/Status/Date search and filtering, tight desktop table, scroll-free mobile test cards, unified future assessment history, and three actions: neutral Results (only red chart bars), solid-red Review, subtle dark-red Retake. Owner explicitly declined extra 3D/glow enhancement. Keep the exam MCQ interface visually unchanged.
