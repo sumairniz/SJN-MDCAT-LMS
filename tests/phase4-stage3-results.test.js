@@ -101,6 +101,27 @@ test('Approved result hierarchy, textured ring, exact cards and responsive grids
   assert.match(resultCss, /transform: rotate\(-90deg\)/);
 });
 
+test('Results appear immediately with no Saving or Saved banner while secure save continues', () => {
+  assert.doesNotMatch(resultJs, /id="sjn-results-save"/);
+  assert.doesNotMatch(resultJs, /sjn-results-save is-(?:pending|saved|error)/);
+  assert.doesNotMatch(resultJs, /Saving your completed test|Saved with database-verified/);
+  assert.doesNotMatch(resultCss, /\.sjn-results-save/);
+  assert.match(resultJs, /const report = summarizeAttempt\(snapshot\.questions, snapshot\.answers, snapshot\.elapsedSeconds\)/);
+  const showStart = resultJs.indexOf('  function show(snapshot, savePromise) {');
+  const beginSaveAwait = resultJs.indexOf('Promise.resolve(savePromise)', showStart);
+  const showResult = resultJs.indexOf("section.classList.remove('hidden')", showStart);
+  assert.ok(showResult > showStart && beginSaveAwait > showResult,
+    'Results must be visible before the asynchronous database response');
+  assert.match(resultJs, /pendingSave = true/);
+  assert.match(resultJs, /pendingSave = false/);
+  assert.match(resultJs, /window\.alert\('Your completed test could not be confirmed as saved/);
+  assert.match(dashboard, /api\('\/practice\/submit'/);
+  assert.match(dashboard, /savedAttemptOutcome = outcome;/);
+  assert.match(resultJs, /outcome\.saved === true && outcome\.id/);
+  assert.match(resultJs, /const mismatch = confirmed &&/);
+  assert.match(resultJs, /outcome\.correct/);
+});
+
 test('Results do not falsely promise historical Review or Retake and use server-confirmed saving', () => {
   assert.match(resultJs, /id="sjn-results-review" disabled/);
   assert.match(resultJs, /id="sjn-results-retake" disabled/);

@@ -7,6 +7,12 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-19 — Stage 3B results UI: owner requests silent normal save feedback
+
+- **OWNER REQUIREMENT:** On the approved Results Screen, remove the transient yellow “Saving your completed test…” message and green “Saved with database-verified answers…” confirmation **completely**. The result (accuracy ring, 0/5, correct/incorrect/skipped/time cards, controls, Performance Insights) must render immediately, without a status row or blank reserved space. Owner provided screenshots of both states. Fast-feeling UI is required, **but a database network operation cannot honestly be guaranteed to complete in milliseconds**.
+- **Implementation scope:** remove only the `sjn-results-save` DOM node/styles/pending/success text. Keep the current `/api/practice/submit` trusted PostgreSQL grading, correct/incorrect/skipped persistence, account-bound validation and idempotency exactly as before. Results continue rendering synchronously before the save Promise resolves; navigation stays protected while a save is in flight. Verified score still replaces provisional score on mismatch and hides unreliable insights. Authenticated saver still alerts users on save failure; an unexpected rejected Promise is warned via alert as a fallback, never silently swallowed.
+- **Testing:** extend Stage 3 Results regression to assert no Saving/Saved labels or CSS, immediate result-before-Promise display, server-confirmation/grade correction and failure feedback remain. Update stale Stage 3B source assertions that expected the removed green text. Run GitHub test and release checks and verify the staged Vercel commit. No Supabase/MCQ/history data deletion, no changes to production or approved result layout apart from removing this status line. Record actual CI/deployment and owner browser acceptance subsequently.
+
 ## 2026-10-18 — Create Quiz scope fix CI test contract updated
 
 - GitHub commit `a48d16f` fixed an actual frontend scope crash and the separate stale-result cache. New executable launcher tests for Tutor/Timed, absent/unversioned question banks, and saved-result reset all passed, as did original 74-MCQ checksum verification.

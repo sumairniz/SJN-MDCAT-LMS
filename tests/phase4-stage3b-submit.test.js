@@ -41,6 +41,7 @@ test('stage 3B normal and Phase 4 flows both use the server-graded route exactly
   assert.match(dashboard, /savedAttemptOutcome = null/);
   assert.match(dashboard, /selectedIndex: userAnswers\[i\]/);
   assert.match(preview, /window\.finishQuiz\(\{ elapsedSeconds: snapshot\.elapsedSeconds \}\)/);
-  assert.match(results, /database-verified score/);
-  assert.match(results, /Provisional insights were hidden/);
+  assert.match(results, /outcome\.correct/);
+  assert.match(results, /\$\('sjn-results-insights'\)\.hidden = true/);
+  assert.doesNotMatch(results, /Saved with database-verified/);
 });

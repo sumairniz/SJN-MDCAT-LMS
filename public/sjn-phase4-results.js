@@ -133,7 +133,6 @@
     '    <button type="button" id="sjn-results-new-test"><i class="fa-solid fa-plus-circle" aria-hidden="true"></i>Create New Test</button>',
     '  </div>',
     '  <p class="sjn-results-feature-notice">Review Answers and Retake Test will be available after secure question-level attempt history is implemented.</p>',
-    '  <p class="sjn-results-save" id="sjn-results-save" role="status" aria-live="polite"></p>',
     '  <details class="sjn-results-insights" id="sjn-results-insights">',
     '    <summary><span><i class="fa-solid fa-chart-simple" aria-hidden="true"></i> Performance Insights</span><i class="fa-solid fa-chevron-down sjn-results-insights-chevron" aria-hidden="true"></i></summary>',
     '    <div id="sjn-results-insights-body" class="sjn-results-insights-body"></div>',
@@ -232,9 +231,8 @@
     $('sjn-results-insights').open = false;
     makeInsights(report.groups);
 
-    const status = $('sjn-results-save');
-    status.className = 'sjn-results-save is-pending';
-    status.textContent = 'Saving your completed test to your account…';
+    // Keep secure background saving, but do not show a transient yellow
+    // Saving message or leave a blank reserved status row in the results UI.
     pendingSave = true;
     $('sjn-results-dashboard').disabled = true;
     $('sjn-results-new-test').disabled = true;
@@ -245,8 +243,9 @@
     window.history.replaceState({ sjnPhase4Preview: true }, '', RESULTS_URL);
     workspace.scrollTop = 0;
 
-    // The existing authenticated /api/attempts pipeline is the only writer.
-    // It returns { saved: true, id } only when server confirms the attempt.
+    // The single authenticated /api/practice/submit path remains the writer.
+    // The score is displayed immediately; persistence confirms asynchronously.
+    // Actual save failures remain visible via the authenticated saver's alert.
     Promise.resolve(savePromise).then(outcome => {
       if (!visible) return;
       const confirmed = outcome && outcome.saved === true && outcome.id;
@@ -276,16 +275,14 @@
       } else {
         $('sjn-results-insights').hidden = false;
       }
-      status.className = 'sjn-results-save ' + (confirmed ? 'is-saved' : 'is-error');
-      status.textContent = !confirmed
-        ? 'Saving could not be confirmed. Check Test History before trying again.'
-        : mismatch
-          ? 'Saved with database-verified score. Provisional insights were hidden because the local calculation differed.'
-          : 'Saved with database-verified answers to your Test History.';
+      // No green success banner: completed results stay clean, while the
+      // verified grade and Test History are still updated behind the scenes.
+      // The saver reports ordinary failed saves, including network errors.
     }).catch(() => {
       if (!visible) return;
-      status.className = 'sjn-results-save is-error';
-      status.textContent = 'Saving could not be confirmed. Check Test History before trying again.';
+      // Unexpected rejected promises are rare, but must never silently lose
+      // a student's result merely to keep the normal interface minimal.
+      window.alert('Your completed test could not be confirmed as saved. Check Test History before trying again.');
     }).finally(() => {
       pendingSave = false;
       $('sjn-results-dashboard').disabled = false;

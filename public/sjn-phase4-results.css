@@ -42,10 +42,6 @@ body.sjn-phase4-results-active #sjn-workspace-main { padding: 0 !important; scro
 .sjn-results-actions button.is-primary:not(:disabled):hover { background: #991b1b; }
 .sjn-results-actions button:disabled { opacity: .5; cursor: not-allowed; }
 .sjn-results-feature-notice { color: #93939e; font-size: 11px; line-height: 1.55; text-align: center; margin: 11px 0 0; }
-.sjn-results-save { text-align: center; min-height: 20px; margin: 11px 0 0; font-size: 12px; font-weight: 700; }
-.sjn-results-save.is-pending { color: #fbbf24; }
-.sjn-results-save.is-saved { color: #4ade80; }
-.sjn-results-save.is-error { color: #fca5a5; }
 .sjn-results-insights { border: 1px solid #37373f; background: #151518; border-radius: 12px; overflow: hidden; margin-top: 24px; }
 .sjn-results-insights>summary { display: flex; align-items: center; justify-content: space-between; min-height: 51px; padding: 12px 17px; cursor: pointer; list-style: none; color: #f4f4f5; font-size: 13px; font-weight: 800; }
 .sjn-results-insights>summary::-webkit-details-marker { display: none; }
