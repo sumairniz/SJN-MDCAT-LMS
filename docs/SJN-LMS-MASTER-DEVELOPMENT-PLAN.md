@@ -7,6 +7,14 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-19 — OWNER ACCEPTANCE: two-account Test History separation confirmed in browser
+
+- **Owner personally tested both staged login accounts:** First account shows **only its own Test History**; second account also shows **only its own Test History**. This is the explicit real-browser bidirectional privacy check requested after test #55 (first account) and #56/#57 (second account). Mark **Student A/B summary Test History visibility — OWNER-CONFIRMED PASS**.
+- Existing read-only database inspection independently verified that #56 (Tutor) and #57 (Timed) each belong to the second student's user identity, distinct from #55's owner; each has 5 correct-ownership item rows, no revision/score mismatch. Database totals were 74 MCQs, 74 revisions, 54 attempt summaries (39 old summary-only, 15 detailed), 75 attempt-items, 0 incomplete detailed attempts.
+- **Scope of this acceptance:** real UI Test History **summary listing** across two accounts. It does **not** by itself constitute adversarial API tests with guessed foreign `attempt_id`, cross-account access to completed question detail endpoints (not yet built), or session expiry/account-switch browser regression. Enforce these separately when implementing the secure historical Review Answers API; do not conflate visible history isolation with complete backend penetration testing.
+- **Engineering milestone:** Stage 3B-2 new secure submissions passed owner-real Tutor+Timed flows on both accounts, verified DB persistence, old client-score POST 410 retirement and student direct-DML lockdown, two-account summary isolation verified by owner. The next activity is **discussion/approval of Review Answers and Retake Test visual interface**, using the already-approved blueprint v1.3 feature rules. Do **not** implement UI prematurely.
+- **Documentation only** in this commit; no new source, Supabase, production, history or deferred-feature changes.
+
 ## 2026-10-19 — Second staging account: Tutor and Timed independently verified; read-isolation pending
 
 - Owner reports completing two 5-question tests signed into a **second staging account**: Tutor Mode followed by Timed Mode. Direct read-only staging Supabase inspection confirms **attempt #56 (tutor)** and **#57 (timed)**, both `details_version=1`, **3 correct / 1 incorrect / 1 skipped** (60%), exactly 5 answer rows in positions 1–5 with no duplicates, **0 ownership-link mismatches, 0 revision mismatches, and 0 authoritative grade mismatches**.
