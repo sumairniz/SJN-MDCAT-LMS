@@ -3,9 +3,18 @@
 **Document type:** Living project decision log, roadmap, acceptance criteria and risk register  
 **Established:** 2026-10-13 (Pakistan time)  
 **Owner:** Academy project owner; changes to application, database, environments and production always require scoped permission  
-**Current active code baseline:** `c31033331af9069ad60cb648c7d60cde97a6b625` on `sjn-phase1a-foundation` (cross-tab authentication synchronization; CI passed, staging READY)  
+**Latest verified feature-code baseline:** `95770f739844cac3683317872537d5993146a063` on `sjn-phase1a-foundation` (Stage 3C Review/History refinements; staging READY; Foundation checks SUCCESS). Documentation-only updates may advance the branch head without changing the feature code.  
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
+
+## 2026-10-20 — Owner accepts latest Stage 3C staging interface; next planning checkpoint
+
+- **OWNER-REPORTED VISUAL ACCEPTANCE:** In the new continuity chat, after opening the latest staging preview, the owner reported that everything checked looked correct. This accepts the latest Test History/Review appearance and October 20 refinement pass from the owner's review; it does **not** independently prove unreported browser E2E scenarios or security penetration tests.
+- **Verified technical evidence:** Stage 3C refinement code commit `95770f739844cac3683317872537d5993146a063`; Foundation checks run `39325601496` completed successfully; Vercel preview `dpl_84CQU9aW9aUE9KYXQuWxZfydzCLT` READY and assigned to the development-branch preview alias. Read-only staging Supabase query during continuity review returned 74 MCQs, 74 immutable revisions, 62 attempt summaries (23 detailed and 39 legacy summary-only), 165 ordered answer rows and 3 bookmarks. This is a point-in-time count and may increase with testing.
+- **STILL OPEN:** Real authenticated Student A/B denial of foreign `GET /api/history/:attemptId` detailed reads, plus any untested browser refresh, account-switch/session edge cases, timed/tutor Retake end-to-end and mobile behavior. Owner's broad statement that the UI looks correct must not be mislabeled as independent completion of all release/security gates.
+- **NEXT DEVELOPMENT AREA (design/approval before implementation):** Durable **Save & Exit, autosave, In Progress in Test History, and Resume**, consistent with Blueprint v1.3. Preserve exact MCQ identities and order, options/locked Tutor states, current question, marks, mode, test configuration, and Timed Practice's remaining countdown; isolate student drafts securely. This is the next proposed scoped feature, **not authorization** to modify application code or staging SQL.
+- **DOCUMENTATION POLICY — OWNER RECONFIRMED:** Maintain the master plan and relevant feature/decision/release/temporary-change records as work progresses; log actual outcomes, approvals, failures, pending checks, and relevant commits. Do not churn unrelated historical documents or mistake a preview deployment for production approval.
+- **NO RELEASE AUTHORIZATION:** Draft PR #1 remains draft; `main`, production Vercel, and production Supabase remain untouched. The separately deferred Results navigation delay remains deferred.
 
 ## 2026-10-20 — Owner-approved Review/History refinements
 
