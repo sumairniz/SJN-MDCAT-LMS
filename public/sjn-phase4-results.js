@@ -265,6 +265,10 @@
     document.body.classList.add('sjn-phase4-results-active');
     window.history.replaceState({ sjnPhase4Preview: true }, '', RESULTS_URL);
     workspace.scrollTop = 0;
+    // Opening Review disables both actions. Re-enable them when returning
+    // to this already-verified saved result, without re-saving the attempt.
+    $('sjn-results-review').disabled = false;
+    $('sjn-results-retake').disabled = false;
   }
 
   function show(snapshot, savePromise) {
