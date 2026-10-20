@@ -23,6 +23,8 @@
 #module-history .sjn-history-title-cell small{display:block;color:#a1a1aa;font-size:10px;margin-top:5px}
 #module-history .sjn-history-mode-cell{font-size:10px;font-weight:800;color:#fca5a5!important}
 #module-history .sjn-history-score-cell{color:#4ade80!important;font-weight:800}
+#module-history .sjn-history-table .sjn-history-score-cell.is-in-progress{color:#facc15!important}
+#module-history .sjn-history-table .sjn-history-progress-count{display:block;color:#a1a1aa;font-size:10px;font-weight:400;margin-top:5px}
 #module-history .sjn-history-action{font:750 11px/1.15 Inter,system-ui,sans-serif;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:38px;border-radius:8px;padding:9px 10px;white-space:nowrap;cursor:pointer;border:1px solid #494951;color:#f4f4f5;background:#25252a}
 #module-history .sjn-history-action-results i{color:#f87171}
 #module-history .sjn-history-action-review{background:#dc2626;border-color:#dc2626;color:white}
