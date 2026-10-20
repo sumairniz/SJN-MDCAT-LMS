@@ -3,9 +3,16 @@
 **Document type:** Living project decision log, roadmap, acceptance criteria and risk register  
 **Established:** 2026-10-13 (Pakistan time)  
 **Owner:** Academy project owner; changes to application, database, environments and production always require scoped permission  
-**Latest verified feature-code baseline:** `95770f739844cac3683317872537d5993146a063` on `sjn-phase1a-foundation` (Stage 3C Review/History refinements; staging READY; Foundation checks SUCCESS). Documentation-only updates may advance the branch head without changing the feature code.  
+**Latest verified feature-code baseline:** `b8cd510b1fe0c82c5140ea6452d86b61ffe64538` on `sjn-phase1a-foundation` (Results Review-return button fix plus repeated-navigation regression; GitHub checks SUCCESS, Vercel staging READY, owner browser acceptance reported). Documentation-only updates may advance the branch head without changing feature code.  
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
+
+## 2026-10-21 — Owner confirmed repeated Review → Results fix in live staging browser
+
+- **Owner acceptance — PASS for this specific regression:** After the targeted staging fix, the owner reported checking the actual LMS and confirmed the previously failing behavior is now correct (“checked it, it is working correctly; done”). Record **Results → Review → Results: Review Answers and Retake Test buttons remain available on return — OWNER-VERIFIED PASS**. The earlier owner screenshots documented the before/after failure, and the user has now confirmed the correction.
+- **Verified engineering evidence:** Fix commit `27d40d7c5d176ebfabae90ab769a2bf70e8e5a6e`; three-cycle DOM regression test commit `b8cd510b1fe0c82c5140ea6452d86b61ffe64538`; GitHub Foundation checks run `39493955433` SUCCESS; Vercel staging deployment `dpl_4XTJBsjHmcFfqLx9TJkASRv3iyBT` READY at that exact feature/test commit.
+- **Scope of acceptance:** Repeated in-page Review-return button restoration only. This confirmation does **not** independently close unobserved Retake→fresh submission account/data verification, cross-account detailed history denial, mobile/expiry edge cases, or any production/release gates.
+- **No app or DB changes in this documentation update:** `main`, production Vercel/Supabase and draft PR merge remain excluded. The separate Save & Exit/autosave/Resume feature remains the next proposed design discussion after this Results correction.
 
 ## 2026-10-21 — Results Screen review-return button-state regression (owner reported; focused staging fix)
 
@@ -13,8 +20,8 @@
 - **Cause observed in code:** Opening Review temporarily sets both Results buttons `disabled=true`. `restoreAfterReview()` re-showed the Results workspace but did not restore the enabled states; a finally handler ran while Results was hidden and thus kept them disabled.
 - **Owner-authorized minimal change:** `public/sjn-phase4-results.js` now explicitly re-enables Review Answers and Retake Test on `restoreAfterReview()`, after the existing verified-attempt, pending-save and action-in-progress guards. No changes to the accepted exam, Test History Review, saved test data, timer, score, backend/API, database, or production.
 - **Commits:** `27d40d7c5d176ebfabae90ab769a2bf70e8e5a6e` (focused code fix); `b8cd510b1fe0c82c5140ea6452d86b61ffe64538` (mocked DOM regression exercising three consecutive Review → Results returns, both action buttons restored, same score, and guard checks). Same branch `sjn-phase1a-foundation`.
-- **Vercel preview:** `dpl_4XTJBsjHmcFfqLx9TJkASRv3iyBT` READY at exactly test commit `b8cd510` and assigned to the dedicated staging preview alias. **GitHub Foundation checks run `39493955433` completed successfully (SUCCESS)** for the exact feature/test commit `b8cd510`, with Vercel preview READY at the same SHA. Owner real-browser acceptance remains pending.
-- **Pending owner acceptance:** Repeat Results → Review Answers → Results at least twice in a newly completed staging test; confirm BOTH Review/Retake buttons remain enabled each time; ensure Retake still starts a fresh test and original score is unchanged. CI/preview readiness is not substitute for owner browser testing. No production deployment or PR merge authorized.
+- **Vercel preview:** `dpl_4XTJBsjHmcFfqLx9TJkASRv3iyBT` READY at exactly test commit `b8cd510` and assigned to the dedicated staging preview alias. **GitHub Foundation checks run `39493955433` completed successfully (SUCCESS)** for the exact feature/test commit `b8cd510`, with Vercel preview READY at the same SHA. Owner has since confirmed the actual Results → Review → Results return behavior works in staging (see newer owner acceptance entry above).
+- **Browser acceptance:** Review-return button restoration OWNER-VERIFIED PASS. Separate Retake-as-new-attempt, cross-account detail access and release regression checks remain PENDING where not independently evidenced. CI/preview readiness is not substitute for owner browser testing. No production deployment or PR merge authorized.
 
 ## 2026-10-21 — Results Screen action verification: CI PASSED, preview READY; owner acceptance next
 
