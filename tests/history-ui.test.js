@@ -96,3 +96,14 @@ test('Review duration and multiple saved subjects use real attempt metadata',()=
   assert.match(js,/Time Taken: /);
   assert.match(js,/function formatTimeTaken\(seconds\)/);
 });
+
+test('Desktop-only in-progress details use SJN yellow and retain original table/mobile layout',()=>{
+  assert.match(js,/score\.append\(el\('small','sjn-history-progress-count',log\.answered\+' \/ '\+log\.total\+' answered'\)\)/);
+  assert.match(js,/Math\.round\(100\*Number\(log\.answered\)\/Number\(log\.total\)\)/);
+  assert.match(js,/isDraft\?completePercent\+'% Complete':log\.accuracy/);
+  assert.match(css,/sjn-history-table \.sjn-history-score-cell\.is-in-progress\{color:#facc15!important\}/);
+  assert.match(css,/sjn-history-table \.sjn-history-progress-count/);
+  assert.match(js,/scoreBlock\.append\(el\('strong','',log\.status==='in-progress'\?'In Progress':log\.score\),el\('small','',log\.status==='in-progress'\?\(log\.answered\+' \/ '\+log\.total\+' answered'\):log\.accuracy\)\)/);
+  assert.match(css,/sjn-history-table th:nth-child\(6\)\{width:34%\}/);
+  assert.doesNotMatch(js,/sjn-history-progress-bar/);
+});
