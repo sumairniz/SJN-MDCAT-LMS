@@ -7,6 +7,13 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-21 — Owner-approved desktop-only In Progress summary refinement
+
+- **Explicit scope:** Owner approved modifying only desktop Test History In Progress rows; maintain exact desktop table dimensions, all six original column headings/widths, completed rows, existing Resume flow and entire mobile layout.
+- **Desktop changes:** In the existing Score cell, In Progress now uses SJN yellow `#facc15` (the dashboard's `text-yellow-400`), with a small muted `5 / 10 answered` line immediately below; the existing Accuracy cell shows `50% Complete` for saved drafts only, calculated from the existing authenticated `answered` and `total` fields. Zero-progress draft shows `0 / 10 answered` and `0% Complete`. Completed tests still show their original scores and accuracy.
+- **Implementation:** `129b902b94de70e7addf217c411b8cd82aad3d2f` (desktop row content), `fa59fb0fa5da4287b4dcb833971881e49848844a` (desktop-table-scoped yellow and secondary count line), `85c19ae47cf5818ff1c55356f2e4906ffb877d27` (regression assertions for desktop-only behavior and unchanged mobile rendering). No CSS grid/width/spacing rules changed, no database, no MCQ exam, no autosave.
+- **Verification:** GitHub Foundation checks run `39510831947` completed SUCCESS; Vercel staging deployment `dpl_FreX9Z3Gq71n3aTVpRVMpTTNaG3k` READY at the exact implementation/test commit `85c19ae47cf5818ff1c55356f2e4906ffb877d27`. Owner desktop visual acceptance pending; request inspection of one partial and one zero-progress In Progress row. No production changes or draft PR merge.
+
 ## 2026-10-21 — Stage A owner-reported Exit error fixed on staging
 
 - **Browser evidence:** Owner demonstrated that both `Exit Without Saving` and `Save & Exit` raised `ReferenceError: paperSourceFilter is not defined` when trying to save a 10-MCQ draft. Owner also requested that the middle Exit Without Saving button have a subtle dark-red treatment, while the right Save & Exit button remains red.
