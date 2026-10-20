@@ -7,6 +7,15 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-21 — Results Screen review-return button-state regression (owner reported; focused staging fix)
+
+- **Owner report with two browser screenshots:** Immediately after finishing a securely saved practice test, Review Answers and Retake Test were enabled and Review displayed correctly using the original approved examination UI. After clicking Review and returning to Results, both buttons became disabled. The score and the rest of the interface were correct.
+- **Cause observed in code:** Opening Review temporarily sets both Results buttons `disabled=true`. `restoreAfterReview()` re-showed the Results workspace but did not restore the enabled states; a finally handler ran while Results was hidden and thus kept them disabled.
+- **Owner-authorized minimal change:** `public/sjn-phase4-results.js` now explicitly re-enables Review Answers and Retake Test on `restoreAfterReview()`, after the existing verified-attempt, pending-save and action-in-progress guards. No changes to the accepted exam, Test History Review, saved test data, timer, score, backend/API, database, or production.
+- **Commits:** `27d40d7c5d176ebfabae90ab769a2bf70e8e5a6e` (focused code fix); `b8cd510b1fe0c82c5140ea6452d86b61ffe64538` (mocked DOM regression exercising three consecutive Review → Results returns, both action buttons restored, same score, and guard checks). Same branch `sjn-phase1a-foundation`.
+- **Vercel preview:** `dpl_4XTJBsjHmcFfqLx9TJkASRv3iyBT` READY at exactly test commit `b8cd510` and assigned to the dedicated staging preview alias. **GitHub Foundation checks run `39493955433` was in progress at initial documentation**; consult final run result before considering the fix fully automated-verified.
+- **Pending owner acceptance:** Repeat Results → Review Answers → Results at least twice in a newly completed staging test; confirm BOTH Review/Retake buttons remain enabled each time; ensure Retake still starts a fresh test and original score is unchanged. CI/preview readiness is not substitute for owner browser testing. No production deployment or PR merge authorized.
+
 ## 2026-10-21 — Results Screen action verification: CI PASSED, preview READY; owner acceptance next
 
 - **Latest reviewed code baseline:** `6b05a4ea9e49bfe1c9bb221889cd25a818b15455` after adapting earlier Stage 2/3A assertion tests to the newly approved Results Screen Review/Retake behavior; existing 74 MCQ and security regression checks retained.
