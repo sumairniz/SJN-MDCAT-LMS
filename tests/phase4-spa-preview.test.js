@@ -36,8 +36,8 @@ test('Stage 2: all exam styles are scoped and responsive; no custom background r
 
 test('Stage 2: no false saving or leaking Timed Practice answer feedback', () => {
   assert.match(js, /Save & Exit is not yet available in this staged preview/);
-  assert.match(js, /isTutor && state\.checked\[i\]/);
-  assert.match(js, /const checked = isTutor && state\.checked\[currentMcqIndex\]/);
+  assert.match(js, /isTutor && \(state\.checked\[i\] \|\| state\.reviewOnly\)/);
+  assert.match(js, /const checked = state\.reviewOnly \|\| \(isTutor && state\.checked\[currentMcqIndex\]\)/);
   assert.match(js, /if \(isTutor\) state\.checked\[currentMcqIndex\] = true/);
   assert.match(js, /window\.finishQuiz\(\{ elapsedSeconds: snapshot\.elapsedSeconds \}\)/);
   assert.match(js, /Review Unanswered/);
