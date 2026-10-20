@@ -490,7 +490,10 @@ test("dashboard never reads browser-wide personal history or restores stale stat
   assert.doesNotMatch(dash, /setTimeout\([^]*Object\.assign\(sjnProfile/);
   assert.match(dash, /api\('\/history'\)/);
   assert.match(dash, /payload\.userId !== expectedStudentId/);
-  assert.match(dash, /sjnProfile\.historyLogs = payload\.attempts\.map/);
+  assert.match(dash, /const completedLogs = payload\.attempts\.map/);
+  assert.match(dash, /const drafts=await api\('\/practice\/drafts'\)/);
+  assert.match(dash, /drafts\.userId!==expectedStudentId/);
+  assert.match(dash, /sjnProfile\.historyLogs=\[/);
   assert.match(dash, /X-SJN-Expected-Student/);
   assert.match(dash, /td\.textContent = String\(value \?\? ''\)/);
 });
