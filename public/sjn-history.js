@@ -135,8 +135,12 @@
       titleCell.append(el('strong','',log.title),el('small','',dateLabel(log.date)));
       const subject=el('td','',displaySubjects(log));
       const mode=el('td','sjn-history-mode-cell',text(log.mode).toUpperCase());
-      const score=el('td','sjn-history-score-cell',log.status==='in-progress'?'In Progress':log.score);
-      const acc=el('td','',log.status==='in-progress'?'—':log.accuracy);
+      const isDraft=log.status==='in-progress';
+      const score=el('td','sjn-history-score-cell'+(isDraft?' is-in-progress':''),isDraft?'In Progress':log.score);
+      if(isDraft)score.append(el('small','sjn-history-progress-count',log.answered+' / '+log.total+' answered'));
+      const completePercent=isDraft && Number(log.total)>0
+        ? Math.round(100*Number(log.answered)/Number(log.total)) : 0;
+      const acc=el('td','',isDraft?completePercent+'% Complete':log.accuracy);
       const actionCell=el('td','sjn-history-desktop-actions');actionCell.append(actions(log));
       tr.append(titleCell,subject,mode,score,acc,actionCell);tbody.append(tr);
       const card=el('article','sjn-history-card');
