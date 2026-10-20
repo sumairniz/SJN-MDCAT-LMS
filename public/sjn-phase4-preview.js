@@ -40,7 +40,8 @@
   const HOME_URL = '/index.html?sjnPhase4Preview=1';
   const state = {
     open: false, navigatorOpen: true, checked: [], seconds: 0,
-    startedAt: 0, interval: null, ending: false, modal: null
+    startedAt: 0, interval: null, ending: false, modal: null,
+    reviewOnly: false, reviewPrevious: null
   };
   const html = `
     <section id="sjn-exam-preview" class="module-view hidden sjn-exam-workspace" aria-label="Practice examination">
@@ -245,8 +246,8 @@
     area.replaceChildren();
     currentQuizList.forEach((q, i) => {
       const selected = userAnswers[i];
-      const isTutor = wizardSelection.testMode !== 'timed';
-      let status = selected === null ? 'unanswered' : isTutor && state.checked[i] ? selected === q.correctIndex ? 'correct' : 'incorrect' : 'answered';
+      const isTutor = wizardSelection.testMode !== 'timed' || state.reviewOnly;
+      let status = selected === null ? 'unanswered' : isTutor && (state.checked[i] || state.reviewOnly) ? selected === q.correctIndex ? 'correct' : 'incorrect' : 'answered';
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'sjn-exam-number is-' + status + (i === currentMcqIndex ? ' is-current' : '') + (marked(q) ? ' is-marked' : '');
@@ -256,8 +257,8 @@
       button.addEventListener('click', () => goTo(i));
       area.appendChild(button);
     });
-    const correct = currentQuizList.reduce((n, q, i) => n + (state.checked[i] && userAnswers[i] === q.correctIndex ? 1 : 0), 0);
-    const incorrect = currentQuizList.reduce((n, q, i) => n + (state.checked[i] && userAnswers[i] !== null && userAnswers[i] !== q.correctIndex ? 1 : 0), 0);
+    const correct = currentQuizList.reduce((n, q, i) => n + ((state.checked[i] || state.reviewOnly) && userAnswers[i] === q.correctIndex ? 1 : 0), 0);
+    const incorrect = currentQuizList.reduce((n, q, i) => n + ((state.checked[i] || state.reviewOnly) && userAnswers[i] !== null && userAnswers[i] !== q.correctIndex ? 1 : 0), 0);
     const list = [['Answered', answers()], ['Unanswered', currentQuizList.length - answers()], ['Marked', currentQuizList.filter(marked).length]];
     if (wizardSelection.testMode !== 'timed') list.unshift(['Incorrect', incorrect], ['Correct', correct]);
     const stats = $('sjn-exam-stats');
@@ -298,8 +299,8 @@
     markBtn.classList.toggle('is-marked', marked(q));
     markBtn.querySelector('i').className = (marked(q) ? 'fa-solid' : 'fa-regular') + ' fa-bookmark';
     const options = $('sjn-exam-options'); options.replaceChildren();
-    const isTutor = wizardSelection.testMode !== 'timed';
-    const checked = isTutor && state.checked[currentMcqIndex];
+    const isTutor = wizardSelection.testMode !== 'timed' || state.reviewOnly;
+    const checked = state.reviewOnly || (isTutor && state.checked[currentMcqIndex]);
     q.options.forEach((option, i) => {
       const b = document.createElement('button');
       b.type = 'button';
@@ -328,7 +329,7 @@
         b.append(indicator);
       }
       b.addEventListener('click', () => {
-        if (checked) return;
+        if (checked || state.reviewOnly) return;
         userAnswers[currentMcqIndex] = i;
         if (isTutor) state.checked[currentMcqIndex] = true;
         renderQuestion();
@@ -384,6 +385,21 @@
     document.body.classList.remove('sjn-phase4-exam-active');
     stage.classList.add('hidden');
   }
+  function returnFromReview() {
+    if (!state.open || !state.reviewOnly) return;
+    const prior = state.reviewPrevious;
+    closeExam();
+    state.reviewOnly = false;
+    state.reviewPrevious = null;
+    if (prior) {
+      currentQuizList = prior.questions;
+      userAnswers = prior.answers;
+      currentMcqIndex = prior.index;
+      wizardSelection = prior.wizardSelection;
+    }
+    // Saved review is read-only: no scoring, submission or new attempt.
+    window.SJNPhase4Results?.restoreAfterReview();
+  }
   function leaveUnsaved() {
     closeExam();
     // This is intentionally loss-aware while persistent drafts remain unimplemented.
@@ -394,6 +410,7 @@
     setURL(HOME_URL, true);
   }
   function requestExit() {
+    if (state.reviewOnly) { returnFromReview(); return; }
     dialog('Exit this practice test?', 'Save & Exit is not yet available in this staged preview. Leaving now discards this unfinished attempt. Choose Cancel to keep your answers.', [
       { label: 'Cancel', run() {} },
       { label: 'Exit Without Saving', run: leaveUnsaved, primary: true }
@@ -419,6 +436,7 @@
     Promise.resolve(savePromise).finally(() => { state.ending = false; });
   }
   function requestSubmission() {
+    if (state.reviewOnly) { returnFromReview(); return; }
     if (state.ending) return;
     const n = currentQuizList.length - answers();
     if (n) {
@@ -433,12 +451,17 @@
       ]);
     }
   }
-  function enterExam() {
+  function enterExam(review = false, savedElapsedSeconds = 0) {
     if (!currentQuizList.length || state.open) return;
     state.open = true; state.ending = false;
-    state.checked = Array(currentQuizList.length).fill(false);
+    state.reviewOnly = review;
+    state.checked = Array(currentQuizList.length).fill(review);
     state.navigatorOpen = true;
     $('sjn-exam-mode').textContent = wizardSelection.testMode === 'timed' ? 'Timed' : 'Tutor';
+    // Same exam controls and geometry; the existing submit action returns
+    // to Results rather than submitting a second score in read-only review.
+    $('sjn-exam-submit').textContent = review ? 'Results' : 'Submit';
+    $('sjn-exam-submit').title = review ? 'Return to completed test results' : '';
     document.querySelectorAll('.module-view').forEach(view => view.classList.add('hidden'));
     stage.classList.remove('hidden');
     document.body.classList.add('sjn-phase4-exam-active');
@@ -447,7 +470,10 @@
     $('sjn-exam-nav-toggle').setAttribute('aria-expanded', 'true');
     if (isMobile()) closeNavigator();
     setURL(EXAM_URL);
-    startClock();
+    if (review) {
+      stopClock();
+      $('sjn-exam-clock').textContent = clock(Math.max(0, Math.floor(savedElapsedSeconds)));
+    } else startClock();
     renderQuestion();
     workspace.scrollTop = 0;
     $('sjn-exam-question').focus?.();
@@ -513,10 +539,14 @@
     if (before === currentQuizList[currentMcqIndex]?.id) renderQuestion();
   });
   window.addEventListener('beforeunload', (e) => {
-    if (!state.open) return;
+    if (!state.open || state.reviewOnly) return;
     e.preventDefault(); e.returnValue = '';
   });
   window.addEventListener('popstate', () => {
+    if (state.open && state.reviewOnly && window.location.pathname !== '/quiz/session') {
+      returnFromReview();
+      return;
+    }
     if (state.open && window.location.pathname !== '/quiz/session') {
       // Back must not silently throw away an attempt.
       setURL(EXAM_URL);
@@ -532,6 +562,49 @@
     origLaunch.apply(this, args);
     if (currentQuizList.length && !$('module-quiz').classList.contains('hidden')) {
       enterExam();
+    }
+  };
+  // Results Screen Review intentionally reuses the approved examination
+  // workspace, not Test History's separate review presentation.
+  window.SJNPhase4Exam = {
+    isOpen: () => state.open,
+    reviewSavedAttempt(payload) {
+      if (state.open || state.reviewOnly) throw new Error('Close the current test before reviewing.');
+      if (!payload || payload.reviewAvailable !== true || !payload.attempt ||
+          !Number.isSafeInteger(payload.attempt.id) || payload.attempt.id < 1 ||
+          !Array.isArray(payload.items) || !payload.items.length ||
+          payload.items.length !== Number(payload.attempt.total))
+        throw new Error('Verified saved question details are required for review.');
+      const questions = payload.items.map((item, i) => {
+        const valid = item && item.position === i + 1 &&
+          Number.isSafeInteger(item.mcqId) && item.mcqId > 0 &&
+          Number.isSafeInteger(item.revisionId) && item.revisionId > 0 &&
+          Array.isArray(item.options) && item.options.length === 4 &&
+          Number.isInteger(item.correctIndex) && item.correctIndex >= 0 && item.correctIndex < 4 &&
+          (item.selectedIndex === null || (Number.isInteger(item.selectedIndex) &&
+            item.selectedIndex >= 0 && item.selectedIndex < 4)) &&
+          item.isCorrect === (item.selectedIndex !== null && item.selectedIndex === item.correctIndex);
+        if (!valid) throw new Error('Historical question integrity could not be verified.');
+        return {
+          id: item.mcqId, revisionId: item.revisionId,
+          subject: item.subject, chapter: item.chapter, topic: item.topic,
+          source: item.source, question: item.question, options: item.options,
+          correctIndex: item.correctIndex, explanation: item.explanation,
+          mnemonic: item.mnemonic
+        };
+      });
+      if (new Set(questions.map(q => q.id)).size !== questions.length ||
+          payload.items.filter(item => item.isCorrect).length !== Number(payload.attempt.correct))
+        throw new Error('Saved review order or score could not be verified.');
+      state.reviewPrevious = {
+        questions: currentQuizList, answers: userAnswers,
+        index: currentMcqIndex, wizardSelection
+      };
+      currentQuizList = questions;
+      userAnswers = payload.items.map(item => item.selectedIndex);
+      currentMcqIndex = 0;
+      wizardSelection = { ...wizardSelection, testMode: payload.attempt.mode === 'timed' ? 'timed' : 'tutor' };
+      enterExam(true, Number(payload.attempt.elapsedSeconds) || 0);
     }
   };
   // Direct entry or refresh cannot reconstruct an attempt until draft
