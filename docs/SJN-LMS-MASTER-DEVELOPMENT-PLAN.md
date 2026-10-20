@@ -7,6 +7,14 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-21 — Results Screen action verification: CI PASSED, preview READY; owner acceptance next
+
+- **Latest reviewed code baseline:** `6b05a4ea9e49bfe1c9bb221889cd25a818b15455` after adapting earlier Stage 2/3A assertion tests to the newly approved Results Screen Review/Retake behavior; existing 74 MCQ and security regression checks retained.
+- **GitHub Actions:** Foundation checks run `39492587807` — `completed / success`. Initial run `39492336005` at `67fe014` failed four outdated prior-stage test assertions that expected Review/Retake to stay disabled or Timed to never expose post-submit answer feedback. Updated the tests to distinguish **active Timed exam = no feedback** from **saved read-only review = complete Tutor-style feedback**, and to require verified historical data; the corrected run passed. Keep this failed-attempt/fix evidence for future handover.
+- **Vercel:** `dpl_AsE2tVUfV6dfRBUwjuQY45zmD2q3` READY at exactly `6b05a4ea9e49bfe1c9bb221889cd25a818b15455`, aliased to the dedicated branch preview host; `target=null` (preview), not production.
+- **Current status:** IMPLEMENTED / AUTOMATED CHECKS PASSED / PREVIEW DEPLOYED; **OWNER REAL-BROWSER ACCEPTANCE PENDING**. Perform a new Tutor and Timed completed attempt, verify Results buttons after authoritative save, read-only same-exam Review and return, Retake exact-order fresh save, unchanged Test History Review, mobile and failed-save behavior. No separate code/backend/SQL modifications for documentation.
+- **Release:** No `main` merge, production configuration, production data or deployment changes authorized.
+
 ## 2026-10-21 — Results Screen Review/Retake: owner-approved staging implementation
 
 - **Owner intent (confirmed before coding):** Results Screen **Review Answers** must reopen the same approved Phase 4 MCQ exam interface with the exact completed questions in saved order, locked selections and Tutor-style correct/incorrect explanation/mnemonic feedback (including completed Timed attempts). This is read-only and **not** the separately approved Test History → Review UI, which remains unchanged. **Retake Test** from Results starts a new attempt of the same saved questions in order using the original exam; original history/score is not edited. Owner explicitly authorized development/staging implementation and prioritized these buttons before Save & Exit/autosave/Resume.
