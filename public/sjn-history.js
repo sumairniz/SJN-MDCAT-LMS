@@ -66,6 +66,10 @@
   }
   function actions(log) {
     const group = el('div','sjn-history-actions');
+    if (log.status === 'in-progress') {
+      group.append(button('Resume','retake',()=>resumeDraft(log.id),false));
+      return group;
+    }
     const old = log.detailsVersion !== 1;
     group.append(
       button('Results','results',()=>open(log.id,'results'),false),
@@ -74,13 +78,19 @@
     );
     return group;
   }
+  async function resumeDraft(id) {
+    if(state.busy)return;
+    state.busy=true;
+    try{await window.SJNDrafts.resume(id);}
+    catch(error){window.alert(error?.message || 'Unable to resume your test.');}
+    finally{state.busy=false;}
+  }
   function filtered() {
     const query = state.query.trim().toLowerCase();
     const rows = state.logs.filter(log => {
       if (state.source !== 'all' && sourceOf(log) !== state.source) return false;
       if (state.mode !== 'all' && log.mode !== state.mode) return false;
-      // No draft rows exist in the current DB. Do not invent a completed count.
-      if (state.statusFilter === 'in-progress') return false;
+      if (state.statusFilter !== 'all' && log.status !== state.statusFilter) return false;
       const search = [log.title,log.subject,...subjectNames(log),log.mode,sourceTitle(sourceOf(log)),
         ...(Array.isArray(log.chapters)?log.chapters:[]),
         ...(Array.isArray(log.topics)?log.topics:[])
@@ -106,14 +116,15 @@
     tbody.replaceChildren(); mobile.replaceChildren();
     const total = state.status === 'ready' ? state.logs.length : 0;
     $('sjn-history-total').textContent = String(total);
-    $('sjn-history-completed').textContent = String(total);
+    const completed=state.status==='ready'?state.logs.filter(x=>x.status!=='in-progress').length:0;
+    $('sjn-history-completed').textContent = String(completed);
     if (state.status !== 'ready') {
       showMessage(state.status === 'error' ? 'Could not load your saved test history. Please retry.' :
         'Loading your saved test history…',state.status === 'error');
       return;
     }
     const rows = filtered();
-    $('sjn-history-found').textContent = rows.length + ' of ' + total + ' completed tests';
+    $('sjn-history-found').textContent = rows.length + ' of ' + total + ' recorded tests';
     if (!rows.length) {
       showMessage(total ? 'No saved tests match these filters.' : 'No tests completed yet.');
       return;
@@ -124,8 +135,8 @@
       titleCell.append(el('strong','',log.title),el('small','',dateLabel(log.date)));
       const subject=el('td','',displaySubjects(log));
       const mode=el('td','sjn-history-mode-cell',text(log.mode).toUpperCase());
-      const score=el('td','sjn-history-score-cell',log.score);
-      const acc=el('td','',log.accuracy);
+      const score=el('td','sjn-history-score-cell',log.status==='in-progress'?'In Progress':log.score);
+      const acc=el('td','',log.status==='in-progress'?'—':log.accuracy);
       const actionCell=el('td','sjn-history-desktop-actions');actionCell.append(actions(log));
       tr.append(titleCell,subject,mode,score,acc,actionCell);tbody.append(tr);
       const card=el('article','sjn-history-card');
@@ -133,13 +144,13 @@
       const left=el('div','sjn-history-card-name');
       left.append(el('strong','',log.title),el('small','',dateLabel(log.date)));
       const scoreBlock=el('div','sjn-history-card-score');
-      scoreBlock.append(el('strong','',log.score),el('small','',log.accuracy));
+      scoreBlock.append(el('strong','',log.status==='in-progress'?'In Progress':log.score),el('small','',log.status==='in-progress'?(log.answered+' / '+log.total+' answered'):log.accuracy));
       heading.append(left,scoreBlock);
       card.append(heading,metadata(log));
       const line=el('div','sjn-history-card-footer');
       const subjectLabel=el('span','',displaySubjects(log,true));
       subjectLabel.title=displaySubjects(log);
-      line.append(subjectLabel,el('span','', 'Completed'));
+      line.append(subjectLabel,el('span','', log.status==='in-progress'?'In Progress':'Completed'));
       card.append(line,actions(log));
       mobile.append(card);
     }
