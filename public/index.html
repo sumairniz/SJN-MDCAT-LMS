@@ -821,7 +821,7 @@
                 </select>
                 <select id="sjn-history-status" aria-label="Status filter">
                   <option value="all">All Statuses</option><option value="completed">Completed</option>
-                  <option value="in-progress" disabled>In Progress (coming later)</option>
+                  <option value="in-progress">In Progress</option>
                 </select>
                 <select id="sjn-history-date" aria-label="Sort by date">
                   <option value="newest">Newest First</option><option value="oldest">Oldest First</option>
@@ -3001,7 +3001,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
             payload.userId !== expectedStudentId || !Array.isArray(payload.attempts)) {
           throw new Error('The active student changed. Reload your dashboard.');
         }
-        sjnProfile.historyLogs = payload.attempts.map(row => {
+        const completedLogs = payload.attempts.map(row => {
           const total = Number(row.total || 0);
           const correct = Number(row.correct || 0);
           return {
@@ -3021,6 +3021,24 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
             topics: row.selection_json?.topics || []
           };
         });
+        // Drafts are listed as In Progress; never counted toward completed
+        // MCQs, scores, analytics or study streaks.
+        const drafts=await api('/practice/drafts');
+        if(!currentUser||currentUser.id!==expectedStudentId||
+            drafts.userId!==expectedStudentId||!Array.isArray(drafts.drafts))
+          throw new Error('Unfinished tests could not be verified.');
+        sjnProfile.historyLogs=[
+          ...completedLogs.map(log=>({...log,status:'completed'})),
+          ...drafts.drafts.map(row=>({
+            id:row.id,title:row.title,subject:row.subject,
+            subjects:Array.isArray(row.selection?.subjects)?row.selection.subjects:[],
+            sourceKind:['past','sjn','courses','mock'].includes(row.selection?.sourceKind)
+              ?row.selection.sourceKind:null,
+            mode:row.mode,total:row.total,answered:row.answered,
+            date:row.date,status:'in-progress',score:'—',accuracy:'—',
+            chapters:row.selection?.chapters||[],topics:row.selection?.topics||[]
+          }))
+        ];
         sjnProfile.streakDays = countStudyStreak(payload.attempts);
         historyLoadStatus = 'ready';
         updateGlobalProfileUI();
@@ -3260,6 +3278,59 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       paperSourceFilter = null;
       historyRetakeTitle = String(payload.attempt.title || wizardSelection.bank);
       window.launchGeneratedQuiz(questions);
+    };
+    // Stage A manual drafts: only authenticated student APIs, never localStorage.
+    // No autosave listeners are attached to answer/navigation interactions.
+    window.SJNDrafts = {
+      async save(draft) {
+        if (!currentUser) throw new Error('Sign in to save an unfinished test.');
+        const expected=currentUser.id;
+        const result=await api('/practice/drafts',{method:'PUT',
+          headers:{'X-SJN-Expected-Student':expected},body:draft});
+        if (currentUser?.id!==expected)throw new Error('Account changed while saving.');
+        return result;
+      },
+      async resume(id) {
+        if (!currentUser)throw new Error('Sign in to resume.');
+        const expected=currentUser.id;
+        const result=await api('/practice/drafts/'+encodeURIComponent(id));
+        if (currentUser?.id!==expected||result?.userId!==expected)
+          throw new Error('Account changed while loading saved test.');
+        const draft=result?.draft;
+        if (!draft || draft.id!==id || !remoteContentLoaded)
+          throw new Error('Question bank is unavailable; retry after it loads.');
+        if (!Array.isArray(draft.items)||!draft.items.length||
+            !Array.isArray(draft.answers)||draft.answers.length!==draft.items.length||
+            !Array.isArray(draft.checked)||draft.checked.length!==draft.items.length)
+          throw new Error('Saved test questions are incomplete.');
+        const current=new Map(mcqQuestionBank.map(q=>[Number(q.id),q]));
+        const questions=draft.items.map(item=>{
+          const q=current.get(Number(item.mcqId));
+          if(!q||q.revisionId!==Number(item.revisionId))
+            throw new Error('An original MCQ revision is no longer available. Cannot safely resume.');
+          return q;
+        });
+        if(new Set(questions.map(q=>q.id)).size!==questions.length)
+          throw new Error('Saved question order is invalid.');
+        if(window.SJNPhase4Exam?.isOpen?.())throw new Error('Leave the current exam first.');
+        currentQuizList=questions;
+        currentMcqIndex=draft.currentIndex;
+        userAnswers=draft.answers.slice();
+        currentSubmissionKey=draft.submissionKey;
+        savedAttemptOutcome=null;
+        historyRetakeTitle=draft.title;
+        wizardSelection={
+          ...draft.selection,bank:draft.selection?.bank||questions[0].bank,
+          selectedSubjects:Array.isArray(draft.selection?.subjects)?draft.selection.subjects:
+            [...new Set(questions.map(q=>q.subject))],
+          selectedChapters:Array.isArray(draft.selection?.chapters)?draft.selection.chapters:[],
+          selectedTopics:Array.isArray(draft.selection?.topics)?draft.selection.topics:[],
+          mode:draft.mode,testMode:draft.mode,subject:draft.subject,mcqCount:questions.length,
+          currentStepNum:4
+        };
+        window.SJNPhase4Exam.resumeSavedDraft(draft);
+      },
+      refreshHistory(){return loadStudentHistory();}
     };
     window.SJNHistoryFetchAttempt = async function(id) {
       if (!currentUser || !Number.isSafeInteger(id) || id<1)
