@@ -113,3 +113,19 @@ test('Navigator numbered tiles compact responsively without resizing the panel',
   assert.match(js, /button\.addEventListener\('click', \(\) => goTo\(i\)\)/);
   assert.match(css, /\.sjn-exam-number\.is-marked::after/);
 });
+
+
+test('draft exits do not read dashboard-private variables and use independent three-choice colors',()=>{
+  assert.doesNotMatch(js,/title:String\(historyRetakeTitle \|\| paperSourceFilter/);
+  assert.match(js,/const commonSource = currentQuizList\[0\]\?\.source/);
+  assert.match(js,/currentQuizList\.every\(q=>q\.source===commonSource\)/);
+  assert.match(js,/title:String\(title\)/);
+  assert.match(js,/action\.discard \? 'sjn-exam-dialog-discard'/);
+  assert.match(js,/label: 'Exit Without Saving', discard: true/);
+  assert.match(js,/label: 'Save & Exit'.*primary: true/);
+  assert.match(css,/\.sjn-exam-dialog-discard \{[^}]*background: #39191d/);
+  assert.match(css,/\.sjn-exam-dialog-discard:hover/);
+  assert.match(js,/answers:reset\?items\.map\(\(\)=>null\):userAnswers\.slice\(\)/);
+  assert.match(js,/currentIndex:reset\?0:currentMcqIndex/);
+  assert.match(js,/remainingSeconds:wizardSelection\.testMode==='timed'/);
+});
