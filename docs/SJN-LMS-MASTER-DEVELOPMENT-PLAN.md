@@ -7,6 +7,14 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-21 — Stage A owner-reported Exit error fixed on staging
+
+- **Browser evidence:** Owner demonstrated that both `Exit Without Saving` and `Save & Exit` raised `ReferenceError: paperSourceFilter is not defined` when trying to save a 10-MCQ draft. Owner also requested that the middle Exit Without Saving button have a subtle dark-red treatment, while the right Save & Exit button remains red.
+- **Cause:** `paperSourceFilter` is private to an `index.html` closure and cannot be referenced by the separate Phase 4 exam script. The exception was thrown while building the draft payload, before any API write.
+- **Scoped fix:** Commit `cb19a2f9f9c96aaf1839d09ded715ebef5085e29` derives a draft title from the current question set's common source, or wizard bank/title, instead of the inaccessible private variable. The dialog marks only the middle Exit Without Saving control for distinct styling. Commit `a4fb2e2b381aa2d4e3b8da1aef73cf91966fd052` adds subtle dark-red button CSS. Commit `d1786e003775630a7a5ff14262e99871249dab85` adds regression assertions that the undefined reference is absent, buttons are distinct, and reset versus preserved draft payload semantics are retained.
+- **Engineering checks:** GitHub Foundation checks run `39507348018` completed **SUCCESS** at `d1786e003775630a7a5ff14262e99871249dab85`; Vercel staging preview `dpl_J6yXskJzoYwRqRvauLgMTomKBxgz` **READY** at the exact same commit and aliased to the existing development preview hostname.
+- **Remaining QA:** Owner must repeat a full Save & Exit → Test History → Resume flow and Exit Without Saving → Resume from zero in both Tutor and Timed modes, verifying original question order, timer, saved answers and previous-history integrity. No autosave, production merge or production DB mutation was performed.
+
 ## 2026-10-21 — Stage A interrupted-stream recovery: implementation resumed, CI green, staging READY
 
 - **Recovery reason:** Owner screenshot showed `Error in message stream` while Stage A Save & Exit / Resume was in final QA. Owner explicitly requested continuing the already-approved implementation at the exact checkpoint, not restarting.
