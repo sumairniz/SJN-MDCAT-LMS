@@ -117,7 +117,8 @@ test('Results appear immediately with no Saving or Saved banner while secure sav
   assert.match(resultJs, /window\.alert\('Your completed test could not be confirmed as saved/);
   assert.match(dashboard, /api\('\/practice\/submit'/);
   assert.match(dashboard, /savedAttemptOutcome = outcome;/);
-  assert.match(resultJs, /outcome\.saved === true && outcome\.id/);
+  assert.match(resultJs, /outcome\.saved === true &&/);
+  assert.match(resultJs, /Number\.isSafeInteger\(outcome\.id\)/);
   assert.match(resultJs, /const mismatch = confirmed &&/);
   assert.match(resultJs, /outcome\.correct/);
 });
@@ -125,8 +126,12 @@ test('Results appear immediately with no Saving or Saved banner while secure sav
 test('Results do not falsely promise historical Review or Retake and use server-confirmed saving', () => {
   assert.match(resultJs, /id="sjn-results-review" disabled/);
   assert.match(resultJs, /id="sjn-results-retake" disabled/);
-  assert.match(resultJs, /Review Answers and Retake Test will be available after secure question-level attempt history/);
-  assert.match(resultJs, /outcome\.saved === true && outcome\.id/);
+  assert.doesNotMatch(resultJs, /Review Answers and Retake Test will be available after secure question-level attempt history/);
+  assert.match(resultJs, /window\.SJNHistoryFetchAttempt\(attemptId\)/);
+  assert.match(resultJs, /window\.SJNPhase4Exam\.reviewSavedAttempt\(payload\)/);
+  assert.match(resultJs, /window\.SJNHistoryLaunchRetake\(payload\)/);
+  assert.match(resultJs, /outcome\.saved === true &&/);
+  assert.match(resultJs, /Number\.isSafeInteger\(outcome\.id\)/);
   assert.match(dashboard, /savedAttemptOutcome = outcome;/);
   assert.match(dashboard, /return outcome;/);
   assert.match(dashboard, /return \{ saved: false \};/);
