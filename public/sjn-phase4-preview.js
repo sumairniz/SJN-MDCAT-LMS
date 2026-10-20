@@ -41,7 +41,8 @@
   const state = {
     open: false, navigatorOpen: true, checked: [], seconds: 0,
     startedAt: 0, interval: null, ending: false, modal: null,
-    reviewOnly: false, reviewPrevious: null
+    reviewOnly: false, reviewPrevious: null,
+    draftId: null, draftVersion: 0, savingDraft: false
   };
   const html = `
     <section id="sjn-exam-preview" class="module-view hidden sjn-exam-workspace" aria-label="Practice examination">
@@ -400,6 +401,54 @@
     // Saved review is read-only: no scoring, submission or new attempt.
     window.SJNPhase4Results?.restoreAfterReview();
   }
+  const newUuid = () => window.crypto?.randomUUID?.();
+  function draftPayload(reset) {
+    if (!currentQuizList.length || !currentSubmissionKey) throw new Error('Current test has no verified question identity.');
+    if (!state.draftId) state.draftId = newUuid();
+    if (!state.draftId) throw new Error('Your browser cannot create a secure draft identifier.');
+    const items = currentQuizList.map(q=>({mcqId:q.id,revisionId:q.revisionId}));
+    if(items.some(x=>!Number.isSafeInteger(x.mcqId)||!Number.isSafeInteger(x.revisionId)))
+      throw new Error('Question identities could not be verified.');
+    return {
+      id:state.draftId,version:state.draftVersion,
+      submissionKey:currentSubmissionKey,
+      title:String(historyRetakeTitle || paperSourceFilter || wizardSelection.bank),
+      mode:wizardSelection.testMode,
+      subject:String(wizardSelection.subject || 'Mixed'),
+      selection:{
+        bank:wizardSelection.bank,scope:wizardSelection.scope,
+        subjects:wizardSelection.selectedSubjects,
+        chapters:wizardSelection.selectedChapters,topics:wizardSelection.selectedTopics
+      },items,
+      answers:reset?items.map(()=>null):userAnswers.slice(),
+      checked:reset?items.map(()=>false):state.checked.slice(),
+      currentIndex:reset?0:currentMcqIndex,
+      elapsedSeconds:reset?0:Math.min(86400,Math.max(0,Math.floor((Date.now()-state.startedAt)/1000))),
+      remainingSeconds:wizardSelection.testMode==='timed'
+        ? (reset?items.length*60:Math.max(0,Math.floor(state.seconds))):null
+    };
+  }
+  async function exitWithDraft(reset) {
+    if (state.savingDraft || !state.open || state.reviewOnly) return;
+    state.savingDraft=true;
+    const exitButton=$('sjn-exam-exit');
+    exitButton.disabled=true;
+    try {
+      const draft=draftPayload(reset);
+      const saved=await window.SJNDrafts?.save(draft);
+      if(!saved?.saved || saved.id!==draft.id || !Number.isSafeInteger(saved.version))
+        throw new Error('Your unfinished test could not be confirmed saved.');
+      state.draftVersion=saved.version;
+      closeExam();
+      currentQuizList=[];userAnswers=[];state.checked=[];
+      state.draftId=null;state.draftVersion=0;
+      setURL(HOME_URL,true);
+      switchModule('history');
+      await window.SJNDrafts?.refreshHistory();
+    }catch(error){
+      window.alert(error?.message || 'Unable to save your unfinished test. You are still in the exam.');
+    }finally{state.savingDraft=false;exitButton.disabled=false;}
+  }
   function leaveUnsaved() {
     closeExam();
     // This is intentionally loss-aware while persistent drafts remain unimplemented.
@@ -411,13 +460,14 @@
   }
   function requestExit() {
     if (state.reviewOnly) { returnFromReview(); return; }
-    dialog('Exit this practice test?', 'Save & Exit is not yet available in this staged preview. Leaving now discards this unfinished attempt. Choose Cancel to keep your answers.', [
+    dialog('Exit this practice test?', 'Choose whether to preserve your answers or restart this test from zero next time.', [
       { label: 'Cancel', run() {} },
-      { label: 'Exit Without Saving', run: leaveUnsaved, primary: true }
+      { label: 'Exit Without Saving', run() { void exitWithDraft(true); } },
+      { label: 'Save & Exit', run() { void exitWithDraft(false); }, primary: true }
     ]);
   }
   function completeTest() {
-    if (!state.open || state.ending) return;
+    if (!state.open || state.ending || state.savingDraft) return;
     state.ending = true;
     closeExam();
     setURL(HOME_URL, true);
@@ -454,6 +504,7 @@
   function enterExam(review = false, savedElapsedSeconds = 0) {
     if (!currentQuizList.length || state.open) return;
     state.open = true; state.ending = false;
+    if (!review) {state.draftId=null;state.draftVersion=0;}
     state.reviewOnly = review;
     state.checked = Array(currentQuizList.length).fill(review);
     state.navigatorOpen = true;
@@ -568,6 +619,18 @@
   // workspace, not Test History's separate review presentation.
   window.SJNPhase4Exam = {
     isOpen: () => state.open,
+    resumeSavedDraft(draft) {
+      if(state.open || !draft || !Number.isSafeInteger(draft.version))
+        throw new Error('Cannot restore an unfinished test.');
+      enterExam();
+      state.draftId=draft.id;
+      state.draftVersion=draft.version;
+      state.checked=draft.checked.slice();
+      state.seconds=draft.mode==='timed'?draft.remainingSeconds:draft.elapsedSeconds;
+      state.startedAt=Date.now()-draft.elapsedSeconds*1000;
+      $('sjn-exam-clock').textContent=clock(state.seconds);
+      renderQuestion();
+    },
     reviewSavedAttempt(payload) {
       if (state.open || state.reviewOnly) throw new Error('Close the current test before reviewing.');
       if (!payload || payload.reviewAvailable !== true || !payload.attempt ||
