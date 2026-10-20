@@ -107,3 +107,10 @@ test('Desktop-only in-progress details use SJN yellow and retain original table/
   assert.match(css,/sjn-history-table th:nth-child\(6\)\{width:34%\}/);
   assert.doesNotMatch(js,/sjn-history-progress-bar/);
 });
+
+test('Mobile in-progress heading uses identical desktop yellow without altering completed cards',()=>{
+  assert.match(js,/const card=el\('article','sjn-history-card'\+\(isDraft\?' is-in-progress':''\)\)/);
+  assert.match(css,/sjn-history-card\.is-in-progress \.sjn-history-card-score strong\{color:#facc15\}/);
+  assert.match(css,/sjn-history-card-score strong\{display:block;font-size:21px;color:#4ade80\}/);
+  assert.match(js,/scoreBlock\.append\(el\('strong','',log\.status==='in-progress'\?'In Progress':log\.score\)/);
+});
