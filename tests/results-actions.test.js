@@ -50,3 +50,78 @@ test('Test History Review remains independent and exact-order Retake is reused',
   assert.match(html,/currentQuizList = retaking \? pool\.slice\(\) : shuffleArray\(pool\)/);
   assert.match(exam,/if \(state\.open\) return;\s*origLaunch\.apply\(this, args\)/);
 });
+
+test('Returning from saved exam Review restores both Results buttons repeatedly',async()=>{
+  // Exercise the actual Results Screen script with a small fake DOM. Earlier
+  // source-only checks missed that opening Review disabled buttons permanently.
+  const nodes = new Map();
+  function node(){
+    const listeners = new Map();
+    return {
+      disabled:false, hidden:false, style:{}, className:'', textContent:'',
+      classList:{add(){},remove(){},toggle(){}},
+      setAttribute(){}, append(){}, replaceChildren(){},
+      addEventListener(type,callback){ listeners.set(type,callback); },
+      click(){
+        assert.equal(this.disabled,false,'a disabled control cannot be activated');
+        listeners.get('click')?.();
+      }
+    };
+  }
+  const workspace=node(), section=node(), body=node();
+  const getNode=id=>{
+    if(!nodes.has(id))nodes.set(id,node());
+    return nodes.get(id);
+  };
+  let reviewCount=0, fetchedCount=0;
+  const payload={
+    attempt:{id:123,total:1},items:[{position:1}],reviewAvailable:true,retakeAvailable:true
+  };
+  const window={
+    location:{search:'?sjnPhase4Preview=1',pathname:'/index.html'},
+    history:{replaceState(){}},addEventListener(){},
+    async SJNHistoryFetchAttempt(id){assert.equal(id,123);fetchedCount++;return payload;},
+    SJNPhase4Exam:{reviewSavedAttempt(p){assert.equal(p,payload);reviewCount++;}}
+  };
+  const document={
+    body,querySelector(selector){assert.equal(selector,'main');return workspace;},
+    createElement(){return node();},
+    getElementById:getNode,
+    querySelectorAll(selector){assert.equal(selector,'.module-view');return [section];}
+  };
+  vm.runInNewContext(results,{document,window,URLSearchParams,Math,Promise});
+  const actions=window.SJNPhase4Results;
+  assert.equal(typeof actions?.restoreAfterReview,'function');
+  const report={questions:[{subject:'Biology',chapter:'Cell',topic:'DNA',correctIndex:0}],
+    answers:[0],elapsedSeconds:12};
+  actions.show(report,Promise.resolve({
+    saved:true,id:123,total:1,correct:1,incorrect:0,skipped:0,accuracy:100
+  }));
+  const flush=()=>new Promise(resolve=>setImmediate(resolve));
+  await flush();
+  const review=getNode('sjn-results-review'),retake=getNode('sjn-results-retake');
+  assert.equal(review.disabled,false);
+  assert.equal(retake.disabled,false);
+  for(let i=1;i<=3;i++){
+    review.click();
+    await flush();
+    assert.equal(reviewCount,i);
+    assert.equal(fetchedCount,i);
+    assert.equal(review.disabled,true,'review action is disabled while exam is open');
+    assert.equal(retake.disabled,true,'retake action is disabled while exam is open');
+    actions.restoreAfterReview();
+    assert.equal(review.disabled,false,'returning to verified Results must re-enable Review');
+    assert.equal(retake.disabled,false,'returning to verified Results must re-enable Retake');
+    assert.equal(getNode('sjn-results-score').textContent,'1 / 1');
+  }
+  // No calls to the submit endpoint, changes to scores or new attempts
+  // are made by the Results Screen's read-only review/return sequence.
+});
+
+test('Restoring Results cannot enable Review or Retake after an unverified save',async()=>{
+  const source=results.match(/function restoreAfterReview\(\) \{[\s\S]*?\n  \}/)?.[0];
+  assert.ok(source,'saved-results return guard exists');
+  assert.match(source,/if \(!verifiedAttemptId \|\| pendingSave \|\| openingAction\) return/);
+  assert.match(source,/\$\('sjn-results-review'\)\.disabled = false/);
+  assert.match(source,/\$\('sjn-results-retake'\)\.disabled = false/);
+});
