@@ -143,7 +143,7 @@
       const acc=el('td','',isDraft?completePercent+'% Complete':log.accuracy);
       const actionCell=el('td','sjn-history-desktop-actions');actionCell.append(actions(log));
       tr.append(titleCell,subject,mode,score,acc,actionCell);tbody.append(tr);
-      const card=el('article','sjn-history-card');
+      const card=el('article','sjn-history-card'+(isDraft?' is-in-progress':''));
       const heading=el('div','sjn-history-card-heading');
       const left=el('div','sjn-history-card-name');
       left.append(el('strong','',log.title),el('small','',dateLabel(log.date)));
