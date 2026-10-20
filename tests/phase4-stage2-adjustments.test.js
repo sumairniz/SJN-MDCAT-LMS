@@ -61,7 +61,8 @@ test('Report form has exactly ten categories, optional details and never falsely
 });
 
 test('Stage 2 remains a visual preview; durable progress is still not claimed', () => {
-  assert.match(js, /Save & Exit is not yet available in this staged preview/);
+  assert.match(js, /Exit Without Saving/);
+  assert.match(js, /Save & Exit/);
   assert.match(js, /window\.finishQuiz\(\{ elapsedSeconds: snapshot\.elapsedSeconds \}\)/);
   assert.match(js, /window\.addEventListener\('beforeunload'/);
   assert.match(css, /\.sjn-exam-explanation-panel/);
