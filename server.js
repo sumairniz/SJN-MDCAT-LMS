@@ -4,6 +4,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const { createClient } = require('@supabase/supabase-js');
 const { validatePracticeSubmission } = require('./lib/practice-submission');
+const { validateDraft, UUID: DRAFT_UUID } = require('./lib/practice-drafts');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -432,6 +433,92 @@ app.get('/api/history/:attemptId', auth, async (req, res) => {
   }
 });
 
+
+const draftColumns='id, user_id, submission_key, title, mode, subject, selection_json, items_json, answers_json, checked_json, current_index, elapsed_seconds, remaining_seconds, version, created_at, updated_at';
+// Drafts are separate from graded attempts. All reads/writes require current
+// cookie + bearer identity AND Supabase student RLS; no service-role bypass.
+app.get('/api/practice/drafts', auth, async (req,res)=>{
+  res.set('Cache-Control','no-store');
+  try {
+    const {data,error}=await req.db.from('practice_drafts').select(draftColumns)
+      .eq('user_id',req.user.id).order('updated_at',{ascending:false});
+    if(error)throw error;
+    res.json({userId:req.user.id,drafts:(data||[]).map(row=>({
+      id:row.id,title:row.title,mode:row.mode,subject:row.subject,
+      selection:row.selection_json,total:row.items_json.length,
+      answered:row.answers_json.filter(x=>x!==null).length,
+      date:row.updated_at,version:row.version
+    }))});
+  } catch(e){console.error('Draft list failed:',e?.code||e?.message);res.status(503).json({error:'Unable to load unfinished tests.'});}
+});
+app.get('/api/practice/drafts/:id',auth,async(req,res)=>{
+  res.set('Cache-Control','no-store');
+  if(!DRAFT_UUID.test(req.params.id))return res.status(400).json({error:'Invalid draft identifier.'});
+  try{
+    const {data,error}=await req.db.from('practice_drafts').select(draftColumns)
+      .eq('user_id',req.user.id).eq('id',req.params.id).maybeSingle();
+    if(error)throw error;
+    if(!data)return res.status(404).json({error:'Unfinished test not found.'});
+    // A saved submission must never become a resumable draft.
+    const {data:completed,error:ce}=await req.db.from('attempts').select('id')
+      .eq('user_id',req.user.id).eq('submission_key',data.submission_key).limit(1);
+    if(ce)throw ce;
+    if(completed?.length)return res.status(409).json({error:'This test was already submitted. See completed Test History.'});
+    res.json({userId:req.user.id,draft:{
+      id:data.id,submissionKey:data.submission_key,title:data.title,
+      subject:data.subject,mode:data.mode,selection:data.selection_json,
+      items:data.items_json,answers:data.answers_json,checked:data.checked_json,
+      currentIndex:data.current_index,elapsedSeconds:data.elapsed_seconds,
+      remainingSeconds:data.remaining_seconds,version:data.version
+    }});
+  }catch(e){console.error('Draft read failed:',e?.code||e?.message);res.status(503).json({error:'Unable to restore your saved test.'});}
+});
+app.put('/api/practice/drafts',auth,async(req,res)=>{
+  res.set('Cache-Control','no-store');
+  if(req.get('X-SJN-Expected-Student')!==req.user.id)
+    return res.status(409).json({error:'Active student changed. Reload before saving.'});
+  const draft=validateDraft(req.body);
+  if(!draft)return res.status(400).json({error:'Invalid draft. Nothing was saved.'});
+  try{
+    const {data:completed,error:ce}=await req.db.from('attempts').select('id')
+      .eq('user_id',req.user.id).eq('submission_key',draft.submissionKey).limit(1);
+    if(ce)throw ce;
+    if(completed?.length)return res.status(409).json({error:'Already submitted; cannot save an unfinished copy.'});
+    // Do not trust arbitrary revisions or edited question orders. Verify
+    // every immutable revision and reject duplicate/foreign IDs.
+    const {data:rev,error:re}=await req.db.from('mcq_revisions')
+      .select('id,mcq_id').in('id',draft.items.map(x=>x.revisionId));
+    if(re)throw re;
+    const revisions=new Map((rev||[]).map(r=>[Number(r.id),Number(r.mcq_id)]));
+    if(revisions.size!==draft.items.length||draft.items.some(x=>revisions.get(x.revisionId)!==x.mcqId))
+      return res.status(400).json({error:'Question revisions could not be verified.'});
+    const row={user_id:req.user.id,submission_key:draft.submissionKey,
+      title:draft.title,mode:draft.mode,subject:draft.subject,
+      selection_json:draft.selection,items_json:draft.items,
+      answers_json:draft.answers,checked_json:draft.checked,
+      current_index:draft.currentIndex,elapsed_seconds:draft.elapsedSeconds,
+      remaining_seconds:draft.remainingSeconds};
+    if(draft.version===0){
+      const {data,error}=await req.db.from('practice_drafts')
+        .insert({id:draft.id,...row,version:1}).select('id,version').single();
+      if(error){
+        if(error.code==='23505')return res.status(409).json({error:'Draft already exists. Reload its latest version.'});
+        throw error;
+      }
+      return res.json({saved:true,id:data.id,version:data.version});
+    }
+    // Version compare-and-swap: another tab cannot silently overwrite.
+    const {data,error}=await req.db.from('practice_drafts')
+      .update({...row,version:draft.version+1,updated_at:new Date().toISOString()})
+      .eq('id',draft.id).eq('user_id',req.user.id)
+      .eq('submission_key',draft.submissionKey).eq('version',draft.version)
+      .select('id,version').maybeSingle();
+    if(error)throw error;
+    if(!data)return res.status(409).json({error:'Draft changed in another session. Reload before saving.'});
+    res.json({saved:true,id:data.id,version:data.version});
+  }catch(e){console.error('Draft save failed:',e?.code||e?.message);res.status(503).json({error:'Could not save your unfinished test. You are still in the exam.'});}
+});
+
 // Stage 3B-2: PostgreSQL scores the immutable current revisions and saves
 // both the summary and ordered question history as one atomic transaction.
 app.post('/api/practice/submit', auth, async (req, res) => {
@@ -465,6 +552,13 @@ app.post('/api/practice/submit', auth, async (req, res) => {
       ![correct,incorrect,skipped].every(n => Number.isSafeInteger(n) && n >= 0) ||
       correct + incorrect + skipped !== total || !Number.isFinite(accuracy) ||
       accuracy < 0 || accuracy > 100) throw new Error('Unexpected trusted grading response');
+    // Best effort draft cleanup only after authoritative atomic grading.
+    // A failure does not invalidate a completed score; read paths deny
+    // resuming drafts whose submission key is already recorded.
+    void req.db.from('practice_drafts').delete().eq('user_id',req.user.id)
+      .eq('submission_key',payload.submissionKey).then(({error})=>{
+        if(error) console.warn('Submitted draft cleanup pending:',error.code);
+      }).catch(()=>{});
     res.json({ saved: true, id, total, correct, incorrect, skipped, accuracy,
       alreadySaved: saved.already_saved === true });
   } catch (e) {
