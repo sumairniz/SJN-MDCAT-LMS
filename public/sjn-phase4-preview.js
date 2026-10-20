@@ -214,7 +214,8 @@
     for (const action of actions) {
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = action.primary ? 'sjn-exam-dialog-primary' : 'sjn-exam-secondary';
+      button.className = action.primary ? 'sjn-exam-dialog-primary' :
+        action.discard ? 'sjn-exam-dialog-discard' : 'sjn-exam-secondary';
       button.textContent = action.label;
       button.addEventListener('click', () => { closeModal(); action.run(); });
       slot.appendChild(button);
@@ -406,13 +407,19 @@
     if (!currentQuizList.length || !currentSubmissionKey) throw new Error('Current test has no verified question identity.');
     if (!state.draftId) state.draftId = newUuid();
     if (!state.draftId) throw new Error('Your browser cannot create a secure draft identifier.');
+    // The dashboard's paperSourceFilter is private to its auth closure.
+    // Derive a meaningful label from the actual saved question set instead.
+    const commonSource = currentQuizList[0]?.source;
+    const title = historyRetakeTitle ||
+      (commonSource && currentQuizList.every(q=>q.source===commonSource) ? commonSource : wizardSelection.bank) ||
+      'Practice Test';
     const items = currentQuizList.map(q=>({mcqId:q.id,revisionId:q.revisionId}));
     if(items.some(x=>!Number.isSafeInteger(x.mcqId)||!Number.isSafeInteger(x.revisionId)))
       throw new Error('Question identities could not be verified.');
     return {
       id:state.draftId,version:state.draftVersion,
       submissionKey:currentSubmissionKey,
-      title:String(historyRetakeTitle || paperSourceFilter || wizardSelection.bank),
+      title:String(title),
       mode:wizardSelection.testMode,
       subject:String(wizardSelection.subject || 'Mixed'),
       selection:{
@@ -462,7 +469,7 @@
     if (state.reviewOnly) { returnFromReview(); return; }
     dialog('Exit this practice test?', 'Choose whether to preserve your answers or restart this test from zero next time.', [
       { label: 'Cancel', run() {} },
-      { label: 'Exit Without Saving', run() { void exitWithDraft(true); } },
+      { label: 'Exit Without Saving', discard: true, run() { void exitWithDraft(true); } },
       { label: 'Save & Exit', run() { void exitWithDraft(false); }, primary: true }
     ]);
   }
