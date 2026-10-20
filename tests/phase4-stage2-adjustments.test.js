@@ -30,7 +30,7 @@ test('Answered progress is based on answered count and unaffected by current que
 
 test('Timed mode uses yellow selection and Tutor mode retains correct/wrong icons only after checking', () => {
   assert.match(css, /\.sjn-exam-option\.is-selected \{[^}]*#eab308/);
-  assert.match(js, /const checked = isTutor && state\.checked\[currentMcqIndex\]/);
+  assert.match(js, /const checked = state\.reviewOnly \|\| \(isTutor && state\.checked\[currentMcqIndex\]\)/);
   assert.match(js, /if \(checked && \(i === q\.correctIndex \|\| selected\)\)/);
   assert.match(js, /fa-solid fa-check/);
   assert.match(js, /fa-solid fa-xmark/);
