@@ -51,7 +51,7 @@ test('History filters preserve truthful source/status semantics',()=>{
   assert.match(js,/return 'other'/);
   assert.match(js,/log\.detailsVersion !== 1/);
   assert.match(js,/No saved tests match these filters/);
-  assert.match(js,/state\.statusFilter === 'in-progress'/);
+  assert.match(js,/state\.statusFilter !== 'all' && log\.status !== state\.statusFilter/);
 });
 
 test('Historical answers are account-bound, exact revision-validated and scored by saved DB',()=>{
