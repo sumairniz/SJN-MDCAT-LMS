@@ -1,6 +1,6 @@
 /* SJN Phase 4 Stage 3A — approved results presentation, opt-in preview only.
- * TEMP-P4-006: while question-level history is pending, Review/Retake remain
- * explicitly unavailable. No questions/answers are written to browser storage.
+ * Stage 3C historical question records enable verified Results Screen review
+ * and retake. No browser storage of test answers or unauthorized score writes.
  */
 (() => {
   'use strict';
@@ -127,12 +127,11 @@
     '    </div>',
     '  </div>',
     '  <div class="sjn-results-actions">',
-    '    <button type="button" class="is-primary" id="sjn-results-review" disabled title="Available after secure question-level history is built"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>Review Answers</button>',
-    '    <button type="button" id="sjn-results-retake" disabled title="Available after secure question-level history is built"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i>Retake Test</button>',
+    '    <button type="button" class="is-primary" id="sjn-results-review" disabled title="Available after verified test saving"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>Review Answers</button>',
+    '    <button type="button" id="sjn-results-retake" disabled title="Available after verified test saving"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i>Retake Test</button>',
     '    <button type="button" id="sjn-results-dashboard"><i class="fa-solid fa-house" aria-hidden="true"></i>Return to Dashboard</button>',
     '    <button type="button" id="sjn-results-new-test"><i class="fa-solid fa-plus-circle" aria-hidden="true"></i>Create New Test</button>',
     '  </div>',
-    '  <p class="sjn-results-feature-notice">Review Answers and Retake Test will be available after secure question-level attempt history is implemented.</p>',
     '  <details class="sjn-results-insights" id="sjn-results-insights">',
     '    <summary><span><i class="fa-solid fa-chart-simple" aria-hidden="true"></i> Performance Insights</span><i class="fa-solid fa-chevron-down sjn-results-insights-chevron" aria-hidden="true"></i></summary>',
     '    <div id="sjn-results-insights-body" class="sjn-results-insights-body"></div>',
@@ -144,6 +143,9 @@
   const $ = id => document.getElementById(id);
   let visible = false;
   let pendingSave = false;
+  let verifiedAttemptId = null;
+  let openingAction = false;
+  let showVersion = 0;
 
   function makeInsights(groups) {
     const holder = $('sjn-results-insights-body');
@@ -195,13 +197,56 @@
   }
 
   function navigateTo(moduleName) {
-    if (pendingSave) return;
+    if (pendingSave || openingAction) return;
     hide();
     window.history.replaceState({ sjnPhase4Preview: true }, '', HOME_URL);
     switchModule(moduleName);
     workspace.scrollTop = 0;
   }
 
+  // Read immutable, student-owned history before opening either Results action.
+  // History Review keeps its own approved UI; ONLY this button reuses the exam.
+  async function openSavedAction(kind) {
+    if (!visible || pendingSave || openingAction || !verifiedAttemptId) return;
+    const attemptId = verifiedAttemptId;
+    const version = showVersion;
+    openingAction = true;
+    $('sjn-results-review').disabled = true;
+    $('sjn-results-retake').disabled = true;
+    try {
+      if (typeof window.SJNHistoryFetchAttempt !== 'function')
+        throw new Error('Saved test history is not ready. Please reload the LMS.');
+      const payload = await window.SJNHistoryFetchAttempt(attemptId);
+      if (!visible || version !== showVersion || attemptId !== verifiedAttemptId) return;
+      if (!payload?.attempt || payload.attempt.id !== attemptId ||
+          payload.reviewAvailable !== true || payload.retakeAvailable !== true ||
+          !Array.isArray(payload.items) || payload.items.length !== Number(payload.attempt.total))
+        throw new Error('This completed test does not have verified question-level history.');
+      if (kind === 'review') {
+        if (typeof window.SJNPhase4Exam?.reviewSavedAttempt !== 'function')
+          throw new Error('The examination review workspace is not ready.');
+        window.SJNPhase4Exam.reviewSavedAttempt(payload);
+      } else {
+        if (typeof window.SJNHistoryLaunchRetake !== 'function')
+          throw new Error('Retake is not ready. Please reload the LMS.');
+        await window.SJNHistoryLaunchRetake(payload);
+        if (window.SJNPhase4Exam?.isOpen?.() !== true)
+          throw new Error('The new attempt could not be opened. Please try again.');
+      }
+      // The existing exam renderer owns its questions, navigation and styles.
+      hide();
+    } catch (error) {
+      window.alert(error?.message || 'Unable to open this saved test.');
+    } finally {
+      openingAction = false;
+      const enabled = visible && !pendingSave && !!verifiedAttemptId;
+      $('sjn-results-review').disabled = !enabled;
+      $('sjn-results-retake').disabled = !enabled;
+    }
+  }
+
+  $('sjn-results-review').addEventListener('click', () => void openSavedAction('review'));
+  $('sjn-results-retake').addEventListener('click', () => void openSavedAction('retake'));
   $('sjn-results-dashboard').addEventListener('click', () => navigateTo('dashboard'));
   $('sjn-results-new-test').addEventListener('click', () => navigateTo('wizard'));
   window.addEventListener('popstate', () => {
@@ -211,7 +256,21 @@
     switchModule('wizard');
   });
 
+  function restoreAfterReview() {
+    // Only a results view already opened for the verified attempt can return.
+    if (!verifiedAttemptId || pendingSave || openingAction) return;
+    document.querySelectorAll('.module-view').forEach(view => view.classList.add('hidden'));
+    section.classList.remove('hidden');
+    visible = true;
+    document.body.classList.add('sjn-phase4-results-active');
+    window.history.replaceState({ sjnPhase4Preview: true }, '', RESULTS_URL);
+    workspace.scrollTop = 0;
+  }
+
   function show(snapshot, savePromise) {
+    const version = ++showVersion;
+    verifiedAttemptId = null;
+    openingAction = false;
     const report = summarizeAttempt(snapshot.questions, snapshot.answers, snapshot.elapsedSeconds);
     const ring = $('sjn-results-ring');
     const band = accuracyBand(report.accuracy);
@@ -234,6 +293,8 @@
     // Keep secure background saving, but do not show a transient yellow
     // Saving message or leave a blank reserved status row in the results UI.
     pendingSave = true;
+    $('sjn-results-review').disabled = true;
+    $('sjn-results-retake').disabled = true;
     $('sjn-results-dashboard').disabled = true;
     $('sjn-results-new-test').disabled = true;
     document.querySelectorAll('.module-view').forEach(view => view.classList.add('hidden'));
@@ -247,8 +308,10 @@
     // The score is displayed immediately; persistence confirms asynchronously.
     // Actual save failures remain visible via the authenticated saver's alert.
     Promise.resolve(savePromise).then(outcome => {
-      if (!visible) return;
-      const confirmed = outcome && outcome.saved === true && outcome.id;
+      if (!visible || showVersion !== version) return;
+      const confirmed = outcome && outcome.saved === true &&
+        Number.isSafeInteger(outcome.id) && outcome.id > 0;
+      verifiedAttemptId = confirmed ? outcome.id : null;
       const mismatch = confirmed && (
         outcome.total !== report.total ||
         outcome.correct !== report.correct ||
@@ -279,12 +342,19 @@
       // verified grade and Test History are still updated behind the scenes.
       // The saver reports ordinary failed saves, including network errors.
     }).catch(() => {
-      if (!visible) return;
+      if (!visible || showVersion !== version) return;
       // Unexpected rejected promises are rare, but must never silently lose
       // a student's result merely to keep the normal interface minimal.
       window.alert('Your completed test could not be confirmed as saved. Check Test History before trying again.');
     }).finally(() => {
+      if (showVersion !== version) return;
       pendingSave = false;
+      $('sjn-results-review').disabled = !verifiedAttemptId;
+      $('sjn-results-retake').disabled = !verifiedAttemptId;
+      const message = verifiedAttemptId ? 'Open the securely saved test' :
+        'Unavailable because saving could not be verified. Check Test History.';
+      $('sjn-results-review').title = message;
+      $('sjn-results-retake').title = message;
       $('sjn-results-dashboard').disabled = false;
       $('sjn-results-new-test').disabled = false;
     });
@@ -298,5 +368,5 @@
       if (typeof switchModule === 'function') switchModule('wizard');
     }, { once: true });
   }
-  window.SJNPhase4Results = { show };
+  window.SJNPhase4Results = { show, restoreAfterReview };
 })();
