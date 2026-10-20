@@ -73,6 +73,9 @@ body.sjn-phase4-exam-active #sjn-workspace-main { scroll-behavior: auto; }
 .sjn-exam-dialog p { color: #a1a1aa; font-size: 13px; line-height: 1.65; margin: 13px 0 20px; }
 .sjn-exam-dialog-actions { display: flex; justify-content: flex-end; gap: 9px; flex-wrap: wrap; }
 .sjn-exam-dialog-primary { padding: 9px 15px; color: white; background: #dc2626; border: 1px solid #ef4444; border-radius: 9px; font-weight: 750; font-size: 12px; }
+.sjn-exam-dialog-discard { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 9px 13px; background: #39191d; color: #fca5a5; border: 1px solid #803139; border-radius: 9px; font-weight: 750; font-size: 12px; cursor: pointer; }
+.sjn-exam-dialog-discard:hover { background: #522127; border-color: #b4535d; color: #fecaca; }
+
 .sjn-exam-preview-note { font-size: 12px; color: #fbbf24; padding: 12px; border: 1px solid #854d0e; border-radius: 9px; margin-bottom: 12px; }
 .sjn-exam-backdrop { display: none; }
 .sjn-exam-workspace.hidden,.sjn-exam-dialog-layer.hidden,.sjn-exam-backdrop.hidden { display: none !important; }
