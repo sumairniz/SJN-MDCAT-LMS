@@ -58,3 +58,11 @@ Initial implementation committed; CI and Vercel READY verified. Owner live-brows
 **Explicit OPEN release/production gates:** Real signed-in Student A/B *foreign detailed-history request denial* was not executed in this documentation/integrity audit (no test-account sessions were available). Other unverified account-switch, expiry, browser-refresh, mobile and both-mode Retake scenarios should be rechecked as appropriate before release. Do not claim a real cross-account attack test passed based on SQL catalog policies or mocks.
 
 **Change scope:** Documentation-only closeout on `sjn-phase1a-foundation`. No UI, backend, database schema/data, production, `main`, or PR-merge changes. Do not overwrite older audit results. Future Save & Exit/autosave/Resume belongs to a newly reviewed and separately authorized feature stage; Results navigation delay remains deferred.
+
+## 2026-10-21 — Supplemental Results Review-return UI regression resolved
+
+- After the Results Screen Review/Retake integration, the owner found that navigating Results → Review → Results incorrectly disabled both action buttons. The owner provided two screenshots showing the working first Results entry and disabled buttons after returning.
+- Focused fix in `public/sjn-phase4-results.js` (`27d40d7c5d176ebfabae90ab769a2bf70e8e5a6e`) restores button availability after verified read-only Review returns. The regression test at `b8cd510b1fe0c82c5140ea6452d86b61ffe64538` exercises three repeated return cycles. GitHub run `39493955433` passed and Vercel deployment `dpl_4XTJBsjHmcFfqLx9TJkASRv3iyBT` was READY.
+- **Owner-reported real browser result: PASS.** The owner checked and explicitly confirmed the behavior is correct and complete. This closes the specific Results button-state regression without changing Test History's separate Review UI.
+- Original submission security, old question histories, new Retake independent-persistence acceptance and remaining account/privacy/release checks stay governed by their existing gates. No staging DB or production changes were needed for this correction.
+
