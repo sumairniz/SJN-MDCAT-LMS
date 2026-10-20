@@ -17,6 +17,12 @@
 
 **Classification:** `REMOVE` means delete disposable scaffolding; `REPLACE` means implement a real, tested feature then remove its placeholder; `REVIEW CONFIG` means verify/reset external testing-only configuration. A feature developed on staging is **not automatically temporary**: do not erase legitimate, owner-approved final LMS functionality just because a preview flag or placeholder around it is temporary.
 
+### 2026-10-21 — TEMP-P4-006 incremental integration (Results Screen actions)
+
+- Owner authorized making **Results Screen → Review Answers** reopen the existing Phase 4 exam as a **read-only saved attempt**, with Tutor-style feedback even after Timed practice, while leaving **Test History → Review** unchanged. Results Screen → Retake uses the existing immutable-revision exact-order retake path. These are intended **permanent features within the staging preview**, not a new temporary alternate UI.
+- `public/sjn-phase4-preview.js` reuses the exam DOM; `public/sjn-phase4-results.js` enables both controls only when authenticated `/api/practice/submit` is confirmed and rechecks the saved attempt through `/api/history/:attemptId`. Review does not call save and locks question options; Retake creates a separate test and submission. Regression source checks in `tests/results-actions.test.js`. No browser storage or database mutation and no alteration to Test History's existing review.
+- TEMP-P4-001 (preview gate) and TEMP-P4-006 (result bridge / pre-production cleanup) **remain OPEN**, pending standard-route integration, CI, real owner Tutor/Timed browser acceptance, temporary code diff reconciliation, and separate release authorization. Do not close temp issues just because the staging Results buttons are functional.
+
 ## 2. Current known open items — audited 2026-10-16
 
 | ID / state | Exact location and reason | Before production merge (not yet authorized) |
