@@ -44,7 +44,9 @@ test('History filters preserve truthful source/status semantics',()=>{
   assert.match(html,/id="sjn-history-mode"/);
   assert.match(html,/id="sjn-history-status"/);
   assert.match(html,/id="sjn-history-date"/);
-  assert.match(html,/In Progress \(coming later\)/);
+  assert.match(html,/<option value="in-progress">In Progress<\/option>/);
+  assert.match(js,/log\.status === 'in-progress'/);
+  assert.match(js,/button\('Resume','retake'/);
   assert.match(js,/function sourceOf\(log\)/);
   assert.match(js,/return 'other'/);
   assert.match(js,/log\.detailsVersion !== 1/);
