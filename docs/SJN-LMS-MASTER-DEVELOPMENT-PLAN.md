@@ -7,6 +7,12 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-21 — Owner-approved mobile In Progress yellow-only correction
+
+- **Owner acceptance:** Desktop In Progress display/color/count/completion refinement was confirmed correct in the browser. Follow-up request approved **only** matching the mobile card's `In Progress` heading color to the same `#facc15` yellow as desktop.
+- **Focused implementation:** `2872baa1a1f8a73f9839c3203a77fd7ae54fcb1e` adds `is-in-progress` only to in-progress mobile cards; `713b9510f14dd8e993317391f1015a08f5f8dccc` scopes the yellow to `#module-history .sjn-history-card.is-in-progress .sjn-history-card-score strong` in the existing mobile media query; `ed17869a72f736a699831718973fc4eb0e3fe27d` adds a targeted regression test. The mobile answered-count display, other card styles/dimensions, completed scores, desktop display, MCQ engine and all saving/resume logic are untouched.
+- **Verification:** GitHub Foundation checks run `39511356248` SUCCESS and Vercel staging deployment `dpl_Hxdy8RbKQPobVVic2N4ULUkYCrkh` READY at commit `ed17869a72f736a699831718973fc4eb0e3fe27d`. Owner mobile visual acceptance still pending. No production code/database release.
+
 ## 2026-10-21 — Owner-approved desktop-only In Progress summary refinement
 
 - **Explicit scope:** Owner approved modifying only desktop Test History In Progress rows; maintain exact desktop table dimensions, all six original column headings/widths, completed rows, existing Resume flow and entire mobile layout.
