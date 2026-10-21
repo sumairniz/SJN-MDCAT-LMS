@@ -2049,7 +2049,11 @@
         activeTab.classList.remove('text-gray-300');
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      
+      // History must revalidate completed attempts AND saved unfinished drafts
+      // when entered, especially after /quiz/session was refreshed.
+      // Never re-fetch on MCQ selection, navigation, or dashboard rendering.
+      if (modName === 'history') void loadStudentHistory({ fresh: true });
+
       // Auto-close mobile drawer when navigating
       if (window.innerWidth < 768 && typeof closeMobileMenu === 'function') {
         closeMobileMenu();
@@ -2988,14 +2992,31 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       return count;
     }
 
-    async function loadStudentHistory() {
+    // A prior startup response must never overwrite a later explicit
+    // Test History refresh; sharing an in-flight request avoids duplicate
+    // fetches after Save & Exit switches directly into History.
+    let activeHistoryRequest = null;
+    let latestHistoryRequest = 0;
+    async function loadStudentHistory({ fresh = false } = {}) {
       const expectedStudentId = currentUser?.id;
       if (!expectedStudentId) return false;
+      if (!fresh && activeHistoryRequest?.studentId === expectedStudentId)
+        return activeHistoryRequest.promise;
+      const requestNumber = ++latestHistoryRequest;
+      const request = fetchStudentHistory(expectedStudentId, requestNumber);
+      activeHistoryRequest = { studentId: expectedStudentId, promise: request };
+      try { return await request; }
+      finally {
+        if (activeHistoryRequest?.promise === request) activeHistoryRequest = null;
+      }
+    }
+    async function fetchStudentHistory(expectedStudentId, requestNumber) {
       historyLoadStatus = 'loading';
       sjnProfile.historyLogs = [];
       renderHistoryTable();
       try {
-        const payload = await api('/history');
+        const payload = await api('/history', { cache: 'no-store' });
+        if (requestNumber !== latestHistoryRequest) return false;
         // The account can change while a tab is awaiting a request.
         if (!currentUser || currentUser.id !== expectedStudentId ||
             payload.userId !== expectedStudentId || !Array.isArray(payload.attempts)) {
@@ -3023,7 +3044,8 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         });
         // Drafts are listed as In Progress; never counted toward completed
         // MCQs, scores, analytics or study streaks.
-        const drafts=await api('/practice/drafts');
+        const drafts=await api('/practice/drafts', { cache: 'no-store' });
+        if (requestNumber !== latestHistoryRequest) return false;
         if(!currentUser||currentUser.id!==expectedStudentId||
             drafts.userId!==expectedStudentId||!Array.isArray(drafts.drafts))
           throw new Error('Unfinished tests could not be verified.');
@@ -3043,11 +3065,13 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         historyLoadStatus = 'ready';
         updateGlobalProfileUI();
       } catch (error) {
-        if (currentUser?.id !== expectedStudentId) return false;
+        if (requestNumber !== latestHistoryRequest ||
+            currentUser?.id !== expectedStudentId) return false;
         historyLoadStatus = 'error';
         sjnProfile.historyLogs = [];
         console.warn('Unable to load student history:', error);
       }
+      if (requestNumber !== latestHistoryRequest) return false;
       renderHistoryTable();
       return historyLoadStatus === 'ready';
     }
