@@ -263,3 +263,18 @@ test('History cache skips unchanged navigation and revalidates after confirmed m
   assert.match(html,/historyGeneration\+\+;\s+updateDashboardAccountUI\(currentUser\)/);
   assert.doesNotMatch(fs.readFileSync(path.join(root,'public/sjn-phase4-preview.js'),'utf8'),/await window\.SJNDrafts\?\.refreshHistory\(\)/);
 });
+
+test('Exit Without Saving keeps a confirmed manual checkpoint but fresh tests still reset',()=>{
+  const preview=fs.readFileSync(path.join(root,'public/sjn-phase4-preview.js'),'utf8');
+  const fn=preview.slice(preview.indexOf('  async function exitWithDraft(reset) {'),preview.indexOf('  function leaveUnsaved() {'));
+  assert.match(fn,/const discardToLastSave = reset && state\.draftId && state\.draftVersion > 0/);
+  assert.match(fn,/if \(!discardToLastSave\) \{/);
+  assert.match(fn,/const draft=draftPayload\(reset\)/);
+  assert.match(fn,/window\.SJNDrafts\?\.save\(draft\)/);
+  assert.match(fn,/window\.SJNExamRecovery\?\.forget\(\)/);
+  assert.match(fn,/switchModule\('history'\)/);
+  assert.match(preview,/Exit Without Saving keeps your last confirmed Save & Exit/);
+  assert.match(preview,/Exit Without Saving keeps this question set but restarts it with zero answers/);
+  assert.match(preview,/\{ label: 'Exit Without Saving', discard: true, run\(\) \{ void exitWithDraft\(true\); \} \}/);
+  assert.match(preview,/\{ label: 'Save & Exit', run\(\) \{ void exitWithDraft\(false\); \}, primary: true \}/);
+});
