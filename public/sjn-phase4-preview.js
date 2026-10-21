@@ -446,6 +446,7 @@
       if(!saved?.saved || saved.id!==draft.id || !Number.isSafeInteger(saved.version))
         throw new Error('Your unfinished test could not be confirmed saved.');
       state.draftVersion=saved.version;
+      window.SJNExamRecovery?.forget();
       closeExam();
       currentQuizList=[];userAnswers=[];state.checked=[];
       state.draftId=null;state.draftVersion=0;
@@ -620,6 +621,7 @@
     origLaunch.apply(this, args);
     if (currentQuizList.length && !$('module-quiz').classList.contains('hidden')) {
       enterExam();
+      window.SJNExamRecovery?.rememberNew();
     }
   };
   // Results Screen Review intentionally reuses the approved examination
@@ -630,6 +632,7 @@
       if(state.open || !draft || !Number.isSafeInteger(draft.version))
         throw new Error('Cannot restore an unfinished test.');
       enterExam();
+      window.SJNExamRecovery?.rememberDraft(draft.id);
       state.draftId=draft.id;
       state.draftVersion=draft.version;
       state.checked=draft.checked.slice();
@@ -677,18 +680,8 @@
       enterExam(true, Number(payload.attempt.elapsedSeconds) || 0);
     }
   };
-  // Direct entry or refresh cannot reconstruct an attempt until draft
-  // persistence is built. Never show a false recovered/unsaved exam.
-  if (window.location.pathname === '/quiz/session') {
-    setURL(HOME_URL, true);
-    window.addEventListener('DOMContentLoaded', () => {
-      const message = document.createElement('p');
-      message.className = 'sjn-exam-preview-note';
-      message.textContent = 'Your previous preview test cannot be restored yet. Please create a new practice test.';
-      const wizard = $('module-wizard');
-      if (wizard) wizard.prepend(message);
-      // Existing session guard still verifies identity before revealing UI.
-      switchModule('wizard');
-    }, { once: true });
-  }
+  // A refreshed /quiz/session stays on its route while auth and published
+  // questions load. The account-scoped bridge then restores the test, or
+  // safely returns the student to Create Test if recovery is unavailable.
+  // No answers are written during MCQ interactions.
 })();
