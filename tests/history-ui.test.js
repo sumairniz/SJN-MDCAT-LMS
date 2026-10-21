@@ -235,7 +235,7 @@ test('Refresh recovery executes blank new-test restart, saved-draft resume and w
   // Simulate browser navigation/reload, whose live option/position are discarded.
   open=false;context.currentQuizList=[];context.userAnswers=[];
   assert.equal(await context.window.SJNExamRecovery.restore(),true);
-  assert.deepEqual(launched,[[21,42]],'original order preserved');
+  assert.equal(JSON.stringify(launched),'[[21,42]]','original order preserved across VM realms');
   assert.equal(context.wizardSelection.testMode,'timed');
   open=false;
   context.window.SJNExamRecovery.rememberDraft('01234567-89ab-4def-8abc-0123456789ab');
