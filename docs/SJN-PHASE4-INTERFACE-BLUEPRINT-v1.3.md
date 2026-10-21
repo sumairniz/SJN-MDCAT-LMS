@@ -4,6 +4,8 @@
 **Inputs:** Owner's 22-page recovered MCQ conversation, Blueprint v1.0, later confirmations through 2026-10-15, original Saeed MDCAT/MedSindh/SJN screenshots, and the newly supplied results-card screenshot.  
 **Precedence:** Explicit later owner decisions override conflicting ideas in earlier chat, mockups, or Blueprint v1.0. External screenshots are **component references**, never a replacement for SJN's existing background, header, brand, or overall UI.
 
+**2026-10-21 owner override (supersedes earlier Autosave passages in this preserved v1.3 blueprint): AUTOSAVE IS CANCELLED AND REMOVED FROM THE ROADMAP.** Students can answer and navigate already-loaded MCQs while offline; network is required for final submission or manual Save & Exit. No background draft writing, per-answer network persistence, or Saving/Saved indicator. Preserve existing Stage A manual Save & Exit / In Progress / Resume. Older Autosave descriptions below are retained for history, not active requirements.
+
 ## 1. Scope and guardrails
 
 - Preserve the existing LMS, signed-cookie authentication, 24-hour absolute expiry, account separation, existing history, questions, explanations, mnemonics, and Create Test wizard.
