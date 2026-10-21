@@ -2949,6 +2949,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
           })
         );
         if (!response.ok) throw new Error('Unable to sign out. Please retry.');
+        window.SJNExamRecovery?.forget();
         authToken = '';
         currentUser = null;
         localStorage.removeItem('sjn_auth_token');
@@ -3182,6 +3183,8 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         remoteContentLoaded = true;
         setQuestionBankLoadNotice(false);
         renderCoursesModule(); renderPastPapersModule(); renderResourcesModule(); renderSubjectChoices(); updateWizardAvailableCount();
+        // The exam route waits for authenticated identity and validated content.
+        if (window.location.pathname === '/quiz/session') await window.SJNExamRecovery?.restore();
       } catch (error) {
         remoteContentLoaded = false;
         mcqQuestionBank = [];
@@ -3307,6 +3310,111 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       paperSourceFilter = null;
       historyRetakeTitle = String(payload.attempt.title || wizardSelection.bank);
       window.launchGeneratedQuiz(questions);
+    };
+    // Stage A refresh recovery (NOT Autosave): a single tab-scoped record
+    // at test launch/resume. No answer or timer writes on MCQ interactions.
+    // The signed-in user and verified published bank are checked again on reload.
+    const EXAM_RECOVERY_KEY = 'sjn_exam_refresh_v1';
+    const DRAFT_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    function clearExamRecovery() {
+      try { sessionStorage.removeItem(EXAM_RECOVERY_KEY); } catch (_) {}
+    }
+    function writeExamRecovery(value) {
+      try { sessionStorage.setItem(EXAM_RECOVERY_KEY, JSON.stringify(value)); }
+      catch (error) { console.warn('Tab-scoped exam recovery unavailable:', error?.name || 'storage error'); }
+    }
+    function abandonedExamRecovery(message) {
+      clearExamRecovery();
+      window.history.replaceState({ sjnPhase4Preview: true }, '', '/index.html?sjnPhase4Preview=1');
+      switchModule('wizard');
+      if (!document.querySelector('.sjn-exam-recovery-notice')) {
+        const note = document.createElement('p');
+        note.className = 'sjn-exam-preview-note sjn-exam-recovery-notice';
+        note.textContent = message;
+        document.getElementById('module-wizard')?.prepend(note);
+      }
+      return false;
+    }
+    window.SJNExamRecovery = {
+      rememberNew() {
+        if (!currentUser || !currentSubmissionKey || !currentQuizList.length) return;
+        writeExamRecovery({
+          v: 1, owner: currentUser.id, kind: 'new',
+          items: currentQuizList.map(q => ({ mcqId: q.id, revisionId: q.revisionId })),
+          mode: wizardSelection.testMode,
+          subject: wizardSelection.subject, bank: wizardSelection.bank,
+          scope: wizardSelection.scope,
+          subjects: wizardSelection.selectedSubjects,
+          chapters: wizardSelection.selectedChapters,
+          topics: wizardSelection.selectedTopics,
+          title: historyRetakeTitle || null
+        });
+      },
+      rememberDraft(id) {
+        if (!currentUser || typeof id !== 'string' || !DRAFT_ID_PATTERN.test(id)) return;
+        writeExamRecovery({ v: 1, owner: currentUser.id, kind: 'draft', id });
+      },
+      forget: clearExamRecovery,
+      async restore() {
+        // Only full reload of the actual exam route can trigger recovery.
+        if (window.location.pathname !== '/quiz/session') return false;
+        if (!currentUser || !remoteContentLoaded) return false;
+        let record;
+        try { record = JSON.parse(sessionStorage.getItem(EXAM_RECOVERY_KEY) || 'null'); }
+        catch (_) { record = null; }
+        if (!record || record.v !== 1 || record.owner !== currentUser.id)
+          return abandonedExamRecovery('This tab has no verified test to reopen. Please create or resume a test.');
+        if (record.kind === 'draft') {
+          if (typeof record.id !== 'string' || !DRAFT_ID_PATTERN.test(record.id))
+            return abandonedExamRecovery('This saved test reference is invalid. Resume it from Test History.');
+          try {
+            // Server response is student-owned and rechecks every original revision.
+            await window.SJNDrafts.resume(record.id);
+            return true;
+          } catch (error) {
+            console.warn('Saved test could not reopen after refresh:', error?.message || error);
+            return abandonedExamRecovery('Could not reopen this test. Use Test History to resume your last saved progress.');
+          }
+        }
+        if (record.kind !== 'new' || !Array.isArray(record.items) ||
+            record.items.length < 1 || record.items.length > 200 ||
+            !['tutor', 'timed'].includes(record.mode) ||
+            typeof record.bank !== 'string' || !record.bank ||
+            typeof record.subject !== 'string' || !record.subject ||
+            typeof record.scope !== 'string' || record.scope.length > 50 ||
+            (record.title !== null && (typeof record.title !== 'string' || record.title.length > 120)))
+          return abandonedExamRecovery('This test information is invalid. Please create a new test.');
+        const validLabels = items => Array.isArray(items) && items.length <= 200 &&
+          items.every(x => typeof x === 'string' && x.length <= 160);
+        if (!validLabels(record.subjects) || !validLabels(record.chapters) ||
+            !validLabels(record.topics))
+          return abandonedExamRecovery('This test configuration is invalid. Please create a new test.');
+        const currentById = new Map(mcqQuestionBank.map(q => [q.id, q]));
+        const questions = record.items.map(item =>
+          item && Number.isSafeInteger(item.mcqId) && Number.isSafeInteger(item.revisionId) &&
+          item.mcqId > 0 && item.revisionId > 0 &&
+          currentById.get(item.mcqId)?.revisionId === item.revisionId
+            ? currentById.get(item.mcqId) : null);
+        if (questions.some(q => !q) ||
+            new Set(questions.map(q => q.id)).size !== questions.length ||
+            questions.some(q => q.bank !== record.bank) ||
+            !window.SJNPhase4Exam || window.SJNPhase4Exam.isOpen())
+          return abandonedExamRecovery('Original questions are no longer available. Please create a new test.');
+        // A fresh restart, not an answer restore: identical verified question
+        // objects/order, brand-new submission ID, blank choices and timer.
+        wizardSelection = {
+          bank: record.bank, scope: record.scope, subject: record.subject,
+          selectedSubjects: record.subjects.slice(),
+          selectedChapters: record.chapters.slice(),
+          selectedTopics: record.topics.slice(),
+          mcqCount: questions.length, testMode: record.mode, currentStepNum: 4
+        };
+        historyRetakeTitle = record.title;
+        window.launchGeneratedQuiz(questions);
+        if (!window.SJNPhase4Exam.isOpen())
+          return abandonedExamRecovery('The exam could not reopen. Please create a new test.');
+        return true;
+      }
     };
     // Stage A manual drafts: only authenticated student APIs, never localStorage.
     // No autosave listeners are attached to answer/navigation interactions.
@@ -3444,6 +3552,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         // A later retry of an already-confirmed result must not create a new
         // attempt. A new test resets this state in launchGeneratedQuiz.
         savedAttemptOutcome = outcome;
+        window.SJNExamRecovery?.forget();
         // The original legacy results workspace should also reflect the
         // database-confirmed score, not only a browser-computed provisional one.
         document.getElementById('res-total').innerText = saved.total;
