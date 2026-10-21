@@ -2049,14 +2049,11 @@
         activeTab.classList.remove('text-gray-300');
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      // History must revalidate completed attempts AND saved unfinished drafts
-      // when entered, especially after /quiz/session was refreshed.
-      // Never re-fetch on MCQ selection, navigation, or dashboard rendering.
-      // The authenticated history loader belongs to the separate account IIFE.
-      // Access its public window bridge; a bare lexical call throws ReferenceError
-      // and interrupts Save & Exit after its server-confirmed draft write.
+      // Reuse verified in-memory history on ordinary menu visits. The account
+      // bridge fetches only on bootstrap, failure, or an actual saved change;
+      // never block navigation or re-fetch on every History menu click.
       if (modName === 'history' && typeof window.reloadStudentHistory === 'function') {
-        void window.reloadStudentHistory({ fresh: true });
+        void window.reloadStudentHistory();
       }
 
       // Auto-close mobile drawer when navigating
@@ -2998,31 +2995,46 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       return count;
     }
 
-    // A prior startup response must never overwrite a later explicit
-    // Test History refresh; sharing an in-flight request avoids duplicate
-    // fetches after Save & Exit switches directly into History.
+    // History is loaded once per verified student and refreshed ONLY after
+    // a confirmed mutation, a real page bootstrap, or an explicit force.
+    // Never render transient zero counts for ordinary menu navigation.
+    // A generation token prevents an in-flight pre-save response from
+    // overwriting newer saved draft/completed-attempt history.
     let activeHistoryRequest = null;
     let latestHistoryRequest = 0;
+    let historyGeneration = 0;
+    let loadedHistoryGeneration = -1;
+    let loadedHistoryStudentId = null;
+    function markStudentHistoryChanged() { historyGeneration++; }
     async function loadStudentHistory({ fresh = false } = {}) {
       const expectedStudentId = currentUser?.id;
       if (!expectedStudentId) return false;
-      if (!fresh && activeHistoryRequest?.studentId === expectedStudentId)
+      if (!fresh && historyLoadStatus === 'ready' &&
+          loadedHistoryStudentId === expectedStudentId &&
+          loadedHistoryGeneration === historyGeneration) return true;
+      if (!fresh && activeHistoryRequest?.studentId === expectedStudentId &&
+          activeHistoryRequest.generation === historyGeneration)
         return activeHistoryRequest.promise;
       const requestNumber = ++latestHistoryRequest;
-      const request = fetchStudentHistory(expectedStudentId, requestNumber);
-      activeHistoryRequest = { studentId: expectedStudentId, promise: request };
+      const generation = historyGeneration;
+      const request = fetchStudentHistory(expectedStudentId, requestNumber, generation);
+      activeHistoryRequest = { studentId: expectedStudentId, generation, promise: request };
       try { return await request; }
       finally {
         if (activeHistoryRequest?.promise === request) activeHistoryRequest = null;
       }
     }
-    async function fetchStudentHistory(expectedStudentId, requestNumber) {
-      historyLoadStatus = 'loading';
-      sjnProfile.historyLogs = [];
-      renderHistoryTable();
+    async function fetchStudentHistory(expectedStudentId, requestNumber, generation) {
+      // Keep already-verified rows visible while an actual write revalidates.
+      // On first load or failed prior load, use the existing loading state.
+      if (historyLoadStatus !== 'ready' || loadedHistoryStudentId !== expectedStudentId) {
+        historyLoadStatus = 'loading';
+        sjnProfile.historyLogs = [];
+        renderHistoryTable();
+      }
       try {
         const payload = await api('/history', { cache: 'no-store' });
-        if (requestNumber !== latestHistoryRequest) return false;
+        if (requestNumber !== latestHistoryRequest || generation !== historyGeneration) return false;
         // The account can change while a tab is awaiting a request.
         if (!currentUser || currentUser.id !== expectedStudentId ||
             payload.userId !== expectedStudentId || !Array.isArray(payload.attempts)) {
@@ -3051,7 +3063,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         // Drafts are listed as In Progress; never counted toward completed
         // MCQs, scores, analytics or study streaks.
         const drafts=await api('/practice/drafts', { cache: 'no-store' });
-        if (requestNumber !== latestHistoryRequest) return false;
+        if (requestNumber !== latestHistoryRequest || generation !== historyGeneration) return false;
         if(!currentUser||currentUser.id!==expectedStudentId||
             drafts.userId!==expectedStudentId||!Array.isArray(drafts.drafts))
           throw new Error('Unfinished tests could not be verified.');
@@ -3069,15 +3081,17 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         ];
         sjnProfile.streakDays = countStudyStreak(payload.attempts);
         historyLoadStatus = 'ready';
+        loadedHistoryStudentId = expectedStudentId;
+        loadedHistoryGeneration = generation;
         updateGlobalProfileUI();
       } catch (error) {
-        if (requestNumber !== latestHistoryRequest ||
+        if (requestNumber !== latestHistoryRequest || generation !== historyGeneration ||
             currentUser?.id !== expectedStudentId) return false;
         historyLoadStatus = 'error';
         sjnProfile.historyLogs = [];
         console.warn('Unable to load student history:', error);
       }
-      if (requestNumber !== latestHistoryRequest) return false;
+      if (requestNumber !== latestHistoryRequest || generation !== historyGeneration) return false;
       renderHistoryTable();
       return historyLoadStatus === 'ready';
     }
@@ -3101,6 +3115,9 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         // Start with a clean in-memory account; never use another student's browser profile.
         sjnProfile = emptyStudentProfile();
         historyLoadStatus = 'loading';
+        loadedHistoryStudentId = null;
+        loadedHistoryGeneration = -1;
+        historyGeneration++;
         updateDashboardAccountUI(currentUser);
         applyAuthenticatedStats(data.stats);
         bookmarkedMcqs = Array.isArray(data.bookmarks) ? data.bookmarks : [];
@@ -3425,6 +3442,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         const result=await api('/practice/drafts',{method:'PUT',
           headers:{'X-SJN-Expected-Student':expected},body:draft});
         if (currentUser?.id!==expected)throw new Error('Account changed while saving.');
+        if (result?.saved === true) markStudentHistoryChanged();
         return result;
       },
       async resume(id) {
@@ -3552,6 +3570,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         // A later retry of an already-confirmed result must not create a new
         // attempt. A new test resets this state in launchGeneratedQuiz.
         savedAttemptOutcome = outcome;
+        markStudentHistoryChanged();
         window.SJNExamRecovery?.forget();
         // The original legacy results workspace should also reflect the
         // database-confirmed score, not only a browser-computed provisional one.
