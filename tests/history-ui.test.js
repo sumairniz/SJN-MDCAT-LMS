@@ -278,3 +278,33 @@ test('Exit Without Saving keeps a confirmed manual checkpoint but fresh tests st
   assert.match(preview,/\{ label: 'Exit Without Saving', discard: true, run\(\) \{ void exitWithDraft\(true\); \} \}/);
   assert.match(preview,/\{ label: 'Save & Exit', run\(\) \{ void exitWithDraft\(false\); \}, primary: true \}/);
 });
+
+test('History list pagination is list-only, 25 per page, and makes no extra history requests',()=>{
+  assert.match(html,/id="sjn-history-list-pagination"/);
+  assert.match(html,/id="sjn-history-list-prev"/);
+  assert.match(html,/id="sjn-history-list-next"/);
+  assert.match(html,/id="sjn-history-list-page"/);
+  assert.match(html,/sjn-history-list-pagination" aria-label="Test History pages" hidden/);
+  assert.match(js,/const PAGE_SIZE = 25/);
+  assert.match(js,/rows\.slice\(\(listPage - 1\) \* PAGE_SIZE, listPage \* PAGE_SIZE\)/);
+  assert.match(js,/const pageCount = Math\.max\(1, Math\.ceil\(rows\.length \/ PAGE_SIZE\)\)/);
+  assert.match(js,/pagination\.hidden = rows\.length <= PAGE_SIZE/);
+  assert.match(js,/listPage = 1;\s+render\(\);/);
+  assert.match(css,/sjn-history-list-pagination\[hidden\]\{display:none\}/);
+  assert.match(css,/@media\(max-width:767px\)\{\s+#module-history \.sjn-history-list-pagination\{flex-direction:column/);
+  const controls=js.slice(js.indexOf("    $('sjn-history-list-prev')?.addEventListener"),js.indexOf("    ['sjn-history-search'"));
+  assert.doesNotMatch(controls,/reloadStudentHistory|fetch\(|api\(|SJNDrafts/);
+  assert.match(js,/\$\('sjn-history-prev'\)\?\.addEventListener\('click',\(\)=>selectQuestion/);
+});
+
+test('Pagination slice limits 0, 1, 25, 26, 50, and 84 records without changing their order',()=>{
+  const size=25;
+  for(const total of [0,1,25,26,50,84]){
+    const source=Array.from({length:total},(_,i)=>i+1);
+    const pages=Math.max(1,Math.ceil(total/size));
+    const visible=Array.from({length:pages},(_,p)=>source.slice(p*size,(p+1)*size));
+    assert.ok(visible.every(page=>page.length<=25));
+    assert.deepEqual(visible.flat(),source);
+    assert.equal(pages,Math.max(1,Math.ceil(total/25)));
+  }
+});
