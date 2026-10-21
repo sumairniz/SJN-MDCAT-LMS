@@ -186,3 +186,65 @@ test('Approved refresh recovery never autosaves answers and requires verified sa
   assert.doesNotMatch(preview,/Your previous preview test cannot be restored yet/);
   assert.match(preview,/window.addEventListener\('beforeunload'/);
 });
+
+test('Refresh recovery executes blank new-test restart, saved-draft resume and wrong-account guard',async()=>{
+  const start=html.indexOf('    const EXAM_RECOVERY_KEY = ');
+  const end=html.indexOf('    // Stage A manual drafts:',start);
+  assert.ok(start>0&&end>start,'extract actual recovery bridge');
+  const recovery=html.slice(start,end);
+  const stored=new Map(), launched=[], resumed=[], visited=[];
+  let open=false;
+  const bank=[
+    {id:21,revisionId:210,bank:'Past Papers Question Bank'},
+    {id:42,revisionId:420,bank:'Past Papers Question Bank'}
+  ];
+  const context={
+    console:{warn(){}},
+    sessionStorage:{
+      setItem:(k,v)=>stored.set(k,v),
+      getItem:k=>stored.get(k)??null,
+      removeItem:k=>stored.delete(k)
+    },
+    currentUser:{id:'student-a'},
+    currentSubmissionKey:'abc',
+    currentQuizList:bank,
+    currentMcqIndex:1,userAnswers:[3,2],
+    wizardSelection:{
+      testMode:'timed',subject:'Biology',bank:'Past Papers Question Bank',
+      scope:'topic-wise',selectedSubjects:['Biology'],selectedChapters:[],
+      selectedTopics:['Biology|||Biological Molecules|||Proteins']
+    },
+    historyRetakeTitle:null,
+    remoteContentLoaded:true,mcqQuestionBank:bank,
+    document:{querySelector(){return null},getElementById(){return {prepend(){}}},createElement(){return {}}},
+    switchModule:name=>visited.push(name),
+    window:{
+      location:{pathname:'/quiz/session'},
+      history:{replaceState(){}},
+      SJNPhase4Exam:{isOpen:()=>open},
+      SJNDrafts:{resume:async id=>{resumed.push(id);open=true}},
+      launchGeneratedQuiz:questions=>{launched.push(questions.map(q=>q.id));open=true}
+    }
+  };
+  vm.runInNewContext(recovery,context);
+  context.window.SJNExamRecovery.rememberNew();
+  const data=JSON.parse(stored.get('sjn_exam_refresh_v1'));
+  assert.equal(data.kind,'new');
+  assert.deepEqual(data.items,[{mcqId:21,revisionId:210},{mcqId:42,revisionId:420}]);
+  assert.equal(JSON.stringify(data).includes('answers'),false,'no attempted answer snapshots');
+  // Simulate browser navigation/reload, whose live option/position are discarded.
+  open=false;context.currentQuizList=[];context.userAnswers=[];
+  assert.equal(await context.window.SJNExamRecovery.restore(),true);
+  assert.deepEqual(launched,[[21,42]],'original order preserved');
+  assert.equal(context.wizardSelection.testMode,'timed');
+  open=false;
+  context.window.SJNExamRecovery.rememberDraft('01234567-89ab-4def-8abc-0123456789ab');
+  assert.equal(await context.window.SJNExamRecovery.restore(),true);
+  assert.deepEqual(resumed,['01234567-89ab-4def-8abc-0123456789ab']);
+  open=false;
+  context.currentUser={id:'student-b'};
+  assert.equal(await context.window.SJNExamRecovery.restore(),false);
+  assert.equal(stored.has('sjn_exam_refresh_v1'),false);
+  assert.deepEqual(resumed,['01234567-89ab-4def-8abc-0123456789ab']);
+  assert.deepEqual(visited,['wizard'],'wrong-account record returns to Create Test');
+});
