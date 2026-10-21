@@ -117,7 +117,7 @@ test('Mobile in-progress heading uses identical desktop yellow without altering 
 
 test('History refresh after exam reload retrieves completed attempts and drafts without stale overwrite',()=>{
   assert.match(html,/if \(modName === 'history' && typeof window\.reloadStudentHistory === 'function'\)/);
-  assert.match(html,/void window\.reloadStudentHistory\(\{ fresh: true \}\)/);
+  assert.match(html,/void window\.reloadStudentHistory\(\)/);
   assert.match(html,/window\.reloadStudentHistory = loadStudentHistory/);
   assert.doesNotMatch(html,/if \(modName === 'history'\) void loadStudentHistory/);
   assert.match(html,/let activeHistoryRequest = null/);
@@ -145,7 +145,7 @@ test('Save & Exit history navigation uses a callable cross-script bridge',()=>{
   };
   vm.runInNewContext(body+';switchModule("history");',context);
   assert.equal(shown.length,1,'one history refresh triggered by exit/navigation');
-  assert.equal(shown[0].fresh,true);
+  assert.equal(shown[0],undefined,'no forced reload on ordinary navigation');
   vm.runInNewContext('switchModule("wizard");',context);
   assert.equal(shown.length,1,'unrelated workspace navigation does not reload drafts');
   delete context.window.reloadStudentHistory;
@@ -247,4 +247,19 @@ test('Refresh recovery executes blank new-test restart, saved-draft resume and w
   assert.equal(stored.has('sjn_exam_refresh_v1'),false);
   assert.deepEqual(resumed,['01234567-89ab-4def-8abc-0123456789ab']);
   assert.deepEqual(visited,['wizard'],'wrong-account record returns to Create Test');
+});
+
+
+test('History cache skips unchanged navigation and revalidates after confirmed mutation',()=>{
+  const flow=html.slice(html.indexOf('    let activeHistoryRequest = null;'),html.indexOf('    async function loadAccount()'));
+  assert.match(flow,/loadedHistoryGeneration === historyGeneration\) return true/);
+  assert.match(flow,/loadedHistoryStudentId === expectedStudentId/);
+  assert.match(flow,/activeHistoryRequest\.generation === historyGeneration/);
+  assert.match(flow,/function markStudentHistoryChanged\(\) \{ historyGeneration\+\+; \}/);
+  assert.match(flow,/generation !== historyGeneration/);
+  assert.match(flow,/if \(historyLoadStatus !== 'ready' \|\| loadedHistoryStudentId !== expectedStudentId\)/);
+  assert.match(html,/if \(result\?\.saved === true\) markStudentHistoryChanged\(\)/);
+  assert.match(html,/savedAttemptOutcome = outcome;\s+markStudentHistoryChanged\(\)/);
+  assert.match(html,/historyGeneration\+\+;\s+updateDashboardAccountUI\(currentUser\)/);
+  assert.doesNotMatch(fs.readFileSync(path.join(root,'public/sjn-phase4-preview.js'),'utf8'),/await window\.SJNDrafts\?\.refreshHistory\(\)/);
 });
