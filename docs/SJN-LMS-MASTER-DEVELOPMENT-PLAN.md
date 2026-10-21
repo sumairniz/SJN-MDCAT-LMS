@@ -7,6 +7,14 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-22 — Owner-approved last-manual-save preservation on Exit Without Saving
+
+- **Approved UX:** After a saved test is resumed (e.g. 3/5 saved), `Exit Without Saving` discards only work since that confirmed Save & Exit and leaves the prior 3/5 draft, question position, Tutor checked states and Timed countdown untouched on the server. For **never-saved** new tests, Exit Without Saving still writes the same zero-progress restartable draft with identical questions/order. Save & Exit continues to save newly attempted answers normally.
+- **Minimal source change:** `public/sjn-phase4-preview.js` commit `85fb7564153f13d555d7b39d71b6ac6502c76273`: `exitWithDraft(reset)` skips the `SJNDrafts.save()` call only when `reset===true` and the active exam has a confirmed `state.draftId` and positive `state.draftVersion`. Close the exam, clear the temporary refresh-recovery marker, and return to Test History. It does **not** write a zero-progress overwrite. Dialog explanation updated to distinguish prior checkpoint from brand-new unsaved exam.
+- **Connected features:** Existing save API, draft version fencing, Resume's authenticated read, Test History caching, approved reload recovery Option A, completed attempts, question order, user ownership, Tutor/Timed logic, MCQ interaction paths, and previously saved draft bytes are unchanged. This action needs **no new network request** for a previously saved draft. **No Supabase migration, RLS change, Autosave, or production merge.**
+- **Regression:** `tests/history-ui.test.js` commit `846f5d8a8a59ffde32bba4cd44124f1aaa3eb9c9` guards both branches of the exit flow, retains Save & Exit and browser navigation logic. Browser acceptance pending: (1) 5 questions / save 3 / resume / answer fourth / Exit Without Saving → still 3/5, same saved answers and position; (2) repeat Tutor and Timed, including remaining saved countdown; (3) fresh test Exit Without Saving → restartable 0/5; (4) newly resumed test Save & Exit → newly answered progress saved; (5) refresh recovery, existing In Progress list and completed history remain correct.
+- **Rollback:** revert this one `public/sjn-phase4-preview.js` behavior commit and accompanying tests/docs only, preserving all earlier approved features.
+
 ## 2026-10-21 — Test History menu navigation latency correction (owner-approved, staging)
 
 - **Owner report:** On each Dashboard/Academy Resources → Test History navigation, even without any test attempt, draft change or page refresh, History cleared visible records and showed `Loading your saved test history…` for roughly 3 seconds. Previous forced-fetch history fix caused this; unrelated page navigation must be instant.
