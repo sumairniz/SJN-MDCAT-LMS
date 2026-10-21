@@ -837,6 +837,14 @@
               </table>
             </div>
             <div id="sjn-history-mobile-list" class="sjn-history-mobile-list" aria-label="Completed tests"></div>
+            <!-- Shared list-only navigation: desktop table / mobile cards, never the Review question pager. -->
+            <nav id="sjn-history-list-pagination" class="sjn-history-list-pagination" aria-label="Test History pages" hidden>
+              <span id="sjn-history-list-page" class="sjn-history-list-page" aria-live="polite">Page 1</span>
+              <div class="sjn-history-list-controls">
+                <button type="button" id="sjn-history-list-prev" aria-label="Previous Test History page" disabled><i class="fa-solid fa-chevron-left" aria-hidden="true"></i><span>Prev</span></button>
+                <button type="button" id="sjn-history-list-next" aria-label="Next Test History page"><span>Next</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+              </div>
+            </nav>
           </div>
           <div id="sjn-history-detail" class="sjn-history-detail hidden">
             <div class="sjn-history-detail-heading">
