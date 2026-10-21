@@ -114,3 +114,17 @@ test('Mobile in-progress heading uses identical desktop yellow without altering 
   assert.match(css,/sjn-history-card-score strong\{display:block;font-size:21px;color:#4ade80\}/);
   assert.match(js,/scoreBlock\.append\(el\('strong','',log\.status==='in-progress'\?'In Progress':log\.score\)/);
 });
+
+test('History refresh after exam reload retrieves completed attempts and drafts without stale overwrite',()=>{
+  assert.match(html,/if \(modName === 'history'\) void loadStudentHistory\(\{ fresh: true \}\)/);
+  assert.match(html,/let activeHistoryRequest = null/);
+  assert.match(html,/let latestHistoryRequest = 0/);
+  assert.match(html,/if \(!fresh && activeHistoryRequest\?\.studentId === expectedStudentId\)/);
+  assert.match(html,/const requestNumber = \+\+latestHistoryRequest/);
+  assert.match(html,/requestNumber !== latestHistoryRequest/);
+  assert.match(html,/api\('\/history', \{ cache: 'no-store' \}\)/);
+  assert.match(html,/api\('\/practice\/drafts', \{ cache: 'no-store' \}\)/);
+  assert.match(html,/drafts\.userId!==expectedStudentId/);
+  assert.match(html,/\.\.\.drafts\.drafts\.map\(row=>\(\{/);
+  assert.doesNotMatch(html,/modName === 'quiz'\) void loadStudentHistory/);
+});
