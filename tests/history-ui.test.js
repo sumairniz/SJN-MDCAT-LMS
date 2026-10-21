@@ -165,3 +165,24 @@ test('Topic Drill manual drafts validate published MCQ revisions without exposin
   assert.match(draftEndpoint,/validateDraft\(req.body\)/);
   assert.match(draftEndpoint,/\.eq\('user_id',req.user.id\)/);
 });
+
+test('Approved refresh recovery never autosaves answers and requires verified same student',()=>{
+  const preview=fs.readFileSync(path.join(root,'public/sjn-phase4-preview.js'),'utf8');
+  assert.match(html,/const EXAM_RECOVERY_KEY = 'sjn_exam_refresh_v1'/);
+  assert.match(html,/sessionStorage.setItem\(EXAM_RECOVERY_KEY, JSON.stringify\(value\)\)/);
+  assert.match(html,/record.owner !== currentUser.id/);
+  assert.match(html,/record.kind === 'draft'/);
+  assert.match(html,/await window.SJNDrafts.resume\(record.id\)/);
+  assert.match(html,/record.items.map\(item =>/);
+  assert.match(html,/currentById.get\(item.mcqId\)\?\.revisionId === item.revisionId/);
+  assert.match(html,/new Set\(questions.map\(q => q.id\)\).size !== questions.length/);
+  assert.match(html,/window.launchGeneratedQuiz\(questions\)/);
+  assert.match(html,/if \(window.location.pathname === '\/quiz\/session'\) await window.SJNExamRecovery\?\.restore\(\)/);
+  assert.match(html,/window.SJNExamRecovery\?\.forget\(\)/);
+  assert.doesNotMatch(html,/sessionStorage.setItem\([^;]*(?:userAnswers|answers_json|checked_json)/);
+  assert.match(preview,/window.SJNExamRecovery\?\.rememberNew\(\)/);
+  assert.match(preview,/window.SJNExamRecovery\?\.rememberDraft\(draft.id\)/);
+  assert.match(preview,/window.SJNExamRecovery\?\.forget\(\)/);
+  assert.doesNotMatch(preview,/Your previous preview test cannot be restored yet/);
+  assert.match(preview,/window.addEventListener\('beforeunload'/);
+});
