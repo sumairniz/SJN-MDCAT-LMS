@@ -122,7 +122,7 @@ test('History refresh after exam reload retrieves completed attempts and drafts 
   assert.doesNotMatch(html,/if \(modName === 'history'\) void loadStudentHistory/);
   assert.match(html,/let activeHistoryRequest = null/);
   assert.match(html,/let latestHistoryRequest = 0/);
-  assert.match(html,/if \(!fresh && activeHistoryRequest\?\.studentId === expectedStudentId\)/);
+  assert.match(html,/if \(!fresh && activeHistoryRequest\?\.studentId === expectedStudentId &&/);
   assert.match(html,/const requestNumber = \+\+latestHistoryRequest/);
   assert.match(html,/requestNumber !== latestHistoryRequest/);
   assert.match(html,/api\('\/history', \{ cache: 'no-store' \}\)/);
