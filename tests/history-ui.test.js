@@ -151,3 +151,17 @@ test('Save & Exit history navigation uses a callable cross-script bridge',()=>{
   delete context.window.reloadStudentHistory;
   assert.doesNotThrow(()=>vm.runInNewContext('switchModule("history");',context),'history link does not throw when account bridge is not ready');
 });
+
+test('Topic Drill manual drafts validate published MCQ revisions without exposing historical answer keys',()=>{
+  const draftEndpoint=server.slice(server.indexOf("app.put('/api/practice/drafts'"),server.indexOf("// Stage 3B-2: PostgreSQL scores"));
+  assert.match(draftEndpoint,/\.from\('mcqs'\)/);
+  assert.match(draftEndpoint,/\.select\('id,current_revision_id'\)/);
+  assert.match(draftEndpoint,/\.in\('id',draft.items.map\(x=>x.mcqId\)\)/);
+  assert.match(draftEndpoint,/revisions.get\(x.mcqId\)!==x.revisionId/);
+  assert.match(draftEndpoint,/Question revisions could not be verified/);
+  assert.doesNotMatch(draftEndpoint,/\.from\('mcq_revisions'\)/);
+  assert.doesNotMatch(draftEndpoint,/correct_index|options_json|service_role/);
+  assert.match(draftEndpoint,/req.get\('X-SJN-Expected-Student'\)!==req.user.id/);
+  assert.match(draftEndpoint,/validateDraft\(req.body\)/);
+  assert.match(draftEndpoint,/\.eq\('user_id',req.user.id\)/);
+});
