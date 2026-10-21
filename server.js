@@ -484,13 +484,17 @@ app.put('/api/practice/drafts',auth,async(req,res)=>{
       .eq('user_id',req.user.id).eq('submission_key',draft.submissionKey).limit(1);
     if(ce)throw ce;
     if(completed?.length)return res.status(409).json({error:'Already submitted; cannot save an unfinished copy.'});
-    // Do not trust arbitrary revisions or edited question orders. Verify
-    // every immutable revision and reject duplicate/foreign IDs.
-    const {data:rev,error:re}=await req.db.from('mcq_revisions')
-      .select('id,mcq_id').in('id',draft.items.map(x=>x.revisionId));
-    if(re)throw re;
-    const revisions=new Map((rev||[]).map(r=>[Number(r.id),Number(r.mcq_id)]));
-    if(revisions.size!==draft.items.length||draft.items.some(x=>revisions.get(x.revisionId)!==x.mcqId))
+    // Validate each draft item against its published question's CURRENT
+    // immutable revision. Authenticated students may read public.mcqs, but
+    // mcq_revisions SELECT is intentionally limited to their completed history.
+    // Using revisions here incorrectly rejected new Topic Drill questions.
+    // Never broaden revision RLS or trust question/revision pairs from the client.
+    const {data:published,error:pe}=await req.db.from('mcqs')
+      .select('id,current_revision_id').in('id',draft.items.map(x=>x.mcqId));
+    if(pe)throw pe;
+    const revisions=new Map((published||[]).map(row=>[Number(row.id),Number(row.current_revision_id)]));
+    if(revisions.size!==draft.items.length||
+        draft.items.some(x=>revisions.get(x.mcqId)!==x.revisionId))
       return res.status(400).json({error:'Question revisions could not be verified.'});
     const row={user_id:req.user.id,submission_key:draft.submissionKey,
       title:draft.title,mode:draft.mode,subject:draft.subject,
