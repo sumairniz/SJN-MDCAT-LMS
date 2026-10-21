@@ -452,7 +452,8 @@
       state.draftId=null;state.draftVersion=0;
       setURL(HOME_URL,true);
       switchModule('history');
-      await window.SJNDrafts?.refreshHistory();
+      // switchModule('history') already starts the one required refresh.
+      // Do not launch a second request after the same confirmed draft write.
     }catch(error){
       window.alert(error?.message || 'Unable to save your unfinished test. You are still in the exam.');
     }finally{state.savingDraft=false;exitButton.disabled=false;}
