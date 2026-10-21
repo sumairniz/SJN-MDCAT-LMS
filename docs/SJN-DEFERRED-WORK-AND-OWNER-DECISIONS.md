@@ -20,6 +20,10 @@
 
 **Future acceptance:** Measure stage-by-stage timings (server scoring transaction, HTTP, post-save stats/history refresh), propose minimal correct refactoring only if supported, test Tutor/Timed, stalled/failed network, double submission, account switch, refresh/back, mobile, score corrections, and persisted History. Keep navigation guarded until a secure save has completed. Follow normal staging → tests → owner acceptance → eventual production release. No production changes without separate permission.
 
+## Current owner decision — Autosave cancelled (2026-10-21)
+
+**AUTOSAVE / proposed Stage B: CANCELLED BY OWNER, not deferred.** Do not implement autosave or per-answer network requests. Preserve offline answering of already-loaded MCQs, with connectivity required for final Submit and manually confirmed Save & Exit. Existing manual Save & Exit, Exit Without Saving, In Progress and Resume remain. See superseding Master Development Plan entry. Historical future Autosave references below are obsolete. Documentation only; no code/DB/production release.
+
 ## Current checkpoint — Phase 4 Stage 3C accepted visually; security gate and future Save & Exit design next
 
 **2026-10-20 owner update:** Latest Stage 3C Test History/Review refinements were accepted visually by the owner on the development preview, with CI and Vercel READY verified. The detailed cross-account history-access gate and unverified edge cases remain pending before production readiness. Next separately scoped design area is Save & Exit/autosave/Resume (not yet authorized for implementation). **DEFERRED-RESULTS-001 remains deferred** and is not the next task.
