@@ -116,7 +116,10 @@ test('Mobile in-progress heading uses identical desktop yellow without altering 
 });
 
 test('History refresh after exam reload retrieves completed attempts and drafts without stale overwrite',()=>{
-  assert.match(html,/if \(modName === 'history'\) void loadStudentHistory\(\{ fresh: true \}\)/);
+  assert.match(html,/if \(modName === 'history' && typeof window\.reloadStudentHistory === 'function'\)/);
+  assert.match(html,/void window\.reloadStudentHistory\(\{ fresh: true \}\)/);
+  assert.match(html,/window\.reloadStudentHistory = loadStudentHistory/);
+  assert.doesNotMatch(html,/if \(modName === 'history'\) void loadStudentHistory/);
   assert.match(html,/let activeHistoryRequest = null/);
   assert.match(html,/let latestHistoryRequest = 0/);
   assert.match(html,/if \(!fresh && activeHistoryRequest\?\.studentId === expectedStudentId\)/);
@@ -127,4 +130,24 @@ test('History refresh after exam reload retrieves completed attempts and drafts 
   assert.match(html,/drafts\.userId!==expectedStudentId/);
   assert.match(html,/\.\.\.drafts\.drafts\.map\(row=>\(\{/);
   assert.doesNotMatch(html,/modName === 'quiz'\) void loadStudentHistory/);
+});
+
+// Navigation is declared in the legacy page script, while the authenticated
+// loader is enclosed in a later IIFE. Exercise that scope boundary directly.
+test('Save & Exit history navigation uses a callable cross-script bridge',()=>{
+  const navigation=html.match(/function switchModule\(modName\) \{[\s\S]*?\n    \}\n\n    function setWizardStep/);
+  assert.ok(navigation,'legacy navigation function exists');
+  const body=navigation[0].replace(/\n\n    function setWizardStep[\s\S]*/,'');
+  const shown=[];
+  const context={
+    document:{querySelectorAll:()=>[],getElementById:()=>({classList:{add(){},remove(){}}})},
+    window:{scrollTo(){},innerWidth:1024,reloadStudentHistory:(options)=>{shown.push(options);return Promise.resolve(true);}}
+  };
+  vm.runInNewContext(body+';switchModule("history");',context);
+  assert.equal(shown.length,1,'one history refresh triggered by exit/navigation');
+  assert.equal(shown[0].fresh,true);
+  vm.runInNewContext('switchModule("wizard");',context);
+  assert.equal(shown.length,1,'unrelated workspace navigation does not reload drafts');
+  delete context.window.reloadStudentHistory;
+  assert.doesNotThrow(()=>vm.runInNewContext('switchModule("history");',context),'history link does not throw when account bridge is not ready');
 });
