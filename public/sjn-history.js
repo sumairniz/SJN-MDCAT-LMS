@@ -9,6 +9,8 @@
     statusFilter: 'all', date: 'newest', query: '',
     detail: null, filter: 'all', current: 0, busy: false, navigatorVisible: true
   };
+  const PAGE_SIZE = 25;
+  let listPage = 1;
   const text = value => String(value == null ? '' : value);
   const dateLabel = value => {
     const n = Date.parse(value);
@@ -119,17 +121,25 @@
     const completed=state.status==='ready'?state.logs.filter(x=>x.status!=='in-progress').length:0;
     $('sjn-history-completed').textContent = String(completed);
     if (state.status !== 'ready') {
+      $('sjn-history-list-pagination').hidden = true;
       showMessage(state.status === 'error' ? 'Could not load your saved test history. Please retry.' :
         'Loading your saved test history…',state.status === 'error');
       return;
     }
     const rows = filtered();
+    const pageCount = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+    listPage = Math.min(Math.max(1, listPage), pageCount);
+    const pagination = $('sjn-history-list-pagination');
+    pagination.hidden = rows.length <= PAGE_SIZE;
+    $('sjn-history-list-page').textContent = 'Page ' + listPage;
+    $('sjn-history-list-prev').disabled = listPage === 1;
+    $('sjn-history-list-next').disabled = listPage === pageCount;
     $('sjn-history-found').textContent = rows.length + ' of ' + total + ' recorded tests';
     if (!rows.length) {
       showMessage(total ? 'No saved tests match these filters.' : 'No tests completed yet.');
       return;
     }
-    for (const log of rows) {
+    for (const log of rows.slice((listPage - 1) * PAGE_SIZE, listPage * PAGE_SIZE)) {
       const tr=el('tr','sjn-history-row');
       const titleCell=el('td','sjn-history-title-cell');
       titleCell.append(el('strong','',log.title),el('small','',dateLabel(log.date)));
@@ -185,9 +195,16 @@
     state.mode=$('sjn-history-mode')?.value || 'all';
     state.statusFilter=$('sjn-history-status')?.value || 'all';
     state.date=$('sjn-history-date')?.value || 'newest';
+    listPage = 1;
     render();
   }
   function setup() {
+    $('sjn-history-list-prev')?.addEventListener('click',()=>{
+      if (listPage > 1) { listPage--; render(); }
+    });
+    $('sjn-history-list-next')?.addEventListener('click',()=>{
+      if (listPage * PAGE_SIZE < filtered().length) { listPage++; render(); }
+    });
     ['sjn-history-search','sjn-history-source','sjn-history-mode',
      'sjn-history-status','sjn-history-date'].forEach(id => {
       $(id)?.addEventListener(id.endsWith('-search')?'input':'change',setFilters);
