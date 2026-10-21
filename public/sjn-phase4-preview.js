@@ -441,11 +441,18 @@
     const exitButton=$('sjn-exam-exit');
     exitButton.disabled=true;
     try {
-      const draft=draftPayload(reset);
-      const saved=await window.SJNDrafts?.save(draft);
-      if(!saved?.saved || saved.id!==draft.id || !Number.isSafeInteger(saved.version))
-        throw new Error('Your unfinished test could not be confirmed saved.');
-      state.draftVersion=saved.version;
+      // An existing confirmed Save & Exit is the student's checkpoint.
+      // "Exit Without Saving" discards ONLY this session's unsaved changes;
+      // never overwrite that server-saved draft with zero answers.
+      // A never-saved test still creates its original zero-progress draft.
+      const discardToLastSave = reset && state.draftId && state.draftVersion > 0;
+      if (!discardToLastSave) {
+        const draft=draftPayload(reset);
+        const saved=await window.SJNDrafts?.save(draft);
+        if(!saved?.saved || saved.id!==draft.id || !Number.isSafeInteger(saved.version))
+          throw new Error('Your unfinished test could not be confirmed saved.');
+        state.draftVersion=saved.version;
+      }
       window.SJNExamRecovery?.forget();
       closeExam();
       currentQuizList=[];userAnswers=[];state.checked=[];
@@ -469,7 +476,10 @@
   }
   function requestExit() {
     if (state.reviewOnly) { returnFromReview(); return; }
-    dialog('Exit this practice test?', 'Choose whether to preserve your answers or restart this test from zero next time.', [
+    const message = state.draftId && state.draftVersion > 0
+      ? 'Save & Exit keeps your latest changes. Exit Without Saving keeps your last confirmed Save & Exit and discards only changes made since then.'
+      : 'Save & Exit preserves your answers. Exit Without Saving keeps this question set but restarts it with zero answers.';
+    dialog('Exit this practice test?', message, [
       { label: 'Cancel', run() {} },
       { label: 'Exit Without Saving', discard: true, run() { void exitWithDraft(true); } },
       { label: 'Save & Exit', run() { void exitWithDraft(false); }, primary: true }
