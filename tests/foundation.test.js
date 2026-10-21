@@ -688,6 +688,7 @@ test("authenticated background LMS tab opens without a stuck loading guard", asy
       checkForAccountChange: () => false,
       emptyStudentProfile: () => ({ historyLogs: [], mcqsAttempted: 0 }),
       sjnProfile: null, historyLoadStatus: "loading", bookmarkedMcqs: [],
+      loadedHistoryStudentId: null, loadedHistoryGeneration: -1, historyGeneration: 0,
       updateDashboardAccountUI() {},
       applyAuthenticatedStats() {},
       window: { location: { replace(url) { redirects.push(url); } } }
