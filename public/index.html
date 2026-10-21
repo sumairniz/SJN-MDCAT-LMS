@@ -2052,7 +2052,12 @@
       // History must revalidate completed attempts AND saved unfinished drafts
       // when entered, especially after /quiz/session was refreshed.
       // Never re-fetch on MCQ selection, navigation, or dashboard rendering.
-      if (modName === 'history') void loadStudentHistory({ fresh: true });
+      // The authenticated history loader belongs to the separate account IIFE.
+      // Access its public window bridge; a bare lexical call throws ReferenceError
+      // and interrupts Save & Exit after its server-confirmed draft write.
+      if (modName === 'history' && typeof window.reloadStudentHistory === 'function') {
+        void window.reloadStudentHistory({ fresh: true });
+      }
 
       // Auto-close mobile drawer when navigating
       if (window.innerWidth < 768 && typeof closeMobileMenu === 'function') {
