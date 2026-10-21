@@ -308,3 +308,10 @@ test('Pagination slice limits 0, 1, 25, 26, 50, and 84 records without changing 
     assert.equal(pages,Math.max(1,Math.ceil(total/25)));
   }
 });
+
+test('Test History heading has no duplicate Performance Analytics eyebrow',()=>{
+  const section=html.slice(html.indexOf('<section id="module-history"'),html.indexOf('<div class="sjn-history-summary"'));
+  assert.doesNotMatch(section,/Performance Analytics/);
+  assert.match(section,/<h2 class="text-xl font-bold text-white flex items-center gap-2">📈 Test History Log<\/h2>/);
+  assert.match(section,/Your completed tests from across the Academy\./);
+});
