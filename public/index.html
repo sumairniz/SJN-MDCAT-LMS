@@ -567,7 +567,7 @@
                 <span class="font-bold text-white group-hover:text-amber-400">📜 Past Papers Question Bank</span>
                 <i class="fa-solid fa-chevron-right text-gray-500"></i>
               </div>
-              <p class="text-xs text-gray-400 mt-1">The only question bank in this LMS. It starts empty and is populated only from your code/content files.</p>
+              <p class="text-xs text-gray-400 mt-1">Practice past MDCAT questions by subject, chapter, or topic.</p>
             </button>
           </div>
 
@@ -579,15 +579,15 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <button onclick="selectPracticeScope('all-subjects')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-red-500 text-left transition-all">
                 <div class="font-bold text-white text-sm">🌐 All Subjects</div>
-                <p class="text-xs text-gray-400 mt-1">Randomly mix Biology, Chemistry, Physics, English and Logical Reasoning.</p>
+                <p class="text-xs text-gray-400 mt-1">Create a full-syllabus practice test covering all subjects.</p>
               </button>
               <button onclick="selectPracticeScope('subject-wise')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-blue-500 text-left transition-all">
-                <div class="font-bold text-white text-sm">📖 One Subject</div>
-                <p class="text-xs text-gray-400 mt-1">Practice everything available from one selected subject.</p>
+                <div class="font-bold text-white text-sm">📖 One or Multiple Subjects</div>
+                <p class="text-xs text-gray-400 mt-1">Select one or multiple subjects and practise their full syllabus.</p>
               </button>
               <button onclick="selectPracticeScope('custom-mix')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-emerald-500 text-left transition-all">
                 <div class="font-bold text-white text-sm">🧩 Custom Quiz</div>
-                <p class="text-xs text-gray-400 mt-1">Mix any subjects and/or chapters together in the same test.</p>
+                <p class="text-xs text-gray-400 mt-1">Create a chapter-wise practice test by selecting one or multiple chapters.</p>
               </button>
               <button onclick="selectPracticeScope('topic-wise')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-amber-500 text-left transition-all">
                 <div class="font-bold text-white text-sm">🎯 Topic Drill</div>
@@ -615,7 +615,7 @@
               <h3 class="text-sm font-bold text-gray-200">Step 3a: Select Chapter(s) 📌</h3>
               <button onclick="toggleSelectAllChapters()" class="text-xs text-red-400 hover:underline font-bold">Select All / Clear</button>
             </div>
-            <p class="text-xs text-gray-400">You can select chapters from different subjects. Leave chapters unselected to use all chapters of the selected subject(s).</p>
+            <p id="wizard-chapter-instructions" class="text-xs text-gray-400">You can select chapters from different subjects. Leave chapters unselected to use all chapters of the selected subject(s).</p>
             <div id="chapter-checkbox-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
             <button onclick="confirmChapterSelection()" class="mt-4 px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all">
               Confirm Chapters & Continue <i class="fa-solid fa-arrow-right ml-1"></i>
@@ -628,7 +628,7 @@
               <h3 class="text-sm font-bold text-gray-200">Step 3b: Select Topic(s) 🎯</h3>
               <button onclick="toggleSelectAllTopics()" class="text-xs text-red-400 hover:underline font-bold">Select All / Clear</button>
             </div>
-            <p class="text-xs text-gray-400">Pick any topics across the selected subjects.</p>
+            <p class="text-xs text-gray-400">Pick topics from the chapters you selected.</p>
             <div id="topic-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
             <button onclick="confirmTopicSelection()" class="mt-4 px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all">
               Confirm Topics & Continue <i class="fa-solid fa-arrow-right ml-1"></i>
