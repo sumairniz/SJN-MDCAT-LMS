@@ -7,6 +7,20 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-23 — Stage 4 Create Practice Test verification (AUTOMATED PASS; BROWSER QA PENDING)
+
+**Owner authorization:** Following confirmation that the three Stage 3 refinements worked in the browser, owner replied **"yes"** to Stage 4, expressly **verification-first**, without changing functioning application code. **All three latest refinements are owner-accepted.** Stage 4 is not permission to merge PR #1 or deploy production.
+
+**Audit document:** [Stage 4 Verification & Acceptance Register](SJN-CREATE-TEST-STAGE4-QA-2026-10-23.md) in commit `09ff69c8712d5fd619d0c2f2bb4307011f9f858c`, recording the complete source/CI/DB read-only findings, exact deployment, manual test matrix, historical data classification, temporary-code blockers and acceptance gate.
+
+**Verified automated baseline:** Staging runtime/CI SHA `d1a3453d3c0d12aadf5dae471c60977b65a6bb86`; Vercel staging alias `sjn-mdcat-lms-git-sjn-phase1a-foundation-sjn1.vercel.app` READY at exact SHA (deployment `dpl_Wj6H6oQ6hpzUShsGL3qZiEVdid27`). Foundation GitHub run `39837897002` **SUCCESS**, **120/120** Node tests, backend syntax, repeatable Tailwind build/CSS and known release-safety marker/path check **PASS**. The CI result is an audited existing run; the audit did not alter any runtime code or run tests against a different application revision.
+
+**Read-only staging Supabase snapshot:** 74 MCQ rows; 87 completed attempts, including 48 attempts with complete per-question rows and **39 older score-only attempts** with zero question rows; **0 partially populated attempts**. There are 254 saved attempt-item rows, 35 manually saved drafts and 2 bookmarks. Integrity checks found **0** duplicate question positions, cross-user question rows, orphaned question rows/bookmarks or missing current revisions. RLS enabled and owner-scoped for completed attempts, per-item history, drafts and bookmarks. No student identities/content were copied into docs. An initial SQL count incorrectly assumed an `mcqs.status` column and a broad mismatch count identified the 39 score-only attempts; corrected read-only queries established the historical distinction. No DB/schema/permissions changes made.
+
+**Open gates:** Real mobile and browser E2E verification, including four wizard types, OR/Unused reset after Submit, marked/incorrect, Topic Drill chapter enforcement, valid/ineligible MCQ counts, Results/Review/Retake, Tutor/Timed, manual Save & Exit/Resume/discard, refresh recovery, student A/B separation and History 25/page. The owner has accepted the three visual/behavioral refinements but **has not yet confirmed full Stage 4 end-to-end QA**. Pre-release Temporary Change Register still has OPEN preview/unfinished-action/config entries; `npm run check:release` catches known patterns, **not** all release blockers.
+
+**Status:** **STAGE 4 AUTOMATED/READ-ONLY AUDIT COMPLETE; OWNER BROWSER QA PENDING**. Do not change other features, begin production cleanup, merge draft PR or touch production without separate explicit approval. This entry and the Stage 4 document are **documentation-only**; no application code changed.
+
 ## 2026-10-23 — Create Practice Test: Three owner-approved refinements (STAGING, QA PENDING)
 
 **Explicit approval:** Owner approved all three items discussed after Stage 3 filter verification was owner-confirmed resolved: reset question-filter choices to **Unused** when starting/configuring each new practice test, reorder four scope cards, and use restrained distinct category accents only on selected filter chips. Stage 4 and all production/merge activities remain unapproved.
