@@ -82,9 +82,27 @@
       background:linear-gradient(155deg,#202025,#17171b);
       min-height:36px;transition:background .15s,border-color .15s;
     }
-    #module-wizard .sjn-filter-chip[aria-pressed="true"]{
-      color:#fca5a5;border-color:#ef4444;background:#331b21;
+    /* Subtle semantic accents ONLY for selected chips; unselected stays neutral. */
+    #module-wizard .sjn-filter-chip[data-sjn-filter="unused"]{
+      --sjn-chip-accent:#60a5fa;--sjn-chip-text:#93c5fd;--sjn-chip-tint:rgba(96,165,250,.075);
     }
+    #module-wizard .sjn-filter-chip[data-sjn-filter="incorrect"]{
+      --sjn-chip-accent:#f87171;--sjn-chip-text:#fca5a5;--sjn-chip-tint:rgba(248,113,113,.075);
+    }
+    #module-wizard .sjn-filter-chip[data-sjn-filter="skipped"]{
+      --sjn-chip-accent:#eab308;--sjn-chip-text:#fcd34d;--sjn-chip-tint:rgba(234,179,8,.075);
+    }
+    #module-wizard .sjn-filter-chip[data-sjn-filter="marked"]{
+      --sjn-chip-accent:#a78bfa;--sjn-chip-text:#c4b5fd;--sjn-chip-tint:rgba(167,139,250,.075);
+    }
+    #module-wizard .sjn-filter-chip[data-sjn-filter="correct"]{
+      --sjn-chip-accent:#34d399;--sjn-chip-text:#6ee7b7;--sjn-chip-tint:rgba(52,211,153,.075);
+    }
+    #module-wizard .sjn-filter-chip[aria-pressed="true"]{
+      color:var(--sjn-chip-text);border-color:var(--sjn-chip-accent);background:var(--sjn-chip-tint);
+    }
+    #module-wizard .sjn-filter-icon{display:none;margin-right:5px;font-size:11px}
+    #module-wizard .sjn-filter-chip[aria-pressed="true"] .sjn-filter-icon{display:inline-block}
     #module-wizard .sjn-filter-chip:focus-visible{outline:2px solid #f87171;outline-offset:2px}
     @media(prefers-reduced-motion:reduce){#module-wizard .sjn-filter-chip{transition:none}}
     /* Create Test Stage 1: scoped visual-only enhancements. No quiz/filter behavior changes. */
@@ -589,14 +607,6 @@
             <p class="text-xs text-gray-400">Choose exactly how you want to practice. You can mix subjects, chapters and topics in one test.</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <button onclick="selectPracticeScope('all-subjects')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-red-500 text-left transition-all">
-                <div class="font-bold text-white text-sm">🌐 All Subjects</div>
-                <p class="text-xs text-gray-400 mt-1">Create a full-syllabus practice test covering all subjects.</p>
-              </button>
-              <button onclick="selectPracticeScope('subject-wise')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-blue-500 text-left transition-all">
-                <div class="font-bold text-white text-sm">📖 One or Multiple Subjects</div>
-                <p class="text-xs text-gray-400 mt-1">Select one or multiple subjects and practise their full syllabus.</p>
-              </button>
               <button onclick="selectPracticeScope('custom-mix')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-emerald-500 text-left transition-all">
                 <div class="font-bold text-white text-sm">🧩 Custom Quiz</div>
                 <p class="text-xs text-gray-400 mt-1">Create a chapter-wise practice test by selecting one or multiple chapters.</p>
@@ -604,6 +614,14 @@
               <button onclick="selectPracticeScope('topic-wise')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-amber-500 text-left transition-all">
                 <div class="font-bold text-white text-sm">🎯 Topic Drill</div>
                 <p class="text-xs text-gray-400 mt-1">Choose one or more exact topics from any available subject.</p>
+              </button>
+              <button onclick="selectPracticeScope('subject-wise')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-blue-500 text-left transition-all">
+                <div class="font-bold text-white text-sm">📖 One or Multiple Subjects</div>
+                <p class="text-xs text-gray-400 mt-1">Select one or multiple subjects and practise their full syllabus.</p>
+              </button>
+              <button onclick="selectPracticeScope('all-subjects')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-red-500 text-left transition-all">
+                <div class="font-bold text-white text-sm">🌐 All Subjects</div>
+                <p class="text-xs text-gray-400 mt-1">Create a full-syllabus practice test covering all subjects.</p>
               </button>
             </div>
           </div>
@@ -656,11 +674,11 @@
             <section id="sjn-question-filters" class="space-y-2 hidden" aria-label="Question Filters">
               <h4 class="text-xs font-semibold text-gray-300">Question Filters</h4>
               <div class="flex flex-wrap gap-2" role="group" aria-label="Select question history filters">
-                <button type="button" data-sjn-filter="unused" aria-pressed="true" class="sjn-filter-chip">Unused</button>
-                <button type="button" data-sjn-filter="incorrect" aria-pressed="false" class="sjn-filter-chip">Incorrect</button>
-                <button type="button" data-sjn-filter="skipped" aria-pressed="false" class="sjn-filter-chip">Skipped</button>
-                <button type="button" data-sjn-filter="marked" aria-pressed="false" class="sjn-filter-chip">Marked</button>
-                <button type="button" data-sjn-filter="correct" aria-pressed="false" class="sjn-filter-chip">Correct</button>
+                <button type="button" data-sjn-filter="unused" aria-pressed="true" class="sjn-filter-chip"><i class="fa-solid fa-circle-dot sjn-filter-icon" aria-hidden="true"></i>Unused</button>
+                <button type="button" data-sjn-filter="incorrect" aria-pressed="false" class="sjn-filter-chip"><i class="fa-solid fa-circle-xmark sjn-filter-icon" aria-hidden="true"></i>Incorrect</button>
+                <button type="button" data-sjn-filter="skipped" aria-pressed="false" class="sjn-filter-chip"><i class="fa-solid fa-circle-minus sjn-filter-icon" aria-hidden="true"></i>Skipped</button>
+                <button type="button" data-sjn-filter="marked" aria-pressed="false" class="sjn-filter-chip"><i class="fa-solid fa-bookmark sjn-filter-icon" aria-hidden="true"></i>Marked</button>
+                <button type="button" data-sjn-filter="correct" aria-pressed="false" class="sjn-filter-chip"><i class="fa-solid fa-circle-check sjn-filter-icon" aria-hidden="true"></i>Correct</button>
               </div>
               <p id="sjn-filter-status" role="status" aria-live="polite" class="text-[11px] text-gray-400">Select at least one filter.</p>
               <button id="sjn-filter-retry" class="hidden text-xs font-semibold text-red-400 hover:underline" type="button">Retry loading filters</button>
@@ -2234,6 +2252,9 @@
 
     function selectPracticeScope(scope) {
       wizardSelection.scope = scope;
+      // New practice mode means a new test configuration: reset only filter
+      // choices, not verified account history or other wizard preferences.
+      window.SJNPracticeFilters?.resetSelection();
       wizardSelection.selectedSubjects = [];
       wizardSelection.selectedChapters = [];
       wizardSelection.selectedTopics = [];
@@ -3874,6 +3895,9 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         // A later retry of an already-confirmed result must not create a new
         // attempt. A new test resets this state in launchGeneratedQuiz.
         savedAttemptOutcome = outcome;
+        // The next test starts at Unused even if Results returns straight
+        // to Step 4 without visiting Question Bank or selecting a new mode.
+        window.SJNPracticeFilters?.resetSelection();
         window.SJNPracticeFilters?.invalidate();
         markStudentHistoryChanged();
         window.SJNExamRecovery?.forget();
