@@ -2158,6 +2158,14 @@
       if (modName === 'history' && typeof window.reloadStudentHistory === 'function') {
         void window.reloadStudentHistory();
       }
+      // Returning directly from Results or Dashboard can reopen Step 4 without
+      // calling setWizardStep(4). After a confirmed Submit invalidates the
+      // student-specific filter snapshot, reload it on that direct entry too.
+      // load() reuses verified/in-flight reads; other modules and steps do nothing.
+      if (modName === 'wizard' && wizardSelection.currentStepNum === 4 &&
+          wizardQuestionFiltersActive) {
+        void window.SJNPracticeFilters?.load();
+      }
 
       // Auto-close mobile drawer when navigating
       if (window.innerWidth < 768 && typeof closeMobileMenu === 'function') {
