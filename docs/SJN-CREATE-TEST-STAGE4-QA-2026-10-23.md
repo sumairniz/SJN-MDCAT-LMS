@@ -73,6 +73,15 @@ A passing `check:release` looks only for reserved diagnostic markers and forbidd
 
 **Result policy:** Owner acceptance must be explicitly reported after browser checks. Any unexpected behavior gets a named reproduction, smallest safe fix and targeted retest **with separate owner scope if an application-code change is needed**. Until then, **Stage 4 automated/read-only verification COMPLETE; full browser signoff PENDING**.
 
+## F.1 Owner-found Retake/Resume panel visibility regression — fixed on staging; owner recheck pending
+
+- On 2026-10-23 owner reported entire Question Filters panel disappeared from Step 4 after completing an **In Progress → Resume** attempt or a **History → Retake**, in both Tutor and Timed; changing any practice scope did not restore it, while a full reload did. This is distinct from the previously fixed post-submit verification-loading message.
+- Audit confirmed direct Retake/Resume temporarily set `wizardQuestionFiltersActive=false` to keep their exact MCQs; neither successful submit nor scope change re-enabled it. Thus the panel stayed `hidden` in the same browser session.
+- Narrow `public/index.html` fix commit `69d2c8fc05a6137d99fcfe5ce06db40fe2446bba`: restore `wizardQuestionFiltersActive=true` **only at confirmed Submit and at normal new scope selection**. Do not interfere with active Retake/Resume, Quiz session, manual Save & Exit, database or other flows.
+- Test `tests/practice-question-filters.test.js` `e4ebe26c76bc9d2e03a948d337077ff6f88c02ab`. The first CI run `39861048340` failed a stale test's source assertion; its narrow update in `3118e4f92ce31c89becf74f6643569c5182b2fba` gave final CI run `39861168349` **SUCCESS** and staging Vercel deployment `dpl_49DXxN4t5sDxGwC7P9MQXhL5K2kH` **READY at matching tested commit**.
+- **Owner browser verification: PENDING**. Recheck Resume → Submit → Results → Create New Test / Dashboard → Create Test; separately Retake → Submit → Results → Create New Test / Dashboard → Create Test, for Tutor and Timed when practical. Confirm five chips are visible and Unused is selected, and the filters load without refreshing; switching scope also restores chips. Then confirm Retake/Resume saved original set and account/history behaviors remain intact.
+- No new temporary code, database migration, release approval or production change. Stage 4 as a whole is still browser acceptance pending.
+
 ## F. Change/rollback record
 
 This verification audit makes **documentation-only GitHub commits**. No application, API, backend, CSS, test runtime, RLS, database records, environment variables or Vercel configuration have been changed. No new preview flag or temporary code has been introduced, so no new TEMP entry is required. The Master Development Plan and Temporary Change Register remain authoritative for handoff and future pre-release decisions. Reverting this verification record would affect documentation only and would not change the accepted LMS behavior.
