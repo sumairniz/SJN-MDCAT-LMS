@@ -7,6 +7,22 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-22 — Stage 3 targeted post-submission filter-verification repair (STAGING CI PASS / OWNER QA PENDING)
+
+**Owner-reported reproduction and approved scope:** The owner tested Stage 3 and reported that the other five-filter features looked good, but **only after a successfully submitted test** the filter-status panel could remain indefinitely on `Your question history must be verified before starting` / `Checking your saved question history before starting a test`. Correct routes are **Submit → Results → Create New Test → Step 4**, and **Submit → Results → Dashboard → Create Test → Step 4** (including later visits to other sections before Create Test). A click on **Back**, then forward to Settings, immediately repaired the status. **Save & Exit and Exit Without Saving do not exhibit the issue.** The owner explicitly approved fixing this issue only and preserving everything else.
+
+**Confirmed root cause:** `public/index.html` correctly called `window.SJNPracticeFilters?.invalidate()` after confirmed `/practice/submit`, resetting the verified per-student snapshot to `idle`. The existing `setWizardStep(4)` correctly calls `load()`, but Result → Create New Test and menu → Create Test route through `switchModule('wizard')` while the saved `wizardSelection.currentStepNum` already equals 4; they never call `setWizardStep(4)`. Thus the snapshot stays invalidated indefinitely. Back/Next works because it triggers the Step 4 loader. Result page navigation always occurs after submission; there is **no direct Submit → Dashboard or History route**.
+
+**Minimal permanent fix:** `public/index.html` commit `2a56b4bdca9e7b9013fbe624f10e68a2ffcb8161` adds **only** a guarded `window.SJNPracticeFilters?.load()` on `switchModule('wizard')` when `wizardSelection.currentStepNum === 4` and `wizardQuestionFiltersActive`. The loader itself already coalesces an in-flight request and reuses the ready per-student snapshot, thus **no extra request on every navigation**, no unauthorized user mixing, no new autosave and no changes to exam/question selection, results layout, test history, bookmarks, RLS, database or any other screen.
+
+**Regression evidence and complete outcome log:**
+- New executable `tests/history-ui.test.js` test commit `eef26f68a132d8474fcb62a4d9c2865caba614c7` exercises actual `switchModule` code, asserts direct Step 4 entry triggers verification, other modules/steps/disabled filter context do not, and existing History reload retains one call.
+- First Foundation run `39832332636` **FAILED** (116/117) because a pre-existing isolated History VM fixture did not define the now-read wizard state. This is a test fixture only, not a reported browser error.
+- Adjusted only that fixture in `tests/history-ui.test.js`, commit `d0d0d34a0a98fe6e40e6b292db1b37d651c08d55`; it explicitly supplies `wizardSelection.currentStepNum=1` and `wizardQuestionFiltersActive=false`, matching its History / no-filter scenario.
+- Final Foundation CI run `39832499740` **SUCCESS**; Vercel staging alias **READY** at exact tested code commit `d0d0d34a0a98fe6e40e6b292db1b37d651c08d55`, deployment `dpl_ApdwDJTPb8zKieEp5viUkdnm3Hmr`.
+
+**Owner browser acceptance PENDING.** Request the owner to recheck the two exact post-submit routes; filter status should refresh automatically, not require Back/Next. Verify Save & Exit / Exit Without Saving still behave as before and all existing UI and actions remain intact. Stage 4 remains on hold pending separate authorization. **Rollback:** revert only the guarded `switchModule` addition in `2a56b4bd` and the associated test fixture/test commits, retaining prior accepted Stage 1/2 and Stage 3 changes. No temporary flag added, no production or `main` modification.
+
 ## 2026-10-22 — Create Practice Test Stage 3: five history filters (CI PASS / OWNER QA PENDING)
 
 **Owner approval:** After explicitly accepting Stage 2 (`done`), owner explicitly replied `approve` to starting Stage 3. Implementation is restricted to **`sjn-phase1a-foundation`** and staging. Stage 4/full release/PR merge not approved. Do not alter `main`, production Vercel or production Supabase.
