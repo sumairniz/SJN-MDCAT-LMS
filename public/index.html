@@ -649,7 +649,7 @@
                 <button onclick="setMcqCount(100)" class="mcq-cnt-btn p-2.5 rounded-xl border border-sjn-border bg-zinc-900 text-gray-300 font-bold text-xs">100</button>
               </div>
               <div class="flex gap-2 items-center">
-                <input type="number" id="custom-mcq-count" min="1" max="100000" value="5" oninput="setCustomMcqCount(this.value)" class="flex-1 bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white font-bold" placeholder="Enter any number of MCQs">
+                <input type="number" id="custom-mcq-count" min="1" max="100000" value="" oninput="setCustomMcqCount(this.value)" class="flex-1 bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white font-bold" placeholder="Enter any number of MCQs">
                 <span class="text-xs text-gray-500">MCQs</span>
               </div>
               <p id="available-count-hint" class="text-[11px] text-gray-500">Available questions will be shown after your selection.</p>
@@ -2053,7 +2053,7 @@
       selectedChapters: [],
       selectedTopics: [],
       topic: '',
-      mcqCount: 5,
+      mcqCount: 0,
       testMode: 'tutor',
       currentStepNum: 1
     };
@@ -2146,14 +2146,27 @@
         2: ['wizard-step-2',40,'Step 2: Build Practice Set'],
         3: ['wizard-step-3',60,'Step 3: Subject(s)'],
         31:['wizard-step-3a',75,'Step 3a: Chapters'],
-        32:['wizard-step-3b',75,'Step 3b: Topics'],
+        32:['wizard-step-3b',88,'Step 3b: Topics'],
         4: ['wizard-step-4',100,'Step 4: Settings']
       };
       const cfg = map[stepNum];
       if (cfg) {
         document.getElementById(cfg[0]).classList.remove('hidden');
         updateWizardProgress(cfg[1], cfg[2]);
-        if (stepNum === 4) { updateSummaryBox(); updateWizardAvailableCount(); }
+        if (stepNum === 31) {
+          document.getElementById('wizard-chapter-instructions').innerText =
+            wizardSelection.scope === 'topic-wise'
+              ? 'Select at least one chapter, then choose the topics you want to practise.'
+              : 'Select chapters from your chosen subjects, or leave all unselected to practise every chapter.';
+        }
+        if (stepNum === 4) {
+          // Explicit Quick 5, course and retake entries keep their assigned counts.
+          // Ordinary Create Test starts blank and never silently defaults to 1.
+          const input = document.getElementById('custom-mcq-count');
+          if (input) input.value = Number.isSafeInteger(wizardSelection.mcqCount) &&
+            wizardSelection.mcqCount > 0 ? String(wizardSelection.mcqCount) : '';
+          updateSummaryBox(); updateWizardAvailableCount();
+        }
       }
     }
 
@@ -2163,13 +2176,20 @@
         else if (wizardSelection.scope === 'topic-wise') setWizardStep(32);
         else if (wizardSelection.scope === 'subject-wise') setWizardStep(3);
         else setWizardStep(2);
-      } else if (wizardSelection.currentStepNum === 32 || wizardSelection.currentStepNum === 31) setWizardStep(3);
+      } else if (wizardSelection.currentStepNum === 32) setWizardStep(31);
+      else if (wizardSelection.currentStepNum === 31) setWizardStep(3);
       else if (wizardSelection.currentStepNum === 3) setWizardStep(2);
       else if (wizardSelection.currentStepNum === 2) setWizardStep(1);
     }
 
     function selectWizardOption(type, val) {
-      if (type === 'bank') { wizardSelection.bank = val; setWizardStep(2); }
+      if (type === 'bank') {
+        wizardSelection.bank = val;
+        wizardSelection.mcqCount = 0;
+        const input = document.getElementById('custom-mcq-count');
+        if (input) input.value = '';
+        setWizardStep(2);
+      }
     }
 
     function selectPracticeScope(scope) {
@@ -2178,6 +2198,9 @@
       wizardSelection.selectedChapters = [];
       wizardSelection.selectedTopics = [];
       wizardSelection.subject = 'All Subjects';
+      wizardSelection.mcqCount = 0;
+      const countInput = document.getElementById('custom-mcq-count');
+      if (countInput) countInput.value = '';
       if (scope === 'all-subjects') {
         wizardSelection.selectedSubjects = getAvailableSubjects();
         setWizardStep(4);
@@ -2221,10 +2244,8 @@
       if (wizardSelection.scope === 'subject-wise') {
         wizardSelection.selectedChapters = ['All Chapters'];
         setWizardStep(4);
-      } else if (wizardSelection.scope === 'topic-wise') {
-        renderTopicOptions(selected);
-        setWizardStep(32);
       } else {
+        // Both Custom Quiz and Topic Drill select chapters first.
         renderChapterCheckboxes(selected);
         setWizardStep(31);
       }
@@ -2261,11 +2282,23 @@
 
     function confirmChapterSelection() {
       const selected = Array.from(document.querySelectorAll('.chapter-chk:checked')).map(c => c.value);
-      if (!selected.length) {
-        wizardSelection.selectedChapters = ['All Chapters'];
-      } else {
+      if (wizardSelection.scope === 'topic-wise') {
+        if (!selected.length) {
+          alert('Please select at least 1 chapter before choosing topics.');
+          return;
+        }
         wizardSelection.selectedChapters = selected;
+        // Back from Topics may change chapters; discard selections outside
+        // the newly chosen chapters rather than submitting hidden stale topics.
+        wizardSelection.selectedTopics = wizardSelection.selectedTopics.filter(
+          key => selected.some(chapter => key.startsWith(chapter + '|||'))
+        );
+        renderTopicOptions(wizardSelection.selectedSubjects);
+        setWizardStep(32);
+        return;
       }
+      // Custom Quiz deliberately permits no chapter choice: all selected subjects.
+      wizardSelection.selectedChapters = selected.length ? selected : ['All Chapters'];
       setWizardStep(4);
     }
 
@@ -2278,8 +2311,9 @@
         const topicItems = [];
         Object.keys(chapters).forEach(ch => chapters[ch].forEach(topic => topicItems.push({subject, chapter:ch, topic})));
         mcqQuestionBank.filter(q => q.subject === subject && q.topic).forEach(q => topicItems.push({subject, chapter:q.chapter || 'General Chapter', topic:q.topic}));
-        const unique = [...new Map(topicItems.map(x => [`${x.subject}|||${x.chapter}|||${x.topic}`, x])).values()];
-        if (!unique.length) unique.push({subject, chapter:'General Chapter', topic:'General Topic'});
+        const unique = [...new Map(topicItems.map(x => [`${x.subject}|||${x.chapter}|||${x.topic}`, x])).values()]
+          .filter(item => wizardSelection.scope !== 'topic-wise' ||
+            wizardSelection.selectedChapters.includes(`${item.subject}|||${item.chapter}`));
         unique.forEach(item => {
           const key = `${item.subject}|||${item.chapter}|||${item.topic}`;
           const label = document.createElement('label');
@@ -2300,23 +2334,26 @@
       const selected = Array.from(document.querySelectorAll('.topic-chk:checked')).map(c => c.value);
       if (!selected.length) { alert('Please select at least 1 topic.'); return; }
       wizardSelection.selectedTopics = selected;
-      wizardSelection.selectedChapters = [];
+      // Preserve the selected chapter scope for Back navigation and saved test metadata.
       setWizardStep(4);
     }
 
     function setMcqCount(count) {
-      const n = Math.max(1, Math.min(1000, parseInt(count, 10) || 1));
+      const n = Number(count);
+      if (!Number.isSafeInteger(n) || n < 1 || n > 100000) return;
       wizardSelection.mcqCount = n;
       const input = document.getElementById('custom-mcq-count');
-      if (input) input.value = n;
+      if (input) input.value = String(n);
       document.querySelectorAll('.mcq-cnt-btn').forEach(btn => btn.classList.remove('border-red-500','bg-red-950/40','text-white'));
       updateWizardAvailableCount();
       updateSummaryBox();
     }
 
     function setCustomMcqCount(value) {
-      const n = Math.max(1, Math.min(1000, parseInt(value, 10) || 1));
-      wizardSelection.mcqCount = n;
+      // An empty/invalid field is not an implicit 1-question exam.
+      const raw = String(value).trim();
+      const n = /^[1-9]\\d*$/.test(raw) ? Number(raw) : 0;
+      wizardSelection.mcqCount = Number.isSafeInteger(n) && n <= 100000 ? n : 0;
       document.querySelectorAll('.mcq-cnt-btn').forEach(btn => btn.classList.remove('border-red-500','bg-red-950/40','text-white'));
       updateWizardAvailableCount();
       updateSummaryBox();
@@ -2345,7 +2382,7 @@
       subject.innerText = wizardSelection.selectedSubjects?.length ? wizardSelection.selectedSubjects.join(', ') : wizardSelection.subject;
       const filters = wizardSelection.selectedTopics?.length ? `${wizardSelection.selectedTopics.length} topic(s)` : (wizardSelection.selectedChapters?.length ? `${wizardSelection.selectedChapters.length} chapter selection(s)` : 'All');
       chapter.innerText = filters;
-      mode.innerText = `${wizardSelection.mcqCount} MCQs | ${wizardSelection.testMode === 'tutor' ? 'Tutor' : 'Timed'}`;
+      mode.innerText = `${wizardSelection.mcqCount > 0 ? wizardSelection.mcqCount : '—'} MCQs | ${wizardSelection.testMode === 'tutor' ? 'Tutor' : 'Timed'}`;
     }
 
     function updateWizardProgress(pct, text) {
@@ -2386,7 +2423,7 @@
       const hint = document.getElementById('available-count-hint');
       if (!hint) return;
       const pool = getFilteredQuestionPool();
-      hint.innerText = `${pool.length} question(s) available in this selection. You requested ${wizardSelection.mcqCount}.`;
+      hint.innerText = `${pool.length} question(s) available in this selection. ${wizardSelection.mcqCount > 0 ? 'You requested ' + wizardSelection.mcqCount + '.' : 'Choose a number of MCQs to start.'}`;
     }
 
     function launchGeneratedQuiz(preselectedQuestions = null) {
@@ -2404,6 +2441,10 @@
       const pool = retaking ? preselectedQuestions : getFilteredQuestionPool();
       if (!pool.length) {
         alert('No MCQs match this test selection. Please check the question bank.');
+        return;
+      }
+      if (!retaking && (!Number.isSafeInteger(wizardSelection.mcqCount) || wizardSelection.mcqCount < 1)) {
+        alert('Please choose a valid number of MCQs before starting.');
         return;
       }
       if (retaking) {
@@ -3365,12 +3406,15 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     };
     window.renderTopicOptions = function(subjects) {
       const container=document.getElementById('topic-options-container'); container.innerHTML=''; const selected=new Set(wizardSelection.selectedTopics||[]);
-      const items=[...new Map(mcqQuestionBank.filter(q=>subjects.includes(q.subject)).map(q=>{const subject=q.subject,chapter=q.chapter||'General Chapter',topic=q.topic||'General Topic';return [`${subject}|||${chapter}|||${topic}`,{subject,chapter,topic}]})).values()];
+      const items=[...new Map(mcqQuestionBank.filter(q=>subjects.includes(q.subject)).map(q=>{const subject=q.subject,chapter=q.chapter||'General Chapter',topic=q.topic||'General Topic';return [`${subject}|||${chapter}|||${topic}`,{subject,chapter,topic}]})).values()]
+        .filter(item=>wizardSelection.scope !== 'topic-wise' || wizardSelection.selectedChapters.includes(`${item.subject}|||${item.chapter}`));
       items.forEach(x=>{const key=`${x.subject}|||${x.chapter}|||${x.topic}`; const label=document.createElement('label'); label.className='flex items-start p-3.5 rounded-xl border border-sjn-border bg-zinc-900 hover:border-amber-500 cursor-pointer'; label.innerHTML=`<input type="checkbox" value="${escapeHtml(key)}" class="topic-chk w-4 h-4 mt-0.5 mr-3" ${selected.has(key)?'checked':''}><span><span class="font-bold text-white block text-xs">🎯 ${escapeHtml(x.topic)}</span><span class="text-[10px] text-gray-400">${escapeHtml(x.subject)} • ${escapeHtml(x.chapter)}</span></span>`; container.appendChild(label);});
       if(!items.length) container.innerHTML='<div class="col-span-2 p-5 text-center text-xs text-gray-500">No topics are available because the question bank is empty.</div>';
     };
-    window.setMcqCount = function(count){const n=Math.max(1,Math.min(100000,parseInt(count,10)||1)); wizardSelection.mcqCount=n; const input=document.getElementById('custom-mcq-count'); if(input)input.value=n; updateWizardAvailableCount(); updateSummaryBox();};
-    window.setCustomMcqCount=window.setMcqCount;
+    // Keep the already validated global count handlers; reassigning them
+    // here previously converted a blank field into an unintended 1 MCQ.
+    // Direct-entry Quick 5, course and paper paths still assign explicit counts.
+    // Do not override setMcqCount or setCustomMcqCount.
     window.startQuick5Mcqs=function(){wizardSelection={bank:'Past Papers Question Bank',scope:'all-subjects',subject:'All Subjects',selectedSubjects:getAvailableSubjects(),selectedChapters:['All Chapters'],selectedTopics:[],mcqCount:5,testMode:'tutor',currentStepNum:4}; paperSourceFilter=null; launchGeneratedQuiz();};
 
     const originalLaunch = window.launchGeneratedQuiz;
