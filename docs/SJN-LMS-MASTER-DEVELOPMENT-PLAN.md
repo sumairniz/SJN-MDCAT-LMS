@@ -7,7 +7,7 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
-## 2026-10-22 — Stage 3 targeted post-submission filter-verification repair (STAGING CI PASS / OWNER QA PENDING)
+## 2026-10-22 — Stage 3 targeted post-submission filter-verification repair (OWNER-VERIFIED RESOLVED)
 
 **Owner-reported reproduction and approved scope:** The owner tested Stage 3 and reported that the other five-filter features looked good, but **only after a successfully submitted test** the filter-status panel could remain indefinitely on `Your question history must be verified before starting` / `Checking your saved question history before starting a test`. Correct routes are **Submit → Results → Create New Test → Step 4**, and **Submit → Results → Dashboard → Create Test → Step 4** (including later visits to other sections before Create Test). A click on **Back**, then forward to Settings, immediately repaired the status. **Save & Exit and Exit Without Saving do not exhibit the issue.** The owner explicitly approved fixing this issue only and preserving everything else.
 
@@ -21,7 +21,7 @@
 - Adjusted only that fixture in `tests/history-ui.test.js`, commit `d0d0d34a0a98fe6e40e6b292db1b37d651c08d55`; it explicitly supplies `wizardSelection.currentStepNum=1` and `wizardQuestionFiltersActive=false`, matching its History / no-filter scenario.
 - Final Foundation CI run `39832499740` **SUCCESS**; Vercel staging alias **READY** at exact tested code commit `d0d0d34a0a98fe6e40e6b292db1b37d651c08d55`, deployment `dpl_ApdwDJTPb8zKieEp5viUkdnm3Hmr`.
 
-**Owner browser acceptance PENDING.** Request the owner to recheck the two exact post-submit routes; filter status should refresh automatically, not require Back/Next. Verify Save & Exit / Exit Without Saving still behave as before and all existing UI and actions remain intact. Stage 4 remains on hold pending separate authorization. **Rollback:** revert only the guarded `switchModule` addition in `2a56b4bd` and the associated test fixture/test commits, retaining prior accepted Stage 1/2 and Stage 3 changes. No temporary flag added, no production or `main` modification.
+**Owner browser acceptance: CONFIRMED for this specific fix.** After reviewing the revised staging LMS, the owner replied **"its solved"** and confirmed the post-submission verification issue is resolved. The two reported Result → Create New Test / Result → Dashboard → Create Test paths should now load filters without Back/Next. This confirmation applies to the **targeted bug fix only**; it is not independent proof of every Stage 3 filter edge case, and should not be treated as approval for Stage 4. Stage 4 remains on hold pending separate authorization. **Rollback:** revert only the guarded `switchModule` addition in `2a56b4bd` and the associated test fixture/test commits, retaining prior accepted Stage 1/2 and Stage 3 changes. No temporary flag added, no production or `main` modification.
 
 ## 2026-10-22 — Create Practice Test Stage 3: five history filters (CI PASS / OWNER QA PENDING)
 
