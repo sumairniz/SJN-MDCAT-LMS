@@ -77,6 +77,8 @@ test('Stage 2 student-facing wording keeps separate past-papers product and exis
   assert.match(area,/full-syllabus practice test covering all subjects/);
   assert.match(area,/One or Multiple Subjects/);
   assert.match(area,/Select one or multiple subjects and practise their full syllabus/);
+  assert.match(area,/Select one or multiple subjects for your practice test/);
+  assert.match(src,/wizardSelection\.scope === 'subject-wise' \? 'One or Multiple Subjects'/);
   assert.match(area,/chapter-wise practice test by selecting one or multiple chapters/);
   assert.match(area,/selectPracticeScope\('subject-wise'\)/);
   assert.match(area,/selectPracticeScope\('custom-mix'\)/);
