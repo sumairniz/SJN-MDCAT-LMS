@@ -40,7 +40,7 @@ function createQuizContext(mode = 'timed', bank = [{id: 1, revisionId: 4, bank: 
     'let currentQuizList = []; let currentMcqIndex = -1; let userAnswers = []; ' +
     'let currentSubmissionKey = null; let currentQuizStartedAt = null; ' +
     'let savedAttemptOutcome = { saved: true, id: 12 }; ' +
-    'let historyRetakeTitle = null;\n' + launcher,
+    'let historyRetakeTitle = null; let wizardQuestionFiltersActive = false;\n' + launcher,
     ctx, { timeout: 1000 }
   );
   return { ctx, calls, nodes };
