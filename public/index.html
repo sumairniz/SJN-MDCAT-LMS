@@ -602,7 +602,7 @@
               <h3 class="text-sm font-bold text-gray-200">Step 3: Select Subject(s) 📚</h3>
               <button onclick="toggleSelectAllSubjects()" class="text-xs text-red-400 hover:underline font-bold">Select All / Clear</button>
             </div>
-            <p class="text-xs text-gray-400">For Custom Quiz you may select multiple subjects. They will be combined into one question pool.</p>
+            <p class="text-xs text-gray-400">Select one or multiple subjects for your practice test.</p>
             <div id="subject-checkbox-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
             <button onclick="confirmSubjectSelection()" class="mt-2 px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all">
               Continue <i class="fa-solid fa-arrow-right ml-1"></i>
@@ -2378,7 +2378,7 @@
       const mode = document.getElementById('summary-mode');
       if (!bank) return;
       bank.innerText = wizardSelection.bank;
-      scope.innerText = wizardSelection.scope === 'custom-mix' ? 'Custom Quiz' : wizardSelection.scope.replaceAll('-', ' ');
+      scope.innerText = wizardSelection.scope === 'custom-mix' ? 'Custom Quiz' : (wizardSelection.scope === 'subject-wise' ? 'One or Multiple Subjects' : wizardSelection.scope.replaceAll('-', ' '));
       subject.innerText = wizardSelection.selectedSubjects?.length ? wizardSelection.selectedSubjects.join(', ') : wizardSelection.subject;
       const filters = wizardSelection.selectedTopics?.length ? `${wizardSelection.selectedTopics.length} topic(s)` : (wizardSelection.selectedChapters?.length ? `${wizardSelection.selectedChapters.length} chapter selection(s)` : 'All');
       chapter.innerText = filters;
