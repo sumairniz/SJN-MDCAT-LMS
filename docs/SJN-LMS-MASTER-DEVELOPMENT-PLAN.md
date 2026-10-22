@@ -7,7 +7,7 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
-## 2026-10-23 — Stage 4 narrow owner-approved fix: filters hidden after completed Resume/Retake (CI PASS / OWNER QA PENDING)
+## 2026-10-23 — Stage 4 narrow owner-approved fix: filters hidden after completed Resume/Retake (OWNER VERIFIED RESOLVED)
 
 **User report and approval:** Owner verified previous Stage 4 browser paths, but found that after **Test History → In Progress → Resume → Submit → Results → Create Test** or **Test History → Retake → Submit → Results → Create Test**, the entire five-chip Question Filters section disappeared (Tutor and Timed). Even selecting a new scope (All Subjects, Topic Drill, Custom Quiz, etc.) did not show it. A full page reload restored it. Owner explicitly authorized fixing **this issue only**. Do not confuse with earlier post-submit "verifying..." stuck bug; that earlier issue was independently owner-confirmed resolved.
 
@@ -17,7 +17,7 @@
 
 **Tests and outcome log:** Executable state/real-source assertions for Resume/Retake visibility restore, disabled direct exam filter bypass, Unused default and re-verification added in `tests/practice-question-filters.test.js` commit `e4ebe26c76bc9d2e03a948d337077ff6f88c02ab`. First Foundation CI run `39861048340` **FAILED** (one legacy exact-source assertion expected the former submission comment/sequence); update of that **test only** at commit `3118e4f92ce31c89becf74f6643569c5182b2fba` corrected it to check the new post-save activation and existing invalidation. Final Foundation run `39861168349` **SUCCESS**, Vercel staging alias `sjn-mdcat-lms-git-sjn-phase1a-foundation-sjn1.vercel.app` **READY** at exact tested commit `3118e4f92ce31c89becf74f6643569c5182b2fba`, deployment `dpl_49DXxN4t5sDxGwC7P9MQXhL5K2kH`.
 
-**Acceptance pending:** Owner should retest both exact reproduction paths (Resume from In Progress and Retake from History) in Tutor and Timed; after saved Submit → Results → Create New Test OR Results → Dashboard → Create Test, five colored filters should be visible, default to Unused and verify the updated student history, no page refresh required. Switching scopes must also restore them. Check the original exam, scores, drafts, History and card UI are unchanged. Automated CI success **does not** mean real browser acceptance. Stage 4 overall release still pending owner browser signoff. No production action approved. **Rollback:** revert only two inserted `wizardQuestionFiltersActive = true` statements and associated new test/docs changes, preserving all previously accepted behavior.
+**Targeted browser acceptance: OWNER CONFIRMED RESOLVED.** After testing the staging fix for filters disappearing following completed Test History Resume/Retake, the owner replied **"yeah its fixed"**. Treat this as acceptance of **this specific visibility bug fix** only; it does not independently certify every Tutor/Timed/device/account regression scenario or constitute overall Stage 4 final sign-off. The original filtered wizard, Results, manual drafts and History remain protected. **Stage 4 overall QA/browser signoff remains pending**. No production action approved. **Rollback:** revert only two inserted `wizardQuestionFiltersActive = true` statements and associated test/docs changes, preserving all earlier accepted features.
 
 ## 2026-10-23 — Stage 4 Create Practice Test verification (AUTOMATED PASS; BROWSER QA PENDING)
 
