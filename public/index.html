@@ -2352,7 +2352,7 @@
     function setCustomMcqCount(value) {
       // An empty/invalid field is not an implicit 1-question exam.
       const raw = String(value).trim();
-      const n = /^[1-9]\\d*$/.test(raw) ? Number(raw) : 0;
+      const n = /^[1-9]\d*$/.test(raw) ? Number(raw) : 0;
       wizardSelection.mcqCount = Number.isSafeInteger(n) && n <= 100000 ? n : 0;
       document.querySelectorAll('.mcq-cnt-btn').forEach(btn => btn.classList.remove('border-red-500','bg-red-950/40','text-white'));
       updateWizardAvailableCount();
