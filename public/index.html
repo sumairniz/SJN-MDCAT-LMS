@@ -75,6 +75,18 @@
     }
 
 
+    /* Stage 3 compact history-filter chips; scoped only to Create Test Settings. */
+    #module-wizard .sjn-filter-chip{
+      border:1px solid #45454d;border-radius:9px;padding:8px 11px;
+      font:650 12px/1.3 Inter,system-ui,sans-serif;color:#d4d4d8;
+      background:linear-gradient(155deg,#202025,#17171b);
+      min-height:36px;transition:background .15s,border-color .15s;
+    }
+    #module-wizard .sjn-filter-chip[aria-pressed="true"]{
+      color:#fca5a5;border-color:#ef4444;background:#331b21;
+    }
+    #module-wizard .sjn-filter-chip:focus-visible{outline:2px solid #f87171;outline-offset:2px}
+    @media(prefers-reduced-motion:reduce){#module-wizard .sjn-filter-chip{transition:none}}
     /* Create Test Stage 1: scoped visual-only enhancements. No quiz/filter behavior changes. */
     #module-wizard .sjn-wizard-title-block{min-width:0}
     #module-wizard .sjn-wizard-title{line-height:1.3}
@@ -638,6 +650,21 @@
           <!-- Step 4: Settings -->
           <div id="wizard-step-4" class="wizard-step space-y-6 hidden">
             <h3 class="text-sm font-bold text-gray-200">Step 4: Configure Test Settings ⚙️</h3>
+
+            <!-- Only ordinary Create Test uses history filters; direct Retake, Quick 5,
+                 course/paper launch and manually resumed exams keep original sets. -->
+            <section id="sjn-question-filters" class="space-y-2 hidden" aria-label="Question Filters">
+              <h4 class="text-xs font-semibold text-gray-300">Question Filters</h4>
+              <div class="flex flex-wrap gap-2" role="group" aria-label="Select question history filters">
+                <button type="button" data-sjn-filter="unused" aria-pressed="true" class="sjn-filter-chip">Unused</button>
+                <button type="button" data-sjn-filter="incorrect" aria-pressed="false" class="sjn-filter-chip">Incorrect</button>
+                <button type="button" data-sjn-filter="skipped" aria-pressed="false" class="sjn-filter-chip">Skipped</button>
+                <button type="button" data-sjn-filter="marked" aria-pressed="false" class="sjn-filter-chip">Marked</button>
+                <button type="button" data-sjn-filter="correct" aria-pressed="false" class="sjn-filter-chip">Correct</button>
+              </div>
+              <p id="sjn-filter-status" role="status" aria-live="polite" class="text-[11px] text-gray-400">Select at least one filter.</p>
+              <button id="sjn-filter-retry" class="hidden text-xs font-semibold text-red-400 hover:underline" type="button">Retry loading filters</button>
+            </section>
 
             <div class="space-y-3">
               <label class="text-xs font-semibold text-gray-400">Number of MCQs:</label>
@@ -2058,6 +2085,8 @@
       currentStepNum: 1
     };
 
+    // Stage 3 applies only to manually created quizzes, not restored exams.
+    let wizardQuestionFiltersActive = false;
     // Quiz Execution Engine Variables
     let currentQuizList = [];
     let currentMcqIndex = 0;
@@ -2166,6 +2195,7 @@
           if (input) input.value = Number.isSafeInteger(wizardSelection.mcqCount) &&
             wizardSelection.mcqCount > 0 ? String(wizardSelection.mcqCount) : '';
           updateSummaryBox(); updateWizardAvailableCount();
+          void window.SJNPracticeFilters?.load();
         }
       }
     }
@@ -2184,6 +2214,8 @@
 
     function selectWizardOption(type, val) {
       if (type === 'bank') {
+        wizardQuestionFiltersActive = true;
+        window.SJNPracticeFilters?.resetSelection();
         wizardSelection.bank = val;
         wizardSelection.mcqCount = 0;
         const input = document.getElementById('custom-mcq-count');
@@ -2407,7 +2439,7 @@
           return wizardSelection.selectedChapters.includes(key);
         }
         return true;
-      });
+      }).filter(q => !wizardQuestionFiltersActive || window.SJNPracticeFilters?.matches(q.id) === true);
     }
 
     function shuffleArray(arr) {
@@ -2422,6 +2454,10 @@
     function updateWizardAvailableCount() {
       const hint = document.getElementById('available-count-hint');
       if (!hint) return;
+      if (wizardQuestionFiltersActive && window.SJNPracticeFilters?.status() !== 'ready') {
+        hint.innerText = 'Checking your saved question history before starting a test.';
+        return;
+      }
       const pool = getFilteredQuestionPool();
       hint.innerText = `${pool.length} question(s) available in this selection. ${wizardSelection.mcqCount > 0 ? 'You requested ' + wizardSelection.mcqCount + '.' : 'Choose a number of MCQs to start.'}`;
     }
@@ -2438,6 +2474,11 @@
         return;
       }
       const retaking = Array.isArray(preselectedQuestions);
+      if (!retaking && wizardQuestionFiltersActive &&
+          window.SJNPracticeFilters?.status() !== 'ready') {
+        alert('Question filters are not ready. Please retry loading your question history.');
+        return;
+      }
       const pool = retaking ? preselectedQuestions : getFilteredQuestionPool();
       if (!pool.length) {
         alert('No MCQs match this test selection. Please check the question bank.');
@@ -2479,6 +2520,7 @@
     }
 
     function startQuick5Mcqs() {
+      wizardQuestionFiltersActive = false;
       wizardSelection = {
         bank: 'MDCAT Practice Question Bank', scope: 'all-subjects', subject: 'All Subjects',
         selectedSubjects: getAvailableSubjects(), selectedChapters: ['All Chapters'], selectedTopics: [],
@@ -2973,6 +3015,8 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       document.getElementById('session-guard').classList.remove('hidden');
     }
     function coverPrivateWorkspace() {
+      window.SJNPracticeFilters?.resetSession();
+      wizardQuestionFiltersActive = false;
       coverWorkspaceOverlay();
       authToken = '';
       initialAccount = null;
@@ -3229,6 +3273,8 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         // Never reveal an account that is already being replaced.
         if (accountChangePending || checkForAccountChange()) return false;
         currentUser = data.user;
+        window.SJNPracticeFilters?.resetSession();
+        wizardQuestionFiltersActive = false;
         // Start with a clean in-memory account; never use another student's browser profile.
         sjnProfile = emptyStudentProfile();
         historyLoadStatus = 'loading';
@@ -3348,6 +3394,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       document.getElementById('course-viewer').innerHTML = `<div class="space-y-5"><div><span class="text-xs text-blue-400 font-bold uppercase">Course</span><h3 class="text-2xl font-black text-white mt-1">${escapeHtml(c.title)}</h3><p class="text-sm text-gray-400 mt-2">${escapeHtml(c.description || '')}</p></div><div class="prose prose-invert max-w-none text-sm text-gray-300 whitespace-pre-wrap">${escapeHtml(c.body || 'Course content has not been added yet.')}</div>${chapters.length ? `<div><h4 class="font-bold text-white mb-2">Chapters / Modules</h4><div class="space-y-2">${chapters.map((x,i)=>`<div class="p-3 bg-zinc-900 rounded-lg border border-sjn-border text-xs"><span class="text-blue-400 font-bold">${i+1}.</span> ${escapeHtml(typeof x === 'string' ? x : x.title || '')}</div>`).join('')}</div></div>` : ''}<button onclick="practiceCourse(${JSON.stringify(c.id)})" class="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-xl text-white font-bold text-sm">Practice this course</button></div>`;
     }
     window.practiceCourse = function(id) {
+      wizardQuestionFiltersActive = false;
       const c = customCourses.find(x => String(x.id) === String(id));
       if (!c) return;
       paperSourceFilter = null;
@@ -3371,6 +3418,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       document.getElementById('pastpaper-viewer').innerHTML=`<div class="space-y-5"><div><span class="text-xs text-amber-400 font-bold uppercase">Past Paper</span><h3 class="text-2xl font-black text-white mt-1">${escapeHtml(p.title)}</h3><p class="text-sm text-gray-400 mt-2">${escapeHtml(p.description || '')}</p></div><div class="grid grid-cols-2 gap-3"><div class="p-4 bg-zinc-900 rounded-xl border border-sjn-border"><div class="text-xs text-gray-500">Year</div><div class="font-bold text-white">${escapeHtml(p.year || '—')}</div></div><div class="p-4 bg-zinc-900 rounded-xl border border-sjn-border"><div class="text-xs text-gray-500">Matching MCQs</div><div class="font-bold text-white">${mcqQuestionBank.filter(q=>q.source===source).length}</div></div></div>${p.pdfUrl ? `<iframe src="${escapeHtml(p.pdfUrl)}" class="w-full h-[520px] rounded-xl border border-sjn-border bg-white"></iframe>` : '<div class="p-4 rounded-xl bg-zinc-900 border border-sjn-border text-xs text-gray-400">No PDF is attached. You can still practice its imported MCQs.</div>'}<button onclick="practicePastPaper(${JSON.stringify(p.id)}, ${JSON.stringify(source)})" class="w-full py-3 bg-amber-600 hover:bg-amber-700 rounded-xl text-white font-bold text-sm">Practice this paper</button></div>`;
     }
     window.practicePastPaper = function(id, source) {
+      wizardQuestionFiltersActive = false;
       paperSourceFilter=source; wizardSelection.bank='Past Papers Question Bank'; wizardSelection.scope='all-subjects'; wizardSelection.selectedSubjects=getAvailableSubjects(); wizardSelection.selectedChapters=['All Chapters']; wizardSelection.selectedTopics=[]; wizardSelection.mcqCount=Math.min(20, getFilteredQuestionPool().length || 1); wizardSelection.currentStepNum=4; switchModule('wizard'); setWizardStep(4); updateWizardAvailableCount(); updateSummaryBox();
     };
 
@@ -3395,7 +3443,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
           const key=`${q.subject}|||${q.chapter||'General Chapter'}`; return wizardSelection.selectedChapters.includes(key);
         }
         return true;
-      });
+      }).filter(q => !wizardQuestionFiltersActive || window.SJNPracticeFilters?.matches(q.id) === true);
     };
 
     window.renderChapterOptions = function(subjects) {
@@ -3423,6 +3471,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       originalLaunch(...args);
     };
     window.SJNHistoryLaunchRetake = async function(payload) {
+      wizardQuestionFiltersActive = false;
       if (!currentUser || !payload?.retakeAvailable || !Array.isArray(payload.items) ||
           !payload.items.length || !remoteContentLoaded)
         throw new Error('Retake is unavailable until the verified question bank is ready.');
@@ -3539,6 +3588,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
           return abandonedExamRecovery('Original questions are no longer available. Please create a new test.');
         // A fresh restart, not an answer restore: identical verified question
         // objects/order, brand-new submission ID, blank choices and timer.
+        wizardQuestionFiltersActive = false;
         wizardSelection = {
           bank: record.bank, scope: record.scope, subject: record.subject,
           selectedSubjects: record.subjects.slice(),
@@ -3566,6 +3616,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         return result;
       },
       async resume(id) {
+        wizardQuestionFiltersActive = false;
         if (!currentUser)throw new Error('Sign in to resume.');
         const expected=currentUser.id;
         const result=await api('/practice/drafts/'+encodeURIComponent(id));
@@ -3631,7 +3682,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     window.toggleBookmarkCurrentMcq = async function(){
       const q=currentQuizList[currentMcqIndex]; if(!q)return;
       if(!authToken){window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));return;}
-      try { const r=await api('/bookmarks/toggle',{method:'POST',body:{mcqId:q.id}}); const idx=bookmarkedMcqs.findIndex(id=>String(id)===String(q.id)); if(r.bookmarked){if(idx<0)bookmarkedMcqs.push(q.id)}else if(idx>=0)bookmarkedMcqs.splice(idx,1); updateBookmarkButton(); } catch(e){alert(e.message);}
+      try { const r=await api('/bookmarks/toggle',{method:'POST',body:{mcqId:q.id}}); const idx=bookmarkedMcqs.findIndex(id=>String(id)===String(q.id)); if(r.bookmarked){if(idx<0)bookmarkedMcqs.push(q.id)}else if(idx>=0)bookmarkedMcqs.splice(idx,1); window.SJNPracticeFilters?.invalidate(); updateBookmarkButton(); } catch(e){alert(e.message);}
     };
 
     const originalFinishQuiz = window.finishQuiz;
@@ -3690,6 +3741,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         // A later retry of an already-confirmed result must not create a new
         // attempt. A new test resets this state in launchGeneratedQuiz.
         savedAttemptOutcome = outcome;
+        window.SJNPracticeFilters?.invalidate();
         markStudentHistoryChanged();
         window.SJNExamRecovery?.forget();
         // The original legacy results workspace should also reflect the
