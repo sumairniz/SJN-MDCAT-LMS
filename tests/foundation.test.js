@@ -66,6 +66,23 @@ function makeQuery(table, authorization) {
     eq(key, val) { filters[key] = val; return q; },
     in(key, vals) { filters[key] = vals; return q; },
     order() { return q; },
+    range(from,to) {
+      const rows = table === "attempt_items" && filters.user_id
+        ? (filters.user_id === "student-a" ? [
+          {attempt_id:12,position:1,mcq_id:1,selected_index:null,is_correct:false},
+          {attempt_id:12,position:2,mcq_id:2,selected_index:2,is_correct:true},
+          {attempt_id:11,position:1,mcq_id:1,selected_index:1,is_correct:false},
+          {attempt_id:11,position:2,mcq_id:3,selected_index:3,is_correct:false}
+        ] : [
+          {attempt_id:31,position:1,mcq_id:1,selected_index:2,is_correct:true},
+          {attempt_id:31,position:2,mcq_id:4,selected_index:null,is_correct:false}
+        ])
+        : table === "bookmarks" && filters.user_id
+          ? filters.user_id === "student-a" ? [{mcq_id:3}] : [{mcq_id:4}]
+          : [];
+      databaseCalls.push({table,authorization,filters:{...filters},action:"select",range:[from,to]});
+      return Promise.resolve({data:rows.slice(from,to+1),error:null});
+    },
     insert() { action = "insert"; return q; },
     delete() { action = "delete"; return q; },
     single() { return Promise.resolve(result("single")); },
@@ -919,5 +936,39 @@ test("historical detail route reads its own completed snapshot and rejects a for
     assert.equal(r.status, 400);
   } finally {
     await new Promise((resolve, reject) => s.close(err => err ? reject(err) : resolve()));
+  }
+});
+
+test("Create Test status API isolates students and uses latest completed question outcomes",async()=>{
+  const server=await new Promise(resolve=>{const x=app.listen(0,"127.0.0.1",()=>resolve(x));});
+  try{
+    const root="http://127.0.0.1:"+server.address().port;
+    const a=await loginSession(root);
+    const b=await loginSession(root,"student-b@example.com");
+    databaseCalls.splice(0);
+    const headersA={Authorization:"Bearer token-a",Cookie:a.cookies};
+    const headersB={Authorization:"Bearer token-b",Cookie:b.cookies};
+    let r=await fetch(root+"/api/practice/question-status",{headers:headersA});
+    assert.equal(r.status,200);
+    assert.match(r.headers.get("cache-control"),/no-store/);
+    const resultA=await r.json();
+    assert.equal(resultA.userId,"student-a");
+    assert.deepEqual(resultA.latest,[[1,"skipped"],[2,"correct"],[3,"incorrect"]]);
+    assert.deepEqual(resultA.marked,[3]);
+    let calls=databaseCalls.splice(0);
+    assert.deepEqual(calls.map(x=>x.table).sort(),["attempt_items","bookmarks"]);
+    assert.ok(calls.every(x=>x.authorization==="Bearer token-a"&&x.filters.user_id==="student-a"));
+    assert.ok(calls.every(x=>x.table!=="practice_drafts"));
+    r=await fetch(root+"/api/practice/question-status",{headers:headersB});
+    assert.equal(r.status,200);
+    const resultB=await r.json();
+    assert.equal(resultB.userId,"student-b");
+    assert.deepEqual(resultB.latest,[[1,"correct"],[4,"skipped"]]);
+    assert.deepEqual(resultB.marked,[4]);
+    calls=databaseCalls.splice(0);
+    assert.ok(calls.every(x=>x.authorization==="Bearer token-b"&&x.filters.user_id==="student-b"));
+    assert.equal((await fetch(root+"/api/practice/question-status")).status,401);
+  }finally{
+    await new Promise((resolve,reject)=>server.close(err=>err?reject(err):resolve()));
   }
 });
