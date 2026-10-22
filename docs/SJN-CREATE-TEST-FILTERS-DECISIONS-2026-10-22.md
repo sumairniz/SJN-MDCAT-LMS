@@ -1,6 +1,6 @@
 # Create Practice Test — Confirmed Decisions (2026-10-22)
 
-**Status (2026-10-22):** Seven product decisions confirmed; owner subsequently authorized a staged development plan. Stage 1 visual changes **OWNER ACCEPTED**; Stage 2 wizard/copy/count behavior **OWNER ACCEPTED on staging (owner replied "done"; 2026-10-22)** (see Master Plan for exact code SHA and CI). **Stage 3 five MCQ filters remain NOT IMPLEMENTED and require the owner to authorize starting that stage after accepting Stage 2.** No production deployment or merge authorized. Later explicit decisions supersede this record.
+**Status (2026-10-22):** Seven product decisions confirmed; owner subsequently authorized a staged development plan. Stage 1 visual changes **OWNER ACCEPTED**; Stage 2 wizard/copy/count behavior **OWNER ACCEPTED on staging (owner replied "done"; 2026-10-22)** (see Master Plan for exact code SHA and CI). **Stage 3 five MCQ filters are IMPLEMENTED on staging, CI PASS, OWNER BROWSER QA PENDING**, after the owner's separate explicit Stage 3 approval. GitHub CI `39819851307` SUCCESS, tested SHA `66cc5a622b895fba4eda54258cdd3505a9d4bbcb`, Vercel staging `dpl_2vRZRYECFbvRH3zZgn6gGNGcg9zS` READY. Stage 4 and production remain not authorized; see Master Plan for evidence and rollback. No production deployment or merge authorized. Later explicit decisions supersede this record.
 
 ## Five filters
 - Unused — selected by default.
