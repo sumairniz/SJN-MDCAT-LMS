@@ -141,6 +141,7 @@ test('Save & Exit history navigation uses a callable cross-script bridge',()=>{
   const shown=[];
   const context={
     document:{querySelectorAll:()=>[],getElementById:()=>({classList:{add(){},remove(){}}})},
+    wizardSelection:{currentStepNum:1},wizardQuestionFiltersActive:false,
     window:{scrollTo(){},innerWidth:1024,reloadStudentHistory:(options)=>{shown.push(options);return Promise.resolve(true);}}
   };
   vm.runInNewContext(body+';switchModule("history");',context);
