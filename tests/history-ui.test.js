@@ -344,3 +344,45 @@ test('Create Test Stage 1 remains visual-only and respects the approved mobile l
   assert.match(html,/function confirmChapterSelection\(\)/);
   assert.match(html,/function confirmTopicSelection\(\)/);
 });
+
+test('After a confirmed Submit, direct Results/Dashboard to Step 4 reloads only invalidated filters',()=>{
+  const vm=require('node:vm');
+  const begin=html.indexOf('    function switchModule(modName) {');
+  const end=html.indexOf('\n    function setWizardStep(stepNum)',begin);
+  assert.ok(begin>=0 && end>begin,'Extract real module-navigation function');
+  const script=html.slice(begin,end)+'\nthis.switchModule = switchModule;';
+  const calls={load:0,history:0,scroll:0};
+  let step=4,enabled=true;
+  const cls={add(){},remove(){}};
+  const node={classList:cls};
+  const context={
+    document:{
+      querySelectorAll(){return [node];},
+      getElementById(){return node;}
+    },
+    window:{
+      innerWidth:1200,
+      scrollTo(){calls.scroll++;},
+      SJNPracticeFilters:{load(){calls.load++;return Promise.resolve();}},
+      reloadStudentHistory(){calls.history++;}
+    },
+    get wizardSelection(){return {currentStepNum:step};},
+    get wizardQuestionFiltersActive(){return enabled;}
+  };
+  vm.runInNewContext(script,context);
+  context.switchModule('wizard');
+  assert.equal(calls.load,1,'Direct wizard entry must verify invalidated Step 4 history');
+  context.switchModule('dashboard');
+  assert.equal(calls.load,1,'Dashboard itself never loads practice filters');
+  step=3;
+  context.switchModule('wizard');
+  assert.equal(calls.load,1,'Earlier wizard steps do not make filter requests');
+  step=4; enabled=false;
+  context.switchModule('wizard');
+  assert.equal(calls.load,1,'Direct exams with no filters remain unaffected');
+  context.switchModule('history');
+  assert.equal(calls.history,1,'History retains its existing refresh behavior');
+  assert.equal(calls.load,1,'History navigation never loads practice filters');
+  assert.match(html,/if \(modName === 'wizard' && wizardSelection\.currentStepNum === 4 &&\s+wizardQuestionFiltersActive\)/);
+  assert.match(html,/void window\.SJNPracticeFilters\?\.load\(\)/);
+});
