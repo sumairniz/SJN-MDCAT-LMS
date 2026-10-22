@@ -259,7 +259,7 @@ test('History cache skips unchanged navigation and revalidates after confirmed m
   assert.match(flow,/generation !== historyGeneration/);
   assert.match(flow,/if \(historyLoadStatus !== 'ready' \|\| loadedHistoryStudentId !== expectedStudentId\)/);
   assert.match(html,/if \(result\?\.saved === true\) markStudentHistoryChanged\(\)/);
-  assert.match(html,/savedAttemptOutcome = outcome;\s+markStudentHistoryChanged\(\)/);
+  assert.match(html,/savedAttemptOutcome = outcome;\s+window\.SJNPracticeFilters\?\.invalidate\(\);\s+markStudentHistoryChanged\(\)/);
   assert.match(html,/historyGeneration\+\+;\s+updateDashboardAccountUI\(currentUser\)/);
   assert.doesNotMatch(fs.readFileSync(path.join(root,'public/sjn-phase4-preview.js'),'utf8'),/await window\.SJNDrafts\?\.refreshHistory\(\)/);
 });
