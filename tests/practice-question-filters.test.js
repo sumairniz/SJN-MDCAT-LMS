@@ -8,7 +8,7 @@ const {buildQuestionStatus}=require('../lib/practice-question-status');
 const html=fs.readFileSync(path.join(__dirname,'../public/index.html'),'utf8');
 const server=fs.readFileSync(path.join(__dirname,'../server.js'),'utf8');
 const begin=html.indexOf('    window.SJNPracticeFilters = (() => {');
-const end=html.indexOf('    })();',begin);
+const end=html.indexOf('\n    })();',begin);
 assert.ok(begin>0&&end>begin);
 
 function makeHarness(request){
@@ -28,7 +28,7 @@ function makeHarness(request){
     console:{warn(){}},Set,Map,Number,Array,String
   };
   vm.createContext(ctx);
-  vm.runInContext(html.slice(begin,end+'    })();'.length),ctx);
+  vm.runInContext(html.slice(begin,end+'\n    })();'.length),ctx);
   return {ctx,filters:ctx.window.SJNPracticeFilters,controls,note,retry};
 }
 
