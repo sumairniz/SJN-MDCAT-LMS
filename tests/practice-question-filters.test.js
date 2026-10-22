@@ -126,3 +126,56 @@ test('UI stays compact; direct test entry flows bypass filters; no drafts, autos
   assert.match(server,/readStudentStatusPages\(req\.db, 'bookmarks'/);
   assert.doesNotMatch(server.slice(server.indexOf("app.get('/api/practice/question-status'"),server.indexOf("app.get('/api/history/:attemptId'")),/practice_drafts|service_role|\.insert\(|\.update\(|\.delete\(/);
 });
+
+
+test('New practice modes and confirmed submissions reset only chip choices to Unused',async()=>{
+  let calls=0;
+  const h=makeHarness(async()=>{calls++;return {userId:'student-a',latest:[[1,'incorrect']],marked:[1]};});
+  await h.filters.load();
+  h.controls[1].click();
+  assert.equal(h.controls[1].attrs['aria-pressed'],'true');
+  assert.equal(h.filters.matches(1),true);
+  h.filters.resetSelection();
+  assert.equal(h.controls[0].attrs['aria-pressed'],'true');
+  for (const chip of h.controls.slice(1)) assert.equal(chip.attrs['aria-pressed'],'false');
+  assert.equal(h.filters.status(),'ready','reset selection keeps previously verified history');
+  assert.equal(h.filters.matches(1),false,'Incorrect must not carry over');
+  assert.equal(calls,1,'reset never makes a redundant verification request');
+  assert.match(html,/function selectPracticeScope\(scope\) \{\s+wizardSelection\.scope = scope;\s+\/\/ New practice mode[\s\S]*?window\.SJNPracticeFilters\?\.resetSelection\(\)/);
+  assert.match(html,/savedAttemptOutcome = outcome;\s+\/\/ The next test[\s\S]*?window\.SJNPracticeFilters\?\.resetSelection\(\);\s+window\.SJNPracticeFilters\?\.invalidate\(\)/);
+  assert.match(html,/function selectWizardOption\(type, val\) \{[\s\S]*?window\.SJNPracticeFilters\?\.resetSelection\(\)/);
+  assert.doesNotMatch(html.slice(html.indexOf('function prevWizardStep()'),html.indexOf('function selectWizardOption(')),/resetSelection\(/);
+});
+
+test('Practice cards follow the agreed order with original colors, descriptions and dimensions',()=>{
+  const step2=html.slice(html.indexOf('<!-- Step 2: Practice Scope Selection -->'),html.indexOf('<!-- Step 3: Subject Selection -->'));
+  const cards=[...step2.matchAll(/<button onclick="selectPracticeScope\('([^']+)'\)" class="([^"]+)">([\s\S]*?)<\/button>/g)];
+  assert.deepEqual(cards.map(c=>c[1]),['custom-mix','topic-wise','subject-wise','all-subjects']);
+  assert.ok(cards.every(c=>c[2].includes('p-4 rounded-xl border border-sjn-border bg-zinc-900')));
+  assert.match(cards[0][2],/hover:border-emerald-500/);
+  assert.match(cards[1][2],/hover:border-amber-500/);
+  assert.match(cards[2][2],/hover:border-blue-500/);
+  assert.match(cards[3][2],/hover:border-red-500/);
+  assert.match(cards[0][3],/Custom Quiz/);
+  assert.match(cards[1][3],/Topic Drill/);
+  assert.match(cards[2][3],/One or Multiple Subjects/);
+  assert.match(cards[3][3],/All Subjects/);
+  assert.match(step2,/grid grid-cols-1 sm:grid-cols-2 gap-3/);
+});
+
+test('Only selected chips use restrained semantic accent colors, preserving neutral unselected style',()=>{
+  for(const [filter,color,icon] of [
+    ['unused','#60a5fa','fa-circle-dot'],
+    ['incorrect','#f87171','fa-circle-xmark'],
+    ['skipped','#eab308','fa-circle-minus'],
+    ['marked','#a78bfa','fa-bookmark'],
+    ['correct','#34d399','fa-circle-check']
+  ]){
+    assert.match(html,new RegExp('sjn-filter-chip\\[data-sjn-filter="'+filter+'"\\]\\{\\s*--sjn-chip-accent:'+color));
+    assert.match(html,new RegExp('data-sjn-filter="'+filter+'"[^>]+><i class="fa-solid '+icon+' sjn-filter-icon" aria-hidden="true"></i>'));
+  }
+  assert.match(html,/#module-wizard \.sjn-filter-chip\[aria-pressed="true"\]\{[\s\S]*?color:var\(--sjn-chip-text\)/);
+  assert.match(html,/#module-wizard \.sjn-filter-icon\{display:none/);
+  assert.match(html,/#module-wizard \.sjn-filter-chip\[aria-pressed="true"\] \.sjn-filter-icon\{display:inline-block\}/);
+  assert.match(html,/border:1px solid #45454d;border-radius:9px;padding:8px 11px/);
+});
