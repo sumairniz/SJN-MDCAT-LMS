@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const { createClient } = require('@supabase/supabase-js');
 const { validatePracticeSubmission } = require('./lib/practice-submission');
 const { validateDraft, UUID: DRAFT_UUID } = require('./lib/practice-drafts');
+const { buildQuestionStatus } = require('./lib/practice-question-status');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -345,6 +346,45 @@ app.get('/api/history', auth, async (req, res) => {
     res.json({ userId: req.user.id, attempts: data || [] });
   } catch (e) {
     res.status(500).json({ error: 'Failed to load test history.' });
+  }
+});
+
+// Student-specific Create Test filters. Read ONLY immutable completed attempt
+// items and persistent bookmarks through the existing bearer+cookie auth and
+// per-user Supabase RLS. No draft rows, legacy score-only guesses or writes.
+// Page explicitly: PostgREST caps ordinary unpaged selects at 1000 rows.
+async function readStudentStatusPages(db, table, columns, uid, orders) {
+  const pageSize = 1000;
+  const maximum = 100000;
+  const rows = [];
+  for (let offset = 0; offset < maximum; offset += pageSize) {
+    let query = db.from(table).select(columns).eq('user_id', uid);
+    for (const column of orders)
+      query = query.order(column, { ascending: column === 'mcq_id' });
+    const { data, error } = await query.range(offset, offset + pageSize - 1);
+    if (error || !Array.isArray(data))
+      throw new Error('Verified student question history could not be read');
+    rows.push(...data);
+    if (data.length < pageSize) return rows;
+  }
+  // Never classify an incomplete truncated history as if questions were unused.
+  throw new Error('Student history exceeds the verified read limit');
+}
+
+app.get('/api/practice/question-status', auth, async (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  try {
+    const uid = req.user.id;
+    const [answers, bookmarks] = await Promise.all([
+      readStudentStatusPages(req.db, 'attempt_items',
+        'attempt_id,position,mcq_id,selected_index,is_correct', uid,
+        ['attempt_id', 'position']),
+      readStudentStatusPages(req.db, 'bookmarks', 'mcq_id', uid, ['mcq_id'])
+    ]);
+    res.json({ userId: uid, ...buildQuestionStatus(answers, bookmarks) });
+  } catch (error) {
+    console.error('Student question filters unavailable:', error?.message || 'unverified history');
+    res.status(503).json({ error: 'Could not verify your question history. Please retry.' });
   }
 });
 
