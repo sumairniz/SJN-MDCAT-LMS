@@ -315,3 +315,32 @@ test('Test History heading has no duplicate Performance Analytics eyebrow',()=>{
   assert.match(section,/<h2 class="text-xl font-bold text-white flex items-center gap-2">📈 Test History Log<\/h2>/);
   assert.match(section,/Your completed tests from across the Academy\./);
 });
+
+test('Create Test Stage 1 remains visual-only and respects the approved mobile layout',()=>{
+  const wizard = html.slice(html.indexOf('<section id="module-wizard"'),html.indexOf('<section id="module-quiz"'));
+  assert.match(wizard,/class="sjn-wizard-header /);
+  assert.match(wizard,/class="sjn-wizard-header-main /);
+  assert.match(wizard,/class="sjn-wizard-title-block"/);
+  assert.match(wizard,/data-mobile-label="Step 1"/);
+  assert.match(html,/badge\.dataset\.mobileLabel/);
+  assert.match(html,/#module-wizard \.sjn-wizard-header\{display:grid/);
+  assert.match(html,/#module-wizard #wizard-step-indicator::after\{content:attr\(data-mobile-label\)/);
+  assert.match(html,/#module-wizard \.sjn-wizard-title-block\{grid-column:1\/-1/);
+  assert.match(wizard,/🧩 Custom Quiz/);
+  assert.doesNotMatch(wizard,/🧩 Custom Mix/);
+  assert.match(html,/scope\.innerText = wizardSelection\.scope === 'custom-mix' \? 'Custom Quiz'/);
+  assert.match(wizard,/selectPracticeScope\('custom-mix'\)/);
+  assert.match(wizard,/wizard-card w-full text-left p-5 rounded-xl border border-amber-500\/40/);
+  for(const id of ['subject-checkbox-container','chapter-checkbox-container','topic-options-container']){
+    assert.match(html,new RegExp('#'+id.replaceAll('-','-')));
+  }
+  assert.match(html,/label:has\(input:checked\)/);
+  assert.match(html,/label:focus-within/);
+  assert.match(html,/label input\[type=checkbox\]/);
+  assert.match(html,/hover:border-blue-500/);
+  assert.match(html,/hover:border-emerald-500/);
+  assert.match(html,/hover:border-amber-500/);
+  assert.match(html,/function confirmSubjectSelection\(\)/);
+  assert.match(html,/function confirmChapterSelection\(\)/);
+  assert.match(html,/function confirmTopicSelection\(\)/);
+});
