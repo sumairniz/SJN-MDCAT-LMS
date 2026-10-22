@@ -142,7 +142,7 @@ test('New practice modes and confirmed submissions reset only chip choices to Un
   assert.equal(h.filters.matches(1),false,'Incorrect must not carry over');
   assert.equal(calls,1,'reset never makes a redundant verification request');
   assert.match(html,/function selectPracticeScope\(scope\) \{\s+wizardSelection\.scope = scope;\s+\/\/ New practice mode[\s\S]*?window\.SJNPracticeFilters\?\.resetSelection\(\)/);
-  assert.match(html,/savedAttemptOutcome = outcome;\s+\/\/ The next test[\s\S]*?window\.SJNPracticeFilters\?\.resetSelection\(\);\s+window\.SJNPracticeFilters\?\.invalidate\(\)/);
+  assert.match(html,/savedAttemptOutcome = outcome;\s+\/\/ Retake\/Resume[\s\S]*?wizardQuestionFiltersActive = true;\s+window\.SJNPracticeFilters\?\.resetSelection\(\);\s+window\.SJNPracticeFilters\?\.invalidate\(\)/);
   assert.match(html,/function selectWizardOption\(type, val\) \{[\s\S]*?window\.SJNPracticeFilters\?\.resetSelection\(\)/);
   assert.doesNotMatch(html.slice(html.indexOf('function prevWizardStep()'),html.indexOf('function selectWizardOption(')),/resetSelection\(/);
 });
