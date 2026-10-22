@@ -2252,8 +2252,10 @@
 
     function selectPracticeScope(scope) {
       wizardSelection.scope = scope;
-      // New practice mode means a new test configuration: reset only filter
-      // choices, not verified account history or other wizard preferences.
+      // New practice mode means a new test configuration. Retake/Resume turn
+      // off filters for their original MCQ set; normal Create Test turns them
+      // back on without changing verified history or unrelated wizard state.
+      wizardQuestionFiltersActive = true;
       window.SJNPracticeFilters?.resetSelection();
       wizardSelection.selectedSubjects = [];
       wizardSelection.selectedChapters = [];
@@ -3895,8 +3897,10 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         // A later retry of an already-confirmed result must not create a new
         // attempt. A new test resets this state in launchGeneratedQuiz.
         savedAttemptOutcome = outcome;
-        // The next test starts at Unused even if Results returns straight
-        // to Step 4 without visiting Question Bank or selecting a new mode.
+        // Retake/Resume temporarily disable filters to preserve their exact
+        // MCQ set. Once submission is confirmed, the next normal Create Test
+        // (including a direct Result -> Step 4 return) must show them again.
+        wizardQuestionFiltersActive = true;
         window.SJNPracticeFilters?.resetSelection();
         window.SJNPracticeFilters?.invalidate();
         markStudentHistoryChanged();
