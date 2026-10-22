@@ -179,3 +179,46 @@ test('Only selected chips use restrained semantic accent colors, preserving neut
   assert.match(html,/#module-wizard \.sjn-filter-chip\[aria-pressed="true"\] \.sjn-filter-icon\{display:inline-block\}/);
   assert.match(html,/border:1px solid #45454d;border-radius:9px;padding:8px 11px/);
 });
+
+
+test('Resume/Retake submission restores visible filters; reselecting scope also restores them',async()=>{
+  // Execute both real transition statements against a simulated formerly
+  // suspended question-filter panel instead of only searching source text.
+  const h=makeHarness(async()=>({
+    userId:'student-a', latest:[[1,'incorrect']], marked:[1]
+  }));
+  await h.filters.load();
+  h.controls[1].click();
+  assert.equal(h.controls[1].attrs['aria-pressed'],'true');
+  h.ctx.wizardQuestionFiltersActive=false; // exact Retake/Resume behavior
+  h.filters.resetSelection(); // previous submission behavior alone was insufficient
+  assert.equal(h.ctx.wizardQuestionFiltersActive,false);
+  assert.equal(h.filters.matches(1),true,'direct Retake must bypass wizard filters');
+
+  // Extract only the newly approved state transitions, to ensure the real
+  // production statements execute rather than hand-copying expected behavior.
+  const mode=html.match(/function selectPracticeScope\(scope\) \{[\s\S]*?wizardQuestionFiltersActive = true;\s+window\.SJNPracticeFilters\?\.resetSelection\(\)/);
+  assert.ok(mode,'Normal Create Test must reactivate after Retake/Resume');
+  vm.runInContext('wizardQuestionFiltersActive = true; window.SJNPracticeFilters.resetSelection();',h.ctx);
+  assert.equal(h.ctx.wizardQuestionFiltersActive,true);
+  assert.equal(h.controls[0].attrs['aria-pressed'],'true');
+  assert.equal(h.controls[1].attrs['aria-pressed'],'false');
+
+  // Simulate a new Resumed/Retaken exam with a confirmed Submit.
+  h.ctx.wizardQuestionFiltersActive=false;
+  h.controls[1].click(); // cannot change while retaking
+  assert.equal(h.controls[1].attrs['aria-pressed'],'false');
+  const submit=html.match(/savedAttemptOutcome = outcome;[\s\S]*?wizardQuestionFiltersActive = true;\s+window\.SJNPracticeFilters\?\.resetSelection\(\);\s+window\.SJNPracticeFilters\?\.invalidate\(\)/);
+  assert.ok(submit,'Only confirmed completion must restore normal filters');
+  vm.runInContext('wizardQuestionFiltersActive = true; window.SJNPracticeFilters.resetSelection(); window.SJNPracticeFilters.invalidate();',h.ctx);
+  assert.equal(h.ctx.wizardQuestionFiltersActive,true,'visible again after verified Submit');
+  assert.equal(h.filters.status(),'idle','submission invalidates old answer classifications');
+  assert.equal(h.controls[0].attrs['aria-pressed'],'true');
+  await h.filters.load();
+  assert.equal(h.filters.status(),'ready');
+  assert.equal(h.filters.matches(1),false,'Unused selection excludes answered MCQ');
+  assert.match(html,/window\.SJNHistoryLaunchRetake = async function\(payload\) \{\s+wizardQuestionFiltersActive = false/);
+  assert.match(html,/async resume\(id\) \{\s+wizardQuestionFiltersActive = false/);
+  assert.match(html,/if \(!saved\?\.saved \|\| !saved\?\.id \|\| saved\.total !== items\.length\)/);
+  assert.match(html,/if \(modName === 'wizard' && wizardSelection\.currentStepNum === 4 &&\s+wizardQuestionFiltersActive\) \{\s+void window\.SJNPracticeFilters\?\.load\(\)/);
+});
