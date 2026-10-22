@@ -4,6 +4,8 @@
 **Audience:** Academy owner, future human developers, ChatGPT, Gemini and other authorized collaborators.  
 **Goal:** Continue development safely after conversations, AI plans or provider access change, without relying on memory or sharing passwords in code.
 
+> **CURRENT HANDOVER UPDATE — 2026-10-22:** This guide was originally written at the 2026-10-17 Stage 3A checkpoint. Its older "current" stage, zero-database-MCQ count and unfinished Save & Exit/Review statements below are **historical snapshots, not current facts**. Before acting, read the [current Master Development Plan](SJN-LMS-MASTER-DEVELOPMENT-PLAN.md) and the [2026-10-22 Temporary Register audit addendum](SJN-TEMPORARY-CHANGE-REGISTER.md). Current owner-accepted staging features include 74 verified staging MCQs, manual Save & Exit/Resume, refresh recovery Option A, server-graded submissions, Results/Review/Retake, instant authenticated Test History cache, 25 tests/page and the simplified Test History heading. Autosave is permanently cancelled. The working branch remains `sjn-phase1a-foundation`, PR #1 remains draft; **production/main, staging release promotion, and production database are not approved for modification**. Continue source-first checks against exact GitHub/Vercel commits and update the Temporary Register as temporary flags are introduced or removed.
+
 ## 1. Start here — what currently exists
 
 - **GitHub source:** https://github.com/sumairniz/SJN-MDCAT-LMS
