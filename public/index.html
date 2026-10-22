@@ -2958,6 +2958,131 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     let selectedResourceId = null;
     let paperSourceFilter = null;
 
+    // Stage 3 student question filters; the only source is authenticated,
+    // read-only, student-owned completed history and current bookmarks.
+    // No per-answer writes, no localStorage cache and no Autosave.
+    window.SJNPracticeFilters = (() => {
+      const names = ['unused','incorrect','skipped','marked','correct'];
+      let selected = new Set(['unused']);
+      let latest = new Map();
+      let marked = new Set();
+      let phase = 'idle';
+      let owner = null;
+      let generation = 0;
+      let pending = null;
+      function render() {
+        const panel = document.getElementById('sjn-question-filters');
+        if (!panel) return;
+        panel.classList.toggle('hidden', !wizardQuestionFiltersActive);
+        if (!wizardQuestionFiltersActive) return;
+        for (const button of panel.querySelectorAll('[data-sjn-filter]'))
+          button.setAttribute('aria-pressed', String(selected.has(button.dataset.sjnFilter)));
+        const note = document.getElementById('sjn-filter-status');
+        const retry = document.getElementById('sjn-filter-retry');
+        retry.classList.toggle('hidden', phase !== 'error');
+        note.textContent = phase === 'loading' ? 'Checking your completed question history…'
+          : phase === 'error' ? 'Could not verify your question history. Retry to start a test.'
+          : phase !== 'ready' ? 'Your question history must be verified before starting.'
+          : 'Showing questions matching any selected filter, without duplicates.';
+      }
+      function refreshCount() {
+        render();
+        if (wizardQuestionFiltersActive && wizardSelection.currentStepNum === 4) {
+          updateWizardAvailableCount();
+          updateSummaryBox();
+        }
+      }
+      function invalidate() {
+        ++generation;
+        phase = 'idle';
+        owner = null;
+        latest = new Map();
+        marked = new Set();
+        pending = null;
+        refreshCount();
+      }
+      function resetSession() {
+        selected = new Set(['unused']);
+        invalidate();
+      }
+      function resetSelection() {
+        selected = new Set(['unused']);
+        refreshCount();
+      }
+      function matches(id) {
+        if (!wizardQuestionFiltersActive) return true;
+        if (phase !== 'ready' || owner !== currentUser?.id || !selected.size) return false;
+        const key = Number(id);
+        const outcome = latest.get(key);
+        return (selected.has('unused') && !latest.has(key)) ||
+          (selected.has('marked') && marked.has(key)) ||
+          (outcome != null && selected.has(outcome));
+      }
+      async function load() {
+        render();
+        if (!wizardQuestionFiltersActive || !currentUser) return;
+        if (phase === 'ready' && owner === currentUser.id) return;
+        if (phase === 'loading' && pending) return pending;
+        const expected = currentUser.id;
+        const ticket = ++generation;
+        phase = 'loading';
+        refreshCount();
+        pending = (async () => {
+          try {
+            const data = await api('/practice/question-status');
+            if (ticket !== generation || currentUser?.id !== expected) return;
+            if (data?.userId !== expected || !Array.isArray(data.latest) ||
+                !Array.isArray(data.marked))
+              throw new Error('Student history identity is not verified.');
+            const newLatest = new Map();
+            for (const pair of data.latest) {
+              if (!Array.isArray(pair) || pair.length !== 2 ||
+                  !Number.isSafeInteger(pair[0]) || pair[0] < 1 ||
+                  !['correct','incorrect','skipped'].includes(pair[1]) ||
+                  newLatest.has(pair[0])) throw new Error('Invalid question history.');
+              newLatest.set(pair[0],pair[1]);
+            }
+            const newMarked = new Set();
+            for (const id of data.marked) {
+              if (!Number.isSafeInteger(id) || id < 1)
+                throw new Error('Invalid marked question.');
+              newMarked.add(id);
+            }
+            if (ticket !== generation || currentUser?.id !== expected) return;
+            latest = newLatest;
+            marked = newMarked;
+            owner = expected;
+            phase = 'ready';
+          } catch (error) {
+            if (ticket !== generation || currentUser?.id !== expected) return;
+            phase = 'error';
+            owner = null;
+            latest = new Map();
+            marked = new Set();
+            console.warn('Question filters unavailable:', error?.message || error);
+          } finally {
+            if (ticket === generation) { pending = null; refreshCount(); }
+          }
+        })();
+        return pending;
+      }
+      function toggle(value) {
+        if (!wizardQuestionFiltersActive || !names.includes(value)) return;
+        // At least one filter must remain active; never turn a blank set into all.
+        if (selected.has(value)) {
+          if (selected.size === 1) return;
+          selected.delete(value);
+        } else selected.add(value);
+        refreshCount();
+      }
+      for (const button of document.querySelectorAll('#sjn-question-filters [data-sjn-filter]'))
+        button.addEventListener('click', () => toggle(button.dataset.sjnFilter));
+      document.getElementById('sjn-filter-retry')?.addEventListener('click', () => { void load(); });
+      return { load, matches, invalidate, resetSession, resetSelection,
+        status: () => phase === 'ready' && owner !== currentUser?.id ? 'idle' : phase };
+    })();
+
+
     function renewAccessToken(bootstrap = false) {
       if (!refreshPromise) {
         refreshPromise = (async () => {
