@@ -7,6 +7,14 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-23 — CREATE PRACTICE TEST STAGE 4 OFFICIALLY CLOSED (OWNER ACCEPTED; LATEST CHECKPOINT)
+
+**Owner acceptance:** After the earlier targeted owner-confirmed correction to hidden Question Filters after completed Resume/Retake, the owner reported completing their staging checks and that everything checked was running correctly; they explicitly requested Stage 4 be marked done/closed. **Stage 4 Create Practice Test is CLOSED — OWNER ACCEPTED** as a development-stage checkpoint. This supersedes earlier "Stage 4 browser acceptance pending" notes below, which remain intact as historical records. The final owner-acceptance addendum is in [Stage 4 QA & Acceptance Register](SJN-CREATE-TEST-STAGE4-QA-2026-10-23.md), committed in `85c666967ea360e3466384821a6d17d0031c4875`.
+
+**Verified supporting evidence:** Earlier comprehensive automated Stage 4 checks passed (120/120 tests, existing read-only staging integrity review). Focused Resume/Retake filters correction `69d2c8fc05a6137d99fcfe5ce06db40fe2446bba` was subsequently verified by the owner, with CI `39861168349` PASS. The last documentation-only pre-closure branch head `4be5de7707190314849b9adab8e4850c12842c1c` also has GitHub Foundation workflow `39865075621` SUCCESS. The owner provided an overall browser approval, not a per-case independent test execution log.
+
+**Boundaries:** Stage 4 development acceptance is **not** a production release, complete Phase 4 closure, cross-account penetration/security attestation, or permission to merge. Draft PR #1 stays draft. Keep all permanent exam, filters, Retake/Resume, History, no-Autosave, student ownership and 74-MCQ preservation behaviors; all open temporary/pre-merge cleanup and production QA gates remain open. No application, tests, database, RLS, configuration, deployment or `main` changes were authorized by this closure. **Next task:** separately discuss and prioritize the next milestone before implementation.
+
 ## 2026-10-23 — Stage 4 narrow owner-approved fix: filters hidden after completed Resume/Retake (OWNER VERIFIED RESOLVED)
 
 **User report and approval:** Owner verified previous Stage 4 browser paths, but found that after **Test History → In Progress → Resume → Submit → Results → Create Test** or **Test History → Retake → Submit → Results → Create Test**, the entire five-chip Question Filters section disappeared (Tutor and Timed). Even selecting a new scope (All Subjects, Topic Drill, Custom Quiz, etc.) did not show it. A full page reload restored it. Owner explicitly authorized fixing **this issue only**. Do not confuse with earlier post-submit "verifying..." stuck bug; that earlier issue was independently owner-confirmed resolved.
