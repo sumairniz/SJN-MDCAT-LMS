@@ -7,6 +7,16 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-24 — Owner-approved student-facing removal of dummy chapters and subjects without MCQs (STAGING ONLY)
+
+**Owner instruction:** Remove demo chapter labels under Biology, Physics, Chemistry, English and Logical Reasoning where there are no published MCQs; leave legitimate question metadata, syllabus, student test history and all populated chapters untouched. The owner also explicitly approved staging import of the reviewed 29 original Physics / Force & Motion (2025) past-paper MCQs and asked about future production promotion.
+
+**Implementation:** `public/index.html` Create Test selection derives subjects, chapters and topics strictly from the validated, current published Supabase question bank. Delete only the previous hardcoded **fake PMDC syllabus/demo placeholder map** from the Create Test source. Keep subjects with published questions selectable; as future MCQs are published, their subjects/chapters/topics appear automatically. Retain meaningful 'General Chapter/Topic' grouping only for genuinely published MCQs whose metadata is unspecified. Do not change practice scopes, filter semantics, quiz, attempts, account isolation, permanent subject IDs or database tables. Add executable regression coverage to `tests/create-test-stage2.test.js`.
+
+**Important production boundary:** Staging and production Supabase are separate physical databases; merging this GitHub branch into `main` does **not** copy MCQ rows. Approved data must later be promoted using a reviewed, versioned, non-destructive publication/import procedure against the correct production environment, with matching schema/revision preservation and separately authorized production writes. Never require the owner to manually retype source MCQs, never silently cross-link environments, and never merge draft PR #1 on staging authorization alone.
+
+**Verification/acceptance:** Scope is staging branch only. CI and owner multi-subject browser QA before final acceptance. Do not change any existing Biology question, official answer key, student history, marked questions, or test drafts.
+
 ## 2026-10-24 — Owner-approved removal of redundant original 74 MCQs from served HTML (STAGING ONLY)
 
 **Authorization:** Owner explicitly requested that, if the live LMS gets all 74 existing MCQs from Supabase, the duplicate original 74-question literal should be removed from the served HTML. New MCQs for Physics, Chemistry, English and Logical Reasoning are to be supplied later and **are not approved for import by this action**.

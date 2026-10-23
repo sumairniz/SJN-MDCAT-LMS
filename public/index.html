@@ -1058,39 +1058,7 @@
     // 3. PAST PAPERS ARRAY 
     let pastPapersList = [];
 
-// PMDC Syllabus Map (Updated to include Biological Molecules and its topics)
-    const pmdcSyllabus = {
-      'Biology': {
-        'Biological Molecules': [
-          'Introduction to Biological Molecules', 
-          'Importance of Water', 
-          'Carbohydrates', 
-          'Proteins', 
-          'Lipids', 
-          'Nucleic Acids', 
-          'Conjugated Molecules'
-        ],
-        'Chapter 1: Bioenergetics': ['ATP Synthesis', 'Glycolysis', 'Krebs Cycle', 'Electron Transport Chain'],
-        'Chapter 2: Cell Structure': ['Organelles', 'Cell Membrane', 'Cytoskeleton'],
-        'Chapter 3: Coordination & Control': ['Nerve Impulse', 'Endocrine Hormones', 'Synapses'],
-        'Chapter 4: Genetics': ['DNA Replication', 'Transcription', 'Mendelian Genetics']
-      },
-      'Chemistry': {
-        'Chapter 1: Physical Chemistry': ['Stoichiometry', 'Gases', 'Chemical Equilibrium'],
-        'Chapter 2: Organic Fundamentals': ['Hydrocarbons', 'SN1 and SN2', 'Carbonyl Compounds']
-      },
-      'Physics': {
-        'Chapter 1: Motion & Force': ['Projectile Motion', 'Momentum', 'Work & Energy'],
-        'Chapter 2: Electromagnetism': ['Electric Fields', 'Capacitors', 'Ohm Law']
-      },
-      'English': {
-        'Chapter 1: Grammar': ['Subject-Verb Agreement', 'Modifiers', 'Tenses']
-      },
-      'Logical Reasoning': {
-        'Chapter 1: Logic': ['Critical Thinking', 'Syllogisms', 'Logic Gates']
-      }
-    };
-
+// Create Test choices are derived from verified, published MCQs, not demo syllabus placeholders.
     // Global Student Performance State
     function emptyStudentProfile() { return {
       mcqsAttempted: 0,
@@ -1297,16 +1265,19 @@
 
     function getAvailableSubjects() {
       const subjects = [...new Set(mcqQuestionBank.map(q => q.subject).filter(Boolean))];
-      return subjects.length ? subjects : Object.keys(pmdcSyllabus);
+      return subjects;
     }
 
     function renderSubjectChoices() {
       const container = document.getElementById('subject-checkbox-container');
       if (!container) return;
       container.innerHTML = '';
-      const subjects = ['Biology','Chemistry','Physics','English','Logical Reasoning', ...getAvailableSubjects()];
-      const uniqueSubjects = [...new Set(subjects)];
-      uniqueSubjects.forEach(subj => {
+      const subjects = getAvailableSubjects();
+      if (!subjects.length) {
+        container.innerHTML = '<div class="col-span-full p-5 text-center text-xs text-gray-400">No subjects have published MCQs yet.</div>';
+        return;
+      }
+      subjects.forEach(subj => {
         const checked = wizardSelection.selectedSubjects.includes(subj) || (wizardSelection.scope === 'subject-wise' && wizardSelection.subject === subj);
         const div = document.createElement('label');
         div.className = 'flex items-center p-4 bg-zinc-900 border border-sjn-border rounded-xl hover:border-red-500 cursor-pointer';
@@ -1341,10 +1312,10 @@
       container.innerHTML = '';
       const selectedSet = new Set(wizardSelection.selectedChapters);
       subjects.forEach(subject => {
-        const chapters = pmdcSyllabus[subject] ? Object.keys(pmdcSyllabus[subject]) : [];
-        const bankChapters = [...new Set(mcqQuestionBank.filter(q => q.subject === subject && q.chapter).map(q => q.chapter))];
-        const allChapters = [...new Set([...chapters, ...bankChapters])];
-        if (!allChapters.length) allChapters.push('General Chapter');
+        const allChapters = [...new Set(mcqQuestionBank
+          .filter(q => q.subject === subject)
+          .map(q => q.chapter || 'General Chapter'))];
+        if (!allChapters.length) return; // Do not show empty headings/placeholder chapters.
         const heading = document.createElement('div');
         heading.className = 'col-span-full text-xs font-black uppercase tracking-wider text-red-400 pt-2';
         heading.innerText = subject;
@@ -1392,10 +1363,9 @@
       container.innerHTML = '';
       const selected = new Set(wizardSelection.selectedTopics);
       subjects.forEach(subject => {
-        const chapters = pmdcSyllabus[subject] || {};
         const topicItems = [];
-        Object.keys(chapters).forEach(ch => chapters[ch].forEach(topic => topicItems.push({subject, chapter:ch, topic})));
-        mcqQuestionBank.filter(q => q.subject === subject && q.topic).forEach(q => topicItems.push({subject, chapter:q.chapter || 'General Chapter', topic:q.topic}));
+        mcqQuestionBank.filter(q => q.subject === subject).forEach(q =>
+          topicItems.push({subject, chapter:q.chapter || 'General Chapter', topic:q.topic || 'General Topic'}));
         const unique = [...new Map(topicItems.map(x => [`${x.subject}|||${x.chapter}|||${x.topic}`, x])).values()]
           .filter(item => wizardSelection.scope !== 'topic-wise' ||
             wizardSelection.selectedChapters.includes(`${item.subject}|||${item.chapter}`));

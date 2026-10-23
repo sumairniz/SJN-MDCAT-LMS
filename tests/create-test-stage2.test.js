@@ -171,3 +171,32 @@ test('Number input accepts valid user choices, keeps blank invalid and does not 
   assert.match(src,/if \(!retaking && \(!Number\.isSafeInteger\(wizardSelection\.mcqCount\)/);
   assert.match(src,/window\.startQuick5Mcqs=function\(\)\{wizardSelection=.*mcqCount:5/);
 });
+
+
+test('Create Test lists only published subjects, chapters and topics with available MCQs',()=>{
+  const e=environment(['getAvailableSubjects','renderSubjectChoices','renderChapterCheckboxes','renderTopicOptions']);
+  e.ctx.mcqQuestionBank=[
+    {subject:'Biology',chapter:'Biological Molecules',topic:'Proteins',revisionId:1},
+    {subject:'Physics',chapter:'Force & Motion',topic:'Projectile Motion',revisionId:2}
+  ];
+  assert.equal(Array.from(e.ctx.getAvailableSubjects()).join(','),'Biology,Physics');
+  e.ctx.renderSubjectChoices();
+  const subjectLabels=e.element('subject-checkbox-container').children.map(x=>x.innerHTML).join(' ');
+  assert.match(subjectLabels,/Biology/);assert.match(subjectLabels,/Physics/);
+  assert.doesNotMatch(subjectLabels,/Chemistry|English|Logical Reasoning/);
+  e.ctx.renderChapterCheckboxes(['Biology','Physics','Chemistry']);
+  const chapterLabels=e.element('chapter-checkbox-container').children.map(x=>x.innerHTML).join(' ');
+  assert.match(chapterLabels,/Biological Molecules/);assert.match(chapterLabels,/Force &amp; Motion|Force & Motion/);
+  assert.doesNotMatch(chapterLabels,/Chapter 1:|Chapter 2:|General Chapter/);
+  e.ctx.wizardSelection.selectedChapters=['Biology|||Biological Molecules','Physics|||Force & Motion'];
+  e.ctx.renderTopicOptions(['Biology','Physics']);
+  const topicLabels=e.element('topic-options-container').children.map(x=>x.innerHTML).join(' ');
+  assert.match(topicLabels,/Proteins/); assert.match(topicLabels,/Projectile Motion/);
+  assert.doesNotMatch(topicLabels,/ATP Synthesis|Syllogisms|Logic Gates|Ohm Law/);
+  e.ctx.mcqQuestionBank=[];
+  assert.equal(e.ctx.getAvailableSubjects().length,0);
+  e.ctx.renderSubjectChoices();
+  assert.match(e.element('subject-checkbox-container').innerHTML,/No subjects have published MCQs/);
+  e.ctx.renderChapterCheckboxes(['Biology','Physics']);
+  assert.equal(e.element('chapter-checkbox-container').children.length,0);
+});
