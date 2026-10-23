@@ -7,6 +7,18 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-24 — Chemistry Atomic Structure 17 MCQs owner-approved STAGING IMPORT VERIFIED
+
+**Approval:** Owner explicitly approved the reviewed 17 2025 past-paper Chemistry / Atomic Structure MCQs, including their original wording, options, answer keys and source labels and the prepared explanations and SJN tips. Staging Supabase only; no production/main/PR merge approval.
+
+**Approved reproducible source:** `content/imports/chemistry-atomic-structure-2025-17.approved.json` committed as `135afdc53c203448c3805ea89fa2353d52b319fe`. Review question numbers are source annotations only; dynamic quiz ordering is independent of stable MCQ IDs.
+
+**Atomic staged write:** Preflight confirmed 103 existing MCQs and 0 Chemistry Atomic Structure records. One PostgreSQL DO statement inserted all 17 `mcqs`, inserted corresponding immutable `mcq_revisions` revision 1, linked `current_revision_id`, rejected duplicate source content and aborted on any validation/row-count mismatch. Verification: Chemistry IDs **104–120** = 17, missing revisions **0**, full chemistry question/revision field mismatches **0**. Staging total **120 MCQs** = Biology 74 (IDs 1–74) + Physics 29 (75–103) + Chemistry 17 (104–120). No deletions or student attempt/draft modifications.
+
+**Separate pre-existing integrity observation (NOT changed):** Before Chemistry import, two **Physics** MCQs IDs 83 and 86 had published options with degree-symbol normalization (`0°/45°/90°/180°` and `15°/30°/45°/60°`) while immutable revisions preserved the original option strings (`00/450/900/1800` and `150/300/450/600`). Keys, statements, explanation and sources matched; each previously appeared in at least one historical attempt and one saved draft. **Do not silently edit either the published options or immutable revisions.** Seek separately scoped owner review before any normalization/correction; production release check must reconcile how current display compares to historic revision versions.
+
+**Release boundary:** Saved JSON allows later controlled production import; a GitHub PR merge alone does not transfer staging data. No production DB or deployment changes, no merge authorization. Owner browser verification of Chemistry/Mixed Subjects still required.
+
 ## 2026-10-24 — Physics Force & Motion 29-question staging import COMPLETED / VERIFIED
 
 **Owner scope:** 29 original 2025 Physics/Force & Motion questions with unchanged statements/options/keys/exam-source labels, accepted existing 11 topic headings, the reviewed explanations and SJN tips (Q27 shortened to owner-requested perfectly elastic version); staging only. No production merge or writes. Student Q numbering remains dynamic; DB IDs are permanent.
