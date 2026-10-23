@@ -1,8 +1,9 @@
 'use strict';
 
-// Phase 4 preservation gate.  The original 74 Biology MCQs are still
-// embedded in public/index.html. This test must run before any future
-// question-bank extraction, migration, or separate quiz-page rollout.
+// Phase 4 preservation gate. Original 74 Biology MCQs were moved out of
+// the served HTML only after read-only verification of 74 matching staging
+// Supabase MCQ/revision records. Keep the original literal byte-identical
+// in a non-runtime archive and prevent unsavable fallback questions.
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -12,9 +13,9 @@ const vm = require('node:vm');
 const dashboard = fs.readFileSync(path.join(__dirname, '..', 'public', 'index.html'), 'utf8');
 
 function originalBankLiteral() {
-  const match = dashboard.match(/(?:let|const)\s+mcqQuestionBank\s*=\s*(\[[\s\S]*?\n\s{4}\]);/);
-  assert.ok(match, 'Original inline question bank must remain available until a tested replacement exists');
-  return match[1];
+  const literal = fs.readFileSync(path.join(__dirname, '..', 'content', 'archives', 'biology-74-2025.original.literal.txt'), 'utf8');
+  assert.ok(literal.startsWith('[') && literal.endsWith(']'), 'Original 74-question repository archive must remain readable');
+  return literal;
 }
 
 function fnv1a64(text) {
@@ -50,8 +51,10 @@ test('Phase 4: original 74 Biology questions remain byte-identical to the accept
   for (let id = 1; id <= 74; id++) assert.ok(ids.has(id), 'Original MCQ ID missing: ' + id);
 });
 
-test('Phase 4: preserve the original source text but never use unsavable HTML as active quiz fallback', () => {
-  assert.match(dashboard, /mcqQuestionBank = \[\];\s*\/\/ 2\. COURSES ARRAY/);
+test('Phase 4: source archive is preserved and active quiz uses only verified database questions', () => {
+  assert.match(dashboard, /let mcqQuestionBank = \[\];/, 'Active bank must initialize empty');
+  assert.doesNotMatch(dashboard, /(?:let|const)\s+mcqQuestionBank\s*=\s*\[\s*\{/, 'Original question literals must no longer be served in HTML');
+  assert.match(dashboard, /content\/archives\/biology-74-2025\.original\.literal\.txt/, 'Document preserved source archive path');
   assert.match(dashboard, /remoteContentLoaded = false;\s*mcqQuestionBank = \[\];/);
   assert.match(dashboard, /!mcqQuestionBank\.length\s*\|\|\s*mcqQuestionBank\.some\(q => !Number\.isSafeInteger\(q\.revisionId\)/);
   assert.match(dashboard, /setQuestionBankLoadNotice\(true\)/);
