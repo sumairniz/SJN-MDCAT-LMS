@@ -4,7 +4,7 @@
 **Owner authorization:** The owner explicitly answered `yes` to beginning **Stage 4 verification-first QA**, with working code left unchanged unless a separately scoped correction is authorized.  
 **Project:** SJN MDCAT LMS Pro  
 **Environment:** `sjn-phase1a-foundation` staging only; `main`, production Vercel, production Supabase and draft PR #1 are **OUT OF SCOPE**.  
-**Overall stage status:** **AUTOMATED + READ-ONLY DATA AUDIT PASS; REAL BROWSER / OWNER FINAL QA PENDING.** Not a production release approval.
+**Overall stage status (supersedes earlier pending checkpoints):** **STAGE 4 CLOSED — OWNER ACCEPTED on 2026-10-23 (Asia/Karachi)** following the owner's final staging browser check; automated/read-only audit passed. This is development-stage acceptance only, **not** production release approval.
 
 ## A. Source and deployment baseline
 
@@ -85,3 +85,15 @@ A passing `check:release` looks only for reserved diagnostic markers and forbidd
 ## F. Change/rollback record
 
 This verification audit makes **documentation-only GitHub commits**. No application, API, backend, CSS, test runtime, RLS, database records, environment variables or Vercel configuration have been changed. No new preview flag or temporary code has been introduced, so no new TEMP entry is required. The Master Development Plan and Temporary Change Register remain authoritative for handoff and future pre-release decisions. Reverting this verification record would affect documentation only and would not change the accepted LMS behavior.
+
+## G. 2026-10-23 — FINAL OWNER ACCEPTANCE AND STAGE 4 CLOSURE (LATEST STATUS)
+
+**Owner decision:** Following the previously documented successful focused fix of the Resume/Retake Question Filters visibility regression (owner: "yeah its fixed"), the owner completed further review and explicitly reported that everything checked so far is correct and working. The owner instructed: **"Stage Four is working correctly; close it."** This is explicit **owner acceptance and closure of Create Practice Test Stage 4** on the development/staging branch.
+
+**Final Stage 4 status:** **CLOSED — OWNER ACCEPTED.** Earlier "browser acceptance pending" labels in sections A–F and prior dated checkpoints are preserved as historical QA snapshots and are superseded for this *development-stage closure* by this entry. Do not reopen Stage 4 solely because old checkpoint text says "pending." A subsequently reported reproducible regression can still be tracked and handled as an independently scoped fix.
+
+**Evidence retained:** Earlier Stage 4 automated/read-only audit passed (120/120 tests at audited SHA `d1a3453d3c0d12aadf5dae471c60977b65a6bb86`; existing staging database/RLS checks recorded above). The later targeted Resume/Retake fix was verified on staging in `69d2c8fc05a6137d99fcfe5ce06db40fe2446bba`; corrected regression suite run `39861168349` passed at `3118e4f92ce31c89becf74f6643569c5182b2fba`, and the owner confirmed the defect was fixed. The more recent documentation-only branch head before closure was `4be5de7707190314849b9adab8e4850c12842c1c`; its Foundation workflow `39865075621` succeeded. **No new browser automation or independent cross-device test was run merely by writing this closure.** The owner's general confirmation is not a claim that every optional test-matrix combination was individually demonstrated.
+
+**Release boundary and continuing obligations:** Closing this Stage 4 **does not close all of Phase 4 or make the application production-ready**. Retain release safety review, real multi-account/refresh/device/security regression gates where still needed for production, pre-merge audit of all `TEMP-` register items, rollback planning and explicit separate owner approval before any merge or deployment. The 74 MCQs, immutable history, older 39 score-only attempts, manual saved drafts, student-specific RLS, and the decision to **never add Autosave** remain protected.
+
+**Scope of this closure action:** Documentation only, on `sjn-phase1a-foundation`. No application or test-source edit, SQL/schema/data/RLS mutation, Vercel configuration/deployment, `main` change, PR merge or PR status change. Next feature/phase requires a new discussion and separately scoped owner authorization.
