@@ -4,33 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SJN MDCAT LMS Pro Portal</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Compiled Tailwind v3 CSS (no browser compiler). -->
+  <link rel="stylesheet" href="/dashboard.css">
+  <link rel="stylesheet" href="/sjn-phase4-preview.css">
+  <link rel="stylesheet" href="/sjn-phase4-results.css">
+  <link rel="stylesheet" href="/sjn-history.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            sjn: {
-              red: '#DC2626',
-              crimson: '#991B1B',
-              darkred: '#450A0A',
-              black: '#09090B',
-              card: '#121215',
-              border: '#27272A',
-              accent: '#EF4444'
-            }
-          },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace']
-          }
-        }
-      }
-    }
-  </script>
+
   <style>
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #09090b; }
@@ -74,6 +55,16 @@
       }
     }
 
+    /* Authentication placeholder is safe to show before private data loads. */
+    .sjn-load-shell{width:min(800px,calc(100% - 48px));display:grid;gap:22px;text-align:left}
+    .sjn-load-brand{color:#f4f4f5;font:800 18px/1.3 system-ui,sans-serif}
+    .sjn-load-brand span{color:#ef4444}
+    .sjn-load-top{height:1px;background:#27272a}
+    .sjn-load-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .sjn-load-card{height:106px;border:1px solid #242429;border-radius:12px;background:#151518}
+    .sjn-load-line{height:16px;width:57%;border-radius:5px;background:#27272a}
+    .sjn-load-wide{height:150px;border:1px solid #242429;border-radius:12px;background:#151518}
+    @media(max-width:600px){.sjn-load-grid{grid-template-columns:1fr 1fr}.sjn-load-grid .sjn-load-card:last-child{display:none}}
     /* Hide scrollbar for mobile navigation drawer */
     #sidebar-nav::-webkit-scrollbar {
       display: none;
@@ -82,10 +73,121 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+
+
+    /* Stage 3 compact history-filter chips; scoped only to Create Test Settings. */
+    #module-wizard .sjn-filter-chip{
+      border:1px solid #45454d;border-radius:9px;padding:8px 11px;
+      font:650 12px/1.3 Inter,system-ui,sans-serif;color:#d4d4d8;
+      background:linear-gradient(155deg,#202025,#17171b);
+      min-height:36px;transition:background .15s,border-color .15s;
+    }
+    /* Subtle semantic accents ONLY for selected chips; unselected stays neutral. */
+    #module-wizard .sjn-filter-chip[data-sjn-filter="unused"]{
+      --sjn-chip-accent:#60a5fa;--sjn-chip-text:#93c5fd;--sjn-chip-tint:rgba(96,165,250,.075);
+    }
+    #module-wizard .sjn-filter-chip[data-sjn-filter="incorrect"]{
+      --sjn-chip-accent:#f87171;--sjn-chip-text:#fca5a5;--sjn-chip-tint:rgba(248,113,113,.075);
+    }
+    #module-wizard .sjn-filter-chip[data-sjn-filter="skipped"]{
+      --sjn-chip-accent:#eab308;--sjn-chip-text:#fcd34d;--sjn-chip-tint:rgba(234,179,8,.075);
+    }
+    #module-wizard .sjn-filter-chip[data-sjn-filter="marked"]{
+      --sjn-chip-accent:#a78bfa;--sjn-chip-text:#c4b5fd;--sjn-chip-tint:rgba(167,139,250,.075);
+    }
+    #module-wizard .sjn-filter-chip[data-sjn-filter="correct"]{
+      --sjn-chip-accent:#34d399;--sjn-chip-text:#6ee7b7;--sjn-chip-tint:rgba(52,211,153,.075);
+    }
+    #module-wizard .sjn-filter-chip[aria-pressed="true"]{
+      color:var(--sjn-chip-text);border-color:var(--sjn-chip-accent);background:var(--sjn-chip-tint);
+    }
+    #module-wizard .sjn-filter-icon{display:none;margin-right:5px;font-size:11px}
+    #module-wizard .sjn-filter-chip[aria-pressed="true"] .sjn-filter-icon{display:inline-block}
+    #module-wizard .sjn-filter-chip:focus-visible{outline:2px solid #f87171;outline-offset:2px}
+    @media(prefers-reduced-motion:reduce){#module-wizard .sjn-filter-chip{transition:none}}
+    /* Create Test Stage 1: scoped visual-only enhancements. No quiz/filter behavior changes. */
+    #module-wizard .sjn-wizard-title-block{min-width:0}
+    #module-wizard .sjn-wizard-title{line-height:1.3}
+    #module-wizard #subject-checkbox-container,
+    #module-wizard #chapter-checkbox-container,
+    #module-wizard #topic-options-container{
+      grid-template-columns:repeat(auto-fill,minmax(min(100%,215px),1fr));
+      gap:10px;
+    }
+    #module-wizard #subject-checkbox-container label,
+    #module-wizard #chapter-checkbox-container label,
+    #module-wizard #topic-options-container label{
+      min-width:0;min-height:60px;padding:11px 13px;position:relative;
+      border:1px solid #34343c;border-radius:12px;
+      background:linear-gradient(155deg,#1b1b20,#151518);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 2px 6px rgba(0,0,0,.12);
+      display:flex;align-items:center;gap:8px;
+      transition:border-color .15s,background .15s,box-shadow .15s;
+    }
+    #module-wizard #subject-checkbox-container label span,
+    #module-wizard #chapter-checkbox-container label span,
+    #module-wizard #topic-options-container label span{min-width:0;overflow-wrap:anywhere}
+    #module-wizard :is(#subject-checkbox-container,#chapter-checkbox-container,#topic-options-container) label input[type=checkbox]{
+      position:absolute;width:1px;height:1px;margin:0;padding:0;opacity:0;pointer-events:none;
+    }
+    #module-wizard :is(#subject-checkbox-container,#chapter-checkbox-container,#topic-options-container) label::after{
+      content:"";flex:none;margin-left:auto;width:17px;height:17px;
+      border:1px solid #666671;border-radius:50%;background:#202027;
+    }
+    #module-wizard :is(#subject-checkbox-container,#chapter-checkbox-container,#topic-options-container) label:has(input:checked){
+      border-color:#ef4444;background:linear-gradient(155deg,#29191d,#1c171a);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 0 0 1px rgba(220,38,38,.12);
+    }
+    #module-wizard :is(#subject-checkbox-container,#chapter-checkbox-container,#topic-options-container) label:has(input:checked)::after{
+      content:"✓";font:800 12px/16px Inter,system-ui,sans-serif;text-align:center;
+      color:#fff;background:#dc2626;border-color:#dc2626;
+    }
+    #module-wizard :is(#subject-checkbox-container,#chapter-checkbox-container,#topic-options-container) label:focus-within{
+      outline:2px solid #f87171;outline-offset:2px;
+    }
+    @media(hover:hover){
+      #module-wizard :is(#subject-checkbox-container,#chapter-checkbox-container,#topic-options-container) label:hover{
+        border-color:#ef4444;box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 4px 12px rgba(0,0,0,.22);
+      }
+    }
+    @media(max-width:640px){
+      #module-wizard>.bg-sjn-card{padding:16px}
+      #module-wizard .sjn-wizard-header{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:10px;row-gap:12px;align-items:center}
+      #module-wizard .sjn-wizard-header-main{display:contents}
+      #module-wizard #wizard-back-btn{grid-column:1;grid-row:1;justify-self:start;white-space:nowrap}
+      #module-wizard #wizard-step-indicator{grid-column:2;grid-row:1;justify-self:end;white-space:nowrap;font-size:0;line-height:1.4;max-width:100%;padding:7px 12px}
+      #module-wizard #wizard-step-indicator::after{content:attr(data-mobile-label);font-size:12px}
+      #module-wizard .sjn-wizard-title-block{grid-column:1/-1;grid-row:2;min-width:0}
+      #module-wizard .sjn-wizard-header:has(#wizard-back-btn.hidden) .sjn-wizard-title-block{grid-column:1;grid-row:1}
+      #module-wizard .sjn-wizard-kicker{display:block;font-size:10px;letter-spacing:.06em;line-height:1.5}
+      #module-wizard .sjn-wizard-title{font-size:18px;line-height:1.35;display:block;margin-top:2px}
+      #module-wizard :is(#subject-checkbox-container,#chapter-checkbox-container,#topic-options-container){grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+      #module-wizard :is(#subject-checkbox-container,#chapter-checkbox-container,#topic-options-container) label{min-height:60px;padding:10px 9px}
+    }
+    @media(max-width:350px){
+      #module-wizard :is(#subject-checkbox-container,#chapter-checkbox-container,#topic-options-container){grid-template-columns:1fr}
+    }
+    @media(prefers-reduced-motion:reduce){
+      #module-wizard :is(#subject-checkbox-container,#chapter-checkbox-container,#topic-options-container) label{transition:none}
+    }
   </style>
 </head>
 
 <body class="bg-sjn-black text-gray-100 font-sans antialiased h-screen flex overflow-hidden selection:bg-red-600 selection:text-white">
+
+  <!-- Prevent protected workspace controls from appearing before session verification. -->
+  <div id="session-guard" role="status" aria-live="polite" class="fixed inset-0 z-[100] bg-sjn-black flex flex-col items-center justify-center gap-4 p-6 text-center">
+    <!-- Keep the private workspace covered during authorization without an intrusive splash.
+         Only reveal an explanation and Retry if an actual connection error occurs. -->
+    <div class="sjn-load-shell" aria-hidden="true">
+      <div class="sjn-load-brand">SJN <span>MDCAT LMS PRO</span></div>
+      <div class="sjn-load-top"></div>
+      <div class="sjn-load-grid"><div class="sjn-load-card"></div><div class="sjn-load-card"></div><div class="sjn-load-card"></div></div>
+      <div class="sjn-load-line"></div><div class="sjn-load-wide"></div>
+    </div>
+    <p id="session-guard-message" class="hidden text-sm text-gray-200 font-semibold"></p>
+    <button id="session-guard-retry" onclick="window.location.reload()" class="hidden px-5 py-2.5 bg-red-600 text-white font-bold text-xs rounded-lg">Retry connection</button>
+  </div>
 
   <!-- ========================================== -->
   <!-- LEFT: DEDICATED NAVIGATION SIDEBAR/DRAWER  -->
@@ -104,15 +206,8 @@
     <div class="md:hidden flex flex-col border-b border-gray-800 p-4 space-y-3">
       <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">Account</div>
       
-      <!-- Logged Out Mobile View -->
-      <div id="mobile-account-logged-out" class="block">
-        <button onclick="closeMobileMenu(); openAuthModal('login')" class="w-full py-2.5 bg-zinc-800 hover:bg-red-600/30 border border-zinc-700 text-xs font-bold text-gray-300 hover:text-white rounded-lg transition-all flex items-center justify-center gap-2">
-          <i class="fa-solid fa-user"></i> Login / Register
-        </button>
-      </div>
-      
       <!-- Logged In Mobile View -->
-      <div id="mobile-account-logged-in" class="hidden space-y-2">
+      <div id="mobile-account-logged-in" class="space-y-2">
         <div class="flex items-center space-x-3 text-white text-sm font-bold bg-zinc-900 p-3 rounded-lg border border-sjn-border">
           <i class="fa-solid fa-circle-user text-red-500 text-2xl"></i>
           <span id="mobile-user-name">Student Name</span>
@@ -217,7 +312,7 @@
   <div class="flex-1 flex flex-col h-screen min-w-0 overflow-hidden bg-sjn-black">
     
     <!-- Top Header -->
-    <header class="sticky top-0 z-50 bg-sjn-card/90 backdrop-blur-md border-b border-sjn-border flex-shrink-0">
+    <header id="sjn-student-header" class="sticky top-0 z-50 bg-sjn-card/90 backdrop-blur-md border-b border-sjn-border flex-shrink-0">
       <div class="w-full px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           
@@ -266,7 +361,7 @@
             <!-- Desktop Account Button & Dropdown (Now safely inside desktop view) -->
             <div class="relative">
               <button onclick="handleDesktopClick()" id="account-button" class="px-3 py-1.5 bg-zinc-800 hover:bg-red-600/30 border border-zinc-700 text-xs font-bold text-gray-300 hover:text-white rounded-lg transition-all flex items-center gap-1.5">
-                <i class="fa-solid fa-user"></i><span id="account-button-label">Login / Register</span>
+                <i class="fa-solid fa-user"></i><span id="account-button-label">Student</span>
               </button>
               
               <!-- The Dropdown -->
@@ -275,7 +370,7 @@
                   <p class="text-[10px] text-gray-400 font-bold uppercase">Signed in as</p>
                   <p id="dropdown-name" class="text-sm font-bold text-white truncate"></p>
                 </div>
-                <button onclick="logoutUser(); document.getElementById('desktop-dropdown').classList.add('hidden')" class="w-full text-left px-4 py-3 text-xs font-bold text-red-400 hover:bg-zinc-800 transition-all">
+                <button onclick="logoutUser()" class="w-full text-left px-4 py-3 text-xs font-bold text-red-400 hover:bg-zinc-800 transition-all">
                   <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Sign Out
                 </button>
               </div>
@@ -292,7 +387,7 @@
     </header>
 
     <!-- Main Workspace (Scrollable Area) -->
-    <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative scroll-smooth bg-sjn-black">
+    <main id="sjn-workspace-main" class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative scroll-smooth bg-sjn-black">
       
       <section id="module-dashboard" class="module-view space-y-6">
         <!-- Banner Header -->
@@ -472,19 +567,19 @@
 
       <section id="module-wizard" class="module-view space-y-6 hidden">
         <div class="bg-sjn-card rounded-2xl border border-sjn-border p-6 space-y-6">
-          <div class="flex items-center justify-between border-b border-sjn-border pb-4">
-            <div class="flex items-center space-x-3">
+          <div class="sjn-wizard-header flex items-center justify-between border-b border-sjn-border pb-4">
+            <div class="sjn-wizard-header-main flex items-center space-x-3">
               <button id="wizard-back-btn" onclick="prevWizardStep()" class="hidden px-3 py-1 bg-zinc-800 hover:bg-zinc-700 text-gray-200 text-xs font-bold rounded-lg border border-zinc-700 transition-all flex items-center gap-1">
                 <i class="fa-solid fa-arrow-left"></i> Back
               </button>
-              <div>
-                <span class="text-xs font-bold text-red-500 uppercase tracking-wider">Practice Test Generator</span>
-                <h2 class="text-xl font-bold text-white flex items-center gap-2">
+              <div class="sjn-wizard-title-block">
+                <span class="sjn-wizard-kicker text-xs font-bold text-red-500 uppercase tracking-wider">Practice Test Generator</span>
+                <h2 class="sjn-wizard-title text-xl font-bold text-white flex items-center gap-2">
                   🎯 Create Practice Test
                 </h2>
               </div>
             </div>
-            <span id="wizard-step-indicator" class="px-3 py-1 bg-red-600/20 text-red-400 border border-red-500/30 rounded-full text-xs font-bold">
+            <span id="wizard-step-indicator" data-mobile-label="Step 1" class="px-3 py-1 bg-red-600/20 text-red-400 border border-red-500/30 rounded-full text-xs font-bold">
               Step 1
             </span>
           </div>
@@ -502,7 +597,7 @@
                 <span class="font-bold text-white group-hover:text-amber-400">📜 Past Papers Question Bank</span>
                 <i class="fa-solid fa-chevron-right text-gray-500"></i>
               </div>
-              <p class="text-xs text-gray-400 mt-1">The only question bank in this LMS. It starts empty and is populated only from your code/content files.</p>
+              <p class="text-xs text-gray-400 mt-1">Practice past MDCAT questions by subject, chapter, or topic.</p>
             </button>
           </div>
 
@@ -512,21 +607,21 @@
             <p class="text-xs text-gray-400">Choose exactly how you want to practice. You can mix subjects, chapters and topics in one test.</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <button onclick="selectPracticeScope('all-subjects')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-red-500 text-left transition-all">
-                <div class="font-bold text-white text-sm">🌐 All Subjects</div>
-                <p class="text-xs text-gray-400 mt-1">Randomly mix Biology, Chemistry, Physics, English and Logical Reasoning.</p>
-              </button>
-              <button onclick="selectPracticeScope('subject-wise')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-blue-500 text-left transition-all">
-                <div class="font-bold text-white text-sm">📖 One Subject</div>
-                <p class="text-xs text-gray-400 mt-1">Practice everything available from one selected subject.</p>
-              </button>
               <button onclick="selectPracticeScope('custom-mix')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-emerald-500 text-left transition-all">
-                <div class="font-bold text-white text-sm">🧩 Custom Mix</div>
-                <p class="text-xs text-gray-400 mt-1">Mix any subjects and/or chapters together in the same test.</p>
+                <div class="font-bold text-white text-sm">🧩 Custom Quiz</div>
+                <p class="text-xs text-gray-400 mt-1">Create a chapter-wise practice test by selecting one or multiple chapters.</p>
               </button>
               <button onclick="selectPracticeScope('topic-wise')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-amber-500 text-left transition-all">
                 <div class="font-bold text-white text-sm">🎯 Topic Drill</div>
                 <p class="text-xs text-gray-400 mt-1">Choose one or more exact topics from any available subject.</p>
+              </button>
+              <button onclick="selectPracticeScope('subject-wise')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-blue-500 text-left transition-all">
+                <div class="font-bold text-white text-sm">📖 One or Multiple Subjects</div>
+                <p class="text-xs text-gray-400 mt-1">Select one or multiple subjects and practise their full syllabus.</p>
+              </button>
+              <button onclick="selectPracticeScope('all-subjects')" class="p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-red-500 text-left transition-all">
+                <div class="font-bold text-white text-sm">🌐 All Subjects</div>
+                <p class="text-xs text-gray-400 mt-1">Create a full-syllabus practice test covering all subjects.</p>
               </button>
             </div>
           </div>
@@ -537,7 +632,7 @@
               <h3 class="text-sm font-bold text-gray-200">Step 3: Select Subject(s) 📚</h3>
               <button onclick="toggleSelectAllSubjects()" class="text-xs text-red-400 hover:underline font-bold">Select All / Clear</button>
             </div>
-            <p class="text-xs text-gray-400">For Custom Mix you may select multiple subjects. They will be combined into one question pool.</p>
+            <p class="text-xs text-gray-400">Select one or multiple subjects for your practice test.</p>
             <div id="subject-checkbox-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
             <button onclick="confirmSubjectSelection()" class="mt-2 px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all">
               Continue <i class="fa-solid fa-arrow-right ml-1"></i>
@@ -550,7 +645,7 @@
               <h3 class="text-sm font-bold text-gray-200">Step 3a: Select Chapter(s) 📌</h3>
               <button onclick="toggleSelectAllChapters()" class="text-xs text-red-400 hover:underline font-bold">Select All / Clear</button>
             </div>
-            <p class="text-xs text-gray-400">You can select chapters from different subjects. Leave chapters unselected to use all chapters of the selected subject(s).</p>
+            <p id="wizard-chapter-instructions" class="text-xs text-gray-400">You can select chapters from different subjects. Leave chapters unselected to use all chapters of the selected subject(s).</p>
             <div id="chapter-checkbox-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
             <button onclick="confirmChapterSelection()" class="mt-4 px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all">
               Confirm Chapters & Continue <i class="fa-solid fa-arrow-right ml-1"></i>
@@ -563,7 +658,7 @@
               <h3 class="text-sm font-bold text-gray-200">Step 3b: Select Topic(s) 🎯</h3>
               <button onclick="toggleSelectAllTopics()" class="text-xs text-red-400 hover:underline font-bold">Select All / Clear</button>
             </div>
-            <p class="text-xs text-gray-400">Pick any topics across the selected subjects.</p>
+            <p class="text-xs text-gray-400">Pick topics from the chapters you selected.</p>
             <div id="topic-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
             <button onclick="confirmTopicSelection()" class="mt-4 px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all">
               Confirm Topics & Continue <i class="fa-solid fa-arrow-right ml-1"></i>
@@ -573,6 +668,21 @@
           <!-- Step 4: Settings -->
           <div id="wizard-step-4" class="wizard-step space-y-6 hidden">
             <h3 class="text-sm font-bold text-gray-200">Step 4: Configure Test Settings ⚙️</h3>
+
+            <!-- Only ordinary Create Test uses history filters; direct Retake, Quick 5,
+                 course/paper launch and manually resumed exams keep original sets. -->
+            <section id="sjn-question-filters" class="space-y-2 hidden" aria-label="Question Filters">
+              <h4 class="text-xs font-semibold text-gray-300">Question Filters</h4>
+              <div class="flex flex-wrap gap-2" role="group" aria-label="Select question history filters">
+                <button type="button" data-sjn-filter="unused" aria-pressed="true" class="sjn-filter-chip"><i class="fa-solid fa-circle-dot sjn-filter-icon" aria-hidden="true"></i>Unused</button>
+                <button type="button" data-sjn-filter="incorrect" aria-pressed="false" class="sjn-filter-chip"><i class="fa-solid fa-circle-xmark sjn-filter-icon" aria-hidden="true"></i>Incorrect</button>
+                <button type="button" data-sjn-filter="skipped" aria-pressed="false" class="sjn-filter-chip"><i class="fa-solid fa-circle-minus sjn-filter-icon" aria-hidden="true"></i>Skipped</button>
+                <button type="button" data-sjn-filter="marked" aria-pressed="false" class="sjn-filter-chip"><i class="fa-solid fa-bookmark sjn-filter-icon" aria-hidden="true"></i>Marked</button>
+                <button type="button" data-sjn-filter="correct" aria-pressed="false" class="sjn-filter-chip"><i class="fa-solid fa-circle-check sjn-filter-icon" aria-hidden="true"></i>Correct</button>
+              </div>
+              <p id="sjn-filter-status" role="status" aria-live="polite" class="text-[11px] text-gray-400">Select at least one filter.</p>
+              <button id="sjn-filter-retry" class="hidden text-xs font-semibold text-red-400 hover:underline" type="button">Retry loading filters</button>
+            </section>
 
             <div class="space-y-3">
               <label class="text-xs font-semibold text-gray-400">Number of MCQs:</label>
@@ -584,7 +694,7 @@
                 <button onclick="setMcqCount(100)" class="mcq-cnt-btn p-2.5 rounded-xl border border-sjn-border bg-zinc-900 text-gray-300 font-bold text-xs">100</button>
               </div>
               <div class="flex gap-2 items-center">
-                <input type="number" id="custom-mcq-count" min="1" max="100000" value="5" oninput="setCustomMcqCount(this.value)" class="flex-1 bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white font-bold" placeholder="Enter any number of MCQs">
+                <input type="number" id="custom-mcq-count" min="1" max="100000" value="" oninput="setCustomMcqCount(this.value)" class="flex-1 bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white font-bold" placeholder="Enter any number of MCQs">
                 <span class="text-xs text-gray-500">MCQs</span>
               </div>
               <p id="available-count-hint" class="text-[11px] text-gray-500">Available questions will be shown after your selection.</p>
@@ -792,32 +902,92 @@
       </section>
 
       <section id="module-history" class="module-view space-y-6 hidden">
-        <div class="bg-sjn-card rounded-2xl border border-sjn-border p-6 space-y-6">
-          <div>
-            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Performance Analytics</span>
-            <h2 class="text-xl font-bold text-white flex items-center gap-2">
-              📈 Test History Log
-            </h2>
-            <p class="text-xs text-gray-400 mt-1">Record of practice sessions completed on this portal.</p>
+        <div class="bg-sjn-card rounded-2xl border border-sjn-border sjn-history-container">
+          <div id="sjn-history-list-view">
+            <div>
+              <h2 class="text-xl font-bold text-white flex items-center gap-2">📈 Test History Log</h2>
+              <p class="text-xs text-gray-400 mt-1">Your completed tests from across the Academy.</p>
+            </div>
+            <div class="sjn-history-summary" aria-label="Test History counts">
+              <div class="sjn-history-summary-card"><div><span>Total Tests</span>
+                <strong id="sjn-history-total">0</strong><small>All recorded attempts</small></div>
+                <i class="fa-solid fa-clipboard-list" aria-hidden="true"></i></div>
+              <div class="sjn-history-summary-card is-complete"><div><span>Completed Tests</span>
+                <strong id="sjn-history-completed">0</strong><small>Successfully submitted</small></div>
+                <i class="fa-solid fa-circle-check" aria-hidden="true"></i></div>
+            </div>
+            <div class="sjn-history-tools" aria-label="Search and filter your tests">
+              <input id="sjn-history-search" type="search" placeholder="Search test, course, subject, chapter, year…" aria-label="Search test history" autocomplete="off">
+              <button type="button" id="sjn-history-filter-toggle" class="sjn-history-filter-toggle" aria-controls="sjn-history-filter-grid" aria-expanded="false">
+                <i class="fa-solid fa-sliders" aria-hidden="true"></i> Filters
+              </button>
+              <div class="sjn-history-filter-grid" id="sjn-history-filter-grid">
+                <select id="sjn-history-source" aria-label="Source filter">
+                  <option value="all">All Sources</option><option value="past">Past Papers Question Bank</option>
+                  <option value="sjn">SJN Question Bank</option><option value="courses">Courses</option>
+                  <option value="mock">Mock Tests</option><option value="other">Other Tests</option>
+                </select>
+                <select id="sjn-history-mode" aria-label="Mode filter">
+                  <option value="all">All Modes</option><option value="tutor">Tutor</option><option value="timed">Timed</option>
+                </select>
+                <select id="sjn-history-status" aria-label="Status filter">
+                  <option value="all">All Statuses</option><option value="completed">Completed</option>
+                  <option value="in-progress">In Progress</option>
+                </select>
+                <select id="sjn-history-date" aria-label="Sort by date">
+                  <option value="newest">Newest First</option><option value="oldest">Oldest First</option>
+                </select>
+              </div>
+            </div>
+            <p class="sjn-history-found" id="sjn-history-found" aria-live="polite"></p>
+            <div class="sjn-history-table-wrap">
+              <table class="sjn-history-table">
+                <thead><tr><th>Bank / Test Title</th><th>Subject</th><th>Mode</th>
+                  <th>Score</th><th>Accuracy</th><th>Actions</th></tr></thead>
+                <tbody id="history-table-body"><tr><td colspan="6">Loading your test history…</td></tr></tbody>
+              </table>
+            </div>
+            <div id="sjn-history-mobile-list" class="sjn-history-mobile-list" aria-label="Completed tests"></div>
+            <!-- Shared list-only navigation: desktop table / mobile cards, never the Review question pager. -->
+            <nav id="sjn-history-list-pagination" class="sjn-history-list-pagination" aria-label="Test History pages" hidden>
+              <span id="sjn-history-list-page" class="sjn-history-list-page" aria-live="polite">Page 1</span>
+              <div class="sjn-history-list-controls">
+                <button type="button" id="sjn-history-list-prev" aria-label="Previous Test History page" disabled><i class="fa-solid fa-chevron-left" aria-hidden="true"></i><span>Prev</span></button>
+                <button type="button" id="sjn-history-list-next" aria-label="Next Test History page"><span>Next</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+              </div>
+            </nav>
           </div>
-
-          <div class="overflow-x-auto">
-            <table class="w-full text-xs text-left text-gray-300">
-              <thead class="bg-zinc-900 uppercase font-bold text-gray-400">
-                <tr>
-                  <th class="p-3">Bank / Title</th>
-                  <th class="p-3">Subject</th>
-                  <th class="p-3">Mode</th>
-                  <th class="p-3">Score</th>
-                  <th class="p-3">Accuracy</th>
-                </tr>
-              </thead>
-              <tbody id="history-table-body">
-                <tr>
-                  <td colspan="5" class="p-4 text-center text-gray-500">No tests completed yet. Start practice to record scores.</td>
-                </tr>
-              </tbody>
-            </table>
+          <div id="sjn-history-detail" class="sjn-history-detail hidden">
+            <div class="sjn-history-detail-heading">
+              <button type="button" id="sjn-history-back" class="sjn-history-back"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Test History</button>
+              <div class="sjn-history-detail-score" id="sjn-history-detail-score"></div>
+            </div>
+            <h2 class="sjn-history-detail-title" id="sjn-history-detail-title"></h2>
+            <p id="sjn-history-detail-subtitle" class="sjn-history-detail-subtitle"></p>
+            <p id="sjn-history-summary-only" class="sjn-history-empty hidden"></p>
+            <p id="sjn-history-detail-error" class="sjn-history-detail-error hidden" role="alert"></p>
+            <div id="sjn-history-review-area">
+              <div class="sjn-history-review-toolbar">
+                <select id="sjn-history-review-filter" aria-label="Filter reviewed questions">
+                  <option value="all">All Questions</option><option value="correct">Correct</option>
+                  <option value="incorrect">Incorrect</option><option value="unanswered">Unanswered</option>
+                  <option value="marked">Marked</option>
+                </select>
+                <span id="sjn-history-index"></span>
+              </div>
+              <div class="sjn-history-navigator-heading">
+                <span>Question Navigator</span>
+                <button type="button" id="sjn-history-nav-toggle" class="sjn-history-nav-toggle" aria-controls="sjn-history-question-nav" aria-expanded="true" aria-label="Hide Question Navigator">
+                  <i class="fa-solid fa-eye-slash" aria-hidden="true"></i><span id="sjn-history-nav-toggle-label">Hide Navigator</span>
+                </button>
+              </div>
+              <nav id="sjn-history-question-nav" class="sjn-history-question-nav" aria-label="Review question navigator"></nav>
+              <div id="sjn-history-question" class="sjn-history-question"></div>
+              <div class="sjn-history-pager">
+                <button type="button" id="sjn-history-prev">Previous</button>
+                <button type="button" id="sjn-history-next">Next</button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -856,7 +1026,7 @@
       </section>
       
       <!-- Footer Reminder -->
-      <footer class="bg-sjn-card border-t border-sjn-border py-4 mt-8 flex-shrink-0">
+      <footer id="sjn-student-footer" class="bg-sjn-card border-t border-sjn-border py-4 mt-8 flex-shrink-0">
         <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
           <p class="text-[11px] text-gray-400">
             © SJN MDCAT LMS Portal — Production Entrance Exam Engine for Medical Academies.
@@ -867,6 +1037,8 @@
     </main>
   </div>
 
+  <!-- TEMP-P4-001: allowlisted preview URL preservation during authentication -->
+  <script src="/sjn-preview-auth-route.js"></script>
   <!-- JAVASCRIPT ENGINE -->
   <script>
     
@@ -875,984 +1047,10 @@
     // =========================================================================
 
     // 1. QUESTION BANK ARRAY
-  // 1. QUESTION BANK ARRAY (Cleaned question text with dedicated source tags)
-    let mcqQuestionBank = [
-    // 1. INTRODUCTION TO BIOLOGICAL MOLECULES
-      {
-        id: 1,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Introduction to Biological Molecules',
-        source: 'BUMHS 2025',
-        question: 'During lab analysis, a student extracted a molecule that contained a sugar, a phosphate group and a nitrogenous base. Which of the following molecules likely identified?',
-        options: ['Nucleotide', 'Amino acid', 'Monosaccharides', 'Polysaccharides'],
-        correctIndex: 0,
-        explanation: 'A nucleotide consists of a pentose sugar, a phosphate group, and a nitrogenous base.',
-        mnemonic: 'Sugar, Phosphate, Base = Nucleotide base!'
-      },
-
-      // 2. IMPORTANCE OF WATER
-      {
-        id: 2,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Importance of Water',
-        source: 'UHS 2025',
-        question: 'Which property of water helps in moderating Earth\'s climate and maintaining stable temperature in aquatic environment?',
-        options: ['Low viscosity', 'High specific heat capacity', 'High surface tension', 'High polarity'],
-        correctIndex: 1,
-        explanation: 'High specific heat capacity of water allows it to absorb and release large amounts of heat with minimal temperature change, moderating climates.',
-        mnemonic: 'High specific heat = stable temperature!'
-      },
-      {
-        id: 3,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Importance of Water',
-        source: 'UHS 2025',
-        question: 'All of the following properties of water are associated with its capillary action. EXCEPT:',
-        options: ['Adhesion', 'Density', 'Cohesion', 'Surface tension'],
-        correctIndex: 1,
-        explanation: 'Capillary action relies on cohesion and adhesion. Density is not a factor in capillary action.',
-        mnemonic: 'Capillary action needs cohesion & adhesion!'
-      },
-      {
-        id: 4,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Importance of Water',
-        source: 'UHS 2025',
-        question: 'Water commonly known as a universal solvent because:',
-        options: ['It dissolves polar and ionic substances effectively', 'It supports chemical reactions without reacting itself', 'It has a high specific heat capacity', 'It dissolves many substances due to its small molecule size'],
-        correctIndex: 0,
-        explanation: 'Water\'s high polarity allows it to dissolve polar and ionic substances effectively.',
-        mnemonic: 'Polarity makes water the universal solvent!'
-      },
-      {
-        id: 5,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Importance of Water',
-        source: 'UHS 2025',
-        question: 'Which of the following structural change in water molecule leads to the low density of ice?',
-        options: ['Formation of ionic bonds', 'Expansion due to hydrogen bonding', 'Increased kinetic energy', 'Loss of polarity in molecules'],
-        correctIndex: 1,
-        explanation: 'Water expands when freezing due to stable hydrogen bonding networks, making ice less dense than liquid water.',
-        mnemonic: 'Ice expands via hydrogen bonds!'
-      },
-      {
-        id: 6,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Importance of Water',
-        source: 'SZABMU 2025',
-        question: 'The temperature of underground water remains constant due to;',
-        options: ['Heat capacity', 'Polarity of water', 'Heat of vaporization', 'Specific heat of vaporization'],
-        correctIndex: 0,
-        explanation: 'Water\'s high heat capacity stabilizes temperatures in underground water sources.',
-        mnemonic: 'Heat capacity stabilizes underground temp!'
-      },
-      {
-        id: 7,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Importance of Water',
-        source: 'KPK 2025',
-        question: 'The high specific heat capacity of water is due to:',
-        options: ['Ionic bonding', 'Hydrogen bonding', 'Covalent bonding', 'Hydrophilic bonding'],
-        correctIndex: 1,
-        explanation: 'Extensive hydrogen bonding between water molecules requires substantial thermal energy to break.',
-        mnemonic: 'Hydrogen bonds store the heat!'
-      },
-      {
-        id: 8,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Importance of Water',
-        source: 'KPK 2025',
-        question: 'Which properties of water enable it to circulate in living bodies and act as transport medium?',
-        options: ['Ionization and low density', 'Cohesion and Ionization', 'Ionization and adhesion', 'Adhesion and cohesion'],
-        correctIndex: 3,
-        explanation: 'Cohesion (water molecules sticking to each other) and adhesion (sticking to vessel walls) drive capillary action and circulation.',
-        mnemonic: 'Circulation = Cohesion + Adhesion!'
-      },
-      {
-        id: 9,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Importance of Water',
-        source: 'NUMS 2025',
-        question: 'Water is present in all living systems as universal solvent because of:',
-        options: ['Its cohesive force', 'Its polar nature', 'High specific heat', 'High evaporation rate'],
-        correctIndex: 1,
-        explanation: 'Its polar nature allows it to interact with and dissolve ionic/polar compounds.',
-        mnemonic: 'Polarity = Solvent power!'
-      },
-      {
-        id: 10,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Importance of Water',
-        source: 'Sindh 2025',
-        question: 'Which property of water allows it to stick to polar surface like wood?',
-        options: ['Density', 'Adhesion', 'Cohesion', 'Non-polar attraction'],
-        correctIndex: 1,
-        explanation: 'Adhesion is the attraction between water molecules and other polar surfaces.',
-        mnemonic: 'Adhesion = Attracted to Other surfaces!'
-      },
-      {
-        id: 11,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Importance of Water',
-        source: 'Sindh 2025',
-        question: 'Water can circulate in living organisms due to:',
-        options: ['Surface tension and polarity', 'Cohesion and adhesion', 'Solubility in cells', 'Stable liquid range'],
-        correctIndex: 1,
-        explanation: 'Cohesion and adhesion facilitate movement through xylem and vessels.',
-        mnemonic: 'Cohesion + Adhesion = Circulation!'
-      },
-      {
-        id: 12,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Importance of Water',
-        source: 'BUMHS 2025',
-        question: 'The correct function of H⁺ and OH⁻ ions in cells is:',
-        options: ['Transporting proteins', 'Breaking down fats', 'Maintaining or changing pH', 'Producing light energy'],
-        correctIndex: 2,
-        explanation: 'Hydrogen and hydroxide ions determine the acidic or basic nature, regulating cellular pH.',
-        mnemonic: 'H+ and OH- govern pH balance!'
-      },
-
-      // 3. CARBOHYDRATES
-      {
-        id: 13,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Carbohydrates',
-        source: 'UHS 2025',
-        question: 'Which one of the following biomolecules is a polymer/polysaccharide?',
-        options: ['Sucrose', 'Pentose', 'Lactose', 'Glycogen'],
-        correctIndex: 3,
-        explanation: 'Glycogen is a complex polysaccharide polymer made of glucose units.',
-        mnemonic: 'Glycogen is a multi-glucose polymer!'
-      },
-      {
-        id: 14,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Carbohydrates',
-        source: 'UHS 2025',
-        question: 'An oligosaccharide is made up of at least:',
-        options: ['Two saccharide units', 'Ten saccharide units', 'Three to ten saccharide units', 'More than ten saccharide units'],
-        correctIndex: 0,
-        explanation: 'Oligosaccharides contain 2 to 10 monosaccharide units.',
-        mnemonic: 'Oligo starts with 2 to 10 units!'
-      },
-      {
-        id: 15,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Carbohydrates',
-        source: 'SZABMU 2025',
-        question: 'Polysaccharides such as starch and glycogen are mainly used for:',
-        options: ['Structural framework only', 'Short-term and long-term energy storage', 'Enzyme catalysis', 'Ready source of energy'],
-        correctIndex: 1,
-        explanation: 'Starch (plants) and glycogen (animals) serve as vital energy storage polymers.',
-        mnemonic: 'Starch & Glycogen = Energy storage!'
-      },
-      {
-        id: 16,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Carbohydrates',
-        source: 'KPK 2025',
-        question: 'The most abundant polysaccharide in plants, widely used in paper and as a source of dietary fibre for human is:',
-        options: ['Chitin', 'Glycogen', 'Starch', 'Cellulose'],
-        correctIndex: 3,
-        explanation: 'Cellulose is the primary structural component of plant cell walls and dietary fiber.',
-        mnemonic: 'Cellulose builds plant walls & fiber!'
-      },
-      {
-        id: 17,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Carbohydrates',
-        source: 'KPK 2025',
-        question: 'Which of the following characteristics is common among sucrose, lactose and maltose?',
-        options: ['Molecular formula', 'Occurrence in living beings', 'Chemical nature of their monosaccharide units', 'To act as reducing sugar'],
-        correctIndex: 0,
-        explanation: 'As disaccharides composed of two hexose units, they share the same molecular formula (C12H22O11).',
-        mnemonic: 'Same formula C12H22O11 for disaccharides!'
-      },
-      {
-        id: 18,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Carbohydrates',
-        source: 'KPK 2025',
-        question: 'Which of the following is a branched polysaccharide found in animals:',
-        options: ['Cellulose', 'Glycogen', 'Amylose', 'Chitin'],
-        correctIndex: 1,
-        explanation: 'Glycogen is highly branched and serves as the energy reserve in animals.',
-        mnemonic: 'Glycogen branches in animals!'
-      },
-      {
-        id: 19,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Carbohydrates',
-        source: 'KPK 2025',
-        question: 'A diabetic patient is advised to avoid both sucrose and lactose, because they both:',
-        options: ['Are structural carbohydrates', 'Increase blood glucose after hydrolysis', 'Cannot be digested in human', 'Act as non-caloric sweeteners'],
-        correctIndex: 1,
-        explanation: 'Hydrolysis of sucrose and lactose releases glucose, spiking blood sugar levels.',
-        mnemonic: 'Hydrolysis releases glucose into blood!'
-      },
-      {
-        id: 20,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Carbohydrates',
-        source: 'KPK 2025',
-        question: 'Identify the CORRECT option that matches the sugar with its carbon number and functional group:',
-        options: ['Glyceraldehyde Triose, Ketone group', 'Ribose Pentose, Aldehyde group', 'Ribulose Pentose, Aldehyde Group', 'Galactose Hexose, Ketone Group'],
-        correctIndex: 1,
-        explanation: 'Ribose is a 5-carbon pentose sugar featuring an aldehyde group.',
-        mnemonic: 'Ribose = Pentose + Aldehyde!'
-      },
-      {
-        id: 21,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Carbohydrates',
-        source: 'BUMHS 2025',
-        question: 'Lactose sugar is found in milk and is composed of _____________.',
-        options: ['Glucose + Glucose', 'Glucose + Fructose', 'Glucose + Galactose', 'Fructose + Galactose'],
-        correctIndex: 2,
-        explanation: 'Lactose is a disaccharide consisting of glucose and galactose.',
-        mnemonic: 'Milk lactose = Glucose + Galactose!'
-      },
-      {
-        id: 22,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Carbohydrates',
-        source: 'BUMHS 2025',
-        question: 'Pick the smallest form of carbohydrates from the following, which cannot be further hydrolyzed into simpler form.',
-        options: ['Sucrose', 'Lactose', 'Glucose', 'Starch'],
-        correctIndex: 2,
-        explanation: 'Monosaccharides like glucose are the simplest form and cannot be hydrolyzed further.',
-        mnemonic: 'Monosaccharides cannot be split!'
-      },
-      {
-        id: 23,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Carbohydrates',
-        source: 'NUMS 2025',
-        question: 'Which of the following sugar molecules are condensed to produce sucrose?',
-        options: ['Glucose & galactose', 'Glucose & fructose', 'Glucose & glucose', 'Glucose & fructose 6-phosphate'],
-        correctIndex: 1,
-        explanation: 'Sucrose is formed by the condensation of glucose and fructose.',
-        mnemonic: 'Table sugar sucrose = Glucose + Fructose!'
-      },
-      {
-        id: 24,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Carbohydrates',
-        source: 'NUMS 2025',
-        question: 'The biopolymer that makes fungal cell wall is:',
-        options: ['Peptidoglycan', 'Chitin', 'Lignin', 'Pectin'],
-        correctIndex: 1,
-        explanation: 'Fungal cell walls are composed of chitin, a nitrogen-containing polysaccharide.',
-        mnemonic: 'Fungi & insects = Chitin!'
-      },
-      {
-        id: 25,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Carbohydrates',
-        source: 'Sindh 2025',
-        question: 'Homopolysaccharide that is found in the cell wall of fungi and in the exoskeleton of arthropods is:',
-        options: ['Cellulose', 'Glycogen', 'Starch', 'Chitin'],
-        correctIndex: 3,
-        explanation: 'Chitin builds arthropod exoskeletons and fungal walls.',
-        mnemonic: 'Chitin in bugs and fungi!'
-      },
-      {
-        id: 26,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Carbohydrates',
-        source: 'Sindh 2025',
-        question: 'At least how many saccharide units must be present in polysaccharide?',
-        options: ['1', '2', '10', '11'],
-        correctIndex: 3,
-        explanation: 'Polysaccharides are large polymers generally containing more than 10 monosaccharide units.',
-        mnemonic: 'Poly means many (>10 units)!'
-      },
-
-      // 4. PROTEINS
-      {
-        id: 27,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Proteins',
-        source: 'UHS 2025',
-        question: 'Peptide bonds are important in protein because they:',
-        options: ['Affect solubility', 'Hold R-groups', 'Link amino acid', 'Help in releasing oxygen'],
-        correctIndex: 2,
-        explanation: 'Peptide bonds are covalent linkages joining amino acids together in polypeptide chains.',
-        mnemonic: 'Peptide bonds link amino acids!'
-      },
-      {
-        id: 28,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Proteins',
-        source: 'UHS 2025',
-        question: 'The secondary structure of proteins is stabilized by:',
-        options: ['Ionic bonds', 'Hydrogen bonds', 'Disulfide bridges', 'Hydrophobic exclusion'],
-        correctIndex: 1,
-        explanation: 'Alpha-helices and beta-pleated sheets are stabilized by hydrogen bonding along the peptide backbone.',
-        mnemonic: 'Secondary structure = Backbone hydrogen bonds!'
-      },
-      {
-        id: 29,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Proteins',
-        source: 'UHS 2025',
-        question: 'The following is an example of a globular protein.',
-        options: ['Keratin', 'Collagen', 'Hemoglobin', 'Histone'],
-        correctIndex: 2,
-        explanation: 'Hemoglobin is a spherical, water-soluble globular protein.',
-        mnemonic: 'Hemoglobin is globular & circular!'
-      },
-      {
-        id: 30,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Proteins',
-        source: 'SZABMU 2025',
-        question: 'A mutation prevents proper disulphide bond formation in a fibrous protein, causing brittle nails and slow hair growth. Which of the following proteinaceous substance would be affected?',
-        options: ['Elastin', 'Actin', 'Keratin', 'Collagen'],
-        correctIndex: 2,
-        explanation: 'Keratin is the sulfur-rich fibrous protein found in hair, nails, and skin.',
-        mnemonic: 'Hair and nails = Keratin!'
-      },
-      {
-        id: 31,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Proteins',
-        source: 'SZABMU 2025',
-        question: 'In chromosome, positively charged histone proteins are organized with negatively charged DNA. The positive charges of histone are due to an abundance of basic amino acids:',
-        options: ['Arginine and alanine', 'Arginine and lysine', 'Lysine and alanine', 'Phenylalanine and arginine'],
-        correctIndex: 1,
-        explanation: 'Histones are rich in basic amino acids arginine and lysine, giving them a positive charge.',
-        mnemonic: 'Arginine & lysine give histones positive charge!'
-      },
-      {
-        id: 32,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Proteins',
-        source: 'KPK 2025',
-        question: 'Which of the following is NOT a globular protein?',
-        options: ['Enzyme', 'Albumen', 'Hemoglobin', 'Collagen'],
-        correctIndex: 3,
-        explanation: 'Collagen is a tough, rope-like fibrous structural protein.',
-        mnemonic: 'Collagen is fibrous, not globular!'
-      },
-      {
-        id: 33,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Proteins',
-        source: 'BUMHS 2025',
-        question: 'If a polypeptide of 20 amino acids is made up of all different amino acids, at least how many types of tRNA must take part in its synthesis?',
-        options: ['20', '45', '61', '64'],
-        correctIndex: 0,
-        explanation: 'Each distinct amino acid requires at least one specific tRNA molecule to deliver it.',
-        mnemonic: '20 unique amino acids = 20 tRNAs minimum!'
-      },
-      {
-        id: 34,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Proteins',
-        source: 'NUMS 2025',
-        question: 'About 170 types of amino acids are found to occur in a cells. How many are involved in making proteins?',
-        options: ['170 amino acids', '20 amino acids', '25 amino acids', '150 amino acids'],
-        correctIndex: 1,
-        explanation: 'Standard protein synthesis utilizes 20 common amino acids.',
-        mnemonic: '20 standard amino acids build proteins!'
-      },
-      {
-        id: 35,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Proteins',
-        source: 'NUMS 2025',
-        question: 'The individual chemical property of an amino acid is determined by which of the following groups?',
-        options: ['Alpha carbon', 'Amino group', 'Carboxyl group', 'Variable group'],
-        correctIndex: 3,
-        explanation: 'The variable R-group (side chain) gives each amino acid its unique chemical characteristics.',
-        mnemonic: 'R stands for Variable group!'
-      },
-      {
-        id: 36,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Proteins',
-        source: 'Sindh 2025',
-        question: 'Name the type of bond that join amino acids to form a polypeptide chain:',
-        options: ['Hydrogen bond', 'Ionic bond', 'Glycosidic bond', 'Peptide bond'],
-        correctIndex: 3,
-        explanation: 'Amino acids are linked by peptide bonds.',
-        mnemonic: 'Peptide bond joins amino acids!'
-      },
-      {
-        id: 37,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Proteins',
-        source: 'Sindh 2025',
-        question: 'Which of the following is not a globular protein?',
-        options: ['Enzyme', 'Hormone', 'Channel protein', 'Collagen'],
-        correctIndex: 3,
-        explanation: 'Collagen is fibrous.',
-        mnemonic: 'Collagen = Fibrous structural protein!'
-      },
-      {
-        id: 38,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Proteins',
-        source: 'Sindh 2025',
-        question: 'A food sample contains long chains of amino acids bounded together. This indicates the presence of:',
-        options: ['Carbohydrates', 'Lipids', 'Proteins', 'Nucleic acids'],
-        correctIndex: 2,
-        explanation: 'Polypeptide chains of amino acids signify proteins.',
-        mnemonic: 'Amino acid chains = Proteins!'
-      },
-
-      // 5. LIPIDS
-      {
-        id: 39,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Lipids',
-        source: 'SZABMU 2025',
-        question: 'Arachidonic acid, which is the precursor molecule for prostaglandins is:',
-        options: ['A saturated fatty acid with 18 carbons', 'An unsaturated fatty acid with 18 carbons', 'A tri-unsaturated fatty acid with 20 carbons', 'A tetra-unsaturated fatty acid with 20 carbons'],
-        correctIndex: 3,
-        explanation: 'Arachidonic acid is a 20-carbon fatty acid containing four double bonds.',
-        mnemonic: 'Arachidonic = 20 carbons, 4 double bonds!'
-      },
-      {
-        id: 40,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Lipids',
-        source: 'SZABMU 2025',
-        question: 'Which of the following hormones in the body of animal is lipid-based in nature?',
-        options: ['Insulin', 'FSH', 'Oxytocin', 'Aldosterone'],
-        correctIndex: 3,
-        explanation: 'Aldosterone is a steroid hormone derived from cholesterol.',
-        mnemonic: 'Steroid hormones like aldosterone are lipids!'
-      },
-      {
-        id: 41,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Lipids',
-        source: 'BUMHS 2025',
-        question: 'When fat molecule is hydrolyzed for energy, the end products will be:',
-        options: ['Amino acids and glycerol', 'Glycerol and fatty acids', 'Fatty acids and amino acids', 'Glycerol and nitrogenous bases'],
-        correctIndex: 1,
-        explanation: 'Fats break down into glycerol and fatty acids during hydrolysis.',
-        mnemonic: 'Fats split into glycerol + fatty acids!'
-      },
-      {
-        id: 42,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Lipids',
-        source: 'BUMHS 2025',
-        question: 'Acylglycerols like fats and oils are esters formed by condensation reaction between:',
-        options: ['Fatty acid and water', 'Fatty acid and phosphates', 'Fatty acid and glucose', 'Fatty acid and alcohol'],
-        correctIndex: 3,
-        explanation: 'Acylglycerols are formed by condensing fatty acids with an alcohol (glycerol).',
-        mnemonic: 'Fatty acid + alcohol = Ester!'
-      },
-      {
-        id: 43,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Lipids',
-        source: 'NUMS 2025',
-        question: 'The integral property of lipid bilayer in a cell membrane is due to:',
-        options: ['Reduction of contact area between water and lipids', 'Increase of contact area between water and lipids', 'Polar interaction of lipids', 'Ionization of lipids'],
-        correctIndex: 0,
-        explanation: 'Hydrophobic tails cluster inward to minimize contact with water.',
-        mnemonic: 'Hiding tails reduces water contact!'
-      },
-      {
-        id: 44,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Lipids',
-        source: 'NUMS 2025',
-        question: 'Identify the organic compound that combines with phosphatidic acid in lecithin:',
-        options: ['Glycerin', 'Choline', 'Cholesterol', 'Fructose'],
-        correctIndex: 1,
-        explanation: 'Lecithin contains choline attached to phosphatidic acid.',
-        mnemonic: 'Lecithin contains Choline!'
-      },
-      {
-        id: 45,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Lipids',
-        source: 'Sindh 2025',
-        question: 'The most abundant lipids in living things are:',
-        options: ['Terpenes', 'Waxes', 'Steroids', 'Acylglycerols'],
-        correctIndex: 3,
-        explanation: 'Acylglycerols (triglycerides) are the most common lipid reserves.',
-        mnemonic: 'Acylglycerols are the most abundant lipids!'
-      },
-      {
-        id: 46,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Lipids',
-        source: 'Sindh 2025',
-        question: 'Which of the following biological molecule releases highest energy from its one gram?',
-        options: ['Carbohydrates', 'Lipids', 'Protein', 'Water'],
-        correctIndex: 1,
-        explanation: 'Lipids store more than double the energy per gram compared to carbohydrates.',
-        mnemonic: 'Lipids pack the highest energy per gram!'
-      },
-      {
-        id: 47,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Lipids',
-        source: 'UHS 2025',
-        question: 'How are the phospholipid molecules arranged in the plasma membrane?',
-        options: ['Hydrophilic heads face inwards and hydrophobic tails face outwards', 'Both hydrophilic heads face each other in the membrane', 'Hydrophilic heads face outwards and hydrophobic tails face inwards', 'Hydrophilic heads and hydrophobic tails are randomly distributed'],
-        correctIndex: 2,
-        explanation: 'Polar hydrophilic heads face outward, while non-polar hydrophobic tails face inward.',
-        mnemonic: 'Heads out, tails in!'
-      },
-
-      // 6. NUCLEIC ACIDS (RNA & DNA)
-      {
-        id: 48,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'UHS 2025',
-        question: 'Which of the following is a key feature of RNA?',
-        options: ['Deoxyribose and thymine', 'Double stranded and thymine', 'Ribose and uracil', 'Ribose and thymine'],
-        correctIndex: 2,
-        explanation: 'RNA contains ribose sugar and the nitrogenous base uracil instead of thymine.',
-        mnemonic: 'RNA = Ribose + Uracil!'
-      },
-      {
-        id: 49,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'UHS 2025',
-        question: 'Which of the following types of RNA makeup the largest proportion of total cellular RNA?',
-        options: ['Messenger RNA', 'Ribosomal RNA', 'Transfer RNA', 'Catalytic RNA (ribozyme)'],
-        correctIndex: 1,
-        explanation: 'Ribosomal RNA (rRNA) constitutes about 80% of total cellular RNA.',
-        mnemonic: 'rRNA makes up the biggest chunk (~80%)!'
-      },
-      {
-        id: 50,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'UHS 2025',
-        question: 'The main role of mRNA during protein synthesis is to:',
-        options: ['Carry genetic information for protein synthesis', 'Stabilize ribosome', 'Deliver amino acids', 'Provide platform for proteins synthesis'],
-        correctIndex: 0,
-        explanation: 'mRNA carries the transcribed genetic code from DNA to ribosomes for translation.',
-        mnemonic: 'mRNA carries the message!'
-      },
-      {
-        id: 51,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'UHS 2025',
-        question: 'The complementary base pairing in DNA is important because it:',
-        options: ['Maintains the tertiary structure of enzymes', 'Provides energy for all cell metabolism', 'Enables protein to fold properly', 'Allows DNA act as a genetic blueprint during replication'],
-        correctIndex: 3,
-        explanation: 'Precise base pairing ensures accurate transmission of genetic info during replication.',
-        mnemonic: 'Base pairing ensures faithful replication!'
-      },
-      {
-        id: 52,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'UHS 2025',
-        question: 'Which of the following is the correct higher (left) to lower (right) sequence of molecules with respect to their amount in the cell?',
-        options: ['DNA → rRNA → tRNA → mRNA', 'rRNA → tRNA → mRNA → DNA', 'mRNA → tRNA → rRNA → DNA', 'DNA → mRNA → tRNA → rRNA'],
-        correctIndex: 1,
-        explanation: 'rRNA is most abundant (~80%), followed by tRNA (~15%), mRNA (~3-5%), and DNA.',
-        mnemonic: 'rRNA > tRNA > mRNA > DNA!'
-      },
-      {
-        id: 53,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'SZABMU 2025',
-        question: 'Which of the following base pairing maintains the constant diameter of the DNA double helix as per Watson and Crick\'s model?',
-        options: ['Purine – Purine', 'Pyrimidine – Pyrimidine', 'Purine – Pyrimidine', 'Sugar-Phosphate'],
-        correctIndex: 2,
-        explanation: 'Pairing a double-ring purine with a single-ring pyrimidine maintains a uniform 2nm helix diameter.',
-        mnemonic: 'Purine pairs with Pyrimidine for uniform width!'
-      },
-      {
-        id: 54,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'KPK 2025',
-        question: 'In Watson and Crick\'s DNA model, which of the following pairs with Cytosine?',
-        options: ['Adenine', 'Guanine', 'Thymine', 'Uracil'],
-        correctIndex: 1,
-        explanation: 'Guanine pairs exclusively with cytosine via 3 hydrogen bonds.',
-        mnemonic: 'C pairs with G!'
-      },
-      {
-        id: 55,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'KPK 2025',
-        question: 'The structure of RNA consists of:',
-        options: ['Double polynucleotide strand', 'Deoxyribose sugar', 'Five different types of nucleotides', 'Base uracil instead of thymine'],
-        correctIndex: 3,
-        explanation: 'RNA is single-stranded and features uracil instead of thymine.',
-        mnemonic: 'RNA uses Uracil!'
-      },
-      {
-        id: 56,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'KPK 2025',
-        question: 'The common diameter of DNA is maintained by pairing:',
-        options: ['Purine towards Pyrimidine', 'Pyrimidine towards Pyrimidine', 'Purine towards Purine', 'Sugar towards Phosphate'],
-        correctIndex: 0,
-        explanation: 'Purine-pyrimidine pairing ensures constant helix width.',
-        mnemonic: 'Purine to pyrimidine = stable width!'
-      },
-      {
-        id: 57,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'BUMHS 2025',
-        question: 'Each DNA nucleotide differs from the others based on its:',
-        options: ['Nitrogenous bases', 'Phosphate group', 'Sugar molecule', 'Number of phosphorus atoms'],
-        correctIndex: 0,
-        explanation: 'Nucleotides differ only in their nitrogenous bases (A, T, G, C).',
-        mnemonic: 'Bases make each nucleotide unique!'
-      },
-      {
-        id: 58,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'BUMHS 2025',
-        question: 'In humans, how many kinds of tRNA are present for the synthesis of proteins?',
-        options: ['40', '45', '43', '50'],
-        correctIndex: 1,
-        explanation: 'There are roughly 45 distinct types of tRNA molecules in human cells.',
-        mnemonic: 'About 45 tRNAs exist in humans!'
-      },
-      {
-        id: 59,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'BUMHS 2025',
-        question: 'Anticodon that consist of complementary bases of three nucleotides is located on:',
-        options: ['rRNA', 'mRNA', 'tRNA', 'DNA'],
-        correctIndex: 2,
-        explanation: 'tRNA features the anticodon loop that pairs with mRNA codons.',
-        mnemonic: 'tRNA has the anticodon!'
-      },
-      {
-        id: 60,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'BUMHS 2025',
-        question: 'The central dogma of molecular biology describes the flow of genetic information as:',
-        options: ['DNA → mRNA → Protein', 'mRNA → DNA → Protein', 'Protein → DNA → mRNA', 'DNA → Protein → mRNA'],
-        correctIndex: 0,
-        explanation: 'Genetic info flows from DNA to transcription (mRNA) to translation (Protein).',
-        mnemonic: 'Central Dogma: DNA to RNA to Protein!'
-      },
-      {
-        id: 61,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'BUMHS 2025',
-        question: 'Which of the following is a correct structural feature of RNA?',
-        options: ['It contains deoxyribose sugar', 'It has a double-stranded helical structure', 'It contains base uracil instead of base thymine', 'It is confined to the nucleus only'],
-        correctIndex: 2,
-        explanation: 'RNA contains ribose and uracil.',
-        mnemonic: 'RNA features uracil!'
-      },
-      {
-        id: 62,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'BUMHS 2025',
-        question: 'During sample analysis, students finds that it contains Carbon, Hydrogen, Oxygen and Nitrogen, but no phosphorous. Based on this information, which biological molecule is most likely to be in the sample?',
-        options: ['DNA', 'Protein', 'Phospholipid', 'RNA'],
-        correctIndex: 1,
-        explanation: 'Proteins contain C, H, O, N, and often S, but lack phosphorus.',
-        mnemonic: 'No phosphorus = Protein (not DNA/RNA/Lipid)!'
-      },
-      {
-        id: 63,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'BUMHS 2025',
-        question: 'A platform for protein synthesis in the cell is provided by:',
-        options: ['mRNA', 'rRNA', 'tRNA', 'Protein encoding DNA'],
-        correctIndex: 1,
-        explanation: 'Ribosomal RNA (rRNA) combines with proteins to form ribosomes.',
-        mnemonic: 'rRNA builds the ribosomal platform!'
-      },
-      {
-        id: 64,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'NUMS 2025',
-        question: 'The anticodon loop of the tRNA that complements mRNA is:',
-        options: ['θ loop', 'D loop', 'Middle loop', 'Alpha loop'],
-        correctIndex: 2,
-        explanation: 'The middle loop (anticodon loop) of tRNA recognizes and binds to mRNA codons.',
-        mnemonic: 'Middle loop is the anticodon!'
-      },
-      {
-        id: 65,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'Sindh 2025',
-        question: 'Which process uses mRNA to make protein at ribosomes?',
-        options: ['Replication', 'Transcription', 'Translation', 'Cell fractionation'],
-        correctIndex: 2,
-        explanation: 'Translation decodes mRNA into amino acid sequences at the ribosome.',
-        mnemonic: 'Translation builds proteins from mRNA!'
-      },
-      {
-        id: 66,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'Sindh 2025',
-        question: 'Name the biomolecule essential for information storage and transmission within cells.',
-        options: ['Carbohydrates', 'Lipids', 'Nucleic acids', 'Proteins'],
-        correctIndex: 2,
-        explanation: 'DNA and RNA store and transmit hereditary information.',
-        mnemonic: 'Nucleic acids store genetic blueprints!'
-      },
-      {
-        id: 67,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'Sindh 2025',
-        question: 'Guanine - cytosine pairs enhance DNA stability due to:',
-        options: ['Larger size', 'Closer pairing', 'More hydrogen bonds', 'Double ring structure in both'],
-        correctIndex: 2,
-        explanation: 'G-C pairs form three hydrogen bonds, increasing thermal stability.',
-        mnemonic: '3 hydrogen bonds make G-C stronger!'
-      },
-      {
-        id: 68,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Nucleic Acids',
-        source: 'Sindh 2025',
-        question: 'Which of the following is NOT related to DNA?',
-        options: ['Adenine', 'Thymine', 'Uracil', 'Guanine'],
-        correctIndex: 2,
-        explanation: 'Uracil is found in RNA, not DNA.',
-        mnemonic: 'Uracil belongs to RNA!'
-      },
-
-      // 7. CONJUGATED MOLECULES
-      {
-        id: 69,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Conjugated Molecules',
-        source: 'UHS 2025',
-        question: 'Glycoproteins are formed as a result of the combination of:',
-        options: ['Lipids and proteins', 'Carbohydrates and proteins', 'Nucleic acid and proteins', 'Fatty acids and carbohydrates'],
-        correctIndex: 1,
-        explanation: 'Glycoproteins consist of carbohydrate chains attached to proteins.',
-        mnemonic: 'Glyco (sugar) + protein!'
-      },
-      {
-        id: 70,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Conjugated Molecules',
-        source: 'SZABMU 2025',
-        question: 'Which of the following is common between aldosterone, sex hormone and cortisone?',
-        options: ['They are peptides', 'They are Phospholipids', 'They are steroids', 'They are glycoproteins'],
-        correctIndex: 2,
-        explanation: 'Aldosterone, sex hormones, and cortisone are all steroid lipids.',
-        mnemonic: 'Steroids share a common lipid ring structure!'
-      },
-      {
-        id: 71,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Conjugated Molecules',
-        source: 'KPK 2025',
-        question: 'The glycoproteins are commonly found in:',
-        options: ['Mitochondria', 'Chloroplasts', 'Ribosomes', 'Plasma membrane'],
-        correctIndex: 3,
-        explanation: 'Plasma membranes feature membrane-bound glycoproteins acting as receptors and markers.',
-        mnemonic: 'Cell membrane outer face has glycoproteins!'
-      },
-      {
-        id: 72,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Conjugated Molecules',
-        source: 'BUMHS 2025',
-        question: 'Which of the following is NOT considered a conjugated molecule?',
-        options: ['A molecule containing linked sugar units', 'A molecule made up only of carbon and hydrogen', 'A protein attached to a non-protein group', 'A lipid combined with another chemical component'],
-        correctIndex: 1,
-        explanation: 'Conjugated molecules involve two different classes of molecules combined.',
-        mnemonic: 'Hydrocarbons are simple, not conjugated!'
-      },
-      {
-        id: 73,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Conjugated Molecules',
-        source: 'BUMHS 2025',
-        question: 'Glycolipid is a combination of:',
-        options: ['Lipid and carbohydrate', 'Lipid and protein', 'Nucleic acid and lipid', 'Protein and carbohydrate'],
-        correctIndex: 0,
-        explanation: 'Glycolipids are lipids bonded with carbohydrate groups.',
-        mnemonic: 'Glyco + Lipid!'
-      },
-      {
-        id: 74,
-        bank: 'Past Papers Question Bank',
-        subject: 'Biology',
-        chapter: 'Biological Molecules',
-        topic: 'Conjugated Molecules',
-        source: 'Sindh 2025',
-        question: 'Which of the following best describes glycoproteins?',
-        options: ['Proteins linked with carbohydrates', 'Proteins linked with DNA', 'Proteins linked with lipids', 'Proteins linked with minerals'],
-        correctIndex: 0,
-        explanation: 'Glycoproteins are protein molecules bonded with carbohydrate chains.',
-        mnemonic: 'Proteins + Carbohydrates = Glycoproteins!'
-      }
-    ];
+    // Database-owned practice only. Historical original 74-question baseline is
+    // preserved in the non-runtime repository archive content/archives/biology-74-2025.original.literal.txt.
+    // NEVER use an unversioned inline question bank as a quiz fallback.
+    let mcqQuestionBank = [];
 
     // 2. COURSES ARRAY
     let customCourses = [];
@@ -1860,41 +1058,9 @@
     // 3. PAST PAPERS ARRAY 
     let pastPapersList = [];
 
-// PMDC Syllabus Map (Updated to include Biological Molecules and its topics)
-    const pmdcSyllabus = {
-      'Biology': {
-        'Biological Molecules': [
-          'Introduction to Biological Molecules', 
-          'Importance of Water', 
-          'Carbohydrates', 
-          'Proteins', 
-          'Lipids', 
-          'Nucleic Acids', 
-          'Conjugated Molecules'
-        ],
-        'Chapter 1: Bioenergetics': ['ATP Synthesis', 'Glycolysis', 'Krebs Cycle', 'Electron Transport Chain'],
-        'Chapter 2: Cell Structure': ['Organelles', 'Cell Membrane', 'Cytoskeleton'],
-        'Chapter 3: Coordination & Control': ['Nerve Impulse', 'Endocrine Hormones', 'Synapses'],
-        'Chapter 4: Genetics': ['DNA Replication', 'Transcription', 'Mendelian Genetics']
-      },
-      'Chemistry': {
-        'Chapter 1: Physical Chemistry': ['Stoichiometry', 'Gases', 'Chemical Equilibrium'],
-        'Chapter 2: Organic Fundamentals': ['Hydrocarbons', 'SN1 and SN2', 'Carbonyl Compounds']
-      },
-      'Physics': {
-        'Chapter 1: Motion & Force': ['Projectile Motion', 'Momentum', 'Work & Energy'],
-        'Chapter 2: Electromagnetism': ['Electric Fields', 'Capacitors', 'Ohm Law']
-      },
-      'English': {
-        'Chapter 1: Grammar': ['Subject-Verb Agreement', 'Modifiers', 'Tenses']
-      },
-      'Logical Reasoning': {
-        'Chapter 1: Logic': ['Critical Thinking', 'Syllogisms', 'Logic Gates']
-      }
-    };
-
+// Create Test choices are derived from verified, published MCQs, not demo syllabus placeholders.
     // Global Student Performance State
-    let sjnProfile = JSON.parse(localStorage.getItem('sjn_student_profile')) || {
+    function emptyStudentProfile() { return {
       mcqsAttempted: 0,
       correctAnswers: 0,
       streakDays: 0,
@@ -1907,7 +1073,11 @@
         'Logical Reasoning': { correct: 0, total: 0 }
       },
       historyLogs: []
-    };
+    }; }
+    // A student's identity must be verified before any personal data is loaded.
+    let sjnProfile = emptyStudentProfile();
+    let historyLoadStatus = 'loading';
+    let historyRetakeTitle = null;
 
     // Wizard State
     let wizardSelection = {
@@ -1918,17 +1088,26 @@
       selectedChapters: [],
       selectedTopics: [],
       topic: '',
-      mcqCount: 5,
+      mcqCount: 0,
       testMode: 'tutor',
       currentStepNum: 1
     };
 
+    // Stage 3 applies only to manually created quizzes, not restored exams.
+    let wizardQuestionFiltersActive = false;
     // Quiz Execution Engine Variables
     let currentQuizList = [];
     let currentMcqIndex = 0;
     let userAnswers = [];
+    // One permanent submission key per generated test, reused for network retry
+    // and never persisted in browser-wide storage or reused for a new test.
+    let currentSubmissionKey = null;
+    let currentQuizStartedAt = null;
+    // Declared in the main script, shared by the launcher and authenticated
+    // saver below. A new generated test must never reuse an old saved result.
+    let savedAttemptOutcome = null;
     let quizTimerInterval = null;
-    let bookmarkedMcqs = JSON.parse(localStorage.getItem('sjn_bookmarked_mcqs')) || [];
+    let bookmarkedMcqs = []; // Loaded from the authenticated student's Supabase session.
 
     // ==========================================
     // MOBILE MENU LOGIC
@@ -1981,7 +1160,21 @@
         activeTab.classList.remove('text-gray-300');
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      
+      // Reuse verified in-memory history on ordinary menu visits. The account
+      // bridge fetches only on bootstrap, failure, or an actual saved change;
+      // never block navigation or re-fetch on every History menu click.
+      if (modName === 'history' && typeof window.reloadStudentHistory === 'function') {
+        void window.reloadStudentHistory();
+      }
+      // Returning directly from Results or Dashboard can reopen Step 4 without
+      // calling setWizardStep(4). After a confirmed Submit invalidates the
+      // student-specific filter snapshot, reload it on that direct entry too.
+      // load() reuses verified/in-flight reads; other modules and steps do nothing.
+      if (modName === 'wizard' && wizardSelection.currentStepNum === 4 &&
+          wizardQuestionFiltersActive) {
+        void window.SJNPracticeFilters?.load();
+      }
+
       // Auto-close mobile drawer when navigating
       if (window.innerWidth < 768 && typeof closeMobileMenu === 'function') {
         closeMobileMenu();
@@ -1998,14 +1191,28 @@
         2: ['wizard-step-2',40,'Step 2: Build Practice Set'],
         3: ['wizard-step-3',60,'Step 3: Subject(s)'],
         31:['wizard-step-3a',75,'Step 3a: Chapters'],
-        32:['wizard-step-3b',75,'Step 3b: Topics'],
+        32:['wizard-step-3b',88,'Step 3b: Topics'],
         4: ['wizard-step-4',100,'Step 4: Settings']
       };
       const cfg = map[stepNum];
       if (cfg) {
         document.getElementById(cfg[0]).classList.remove('hidden');
         updateWizardProgress(cfg[1], cfg[2]);
-        if (stepNum === 4) { updateSummaryBox(); updateWizardAvailableCount(); }
+        if (stepNum === 31) {
+          document.getElementById('wizard-chapter-instructions').innerText =
+            wizardSelection.scope === 'topic-wise'
+              ? 'Select at least one chapter, then choose the topics you want to practise.'
+              : 'Select chapters from your chosen subjects, or leave all unselected to practise every chapter.';
+        }
+        if (stepNum === 4) {
+          // Explicit Quick 5, course and retake entries keep their assigned counts.
+          // Ordinary Create Test starts blank and never silently defaults to 1.
+          const input = document.getElementById('custom-mcq-count');
+          if (input) input.value = Number.isSafeInteger(wizardSelection.mcqCount) &&
+            wizardSelection.mcqCount > 0 ? String(wizardSelection.mcqCount) : '';
+          updateSummaryBox(); updateWizardAvailableCount();
+          void window.SJNPracticeFilters?.load();
+        }
       }
     }
 
@@ -2015,21 +1222,38 @@
         else if (wizardSelection.scope === 'topic-wise') setWizardStep(32);
         else if (wizardSelection.scope === 'subject-wise') setWizardStep(3);
         else setWizardStep(2);
-      } else if (wizardSelection.currentStepNum === 32 || wizardSelection.currentStepNum === 31) setWizardStep(3);
+      } else if (wizardSelection.currentStepNum === 32) setWizardStep(31);
+      else if (wizardSelection.currentStepNum === 31) setWizardStep(3);
       else if (wizardSelection.currentStepNum === 3) setWizardStep(2);
       else if (wizardSelection.currentStepNum === 2) setWizardStep(1);
     }
 
     function selectWizardOption(type, val) {
-      if (type === 'bank') { wizardSelection.bank = val; setWizardStep(2); }
+      if (type === 'bank') {
+        wizardQuestionFiltersActive = true;
+        window.SJNPracticeFilters?.resetSelection();
+        wizardSelection.bank = val;
+        wizardSelection.mcqCount = 0;
+        const input = document.getElementById('custom-mcq-count');
+        if (input) input.value = '';
+        setWizardStep(2);
+      }
     }
 
     function selectPracticeScope(scope) {
       wizardSelection.scope = scope;
+      // New practice mode means a new test configuration. Retake/Resume turn
+      // off filters for their original MCQ set; normal Create Test turns them
+      // back on without changing verified history or unrelated wizard state.
+      wizardQuestionFiltersActive = true;
+      window.SJNPracticeFilters?.resetSelection();
       wizardSelection.selectedSubjects = [];
       wizardSelection.selectedChapters = [];
       wizardSelection.selectedTopics = [];
       wizardSelection.subject = 'All Subjects';
+      wizardSelection.mcqCount = 0;
+      const countInput = document.getElementById('custom-mcq-count');
+      if (countInput) countInput.value = '';
       if (scope === 'all-subjects') {
         wizardSelection.selectedSubjects = getAvailableSubjects();
         setWizardStep(4);
@@ -2041,16 +1265,19 @@
 
     function getAvailableSubjects() {
       const subjects = [...new Set(mcqQuestionBank.map(q => q.subject).filter(Boolean))];
-      return subjects.length ? subjects : Object.keys(pmdcSyllabus);
+      return subjects;
     }
 
     function renderSubjectChoices() {
       const container = document.getElementById('subject-checkbox-container');
       if (!container) return;
       container.innerHTML = '';
-      const subjects = ['Biology','Chemistry','Physics','English','Logical Reasoning', ...getAvailableSubjects()];
-      const uniqueSubjects = [...new Set(subjects)];
-      uniqueSubjects.forEach(subj => {
+      const subjects = getAvailableSubjects();
+      if (!subjects.length) {
+        container.innerHTML = '<div class="col-span-full p-5 text-center text-xs text-gray-400">No subjects have published MCQs yet.</div>';
+        return;
+      }
+      subjects.forEach(subj => {
         const checked = wizardSelection.selectedSubjects.includes(subj) || (wizardSelection.scope === 'subject-wise' && wizardSelection.subject === subj);
         const div = document.createElement('label');
         div.className = 'flex items-center p-4 bg-zinc-900 border border-sjn-border rounded-xl hover:border-red-500 cursor-pointer';
@@ -2073,10 +1300,8 @@
       if (wizardSelection.scope === 'subject-wise') {
         wizardSelection.selectedChapters = ['All Chapters'];
         setWizardStep(4);
-      } else if (wizardSelection.scope === 'topic-wise') {
-        renderTopicOptions(selected);
-        setWizardStep(32);
       } else {
+        // Both Custom Quiz and Topic Drill select chapters first.
         renderChapterCheckboxes(selected);
         setWizardStep(31);
       }
@@ -2087,10 +1312,10 @@
       container.innerHTML = '';
       const selectedSet = new Set(wizardSelection.selectedChapters);
       subjects.forEach(subject => {
-        const chapters = pmdcSyllabus[subject] ? Object.keys(pmdcSyllabus[subject]) : [];
-        const bankChapters = [...new Set(mcqQuestionBank.filter(q => q.subject === subject && q.chapter).map(q => q.chapter))];
-        const allChapters = [...new Set([...chapters, ...bankChapters])];
-        if (!allChapters.length) allChapters.push('General Chapter');
+        const allChapters = [...new Set(mcqQuestionBank
+          .filter(q => q.subject === subject)
+          .map(q => q.chapter || 'General Chapter'))];
+        if (!allChapters.length) return; // Do not show empty headings/placeholder chapters.
         const heading = document.createElement('div');
         heading.className = 'col-span-full text-xs font-black uppercase tracking-wider text-red-400 pt-2';
         heading.innerText = subject;
@@ -2113,11 +1338,23 @@
 
     function confirmChapterSelection() {
       const selected = Array.from(document.querySelectorAll('.chapter-chk:checked')).map(c => c.value);
-      if (!selected.length) {
-        wizardSelection.selectedChapters = ['All Chapters'];
-      } else {
+      if (wizardSelection.scope === 'topic-wise') {
+        if (!selected.length) {
+          alert('Please select at least 1 chapter before choosing topics.');
+          return;
+        }
         wizardSelection.selectedChapters = selected;
+        // Back from Topics may change chapters; discard selections outside
+        // the newly chosen chapters rather than submitting hidden stale topics.
+        wizardSelection.selectedTopics = wizardSelection.selectedTopics.filter(
+          key => selected.some(chapter => key.startsWith(chapter + '|||'))
+        );
+        renderTopicOptions(wizardSelection.selectedSubjects);
+        setWizardStep(32);
+        return;
       }
+      // Custom Quiz deliberately permits no chapter choice: all selected subjects.
+      wizardSelection.selectedChapters = selected.length ? selected : ['All Chapters'];
       setWizardStep(4);
     }
 
@@ -2126,12 +1363,12 @@
       container.innerHTML = '';
       const selected = new Set(wizardSelection.selectedTopics);
       subjects.forEach(subject => {
-        const chapters = pmdcSyllabus[subject] || {};
         const topicItems = [];
-        Object.keys(chapters).forEach(ch => chapters[ch].forEach(topic => topicItems.push({subject, chapter:ch, topic})));
-        mcqQuestionBank.filter(q => q.subject === subject && q.topic).forEach(q => topicItems.push({subject, chapter:q.chapter || 'General Chapter', topic:q.topic}));
-        const unique = [...new Map(topicItems.map(x => [`${x.subject}|||${x.chapter}|||${x.topic}`, x])).values()];
-        if (!unique.length) unique.push({subject, chapter:'General Chapter', topic:'General Topic'});
+        mcqQuestionBank.filter(q => q.subject === subject).forEach(q =>
+          topicItems.push({subject, chapter:q.chapter || 'General Chapter', topic:q.topic || 'General Topic'}));
+        const unique = [...new Map(topicItems.map(x => [`${x.subject}|||${x.chapter}|||${x.topic}`, x])).values()]
+          .filter(item => wizardSelection.scope !== 'topic-wise' ||
+            wizardSelection.selectedChapters.includes(`${item.subject}|||${item.chapter}`));
         unique.forEach(item => {
           const key = `${item.subject}|||${item.chapter}|||${item.topic}`;
           const label = document.createElement('label');
@@ -2152,23 +1389,26 @@
       const selected = Array.from(document.querySelectorAll('.topic-chk:checked')).map(c => c.value);
       if (!selected.length) { alert('Please select at least 1 topic.'); return; }
       wizardSelection.selectedTopics = selected;
-      wizardSelection.selectedChapters = [];
+      // Preserve the selected chapter scope for Back navigation and saved test metadata.
       setWizardStep(4);
     }
 
     function setMcqCount(count) {
-      const n = Math.max(1, Math.min(1000, parseInt(count, 10) || 1));
+      const n = Number(count);
+      if (!Number.isSafeInteger(n) || n < 1 || n > 100000) return;
       wizardSelection.mcqCount = n;
       const input = document.getElementById('custom-mcq-count');
-      if (input) input.value = n;
+      if (input) input.value = String(n);
       document.querySelectorAll('.mcq-cnt-btn').forEach(btn => btn.classList.remove('border-red-500','bg-red-950/40','text-white'));
       updateWizardAvailableCount();
       updateSummaryBox();
     }
 
     function setCustomMcqCount(value) {
-      const n = Math.max(1, Math.min(1000, parseInt(value, 10) || 1));
-      wizardSelection.mcqCount = n;
+      // An empty/invalid field is not an implicit 1-question exam.
+      const raw = String(value).trim();
+      const n = /^[1-9]\d*$/.test(raw) ? Number(raw) : 0;
+      wizardSelection.mcqCount = Number.isSafeInteger(n) && n <= 100000 ? n : 0;
       document.querySelectorAll('.mcq-cnt-btn').forEach(btn => btn.classList.remove('border-red-500','bg-red-950/40','text-white'));
       updateWizardAvailableCount();
       updateSummaryBox();
@@ -2193,16 +1433,18 @@
       const mode = document.getElementById('summary-mode');
       if (!bank) return;
       bank.innerText = wizardSelection.bank;
-      scope.innerText = wizardSelection.scope === 'custom-mix' ? 'Custom Mix' : wizardSelection.scope.replaceAll('-', ' ');
+      scope.innerText = wizardSelection.scope === 'custom-mix' ? 'Custom Quiz' : (wizardSelection.scope === 'subject-wise' ? 'One or Multiple Subjects' : wizardSelection.scope.replaceAll('-', ' '));
       subject.innerText = wizardSelection.selectedSubjects?.length ? wizardSelection.selectedSubjects.join(', ') : wizardSelection.subject;
       const filters = wizardSelection.selectedTopics?.length ? `${wizardSelection.selectedTopics.length} topic(s)` : (wizardSelection.selectedChapters?.length ? `${wizardSelection.selectedChapters.length} chapter selection(s)` : 'All');
       chapter.innerText = filters;
-      mode.innerText = `${wizardSelection.mcqCount} MCQs | ${wizardSelection.testMode === 'tutor' ? 'Tutor' : 'Timed'}`;
+      mode.innerText = `${wizardSelection.mcqCount > 0 ? wizardSelection.mcqCount : '—'} MCQs | ${wizardSelection.testMode === 'tutor' ? 'Tutor' : 'Timed'}`;
     }
 
     function updateWizardProgress(pct, text) {
       document.getElementById('wizard-progress').style.width = `${pct}%`;
-      document.getElementById('wizard-step-indicator').innerText = text;
+      const badge = document.getElementById('wizard-step-indicator');
+      badge.innerText = text;
+      badge.dataset.mobileLabel = /^Step \d+[ab]?/.exec(text)?.[0] || text;
     }
 
     function getFilteredQuestionPool() {
@@ -2220,7 +1462,7 @@
           return wizardSelection.selectedChapters.includes(key);
         }
         return true;
-      });
+      }).filter(q => !wizardQuestionFiltersActive || window.SJNPracticeFilters?.matches(q.id) === true);
     }
 
     function shuffleArray(arr) {
@@ -2235,23 +1477,58 @@
     function updateWizardAvailableCount() {
       const hint = document.getElementById('available-count-hint');
       if (!hint) return;
-      const pool = getFilteredQuestionPool();
-      hint.innerText = `${pool.length} question(s) available in this selection. You requested ${wizardSelection.mcqCount}.`;
-    }
-
-    function launchGeneratedQuiz() {
-      const pool = getFilteredQuestionPool();
-      if (!pool.length) {
-        alert('No MCQs match your selected subjects/chapters/topics. Please broaden your selection or add questions to the bank.');
+      if (wizardQuestionFiltersActive && window.SJNPracticeFilters?.status() !== 'ready') {
+        hint.innerText = 'Checking your saved question history before starting a test.';
         return;
       }
-      if (wizardSelection.mcqCount > pool.length) {
+      const pool = getFilteredQuestionPool();
+      hint.innerText = `${pool.length} question(s) available in this selection. ${wizardSelection.mcqCount > 0 ? 'You requested ' + wizardSelection.mcqCount + '.' : 'Choose a number of MCQs to start.'}`;
+    }
+
+    function launchGeneratedQuiz(preselectedQuestions = null) {
+      // Do not start a test that cannot be saved with permanent revision IDs.
+      // Tutor and Timed modes use the same database-only preflight.
+      // loadContent() keeps this active bank empty until verified data loads.
+      // The scoped loader flag is deliberately not accessed in this global
+      // launch function: it is private to the later auth IIFE.
+      if (!mcqQuestionBank.length ||
+          mcqQuestionBank.some(q => !Number.isSafeInteger(q.revisionId) || q.revisionId < 1)) {
+        alert('Database questions are not ready. Please use Retry loading questions on your Dashboard or Create Test page.');
+        return;
+      }
+      const retaking = Array.isArray(preselectedQuestions);
+      if (!retaking && wizardQuestionFiltersActive &&
+          window.SJNPracticeFilters?.status() !== 'ready') {
+        alert('Question filters are not ready. Please retry loading your question history.');
+        return;
+      }
+      const pool = retaking ? preselectedQuestions : getFilteredQuestionPool();
+      if (!pool.length) {
+        alert('No MCQs match this test selection. Please check the question bank.');
+        return;
+      }
+      if (!retaking && (!Number.isSafeInteger(wizardSelection.mcqCount) || wizardSelection.mcqCount < 1)) {
+        alert('Please choose a valid number of MCQs before starting.');
+        return;
+      }
+      if (retaking) {
+        const canonical = new Map(mcqQuestionBank.map(q => [Number(q.id),q]));
+        if (pool.length > 200 || pool.some(q => canonical.get(Number(q.id)) !== q) ||
+            new Set(pool.map(q => q.id)).size !== pool.length) {
+          alert('Unable to verify the original test questions. Nothing was started.');
+          return;
+        }
+      } else if (wizardSelection.mcqCount > pool.length) {
         alert(`Only ${pool.length} MCQs are available in this selection. Please choose ${pool.length} or fewer.`);
         return;
       }
-      currentQuizList = shuffleArray(pool).slice(0, wizardSelection.mcqCount);
+      if (!retaking) historyRetakeTitle = null;
+      currentQuizList = retaking ? pool.slice() : shuffleArray(pool).slice(0, wizardSelection.mcqCount);
       currentMcqIndex = 0;
       userAnswers = new Array(currentQuizList.length).fill(null);
+      currentSubmissionKey = window.crypto?.randomUUID?.() || null;
+      savedAttemptOutcome = null;
+      currentQuizStartedAt = Date.now();
       switchModule('quiz');
       renderCurrentQuestion();
       if (wizardSelection.testMode === 'timed') {
@@ -2266,6 +1543,7 @@
     }
 
     function startQuick5Mcqs() {
+      wizardQuestionFiltersActive = false;
       wizardSelection = {
         bank: 'MDCAT Practice Question Bank', scope: 'all-subjects', subject: 'All Subjects',
         selectedSubjects: getAvailableSubjects(), selectedChapters: ['All Chapters'], selectedTopics: [],
@@ -2359,58 +1637,21 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
 
     function finishQuiz() {
       if (quizTimerInterval) clearInterval(quizTimerInterval);
-
-      let correctCount = 0;
-      currentQuizList.forEach((q, idx) => {
-        if (userAnswers[idx] === q.correctIndex) {
-          correctCount++;
-        }
-      });
-
+      const correctCount = currentQuizList.reduce((n, q, idx) =>
+        n + (userAnswers[idx] === q.correctIndex ? 1 : 0), 0);
       const totalAttempted = currentQuizList.length;
-      sjnProfile.mcqsAttempted += totalAttempted;
-      sjnProfile.correctAnswers += correctCount;
-      updateSubjectStats();
-      updateStudyStreak();
+      if (!totalAttempted) return;
 
-      // Update Rank Logic
-      if (sjnProfile.mcqsAttempted >= 50 && sjnProfile.correctAnswers / sjnProfile.mcqsAttempted >= 0.8) {
-        sjnProfile.rank = 'Doctor Status 🎓';
-      } else if (sjnProfile.mcqsAttempted >= 25) {
-        sjnProfile.rank = 'Champion 🔴';
-      } else if (sjnProfile.mcqsAttempted >= 10) {
-        sjnProfile.rank = 'Cadet ⚫';
-      }
-
-      saveProfileToStorage();
-      updateGlobalProfileUI();
-
-      // Show Results
+      // Display this session's result, but never add a browser-wide history entry.
+      // The authenticated server will save the attempt and then refresh the totals.
       document.getElementById('res-total').innerText = totalAttempted;
       document.getElementById('res-correct').innerText = correctCount;
-      document.getElementById('res-accuracy').innerText = `${Math.round((correctCount / totalAttempted) * 100)}%`;
+      document.getElementById('res-accuracy').innerText =
+        Math.round((correctCount / totalAttempted) * 100) + '%';
       switchModule('results');
-
-      // Log History
-      sjnProfile.historyLogs.push({
-        title: wizardSelection.bank,
-        subject: wizardSelection.subject,
-        mode: wizardSelection.testMode,
-        score: `${correctCount}/${totalAttempted}`,
-        accuracy: `${Math.round((correctCount / totalAttempted) * 100)}%`,
-        date: new Date().toLocaleString(),
-        chapters: wizardSelection.selectedChapters || [],
-        topics: wizardSelection.selectedTopics || []
-      });
-      saveProfileToStorage();
-      renderHistoryTable();
     }
 
-    function saveProfileToStorage() {
-      localStorage.setItem('sjn_student_profile', JSON.stringify(sjnProfile));
-    }
-
-    function updateGlobalProfileUI() {
+        function updateGlobalProfileUI() {
       const accuracy = sjnProfile.mcqsAttempted > 0 
         ? Math.round((sjnProfile.correctAnswers / sjnProfile.mcqsAttempted) * 100) 
         : 0;
@@ -2428,28 +1669,57 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     }
 
     function renderHistoryTable() {
-      const tbody = document.getElementById('history-table-body');
-      tbody.innerHTML = '';
-      if (sjnProfile.historyLogs.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">No practice tests completed yet.</td></tr>`;
+      if (window.SJNHistory) {
+        window.SJNHistory.render(sjnProfile.historyLogs, historyLoadStatus);
         return;
       }
-
-      sjnProfile.historyLogs.forEach(log => {
+      const tbody = document.getElementById('history-table-body');
+      tbody.replaceChildren();
+      const infoRow = message => {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 5;
+        td.className = 'p-4 text-center text-gray-400';
+        td.textContent = message;
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        return td;
+      };
+      if (historyLoadStatus === 'loading') {
+        infoRow('Loading your test history…');
+        return;
+      }
+      if (historyLoadStatus === 'error') {
+        const cell = infoRow('Unable to load your saved test history. ');
+        const retry = document.createElement('button');
+        retry.type = 'button';
+        retry.textContent = 'Retry';
+        retry.className = 'ml-2 text-red-400 underline';
+        retry.addEventListener('click', () => window.reloadStudentHistory());
+        cell.appendChild(retry);
+        return;
+      }
+      if (!sjnProfile.historyLogs.length) {
+        infoRow('No practice tests completed yet.');
+        return;
+      }
+      const classes = ['p-3 font-semibold text-white', 'p-3 text-gray-300',
+        'p-3 uppercase text-[10px] font-bold text-red-400',
+        'p-3 text-emerald-400 font-bold', 'p-3 font-bold'];
+      for (const log of sjnProfile.historyLogs) {
         const tr = document.createElement('tr');
         tr.className = 'border-b border-sjn-border hover:bg-zinc-800/40';
-        tr.innerHTML = `
-          <td class="p-3 font-semibold text-white">${log.title}</td>
-          <td class="p-3 text-gray-300">${log.subject}</td>
-          <td class="p-3 uppercase text-[10px] font-bold text-red-400">${log.mode}</td>
-          <td class="p-3 text-emerald-400 font-bold">${log.score}</td>
-          <td class="p-3 font-bold">${log.accuracy}</td>
-        `;
+        [log.title, log.subject, log.mode, log.score, log.accuracy].forEach((value, i) => {
+          const td = document.createElement('td');
+          td.className = classes[i];
+          td.textContent = String(value ?? '');
+          tr.appendChild(td);
+        });
         tbody.appendChild(tr);
-      });
+      }
     }
 
-    function startTimer(seconds) {
+        function startTimer(seconds) {
       let remaining = seconds;
       const display = document.getElementById('quiz-timer');
       if (quizTimerInterval) clearInterval(quizTimerInterval);
@@ -2559,25 +1829,11 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       const type = document.getElementById('admin-content-type').value;
 
       if (type === 'mcq') {
-        const newMcq = {
-          id: mcqQuestionBank.length + 1,
-          bank: document.getElementById('mcq-bank-input').value,
-          subject: document.getElementById('mcq-subj-input').value,
-          chapter: document.getElementById('mcq-chapter-input').value || 'Chapter 1',
-          topic: 'General Topic',
-          question: document.getElementById('mcq-stmt-input').value || 'Sample Question',
-          options: [
-            document.getElementById('mcq-opt0').value || 'Option A',
-            document.getElementById('mcq-opt1').value || 'Option B',
-            document.getElementById('mcq-opt2').value || 'Option C',
-            document.getElementById('mcq-opt3').value || 'Option D'
-          ],
-          correctIndex: parseInt(document.getElementById('mcq-correct-idx').value) || 0,
-          explanation: document.getElementById('mcq-exp-input').value || 'Explanation'
-        };
-        mcqQuestionBank.push(newMcq);
-        localStorage.setItem('sjn_mcqQuestionBank', JSON.stringify(mcqQuestionBank));
-        alert("MCQ added successfully to Question Bank!");
+        // The old development form only edited this browser's memory, creating
+        // unsavable questions with no DB revision. Publishing belongs to the
+        // future authenticated, role-enforced Admin Panel.
+        alert('MCQ publishing is not available in this development form. Authorized admins will publish questions through the secure Admin Panel.');
+        return;
       } else if (type === 'course') {
         const newCourse = {
           title: document.getElementById('course-title-input').value || 'New MDCAT Course',
@@ -2655,7 +1911,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       if (!q) return;
       const idx = bookmarkedMcqs.findIndex(id => String(id) === String(q.id));
       if (idx >= 0) bookmarkedMcqs.splice(idx, 1); else bookmarkedMcqs.push(q.id);
-      localStorage.setItem('sjn_bookmarked_mcqs', JSON.stringify(bookmarkedMcqs));
+      // Do not cache student bookmarks under a browser-wide key.
       updateBookmarkButton();
     }
 
@@ -2669,27 +1925,55 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
 
   </script>
 
-  <!-- Student Authentication -->
-  <div id="auth-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[80] hidden items-center justify-center p-4">
-    <div class="bg-sjn-card border border-sjn-border rounded-2xl max-w-md w-full p-6 space-y-5">
-      <div class="flex items-center justify-between">
-        <div><span class="text-xs text-red-400 font-bold uppercase">Student Account</span><h3 id="auth-title" class="text-xl font-black text-white">Login</h3></div>
-        <button onclick="closeAuthModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div id="auth-error" class="hidden p-3 rounded-xl bg-red-950/40 border border-red-800/40 text-red-300 text-xs"></div>
-      <div id="register-name-wrap" class="hidden"><label class="text-xs text-gray-400">Full Name</label><input id="auth-name" class="mt-1 w-full bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white" placeholder="Your name"></div>
-      <div><label class="text-xs text-gray-400">Email</label><input id="auth-email" type="email" class="mt-1 w-full bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white" placeholder="student@example.com"></div>
-      <div><label class="text-xs text-gray-400">Password</label><input id="auth-password" type="password" class="mt-1 w-full bg-zinc-900 border border-sjn-border rounded-xl p-3 text-white" placeholder="Minimum 8 characters"></div>
-      <button onclick="submitAuth()" id="auth-submit" class="w-full py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-sm">Login</button>
-      <button onclick="toggleAuthMode()" id="auth-toggle" class="w-full text-xs text-gray-400 hover:text-white">Create a new student account</button>
-    </div>
-  </div>
-
+  <!-- Authentication is exclusively handled on landing.html. -->
+  <script src="/session-coordination.js"></script>
   <script>
   (() => {
     const API = '/api';
-    let authMode = 'login';
+    // Accept an old access token once for migration, but don't keep tokens in localStorage.
     let authToken = localStorage.getItem('sjn_auth_token') || '';
+    localStorage.removeItem('sjn_auth_token');
+    let refreshPromise = null;
+    let initialAccount = null;
+    let sessionExpiresAt = null;
+    let expiryTimer = null;
+    function expireSessionIfNeeded() {
+      if (!sessionExpiresAt || Date.now() < sessionExpiresAt) return;
+      clearTimeout(expiryTimer);
+      sessionExpiresAt = null;
+      authToken = '';
+      currentUser = null;
+      localStorage.removeItem('sjn_auth_token');
+      // Expired older tabs must not clear a more recently logged-in student.
+      coverPrivateWorkspace();
+      window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));
+    }
+    function scheduleSessionExpiry(value) {
+      const expiry = Number(value);
+      if (!Number.isSafeInteger(expiry)) throw new Error('Missing session expiry.');
+      sessionExpiresAt = expiry;
+      clearTimeout(expiryTimer);
+      expiryTimer = setTimeout(expireSessionIfNeeded, Math.max(0, expiry - Date.now()));
+      expireSessionIfNeeded();
+    }
+    // Merely switching browser tabs must never cover or reload an active quiz.
+    // Check the latest local account-change signal synchronously on return:
+    // a sleeping tab may have missed the normal storage event.
+    window.addEventListener('focus', () => {
+      if (checkForAccountChange()) return;
+      expireSessionIfNeeded();
+    });
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        if (checkForAccountChange()) return;
+        expireSessionIfNeeded();
+      }
+    });
+    window.addEventListener('pageshow', e => {
+      if (checkForAccountChange()) return;
+      // BFCache restores, unlike tab switching, can revive old page state.
+      if (e.persisted && currentUser) void verifyReturnedTab();
+    });
     let currentUser = null;
     let remoteContentLoaded = false;
     let selectedCourseId = null;
@@ -2697,117 +1981,527 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     let selectedResourceId = null;
     let paperSourceFilter = null;
 
+    // Stage 3 student question filters; the only source is authenticated,
+    // read-only, student-owned completed history and current bookmarks.
+    // No per-answer writes, no localStorage cache and no Autosave.
+    window.SJNPracticeFilters = (() => {
+      const names = ['unused','incorrect','skipped','marked','correct'];
+      let selected = new Set(['unused']);
+      let latest = new Map();
+      let marked = new Set();
+      let phase = 'idle';
+      let owner = null;
+      let generation = 0;
+      let pending = null;
+      function render() {
+        const panel = document.getElementById('sjn-question-filters');
+        if (!panel) return;
+        panel.classList.toggle('hidden', !wizardQuestionFiltersActive);
+        if (!wizardQuestionFiltersActive) return;
+        for (const button of panel.querySelectorAll('[data-sjn-filter]'))
+          button.setAttribute('aria-pressed', String(selected.has(button.dataset.sjnFilter)));
+        const note = document.getElementById('sjn-filter-status');
+        const retry = document.getElementById('sjn-filter-retry');
+        retry.classList.toggle('hidden', phase !== 'error');
+        note.textContent = phase === 'loading' ? 'Checking your completed question history…'
+          : phase === 'error' ? 'Could not verify your question history. Retry to start a test.'
+          : phase !== 'ready' ? 'Your question history must be verified before starting.'
+          : 'Showing questions matching any selected filter, without duplicates.';
+      }
+      function refreshCount() {
+        render();
+        if (wizardQuestionFiltersActive && wizardSelection.currentStepNum === 4) {
+          updateWizardAvailableCount();
+          updateSummaryBox();
+        }
+      }
+      function invalidate() {
+        ++generation;
+        phase = 'idle';
+        owner = null;
+        latest = new Map();
+        marked = new Set();
+        pending = null;
+        refreshCount();
+      }
+      function resetSession() {
+        selected = new Set(['unused']);
+        invalidate();
+      }
+      function resetSelection() {
+        selected = new Set(['unused']);
+        refreshCount();
+      }
+      function matches(id) {
+        if (!wizardQuestionFiltersActive) return true;
+        if (phase !== 'ready' || owner !== currentUser?.id || !selected.size) return false;
+        const key = Number(id);
+        const outcome = latest.get(key);
+        return (selected.has('unused') && !latest.has(key)) ||
+          (selected.has('marked') && marked.has(key)) ||
+          (outcome != null && selected.has(outcome));
+      }
+      async function load() {
+        render();
+        if (!wizardQuestionFiltersActive || !currentUser) return;
+        if (phase === 'ready' && owner === currentUser.id) return;
+        if (phase === 'loading' && pending) return pending;
+        const expected = currentUser.id;
+        const ticket = ++generation;
+        phase = 'loading';
+        refreshCount();
+        pending = (async () => {
+          try {
+            const data = await api('/practice/question-status');
+            if (ticket !== generation || currentUser?.id !== expected) return;
+            if (data?.userId !== expected || !Array.isArray(data.latest) ||
+                !Array.isArray(data.marked))
+              throw new Error('Student history identity is not verified.');
+            const newLatest = new Map();
+            for (const pair of data.latest) {
+              if (!Array.isArray(pair) || pair.length !== 2 ||
+                  !Number.isSafeInteger(pair[0]) || pair[0] < 1 ||
+                  !['correct','incorrect','skipped'].includes(pair[1]) ||
+                  newLatest.has(pair[0])) throw new Error('Invalid question history.');
+              newLatest.set(pair[0],pair[1]);
+            }
+            const newMarked = new Set();
+            for (const id of data.marked) {
+              if (!Number.isSafeInteger(id) || id < 1)
+                throw new Error('Invalid marked question.');
+              newMarked.add(id);
+            }
+            if (ticket !== generation || currentUser?.id !== expected) return;
+            latest = newLatest;
+            marked = newMarked;
+            owner = expected;
+            phase = 'ready';
+          } catch (error) {
+            if (ticket !== generation || currentUser?.id !== expected) return;
+            phase = 'error';
+            owner = null;
+            latest = new Map();
+            marked = new Set();
+            console.warn('Question filters unavailable:', error?.message || error);
+          } finally {
+            if (ticket === generation) { pending = null; refreshCount(); }
+          }
+        })();
+        return pending;
+      }
+      function toggle(value) {
+        if (!wizardQuestionFiltersActive || !names.includes(value)) return;
+        // At least one filter must remain active; never turn a blank set into all.
+        if (selected.has(value)) {
+          if (selected.size === 1) return;
+          selected.delete(value);
+        } else selected.add(value);
+        refreshCount();
+      }
+      for (const button of document.querySelectorAll('#sjn-question-filters [data-sjn-filter]'))
+        button.addEventListener('click', () => toggle(button.dataset.sjnFilter));
+      document.getElementById('sjn-filter-retry')?.addEventListener('click', () => { void load(); });
+      return { load, matches, invalidate, resetSession, resetSelection,
+        status: () => phase === 'ready' && owner !== currentUser?.id ? 'idle' : phase };
+    })();
+
+
+    function renewAccessToken(bootstrap = false) {
+      if (!refreshPromise) {
+        refreshPromise = (async () => {
+          const { response, data } = await SJNSessionCoord.withCookieLock(async () => {
+            const response = await fetch(API + '/auth/refresh' + (bootstrap ? '?bootstrap=1' : ''), {
+              method: 'POST', credentials: 'same-origin', cache: 'no-store'
+            });
+            return { response, data: await response.json().catch(() => ({})) };
+          });
+          if (response.status === 401) { authToken = ''; return false; }
+          if (!response.ok) throw new Error(data.error || 'Unable to renew login. Please retry.');
+          if (!data.token || !data.userId) throw new Error('Refresh returned incomplete session.');
+          if (currentUser && currentUser.id !== data.userId) {
+            coverPrivateWorkspace();
+            window.location.replace(SJNPreviewAuthRoute.to('/index.html'));
+            return false;
+          }
+          authToken = data.token;
+          scheduleSessionExpiry(data.expiresAt);
+          if (bootstrap && data.user) initialAccount = data;
+          return true;
+        })().finally(() => { refreshPromise = null; });
+      }
+      return refreshPromise;
+    }
+
     async function api(path, options = {}) {
       const headers = { ...(options.headers || {}) };
+      const body = options.body && typeof options.body !== 'string'
+        ? JSON.stringify(options.body) : options.body;
+      if (options.body && typeof options.body !== 'string') headers['Content-Type'] = 'application/json';
+      const request = () => fetch(API + path, {
+        ...options, body, credentials: 'same-origin', headers
+      });
       if (authToken) headers.Authorization = `Bearer ${authToken}`;
-      if (options.body && typeof options.body !== 'string') {
-        headers['Content-Type'] = 'application/json';
-        options.body = JSON.stringify(options.body);
+      let response = await request();
+      // A denied authenticated request is safe to retry once after renewal.
+      if (response.status === 401 && !path.startsWith('/auth/')) {
+        if (await renewAccessToken()) {
+          headers.Authorization = `Bearer ${authToken}`;
+          response = await request();
+        }
       }
-      const r = await fetch(API + path, { ...options, headers });
-      const data = await r.json().catch(() => ({}));
-      if (!r.ok) throw new Error(data.error || 'Request failed.');
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const error = new Error(data.error || 'Request failed.');
+        error.status = response.status;
+        throw error;
+      }
       return data;
     }
 
-    window.openAuthModal = function(mode = 'login') {
-      authMode = mode;
-      document.getElementById('auth-modal').classList.remove('hidden');
-      document.getElementById('auth-modal').classList.add('flex');
-      updateAuthModeUI();
-    };
-    window.closeAuthModal = function() {
-      document.getElementById('auth-modal').classList.add('hidden');
-      document.getElementById('auth-modal').classList.remove('flex');
-    };
-    window.toggleAuthMode = function() { authMode = authMode === 'login' ? 'register' : 'login'; updateAuthModeUI(); };
-    function updateAuthModeUI() {
-      const register = authMode === 'register';
-      document.getElementById('auth-title').innerText = register ? 'Create Student Account' : 'Login';
-      document.getElementById('auth-submit').innerText = register ? 'Create Account' : 'Login';
-      document.getElementById('auth-toggle').innerText = register ? 'Already have an account? Login' : 'Create a new student account';
-      document.getElementById('register-name-wrap').classList.toggle('hidden', !register);
-      document.getElementById('auth-error').classList.add('hidden');
+    let signingOut = false;
+    function coverWorkspaceOverlay() {
+      document.getElementById('session-guard').classList.remove('hidden');
     }
-
-    window.submitAuth = async function() {
-      const error = document.getElementById('auth-error');
-      error.classList.add('hidden');
-      try {
-        const body = { email: document.getElementById('auth-email').value.trim(), password: document.getElementById('auth-password').value };
-        if (authMode === 'register') body.name = document.getElementById('auth-name').value.trim();
-        const data = await api(authMode === 'register' ? '/auth/register' : '/auth/login', { method: 'POST', body });
-        authToken = data.token; currentUser = data.user; localStorage.setItem('sjn_auth_token', authToken);
-        closeAuthModal(); await loadAccount();
-      } catch (e) { error.innerText = e.message; error.classList.remove('hidden'); }
-    };
-
-    window.logoutUser = function() {
+    function coverPrivateWorkspace() {
+      window.SJNPracticeFilters?.resetSession();
+      wizardQuestionFiltersActive = false;
+      coverWorkspaceOverlay();
       authToken = '';
-      localStorage.removeItem('sjn_auth_token');
+      initialAccount = null;
       currentUser = null;
-      loadAccount(); 
-      window.location.replace("/landing.html")
-    };
+      sjnProfile = emptyStudentProfile();
+      bookmarkedMcqs = [];
+      historyLoadStatus = 'loading';
+      clearTimeout(expiryTimer);
+      sessionExpiresAt = null;
+    }
+    let returnCheck = null;
+    function verifyReturnedTab() {
+      if (returnCheck) return returnCheck;
+      if (!currentUser || signingOut) return Promise.resolve();
+      const expectedUserId = currentUser.id;
+      const expectedExpiry = sessionExpiresAt;
+      coverWorkspaceOverlay();
+      returnCheck = (async () => {
+        try {
+          const response = await SJNSessionCoord.status();
+          if (response.status === 401) {
+            coverPrivateWorkspace();
+            window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));
+            return;
+          }
+          if (!response.ok) throw new Error('Session check unavailable.');
+          const active = await response.json();
+          if (active.userId !== expectedUserId || active.expiresAt !== expectedExpiry) {
+            coverPrivateWorkspace();
+            window.location.replace(SJNPreviewAuthRoute.to('/index.html'));
+            return;
+          }
+          if (!document.hidden && currentUser?.id === expectedUserId) {
+            document.getElementById('session-guard-message').classList.add('hidden');
+            document.getElementById('session-guard-retry').classList.add('hidden');
+            document.getElementById('session-guard').classList.add('hidden');
+          }
+        } catch (error) {
+          const label = document.getElementById('session-guard-message');
+          label.textContent = 'Unable to verify your session. Check your connection and retry.';
+          label.classList.remove('hidden');
+          document.getElementById('session-guard-retry').classList.remove('hidden');
+          console.warn('Unable to recheck student session:', error);
+        }
+      })().finally(() => { returnCheck = null; });
+      return returnCheck;
+    }
+    // A storage notification may be delayed while the browser suspends a tab.
+    // A synchronous marker comparison catches it when that tab is reactivated.
+    // No overlay or request is needed when nothing about the login has changed.
+    let knownAuthSignal = SJNSessionCoord.latestSignal();
+    let accountChangePending = false;
+    function checkForAccountChange() {
+      if (accountChangePending) return true;
+      const latest = SJNSessionCoord.latestSignal();
+      if (latest === knownAuthSignal) return false;
+      accountChangePending = true;
+      coverPrivateWorkspace();
+      let type = null;
+      try { type = JSON.parse(latest)?.type; } catch (_) {}
+      window.location.replace(SJNPreviewAuthRoute.to(type === 'logout' ? '/landing.html' : '/index.html'));
+      return true;
+    }
+    SJNSessionCoord.subscribe(event => {
+      if (accountChangePending) return;
+      accountChangePending = true;
+      coverPrivateWorkspace();
+      window.location.replace(SJNPreviewAuthRoute.to(event.type === 'login' ? '/index.html' : '/landing.html'));
+    });
 
     window.handleDesktopClick = function() {
-      if (currentUser) {
-        // If logged in, toggle the dropdown menu
-        const drop = document.getElementById('desktop-dropdown');
-        drop.classList.contains('hidden') ? drop.classList.remove('hidden') : drop.classList.add('hidden');
-      } else {
-        // If logged out, open the normal login modal
-        openAuthModal('login');
+      document.getElementById('desktop-dropdown').classList.toggle('hidden');
+    };
+    function updateDashboardAccountUI(user) {
+      const name = user?.name || 'Student';
+      for (const id of ['account-button-label', 'dropdown-name', 'mobile-user-name']) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = name;
+      }
+    }
+    window.logoutUser = async function() {
+      if (signingOut) return;
+      signingOut = true;
+      try {
+        const response = await SJNSessionCoord.withCookieLock(() =>
+          fetch(API + '/auth/logout', {
+            method: 'POST', credentials: 'same-origin', cache: 'no-store'
+          })
+        );
+        if (!response.ok) throw new Error('Unable to sign out. Please retry.');
+        window.SJNExamRecovery?.forget();
+        authToken = '';
+        currentUser = null;
+        localStorage.removeItem('sjn_auth_token');
+        SJNSessionCoord.signal('logout');
+        localStorage.setItem('sjn_logout_event', String(Date.now()));
+        sessionStorage.setItem('sjn_recent_logout', '1');
+        clearTimeout(expiryTimer);
+        sessionExpiresAt = null;
+        window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));
+      } catch (error) {
+        signingOut = false;
+        alert(error.message || 'Unable to sign out. Please retry.');
       }
     };
 
-    function updateAccountUI() {
-      const desktopBtnLabel = document.getElementById('account-button-label');
-      const mobileLoggedOut = document.getElementById('mobile-account-logged-out');
-      const mobileLoggedIn = document.getElementById('mobile-account-logged-in');
-      const mobileUserName = document.getElementById('mobile-user-name');
+    function applyAuthenticatedStats(stats) {
+      sjnProfile.mcqsAttempted = Number(stats?.total || 0);
+      sjnProfile.correctAnswers = Number(stats?.correct || 0);
+      const { mcqsAttempted: total, correctAnswers: correct } = sjnProfile;
+      sjnProfile.rank = total >= 50 && correct / total >= 0.8
+        ? 'Doctor Status 🎓' : total >= 25 ? 'Champion 🔴'
+        : total >= 10 ? 'Cadet ⚫' : 'Beginner 🔴';
+      updateGlobalProfileUI();
+    }
 
-      if (currentUser) {
-        // Show just the user's name on the button (removes the ugly "SIGN OUT" text)
-        desktopBtnLabel.innerText = currentUser.name;
-        document.getElementById('dropdown-name').innerText = currentUser.name;
-        
-        if (mobileLoggedOut) mobileLoggedOut.classList.add('hidden');
-        if (mobileLoggedIn) mobileLoggedIn.classList.remove('hidden');
-        if (mobileUserName) mobileUserName.innerText = currentUser.name;
-      } else {
-        desktopBtnLabel.innerText = 'Login / Register';
-        document.getElementById('desktop-dropdown').classList.add('hidden');
-        
-        if (mobileLoggedOut) mobileLoggedOut.classList.remove('hidden');
-        if (mobileLoggedIn) mobileLoggedIn.classList.add('hidden');
+    async function refreshAuthenticatedStats(expectedStudentId) {
+      const data = await api('/me');
+      if (!currentUser || currentUser.id !== expectedStudentId ||
+          data.user?.id !== expectedStudentId) {
+        throw new Error('The active student changed. Reload your dashboard.');
+      }
+      applyAuthenticatedStats(data.stats);
+    }
+
+    function countStudyStreak(attempts) {
+      const days = new Set(attempts.map(row => String(row.created_at || '').slice(0, 10)));
+      const day = new Date();
+      day.setUTCHours(0, 0, 0, 0);
+      const iso = () => day.toISOString().slice(0, 10);
+      if (!days.has(iso())) day.setUTCDate(day.getUTCDate() - 1);
+      let count = 0;
+      while (days.has(iso())) {
+        count++;
+        day.setUTCDate(day.getUTCDate() - 1);
+      }
+      return count;
+    }
+
+    // History is loaded once per verified student and refreshed ONLY after
+    // a confirmed mutation, a real page bootstrap, or an explicit force.
+    // Never render transient zero counts for ordinary menu navigation.
+    // A generation token prevents an in-flight pre-save response from
+    // overwriting newer saved draft/completed-attempt history.
+    let activeHistoryRequest = null;
+    let latestHistoryRequest = 0;
+    let historyGeneration = 0;
+    let loadedHistoryGeneration = -1;
+    let loadedHistoryStudentId = null;
+    function markStudentHistoryChanged() { historyGeneration++; }
+    async function loadStudentHistory({ fresh = false } = {}) {
+      const expectedStudentId = currentUser?.id;
+      if (!expectedStudentId) return false;
+      if (!fresh && historyLoadStatus === 'ready' &&
+          loadedHistoryStudentId === expectedStudentId &&
+          loadedHistoryGeneration === historyGeneration) return true;
+      if (!fresh && activeHistoryRequest?.studentId === expectedStudentId &&
+          activeHistoryRequest.generation === historyGeneration)
+        return activeHistoryRequest.promise;
+      const requestNumber = ++latestHistoryRequest;
+      const generation = historyGeneration;
+      const request = fetchStudentHistory(expectedStudentId, requestNumber, generation);
+      activeHistoryRequest = { studentId: expectedStudentId, generation, promise: request };
+      try { return await request; }
+      finally {
+        if (activeHistoryRequest?.promise === request) activeHistoryRequest = null;
       }
     }
-    
-    async function loadAccount() {
-      if (!authToken) {
-        currentUser = null;
-        updateAccountUI();
-        return;
+    async function fetchStudentHistory(expectedStudentId, requestNumber, generation) {
+      // Keep already-verified rows visible while an actual write revalidates.
+      // On first load or failed prior load, use the existing loading state.
+      if (historyLoadStatus !== 'ready' || loadedHistoryStudentId !== expectedStudentId) {
+        historyLoadStatus = 'loading';
+        sjnProfile.historyLogs = [];
+        renderHistoryTable();
       }
       try {
-        const data = await api('/me');
-        currentUser = data.user;
-        sjnProfile.mcqsAttempted = Number(data.stats.total || 0);
-        sjnProfile.correctAnswers = Number(data.stats.correct || 0);
-        bookmarkedMcqs = data.bookmarks || [];
+        const payload = await api('/history', { cache: 'no-store' });
+        if (requestNumber !== latestHistoryRequest || generation !== historyGeneration) return false;
+        // The account can change while a tab is awaiting a request.
+        if (!currentUser || currentUser.id !== expectedStudentId ||
+            payload.userId !== expectedStudentId || !Array.isArray(payload.attempts)) {
+          throw new Error('The active student changed. Reload your dashboard.');
+        }
+        const completedLogs = payload.attempts.map(row => {
+          const total = Number(row.total || 0);
+          const correct = Number(row.correct || 0);
+          return {
+            id: Number(row.id),
+            detailsVersion: Number(row.details_version) || 0,
+            title: row.title || 'Practice Test',
+            sourceKind: ['past','sjn','courses','mock'].includes(row.selection_json?.sourceKind)
+              ? row.selection_json.sourceKind : null,
+            subject: row.subject || 'Mixed',
+            subjects: Array.isArray(row.selection_json?.subjects)
+              ? row.selection_json.subjects.filter(x=>typeof x==='string') : [],
+            mode: row.mode || 'tutor',
+            score: correct + '/' + total,
+            accuracy: Math.round(total ? 100 * correct / total : 0) + '%',
+            date: row.created_at,
+            chapters: row.selection_json?.chapters || [],
+            topics: row.selection_json?.topics || []
+          };
+        });
+        // Drafts are listed as In Progress; never counted toward completed
+        // MCQs, scores, analytics or study streaks.
+        const drafts=await api('/practice/drafts', { cache: 'no-store' });
+        if (requestNumber !== latestHistoryRequest || generation !== historyGeneration) return false;
+        if(!currentUser||currentUser.id!==expectedStudentId||
+            drafts.userId!==expectedStudentId||!Array.isArray(drafts.drafts))
+          throw new Error('Unfinished tests could not be verified.');
+        sjnProfile.historyLogs=[
+          ...completedLogs.map(log=>({...log,status:'completed'})),
+          ...drafts.drafts.map(row=>({
+            id:row.id,title:row.title,subject:row.subject,
+            subjects:Array.isArray(row.selection?.subjects)?row.selection.subjects:[],
+            sourceKind:['past','sjn','courses','mock'].includes(row.selection?.sourceKind)
+              ?row.selection.sourceKind:null,
+            mode:row.mode,total:row.total,answered:row.answered,
+            date:row.date,status:'in-progress',score:'—',accuracy:'—',
+            chapters:row.selection?.chapters||[],topics:row.selection?.topics||[]
+          }))
+        ];
+        sjnProfile.streakDays = countStudyStreak(payload.attempts);
+        historyLoadStatus = 'ready';
+        loadedHistoryStudentId = expectedStudentId;
+        loadedHistoryGeneration = generation;
         updateGlobalProfileUI();
-        updateAccountUI();
-      } catch {
-        authToken = ''; localStorage.removeItem('sjn_auth_token'); currentUser = null;
-        updateAccountUI();
+      } catch (error) {
+        if (requestNumber !== latestHistoryRequest || generation !== historyGeneration ||
+            currentUser?.id !== expectedStudentId) return false;
+        historyLoadStatus = 'error';
+        sjnProfile.historyLogs = [];
+        console.warn('Unable to load student history:', error);
+      }
+      if (requestNumber !== latestHistoryRequest || generation !== historyGeneration) return false;
+      renderHistoryTable();
+      return historyLoadStatus === 'ready';
+    }
+    window.reloadStudentHistory = loadStudentHistory;
+
+    async function loadAccount() {
+      const startedAt = performance.now();
+      const guard = document.getElementById('session-guard');
+      try {
+        if (!authToken && !(await renewAccessToken(true))) {
+          window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));
+          return false;
+        }
+        const data = initialAccount || await api('/me');
+        initialAccount = null;
+        if (!data.user) throw Object.assign(new Error('Student account missing.'), { status: 401 });
+        // Another tab may have switched accounts while bootstrap was in flight.
+        // Never reveal an account that is already being replaced.
+        if (accountChangePending || checkForAccountChange()) return false;
+        currentUser = data.user;
+        window.SJNPracticeFilters?.resetSession();
+        wizardQuestionFiltersActive = false;
+        // Start with a clean in-memory account; never use another student's browser profile.
+        sjnProfile = emptyStudentProfile();
+        historyLoadStatus = 'loading';
+        loadedHistoryStudentId = null;
+        loadedHistoryGeneration = -1;
+        historyGeneration++;
+        updateDashboardAccountUI(currentUser);
+        applyAuthenticatedStats(data.stats);
+        bookmarkedMcqs = Array.isArray(data.bookmarks) ? data.bookmarks : [];
+        // A successfully verified background tab must finish opening. Otherwise
+        // it stays stuck behind this guard when brought back into view.
+        guard.classList.add('hidden');
+        console.info('SJN dashboard authenticated in', Math.round(performance.now()-startedAt), 'ms');
+        return true;
+      } catch (error) {
+        if (error.status === 401) {
+          authToken = '';
+          window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));
+          return false;
+        }
+        // Outages must not pretend the user logged out or expose private workspace.
+        document.getElementById('session-guard-message').textContent =
+          'Unable to verify your session. Check your connection and retry.';
+        document.querySelector('.sjn-load-shell')?.remove();
+        document.getElementById('session-guard-message').classList.remove('hidden');
+        document.getElementById('session-guard-retry').classList.remove('hidden');
+        console.warn('Unable to verify student account:', error);
+        return false;
+      }
+    }
+
+    // This is a permanent fail-closed load state, not a staging bypass.
+    // A failed or incomplete bank response must never fall back to stale HTML.
+    let questionBankLoading = false;
+    function setQuestionBankLoadNotice(unavailable) {
+      for (const moduleName of ['dashboard', 'wizard']) {
+        const host = document.getElementById('module-' + moduleName);
+        if (!host) continue;
+        let notice = host.querySelector('.sjn-question-bank-unavailable');
+        if (!unavailable) {
+          if (notice) notice.remove();
+          continue;
+        }
+        if (notice) continue;
+        notice = document.createElement('section');
+        notice.className = 'sjn-question-bank-unavailable rounded-xl border border-amber-700 bg-amber-950/30 p-4 text-sm text-amber-200 space-y-2';
+        notice.setAttribute('role', 'alert');
+        const message = document.createElement('p');
+        message.textContent = 'Questions could not be verified from the database. A test will not start until valid questions load.';
+        const retry = document.createElement('button');
+        retry.type = 'button';
+        retry.className = 'rounded-lg border border-amber-500 px-3 py-2 text-xs font-bold hover:bg-amber-900';
+        retry.textContent = 'Retry loading questions';
+        retry.addEventListener('click', () => { void loadContent(); });
+        notice.append(message, retry);
+        host.prepend(notice);
       }
     }
 
     async function loadContent() {
+      if (questionBankLoading) return;
+      questionBankLoading = true;
+      remoteContentLoaded = false;
+      mcqQuestionBank = [];
       try {
         const data = await api('/content');
-        if (Array.isArray(data.mcqs) && data.mcqs.length > 0) mcqQuestionBank = data.mcqs;
+        const rows = data?.mcqs;
+        const valid = Array.isArray(rows) && rows.length > 0 && rows.every(q =>
+          Number.isSafeInteger(q.id) && q.id > 0 &&
+          Number.isSafeInteger(q.revisionId) && q.revisionId > 0 &&
+          typeof q.bank === 'string' && q.bank.length > 0 &&
+          typeof q.subject === 'string' && q.subject.length > 0 &&
+          typeof q.question === 'string' && q.question.length > 0 &&
+          Array.isArray(q.options) && q.options.length === 4 &&
+          q.options.every(opt => typeof opt === 'string' && opt.trim().length > 0) &&
+          Number.isInteger(q.correctIndex) && q.correctIndex >= 0 && q.correctIndex < 4
+        ) && new Set(rows.map(q => q.id)).size === rows.length;
+        if (!valid) throw new Error('Published database questions are missing or have invalid revision metadata');
+        mcqQuestionBank = rows;
         customCourses = Array.isArray(data.courses) ? data.courses : [];
         pastPapersList = Array.isArray(data.pastPapers) ? data.pastPapers : [];
         window.sjnResources = Array.isArray(data.resources) ? data.resources : [];
@@ -2815,9 +2509,18 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         wizardSelection.selectedSubjects = getAvailableSubjects();
         wizardSelection.subject = wizardSelection.selectedSubjects.length === 1 ? wizardSelection.selectedSubjects[0] : 'All Subjects';
         remoteContentLoaded = true;
+        setQuestionBankLoadNotice(false);
         renderCoursesModule(); renderPastPapersModule(); renderResourcesModule(); renderSubjectChoices(); updateWizardAvailableCount();
-      } catch (e) {
-        console.error(e);
+        // The exam route waits for authenticated identity and validated content.
+        if (window.location.pathname === '/quiz/session') await window.SJNExamRecovery?.restore();
+      } catch (error) {
+        remoteContentLoaded = false;
+        mcqQuestionBank = [];
+        updateWizardAvailableCount();
+        setQuestionBankLoadNotice(true);
+        console.warn('Verified question bank unavailable:', error);
+      } finally {
+        questionBankLoading = false;
       }
     }
 
@@ -2839,6 +2542,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       document.getElementById('course-viewer').innerHTML = `<div class="space-y-5"><div><span class="text-xs text-blue-400 font-bold uppercase">Course</span><h3 class="text-2xl font-black text-white mt-1">${escapeHtml(c.title)}</h3><p class="text-sm text-gray-400 mt-2">${escapeHtml(c.description || '')}</p></div><div class="prose prose-invert max-w-none text-sm text-gray-300 whitespace-pre-wrap">${escapeHtml(c.body || 'Course content has not been added yet.')}</div>${chapters.length ? `<div><h4 class="font-bold text-white mb-2">Chapters / Modules</h4><div class="space-y-2">${chapters.map((x,i)=>`<div class="p-3 bg-zinc-900 rounded-lg border border-sjn-border text-xs"><span class="text-blue-400 font-bold">${i+1}.</span> ${escapeHtml(typeof x === 'string' ? x : x.title || '')}</div>`).join('')}</div></div>` : ''}<button onclick="practiceCourse(${JSON.stringify(c.id)})" class="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-xl text-white font-bold text-sm">Practice this course</button></div>`;
     }
     window.practiceCourse = function(id) {
+      wizardQuestionFiltersActive = false;
       const c = customCourses.find(x => String(x.id) === String(id));
       if (!c) return;
       paperSourceFilter = null;
@@ -2862,6 +2566,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       document.getElementById('pastpaper-viewer').innerHTML=`<div class="space-y-5"><div><span class="text-xs text-amber-400 font-bold uppercase">Past Paper</span><h3 class="text-2xl font-black text-white mt-1">${escapeHtml(p.title)}</h3><p class="text-sm text-gray-400 mt-2">${escapeHtml(p.description || '')}</p></div><div class="grid grid-cols-2 gap-3"><div class="p-4 bg-zinc-900 rounded-xl border border-sjn-border"><div class="text-xs text-gray-500">Year</div><div class="font-bold text-white">${escapeHtml(p.year || '—')}</div></div><div class="p-4 bg-zinc-900 rounded-xl border border-sjn-border"><div class="text-xs text-gray-500">Matching MCQs</div><div class="font-bold text-white">${mcqQuestionBank.filter(q=>q.source===source).length}</div></div></div>${p.pdfUrl ? `<iframe src="${escapeHtml(p.pdfUrl)}" class="w-full h-[520px] rounded-xl border border-sjn-border bg-white"></iframe>` : '<div class="p-4 rounded-xl bg-zinc-900 border border-sjn-border text-xs text-gray-400">No PDF is attached. You can still practice its imported MCQs.</div>'}<button onclick="practicePastPaper(${JSON.stringify(p.id)}, ${JSON.stringify(source)})" class="w-full py-3 bg-amber-600 hover:bg-amber-700 rounded-xl text-white font-bold text-sm">Practice this paper</button></div>`;
     }
     window.practicePastPaper = function(id, source) {
+      wizardQuestionFiltersActive = false;
       paperSourceFilter=source; wizardSelection.bank='Past Papers Question Bank'; wizardSelection.scope='all-subjects'; wizardSelection.selectedSubjects=getAvailableSubjects(); wizardSelection.selectedChapters=['All Chapters']; wizardSelection.selectedTopics=[]; wizardSelection.mcqCount=Math.min(20, getFilteredQuestionPool().length || 1); wizardSelection.currentStepNum=4; switchModule('wizard'); setWizardStep(4); updateWizardAvailableCount(); updateSummaryBox();
     };
 
@@ -2886,7 +2591,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
           const key=`${q.subject}|||${q.chapter||'General Chapter'}`; return wizardSelection.selectedChapters.includes(key);
         }
         return true;
-      });
+      }).filter(q => !wizardQuestionFiltersActive || window.SJNPracticeFilters?.matches(q.id) === true);
     };
 
     window.renderChapterOptions = function(subjects) {
@@ -2897,50 +2602,350 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     };
     window.renderTopicOptions = function(subjects) {
       const container=document.getElementById('topic-options-container'); container.innerHTML=''; const selected=new Set(wizardSelection.selectedTopics||[]);
-      const items=[...new Map(mcqQuestionBank.filter(q=>subjects.includes(q.subject)).map(q=>{const subject=q.subject,chapter=q.chapter||'General Chapter',topic=q.topic||'General Topic';return [`${subject}|||${chapter}|||${topic}`,{subject,chapter,topic}]})).values()];
+      const items=[...new Map(mcqQuestionBank.filter(q=>subjects.includes(q.subject)).map(q=>{const subject=q.subject,chapter=q.chapter||'General Chapter',topic=q.topic||'General Topic';return [`${subject}|||${chapter}|||${topic}`,{subject,chapter,topic}]})).values()]
+        .filter(item=>wizardSelection.scope !== 'topic-wise' || wizardSelection.selectedChapters.includes(`${item.subject}|||${item.chapter}`));
       items.forEach(x=>{const key=`${x.subject}|||${x.chapter}|||${x.topic}`; const label=document.createElement('label'); label.className='flex items-start p-3.5 rounded-xl border border-sjn-border bg-zinc-900 hover:border-amber-500 cursor-pointer'; label.innerHTML=`<input type="checkbox" value="${escapeHtml(key)}" class="topic-chk w-4 h-4 mt-0.5 mr-3" ${selected.has(key)?'checked':''}><span><span class="font-bold text-white block text-xs">🎯 ${escapeHtml(x.topic)}</span><span class="text-[10px] text-gray-400">${escapeHtml(x.subject)} • ${escapeHtml(x.chapter)}</span></span>`; container.appendChild(label);});
       if(!items.length) container.innerHTML='<div class="col-span-2 p-5 text-center text-xs text-gray-500">No topics are available because the question bank is empty.</div>';
     };
-    window.setMcqCount = function(count){const n=Math.max(1,Math.min(100000,parseInt(count,10)||1)); wizardSelection.mcqCount=n; const input=document.getElementById('custom-mcq-count'); if(input)input.value=n; updateWizardAvailableCount(); updateSummaryBox();};
-    window.setCustomMcqCount=window.setMcqCount;
+    // Keep the already validated global count handlers; reassigning them
+    // here previously converted a blank field into an unintended 1 MCQ.
+    // Direct-entry Quick 5, course and paper paths still assign explicit counts.
+    // Do not override setMcqCount or setCustomMcqCount.
     window.startQuick5Mcqs=function(){wizardSelection={bank:'Past Papers Question Bank',scope:'all-subjects',subject:'All Subjects',selectedSubjects:getAvailableSubjects(),selectedChapters:['All Chapters'],selectedTopics:[],mcqCount:5,testMode:'tutor',currentStepNum:4}; paperSourceFilter=null; launchGeneratedQuiz();};
 
     const originalLaunch = window.launchGeneratedQuiz;
-    window.launchGeneratedQuiz = function(){
-      if (!currentUser) { openAuthModal('login'); return; }
-      originalLaunch();
+    window.launchGeneratedQuiz = function(...args){
+      if (!currentUser) { window.location.replace(SJNPreviewAuthRoute.to('/landing.html')); return; }
+      originalLaunch(...args);
+    };
+    window.SJNHistoryLaunchRetake = async function(payload) {
+      wizardQuestionFiltersActive = false;
+      if (!currentUser || !payload?.retakeAvailable || !Array.isArray(payload.items) ||
+          !payload.items.length || !remoteContentLoaded)
+        throw new Error('Retake is unavailable until the verified question bank is ready.');
+      const currentById = new Map(mcqQuestionBank.map(q => [Number(q.id),q]));
+      const questions = payload.items.map(item => {
+        const q=currentById.get(Number(item.mcqId));
+        if (!q || Number(q.revisionId)!==Number(item.revisionId))
+          throw new Error('This question has changed since the previous test. Retake requires the original revision and cannot be started safely.');
+        return q;
+      });
+      if (new Set(questions.map(q=>q.id)).size!==questions.length ||
+          questions.length!==Number(payload.attempt.total))
+        throw new Error('Saved test question order could not be verified.');
+      wizardSelection = {
+        bank: questions[0].bank || 'Past Papers Question Bank',
+        scope: 'all-subjects', subject: payload.attempt.subject || 'All Subjects',
+        selectedSubjects: [...new Set(questions.map(q=>q.subject))],
+        selectedChapters: [], selectedTopics: [], topic: '',
+        mcqCount: questions.length, testMode: payload.attempt.mode === 'timed'?'timed':'tutor',
+        currentStepNum: 4
+      };
+      paperSourceFilter = null;
+      historyRetakeTitle = String(payload.attempt.title || wizardSelection.bank);
+      window.launchGeneratedQuiz(questions);
+    };
+    // Stage A refresh recovery (NOT Autosave): a single tab-scoped record
+    // at test launch/resume. No answer or timer writes on MCQ interactions.
+    // The signed-in user and verified published bank are checked again on reload.
+    const EXAM_RECOVERY_KEY = 'sjn_exam_refresh_v1';
+    const DRAFT_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    function clearExamRecovery() {
+      try { sessionStorage.removeItem(EXAM_RECOVERY_KEY); } catch (_) {}
+    }
+    function writeExamRecovery(value) {
+      try { sessionStorage.setItem(EXAM_RECOVERY_KEY, JSON.stringify(value)); }
+      catch (error) { console.warn('Tab-scoped exam recovery unavailable:', error?.name || 'storage error'); }
+    }
+    function abandonedExamRecovery(message) {
+      clearExamRecovery();
+      window.history.replaceState({ sjnPhase4Preview: true }, '', '/index.html?sjnPhase4Preview=1');
+      switchModule('wizard');
+      if (!document.querySelector('.sjn-exam-recovery-notice')) {
+        const note = document.createElement('p');
+        note.className = 'sjn-exam-preview-note sjn-exam-recovery-notice';
+        note.textContent = message;
+        document.getElementById('module-wizard')?.prepend(note);
+      }
+      return false;
+    }
+    window.SJNExamRecovery = {
+      rememberNew() {
+        if (!currentUser || !currentSubmissionKey || !currentQuizList.length) return;
+        writeExamRecovery({
+          v: 1, owner: currentUser.id, kind: 'new',
+          items: currentQuizList.map(q => ({ mcqId: q.id, revisionId: q.revisionId })),
+          mode: wizardSelection.testMode,
+          subject: wizardSelection.subject, bank: wizardSelection.bank,
+          scope: wizardSelection.scope,
+          subjects: wizardSelection.selectedSubjects,
+          chapters: wizardSelection.selectedChapters,
+          topics: wizardSelection.selectedTopics,
+          title: historyRetakeTitle || null
+        });
+      },
+      rememberDraft(id) {
+        if (!currentUser || typeof id !== 'string' || !DRAFT_ID_PATTERN.test(id)) return;
+        writeExamRecovery({ v: 1, owner: currentUser.id, kind: 'draft', id });
+      },
+      forget: clearExamRecovery,
+      async restore() {
+        // Only full reload of the actual exam route can trigger recovery.
+        if (window.location.pathname !== '/quiz/session') return false;
+        if (!currentUser || !remoteContentLoaded) return false;
+        let record;
+        try { record = JSON.parse(sessionStorage.getItem(EXAM_RECOVERY_KEY) || 'null'); }
+        catch (_) { record = null; }
+        if (!record || record.v !== 1 || record.owner !== currentUser.id)
+          return abandonedExamRecovery('This tab has no verified test to reopen. Please create or resume a test.');
+        if (record.kind === 'draft') {
+          if (typeof record.id !== 'string' || !DRAFT_ID_PATTERN.test(record.id))
+            return abandonedExamRecovery('This saved test reference is invalid. Resume it from Test History.');
+          try {
+            // Server response is student-owned and rechecks every original revision.
+            await window.SJNDrafts.resume(record.id);
+            return true;
+          } catch (error) {
+            console.warn('Saved test could not reopen after refresh:', error?.message || error);
+            return abandonedExamRecovery('Could not reopen this test. Use Test History to resume your last saved progress.');
+          }
+        }
+        if (record.kind !== 'new' || !Array.isArray(record.items) ||
+            record.items.length < 1 || record.items.length > 200 ||
+            !['tutor', 'timed'].includes(record.mode) ||
+            typeof record.bank !== 'string' || !record.bank ||
+            typeof record.subject !== 'string' || !record.subject ||
+            typeof record.scope !== 'string' || record.scope.length > 50 ||
+            (record.title !== null && (typeof record.title !== 'string' || record.title.length > 120)))
+          return abandonedExamRecovery('This test information is invalid. Please create a new test.');
+        const validLabels = items => Array.isArray(items) && items.length <= 200 &&
+          items.every(x => typeof x === 'string' && x.length <= 160);
+        if (!validLabels(record.subjects) || !validLabels(record.chapters) ||
+            !validLabels(record.topics))
+          return abandonedExamRecovery('This test configuration is invalid. Please create a new test.');
+        const currentById = new Map(mcqQuestionBank.map(q => [q.id, q]));
+        const questions = record.items.map(item =>
+          item && Number.isSafeInteger(item.mcqId) && Number.isSafeInteger(item.revisionId) &&
+          item.mcqId > 0 && item.revisionId > 0 &&
+          currentById.get(item.mcqId)?.revisionId === item.revisionId
+            ? currentById.get(item.mcqId) : null);
+        if (questions.some(q => !q) ||
+            new Set(questions.map(q => q.id)).size !== questions.length ||
+            questions.some(q => q.bank !== record.bank) ||
+            !window.SJNPhase4Exam || window.SJNPhase4Exam.isOpen())
+          return abandonedExamRecovery('Original questions are no longer available. Please create a new test.');
+        // A fresh restart, not an answer restore: identical verified question
+        // objects/order, brand-new submission ID, blank choices and timer.
+        wizardQuestionFiltersActive = false;
+        wizardSelection = {
+          bank: record.bank, scope: record.scope, subject: record.subject,
+          selectedSubjects: record.subjects.slice(),
+          selectedChapters: record.chapters.slice(),
+          selectedTopics: record.topics.slice(),
+          mcqCount: questions.length, testMode: record.mode, currentStepNum: 4
+        };
+        historyRetakeTitle = record.title;
+        window.launchGeneratedQuiz(questions);
+        if (!window.SJNPhase4Exam.isOpen())
+          return abandonedExamRecovery('The exam could not reopen. Please create a new test.');
+        return true;
+      }
+    };
+    // Stage A manual drafts: only authenticated student APIs, never localStorage.
+    // No autosave listeners are attached to answer/navigation interactions.
+    window.SJNDrafts = {
+      async save(draft) {
+        if (!currentUser) throw new Error('Sign in to save an unfinished test.');
+        const expected=currentUser.id;
+        const result=await api('/practice/drafts',{method:'PUT',
+          headers:{'X-SJN-Expected-Student':expected},body:draft});
+        if (currentUser?.id!==expected)throw new Error('Account changed while saving.');
+        if (result?.saved === true) markStudentHistoryChanged();
+        return result;
+      },
+      async resume(id) {
+        wizardQuestionFiltersActive = false;
+        if (!currentUser)throw new Error('Sign in to resume.');
+        const expected=currentUser.id;
+        const result=await api('/practice/drafts/'+encodeURIComponent(id));
+        if (currentUser?.id!==expected||result?.userId!==expected)
+          throw new Error('Account changed while loading saved test.');
+        const draft=result?.draft;
+        if (!draft || draft.id!==id || !remoteContentLoaded)
+          throw new Error('Question bank is unavailable; retry after it loads.');
+        if (!Array.isArray(draft.items)||!draft.items.length||
+            !Array.isArray(draft.answers)||draft.answers.length!==draft.items.length||
+            !Array.isArray(draft.checked)||draft.checked.length!==draft.items.length)
+          throw new Error('Saved test questions are incomplete.');
+        const current=new Map(mcqQuestionBank.map(q=>[Number(q.id),q]));
+        const questions=draft.items.map(item=>{
+          const q=current.get(Number(item.mcqId));
+          if(!q||q.revisionId!==Number(item.revisionId))
+            throw new Error('An original MCQ revision is no longer available. Cannot safely resume.');
+          return q;
+        });
+        if(new Set(questions.map(q=>q.id)).size!==questions.length)
+          throw new Error('Saved question order is invalid.');
+        if(window.SJNPhase4Exam?.isOpen?.())throw new Error('Leave the current exam first.');
+        currentQuizList=questions;
+        currentMcqIndex=draft.currentIndex;
+        userAnswers=draft.answers.slice();
+        currentSubmissionKey=draft.submissionKey;
+        savedAttemptOutcome=null;
+        historyRetakeTitle=draft.title;
+        wizardSelection={
+          ...draft.selection,bank:draft.selection?.bank||questions[0].bank,
+          selectedSubjects:Array.isArray(draft.selection?.subjects)?draft.selection.subjects:
+            [...new Set(questions.map(q=>q.subject))],
+          selectedChapters:Array.isArray(draft.selection?.chapters)?draft.selection.chapters:[],
+          selectedTopics:Array.isArray(draft.selection?.topics)?draft.selection.topics:[],
+          mode:draft.mode,testMode:draft.mode,subject:draft.subject,mcqCount:questions.length,
+          currentStepNum:4
+        };
+        window.SJNPhase4Exam.resumeSavedDraft(draft);
+      },
+      refreshHistory(){return loadStudentHistory();}
+    };
+    window.SJNHistoryFetchAttempt = async function(id) {
+      if (!currentUser || !Number.isSafeInteger(id) || id<1)
+        throw new Error('Sign in to see your test history.');
+      const expectedStudentId=currentUser.id;
+      const result=await api('/history/'+id);
+      if (!currentUser || currentUser.id!==expectedStudentId ||
+          result.userId!==expectedStudentId)
+        throw new Error('Active student changed. Please reload your history.');
+      return result;
+    };
+    window.SJNHistoryToggleMark = async function(mcqId) {
+      if (!currentUser || !Number.isSafeInteger(Number(mcqId)))
+        throw new Error('Sign in to manage your marked questions.');
+      const expectedStudentId=currentUser.id;
+      const result=await api('/bookmarks/toggle',{method:'POST',body:{mcqId:Number(mcqId)}});
+      if (!currentUser || currentUser.id!==expectedStudentId)
+        throw new Error('Active student changed. Please reload your history.');
+      return result;
     };
 
     const originalToggleBookmark = window.toggleBookmarkCurrentMcq;
     window.toggleBookmarkCurrentMcq = async function(){
       const q=currentQuizList[currentMcqIndex]; if(!q)return;
-      if(!authToken){openAuthModal('login');return;}
-      try { const r=await api('/bookmarks/toggle',{method:'POST',body:{mcqId:q.id}}); const idx=bookmarkedMcqs.findIndex(id=>String(id)===String(q.id)); if(r.bookmarked){if(idx<0)bookmarkedMcqs.push(q.id)}else if(idx>=0)bookmarkedMcqs.splice(idx,1); updateBookmarkButton(); } catch(e){alert(e.message);}
+      if(!authToken){window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));return;}
+      try { const r=await api('/bookmarks/toggle',{method:'POST',body:{mcqId:q.id}}); const idx=bookmarkedMcqs.findIndex(id=>String(id)===String(q.id)); if(r.bookmarked){if(idx<0)bookmarkedMcqs.push(q.id)}else if(idx>=0)bookmarkedMcqs.splice(idx,1); window.SJNPracticeFilters?.invalidate(); updateBookmarkButton(); } catch(e){alert(e.message);}
     };
 
     const originalFinishQuiz = window.finishQuiz;
-    window.finishQuiz = async function(){
+    let savingAttempt = false;
+    // Uses shared savedAttemptOutcome from the original global quiz engine.
+    window.finishQuiz = async function(details = {}) {
+      if (savingAttempt) return { saved: false, pending: true };
+      if (!authToken || !currentUser) {
+        window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));
+        return { saved: false };
+      }
+      if (!currentQuizList.length) return { saved: false };
+      // The original result view is still displayed with its accepted layout,
+      // but only the new server-graded RPC can confirm a saved score.
+      if (savedAttemptOutcome) return savedAttemptOutcome;
+      savingAttempt = true;
+      const expectedStudentId = currentUser.id;
+      const rawSeconds = Number.isFinite(details.elapsedSeconds)
+        ? details.elapsedSeconds
+        : Math.floor((Date.now() - (currentQuizStartedAt || Date.now())) / 1000);
+      const elapsedSeconds = Math.max(0, Math.min(86400, Math.floor(rawSeconds)));
+      const items = currentQuizList.map((q, i) => ({
+        mcqId: q.id, revisionId: q.revisionId,
+        selectedIndex: userAnswers[i] === undefined ? null : userAnswers[i]
+      }));
+      const selection = {
+        subjects: wizardSelection.selectedSubjects,
+        chapters: wizardSelection.selectedChapters,
+        topics: wizardSelection.selectedTopics
+      };
+      const submission = {
+        submissionKey: currentSubmissionKey, items,
+        title: String(historyRetakeTitle || paperSourceFilter || wizardSelection.bank),
+        mode: wizardSelection.testMode,
+        subject: wizardSelection.subject,
+        selection, elapsedSeconds
+      };
       originalFinishQuiz();
-      if(!authToken || !currentQuizList.length) return;
-      const correct=currentQuizList.reduce((n,q,i)=>n+(userAnswers[i]===q.correctIndex?1:0),0);
-      try { await api('/attempts',{method:'POST',body:{title:paperSourceFilter || wizardSelection.bank,total:currentQuizList.length,correct,mode:wizardSelection.testMode,subject:wizardSelection.subject,selection:{subjects:wizardSelection.selectedSubjects,chapters:wizardSelection.selectedChapters,topics:wizardSelection.selectedTopics}}}); } catch(e){console.warn(e);}
+      try {
+        if (!submission.submissionKey ||
+            items.some(item => !Number.isSafeInteger(item.mcqId) ||
+                              !Number.isSafeInteger(item.revisionId))) {
+          throw new Error('Database question revisions could not be verified. Restart this test.');
+        }
+        const saved = await api('/practice/submit', {
+          method: 'POST',
+          headers: { 'X-SJN-Expected-Student': expectedStudentId },
+          body: submission
+        });
+        if (!saved?.saved || !saved?.id || saved.total !== items.length)
+          throw new Error('No verified attempt was returned.');
+        const outcome = {
+          saved: true, id: saved.id, total: saved.total, correct: saved.correct,
+          incorrect: saved.incorrect, skipped: saved.skipped, accuracy: saved.accuracy
+        };
+        // A later retry of an already-confirmed result must not create a new
+        // attempt. A new test resets this state in launchGeneratedQuiz.
+        savedAttemptOutcome = outcome;
+        // Retake/Resume temporarily disable filters to preserve their exact
+        // MCQ set. Once submission is confirmed, the next normal Create Test
+        // (including a direct Result -> Step 4 return) must show them again.
+        wizardQuestionFiltersActive = true;
+        window.SJNPracticeFilters?.resetSelection();
+        window.SJNPracticeFilters?.invalidate();
+        markStudentHistoryChanged();
+        window.SJNExamRecovery?.forget();
+        // The original legacy results workspace should also reflect the
+        // database-confirmed score, not only a browser-computed provisional one.
+        document.getElementById('res-total').innerText = saved.total;
+        document.getElementById('res-correct').innerText = saved.correct;
+        document.getElementById('res-accuracy').innerText =
+          Math.round(saved.accuracy) + '%';
+        const [stats, history] = await Promise.allSettled([
+          refreshAuthenticatedStats(expectedStudentId), loadStudentHistory()
+        ]);
+        if (stats.status === 'rejected' || history.status === 'rejected' ||
+            history.value !== true) {
+          console.warn('Saved result; dashboard summary could not fully refresh.');
+        }
+        return outcome;
+      } catch (error) {
+        console.warn('Atomic practice test save not confirmed:', error?.message || error);
+        alert('Your test result could not be confirmed as saved. Check Test History before retrying.');
+        await Promise.allSettled([
+          refreshAuthenticatedStats(expectedStudentId), loadStudentHistory()
+        ]);
+        return { saved: false };
+      } finally {
+        savingAttempt = false;
+      }
     };
 
     window.sendAiDoubt = async function(){
       const input=document.getElementById('ai-input-text'); const query=input.value.trim(); if(!query)return;
-      if(!authToken){openAuthModal('login');return;}
+      if(!authToken){window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));return;}
       const history=document.getElementById('ai-chat-history'); const u=document.createElement('div'); u.className='bg-zinc-800 p-3 rounded-xl text-gray-100 text-right font-medium'; u.innerHTML=`🙋‍♂️ <strong>You:</strong> ${escapeHtml(query)}`; history.appendChild(u); input.value='';
       const a=document.createElement('div'); a.className='bg-purple-950/40 border border-purple-800/40 p-3 rounded-xl text-purple-100 space-y-1'; a.innerHTML='🤖 <strong>SJN AI Tutor:</strong><br><span>Thinking...</span>'; history.appendChild(a);
       try { const data=await api('/ai/tutor',{method:'POST',body:{prompt:query}}); a.innerHTML=`🤖 <strong>SJN AI Tutor:</strong><br><span class="leading-relaxed whitespace-pre-wrap">${escapeHtml(data.answer)}</span>`; } catch(e){a.innerHTML=`🤖 <strong>SJN AI Tutor:</strong><br><span class="text-red-300">${escapeHtml(e.message)}</span>`;}
       history.scrollTop=history.scrollHeight;
     };
 
-    window.onload = async function(){
-      await loadAccount();
+    window.addEventListener('storage', event => {
+      if (event.key === 'sjn_logout_event') {
+        coverPrivateWorkspace();
+        window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));
+      }
+    });
+
+    // DOM-ready starts verification before images and external resources finish loading.
+    window.addEventListener('DOMContentLoaded', async () => {
+      if (!(await loadAccount())) return;
+      // Fetch personal history separately, after verified dashboard content is visible.
+      void loadStudentHistory();
       await loadContent();
-      renderHistoryTable();
-      updateGlobalProfileUI();
-    };
+    });
   })();
   </script>
   <script>
@@ -2948,25 +2953,10 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     document.body.classList.toggle('sidebar-collapsed');
   };
     
-   // Restore profile data AND dashboard stats from local storage on page load
-    window.addEventListener('DOMContentLoaded', () => {
-        setTimeout(() => {
-            try {
-                const savedData = localStorage.getItem('sjn_student_profile');
-                if (savedData) {
-                    // Pull the saved numbers from storage and load them into memory
-                    Object.assign(sjnProfile, JSON.parse(savedData)); 
-                }
-                if (typeof updateGlobalProfileUI === 'function') {
-                    // Now update the UI using the loaded numbers
-                    updateGlobalProfileUI(); 
-                }
-            } catch (e) {
-                console.error("Error restoring stats:", e);
-            }
-        }, 200); // 200ms delay to ensure page is ready
-    });
-    
+   // Student data is loaded from the authenticated API, never shared browser storage.
   </script>
+  <script src="/sjn-history.js"></script>
+  <script src="/sjn-phase4-preview.js"></script>
+  <script src="/sjn-phase4-results.js"></script>
 </body>
 </html>

@@ -1,0 +1,205 @@
+/* Scoped Phase 4 examination prototype — enabled by the query-gated JavaScript only. */
+body.sjn-phase4-exam-active #sidebar-nav,
+body.sjn-phase4-exam-active #mobile-backdrop,
+body.sjn-phase4-exam-active #sjn-student-header,
+body.sjn-phase4-exam-active #sjn-student-footer { display: none !important; }
+body.sjn-phase4-exam-active #sjn-workspace-main { padding: 0 !important; }
+body.sjn-phase4-exam-active #sjn-workspace-main { scroll-behavior: auto; }
+.sjn-exam-workspace { min-height: 100%; background: #09090b; color: #f4f4f5; font-family: Inter, system-ui, sans-serif; }
+.sjn-exam-container { max-width: 1500px; margin: 0 auto; padding: 14px clamp(12px,2.2vw,28px) 42px; }
+.sjn-exam-topbar { display: flex; align-items: center; gap: 10px; min-height: 62px; margin-bottom: 18px; padding: 10px 16px; background: #141417; border: 1px solid #303035; border-radius: 14px; }
+.sjn-exam-brand { margin-right: auto; font-weight: 900; letter-spacing: .02em; font-size: 14px; white-space: nowrap; }
+.sjn-exam-brand span { color: #f87171; }
+.sjn-exam-mode { color: #fbbf24; background: #34270d; border: 1px solid #584219; font-size: 11px; font-weight: 700; padding: 7px 9px; border-radius: 7px; }
+.sjn-exam-progress { font: 700 12px/1.3 "JetBrains Mono", monospace; color: #d4d4d8; white-space: nowrap; }
+.sjn-exam-timer { display: flex; align-items: center; gap: 7px; background: #2b1013; border: 1px solid #76272c; padding: 8px 10px; border-radius: 9px; color: #f87171; font: 700 12px "JetBrains Mono",monospace; white-space: nowrap; }
+.sjn-exam-icon { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; min-width: 38px; min-height: 38px; border: 1px solid #3f3f46; border-radius: 9px; background: #242427; color: white; cursor: pointer; }
+.sjn-exam-icon:hover, .sjn-exam-secondary:hover { border-color: #71717a; background: #38383d; }
+.sjn-exam-submit { min-height: 38px; padding: 0 17px; background: #dc2626; border: 1px solid #ef4444; border-radius: 9px; color: white; font-size: 12px; font-weight: 800; cursor: pointer; }
+.sjn-exam-submit:hover,.sjn-exam-dialog-primary:hover { background: #b91c1c; }
+.sjn-exam-layout { display: grid; grid-template-columns: minmax(0,1fr) minmax(236px,280px); gap: 18px; align-items: start; }
+.sjn-exam-layout.nav-hidden { grid-template-columns: minmax(0,1fr); }
+.sjn-exam-layout.nav-hidden .sjn-exam-navigator { display: none; }
+.sjn-exam-card,.sjn-exam-navigator { background: #151518; border: 1px solid #303035; border-radius: 16px; min-width: 0; }
+.sjn-exam-card { padding: clamp(16px,2.6vw,30px); }
+.sjn-exam-card-top { display: flex; gap: 12px; justify-content: space-between; align-items: flex-start; }
+.sjn-exam-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.sjn-exam-subject { border-radius: 999px; background: #7f1d1d55; border: 1px solid #dc26264d; color: #f87171; padding: 5px 12px; font-size: 11px; font-weight: 800; }
+.sjn-exam-counter { font-size: 12px; color: #a1a1aa; font-weight: 700; }
+.sjn-exam-mark { display: flex; align-items: center; gap: 8px; flex-shrink: 0; padding: 7px; border: 0; background: transparent; color: #d4d4d8; font-size: 11px; cursor: pointer; }
+.sjn-exam-mark.is-marked { color: #fbbf24; }
+.sjn-exam-mark:focus-visible,.sjn-exam-icon:focus-visible,.sjn-exam-option:focus-visible,.sjn-exam-number:focus-visible,.sjn-exam-submit:focus-visible { outline: 2px solid #fbbf24; outline-offset: 3px; }
+.sjn-exam-chapter { font-size: 12px; color: #a1a1aa; margin-top: 15px; overflow-wrap: anywhere; line-height: 1.65; }
+.sjn-exam-source-row { display: flex; flex-wrap: wrap; margin-top: 7px; gap: 6px; }
+.sjn-exam-source { color: #fbbf24; border-radius: 5px; background: #451a036e; border: 1px solid #92400e7d; padding: 4px 8px; font-size: 11px; font-weight: 700; }
+.sjn-exam-question { color: #fff; margin: 23px 0; line-height: 1.65; font-weight: 750; font-size: clamp(16px, 1.5vw, 20px); overflow-wrap: anywhere; }
+.sjn-exam-options { display: grid; gap: 11px; }
+.sjn-exam-option { width: 100%; min-height: 58px; display: flex; align-items: center; gap: 13px; text-align: left; padding: 11px 13px; border: 1px solid #3f3f46; background: #202024; border-radius: 10px; color: #e4e4e7; line-height: 1.5; cursor: pointer; transition: border-color .12s, background .12s; font: 600 13px/1.5 Inter,system-ui,sans-serif; }
+.sjn-exam-option:not(:disabled):hover { border-color: #71717a; background: #28282e; }
+.sjn-exam-option.is-selected { border-color: #f87171; background: #42181dbf; }
+.sjn-exam-option.is-correct { border-color: #16a34a; background: #064e3b83; color: #dcfce7; }
+.sjn-exam-option.is-incorrect { border-color: #dc2626; background: #7f1d1d88; color: #fee2e2; }
+.sjn-exam-option:disabled { cursor: default; opacity: 1; }
+.sjn-exam-letter { display: inline-flex; width: 32px; height: 32px; border-radius: 7px; flex: 0 0 32px; align-items: center; justify-content: center; color: #f4f4f5; background: #101013; border: 1px solid #38383d; font-weight: 800; font-size: 12px; }
+.sjn-exam-option-label { min-width: 0; overflow-wrap: anywhere; }
+.sjn-exam-feedback { margin-top: 20px; border: 1px solid #34343a; background: #101014; padding: 17px; border-radius: 12px; color: #d4d4d8; font-size: 13px; line-height: 1.6; }
+.sjn-exam-feedback-title { font-weight: 800; margin-bottom: 12px; }
+.sjn-exam-feedback-title.is-correct { color: #4ade80; }
+.sjn-exam-feedback-title.is-incorrect { color: #f87171; }
+.sjn-exam-explanation-heading { font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: #a1a1aa; margin-bottom: 3px; }
+.sjn-exam-mnemonic { margin-top: 14px; padding: 12px; border-radius: 8px; background: #3a121ba6; border: 1px solid #7f1d1d88; color: #fecaca; }
+.sjn-exam-mnemonic strong { color: #f87171; display: block; font-size: 11px; }
+.sjn-exam-mnemonic p { margin-top: 5px; }
+.sjn-exam-bottom { margin-top: 22px; padding-top: 18px; border-top: 1px solid #333339; display: flex; justify-content: space-between; gap: 8px; }
+.sjn-exam-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 9px 13px; background: #27272a; color: #f4f4f5; font-size: 12px; font-weight: 700; border: 1px solid #414148; border-radius: 9px; cursor: pointer; }
+.sjn-exam-secondary:disabled { cursor: not-allowed; opacity: .35; }
+.sjn-exam-navigator { padding: 17px; position: sticky; top: 14px; max-height: calc(100vh - 75px); overflow-y: auto; }
+.sjn-exam-nav-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 17px; font-size: 14px; }
+.sjn-exam-number-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(28px,1fr)); gap: 5px; }
+.sjn-exam-number { aspect-ratio: 1; min-height: 30px; border-radius: 7px; border: 1px solid #52525b; background: #27272a; color: #d4d4d8; font-size: 11px; font-weight: 800; cursor: pointer; position: relative; }
+.sjn-exam-number.is-correct { border-color: #16a34a; background: #14532d; color: #dcfce7; }
+.sjn-exam-number.is-incorrect { border-color: #dc2626; background: #7f1d1d; color: #fee2e2; }
+.sjn-exam-number.is-answered { border-color: #64748b; background: #334155; color: white; }
+.sjn-exam-number.is-current { outline: 2px solid #f4f4f5; outline-offset: 2px; }
+.sjn-exam-number.is-marked::after { content: ''; position: absolute; inset: 2px; border-radius: 5px; border: 2px solid #fbbf24; pointer-events: none; }
+.sjn-exam-stats { display: grid; gap: 9px; padding-top: 18px; margin-top: 16px; border-top: 1px solid #3f3f46; }
+.sjn-exam-stats>div { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; color: #a1a1aa; }
+.sjn-exam-stats strong { color: white; }
+.sjn-exam-legend { color: #71717a; font-size: 11px; line-height: 1.5; margin-top: 18px; }
+.sjn-exam-close-nav { display: none; }
+.sjn-exam-dialog-layer { position: fixed; inset: 0; z-index: 95; display: flex; align-items: center; justify-content: center; padding: 14px; background: #000c; }
+.sjn-exam-dialog { width: min(430px,100%); border: 1px solid #52525b; background: #18181b; color: #f4f4f5; padding: 25px; border-radius: 15px; box-shadow: 0 18px 70px #0009; }
+.sjn-exam-dialog h2 { font-size: 19px; font-weight: 850; }
+.sjn-exam-dialog p { color: #a1a1aa; font-size: 13px; line-height: 1.65; margin: 13px 0 20px; }
+.sjn-exam-dialog-actions { display: flex; justify-content: flex-end; gap: 9px; flex-wrap: wrap; }
+.sjn-exam-dialog-primary { padding: 9px 15px; color: white; background: #dc2626; border: 1px solid #ef4444; border-radius: 9px; font-weight: 750; font-size: 12px; }
+.sjn-exam-dialog-discard { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 9px 13px; background: #39191d; color: #fca5a5; border: 1px solid #803139; border-radius: 9px; font-weight: 750; font-size: 12px; cursor: pointer; }
+.sjn-exam-dialog-discard:hover { background: #522127; border-color: #b4535d; color: #fecaca; }
+
+.sjn-exam-preview-note { font-size: 12px; color: #fbbf24; padding: 12px; border: 1px solid #854d0e; border-radius: 9px; margin-bottom: 12px; }
+.sjn-exam-backdrop { display: none; }
+.sjn-exam-workspace.hidden,.sjn-exam-dialog-layer.hidden,.sjn-exam-backdrop.hidden { display: none !important; }
+@media(max-width:767px) {
+  .sjn-exam-container { padding: 8px 10px 30px; }
+  .sjn-exam-topbar { padding: 8px 7px; gap: 5px; min-height: 56px; border-radius: 10px; margin-bottom: 10px; }
+  .sjn-exam-brand { display: none; }
+  .sjn-exam-topbar .sjn-exam-icon { min-width: 35px; min-height: 37px; }
+  .sjn-exam-mode { font-size: 10px; padding: 7px 6px; }
+  .sjn-exam-progress { font-size: 10px; margin-right: auto; }
+  .sjn-exam-timer { font-size: 10px; padding: 7px 6px; gap: 4px; }
+  .sjn-exam-timer i { display: none; }
+  .sjn-exam-submit { min-height: 37px; padding: 0 10px; font-size: 11px; }
+  .sjn-exam-layout,.sjn-exam-layout.nav-hidden { display: block; }
+  .sjn-exam-card { padding: 16px 13px 18px; }
+  .sjn-exam-mark span { display: none; }
+  .sjn-exam-mark { font-size: 16px; min-height: 40px; min-width: 40px; justify-content: center; }
+  .sjn-exam-question { font-size: 17px; }
+  .sjn-exam-option { min-height: 56px; }
+  .sjn-exam-navigator { display: block; position: fixed; z-index: 90; right: 0; top: 0; bottom: 0; width: min(330px,88vw); max-height: none; border-radius: 12px 0 0 12px; background: #18181b; overflow-y: auto; box-shadow: -12px 0 45px #000a; }
+  /* Keep mobile question targets comfortably tappable while fitting more per row. */
+  .sjn-exam-number-grid { grid-template-columns: repeat(auto-fill,minmax(40px,1fr)); gap: 6px; }
+  .sjn-exam-number { min-height: 40px; }
+  .sjn-exam-layout.nav-hidden .sjn-exam-navigator { display: none; }
+  .sjn-exam-close-nav { display: inline-flex; }
+  .sjn-exam-backdrop:not(.hidden) { display: block; position: fixed; z-index: 85; inset: 0; background: #000b; }
+}
+@media (max-width:365px) {
+  .sjn-exam-topbar { gap: 3px; }
+  .sjn-exam-topbar .sjn-exam-icon { min-width: 32px; }
+  .sjn-exam-progress { font-size: 9px; }
+  .sjn-exam-mode { font-size: 9px; padding: 6px 4px; }
+  .sjn-exam-timer { padding: 7px 4px; font-size: 9px; }
+  .sjn-exam-submit { padding: 0 7px; }
+}
+
+
+/* Phase 4 Stage 2 owner-approved visual refinements (opt-in exam only). */
+.sjn-exam-brand { margin-right: 0; }
+.sjn-exam-progress-track { flex: 1 1 150px; min-width: 45px; height: 6px; border-radius: 999px; background: #333339; overflow: hidden; }
+.sjn-exam-progress-fill { display: block; height: 100%; width: 0; border-radius: 999px; background: #eab308; transition: width .2s ease; }
+.sjn-exam-timer { margin-left: auto; }
+.sjn-exam-card-top { align-items: center; gap: 8px; }
+.sjn-exam-meta { flex: 1 1 auto; min-width: 0; gap: 8px 10px; align-items: center; }
+.sjn-exam-chapter { font-size: 12px; color: #a1a1aa; margin: 0; line-height: 1.5; overflow-wrap: anywhere; min-width: 0; }
+.sjn-exam-source-row { display: inline-flex; flex: 0 0 auto; margin: 0; gap: 6px; }
+.sjn-exam-card-actions { flex: 0 0 auto; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+.sjn-exam-mark,.sjn-exam-report-trigger { min-height: 38px; padding: 7px; display: inline-flex; justify-content: center; align-items: center; gap: 7px; border: 1px solid #414148; border-radius: 8px; background: transparent; cursor: pointer; font-size: 11px; }
+.sjn-exam-mark { color: #d4d4d8; }
+.sjn-exam-mark.is-marked { color: #fbbf24; }
+.sjn-exam-report-trigger { color: #f87171; }
+.sjn-exam-report-trigger:hover,.sjn-exam-report-trigger:focus-visible { color: #fca5a5; }
+.sjn-exam-counter { display: block; margin: 16px 0 4px; font-size: 12px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #d4d4d8; }
+.sjn-exam-question { margin: 0 0 15px; }
+.sjn-exam-options { gap: 9px; }
+.sjn-exam-option { position: relative; }
+.sjn-exam-option.is-selected { border-color: #eab308; background: #3b2d0e; color: #fef3c7; }
+.sjn-exam-answer-indicator { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; margin-left: auto; width: 26px; height: 26px; font-size: 15px; font-weight: 900; }
+.sjn-exam-answer-indicator.is-correct { color: #4ade80; }
+.sjn-exam-answer-indicator.is-incorrect { color: #f87171; }
+.sjn-exam-feedback { margin-top: 14px; padding: 14px; background: #17171b; }
+.sjn-exam-feedback-title { margin-bottom: 10px; font-size: 13px; }
+.sjn-exam-explanation-panel { padding: 12px 14px; border: 1px solid #45454c; border-left: 3px solid #9ca3af; border-radius: 9px; background: #242429; color: #f4f4f5; }
+.sjn-exam-explanation-heading { color: #e4e4e7; font-size: 11px; margin-bottom: 7px; }
+#sjn-exam-explanation { font-size: 13px; line-height: 1.75; font-weight: 500; }
+.sjn-exam-mnemonic { margin-top: 10px; }
+.sjn-exam-bottom { margin-top: 14px; padding-top: 12px; }
+.sjn-exam-next.is-finish { background: #dc2626; border-color: #ef4444; color: #fff; }
+.sjn-exam-next.is-finish:not(:disabled):hover { background: #b91c1c; border-color: #f87171; }
+
+/* Report Issue presentation only. Real submission is intentionally deferred. */
+.sjn-exam-report-layer { position: fixed; z-index: 96; inset: 0; display: flex; align-items: center; justify-content: center; padding: 18px; background: #000c; }
+.sjn-exam-report-layer.hidden { display: none !important; }
+body.sjn-phase4-report-open #sjn-workspace-main { overflow: hidden !important; }
+.sjn-exam-report-panel { width: min(515px,100%); max-height: min(88vh,790px); overflow-y: auto; overscroll-behavior: contain; background: #18181b; color: #f4f4f5; border: 1px solid #4b4b50; border-radius: 16px; box-shadow: 0 20px 65px #0009; padding: 20px; }
+.sjn-exam-report-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+.sjn-exam-report-head h2 { font-size: 19px; font-weight: 850; }
+.sjn-exam-report-head p { color: #a1a1aa; font-size: 12px; margin-top: 5px; }
+.sjn-exam-report-close { flex: 0 0 auto; }
+.sjn-exam-report-reasons { display: grid; gap: 6px; border: 0; padding: 0; margin: 0; min-width: 0; }
+.sjn-exam-report-legend { font-size: 11px; font-weight: 700; margin-bottom: 8px; color: #d4d4d8; }
+.sjn-exam-report-reason { display: flex; align-items: center; gap: 12px; min-height: 40px; border: 1px solid #3f3f46; border-radius: 9px; background: #222226; padding: 8px 12px; color: #e4e4e7; font-size: 12px; font-weight: 600; cursor: pointer; }
+.sjn-exam-report-reason:has(input:checked) { border-color: #dc2626; background: #42171c; color: #fff; }
+.sjn-exam-report-reason:focus-within { outline: 2px solid #fbbf24; outline-offset: 2px; }
+.sjn-exam-report-reason i { width: 18px; text-align: center; color: #f87171; }
+.sjn-exam-report-reason span { flex: 1; }
+.sjn-exam-report-reason input { order: 3; accent-color: #dc2626; width: 15px; height: 15px; flex: 0 0 auto; }
+.sjn-exam-report-details-label { display: block; font-size: 12px; font-weight: 750; margin-top: 16px; margin-bottom: 8px; }
+.sjn-exam-report-details-label span { color: #a1a1aa; font-weight: 500; }
+.sjn-exam-report-details { display: block; width: 100%; min-height: 80px; padding: 12px; resize: vertical; border: 1px solid #52525b; background: #222226; border-radius: 9px; color: white; font: 500 13px/1.5 Inter,system-ui,sans-serif; }
+.sjn-exam-report-details:focus { outline: 2px solid #fbbf24; outline-offset: 2px; }
+.sjn-exam-report-notice { font-size: 11px; color: #fbbf24; margin-top: 10px; line-height: 1.5; }
+.sjn-exam-report-status { min-height: 15px; font-size: 12px; color: #fca5a5; margin-top: 7px; }
+.sjn-exam-report-actions { display: flex; justify-content: flex-end; gap: 10px; padding-top: 9px; }
+.sjn-exam-report-actions>button { min-height: 40px; }
+.sjn-exam-report-actions>button:disabled { background: #3f3f46; border-color: #52525b; color: #a1a1aa; cursor: not-allowed; }
+.sjn-exam-mark:focus-visible,.sjn-exam-report-trigger:focus-visible,.sjn-exam-report-close:focus-visible { outline: 2px solid #fbbf24; outline-offset: 2px; }
+@media(max-width:767px) {
+  .sjn-exam-topbar .sjn-exam-progress-track { display: none; }
+  .sjn-exam-brand { display: none; }
+  .sjn-exam-progress { margin-right: auto; }
+  .sjn-exam-card { padding: 12px 12px 16px; }
+  .sjn-exam-card-top { align-items: flex-start; }
+  .sjn-exam-meta { gap: 5px 8px; }
+  .sjn-exam-chapter { flex-basis: auto; line-height: 1.4; }
+  .sjn-exam-source-row { flex-basis: auto; }
+  .sjn-exam-mark,.sjn-exam-report-trigger { min-width: 33px; min-height: 38px; padding: 6px; font-size: 15px; border: 0; }
+  .sjn-exam-card-actions { gap: 2px; }
+  .sjn-exam-mark span,.sjn-exam-report-trigger span { display: none; }
+  .sjn-exam-counter { margin: 12px 0 5px; font-size: 11px; }
+  .sjn-exam-question { font-size: 16px; line-height: 1.5; margin-bottom: 12px; }
+  .sjn-exam-options { gap: 8px; }
+  .sjn-exam-option { min-height: 54px; padding: 9px 10px; }
+  .sjn-exam-feedback { padding: 12px; }
+  .sjn-exam-report-layer { align-items: flex-end; padding: 0; }
+  .sjn-exam-report-panel { width: 100%; max-height: 89dvh; border-radius: 20px 20px 0 0; padding: 15px 15px max(14px,env(safe-area-inset-bottom)); }
+  .sjn-exam-report-panel::before { content: ''; display: block; width: 40px; height: 4px; background: #52525b; border-radius: 99px; margin: 0 auto 13px; }
+  .sjn-exam-report-reason { min-height: 43px; }
+  .sjn-exam-report-actions>button { flex: 1 1 0; }
+  /* Thin indicators only in the staged exam scroll containers; auto-hide remains browser-controlled. */
+  body.sjn-phase4-exam-active #sjn-workspace-main,
+  body.sjn-phase4-exam-active .sjn-exam-navigator,
+  body.sjn-phase4-report-open .sjn-exam-report-panel { scrollbar-width: thin; }
+  body.sjn-phase4-exam-active #sjn-workspace-main::-webkit-scrollbar,
+  body.sjn-phase4-exam-active .sjn-exam-navigator::-webkit-scrollbar,
+  body.sjn-phase4-report-open .sjn-exam-report-panel::-webkit-scrollbar { width: 3px; height: 3px; }
+}
