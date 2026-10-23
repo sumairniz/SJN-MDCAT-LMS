@@ -7,6 +7,18 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-24 — Physics Force & Motion 29-question staging import COMPLETED / VERIFIED
+
+**Owner scope:** 29 original 2025 Physics/Force & Motion questions with unchanged statements/options/keys/exam-source labels, accepted existing 11 topic headings, the reviewed explanations and SJN tips (Q27 shortened to owner-requested perfectly elastic version); staging only. No production merge or writes. Student Q numbering remains dynamic; DB IDs are permanent.
+
+**Content source / future promotion:** Versioned JSON manifest `content/imports/physics-force-motion-2025-29.approved.json` committed as `4a7ee1a476314bcca7c9edb62d9e392c4f2c7cc6`. Original review numbers 1–29 are **not** database question IDs. No existing 74 Biology question contents were modified. For later production, use this exact reviewed versioned manifest and a separate production-approved migration/import process, not an assumption that Git merge copies staging DB rows.
+
+**DB staging execution:** A single PostgreSQL DO statement verified 74 old MCQs and zero pre-existing Physics Force & Motion rows, checked every manifest item and duplicates, inserted all 29 new `public.mcqs` records and matching immutable revision-1 `public.mcq_revisions` rows, then linked `mcqs.current_revision_id`; exceptions would roll back the statement. **Read-only post-check PASS:** Biology 74 IDs 1–74; Physics 29 IDs **75–103**; 0 missing current revisions, 0 question/revision mismatches across all 103; pre-existing test-history summaries count **102**, not deleted by import.
+
+**UI placeholder cleanup:** Commit `415886f0f85158a902cd67761015092cd4b1beb2` removed hardcoded dummy syllabus entries from Create Test's choices; subjects, chapters, and topics now come from published questions. New questions appear automatically by metadata. Foundation workflows `40022832358` and `40022825169` **SUCCESS**. Content manifest commit `4a7ee1a` workflows `40022928465`, `40022920908` **SUCCESS**. No owner end-to-end browser acceptance of the newly populated 103-MCQ bank has been claimed.
+
+**Next test:** Owner should validate staging Chemistry/Physics mixed Create Test and actual Physics Topic Drill, answer/results/history and Retake/Resume when relevant. More subjects require their approved content imports. Continue to protect the owner-cancelled Autosave decision and every temporary release-gate item.
+
 ## 2026-10-24 — Owner-approved student-facing removal of dummy chapters and subjects without MCQs (STAGING ONLY)
 
 **Owner instruction:** Remove demo chapter labels under Biology, Physics, Chemistry, English and Logical Reasoning where there are no published MCQs; leave legitimate question metadata, syllabus, student test history and all populated chapters untouched. The owner also explicitly approved staging import of the reviewed 29 original Physics / Force & Motion (2025) past-paper MCQs and asked about future production promotion.
