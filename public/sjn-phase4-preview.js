@@ -119,17 +119,18 @@
           </div>
           <form id="sjn-exam-report-form">
             <fieldset class="sjn-exam-report-reasons">
-              <legend class="sjn-exam-report-legend">Select one reason</legend>
-              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="wrong-answer-key"><i class="fa-solid fa-key" aria-hidden="true"></i><span>Wrong answer key</span></label>
-              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="question-statement-error"><i class="fa-solid fa-file-circle-exclamation" aria-hidden="true"></i><span>Question statement error</span></label>
-              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="incorrect-option"><i class="fa-solid fa-list-ul" aria-hidden="true"></i><span>Incorrect option</span></label>
-              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="wrong-explanation"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span>Wrong explanation</span></label>
-              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="missing-explanation"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i><span>Missing explanation</span></label>
-              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="typo-spelling"><i class="fa-solid fa-pencil" aria-hidden="true"></i><span>Typo / spelling error</span></label>
-              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="ambiguous-wording"><i class="fa-regular fa-circle-question" aria-hidden="true"></i><span>Ambiguous wording</span></label>
-              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="duplicate-question"><i class="fa-regular fa-copy" aria-hidden="true"></i><span>Duplicate question</span></label>
-              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="outdated-information"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>Outdated information</span></label>
-              <label class="sjn-exam-report-reason"><input type="radio" name="sjn-report-reason" value="technical-issue"><i class="fa-solid fa-gear" aria-hidden="true"></i><span>Technical issue</span></label>
+              <legend class="sjn-exam-report-legend">Select one or more reasons</legend>
+              <label class="sjn-exam-report-reason"><input type="checkbox" name="sjn-report-reason" value="wrong-answer-key"><i class="fa-solid fa-key" aria-hidden="true"></i><span>Wrong answer key</span></label>
+              <label class="sjn-exam-report-reason"><input type="checkbox" name="sjn-report-reason" value="question-statement-error"><i class="fa-solid fa-file-circle-exclamation" aria-hidden="true"></i><span>Question statement error</span></label>
+              <label class="sjn-exam-report-reason"><input type="checkbox" name="sjn-report-reason" value="incorrect-option"><i class="fa-solid fa-list-ul" aria-hidden="true"></i><span>Incorrect option</span></label>
+              <label class="sjn-exam-report-reason"><input type="checkbox" name="sjn-report-reason" value="wrong-explanation"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span>Wrong explanation</span></label>
+              <label class="sjn-exam-report-reason"><input type="checkbox" name="sjn-report-reason" value="missing-explanation"><i class="fa-regular fa-comment-dots" aria-hidden="true"></i><span>Missing explanation</span></label>
+              <label class="sjn-exam-report-reason"><input type="checkbox" name="sjn-report-reason" value="typo-spelling"><i class="fa-solid fa-pencil" aria-hidden="true"></i><span>Typo / spelling error</span></label>
+              <label class="sjn-exam-report-reason"><input type="checkbox" name="sjn-report-reason" value="ambiguous-wording"><i class="fa-regular fa-circle-question" aria-hidden="true"></i><span>Ambiguous wording</span></label>
+              <label class="sjn-exam-report-reason"><input type="checkbox" name="sjn-report-reason" value="duplicate-question"><i class="fa-regular fa-copy" aria-hidden="true"></i><span>Duplicate question</span></label>
+              <label class="sjn-exam-report-reason"><input type="checkbox" name="sjn-report-reason" value="out-of-syllabus"><i class="fa-solid fa-ban" aria-hidden="true"></i><span>Out of Syllabus</span></label>
+              <label class="sjn-exam-report-reason"><input type="checkbox" name="sjn-report-reason" value="outdated-information"><i class="fa-regular fa-calendar" aria-hidden="true"></i><span>Outdated information</span></label>
+              <label class="sjn-exam-report-reason"><input type="checkbox" name="sjn-report-reason" value="technical-issue"><i class="fa-solid fa-gear" aria-hidden="true"></i><span>Technical issue</span></label>
             </fieldset>
             <label class="sjn-exam-report-details-label" for="sjn-exam-report-details">Additional details <span>(optional)</span></label>
             <textarea id="sjn-exam-report-details" class="sjn-exam-report-details" rows="3" maxlength="2000" placeholder="Describe the issue, if you like..."></textarea>
@@ -189,7 +190,31 @@
   function isLastQuestion(index, total) {
     return total > 0 && index === total - 1;
   }
-  const marked = (q) => bookmarkedMcqs.some(id => String(id) === String(q.id));
+  // Display-only bookmark intent. The existing authenticated server writer is
+  // authoritative; no speculative persistent bookmark/cache/filter mutation.
+  const pendingMarkRequests = new Map();
+  const marked = (q) => {
+    if (!q) return false;
+    const key = String(q.id);
+    return pendingMarkRequests.has(key)
+      ? pendingMarkRequests.get(key)
+      : bookmarkedMcqs.some(id => String(id) === key);
+  };
+  function renderMarkAction(q) {
+    const btn = $('sjn-exam-mark');
+    const selected = marked(q);
+    const pending = pendingMarkRequests.has(String(q.id));
+    const label = selected ? 'Marked' : 'Mark for Review';
+    btn.classList.toggle('is-marked', selected);
+    btn.classList.toggle('is-saving', pending);
+    btn.setAttribute('aria-pressed', String(selected));
+    btn.setAttribute('aria-busy', String(pending));
+    btn.disabled = pending;
+    btn.querySelector('i').className = (selected ? 'fa-solid' : 'fa-regular') + ' fa-bookmark';
+    btn.querySelector('span').textContent = label;
+    btn.setAttribute('aria-label', pending ? label + ', saving' : label);
+    btn.title = pending ? 'Saving mark…' : label;
+  }
 
   function setURL(url, replace = false) {
     const fn = replace ? 'replaceState' : 'pushState';
@@ -299,10 +324,7 @@
       b.textContent = q.source;
       src.append(b);
     }
-    const markBtn = $('sjn-exam-mark');
-    markBtn.setAttribute('aria-pressed', String(marked(q)));
-    markBtn.classList.toggle('is-marked', marked(q));
-    markBtn.querySelector('i').className = (marked(q) ? 'fa-solid' : 'fa-regular') + ' fa-bookmark';
+    renderMarkAction(q);
     const options = $('sjn-exam-options'); options.replaceChildren();
     const isTutor = wizardSelection.testMode !== 'timed' || state.reviewOnly;
     const checked = state.reviewOnly || (isTutor && state.checked[currentMcqIndex]);
@@ -572,7 +594,7 @@
     reportStatus.textContent = '';
     reportLayer.classList.remove('hidden');
     document.body.classList.add('sjn-phase4-report-open');
-    reportLayer.querySelector('input[type="radio"]')?.focus();
+    reportLayer.querySelector('input[type="checkbox"]')?.focus();
   }
   $('sjn-exam-report-trigger').addEventListener('click', openReport);
   $('sjn-exam-report-close').addEventListener('click', () => closeReport());
@@ -607,9 +629,26 @@
   $('sjn-exam-close-nav').addEventListener('click', closeNavigator);
   $('sjn-exam-nav-backdrop').addEventListener('click', closeNavigator);
   $('sjn-exam-mark').addEventListener('click', async () => {
-    const before = currentQuizList[currentMcqIndex]?.id;
-    await window.toggleBookmarkCurrentMcq();
-    if (before === currentQuizList[currentMcqIndex]?.id) renderQuestion();
+    const q = state.open && currentQuizList[currentMcqIndex];
+    if (!q) return;
+    const key = String(q.id);
+    // One request per MCQ: repeated clicks cannot race opposing server toggles.
+    if (pendingMarkRequests.has(key)) return;
+    pendingMarkRequests.set(key, !marked(q));
+    renderMarkAction(q);
+    renderNumbers();
+    try {
+      // The existing authenticated writer mutates bookmarks only after the API
+      // confirms success. Failures leave the canonical state unchanged.
+      await window.toggleBookmarkCurrentMcq();
+    } catch (error) {
+      alert('Unable to update the mark. Please try again.');
+    } finally {
+      pendingMarkRequests.delete(key);
+      if (state.open && String(currentQuizList[currentMcqIndex]?.id) === key)
+        renderMarkAction(currentQuizList[currentMcqIndex]);
+      if (state.open) renderNumbers();
+    }
   });
   window.addEventListener('beforeunload', (e) => {
     if (!state.open || state.reviewOnly) return;
