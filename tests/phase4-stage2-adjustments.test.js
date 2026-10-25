@@ -74,10 +74,11 @@ test('Mark visual state is immediate with server-confirmed rollback and the exis
   assert.match(js,/const pendingMarkRequests = new Map\(\)/);
   assert.match(js,/pendingMarkRequests\.set\(key, !marked\(q\)\);\s*renderMarkAction\(q\)/);
   assert.match(js,/if \(pendingMarkRequests\.has\(key\)\) return/);
-  assert.match(js,/await window\.toggleBookmarkCurrentMcq\(\)/);
+  assert.match(js,/await window\.toggleBookmarkCurrentMcq\(q\.id\)/);
   assert.match(js,/finally \{\s*pendingMarkRequests\.delete\(key\)/);
   assert.match(js,/btn\.disabled = pending/);
   assert.match(js,/btn\.querySelector\('span'\)\.textContent = label/);
+  assert.match(dashboard,/window\.toggleBookmarkCurrentMcq = async function\(mcqId = null\)/);
   assert.match(dashboard,/await api\('\/bookmarks\/toggle'/);
   assert.doesNotMatch(js,/fetch\('\/api\/bookmarks\/toggle'/);
 });
