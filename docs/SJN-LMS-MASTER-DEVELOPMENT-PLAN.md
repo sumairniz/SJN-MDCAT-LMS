@@ -7,6 +7,16 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-25 — Mark for Review response and Report Issue UI (approved staging-only refinement)
+
+**Approval:** Owner approved interactive hover on Mark for Review and Report Issue; immediately visible `Mark for Review` (outline icon) → `Marked` (filled icon) and purple outlined button; exact existing Marked question-filter purple accent `#a78bfa` with matching text `#c4b5fd` and tint `rgba(167,139,250,.075)`; clicking again restores default. Owner also approved Report Issue adding `Out of Syllabus` and allowing multiple independent reason checkboxes. No new backend reporting or persistence for issue reports until a separately approved next step.
+
+**Root cause:** Exam preview previously awaited authenticated `/bookmarks/toggle` before repainting mark state, making network time visible. New preview-only pending map renders the provisional clicked state synchronously, while the existing authenticated writer remains the sole DB author. A pending question's button is disabled against duplicate inverse toggles; completed or failed requests clear provisional state and reconcile to the server-confirmed `bookmarkedMcqs` in-memory list, including when navigating before completion. Existing writer accepts an optional clicked MCQ ID, avoiding incorrectly toggling a different question after quick navigation. The original writer still handles auth, API errors and filter invalidation. No optimistic persistence, no parallel write API, no new DB schema or temp flag. Question navigator mark display uses pending visual state; its pre-approved amber outline is not recolored.
+
+**Report Issue:** 10 existing reason labels preserved, one new `Out of Syllabus` option, all 11 use checkboxes; updated legend and first-input focus. Optional details, disabled-until-a-reason behavior and honest preview-only report message unchanged. TEMP-P4-002 remains **OPEN** because no reports are saved or transmitted.
+
+**Files:** `public/sjn-phase4-preview.js`, `public/sjn-phase4-preview.css`, `public/index.html` (small optional-ID argument for the existing bookmark writer), and `tests/phase4-stage2-adjustments.test.js`. Existing production and main untouched. Automated checks and owner browser acceptance are tracked separately; test on slow/failing network, quick mark→navigate, mobile/desktop, re-open, Retake/Review, authenticated persistence and history. Production merge requires separate permission.
+
 ## 2026-10-25 — Logical Reasoning 16 MCQs owner-approved STAGING IMPORT VERIFIED
 
 **Approval:** Owner approved 16 original 2025 Past Paper Logical Reasoning MCQs, one-level chapter/topic `Logical Problems`, simple explanations and concise SJN Tips. Original question text, options, source and original answer key must not be silently rewritten. Q7 mentions six family members but names five; documented as a source wording note only, with correct original key D unchanged.
