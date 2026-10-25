@@ -43,6 +43,8 @@ function environment(names) {
       {subject:'Biology',chapter:'Chapter A',topic:'Topic A',revisionId:11},
       {subject:'Biology',chapter:'Chapter B',topic:'Topic B',revisionId:12}
     ],
+    isSingleLevelPracticeSubject: subject => subject === 'English' || subject === 'Logical Reasoning',
+    wizardQuestionFiltersActive: false,
     document: {
       getElementById:element,
       createElement:() => ({className:'',innerText:'',innerHTML:''}),
@@ -199,4 +201,76 @@ test('Create Test lists only published subjects, chapters and topics with availa
   assert.match(e.element('subject-checkbox-container').innerHTML,/No subjects have published MCQs/);
   e.ctx.renderChapterCheckboxes(['Biology','Physics']);
   assert.equal(e.element('chapter-checkbox-container').children.length,0);
+});
+
+test('Flat English/Logical Reasoning topic step has no subtopic checkbox and can continue',()=>{
+  const e=environment(['confirmChapterSelection','renderTopicOptions','confirmTopicSelection']);
+  e.ctx.wizardSelection.selectedSubjects=['English','Logical Reasoning'];
+  e.ctx.mcqQuestionBank=[
+    {id:201,subject:'English',chapter:'Spellings',topic:null,bank:'Past Papers Question Bank',revisionId:201},
+    {id:202,subject:'English',chapter:'Verb',topic:'Verb',bank:'Past Papers Question Bank',revisionId:202},
+    {id:203,subject:'Logical Reasoning',chapter:'Critical Thinking',topic:null,bank:'Past Papers Question Bank',revisionId:203}
+  ];
+  e.choices.chapters=['English|||Spellings','Logical Reasoning|||Critical Thinking'];
+  e.ctx.confirmChapterSelection();
+  assert.equal(e.steps.at(-1),32,'Keep explanatory Topic step in wizard');
+  assert.equal(e.element('topic-options-container').children.length,1,'Only an explanatory note, no nested topics');
+  assert.match(e.element('topic-options-container').children[0].textContent,/chapter is also a topic/);
+  assert.match(e.element('sjn-topic-instructions').innerText,/No additional topics/);
+  e.ctx.confirmTopicSelection();
+  assert.equal(e.warnings.length,0,'Flat-only test does not require choosing a nonexistent subtopic');
+  assert.equal(e.steps.at(-1),4);
+  assert.equal(e.ctx.wizardSelection.selectedTopics.length,0);
+  const p=environment(['getFilteredQuestionPool']);
+  p.ctx.mcqQuestionBank=e.ctx.mcqQuestionBank;
+  p.ctx.wizardSelection={...e.ctx.wizardSelection,bank:'Past Papers Question Bank'};
+  const allowed=Array.from(p.ctx.getFilteredQuestionPool()).map(x=>x.id);
+  assert.deepEqual(allowed,[201,203],'Only selected flat chapters, not all English chapters');
+});
+
+test('Mixed Physics + English Topic Drill includes chosen flat chapter and chosen science topics only',()=>{
+  const e=environment(['confirmChapterSelection','renderTopicOptions','confirmTopicSelection','getFilteredQuestionPool']);
+  e.ctx.wizardSelection.selectedSubjects=['Physics','English'];
+  e.ctx.wizardSelection.bank='Past Papers Question Bank';
+  e.ctx.mcqQuestionBank=[
+    {id:301,bank:'Past Papers Question Bank',subject:'Physics',chapter:'Force & Motion',topic:'Projectile Motion',revisionId:301},
+    {id:302,bank:'Past Papers Question Bank',subject:'Physics',chapter:'Force & Motion',topic:'Momentum',revisionId:302},
+    {id:303,bank:'Past Papers Question Bank',subject:'English',chapter:'Spellings',topic:null,revisionId:303},
+    {id:304,bank:'Past Papers Question Bank',subject:'English',chapter:'Verb',topic:null,revisionId:304}
+  ];
+  e.choices.chapters=['Physics|||Force & Motion','English|||Spellings'];
+  e.ctx.confirmChapterSelection();
+  const checkboxLabels=e.element('topic-options-container').children.map(x=>x.innerHTML||'').join(' ');
+  assert.match(checkboxLabels,/Projectile Motion|Momentum/);
+  assert.doesNotMatch(checkboxLabels,/English.*General Topic|English.*Spellings.*topic-chk/);
+  e.ctx.confirmTopicSelection();
+  assert.equal(e.steps.at(-1),32,'Science topics cannot be silently skipped');
+  assert.match(e.warnings[0],/science topic/);
+  e.choices.topics=['Physics|||Force & Motion|||Projectile Motion'];
+  e.ctx.confirmTopicSelection();
+  assert.equal(e.steps.at(-1),4);
+  const ids=Array.from(e.ctx.getFilteredQuestionPool()).map(x=>x.id);
+  assert.deepEqual(ids,[301,303],'No unselected Physics topic or English chapter');
+  e.choices.chapters=['English|||Verb'];
+  e.ctx.confirmChapterSelection();
+  assert.deepEqual(Array.from(e.ctx.wizardSelection.selectedTopics),[],'Back changing chapters clears old science topic');
+  e.ctx.confirmTopicSelection();
+  assert.equal(e.steps.at(-1),4);
+  assert.deepEqual(Array.from(e.ctx.getFilteredQuestionPool()).map(x=>x.id),[304]);
+});
+
+test('Science-only topic drill still requires science selection; flat categories stay explicit',()=>{
+  const e=environment(['getFilteredQuestionPool','confirmTopicSelection']);
+  e.ctx.wizardSelection.bank='Past Papers Question Bank';
+  e.ctx.wizardSelection.selectedSubjects=['Physics'];
+  e.ctx.wizardSelection.selectedChapters=['Physics|||Force & Motion'];
+  e.ctx.mcqQuestionBank=[{id:1,bank:'Past Papers Question Bank',subject:'Physics',chapter:'Force & Motion',topic:'Momentum',revisionId:1}];
+  assert.deepEqual(Array.from(e.ctx.getFilteredQuestionPool()),[], 'No selected science topics must never default to all');
+  e.ctx.confirmTopicSelection();
+  assert.equal(e.steps.length,0);
+  assert.match(e.warnings[0],/science topic/);
+  e.choices.topics=['Physics|||Force & Motion|||Momentum'];
+  e.ctx.confirmTopicSelection();
+  assert.equal(e.steps.at(-1),4);
+  assert.deepEqual(Array.from(e.ctx.getFilteredQuestionPool()).map(x=>x.id),[1]);
 });

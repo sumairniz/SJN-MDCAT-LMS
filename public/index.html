@@ -656,11 +656,11 @@
           <div id="wizard-step-3b" class="wizard-step space-y-4 hidden">
             <div class="flex items-center justify-between">
               <h3 class="text-sm font-bold text-gray-200">Step 3b: Select Topic(s) 🎯</h3>
-              <button onclick="toggleSelectAllTopics()" class="text-xs text-red-400 hover:underline font-bold">Select All / Clear</button>
+              <button id="sjn-topic-select-all" onclick="toggleSelectAllTopics()" class="text-xs text-red-400 hover:underline font-bold">Select All / Clear</button>
             </div>
-            <p class="text-xs text-gray-400">Pick topics from the chapters you selected.</p>
+            <p id="sjn-topic-instructions" class="text-xs text-gray-400">Pick topics from the chapters you selected.</p>
             <div id="topic-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
-            <button onclick="confirmTopicSelection()" class="mt-4 px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all">
+            <button id="sjn-confirm-topics" onclick="confirmTopicSelection()" class="mt-4 px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl transition-all">
               Confirm Topics & Continue <i class="fa-solid fa-arrow-right ml-1"></i>
             </button>
           </div>
@@ -1268,6 +1268,12 @@
       return subjects;
     }
 
+    // English and Logical Reasoning use one syllabus level: chapter = topic.
+    // Keep the existing chapter/topic workflow for Biology, Physics and Chemistry.
+    function isSingleLevelPracticeSubject(subject) {
+      return subject === 'English' || subject === 'Logical Reasoning';
+    }
+
     function renderSubjectChoices() {
       const container = document.getElementById('subject-checkbox-container');
       if (!container) return;
@@ -1362,7 +1368,17 @@
       const container = document.getElementById('topic-options-container');
       container.innerHTML = '';
       const selected = new Set(wizardSelection.selectedTopics);
-      subjects.forEach(subject => {
+      const flatChapters = (wizardSelection.selectedChapters || []).filter(
+        key => isSingleLevelPracticeSubject(key.split('|||')[0])
+      );
+      if (flatChapters.length) {
+        const note = document.createElement('div');
+        note.className = 'col-span-full rounded-xl border border-sjn-border bg-zinc-900 p-4 text-xs leading-relaxed text-gray-300';
+        note.textContent = 'For English and Logical Reasoning, a chapter is also a topic. Your selected chapters are included automatically; no further topic selection is needed.';
+        container.appendChild(note);
+      }
+      let scienceTopics = 0;
+      subjects.filter(subject => !isSingleLevelPracticeSubject(subject)).forEach(subject => {
         const topicItems = [];
         mcqQuestionBank.filter(q => q.subject === subject).forEach(q =>
           topicItems.push({subject, chapter:q.chapter || 'General Chapter', topic:q.topic || 'General Topic'}));
@@ -1375,8 +1391,19 @@
           label.className = 'flex items-start p-3.5 rounded-xl border border-sjn-border bg-zinc-900 hover:border-amber-500 text-left cursor-pointer transition-all';
           label.innerHTML = `<input type="checkbox" value="${escapeHtml(key)}" class="topic-chk w-4 h-4 mt-0.5 mr-3" ${selected.has(key) ? 'checked' : ''}><span><span class="font-bold text-white block text-xs">🎯 ${escapeHtml(item.topic)}</span><span class="text-[10px] text-gray-400">${escapeHtml(item.subject)} • ${escapeHtml(item.chapter)}</span></span>`;
           container.appendChild(label);
+          scienceTopics++;
         });
       });
+      // In a flat-only Topic Drill, keep this step as a brief explanation page,
+      // with no empty topic choices and a direct Continue to Test Settings.
+      const allButton = document.getElementById('sjn-topic-select-all');
+      if (allButton) allButton.classList[scienceTopics ? 'remove' : 'add']('hidden');
+      const instructions = document.getElementById('sjn-topic-instructions');
+      if (instructions) instructions.innerText = scienceTopics
+        ? 'Choose science topics below. Selected English and Logical Reasoning chapters are included automatically.'
+        : 'Your selected chapters are ready. No additional topics need to be selected.';
+      const continueButton = document.getElementById('sjn-confirm-topics');
+      if (continueButton) continueButton.innerText = 'Continue to Test Settings →';
     }
 
     function toggleSelectAllTopics() {
@@ -1387,7 +1414,20 @@
 
     function confirmTopicSelection() {
       const selected = Array.from(document.querySelectorAll('.topic-chk:checked')).map(c => c.value);
-      if (!selected.length) { alert('Please select at least 1 topic.'); return; }
+      const chapters = wizardSelection.selectedChapters || [];
+      const needsScienceTopics = chapters.some(key => !isSingleLevelPracticeSubject(key.split('|||')[0]));
+      // Flat-only chapters need no checkbox; mixed drills must still select a
+      // topic for the chosen science chapter(s), never silently include all science MCQs.
+      if (needsScienceTopics && !selected.length) {
+        alert('Please select at least 1 science topic.');
+        return;
+      }
+      if (!chapters.length || (!needsScienceTopics && !chapters.some(
+        key => isSingleLevelPracticeSubject(key.split('|||')[0])
+      ))) {
+        alert('Please select at least 1 chapter.');
+        return;
+      }
       wizardSelection.selectedTopics = selected;
       // Preserve the selected chapter scope for Back navigation and saved test metadata.
       setWizardStep(4);
@@ -1435,7 +1475,13 @@
       bank.innerText = wizardSelection.bank;
       scope.innerText = wizardSelection.scope === 'custom-mix' ? 'Custom Quiz' : (wizardSelection.scope === 'subject-wise' ? 'One or Multiple Subjects' : wizardSelection.scope.replaceAll('-', ' '));
       subject.innerText = wizardSelection.selectedSubjects?.length ? wizardSelection.selectedSubjects.join(', ') : wizardSelection.subject;
-      const filters = wizardSelection.selectedTopics?.length ? `${wizardSelection.selectedTopics.length} topic(s)` : (wizardSelection.selectedChapters?.length ? `${wizardSelection.selectedChapters.length} chapter selection(s)` : 'All');
+      const flatCount = wizardSelection.scope === 'topic-wise'
+        ? (wizardSelection.selectedChapters || []).filter(
+          key => isSingleLevelPracticeSubject(key.split('|||')[0])).length : 0;
+      const topicCount = wizardSelection.selectedTopics?.length || 0;
+      const filters = wizardSelection.scope === 'topic-wise' && flatCount
+        ? [`${flatCount} English/Logic chapter(s)`, topicCount ? `${topicCount} science topic(s)` : null].filter(Boolean).join(' + ')
+        : topicCount ? `${topicCount} topic(s)` : (wizardSelection.selectedChapters?.length ? `${wizardSelection.selectedChapters.length} chapter selection(s)` : 'All');
       chapter.innerText = filters;
       mode.innerText = `${wizardSelection.mcqCount > 0 ? wizardSelection.mcqCount : '—'} MCQs | ${wizardSelection.testMode === 'tutor' ? 'Tutor' : 'Timed'}`;
     }
@@ -1453,9 +1499,15 @@
         if (wizardSelection.bank && q.bank !== wizardSelection.bank) return false;
         if (selectedSubjects.length && !selectedSubjects.includes(q.subject)) return false;
 
-        if (wizardSelection.scope === 'topic-wise' && wizardSelection.selectedTopics?.length) {
+        if (wizardSelection.scope === 'topic-wise') {
+          // Single-level English/Logical Reasoning categories are selected as chapters.
+          // Science questions require an explicitly selected topic.
+          if (isSingleLevelPracticeSubject(q.subject)) {
+            return wizardSelection.selectedChapters?.includes(
+              `${q.subject}|||${q.chapter || 'General Chapter'}`) === true;
+          }
           const key = `${q.subject}|||${q.chapter || 'General Chapter'}|||${q.topic || 'General Topic'}`;
-          return wizardSelection.selectedTopics.includes(key);
+          return wizardSelection.selectedTopics?.includes(key) === true;
         }
         if ((wizardSelection.scope === 'chapter-wise' || wizardSelection.scope === 'custom-mix') && wizardSelection.selectedChapters?.length && !wizardSelection.selectedChapters.includes('All Chapters')) {
           const key = `${q.subject}|||${q.chapter || 'General Chapter'}`;
@@ -1556,7 +1608,7 @@
       const q = currentQuizList[currentMcqIndex];
       document.getElementById('quiz-subject-badge').innerText = q.subject;
     const sourceBadge = q.source ? `<span class="shrink-0 px-2 py-0.5 bg-amber-950/80 border border-amber-700/50 text-amber-400 rounded text-[11px] font-bold uppercase tracking-wider inline-flex items-center gap-1"><i class="fa-solid fa-certificate"></i> ${q.source}</span>` : '';
-document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items-center gap-2 overflow-hidden w-full"><span class="truncate">${q.chapter || 'Chapter'} | ${q.topic || 'General Topic'}</span>${sourceBadge}</span>`;
+document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items-center gap-2 overflow-hidden w-full"><span class="truncate">${escapeHtml(isSingleLevelPracticeSubject(q.subject) ? (q.chapter || q.topic || 'General Chapter') : (q.chapter || 'Chapter') + ' | ' + (q.topic || 'General Topic'))}</span>${sourceBadge}</span>`;
       document.getElementById('quiz-counter').innerText = `Question ${currentMcqIndex + 1} of ${currentQuizList.length}`;
       document.getElementById('quiz-question-text').innerText = q.question;
 
@@ -2584,8 +2636,13 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         if (q.bank !== 'Past Papers Question Bank') return false;
         if (paperSourceFilter && q.source !== paperSourceFilter) return false;
         if (selectedSubjects.length && !selectedSubjects.includes(q.subject)) return false;
-        if (wizardSelection.scope === 'topic-wise' && wizardSelection.selectedTopics?.length) {
-          const key=`${q.subject}|||${q.chapter||'General Chapter'}|||${q.topic||'General Topic'}`; return wizardSelection.selectedTopics.includes(key);
+        if (wizardSelection.scope === 'topic-wise') {
+          if (isSingleLevelPracticeSubject(q.subject)) {
+            return wizardSelection.selectedChapters?.includes(
+              `${q.subject}|||${q.chapter||'General Chapter'}`) === true;
+          }
+          const key=`${q.subject}|||${q.chapter||'General Chapter'}|||${q.topic||'General Topic'}`;
+          return wizardSelection.selectedTopics?.includes(key) === true;
         }
         if ((wizardSelection.scope === 'chapter-wise'||wizardSelection.scope==='custom-mix') && wizardSelection.selectedChapters?.length && !wizardSelection.selectedChapters.includes('All Chapters')) {
           const key=`${q.subject}|||${q.chapter||'General Chapter'}`; return wizardSelection.selectedChapters.includes(key);
@@ -2600,13 +2657,9 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       items.forEach(key=>{const [subject,chapter]=key.split('|||'); const label=document.createElement('label'); label.className='flex items-center p-3 rounded-xl border border-sjn-border bg-zinc-900 hover:border-red-500 cursor-pointer'; label.innerHTML=`<input type="checkbox" value="${escapeHtml(key)}" class="chapter-chk w-4 h-4 mr-3" ${selected.has(key)?'checked':''}><span class="text-xs font-bold text-white">${escapeHtml(subject)} — ${escapeHtml(chapter)}</span>`; container.appendChild(label);});
       if(!items.length) container.innerHTML='<div class="col-span-2 p-5 text-center text-xs text-gray-500">No chapters are available because the question bank is empty.</div>';
     };
-    window.renderTopicOptions = function(subjects) {
-      const container=document.getElementById('topic-options-container'); container.innerHTML=''; const selected=new Set(wizardSelection.selectedTopics||[]);
-      const items=[...new Map(mcqQuestionBank.filter(q=>subjects.includes(q.subject)).map(q=>{const subject=q.subject,chapter=q.chapter||'General Chapter',topic=q.topic||'General Topic';return [`${subject}|||${chapter}|||${topic}`,{subject,chapter,topic}]})).values()]
-        .filter(item=>wizardSelection.scope !== 'topic-wise' || wizardSelection.selectedChapters.includes(`${item.subject}|||${item.chapter}`));
-      items.forEach(x=>{const key=`${x.subject}|||${x.chapter}|||${x.topic}`; const label=document.createElement('label'); label.className='flex items-start p-3.5 rounded-xl border border-sjn-border bg-zinc-900 hover:border-amber-500 cursor-pointer'; label.innerHTML=`<input type="checkbox" value="${escapeHtml(key)}" class="topic-chk w-4 h-4 mt-0.5 mr-3" ${selected.has(key)?'checked':''}><span><span class="font-bold text-white block text-xs">🎯 ${escapeHtml(x.topic)}</span><span class="text-[10px] text-gray-400">${escapeHtml(x.subject)} • ${escapeHtml(x.chapter)}</span></span>`; container.appendChild(label);});
-      if(!items.length) container.innerHTML='<div class="col-span-2 p-5 text-center text-xs text-gray-500">No topics are available because the question bank is empty.</div>';
-    };
+    // Reuse the single shared Topic Drill renderer, including its flat-subject rule.
+    // Do not shadow it with a second implementation that brings back dummy subtopics.
+    window.renderTopicOptions = renderTopicOptions;
     // Keep the already validated global count handlers; reassigning them
     // here previously converted a blank field into an unintended 1 MCQ.
     // Direct-entry Quick 5, course and paper paths still assign explicit counts.

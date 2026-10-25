@@ -7,6 +7,16 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-25 — OWNER APPROVED English + Logical Reasoning single-level Create Test flow (STAGING DEVELOPMENT)
+
+**Approval:** Owner approved applying the previously explained single-level treatment for English and Logical Reasoning (Chapter = Topic), including the edge case of Topic Drill combining a science subject with English/Logical Reasoning. Scope is the existing staging UI only. No new English MCQs or Logical Reasoning MCQs are approved for database publication by this request; content approval/import remains a separate explicit step.
+
+**Change:** Keep Biology/Chemistry/Physics at Subject → Chapter → Topic. Keep English and Logical Reasoning at Subject → Chapter, with a Step 3b informational notice that selected English/Logical chapters already constitute their topics; no invented/empty subtopic checkboxes, and directly continue to Test Settings. In mixed Topic Drill, require explicit science topic checkbox selections while automatically including precisely the selected English/Logical chapters. Ensure both the initial and authenticated override question-pool filters use the same strict logic, even when `selectedTopics` is empty for a flat-only selection. Do not accidentally include all science questions or unselected English chapters. Existing Custom Quiz, One or Multiple Subjects, All Subjects, Question Filters, settings, Tutor/Timed, Saved Drafts/Resume, Results and Retake must be protected. In question-display metadata, flat subjects show a single category label (no artificial `General Topic`).
+
+**Code/tests:** `public/index.html`, `public/sjn-phase4-preview.js`, `tests/create-test-stage2.test.js`. Add explicit English-only/Logical-only/mixed science+English and science-only regression assertions for filtering and Continue/Back. The student-facing categories will appear only after approved corresponding questions exist in staging Supabase; no demo data is being inserted by this UI change.
+
+**Release/QA:** Test new content flow in authenticated staging browser before owner acceptance. Keep PR #1 DRAFT, never merge without production approval; production Supabase is separate and not written. No temporary feature flag required: the single-level distinction is permanent intended business logic.
+
 ## 2026-10-24 — LATEST OWNER CHECK-IN: Chemistry checked; Physics degree symbols intentional; next English + Logical Reasoning
 
 **Owner report:** After the 17-question Chemistry Atomic Structure staging import, owner stated that they have checked it and it is okay (`maine check kar liya, theek hai`). Treat this as the owner's **reported Chemistry staging spot-check/acceptance**; do **not** misrepresent it as an independently witnessed full multi-subject, Tutor/Timed, Resume/Retake, history or production-release QA pass.

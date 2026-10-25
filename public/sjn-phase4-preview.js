@@ -286,8 +286,11 @@
     $('sjn-exam-answered-progress').title = completed + ' of ' + currentQuizList.length + ' questions answered';
     $('sjn-exam-counter').textContent = 'Question ' + (currentMcqIndex + 1);
     $('sjn-exam-question').textContent = q.question;
-    // Keep the existing SJN chapter/topic treatment: plain muted text, not new colored pills.
-    $('sjn-exam-chapter').textContent = (q.chapter || 'Chapter') + '  |  ' + (q.topic || 'General Topic');
+    // Single-level English/Logical Reasoning display a single category name.
+    // Science subjects retain their original chapter | topic treatment.
+    $('sjn-exam-chapter').textContent = (q.subject === 'English' || q.subject === 'Logical Reasoning')
+      ? (q.chapter || q.topic || 'General Chapter')
+      : (q.chapter || 'Chapter') + '  |  ' + (q.topic || 'General Topic');
     const src = $('sjn-exam-source-row');
     src.replaceChildren();
     if (q.source) {
