@@ -2880,8 +2880,12 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     };
 
     const originalToggleBookmark = window.toggleBookmarkCurrentMcq;
-    window.toggleBookmarkCurrentMcq = async function(){
-      const q=currentQuizList[currentMcqIndex]; if(!q)return;
+    window.toggleBookmarkCurrentMcq = async function(mcqId = null){
+      // Pin asynchronous mark saves to the clicked question, even if the
+      // student navigates while the request is in flight.
+      const q=mcqId === null ? currentQuizList[currentMcqIndex] :
+        currentQuizList.find(item=>String(item.id)===String(mcqId));
+      if(!q)return;
       if(!authToken){window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));return;}
       try { const r=await api('/bookmarks/toggle',{method:'POST',body:{mcqId:q.id}}); const idx=bookmarkedMcqs.findIndex(id=>String(id)===String(q.id)); if(r.bookmarked){if(idx<0)bookmarkedMcqs.push(q.id)}else if(idx>=0)bookmarkedMcqs.splice(idx,1); window.SJNPracticeFilters?.invalidate(); updateBookmarkButton(); } catch(e){alert(e.message);}
     };
