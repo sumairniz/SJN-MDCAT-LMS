@@ -49,15 +49,37 @@ test('Question metadata and Report control preserve inline styling and no duplic
   assert.match(css, /\.sjn-exam-card-top \{ align-items: center/);
 });
 
-test('Report form has exactly ten categories, optional details and never falsely saves', () => {
+test('Report preview offers eleven independently selectable reasons without falsely saving', () => {
   const categories = js.match(/name="sjn-report-reason" value="/g) || [];
-  assert.equal(categories.length,10);
-  assert.match(js, /id="sjn-exam-report-details"/);
-  assert.match(js, /id="sjn-exam-report-submit"[^>]*disabled/);
-  assert.match(js, /reportSubmit\.disabled = !reportForm\.querySelector/);
-  assert.match(js, /Nothing has been sent or saved/);
-  assert.doesNotMatch(js, /fetch\([^\n]*report/);
-  assert.match(css, /max-height: 89dvh/);
+  assert.equal(categories.length,11);
+  assert.equal((js.match(/type="checkbox" name="sjn-report-reason"/g)||[]).length,11);
+  assert.doesNotMatch(js,/type="radio" name="sjn-report-reason"/);
+  assert.match(js,/Select one or more reasons/);
+  assert.match(js,/value="out-of-syllabus"/);
+  assert.match(js,/Out of Syllabus/);
+  assert.match(js,/id="sjn-exam-report-details"/);
+  assert.match(js,/id="sjn-exam-report-submit"[^>]*disabled/);
+  assert.match(js,/reportSubmit\.disabled = !reportForm\.querySelector/);
+  assert.match(js,/Nothing has been sent or saved/);
+  assert.doesNotMatch(js,/fetch\([^\n]*report/);
+  assert.match(css,/max-height: 89dvh/);
+});
+test('Mark visual state is immediate with server-confirmed rollback and the existing marked-filter purple',()=>{
+  const dashboard=fs.readFileSync(path.join(root,'public/index.html'),'utf8');
+  assert.match(dashboard,/--sjn-chip-accent:#a78bfa;--sjn-chip-text:#c4b5fd/);
+  assert.match(css,/--sjn-mark-accent: #a78bfa; --sjn-mark-text: #c4b5fd/);
+  assert.match(css,/\.sjn-exam-mark\.is-marked \{[^}]*border-color: var\(--sjn-mark-accent\)/);
+  assert.match(css,/\.sjn-exam-mark:not\(:disabled\):hover/);
+  assert.match(css,/\.sjn-exam-report-trigger:hover/);
+  assert.match(js,/const pendingMarkRequests = new Map\(\)/);
+  assert.match(js,/pendingMarkRequests\.set\(key, !marked\(q\)\);\s*renderMarkAction\(q\)/);
+  assert.match(js,/if \(pendingMarkRequests\.has\(key\)\) return/);
+  assert.match(js,/await window\.toggleBookmarkCurrentMcq\(\)/);
+  assert.match(js,/finally \{\s*pendingMarkRequests\.delete\(key\)/);
+  assert.match(js,/btn\.disabled = pending/);
+  assert.match(js,/btn\.querySelector\('span'\)\.textContent = label/);
+  assert.match(dashboard,/await api\('\/bookmarks\/toggle'/);
+  assert.doesNotMatch(js,/fetch\('\/api\/bookmarks\/toggle'/);
 });
 
 test('Stage 2 remains a visual preview; durable progress is still not claimed', () => {
