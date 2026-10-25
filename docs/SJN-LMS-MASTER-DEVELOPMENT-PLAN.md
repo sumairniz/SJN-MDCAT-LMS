@@ -7,6 +7,16 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-25 — English 10-question staging import COMPLETED / VERIFIED (owner-approved content)
+
+**Owner approval:** Following review of 10 English 2025 Past Paper MCQs with concise explanations/tips, owner replied "approved". Authorized **English content batch import to staging**; Logical Reasoning content has not been provided/approved and is not imported.
+
+**Source of truth for future publication:** Versioned `content/imports/english-2025-10.approved.json`, commit `578f7de172a792b7fb37dd89ee311fba09d8c358`. Exactly 10 unchanged supplied questions/options/keys/sources, with 10 accepted explanations/SJN tips. Three **single-level** classifications: `Spellings` 6; `Subject-Verb Agreement` 2; `Verb` 2. To preserve existing DB `chapter` and `topic` fields while supporting existing flow, both values equal the category name for English. The UI deliberately displays it only once; user-visible quiz question positions are dynamic, while DB IDs are stable. No new taxonomy tables or demo subtopics.
+
+**Atomic staging Supabase import:** Prior read-only snapshot: 120 MCQs, 120 revisions, no English records, 107 attempts, 342 attempt items, 38 drafts. One PostgreSQL DO statement verified exact baseline, manifest validity, all 10 questions and duplicate absence, inserted each MCQ plus revision-1 snapshot, linked `current_revision_id`, and aborts/rolls back transaction on any inconsistent count or parity check. Verification shows **130 total** MCQs: Biology 74, Physics 29, Chemistry 17, English 10. Existing student history/drafts/MCQs not deleted or rewritten. English chapter/revision parity errors **0**.
+
+**QA still pending:** Actual logged-in staging browser verification for English-only Custom Quiz and Topic Drill, mixed Physics + English topic drill, Tutor/Timed submission, history/retake and refresh as appropriate. Earlier single-level UI change `703b9057` + test fix `a0ef9cd` passed both automated GitHub workflows; owner browser acceptance for new English content not yet claimed. Main, production DB, PR merge unchanged. Production must separately import content from approved versioned manifest, not assume Git merge copies staging MCQ rows.
+
 ## 2026-10-25 — OWNER APPROVED English + Logical Reasoning single-level Create Test flow (STAGING DEVELOPMENT)
 
 **Approval:** Owner approved applying the previously explained single-level treatment for English and Logical Reasoning (Chapter = Topic), including the edge case of Topic Drill combining a science subject with English/Logical Reasoning. Scope is the existing staging UI only. No new English MCQs or Logical Reasoning MCQs are approved for database publication by this request; content approval/import remains a separate explicit step.
