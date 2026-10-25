@@ -254,6 +254,8 @@ test('Mixed Physics + English Topic Drill includes chosen flat chapter and chose
   e.choices.chapters=['English|||Verb'];
   e.ctx.confirmChapterSelection();
   assert.deepEqual(Array.from(e.ctx.wizardSelection.selectedTopics),[],'Back changing chapters clears old science topic');
+  // Mimic the rerendered DOM: the earlier Physics checkbox is no longer selected.
+  e.choices.topics=[];
   e.ctx.confirmTopicSelection();
   assert.equal(e.steps.at(-1),4);
   assert.deepEqual(Array.from(e.ctx.getFilteredQuestionPool()).map(x=>x.id),[304]);
