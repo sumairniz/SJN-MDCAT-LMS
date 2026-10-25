@@ -7,6 +7,14 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-26 — OWNER-APPROVED STICKY HEADER ZERO-GAP REFINEMENT (STAGING; browser UAT pending)
+
+**Context and approval:** The owner tested the new sticky exam topbar and provided paired browser screenshots. Sticky scrolling works, but the originally chosen `top: 8px` created a visible black gap between the top of the webpage viewport (under Chrome's browser chrome) and the bar while scrolling. Owner rejected that detached look, emphasized proactive professional design advice (flag foreseeable UX/design trade-offs before implementation while still requiring explicit change approval), and then expressly approved removing the gap. The screenshots are reference evidence; no redesign or additional code fixes were authorized.
+
+**Surgical correction:** Change the **existing** `public/sjn-phase4-preview.css` `.sjn-exam-topbar` declaration from `position: sticky; top: 8px; z-index: 40;` to `position: sticky; top: 0; z-index: 40;`. This makes the header flush with the visible webpage top when stuck, while leaving the initial outer container padding, header border/radius/colors/dimensions and normal in-flow layout unchanged. Header controls, timer, dialog overlays, mobile navigator and breakpoint styles remain unchanged. Update focused guard in `tests/phase4-stage2-adjustments.test.js` to assert the zero offset. No temporary flags, no JavaScript, APIs, database changes or production release.
+
+**Acceptance boundary:** The owner approved the **change**, but has not yet confirmed browser acceptance of the zero-gap result. GitHub checks and real desktop/mobile browser review are distinct gates. PR #1 remains draft/unmerged; `main`, production Vercel and production Supabase unchanged. Continue documenting owner feedback and flag design concerns early without making out-of-scope changes.
+
 ## 2026-10-26 — STAGING IMPLEMENTATION: Sticky MCQ Exam Header (OWNER APPROVED, BROWSER UAT PENDING)
 
 **Owner request and approval:** Owner supplied an image of the actual MCQ practice exam header (Exit, SJN EXAM, Tutor/Timed, current/total, answered progress, countdown/clock, navigator toggle and Submit). They explicitly approved keeping this **same header visible at the top while scrolling** through question text, options, explanations and tips; they did **not** request a redesign or new fixed overlay. Keep existing geometry/colors/buttons and behave correctly on mobile and desktop. Owner's browser acceptance of this individual change is **pending** until reported.

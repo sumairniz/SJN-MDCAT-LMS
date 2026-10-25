@@ -23,7 +23,7 @@ test('Owner-approved exam header stays sticky in the scrollable workspace on des
   const header = css.match(/\.sjn-exam-topbar\s*\{([^}]*)\}/)?.[1];
   assert.ok(header, 'Exam topbar must retain a single scoped CSS rule');
   assert.match(header, /position:\s*sticky;/);
-  assert.match(header, /top:\s*8px;/);
+  assert.match(header, /top:\s*0(?:px)?;/);
   assert.match(header, /z-index:\s*40;/);
   assert.doesNotMatch(header, /position:\s*fixed;/);
   // Existing dialogs and mobile drawer stay above the sticky header.
