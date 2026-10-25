@@ -7,6 +7,16 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-26 — STAGING IMPLEMENTATION: Sticky MCQ Exam Header (OWNER APPROVED, BROWSER UAT PENDING)
+
+**Owner request and approval:** Owner supplied an image of the actual MCQ practice exam header (Exit, SJN EXAM, Tutor/Timed, current/total, answered progress, countdown/clock, navigator toggle and Submit). They explicitly approved keeping this **same header visible at the top while scrolling** through question text, options, explanations and tips; they did **not** request a redesign or new fixed overlay. Keep existing geometry/colors/buttons and behave correctly on mobile and desktop. Owner's browser acceptance of this individual change is **pending** until reported.
+
+**Minimal safe implementation:** Source inspection confirms the genuine exam scroll container is `<main id="sjn-workspace-main" class="... overflow-y-auto ...">` in `public/index.html`, with the exam `<header class="sjn-exam-topbar">` inside the normal scrolling `sjn-exam-container`. Update only `public/sjn-phase4-preview.css`: add `position: sticky; top: 8px; z-index: 40;` to the existing topbar rule. Keep opaque existing topbar background so content scrolls behind it without text bleeding through. Sticky element remains in document flow (unlike `position: fixed`) and retains spacing without obscuring questions. Existing dialog layer z=95, report layer z=96 and mobile question navigator z=90 stay above the header. Existing responsive `@media` header sizing unchanged, and this CSS only loads in staged exam workspace. No new scrolling mechanism, JS listeners, auth API, database or temporary flag.
+
+**Regression guard:** `tests/phase4-stage2-adjustments.test.js` verifies sticky positioning/offset, existing scroll container, header controls, z-index below overlays, and unchanged mobile compact layout. GitHub CI status and owner device acceptance are separate checks; do not claim production ready from a CSS test alone.
+
+**Scope boundary:** Do not alter question navigation, mark/review, timer/submission, recovery, results, question data, Test History or exam routing. Work stays on `sjn-phase1a-foundation` with PR #1 DRAFT/unmerged; production/main and production Supabase untouched.
+
 ## 2026-10-26 — LATEST OWNER ACCEPTANCE / NEW-CHAT RESUME CHECKPOINT (documentation only)
 
 **Owner report:** After the latest mobile screen-recording-driven fix and Test History → Review purple bookmark update, owner reported “very good,” said the changes made so far are working well, and confirmed the current changes are accepted/done. Treat this as **owner-reported acceptance of these recent UI adjustments**, not a claim that a new full production security/load/regression audit or independent browser test was performed. The user explicitly wants GitHub documentation kept current for reliable handoff if conversation context is lost.

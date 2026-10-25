@@ -16,6 +16,24 @@ test('Stage 2 refinement JavaScript parses and does not change the default previ
   assert.match(js, /const origLaunch = window\.launchGeneratedQuiz/);
 });
 
+test('Owner-approved exam header stays sticky in the scrollable workspace on desktop and mobile', () => {
+  const dashboard = fs.readFileSync(path.join(root, 'public/index.html'), 'utf8');
+  assert.match(dashboard, /<main id="sjn-workspace-main" class="[^"]*overflow-y-auto/);
+  assert.match(js, /<header class="sjn-exam-topbar">[\s\S]*?id="sjn-exam-exit"[\s\S]*?id="sjn-exam-mode"[\s\S]*?id="sjn-exam-clock"[\s\S]*?id="sjn-exam-nav-toggle"[\s\S]*?id="sjn-exam-submit"/);
+  const header = css.match(/\.sjn-exam-topbar\s*\{([^}]*)\}/)?.[1];
+  assert.ok(header, 'Exam topbar must retain a single scoped CSS rule');
+  assert.match(header, /position:\s*sticky;/);
+  assert.match(header, /top:\s*8px;/);
+  assert.match(header, /z-index:\s*40;/);
+  assert.doesNotMatch(header, /position:\s*fixed;/);
+  // Existing dialogs and mobile drawer stay above the sticky header.
+  assert.match(css, /\.sjn-exam-dialog-layer \{[^}]*z-index:\s*95;/);
+  assert.match(css, /\.sjn-exam-report-layer \{[^}]*z-index:\s*96;/);
+  assert.match(css, /\.sjn-exam-navigator \{[^}]*z-index:\s*90;/);
+  // The mobile header retains its approved compact dimensions.
+  assert.match(css, /\.sjn-exam-topbar \{ padding: 8px 7px; gap: 5px; min-height: 56px;/);
+});
+
 test('Answered progress is based on answered count and unaffected by current question index', () => {
   const match = js.match(/function calculateAnsweredProgress\(answerList, total\) \{[\s\S]*?\n  \}/);
   assert.ok(match, 'Progress helper should be directly testable');
