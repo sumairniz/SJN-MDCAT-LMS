@@ -7,6 +7,16 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-25 — Logical Reasoning 16 MCQs owner-approved STAGING IMPORT VERIFIED
+
+**Approval:** Owner approved 16 original 2025 Past Paper Logical Reasoning MCQs, one-level chapter/topic `Logical Problems`, simple explanations and concise SJN Tips. Original question text, options, source and original answer key must not be silently rewritten. Q7 mentions six family members but names five; documented as a source wording note only, with correct original key D unchanged.
+
+**Versioned content for future publication:** `content/imports/logical-reasoning-logical-problems-2025-16.approved.json` committed at `3bc39663b0dbff504c2d342a8268f51d5817ec3d`. All 16 questions have `subject='Logical Reasoning'`, `chapter='Logical Problems'`, `topic='Logical Problems'`; UI displays one flat category. Permanent Supabase question IDs are independent of incoming review numbers and random quiz question positions.
+
+**Transactional import:** On staging Supabase project `aozknkrwafowsrehdwlr`, preflight confirmed 130 MCQs + 130 revisions, 0 Logical Reasoning rows, 108 test histories and 38 draft rows. A single transaction-scoped DO statement checked 16 manifest entries, duplicate absence, metadata, key bounds and old counts; created each MCQ, its immutable revision-1 row and current revision link, then validated 146/146 totals and newly inserted question/revision parity. **Postflight VERIFIED**: Logical Reasoning **16 MCQs IDs 131–146**, 0 missing revision links and 0 mismatches; existing Biology 74, Physics 29, Chemistry 17, English 10 retained. Total **146 published staging MCQs** across all five subjects. Test histories were not deleted or modified.
+
+**Pending QA / release:** Owner authenticated browser test of Logical Problems in Custom Quiz/Topic Drill, mixed science + flat category flow and history/retake remains unverified. Data changes are **staging only**; PR #1 still draft, production / main not merged, separate production question import from versioned manifests required. No new temporary runtime code was added by this data import.
+
 ## 2026-10-25 — English 10-question staging import COMPLETED / VERIFIED (owner-approved content)
 
 **Owner approval:** Following review of 10 English 2025 Past Paper MCQs with concise explanations/tips, owner replied "approved". Authorized **English content batch import to staging**; Logical Reasoning content has not been provided/approved and is not imported.
