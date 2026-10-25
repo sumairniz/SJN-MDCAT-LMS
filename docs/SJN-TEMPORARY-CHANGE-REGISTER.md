@@ -6,6 +6,14 @@
 **Repository / branch at initial audit:** `sumairniz/SJN-MDCAT-LMS` / `sjn-phase1a-foundation`, inspected at `981b8a2103ad190c9203e13dc3a12e74a1539b44`.  
 **Release gate:** This register must be reconciled against the actual release diff and all entries explicitly disposed of **before any merge to main**. This document itself does not authorize code/database changes, a merge or deployment.
 
+## NEW CHECKPOINT ADDENDUM — 2026-10-26 (no code/config action)
+
+Owner confirmed the recent Mark for Review desktop/mobile and completed-test history review purple UI adjustments are **working well and accepted**. Last accepted **runtime/code** commit `dccd7a20f44e946d0c3b763e1220a8230ac79e85`, with Foundation CI passes `40234126569` / `40234123224`. Permanent UI improvements (existing Marked-filter purple; in-memory mark-state intent, mobile hit target, serial authoritative bookmark saves, same history review label) did **not** introduce a temporary flag or a new report server.
+
+**Important open items stay open:** `TEMP-P4-001` (preview gate), `TEMP-P4-002` (Report Issue is UI-only: 11 multiple-select reasons including Out of Syllabus, but **nothing submitted, saved or sent**), `TEMP-P4-004` (bookmark production integration/identity regression release checks still needed), `TEMP-P4-007` (preview diagnostics), and other items detailed below. Owner acceptance of the front-end does **not** authorize production merge, report backend, removal of preview routing, deletion of manual Save & Exit infrastructure, security shortcuts, or altering completed history.
+
+Staging published question bank is **146 MCQs across five subjects**; approved original/manifest records are tracked in the Master Development Plan. GitHub PR #1 remains draft/unmerged and production data separate. This entry is **documentation only**, not a release approval. Before production, perform exact current-code vs TEMP register audit and obtain owner permission. Earlier 2026-10-22 audit is historical evidence, not an assertion of present acceptance status.
+
 ## CURRENT AUDIT ADDENDUM — 2026-10-22 (supersedes older "OPEN" descriptions where specified)
 
 **Purpose:** The original 2026-10-16 inventory and dated 2026-10-18/21 notes remain intact as an audit trail, but several "not implemented" statements are **historical**, not current. Verified current staging source against the newest owner-accepted Master Development Plan. **No temporary runtime item is automatically release-approved by this documentation update.** Do not remove legitimate, owner-approved MCQ, results, draft, history or recovery features merely because the preview wrapper is temporary.
