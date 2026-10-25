@@ -640,7 +640,7 @@
     try {
       // The existing authenticated writer mutates bookmarks only after the API
       // confirms success. Failures leave the canonical state unchanged.
-      await window.toggleBookmarkCurrentMcq();
+      await window.toggleBookmarkCurrentMcq(q.id);
     } catch (error) {
       alert('Unable to update the mark. Please try again.');
     } finally {
