@@ -387,3 +387,15 @@ test('After a confirmed Submit, direct Results/Dashboard to Step 4 reloads only 
   assert.match(html,/if \(modName === 'wizard' && wizardSelection\.currentStepNum === 4 &&\s+wizardQuestionFiltersActive\)/);
   assert.match(html,/void window\.SJNPracticeFilters\?\.load\(\)/);
 });
+
+test('Completed Test History review shares practice mark labels, purple state and server-only persistence',()=>{
+  assert.match(js,/function paintReviewMark\(button,item,isMarked,pending=false\)/);
+  assert.match(js,/const label=isMarked\?'Marked':'Mark for Review'/);
+  assert.match(js,/fa-solid':'fa-regular'\)\+' fa-bookmark'/);
+  assert.match(js,/paintReviewMark\(mark,item,!item.marked,true\)/);
+  assert.match(js,/const result=await window.SJNHistoryToggleMark\(item.mcqId\)/);
+  assert.match(js,/paintReviewMark\(mark,item,item.marked,false\)/);
+  assert.match(css,/sjn-history-mark\.is-marked\{color:var\(--sjn-mark-text\);border-color:var\(--sjn-mark-accent\)/);
+  assert.match(css,/--sjn-mark-accent:#a78bfa;--sjn-mark-text:#c4b5fd/);
+  assert.doesNotMatch(js,/Unmark Question/);
+});
