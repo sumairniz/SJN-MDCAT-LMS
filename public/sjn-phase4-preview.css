@@ -128,7 +128,7 @@ body.sjn-phase4-exam-active #sjn-workspace-main { scroll-behavior: auto; }
 .sjn-exam-mark.is-marked { color: var(--sjn-mark-text); border-color: var(--sjn-mark-accent); background: var(--sjn-mark-tint); }
 .sjn-exam-mark:not(:disabled):hover,.sjn-exam-report-trigger:hover { border-color: #71717a; background: #2d2d34; }
 .sjn-exam-mark.is-marked:hover { border-color: var(--sjn-mark-accent); background: rgba(167,139,250,.13); }
-.sjn-exam-mark:disabled { cursor: progress; opacity: 1; }
+.sjn-exam-mark { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .sjn-exam-report-trigger { color: #f87171; transition: border-color .12s ease, background-color .12s ease, color .12s ease; }
 .sjn-exam-report-trigger:hover,.sjn-exam-report-trigger:focus-visible { color: #fca5a5; }
 .sjn-exam-counter { display: block; margin: 16px 0 4px; font-size: 12px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #d4d4d8; }
@@ -187,6 +187,7 @@ body.sjn-phase4-report-open #sjn-workspace-main { overflow: hidden !important; }
   .sjn-exam-source-row { flex-basis: auto; }
   .sjn-exam-mark,.sjn-exam-report-trigger { min-width: 33px; min-height: 38px; padding: 6px; font-size: 15px; border: 1px solid transparent; }
   .sjn-exam-mark.is-marked { border-color: var(--sjn-mark-accent); }
+  .sjn-exam-mark { min-width: 44px; min-height: 44px; }
   .sjn-exam-card-actions { gap: 2px; }
   .sjn-exam-mark span,.sjn-exam-report-trigger span { display: none; }
   .sjn-exam-counter { margin: 12px 0 5px; font-size: 11px; }

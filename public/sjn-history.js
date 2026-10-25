@@ -254,6 +254,17 @@
     target.textContent=text(message);
     target.classList.remove('hidden');
   }
+  function paintReviewMark(button,item,isMarked,pending=false){
+    const label=isMarked?'Marked':'Mark for Review';
+    button.classList.toggle('is-marked',isMarked);
+    button.setAttribute('aria-pressed',String(isMarked));
+    button.setAttribute('aria-busy',String(pending));
+    button.disabled=pending;
+    button.querySelector('i').className=(isMarked?'fa-solid':'fa-regular')+' fa-bookmark';
+    button.querySelector('span').textContent=label;
+    button.title=pending?'Saving mark…':label;
+    button.setAttribute('aria-label',pending?label+', saving':label);
+  }
   const outcomeOf = item => item.selectedIndex === null?'unanswered':item.isCorrect?'correct':'incorrect';
   function matchingItems() {
     const items=state.detail?.items || [];
@@ -310,16 +321,27 @@
     if(item.selectedIndex===null)area.append(el('p','sjn-history-skipped-note','You skipped this question.'));
     if(item.explanation){const expl=el('div','sjn-history-explanation');expl.append(el('strong','', 'Explanation'),el('p','',item.explanation));area.append(expl);}
     if(item.mnemonic){const mnemonic=el('div','sjn-history-mnemonic');mnemonic.append(el('strong','', 'SJN Mnemonic / Tip'),el('p','',item.mnemonic));area.append(mnemonic);}
-    const mark=el('button','sjn-history-mark',item.marked?'Unmark Question':'Mark for Review');
-    mark.type='button';mark.append(icon('bookmark'));
+    const mark=el('button','sjn-history-mark');
+    mark.type='button';
+    mark.append(el('i'),el('span'));
+    paintReviewMark(mark,item,item.marked);
     mark.addEventListener('click',async()=>{
-      if(state.busy)return;state.busy=true;mark.disabled=true;
+      if(state.busy)return;
+      state.busy=true;
+      // Visual intent is immediate; the existing authenticated writer
+      // remains authoritative and confirms the persistent state.
+      paintReviewMark(mark,item,!item.marked,true);
       try {
         const result=await window.SJNHistoryToggleMark(item.mcqId);
         item.marked=result.bookmarked===true;
         renderQuestion();
-      }catch(err){detailError(err.message || 'Unable to update mark.');}
-      finally{state.busy=false;mark.disabled=false;}
+      }catch(err){
+        paintReviewMark(mark,item,item.marked,false);
+        detailError(err.message || 'Unable to update mark.');
+      }finally{
+        state.busy=false;
+        mark.disabled=false;
+      }
     });
     area.append(mark);
   }

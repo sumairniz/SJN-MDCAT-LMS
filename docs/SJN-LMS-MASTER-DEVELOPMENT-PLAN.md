@@ -7,6 +7,16 @@
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
 
+## 2026-10-26 — Owner-approved MOBILE Mark tap reliability + completed Test History Review purple mark (STAGING)
+
+**Owner-approved scope:** User reports desktop Mark/Unmark responsive but mobile requires multiple taps; completed Test History → Review Test still uses old yellow mark control. Fix only mobile tap reliability and history review mark control, matching `Mark for Review` (outline icon) ↔ `Marked` (filled icon) and existing purple values `#a78bfa`, `#c4b5fd`, `rgba(167,139,250,.075)`. No changes to science/English/Logical content, review navigation, report submission, production or schema.
+
+**Implementation:** Mobile exam bookmark target is at least 44×44 with `touch-action: manipulation`, desktop sizing unchanged. Previous preview disabled the button during the bookmark HTTP round-trip, silently discarding taps. Now a display-only latest-desired-state map accepts taps during pending writes, and a per-MCQ writer serializes authenticated `/bookmarks/toggle` requests to converge to the latest desired state. It never writes bookmarks into localStorage or changes confirmed data before API success. Existing authenticated bookmark writer returns true/false, with active-student identity check, so failed saves revert to confirmed state and no incorrect "saved" state persists. In-flight requests remain anchored to the clicked MCQ even on navigation.
+
+**Completed Test History Review:** Added history-scoped `paintReviewMark`, immediate visual response, purple active outline, correct outlined/filled icon and default/marked labels; the existing history bookmark API remains authoritative, and an error restores the original state. The existing purple navigator marked flags and red/green status remain unchanged.
+
+**Files:** `public/index.html`, `public/sjn-phase4-preview.js`, `public/sjn-phase4-preview.css`, `public/sjn-history.js`, `public/sjn-history.css`, accompanying regression tests. No temporary flag created; permanent change only. CI and owner real-device UAT separate gates. PR #1 remains DRAFT and production untouched.
+
 ## 2026-10-25 — Mark for Review response and Report Issue UI (approved staging-only refinement)
 
 **Approval:** Owner approved interactive hover on Mark for Review and Report Issue; immediately visible `Mark for Review` (outline icon) → `Marked` (filled icon) and purple outlined button; exact existing Marked question-filter purple accent `#a78bfa` with matching text `#c4b5fd` and tint `rgba(167,139,250,.075)`; clicking again restores default. Owner also approved Report Issue adding `Out of Syllabus` and allowing multiple independent reason checkboxes. No new backend reporting or persistence for issue reports until a separately approved next step.

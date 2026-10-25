@@ -193,6 +193,7 @@
   // Display-only bookmark intent. The existing authenticated server writer is
   // authoritative; no speculative persistent bookmark/cache/filter mutation.
   const pendingMarkRequests = new Map();
+  const activeMarkWriters = new Set();
   const marked = (q) => {
     if (!q) return false;
     const key = String(q.id);
@@ -209,11 +210,34 @@
     btn.classList.toggle('is-saving', pending);
     btn.setAttribute('aria-pressed', String(selected));
     btn.setAttribute('aria-busy', String(pending));
-    btn.disabled = pending;
+    // Every tap is accepted; the writer serializes requests per MCQ.
+    btn.disabled = false;
     btn.querySelector('i').className = (selected ? 'fa-solid' : 'fa-regular') + ' fa-bookmark';
     btn.querySelector('span').textContent = label;
     btn.setAttribute('aria-label', pending ? label + ', saving' : label);
     btn.title = pending ? 'Saving mark…' : label;
+  }
+  async function persistMarkIntention(q) {
+    const key = String(q.id);
+    if (activeMarkWriters.has(key)) return;
+    activeMarkWriters.add(key);
+    try {
+      while (pendingMarkRequests.has(key)) {
+        const desired = pendingMarkRequests.get(key);
+        const confirmed = bookmarkedMcqs.some(id => String(id) === key);
+        if (desired === confirmed) break;
+        // One authenticated API request at a time for this question. If a
+        // second tap happens during it, apply the newest intent after it settles.
+        const saved = await window.toggleBookmarkCurrentMcq(q.id);
+        if (saved !== true) break; // Existing writer reports error; restore.
+      }
+    } finally {
+      pendingMarkRequests.delete(key);
+      activeMarkWriters.delete(key);
+      if (state.open && String(currentQuizList[currentMcqIndex]?.id) === key)
+        renderMarkAction(currentQuizList[currentMcqIndex]);
+      if (state.open) renderNumbers();
+    }
   }
 
   function setURL(url, replace = false) {
@@ -628,27 +652,14 @@
   $('sjn-exam-nav-toggle').addEventListener('click', toggleNavigator);
   $('sjn-exam-close-nav').addEventListener('click', closeNavigator);
   $('sjn-exam-nav-backdrop').addEventListener('click', closeNavigator);
-  $('sjn-exam-mark').addEventListener('click', async () => {
+  $('sjn-exam-mark').addEventListener('click', () => {
     const q = state.open && currentQuizList[currentMcqIndex];
     if (!q) return;
     const key = String(q.id);
-    // One request per MCQ: repeated clicks cannot race opposing server toggles.
-    if (pendingMarkRequests.has(key)) return;
     pendingMarkRequests.set(key, !marked(q));
     renderMarkAction(q);
     renderNumbers();
-    try {
-      // The existing authenticated writer mutates bookmarks only after the API
-      // confirms success. Failures leave the canonical state unchanged.
-      await window.toggleBookmarkCurrentMcq(q.id);
-    } catch (error) {
-      alert('Unable to update the mark. Please try again.');
-    } finally {
-      pendingMarkRequests.delete(key);
-      if (state.open && String(currentQuizList[currentMcqIndex]?.id) === key)
-        renderMarkAction(currentQuizList[currentMcqIndex]);
-      if (state.open) renderNumbers();
-    }
+    void persistMarkIntention(q);
   });
   window.addEventListener('beforeunload', (e) => {
     if (!state.open || state.reviewOnly) return;

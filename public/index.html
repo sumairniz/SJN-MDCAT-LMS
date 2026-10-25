@@ -2885,9 +2885,20 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       // student navigates while the request is in flight.
       const q=mcqId === null ? currentQuizList[currentMcqIndex] :
         currentQuizList.find(item=>String(item.id)===String(mcqId));
-      if(!q)return;
-      if(!authToken){window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));return;}
-      try { const r=await api('/bookmarks/toggle',{method:'POST',body:{mcqId:q.id}}); const idx=bookmarkedMcqs.findIndex(id=>String(id)===String(q.id)); if(r.bookmarked){if(idx<0)bookmarkedMcqs.push(q.id)}else if(idx>=0)bookmarkedMcqs.splice(idx,1); window.SJNPracticeFilters?.invalidate(); updateBookmarkButton(); } catch(e){alert(e.message);}
+      if(!q)return false;
+      if(!authToken){window.location.replace(SJNPreviewAuthRoute.to('/landing.html'));return false;}
+      const expectedStudentId=currentUser?.id;
+      try {
+        const r=await api('/bookmarks/toggle',{method:'POST',body:{mcqId:q.id}});
+        if(!expectedStudentId || currentUser?.id!==expectedStudentId)
+          throw new Error('The active student account changed. Reload before marking questions.');
+        const idx=bookmarkedMcqs.findIndex(id=>String(id)===String(q.id));
+        if(r.bookmarked){if(idx<0)bookmarkedMcqs.push(q.id)}
+        else if(idx>=0)bookmarkedMcqs.splice(idx,1);
+        window.SJNPracticeFilters?.invalidate();
+        updateBookmarkButton();
+        return true;
+      } catch(e){alert(e.message);return false;}
     };
 
     const originalFinishQuiz = window.finishQuiz;
