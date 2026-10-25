@@ -113,7 +113,8 @@ test('Last question switches Next to red Finish and reuses Submit confirmation',
 
 test('Desktop outlined controls stay icon-only on mobile; scrollbar is thin and scoped', () => {
   assert.match(css, /\.sjn-exam-mark,\.sjn-exam-report-trigger \{[^}]*border: 1px solid #414148; border-radius: 8px/);
-  assert.match(css, /\.sjn-exam-mark,\.sjn-exam-report-trigger \{[^}]*min-width: 33px;[^}]*border: 0;/);
+  assert.match(css, /\.sjn-exam-mark,\.sjn-exam-report-trigger \{[^}]*min-width: 33px;[^}]*border: 1px solid transparent;/);
+  assert.match(css, /\.sjn-exam-mark\.is-marked \{ border-color: var\(--sjn-mark-accent\); \}/);
   assert.match(css, /\.sjn-exam-mark span,\.sjn-exam-report-trigger span \{ display: none; \}/);
   assert.match(css, /scrollbar-width: thin;/);
   assert.match(css, /\.sjn-exam-navigator::-webkit-scrollbar,[^}]*width: 3px; height: 3px;/);
