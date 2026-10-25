@@ -3,9 +3,15 @@
 **Document type:** Living project decision log, roadmap, acceptance criteria and risk register  
 **Established:** 2026-10-13 (Pakistan time)  
 **Owner:** Academy project owner; changes to application, database, environments and production always require scoped permission  
-**Latest owner-accepted feature-code baseline:** `dccd7a20f44e946d0c3b763e1220a8230ac79e85` on `sjn-phase1a-foundation` — mobile Mark for Review tap reliability and completed Test History Review purple button; both Foundation checks passed (runs `40234126569`, `40234123224`). Owner subsequently confirmed these minor adjustments are working well and accepted on **2026-10-26**. This is **staging feature acceptance, NOT production release approval**. Earlier stage/feature baselines below are retained as history; documentation-only commits may advance branch head.
+**Latest owner-accepted feature-code baseline:** `8ea23fee53bb99a95d0794453626762aaab6d526` on `sjn-phase1a-foundation` — sticky exam topbar with zero viewport gap (owner tested and accepted on **2026-10-26**); two Foundation CI workflows passed at this feature commit. Earlier mobile bookmark and History Review improvements were accepted separately at `dccd7a20f44e946d0c3b763e1220a8230ac79e85`. This is **staging acceptance only, NOT production approval**. Documentation-only commits may advance branch head.
 **Production code baseline:** `de519ae01ef4093dea04e92970b27e595f0cf56e` on `main`  
 **Pull request:** [PR #1](https://github.com/sumairniz/SJN-MDCAT-LMS/pull/1), **DRAFT — DO NOT MERGE without separate authorization**
+
+## 2026-10-26 — OWNER BROWSER ACCEPTANCE: ZERO-GAP STICKY EXAM HEADER
+
+**Owner feedback:** Owner tested the zero-gap sticky header following commit `8ea23fee53bb99a95d0794453626762aaab6d526` and reported it looks good: “I checked, it turned out great; that's all for today; we'll continue tomorrow.” Record this scoped **browser acceptance** and close the zero-gap visual correction in staging. CI previously passed in both workflows for this commit. Do not imply production-wide readiness, new mobile-specific acceptance evidence, or permission for other changes.
+
+**Continue from:** last accepted feature-code commit `8ea23fee53bb99a95d0794453626762aaab6d526`; branch `sjn-phase1a-foundation`; PR #1 remains **DRAFT / UNMERGED**. Preserved original header layout, functionality and top:0 sticky behavior. Staging remains separate from production; no code, database, deployment or merge action authorized by this status report. Future modifications require specific owner approval. Current session ended for the night. Continue with the next owner-specified task rather than initiating unsolicited changes.
 
 ## 2026-10-26 — OWNER-APPROVED STICKY HEADER ZERO-GAP REFINEMENT (STAGING; browser UAT pending)
 
