@@ -1,16 +1,15 @@
 /* Past Papers pre-attempt browsing only. No changes to exam, course,
  * dashboard, student header, sidebar, or any other module. */
 #module-pastpapers { color:#f4f4f5; }
-#module-pastpapers .sjn-pp-heading { margin: 0 0 30px; padding: 3px 0 23px; border-bottom:1px solid #28282e; }
+#module-pastpapers .sjn-pp-heading { margin: 0 0 18px; padding: 3px 0 16px; border-bottom:1px solid #28282e; }
 #module-pastpapers .sjn-pp-eyebrow { display:inline-flex;align-items:center;gap:9px;color:#f87171;font:800 10px/1.5 Inter,system-ui,sans-serif;letter-spacing:.11em; }
-#module-pastpapers .sjn-pp-heading-title { display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:10px; }
+#module-pastpapers .sjn-pp-heading-title { display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:7px; }
 #module-pastpapers h2 { margin:0;font-size:clamp(25px,3.5vw,33px);line-height:1.2;font-weight:850;letter-spacing:-.035em; }
-#module-pastpapers .sjn-pp-heading>p { margin-top:8px;font-size:13px;line-height:1.6;color:#a1a1aa; }
-#module-pastpapers .sjn-pp-stage-badge { font-size:10px;font-weight:750;color:#fca5a5;border:1px solid #703034;background:#32181e;padding:5px 9px;border-radius:99px; }
-#module-pastpapers .sjn-pp-section-heading { display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:21px; }
+#module-pastpapers .sjn-pp-heading>p { margin-top:6px;font-size:13px;line-height:1.6;color:#a1a1aa; }
+#module-pastpapers .sjn-pp-section-heading { display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:14px; }
 #module-pastpapers .sjn-pp-section-kicker { display:block;color:#9ca3af;font-size:10px;font-weight:800;letter-spacing:.105em;margin-bottom:7px; }
 #module-pastpapers h3 { font-size:20px;line-height:1.3;font-weight:800;letter-spacing:-.02em;margin:0; }
-#module-pastpapers .sjn-pp-section-heading p { color:#a1a1aa;font-size:12px;line-height:1.6;margin-top:7px; }
+#module-pastpapers .sjn-pp-section-heading p { color:#a1a1aa;font-size:12px;line-height:1.6;margin-top:5px; }
 #module-pastpapers .sjn-pp-total-cats { color:#d4d4d8;background:#1a1a1e;border:1px solid #33333b;border-radius:8px;padding:7px 11px;font-size:11px;font-weight:700;white-space:nowrap; }
 #module-pastpapers .sjn-pp-region-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px; }
 #module-pastpapers .sjn-pp-region-card { display:flex;align-items:flex-start;gap:14px;width:100%;min-width:0;min-height:151px;text-align:left;padding:23px 19px;background:linear-gradient(140deg,#19191e,#131317);border:1px solid #33333c;border-radius:15px;color:#f4f4f5;cursor:pointer;transition:border-color .16s,background .16s,transform .16s; }
@@ -22,35 +21,33 @@
 #module-pastpapers .sjn-pp-region-desc { font-size:12px;line-height:1.45;color:#a1a1aa; }
 #module-pastpapers .sjn-pp-region-meta { display:flex;align-items:center;gap:6px;color:#8d8d9c;font-size:11px;margin-top:6px; }
 #module-pastpapers .sjn-pp-region-arrow { color:#9ca3af;font-size:12px;margin-top:5px; }
-#module-pastpapers .sjn-pp-library-note { display:flex;align-items:flex-start;gap:9px;color:#90909b;font-size:11px;line-height:1.65;margin-top:21px; }
+#module-pastpapers .sjn-pp-library-note { display:flex;align-items:flex-start;gap:9px;color:#90909b;font-size:11px;line-height:1.65;margin-top:16px; }
 #module-pastpapers .sjn-pp-library-note i { color:#f87171;margin-top:2px; }
-#module-pastpapers .sjn-pp-crumb { display:flex;align-items:center;gap:12px;color:#9ca3af;font-size:12px;margin:-7px 0 28px; }
+#module-pastpapers .sjn-pp-crumb { display:flex;align-items:center;gap:12px;color:#9ca3af;font-size:12px;margin:-2px 0 12px; }
 #module-pastpapers .sjn-pp-crumb button { display:inline-flex;align-items:center;gap:8px;min-height:40px;background:none;border:0;color:#d4d4d8;cursor:pointer;font-size:12px;font-weight:700;padding:0 3px; }
 #module-pastpapers .sjn-pp-crumb button:hover { color:#fca5a5; }
 #module-pastpapers .sjn-pp-crumb>i { font-size:10px;color:#52525b; }
 #module-pastpapers .sjn-pp-crumb [aria-current] { color:#f4f4f5;font-weight:700; }
-#module-pastpapers .sjn-pp-year-heading { display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #2d2d35;margin:26px 0 15px;padding-bottom:11px; }
-#module-pastpapers .sjn-pp-year-heading span:first-child { font-weight:800;font-size:15px; }
-#module-pastpapers .sjn-pp-year-heading span:last-child { font-size:11px;color:#a1a1aa; }
-#module-pastpapers .sjn-pp-paper-card { background:linear-gradient(140deg,#1b1b20,#151519);border:1px solid #373740;border-radius:15px;padding:22px;max-width:630px; }
-#module-pastpapers .sjn-pp-paper-card-main { display:flex;align-items:flex-start;gap:20px; }
-#module-pastpapers .sjn-pp-paper-year { flex:0 0 auto;display:flex;align-items:center;justify-content:center;min-width:74px;min-height:72px;padding:8px;color:#f4f4f5;font-size:21px;font-weight:900;border:1px solid #42424a;border-radius:12px;background:#232329; }
+#module-pastpapers .sjn-pp-paper-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:14px;align-items:stretch; }
+#module-pastpapers .sjn-pp-paper-card { display:flex;flex-direction:column;min-width:0;background:linear-gradient(140deg,#1b1b20,#151519);border:1px solid #373740;border-radius:15px;padding:16px; }
+#module-pastpapers .sjn-pp-paper-card-main { display:flex;align-items:flex-start;gap:12px; }
+#module-pastpapers .sjn-pp-paper-year { flex:0 0 auto;display:flex;align-items:center;justify-content:center;min-width:55px;min-height:55px;padding:6px;color:#f4f4f5;font-size:16px;font-weight:900;border:1px solid #42424a;border-radius:10px;background:#232329; }
 #module-pastpapers .sjn-pp-paper-detail { min-width:0; }
 #module-pastpapers .sjn-pp-paper-status { color:#fbbf24;font-size:10px;font-weight:800;letter-spacing:.015em;display:inline-flex;gap:6px;align-items:center; }
-#module-pastpapers .sjn-pp-paper-detail h4 { font-size:18px;font-weight:800;line-height:1.4;margin:9px 0 7px; }
-#module-pastpapers .sjn-pp-paper-detail p { font-size:12px;line-height:1.6;color:#a1a1aa; }
-#module-pastpapers .sjn-pp-paper-bottom { margin-top:21px;padding-top:15px;border-top:1px solid #35353c;display:flex;justify-content:space-between;align-items:center;gap:14px; }
+#module-pastpapers .sjn-pp-paper-detail h4 { font-size:16px;font-weight:800;line-height:1.4;margin:6px 0 5px; }
+#module-pastpapers .sjn-pp-paper-detail p { font-size:12px;line-height:1.6;color:#a1a1aa;margin-bottom:13px; }
+#module-pastpapers .sjn-pp-paper-bottom { margin-top:auto;padding-top:12px;border-top:1px solid #35353c;display:flex;justify-content:space-between;align-items:center;gap:12px; }
 #module-pastpapers .sjn-pp-paper-bottom>span { color:#a1a1aa;font-size:11px;display:inline-flex;align-items:center;gap:8px; }
 #module-pastpapers .sjn-pp-start { border:1px solid #52525b;border-radius:9px;background:#25252b;color:#8e8e9a;font-size:12px;font-weight:750;padding:12px 17px;min-height:43px;cursor:not-allowed;opacity:.75;white-space:nowrap;display:inline-flex;gap:9px;align-items:center;justify-content:center; }
 @media(max-width:1130px) { #module-pastpapers .sjn-pp-region-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(max-width:650px) {
-  #module-pastpapers .sjn-pp-heading { margin-bottom:24px;padding-bottom:20px; }
+  #module-pastpapers .sjn-pp-heading { margin-bottom:16px;padding-bottom:14px; }
   #module-pastpapers .sjn-pp-section-heading { align-items:flex-start;flex-wrap:wrap;gap:12px; }
   #module-pastpapers .sjn-pp-region-grid { grid-template-columns:1fr;gap:10px; }
   #module-pastpapers .sjn-pp-region-card { min-height:120px;padding:17px; }
-  #module-pastpapers .sjn-pp-paper-card { padding:16px; }
+  #module-pastpapers .sjn-pp-paper-card { padding:14px; }
   #module-pastpapers .sjn-pp-paper-card-main { gap:13px; }
-  #module-pastpapers .sjn-pp-paper-year { min-width:60px;min-height:60px;font-size:17px; }
+  #module-pastpapers .sjn-pp-paper-year { min-width:52px;min-height:52px;font-size:15px; }
   #module-pastpapers .sjn-pp-paper-detail h4 { font-size:16px; }
   #module-pastpapers .sjn-pp-paper-bottom { flex-wrap:wrap; }
   #module-pastpapers .sjn-pp-start { width:100%; }

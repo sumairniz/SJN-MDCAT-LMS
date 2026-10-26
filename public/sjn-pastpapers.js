@@ -37,7 +37,7 @@
       </div>
       <div class="sjn-pp-region-grid">${regions.map(regionCard).join('')}</div>
       <p class="sjn-pp-library-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>
-        Paper questions have not been published in this library yet. Categories are ready for your review.</p>`;
+        No question papers have been uploaded yet.</p>`;
   }
 
   function renderRegion(region) {
@@ -52,14 +52,14 @@
         <p>Browse original papers by year and examination name.</p></div>
         <span class="sjn-pp-total-cats">0 published papers</span>
       </div>
-      <div class="sjn-pp-year-heading"><span>2025</span><span>Example paper layout</span></div>
+      <div class="sjn-pp-paper-grid">
       <article class="sjn-pp-paper-card" aria-label="Example ${region.name} MDCAT 2025 paper — not published">
         <div class="sjn-pp-paper-card-main">
           <div class="sjn-pp-paper-year">2025</div>
           <div class="sjn-pp-paper-detail">
-            <span class="sjn-pp-paper-status"><i class="fa-solid fa-eye" aria-hidden="true"></i> Layout preview · Not published</span>
+            <span class="sjn-pp-paper-status"><i class="fa-solid fa-eye" aria-hidden="true"></i> Not published</span>
             <h4>${region.name} MDCAT 2025</h4>
-            <p>Illustrative card only. Questions, answers and explanations will be added after content review.</p>
+            <p>Sample paper card. Questions have not been uploaded yet.</p>
           </div>
         </div>
         <div class="sjn-pp-paper-bottom">
@@ -69,8 +69,9 @@
           </button>
         </div>
       </article>
+      </div>
       <p class="sjn-pp-library-note"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
-        Preview only — no past-paper tests are available yet. Published papers will use the existing SJN MCQ interface.</p>`;
+        No question papers have been uploaded yet.</p>`;
   }
 
   function render() {
