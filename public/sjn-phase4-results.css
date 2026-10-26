@@ -40,6 +40,12 @@ body.sjn-phase4-results-active #sjn-workspace-main { padding: 0 !important; scro
 .sjn-results-actions button.is-primary { color: white; background: #b91c1c; border-color: #dc2626; }
 .sjn-results-actions button:not(:disabled):hover { background: #38383e; border-color: #a1a1aa; }
 .sjn-results-actions button.is-primary:not(:disabled):hover { background: #991b1b; }
+/* Owner-approved Results Screen color-only variant: Return to Dashboard.
+   Reuse the exact muted slate-blue palette even on hover; all button
+   dimensions, behavior, other actions and disabled opacity stay unchanged. */
+.sjn-results-actions #sjn-results-dashboard,
+.sjn-results-actions #sjn-results-dashboard:not(:disabled):hover { background: #202A38; border-color: #40516A; color: #E1E9F4; }
+.sjn-results-actions #sjn-results-dashboard i { color: #B8C9DF; }
 .sjn-results-actions button:disabled { opacity: .5; cursor: not-allowed; }
 .sjn-results-feature-notice { color: #93939e; font-size: 11px; line-height: 1.55; text-align: center; margin: 11px 0 0; }
 .sjn-results-insights { border: 1px solid #37373f; background: #151518; border-radius: 12px; overflow: hidden; margin-top: 24px; }

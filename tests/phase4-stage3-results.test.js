@@ -101,6 +101,20 @@ test('Approved result hierarchy, textured ring, exact cards and responsive grids
   assert.match(resultCss, /transform: rotate\(-90deg\)/);
 });
 
+test('Only Return to Dashboard receives the approved muted slate-blue palette', () => {
+  assert.match(resultJs, /id="sjn-results-dashboard"/);
+  const dashboardStyles = resultCss.match(/\.sjn-results-actions #sjn-results-dashboard,\s*\.sjn-results-actions #sjn-results-dashboard:not\(:disabled\):hover \{([^}]*)\}/);
+  assert.ok(dashboardStyles, 'Only the dashboard action receives the approved color variant');
+  assert.match(dashboardStyles[1], /background:\s*#202A38;/i);
+  assert.match(dashboardStyles[1], /border-color:\s*#40516A;/i);
+  assert.match(dashboardStyles[1], /color:\s*#E1E9F4;/i);
+  assert.match(resultCss, /\.sjn-results-actions #sjn-results-dashboard i \{ color: #B8C9DF; \}/i);
+  assert.match(resultCss, /\.sjn-results-actions button.is-primary \{ color: white; background: #b91c1c; border-color: #dc2626; \}/);
+  assert.match(resultCss, /\.sjn-results-actions button:disabled \{ opacity: \.5; cursor: not-allowed; \}/);
+  assert.doesNotMatch(dashboardStyles[1], /(?:width|height|padding|margin|position|cursor|font):/);
+  assert.match(resultJs, /\$\('sjn-results-dashboard'\)\.addEventListener\('click', \(\) => navigateTo\('dashboard'\)\)/);
+});
+
 test('Results appear immediately with no Saving or Saved banner while secure save continues', () => {
   assert.doesNotMatch(resultJs, /id="sjn-results-save"/);
   assert.doesNotMatch(resultJs, /sjn-results-save is-(?:pending|saved|error)/);
