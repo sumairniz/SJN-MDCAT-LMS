@@ -6,7 +6,7 @@
 
 ## DEFERRED-RESULTS-001 — Reduce Results Screen navigation delay (Owner deferred 2026-10-19)
 
-**Status:** DEFERRED — DO NOT IMPLEMENT NOW. Resume only after owner requests this task or while reviewing pending work at the appropriate future phase.
+**Status (updated 2026-10-27):** **OWNER APPROVED a staging-only fix**, implementation and regression testing underway; owner browser acceptance pending. Earlier 2026-10-19 deferral and the historical steps below remain for audit. No production release or merge approved. Latest approved design: Results actions unlock only after atomic authenticated submission confirms saved attempt; independent account-validated stats/history refresh no longer blocks Results navigation, with generation checks to avoid stale overwrites. See latest Master Development Plan entry.
 
 **Observed by owner:** On the visually approved Stage 3A Results Screen, **Return to Dashboard** and **Create New Test** remain visible but temporarily disabled for approximately **4 seconds** following Submit. The transient yellow “Saving…” and green “Saved…” messages were removed in development commit `59d5acd` (both CI workflows passed), but removing them did **not** remove the navigation wait. The owner measured this informally, not with network instrumentation; do not claim a verified 4.000-second latency.
 

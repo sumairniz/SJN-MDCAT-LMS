@@ -2333,13 +2333,17 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       updateGlobalProfileUI();
     }
 
-    async function refreshAuthenticatedStats(expectedStudentId) {
+    async function refreshAuthenticatedStats(expectedStudentId, expectedHistoryGeneration = historyGeneration) {
       const data = await api('/me');
       if (!currentUser || currentUser.id !== expectedStudentId ||
           data.user?.id !== expectedStudentId) {
         throw new Error('The active student changed. Reload your dashboard.');
       }
+      // A second saved test can invalidate an earlier stats response while
+      // that request is in flight. Never overwrite newer verified totals.
+      if (historyGeneration !== expectedHistoryGeneration) return false;
       applyAuthenticatedStats(data.stats);
+      return true;
     }
 
     function countStudyStreak(attempts) {
@@ -2950,6 +2954,9 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         });
         if (!saved?.saved || !saved?.id || saved.total !== items.length)
           throw new Error('No verified attempt was returned.');
+        // Never attach an earlier student's saved result to a new login.
+        if (currentUser?.id !== expectedStudentId)
+          throw new Error('The active student changed during submission. Check Test History in the original account.');
         const outcome = {
           saved: true, id: saved.id, total: saved.total, correct: saved.correct,
           incorrect: saved.incorrect, skipped: saved.skipped, accuracy: saved.accuracy
@@ -2964,6 +2971,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         window.SJNPracticeFilters?.resetSelection();
         window.SJNPracticeFilters?.invalidate();
         markStudentHistoryChanged();
+        const confirmedGeneration = historyGeneration;
         window.SJNExamRecovery?.forget();
         // The original legacy results workspace should also reflect the
         // database-confirmed score, not only a browser-computed provisional one.
@@ -2971,20 +2979,32 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         document.getElementById('res-correct').innerText = saved.correct;
         document.getElementById('res-accuracy').innerText =
           Math.round(saved.accuracy) + '%';
-        const [stats, history] = await Promise.allSettled([
-          refreshAuthenticatedStats(expectedStudentId), loadStudentHistory()
-        ]);
-        if (stats.status === 'rejected' || history.status === 'rejected' ||
-            history.value !== true) {
-          console.warn('Saved result; dashboard summary could not fully refresh.');
-        }
+        // The atomic submission is now confirmed. Results navigation must not
+        // wait for auxiliary account/statistics/history reads. The existing
+        // history-generation cache and the stats generation check above keep
+        // later tests and account switches isolated from stale responses.
+        void Promise.allSettled([
+          refreshAuthenticatedStats(expectedStudentId, confirmedGeneration),
+          loadStudentHistory()
+        ]).then(([stats, history]) => {
+          if (currentUser?.id !== expectedStudentId ||
+              historyGeneration !== confirmedGeneration) return;
+          if (stats.status === 'rejected' || stats.value !== true ||
+              history.status === 'rejected' || history.value !== true)
+            console.warn('Saved result; dashboard summary could not fully refresh.');
+        }).catch(error => {
+          console.warn('Saved result; post-save refresh could not complete:', error?.message || error);
+        });
         return outcome;
       } catch (error) {
         console.warn('Atomic practice test save not confirmed:', error?.message || error);
         alert('Your test result could not be confirmed as saved. Check Test History before retrying.');
-        await Promise.allSettled([
-          refreshAuthenticatedStats(expectedStudentId), loadStudentHistory()
-        ]);
+        // Never start a recovery refresh under a different logged-in account.
+        if (currentUser?.id === expectedStudentId) {
+          await Promise.allSettled([
+            refreshAuthenticatedStats(expectedStudentId), loadStudentHistory()
+          ]);
+        }
         return { saved: false };
       } finally {
         savingAttempt = false;
