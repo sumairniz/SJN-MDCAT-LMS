@@ -114,12 +114,13 @@ test('Missing secure confirmation does not unlock saved Review/Retake and does n
   const x = harness();
   const first = x.ctx.window.finishQuiz({elapsedSeconds: 2});
   x.submit.resolve({saved: false});
-  await Promise.resolve();
-  assert.equal(x.ctx.savedAttemptOutcome, null);
-  assert.equal(x.calls.alerts.length, 1);
-  // Failure recovery intentionally waits for revalidation, unlike confirmed saves.
+  // Failure handler runs after the rejected confirmation path is processed.
+  // Resolve the independent fallback reads before awaiting the complete result.
   x.stats.resolve(true); x.history.resolve(true);
   assert.equal((await first).saved, false);
+  assert.equal(x.ctx.savedAttemptOutcome, null);
+  assert.equal(x.calls.alerts.length, 1);
+  assert.equal(x.calls.history, 1);
   assert.equal(x.ctx.savedAttemptOutcome, null);
   assert.equal(x.calls.invalidations, 0);
 });
