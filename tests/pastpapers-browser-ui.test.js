@@ -65,7 +65,7 @@ test('Preview only: never launch a quiz, load a PDF, claim a test published, or 
   assert.doesNotMatch(js,/launchGeneratedQuiz|finishQuiz|practicePastPaper|fetch\(|localStorage|sessionStorage|iframe|pdfUrl|new XMLHttpRequest/);
   assert.match(js,/Questions not uploaded/);
   assert.match(js,/Sample card|Illustrative card only/);
-  assert.match(js,/No past-paper tests are available yet/);
+  assert.match(js,/Preview only — no past-paper tests are available yet/);
   assert.match(js,/Object\.freeze\(\{ render \}\)/);
   assert.match(css,/#module-pastpapers \.sjn-pp-region-grid/);
   assert.match(css,/@media\(max-width:650px\)/);
