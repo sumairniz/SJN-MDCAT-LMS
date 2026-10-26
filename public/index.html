@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="/sjn-phase4-preview.css">
   <link rel="stylesheet" href="/sjn-phase4-results.css">
   <link rel="stylesheet" href="/sjn-history.css">
+  <link rel="stylesheet" href="/sjn-pastpapers.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
@@ -865,22 +866,16 @@
         </div>
       </section>
 
-      <section id="module-pastpapers" class="module-view space-y-6 hidden">
-        <div class="bg-sjn-card rounded-2xl border border-sjn-border p-6 space-y-5">
-          <div>
-            <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Past Papers Repository</span>
-            <h2 class="text-xl font-bold text-white flex items-center gap-2">📜 Past Papers</h2>
-            <p class="text-xs text-gray-400 mt-1">Select a paper on the left; details and its study/practice controls open on the right.</p>
+      <section id="module-pastpapers" class="module-view hidden" aria-label="Past Papers library">
+        <div class="sjn-pp-heading">
+          <span class="sjn-pp-eyebrow"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> PAST PAPERS LIBRARY</span>
+          <div class="sjn-pp-heading-title">
+            <h2>Past Papers</h2>
+            <span class="sjn-pp-stage-badge">Interface preview</span>
           </div>
-          <div class="grid grid-cols-1 lg:grid-cols-[minmax(220px,0.8fr)_minmax(0,1.7fr)] gap-4 min-h-[520px]">
-            <div id="pastpapers-container" class="space-y-2 bg-zinc-950/40 rounded-xl border border-sjn-border p-3 overflow-y-auto max-h-[650px]"></div>
-            <div id="pastpaper-viewer" class="bg-zinc-950/50 rounded-xl border border-sjn-border p-5 overflow-y-auto">
-              <div class="h-full min-h-[450px] flex items-center justify-center text-center text-gray-500">
-                <div><i class="fa-solid fa-scroll text-4xl mb-3"></i><p class="text-sm">Select a past paper to open it here.</p></div>
-              </div>
-            </div>
-          </div>
+          <p>Explore MDCAT examination papers by region, year, and paper name.</p>
         </div>
+        <div id="sjn-pastpapers-root" class="sjn-pp-browser" aria-label="Regional Past Papers categories"></div>
       </section>
 
       <section id="module-resources" class="module-view space-y-6 hidden">
@@ -1819,42 +1814,10 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       });
     }
 
+    // The dedicated Past Papers library owns all browsing presentation.
+    // This legacy render bridge is called during bootstrap and /content reloads.
     function renderPastPapersModule() {
-      const container = document.getElementById('pastpapers-container');
-      container.innerHTML = '';
-
-      if (pastPapersList.length === 0) {
-        container.innerHTML = `
-          <div class="col-span-3 text-center p-8 bg-zinc-900/60 border border-sjn-border rounded-xl space-y-2">
-            <i class="fa-solid fa-scroll text-3xl text-gray-600"></i>
-            <h3 class="text-sm font-bold text-gray-300">No Past Papers Added Yet</h3>
-            <p class="text-xs text-gray-500">Add past papers in the JS array 'pastPapersList' or click '+ Add Past Paper' button above.</p>
-          </div>
-        `;
-        return;
-      }
-
-      pastPapersList.forEach((p,i) => {
-        const div = document.createElement('div');
-        div.className = "bg-zinc-900 p-4 rounded-xl border border-sjn-border hover:border-amber-500 transition-all cursor-pointer space-y-2";
-        div.onclick = () => {
-          wizardSelection.bank = p.bank || 'Past Papers Question Bank';
-          wizardSelection.scope = 'all-subjects';
-          wizardSelection.selectedSubjects = getAvailableSubjects();
-          wizardSelection.subject = 'All Subjects';
-          wizardSelection.selectedChapters = ['All Chapters'];
-          wizardSelection.selectedTopics = [];
-          launchGeneratedQuiz();
-        };
-        div.innerHTML = `
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-white text-sm">${escapeHtml(p.title)}</span>
-            <span class="text-xs text-amber-400 font-bold">${escapeHtml(p.year)}</span>
-          </div>
-          <p class="text-xs text-gray-400">${escapeHtml(p.desc)}</p>
-        `;
-        container.appendChild(div);
-      });
+      window.SJNPastPapers?.render();
     }
 
     // =========================================================================
@@ -2609,22 +2572,12 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       switchModule('wizard'); setWizardStep(4); updateWizardAvailableCount(); updateSummaryBox();
     };
 
-    window.renderPastPapersModule = function() {
-      const list = document.getElementById('pastpapers-container'); if (!list) return;
-      list.innerHTML = '';
-      if (!pastPapersList.length) { list.innerHTML = '<div class="p-5 text-center text-xs text-gray-500">No past papers have been published yet.</div>'; document.getElementById('pastpaper-viewer').innerHTML = '<div class="h-full min-h-[450px] flex items-center justify-center text-gray-500 text-sm">No past paper selected.</div>'; return; }
-      pastPapersList.forEach((p,i) => { const b=document.createElement('button'); b.className='w-full text-left p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-amber-500 transition-all'; b.innerHTML=`<div class="flex justify-between gap-2"><span class="font-bold text-white text-sm">${escapeHtml(p.title)}</span><span class="text-[10px] text-amber-400 font-bold">${escapeHtml(p.year || '')}</span></div><div class="text-[11px] text-gray-500 mt-1">${escapeHtml(p.description || '')}</div>`; b.onclick=()=>openPastPaper(p.id || i); list.appendChild(b); });
-      openPastPaper(selectedPaperId || pastPapersList[0].id || 0);
-    };
-    function openPastPaper(id) {
-      const p = pastPapersList.find((x,i)=>String(x.id ?? i)===String(id)) || pastPapersList[0]; if(!p) return;
-      selectedPaperId=p.id; const source = p.title;
-      document.getElementById('pastpaper-viewer').innerHTML=`<div class="space-y-5"><div><span class="text-xs text-amber-400 font-bold uppercase">Past Paper</span><h3 class="text-2xl font-black text-white mt-1">${escapeHtml(p.title)}</h3><p class="text-sm text-gray-400 mt-2">${escapeHtml(p.description || '')}</p></div><div class="grid grid-cols-2 gap-3"><div class="p-4 bg-zinc-900 rounded-xl border border-sjn-border"><div class="text-xs text-gray-500">Year</div><div class="font-bold text-white">${escapeHtml(p.year || '—')}</div></div><div class="p-4 bg-zinc-900 rounded-xl border border-sjn-border"><div class="text-xs text-gray-500">Matching MCQs</div><div class="font-bold text-white">${mcqQuestionBank.filter(q=>q.source===source).length}</div></div></div>${p.pdfUrl ? `<iframe src="${escapeHtml(p.pdfUrl)}" class="w-full h-[520px] rounded-xl border border-sjn-border bg-white"></iframe>` : '<div class="p-4 rounded-xl bg-zinc-900 border border-sjn-border text-xs text-gray-400">No PDF is attached. You can still practice its imported MCQs.</div>'}<button onclick="practicePastPaper(${JSON.stringify(p.id)}, ${JSON.stringify(source)})" class="w-full py-3 bg-amber-600 hover:bg-amber-700 rounded-xl text-white font-bold text-sm">Practice this paper</button></div>`;
-    }
+    window.renderPastPapersModule = renderPastPapersModule;
     window.practicePastPaper = function(id, source) {
       wizardQuestionFiltersActive = false;
       paperSourceFilter=source; wizardSelection.bank='Past Papers Question Bank'; wizardSelection.scope='all-subjects'; wizardSelection.selectedSubjects=getAvailableSubjects(); wizardSelection.selectedChapters=['All Chapters']; wizardSelection.selectedTopics=[]; wizardSelection.mcqCount=Math.min(20, getFilteredQuestionPool().length || 1); wizardSelection.currentStepNum=4; switchModule('wizard'); setWizardStep(4); updateWizardAvailableCount(); updateSummaryBox();
     };
+
 
     window.renderResourcesModule = function() {
       const list=document.getElementById('resources-container'); if(!list) return; const resources=window.sjnResources||[]; list.innerHTML='';
@@ -3043,6 +2996,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     
    // Student data is loaded from the authenticated API, never shared browser storage.
   </script>
+  <script src="/sjn-pastpapers.js"></script>
   <script src="/sjn-history.js"></script>
   <script src="/sjn-phase4-preview.js"></script>
   <script src="/sjn-phase4-results.js"></script>
