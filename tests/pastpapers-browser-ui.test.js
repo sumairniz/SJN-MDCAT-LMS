@@ -89,3 +89,43 @@ test('Approved layout refinements keep compact year-wise paper cards and balance
   assert.match(css,/@media\(max-width:650px\)/);
   assert.match(js,/disabled title="No verified paper questions available yet"/);
 });
+
+test('Regional palette matches approved five colors and continues to same-region paper listings',()=>{
+  const colors = { sindh:'#65B3AD', punjab:'#D4B066', kpk:'#B09ACD', balochistan:'#C28E73', federal:'#879FC8' };
+  for(const [region,color] of Object.entries(colors)) {
+    assert.ok(css.includes('[data-sjn-paper-region="'+region+'"]'));
+    assert.ok(css.includes('[data-sjn-paper-theme="'+region+'"] { --sjn-pp-accent:'+color+';'));
+  }
+  assert.equal(new Set(Object.values(colors)).size,5);
+  assert.match(css,/\.sjn-pp-region-card \{[^}]*var\(--sjn-pp-tint\)[^}]*var\(--sjn-pp-border\)/);
+  assert.match(css,/\.sjn-pp-region-icon \{[^}]*color:var\(--sjn-pp-accent\)/);
+  assert.match(css,/\.sjn-pp-paper-card \{[^}]*var\(--sjn-pp-tint\)[^}]*var\(--sjn-pp-border\)/);
+  assert.match(css,/\.sjn-pp-paper-year \{[^}]*color:var\(--sjn-pp-accent\)/);
+  assert.match(css,/\.sjn-pp-region-view \.sjn-pp-section-kicker \{ color:var\(--sjn-pp-accent\)/);
+  assert.doesNotMatch(css,/(?:^|\n)\s*body\s*\{/);
+});
+
+test('Distinct simple landmark vector icons for all five regions, without affecting published state',()=>{
+  const paths=[];
+  for(const region of ['sindh','punjab','kpk','balochistan','federal']) {
+    const textLine=js.split('\n').find(line=>line.trim().startsWith(region+": '<path d="));
+    assert.ok(textLine,'Dedicated symbol for '+region);
+    paths.push(textLine.trim());
+  }
+  assert.equal(new Set(paths).size,5);
+  assert.match(js,/function regionSymbol\(region\)/);
+  assert.match(js,/stroke-width="2\.6"/);
+  assert.doesNotMatch(js,/fa-map-location-dot|fa-landmark/);
+  const ui=openBrowser();
+  assert.equal((ui.root.innerHTML.match(/<svg /g)||[]).length,5);
+  for(const region of ['sindh','punjab','kpk','balochistan','federal']) {
+    ui.click(region);
+    assert.ok(ui.root.innerHTML.includes('data-sjn-paper-theme="'+region+'"'));
+    assert.match(ui.root.innerHTML,/sjn-pp-collection-symbol/);
+    assert.equal((ui.root.innerHTML.match(/<svg /g)||[]).length,1);
+    assert.match(ui.root.innerHTML,/Not published/);
+    assert.match(ui.root.innerHTML,/disabled title="No verified paper questions available yet"/);
+    ui.back();
+  }
+  assert.equal((ui.root.innerHTML.match(/<svg /g)||[]).length,5);
+});
