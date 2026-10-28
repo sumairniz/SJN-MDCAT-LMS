@@ -71,3 +71,11 @@
   #module-pastpapers .sjn-pp-start { width:100%; }
 }
 @media(prefers-reduced-motion:reduce) { #module-pastpapers .sjn-pp-region-card { transition:none;transform:none; } }
+
+#module-pastpapers .sjn-pp-paper-status.is-published { color:#4ade80; }
+#module-pastpapers .sjn-pp-start:not(:disabled) { cursor:pointer;opacity:1;background:var(--sjn-pp-icon-bg);color:var(--sjn-pp-accent);border-color:var(--sjn-pp-border); }
+#module-pastpapers .sjn-pp-start:not(:disabled):hover { border-color:var(--sjn-pp-accent); }
+#module-pastpapers .sjn-pp-modes:not([hidden]) { display:block;border-top:1px solid var(--sjn-pp-border);padding-top:12px;margin-top:12px; }
+#module-pastpapers .sjn-pp-modes>p {font-size:11px;color:#c4c4ce;margin-bottom:10px;}
+#module-pastpapers .sjn-pp-mode-actions {display:flex;flex-wrap:wrap;gap:8px;}
+#module-pastpapers .sjn-pp-mode-actions button {flex:1;min-height:44px;background:var(--sjn-pp-icon-bg);color:var(--sjn-pp-accent);border:1px solid var(--sjn-pp-border);border-radius:8px;font-weight:750;cursor:pointer;padding:10px;}

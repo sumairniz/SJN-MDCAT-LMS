@@ -40,7 +40,7 @@ test('Past Papers page has no giant parent panel or old two-column viewer, sideb
   assert.match(html,/onclick="switchModule\('pastpapers'\)" id="tab-pastpapers"/);
   assert.match(html,/src="\/sjn-pastpapers\.js"/);
   assert.match(html,/href="\/sjn-pastpapers\.css"/);
-  assert.match(html,/function renderPastPapersModule\(\) \{\s+window\.SJNPastPapers\?\.render\(\);/);
+  assert.match(html,/function renderPastPapersModule\(\) \{\s+window\.SJNPastPapers\?\.setPapers\(pastPapersList\);\s+window\.SJNPastPapers\?\.render\(\);/);
   assert.match(html,/window\.renderPastPapersModule = renderPastPapersModule;/);
 });
 
@@ -73,7 +73,7 @@ test('Preview only: never launch a quiz, load a PDF, claim a test published, or 
   assert.match(js,/Sample paper card/);
   assert.match(js,/No question papers have been uploaded yet/);
   assert.doesNotMatch(js,/Preview only —|Categories are ready for your review|sjn-pp-year-heading/);
-  assert.match(js,/Object\.freeze\(\{ render \}\)/);
+  assert.match(js,/Object\.freeze\(\{ render, setPapers \}\)/);
   assert.match(css,/#module-pastpapers \.sjn-pp-region-grid/);
   assert.match(css,/@media\(max-width:650px\)/);
   assert.match(css,/:focus-visible/);
@@ -128,4 +128,13 @@ test('Distinct simple landmark vector icons for all five regions, without affect
     ui.back();
   }
   assert.equal((ui.root.innerHTML.match(/<svg /g)||[]).length,5);
+});
+
+test('Published paper uses existing authenticated exam, never Create Test random draw',()=>{
+ assert.match(js,/function setPapers\(rows\)/);
+ assert.match(js,/data-sjn-paper-mode="tutor"/);
+ assert.match(js,/data-sjn-paper-mode="timed"/);
+ assert.match(html,/window\.SJNStartPublishedPaper = function\(paperId, mode\)/);
+ assert.match(html,/launchGeneratedQuiz\(questions\)/);
+ assert.match(html,/q\.bank !== 'SIBA MDCAT Past Papers'/);
 });

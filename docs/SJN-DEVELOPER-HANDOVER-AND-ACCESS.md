@@ -1,3 +1,5 @@
+> **2026-10-29 staging latest:** Owner-approved full SIBA MDCAT 2025 Version B in Sindh Past Papers. 180 real questions with supplied keys, provisional chapter/topic mapping, original ordered IDs, real Tutor and Timed entry using existing exam/submit/history. DB verified 326 MCQs, 326 linked revisions; old 146 bank MCQs and 121 Test History attempts/42 drafts intact. Manifest content/imports/siba-mdcat-2025-vb-180.staging.json. Verify CI and owner student testing. No production/main or PDFs.
+>
 # SJN MDCAT LMS Pro — Developer / AI Handover and Access Guide
 
 **Established:** 2026-10-17 (Pakistan time)  

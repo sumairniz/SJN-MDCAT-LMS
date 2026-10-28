@@ -1,3 +1,9 @@
+## 2026-10-29 — First real SIBA MDCAT 2025 Version B paper for staging
+
+Owner authorized publishing all 180 source-corrected questions in staging as a genuinely playable Sindh Past Paper. Chapter and topic classifications are temporary until owner supplies final official SJN syllabus. Key Q82 A retained; Q17 Classification of Viruses and Q70 Nucleic Acid classification corrections included. GitHub source: `content/imports/siba-mdcat-2025-vb-180.staging.json`. Original order Q1–Q180, original supplied keys, no PDF published. Staging-only import: added region column in past_papers table, inserted 180 distinct MCQs (bank SIBA MDCAT Past Papers), immutable revision rows, 180 ordered IDs in Sindh paper, and no updates/deletions of existing 146 daily Question Bank questions, 121 completed attempts, 42 saved drafts. DB verification: 326 MCQs, 326 revisions, 180 paper MCQs and zero missing revision links.
+
+Past Papers browser in `public/sjn-pastpapers.js` displays actual card and Tutor/Timed selection; `public/index.html` verifies ordered IDs and source and calls existing Phase 4 `launchGeneratedQuiz(questions)`. No second exam engine. Authenticated submit/results/history/review/retake remain original components. Remaining work: GitHub CI, owner browser checks on mobile/desktop and Test History. NEVER claim owner UAT complete from automated tests; main/production unmodified, PR draft.
+
 # SJN MDCAT LMS Pro — Master Development Plan
 
 **Document type:** Living project decision log, roadmap, acceptance criteria and risk register  
