@@ -1827,6 +1827,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     // The dedicated Past Papers library owns all browsing presentation.
     // This legacy render bridge is called during bootstrap and /content reloads.
     function renderPastPapersModule() {
+      window.SJNPastPapers?.setPapers(pastPapersList);
       window.SJNPastPapers?.render();
     }
 
@@ -2583,6 +2584,36 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     };
 
     window.renderPastPapersModule = renderPastPapersModule;
+    window.SJNStartPublishedPaper = function(paperId, mode) {
+      const paper = pastPapersList.find(p => Number(p.id) === Number(paperId));
+      if (!paper || !['tutor','timed'].includes(mode) ||
+          !Array.isArray(paper.mcqIds) || paper.mcqIds.length !== 180 ||
+          !remoteContentLoaded || window.SJNPhase4Exam?.isOpen?.()) {
+        alert('The selected paper is unavailable. Reload and try again.');
+        return false;
+      }
+      const ids = paper.mcqIds.map(Number);
+      const byId = new Map(mcqQuestionBank.map(q => [q.id, q]));
+      const questions = ids.map(id => byId.get(id));
+      if (new Set(ids).size !== 180 || questions.some(q =>
+          !q || q.bank !== 'SIBA MDCAT Past Papers' ||
+          q.source !== 'SIBA MDCAT 2025 — Version B' ||
+          !Number.isSafeInteger(q.revisionId) || q.revisionId < 1)) {
+        alert('The original question set could not be verified.');
+        return false;
+      }
+      wizardQuestionFiltersActive = false;
+      paperSourceFilter = null;
+      historyRetakeTitle = String(paper.title);
+      wizardSelection = {
+        bank:'SIBA MDCAT Past Papers',scope:'past-paper',subject:'Mixed Subjects',
+        selectedSubjects:[...new Set(questions.map(q=>q.subject))],
+        selectedChapters:[],selectedTopics:[],mcqCount:180,
+        testMode:mode,currentStepNum:4
+      };
+      launchGeneratedQuiz(questions);
+      return true;
+    };
     window.practicePastPaper = function(id, source) {
       wizardQuestionFiltersActive = false;
       paperSourceFilter=source; wizardSelection.bank='Past Papers Question Bank'; wizardSelection.scope='all-subjects'; wizardSelection.selectedSubjects=getAvailableSubjects(); wizardSelection.selectedChapters=['All Chapters']; wizardSelection.selectedTopics=[]; wizardSelection.mcqCount=Math.min(20, getFilteredQuestionPool().length || 1); wizardSelection.currentStepNum=4; switchModule('wizard'); setWizardStep(4); updateWizardAvailableCount(); updateSummaryBox();
