@@ -28,6 +28,16 @@
     return `<svg class="sjn-pp-symbol" viewBox="0 0 64 64" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">${symbols[region.id]}</svg>`;
   }
   let activeRegion = null;
+  let publishedPapers = [];
+  const esc = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function setPapers(rows) {
+    publishedPapers = Array.isArray(rows) ? rows.filter(p =>
+      regions.some(r=>r.id===p.region) && Number.isSafeInteger(Number(p.id)) &&
+      Array.isArray(p.mcqIds) && p.mcqIds.length>0 && p.mcqIds.length<=200 &&
+      typeof p.title==='string') : [];
+  }
+  const inRegion = region => publishedPapers.filter(p=>p.region===region.id);
+
 
   function regionCard(region) {
     return `<button type="button" class="sjn-pp-region-card" data-sjn-paper-region="${region.id}" aria-label="Browse ${region.name} Past Papers">
@@ -35,7 +45,7 @@
       <span class="sjn-pp-region-content">
         <span class="sjn-pp-region-title">${region.name}</span>
         <span class="sjn-pp-region-desc">MDCAT paper collection</span>
-        <span class="sjn-pp-region-meta"><i class="fa-regular fa-clock" aria-hidden="true"></i> Papers coming soon</span>
+        <span class="sjn-pp-region-meta"><i class="fa-regular fa-clock" aria-hidden="true"></i> ${inRegion(region).length ? inRegion(region).length+' published paper(s)' : 'Papers coming soon'}</span>
       </span>
       <i class="fa-solid fa-arrow-right sjn-pp-region-arrow" aria-hidden="true"></i>
     </button>`;
@@ -49,11 +59,57 @@
       </div>
       <div class="sjn-pp-region-grid">${regions.map(regionCard).join('')}</div>
       <p class="sjn-pp-library-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>
-        No question papers have been uploaded yet.</p>`;
+        ${publishedPapers.length ? publishedPapers.length+' paper(s) published.' : 'No question papers have been uploaded yet.'}</p>`;
+  }
+
+
+  function publishedCard(p) {
+    const id=Number(p.id);
+    return `<article class="sjn-pp-paper-card" aria-label="${esc(p.title)}">
+      <div class="sjn-pp-paper-card-main">
+        <div class="sjn-pp-paper-year">${esc(p.year)}</div>
+        <div class="sjn-pp-paper-detail">
+          <span class="sjn-pp-paper-status is-published">Published</span>
+          <h4>${esc(p.title)}</h4>
+          <p>${esc(p.description || 'Original MDCAT past paper')}</p>
+        </div>
+      </div>
+      <div class="sjn-pp-paper-bottom">
+        <span>${p.mcqIds.length} questions</span>
+        <button type="button" class="sjn-pp-start" data-sjn-paper-choose="${id}"
+          aria-expanded="false" aria-controls="sjn-pp-modes-${id}">Start Paper</button>
+      </div>
+      <div class="sjn-pp-modes" id="sjn-pp-modes-${id}" hidden>
+        <p>Choose how to attempt this paper</p>
+        <div class="sjn-pp-mode-actions">
+          <button type="button" data-sjn-paper-mode="tutor" data-sjn-paper-id="${id}">Tutor Mode</button>
+          <button type="button" data-sjn-paper-mode="timed" data-sjn-paper-id="${id}">Timed Mode</button>
+        </div>
+      </div>
+    </article>`;
+  }
+
+  function previewCard(region) {
+    return `<article class="sjn-pp-paper-card" aria-label="Example ${region.name} MDCAT 2025 paper — not published">
+      <div class="sjn-pp-paper-card-main">
+        <div class="sjn-pp-paper-year">2025</div>
+        <div class="sjn-pp-paper-detail">
+          <span class="sjn-pp-paper-status">Not published</span>
+          <h4>${region.name} MDCAT 2025</h4>
+          <p>Sample paper card. Questions have not been uploaded yet.</p>
+        </div>
+      </div>
+      <div class="sjn-pp-paper-bottom">
+        <span>Questions not uploaded</span>
+        <button type="button" class="sjn-pp-start" disabled title="No verified paper questions available yet">Start Paper</button>
+      </div>
+    </article>`;
   }
 
   function renderRegion(region) {
-    root.innerHTML = `<div class="sjn-pp-region-view" data-sjn-paper-theme="${region.id}"><nav class="sjn-pp-crumb" aria-label="Past Papers navigation">
+    const papers=inRegion(region);
+    root.innerHTML=`<div class="sjn-pp-region-view" data-sjn-paper-theme="${region.id}">
+      <nav class="sjn-pp-crumb" aria-label="Past Papers navigation">
         <button type="button" data-sjn-paper-back><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> All categories</button>
         <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
         <span aria-current="page">${region.name}</span>
@@ -65,28 +121,11 @@
           <h3>${region.name} Past Papers</h3>
         </div>
         <p>Browse original papers by year and examination name.</p></div>
-        <span class="sjn-pp-total-cats">0 published papers</span>
+        <span class="sjn-pp-total-cats">${papers.length} published papers</span>
       </div>
-      <div class="sjn-pp-paper-grid">
-      <article class="sjn-pp-paper-card" aria-label="Example ${region.name} MDCAT 2025 paper — not published">
-        <div class="sjn-pp-paper-card-main">
-          <div class="sjn-pp-paper-year">2025</div>
-          <div class="sjn-pp-paper-detail">
-            <span class="sjn-pp-paper-status"><i class="fa-solid fa-eye" aria-hidden="true"></i> Not published</span>
-            <h4>${region.name} MDCAT 2025</h4>
-            <p>Sample paper card. Questions have not been uploaded yet.</p>
-          </div>
-        </div>
-        <div class="sjn-pp-paper-bottom">
-          <span><i class="fa-solid fa-list-check" aria-hidden="true"></i> Questions not uploaded</span>
-          <button type="button" class="sjn-pp-start" disabled title="No verified paper questions available yet">
-            <i class="fa-solid fa-play" aria-hidden="true"></i> Start Paper
-          </button>
-        </div>
-      </article>
-      </div>
-      <p class="sjn-pp-library-note"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
-        No question papers have been uploaded yet.</p></div>`;
+      <div class="sjn-pp-paper-grid">${papers.length ? papers.map(publishedCard).join('') : previewCard(region)}</div>
+      ${papers.length ? '' : '<p class="sjn-pp-library-note">No question papers have been uploaded yet.</p>'}
+    </div>`;
   }
 
   function render() {
@@ -104,6 +143,19 @@
       render();
       return;
     }
+    const mode=event.target.closest('[data-sjn-paper-mode]');
+    if(mode && root.contains(mode)){
+      const id=Number(mode.dataset.sjnPaperId);
+      if(publishedPapers.some(p=>Number(p.id)===id && p.region===activeRegion))
+        window.SJNStartPublishedPaper?.(id,mode.dataset.sjnPaperMode);
+      return;
+    }
+    const start=event.target.closest('[data-sjn-paper-choose]');
+    if(start && root.contains(start)){
+      const panel=root.querySelector('#sjn-pp-modes-'+Number(start.dataset.sjnPaperChoose));
+      if(panel){panel.hidden=!panel.hidden;start.setAttribute('aria-expanded',String(!panel.hidden));}
+      return;
+    }
     const card = event.target.closest('[data-sjn-paper-region]');
     if (!card || !root.contains(card)) return;
     const region = regions.find(item => item.id === card.dataset.sjnPaperRegion);
@@ -112,6 +164,6 @@
     render();
   });
 
-  window.SJNPastPapers = Object.freeze({ render });
+  window.SJNPastPapers = Object.freeze({ render, setPapers });
   render();
 })();
