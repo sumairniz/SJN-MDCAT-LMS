@@ -75,8 +75,8 @@ test('Phase 4: existing finished attempts remain server-owned and student-scoped
 
 test('Phase 4: server rejects failed MCQ queries and missing published revision references', () => {
   const server = fs.readFileSync(path.join(__dirname, '..', 'server.js'), 'utf8');
-  assert.match(server, /data: mcqs, error: mcqError/);
-  assert.match(server, /if \(mcqError \|\| !Array\.isArray\(mcqs\)/);
+  assert.match(server, /readAllPublishedMcqs\(supabase\)/);
+  assert.match(server, /if \(!Array\.isArray\(mcqs\)/);
   assert.match(server, /q\.current_revision_id/);
   assert.match(server, /Failed to fetch content from database/);
 });
