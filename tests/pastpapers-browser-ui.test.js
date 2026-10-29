@@ -141,3 +141,38 @@ test('Published paper uses existing authenticated exam, never Create Test random
  assert.match(html,/mcqCount:questions\.length/);
  assert.doesNotMatch(html,/paper\.mcqIds\.length !== 180/);
 });
+
+test('Published paper card preserves regional theme and accessible launch controls',()=>{
+  const ui=openBrowser();
+  ui.window.SJNPastPapers.setPapers([{id:91,title:'SIBA MDCAT 2025',
+    year:'2025',region:'sindh',description:'Version B',mcqIds:[1,2,3]}]);
+  ui.window.SJNPastPapers.render();
+  ui.click('sindh');
+  assert.match(ui.root.innerHTML,/sjn-pp-paper-card is-published/);
+  assert.match(ui.root.innerHTML,/sjn-pp-paper-emblem/);
+  assert.match(ui.root.innerHTML,/Sindh Past Papers/);
+  assert.match(ui.root.innerHTML,/SIBA MDCAT 2025/);
+  assert.match(ui.root.innerHTML,/3 Questions/);
+  assert.match(ui.root.innerHTML,/data-sjn-paper-choose="91"/);
+  assert.match(ui.root.innerHTML,/data-sjn-paper-mode="tutor"/);
+  assert.match(ui.root.innerHTML,/data-sjn-paper-mode="timed"/);
+  assert.doesNotMatch(ui.root.innerHTML,/Not published/);
+  assert.match(css,/\.sjn-pp-paper-card\.is-published:hover/);
+  assert.match(css,/\.sjn-pp-paper-card\.is-published:focus-within/);
+  assert.match(css,/\.sjn-pp-paper-card\.is-published \.sjn-pp-start:focus-visible/);
+  assert.match(css,/@media\(hover:none\)/);
+  assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
+  assert.match(css,/\.sjn-pp-paper-card\.is-published::before \{[^}]*var\(--sjn-pp-accent\)/);
+});
+test('Published paper content remains escaped and other regions stay disabled',()=>{
+  const ui=openBrowser();
+  ui.window.SJNPastPapers.setPapers([{id:1,title:'<script>alert(1)</script>',
+    year:'2025',region:'sindh',mcqIds:[1],description:'<img src=x>'}]);
+  ui.click('sindh');
+  assert.match(ui.root.innerHTML,/&lt;script&gt;/);
+  assert.match(ui.root.innerHTML,/&lt;img src=x&gt;/);
+  assert.doesNotMatch(ui.root.innerHTML,/<script>alert/);
+  ui.back(); ui.click('punjab');
+  assert.match(ui.root.innerHTML,/Not published/);
+  assert.match(ui.root.innerHTML,/disabled title=/);
+});

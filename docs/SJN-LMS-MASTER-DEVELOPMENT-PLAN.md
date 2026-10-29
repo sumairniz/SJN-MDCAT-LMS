@@ -1,3 +1,9 @@
+## 2026-10-29 — Owner-approved published Past Paper card refinement
+
+Owner approved visual refinement of **individual Past Paper listing cards only**, expressly preserving each province's existing approved regional color (Sindh teal, Punjab gold, KPK lavender, Balochistan copper, Federal steel blue) and leaving province category cards unchanged. `public/sjn-pastpapers.js` now displays the relevant region's existing landmark emblem inside a published paper card, with improved title/year hierarchy, question count, published state, and explicit Start Paper button. `public/sjn-pastpapers.css` adds scoped published-card hover/focus/touch states and responsive mobile stacking. All accents inherit `--sjn-pp-*` variables already owned by `data-sjn-paper-theme` without changing those values.
+
+The existing Start Paper → Tutor/Timed → original exam/submit/History pipeline is unchanged. No data/schema changes, 220-question-limit adjustment, Admin Panel, new MCQs, or production code. Added tests for published card layout, metadata escaping, province theme inheritance, and disabled unpublished cards. Owner visual browser acceptance remains pending.
+
 ## 2026-10-29 — Owner-approved staging fix: each Past Paper is a curated TEST, and secure submission validates the published paper catalog
 
 **Owner clarified architecture:** SIBA MDCAT 2025, SIBA MDCAT 2024, SIBA MDCAT 2026, DOW MDCAT 2023, UHS MDCAT 2024/2025/2026 are *separate published tests* under their respective regions, conducting bodies, years and variants, not a new user-visible Question Bank for each exam. `past_papers` is the catalog; each paper row has ordered `mcq_ids_json` and `region`. `mcqs.bank` is legacy internal storage metadata and is NOT a separate Past Papers Question Bank. Continue to keep the curated papers separate from the daily `Past Papers Question Bank`.
