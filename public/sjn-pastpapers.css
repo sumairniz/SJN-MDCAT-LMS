@@ -47,7 +47,7 @@
 #module-pastpapers .sjn-pp-collection-symbol .sjn-pp-symbol { width:24px;height:24px; }
 #module-pastpapers .sjn-pp-region-view .sjn-pp-total-cats { color:var(--sjn-pp-accent);border-color:var(--sjn-pp-border);background:var(--sjn-pp-tint); }
 #module-pastpapers .sjn-pp-paper-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:14px;align-items:stretch; }
-#module-pastpapers .sjn-pp-paper-card { display:flex;flex-direction:column;min-width:0;background:linear-gradient(145deg,var(--sjn-pp-tint),transparent 80%),linear-gradient(140deg,#1b1b20,#151519);border:1px solid var(--sjn-pp-border);border-radius:15px;padding:16px; }
+#module-pastpapers .sjn-pp-paper-card { display:flex;flex-direction:column;position:relative;overflow:hidden;min-width:0;background:linear-gradient(145deg,var(--sjn-pp-tint),transparent 80%),linear-gradient(140deg,#1b1b20,#151519);border:1px solid var(--sjn-pp-border);border-radius:15px;padding:16px; }
 #module-pastpapers .sjn-pp-paper-card-main { display:flex;align-items:flex-start;gap:12px; }
 #module-pastpapers .sjn-pp-paper-year { flex:0 0 auto;display:flex;align-items:center;justify-content:center;min-width:55px;min-height:55px;padding:6px;color:var(--sjn-pp-accent);font-size:16px;font-weight:900;border:1px solid var(--sjn-pp-border);border-radius:10px;background:var(--sjn-pp-icon-bg); }
 #module-pastpapers .sjn-pp-paper-detail { min-width:0; }
@@ -79,3 +79,45 @@
 #module-pastpapers .sjn-pp-modes>p {font-size:11px;color:#c4c4ce;margin-bottom:10px;}
 #module-pastpapers .sjn-pp-mode-actions {display:flex;flex-wrap:wrap;gap:8px;}
 #module-pastpapers .sjn-pp-mode-actions button {flex:1;min-height:44px;background:var(--sjn-pp-icon-bg);color:var(--sjn-pp-accent);border:1px solid var(--sjn-pp-border);border-radius:8px;font-weight:750;cursor:pointer;padding:10px;}
+
+/* Published paper cards only: reuse untouched regional theme variables. */
+#module-pastpapers .sjn-pp-paper-card.is-published { isolation:isolate;min-height:195px;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease; }
+#module-pastpapers .sjn-pp-paper-card.is-published::before { content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--sjn-pp-accent);opacity:.7;pointer-events:none; }
+#module-pastpapers .sjn-pp-paper-card.is-published:hover,
+#module-pastpapers .sjn-pp-paper-card.is-published:focus-within { transform:translateY(-2px);border-color:var(--sjn-pp-accent);box-shadow:0 10px 25px rgba(0,0,0,.2);background:linear-gradient(145deg,var(--sjn-pp-tint),transparent 70%),linear-gradient(140deg,#202025,#17171b); }
+#module-pastpapers .sjn-pp-paper-topline { display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px;margin-bottom:15px; }
+#module-pastpapers .sjn-pp-paper-identity { display:inline-flex;align-items:center;gap:8px;min-width:0;color:var(--sjn-pp-accent);font-size:10px;font-weight:800;letter-spacing:.02em; }
+#module-pastpapers .sjn-pp-paper-emblem { display:inline-flex;align-items:center;justify-content:center;flex:0 0 29px;width:29px;height:29px;border:1px solid var(--sjn-pp-border);border-radius:9px;background:var(--sjn-pp-icon-bg); }
+#module-pastpapers .sjn-pp-paper-emblem .sjn-pp-symbol { width:23px;height:23px; }
+#module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-paper-card-main { gap:13px;margin-bottom:18px; }
+#module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-paper-year { flex:0 0 61px;min-width:61px;min-height:64px;display:flex;flex-direction:column;gap:3px;font-size:18px; }
+#module-pastpapers .sjn-pp-paper-year-caption { color:#a1a1aa;font-size:9px;font-weight:800;letter-spacing:.10em; }
+#module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-paper-detail { flex:1;align-self:center; }
+#module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-paper-detail h4 { font-size:17px;letter-spacing:-.02em;margin:0 0 6px;overflow-wrap:anywhere; }
+#module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-paper-detail p { margin:0;overflow-wrap:anywhere; }
+#module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-paper-status { padding:5px 8px;border:1px solid rgba(74,222,128,.2);background:rgba(74,222,128,.07);border-radius:99px; }
+#module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-paper-bottom { border-top-color:var(--sjn-pp-border); }
+#module-pastpapers .sjn-pp-paper-count { color:#c4c4ce;font-weight:700;font-size:11px; }
+#module-pastpapers .sjn-pp-paper-count i { color:var(--sjn-pp-accent); }
+#module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-start { gap:9px;min-height:44px;transition:background .16s,color .16s,transform .16s; }
+#module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-start:hover { background:var(--sjn-pp-tint); }
+#module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-start:active { transform:scale(.985); }
+#module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-start:focus-visible,
+#module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-mode-actions button:focus-visible { outline:2px solid var(--sjn-pp-accent);outline-offset:3px; }
+#module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-mode-actions button:hover { background:var(--sjn-pp-tint);border-color:var(--sjn-pp-accent); }
+@media(max-width:650px) {
+  #module-pastpapers .sjn-pp-paper-card.is-published { min-height:0; }
+  #module-pastpapers .sjn-pp-paper-topline { gap:8px;margin-bottom:12px; }
+  #module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-paper-card-main { margin-bottom:15px; }
+  #module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-paper-bottom { align-items:stretch; }
+  #module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-start { width:100%; }
+}
+@media(hover:none) {
+  #module-pastpapers .sjn-pp-paper-card.is-published:hover { transform:none;box-shadow:none; }
+}
+@media(prefers-reduced-motion:reduce) {
+  #module-pastpapers .sjn-pp-paper-card.is-published,
+  #module-pastpapers .sjn-pp-paper-card.is-published .sjn-pp-start { transition:none; }
+  #module-pastpapers .sjn-pp-paper-card.is-published:hover,
+  #module-pastpapers .sjn-pp-paper-card.is-published:focus-within { transform:none; }
+}
