@@ -192,8 +192,7 @@ BEGIN
   RETURN QUERY SELECT v_attempt_id, v_total, v_correct, v_incorrect,
                       v_skipped, v_accuracy, FALSE;
 END;
-$function$
-
+$function$;
 
 -- Preserve the already-constrained, authenticated-only function execution.
 REVOKE ALL ON FUNCTION public.sjn_submit_practice_attempt(uuid,jsonb,text,text,text,jsonb,integer)
