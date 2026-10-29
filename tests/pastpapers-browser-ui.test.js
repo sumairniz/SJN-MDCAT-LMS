@@ -136,5 +136,8 @@ test('Published paper uses existing authenticated exam, never Create Test random
  assert.match(js,/data-sjn-paper-mode="timed"/);
  assert.match(html,/window\.SJNStartPublishedPaper = function\(paperId, mode\)/);
  assert.match(html,/launchGeneratedQuiz\(questions\)/);
- assert.match(html,/q\.bank !== 'SIBA MDCAT Past Papers'/);
+ assert.match(html,/const paperBank = questions\[0\]\?\.bank/);
+ assert.match(html,/q\.bank !== paperBank/);
+ assert.match(html,/mcqCount:questions\.length/);
+ assert.doesNotMatch(html,/paper\.mcqIds\.length !== 180/);
 });

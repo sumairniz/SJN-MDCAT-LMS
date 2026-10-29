@@ -2587,7 +2587,8 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     window.SJNStartPublishedPaper = function(paperId, mode) {
       const paper = pastPapersList.find(p => Number(p.id) === Number(paperId));
       if (!paper || !['tutor','timed'].includes(mode) ||
-          !Array.isArray(paper.mcqIds) || paper.mcqIds.length !== 180 ||
+          !Array.isArray(paper.mcqIds) || paper.mcqIds.length < 1 ||
+          paper.mcqIds.length > 200 ||
           !remoteContentLoaded || window.SJNPhase4Exam?.isOpen?.()) {
         alert('The selected paper is unavailable. Reload and try again.');
         return false;
@@ -2595,10 +2596,11 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       const ids = paper.mcqIds.map(Number);
       const byId = new Map(mcqQuestionBank.map(q => [q.id, q]));
       const questions = ids.map(id => byId.get(id));
-      if (new Set(ids).size !== 180 || questions.some(q =>
-          !q || q.bank !== 'SIBA MDCAT Past Papers' ||
-          q.source !== 'SIBA MDCAT 2025 — Version B' ||
-          !Number.isSafeInteger(q.revisionId) || q.revisionId < 1)) {
+      const paperBank = questions[0]?.bank;
+      if (new Set(ids).size !== ids.length || !paperBank ||
+          ['Past Papers Question Bank', 'SJN Question Bank'].includes(paperBank) ||
+          questions.some(q => !q || q.bank !== paperBank ||
+            !Number.isSafeInteger(q.revisionId) || q.revisionId < 1)) {
         alert('The original question set could not be verified.');
         return false;
       }
@@ -2606,9 +2608,9 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       paperSourceFilter = null;
       historyRetakeTitle = String(paper.title);
       wizardSelection = {
-        bank:'SIBA MDCAT Past Papers',scope:'past-paper',subject:'Mixed Subjects',
+        bank:paperBank,scope:'past-paper',subject:'Mixed Subjects',
         selectedSubjects:[...new Set(questions.map(q=>q.subject))],
-        selectedChapters:[],selectedTopics:[],mcqCount:180,
+        selectedChapters:[],selectedTopics:[],mcqCount:questions.length,
         testMode:mode,currentStepNum:4
       };
       launchGeneratedQuiz(questions);
