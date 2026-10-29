@@ -6,6 +6,7 @@ const { createClient } = require('@supabase/supabase-js');
 const { validatePracticeSubmission } = require('./lib/practice-submission');
 const { validateDraft, UUID: DRAFT_UUID } = require('./lib/practice-drafts');
 const { buildQuestionStatus } = require('./lib/practice-question-status');
+const { readAllPublishedMcqs } = require('./lib/paginated-content');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -171,8 +172,8 @@ app.get('/api/preview-status', async (req, res) => {
 // Fetch content from persistent Supabase tables
 app.get('/api/content', async (req, res) => {
   try {
-    const [{ data: mcqs, error: mcqError }, { data: courses }, { data: pastPapers }, { data: resources }] = await Promise.all([
-      supabase.from('mcqs').select('*').order('id'),
+    const [mcqs, { data: courses }, { data: pastPapers }, { data: resources }] = await Promise.all([
+      readAllPublishedMcqs(supabase),
       supabase.from('courses').select('*').order('id'),
       supabase.from('past_papers').select('*').order('year', { ascending: false }),
       supabase.from('resources').select('*').order('id', { ascending: false })
@@ -180,7 +181,7 @@ app.get('/api/content', async (req, res) => {
 
     // Do not convert a Supabase error to an apparently valid empty bank,
     // or return published questions without the current grading revision.
-    if (mcqError || !Array.isArray(mcqs) ||
+    if (!Array.isArray(mcqs) ||
         mcqs.some(q => !Number.isSafeInteger(Number(q.current_revision_id)) ||
                        Number(q.current_revision_id) < 1)) {
       throw new Error('Published question bank or revision lookup failed');
