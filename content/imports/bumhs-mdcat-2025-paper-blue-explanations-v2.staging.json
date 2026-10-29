@@ -1,0 +1,729 @@
+{
+  "paper": "BUMHS",
+  "count": 180,
+  "version": "2",
+  "questionKeyPreserved": true,
+  "status": "provisional private testing",
+  "questions": [
+    {
+      "originalNumber": 1,
+      "explanation": "The blastocyst implants in the endometrium, the inner lining of the uterus."
+    },
+    {
+      "originalNumber": 2,
+      "explanation": "The axon arises from the cell body and carries impulses away toward other cells."
+    },
+    {
+      "originalNumber": 3,
+      "explanation": "A homozygous plant carries matching alleles and can breed true when self-fertilized."
+    },
+    {
+      "originalNumber": 4,
+      "explanation": "During inhalation, chest volume increases and intrapulmonary pressure falls below atmospheric pressure."
+    },
+    {
+      "originalNumber": 5,
+      "explanation": "FSH is secreted by the anterior pituitary, whereas testes make sperm, testosterone and inhibin."
+    },
+    {
+      "originalNumber": 6,
+      "explanation": "Crossing over exchanges DNA segments between nonsister chromatids of homologous chromosomes in meiosis I."
+    },
+    {
+      "originalNumber": 7,
+      "explanation": "Official key doubtful: the epiglottis covers the laryngeal inlet, preventing food entering the windpipe; the soft palate closes the nasal passage during swallowing."
+    },
+    {
+      "originalNumber": 8,
+      "explanation": "B lymphocytes differentiate into plasma cells that release antibodies for humoral immunity."
+    },
+    {
+      "originalNumber": 9,
+      "explanation": "Neural impulses are propagating electrochemical changes caused by movement of ions across the axon membrane."
+    },
+    {
+      "originalNumber": 10,
+      "explanation": "Dialysis fluid maintains appropriate electrolyte/osmotic concentrations but lacks urea and other waste, allowing their diffusion out of blood."
+    },
+    {
+      "originalNumber": 11,
+      "explanation": "Hydrolysis of a triglyceride releases glycerol and fatty acids, which can then enter energy metabolism."
+    },
+    {
+      "originalNumber": 12,
+      "explanation": "HIV is not transmitted by mosquito bites; transmission is mainly through sexual fluids, infected blood and perinatal exposure."
+    },
+    {
+      "originalNumber": 13,
+      "explanation": "The cerebellum coordinates balance, posture and accurate timing of muscular movements."
+    },
+    {
+      "originalNumber": 14,
+      "explanation": "Screening donor blood for HIV reduces transmission risk from blood transfusion."
+    },
+    {
+      "originalNumber": 15,
+      "explanation": "The epididymis stores sperm while they mature and gain motility."
+    },
+    {
+      "originalNumber": 16,
+      "explanation": "The relative concentration of H⁺ and OH⁻ determines the pH of the cellular environment."
+    },
+    {
+      "originalNumber": 17,
+      "explanation": "Adequate water intake dilutes stone-forming solutes in urine, lowering crystallization risk."
+    },
+    {
+      "originalNumber": 18,
+      "explanation": "The myocardium is the thick middle heart-wall layer made mainly of cardiac muscle."
+    },
+    {
+      "originalNumber": 19,
+      "explanation": "Hemoglobin binds and transports oxygen; regulating stress-related blood pressure is not its direct gas-transport function."
+    },
+    {
+      "originalNumber": 20,
+      "explanation": "Examiner perspective: twenty distinct amino-acid species each require a matching charged tRNA type, although several codons and tRNAs may exist per amino acid."
+    },
+    {
+      "originalNumber": 21,
+      "explanation": "Conjugated biomolecules contain chemically linked unlike components; a pure hydrocarbon alone is not such a conjugate."
+    },
+    {
+      "originalNumber": 22,
+      "explanation": "Gonorrhea is caused by the bacterium Neisseria gonorrhoeae."
+    },
+    {
+      "originalNumber": 23,
+      "explanation": "RNA contains uracil where DNA typically contains thymine."
+    },
+    {
+      "originalNumber": 24,
+      "explanation": "Relaxation of vascular smooth muscle widens vessels, reduces peripheral resistance and lowers blood pressure."
+    },
+    {
+      "originalNumber": 25,
+      "explanation": "Touching a hot surface triggers a rapid withdrawal reflex integrated at the spinal cord."
+    },
+    {
+      "originalNumber": 26,
+      "explanation": "Brainstem respiratory centers in the medulla regulate basic breathing rhythm."
+    },
+    {
+      "originalNumber": 27,
+      "explanation": "At rest the axon exterior is relatively positive, reflecting unequal Na⁺/K⁺ distributions across the membrane."
+    },
+    {
+      "originalNumber": 28,
+      "explanation": "A sensory neuron carries information from the receptor toward spinal cord/CNS circuitry."
+    },
+    {
+      "originalNumber": 29,
+      "explanation": "Villi increase nutrient absorption in the small intestine; the large intestine generally lacks such villi."
+    },
+    {
+      "originalNumber": 30,
+      "explanation": "Temperatures above the optimum disrupt enzyme shape and active-site activity through denaturation."
+    },
+    {
+      "originalNumber": 31,
+      "explanation": "Darwin's theory emphasizes natural selection of advantageous heritable variations."
+    },
+    {
+      "originalNumber": 32,
+      "explanation": "Transverse (T) tubules conduct action potentials from the sarcolemma deep into muscle fibers."
+    },
+    {
+      "originalNumber": 33,
+      "explanation": "Chromosomes consist mainly of DNA associated with histone and nonhistone proteins."
+    },
+    {
+      "originalNumber": 34,
+      "explanation": "Mendel cross-pollinated selected true-breeding tall and dwarf plants to obtain F1 hybrids."
+    },
+    {
+      "originalNumber": 35,
+      "explanation": "The cerebellum belongs to the hindbrain, not the forebrain."
+    },
+    {
+      "originalNumber": 36,
+      "explanation": "Myelinated axons regenerate action potentials at successive nodes of Ranvier during saltatory conduction."
+    },
+    {
+      "originalNumber": 37,
+      "explanation": "DNA nucleotides share deoxyribose and phosphate; their nitrogenous bases differ among A, T, G and C."
+    },
+    {
+      "originalNumber": 38,
+      "explanation": "Osteocytes are mature bone cells that help maintain mineralized matrix and monitor mechanical conditions."
+    },
+    {
+      "originalNumber": 39,
+      "explanation": "A glycolipid contains a lipid component covalently joined to carbohydrate."
+    },
+    {
+      "originalNumber": 40,
+      "explanation": "Special creation attributes life's origin to a supernatural act rather than biological evolution."
+    },
+    {
+      "originalNumber": 41,
+      "explanation": "Catastrophism invokes sudden large-scale natural events to explain changes in life and geological records."
+    },
+    {
+      "originalNumber": 42,
+      "explanation": "The sarcomere shortens during contraction as thin filaments slide past thick filaments; it does not lengthen."
+    },
+    {
+      "originalNumber": 43,
+      "explanation": "Cartilage is avascular, so nutrients reach chondrocytes by diffusion through its matrix."
+    },
+    {
+      "originalNumber": 44,
+      "explanation": "Biotechnology can produce selected parasite antigens to stimulate a targeted immune response through vaccination."
+    },
+    {
+      "originalNumber": 45,
+      "explanation": "A nucleotide contains a nitrogenous base, pentose sugar and phosphate group."
+    },
+    {
+      "originalNumber": 46,
+      "explanation": "Proteins commonly contain C, H, O and N; phosphorus is not essential to their basic amino-acid structure."
+    },
+    {
+      "originalNumber": 47,
+      "explanation": "Heart valves are folds of the endocardial lining supported by connective tissue."
+    },
+    {
+      "originalNumber": 48,
+      "explanation": "ER membrane buds into transport vesicles that carry proteins and lipids to other cell compartments."
+    },
+    {
+      "originalNumber": 49,
+      "explanation": "The appendix is not a major excretory organ, unlike kidneys and related excretory pathways."
+    },
+    {
+      "originalNumber": 50,
+      "explanation": "Aldosterone increases Na⁺ reabsorption in distal nephron segments, promoting water retention."
+    },
+    {
+      "originalNumber": 51,
+      "explanation": "Lymphatic vessels transport lymph, while nodes filter lymph and support immune surveillance."
+    },
+    {
+      "originalNumber": 52,
+      "explanation": "A resting neuron typically has a membrane potential near −70 mV, inside negative relative to outside."
+    },
+    {
+      "originalNumber": 53,
+      "explanation": "Examiner perspective: textbooks may count about 45 functional tRNA species in human cells; the exact number varies by cell compartment and classification."
+    },
+    {
+      "originalNumber": 54,
+      "explanation": "Chloroplasts and a large central vacuole are characteristic of plant cells."
+    },
+    {
+      "originalNumber": 55,
+      "explanation": "Lactose is a disaccharide composed of glucose and galactose."
+    },
+    {
+      "originalNumber": 56,
+      "explanation": "Each species typically maintains a characteristic chromosome number in its diploid body cells."
+    },
+    {
+      "originalNumber": 57,
+      "explanation": "A tRNA anticodon recognizes the complementary mRNA codon during translation."
+    },
+    {
+      "originalNumber": 58,
+      "explanation": "The renal pelvis collects urine from calyces and drains into the ureter."
+    },
+    {
+      "originalNumber": 59,
+      "explanation": "Rising ventricular pressure closes the atrioventricular valves, preventing backflow into the atria."
+    },
+    {
+      "originalNumber": 60,
+      "explanation": "After ovulation, the emptied follicle develops into the progesterone-secreting corpus luteum."
+    },
+    {
+      "originalNumber": 61,
+      "explanation": "Osteoclasts resorb bone by releasing acid and enzymes that digest mineralized matrix."
+    },
+    {
+      "originalNumber": 62,
+      "explanation": "The spleen filters blood, removes aged erythrocytes and helps mount immune responses."
+    },
+    {
+      "originalNumber": 63,
+      "explanation": "The woman's father was hemophiliac, making her an obligate carrier if she is unaffected; an affected husband gives the affected X to daughters, of whom half are affected."
+    },
+    {
+      "originalNumber": 64,
+      "explanation": "Morgan's experiments demonstrated that genes on the same chromosome may remain linked, violating independent assortment."
+    },
+    {
+      "originalNumber": 65,
+      "explanation": "The active site binds substrate and helps lower the reaction's activation energy."
+    },
+    {
+      "originalNumber": 66,
+      "explanation": "Pacinian corpuscles respond to deep pressure and vibration."
+    },
+    {
+      "originalNumber": 67,
+      "explanation": "Tendons are dense connective tissue that attach skeletal muscles to bones."
+    },
+    {
+      "originalNumber": 68,
+      "explanation": "Smooth ER synthesizes many lipids, including phospholipids and cholesterol-derived substances."
+    },
+    {
+      "originalNumber": 69,
+      "explanation": "T-tubules transmit electrical excitation deep into muscle fibers to coordinate calcium release."
+    },
+    {
+      "originalNumber": 70,
+      "explanation": "Blood's oxygen-carrying capacity depends largely on the amount of hemoglobin available for oxygen binding."
+    },
+    {
+      "originalNumber": 71,
+      "explanation": "The central dogma describes information flowing from DNA through RNA transcription to protein translation."
+    },
+    {
+      "originalNumber": 72,
+      "explanation": "Triacylglycerols are esters of glycerol (an alcohol) with fatty acids."
+    },
+    {
+      "originalNumber": 73,
+      "explanation": "Reflex action is a rapid, relatively simple, automatic response common in higher animals."
+    },
+    {
+      "originalNumber": 74,
+      "explanation": "Ribosomal RNA forms the structural and catalytic core of ribosomes, the cellular sites of translation."
+    },
+    {
+      "originalNumber": 75,
+      "explanation": "Monoclonal antibodies bind selected antigens with high specificity and can detect markers in clinical samples."
+    },
+    {
+      "originalNumber": 76,
+      "explanation": "Glucose is a monosaccharide and cannot be hydrolyzed into smaller carbohydrate units."
+    },
+    {
+      "originalNumber": 77,
+      "explanation": "A noncompetitive inhibitor binds away from the active site and changes enzyme activity through altered conformation."
+    },
+    {
+      "originalNumber": 78,
+      "explanation": "Saltatory conduction occurs only along myelinated axons with nodes of Ranvier."
+    },
+    {
+      "originalNumber": 79,
+      "explanation": "A chromatid is one threadlike copy of a duplicated chromosome, consisting of DNA and associated proteins."
+    },
+    {
+      "originalNumber": 80,
+      "explanation": "Bile contains bile salts and pigments, but no digestive enzyme lipase; lipase is primarily pancreatic."
+    },
+    {
+      "originalNumber": 81,
+      "explanation": "pH changes the protonation of amino-acid side chains, affecting the active site's charge and enzyme activity."
+    },
+    {
+      "originalNumber": 82,
+      "explanation": "Adding HCl provides a common chloride ion, suppressing NaCl dissolution and lowering its solubility."
+    },
+    {
+      "originalNumber": 83,
+      "explanation": "Clemmensen reduction (Zn-Hg/concentrated HCl) converts an aldehyde carbonyl to a methylene group; ethanal gives ethane."
+    },
+    {
+      "originalNumber": 84,
+      "explanation": "The azo group (–N=N–) absorbs visible light and acts as a chromophore in many dyes."
+    },
+    {
+      "originalNumber": 85,
+      "explanation": "Casein glue is a natural protein-based adhesive prepared from milk casein."
+    },
+    {
+      "originalNumber": 86,
+      "explanation": "NH₃ is trigonal pyramidal and its bond dipoles do not cancel; planar symmetric BF₃ has zero net dipole moment."
+    },
+    {
+      "originalNumber": 87,
+      "explanation": "Water has extensive hydrogen bonding, causing relatively strong intermolecular attraction and low vapor pressure."
+    },
+    {
+      "originalNumber": 88,
+      "explanation": "The Aufbau filling sequence places 4p orbitals after 3d orbitals."
+    },
+    {
+      "originalNumber": 89,
+      "explanation": "Removing water from an alcohol to form an alkene is a dehydration elimination reaction."
+    },
+    {
+      "originalNumber": 90,
+      "explanation": "A triatomic molecule may be linear or bent, depending on electron-pair geometry at its central atom."
+    },
+    {
+      "originalNumber": 91,
+      "explanation": "Strong dipole-dipole attractions require greater energy to separate liquid molecules, raising enthalpy of vaporization."
+    },
+    {
+      "originalNumber": 92,
+      "explanation": "Diethyl ether has weak intermolecular attraction and a low boiling point, so it is highly volatile."
+    },
+    {
+      "originalNumber": 93,
+      "explanation": "Carbon monoxide has a small but nonzero molecular dipole moment because of unequal electron distribution."
+    },
+    {
+      "originalNumber": 94,
+      "explanation": "Li⁺ is a very small monatomic cation due to its low electron-shell count."
+    },
+    {
+      "originalNumber": 95,
+      "explanation": "Heating typically causes liquids to expand, increasing their volume."
+    },
+    {
+      "originalNumber": 96,
+      "explanation": "Sodium hydroxide is relatively thermally stable compared with many metal hydroxides that decompose on heating."
+    },
+    {
+      "originalNumber": 97,
+      "explanation": "CuO + H₂SO₄ → CuSO₄ + H₂O is acid-base neutralization, with no change in oxidation states."
+    },
+    {
+      "originalNumber": 98,
+      "explanation": "Removing attractive intermolecular forces can raise measured gas pressure at fixed temperature and volume compared with a gas with net attractions."
+    },
+    {
+      "originalNumber": 99,
+      "explanation": "Aluminum's three valence electrons contribute to relatively strong metallic bonding among the listed metals."
+    },
+    {
+      "originalNumber": 100,
+      "explanation": "The rate constant varies with temperature according to the Arrhenius relationship."
+    },
+    {
+      "originalNumber": 101,
+      "explanation": "Nylon 6,6 forms by condensation of hexamethylenediamine with adipic acid; the named diamine is one monomer."
+    },
+    {
+      "originalNumber": 102,
+      "explanation": "The methyl group activates toluene's aromatic ring toward electrophilic Friedel–Crafts alkylation."
+    },
+    {
+      "originalNumber": 103,
+      "explanation": "The aldehyde is the principal functional group: number from –CHO as C1, giving 3-oxopentanal."
+    },
+    {
+      "originalNumber": 104,
+      "explanation": "For 4d, n = 4 and l = 2, so n + l = 6."
+    },
+    {
+      "originalNumber": 105,
+      "explanation": "At constant temperature, Boyle's law gives P₁V₁ = P₂V₂; triple pressure gives one-third the volume."
+    },
+    {
+      "originalNumber": 106,
+      "explanation": "LiAlH₄ reduces ketone C=O groups to secondary alcohols following protonation."
+    },
+    {
+      "originalNumber": 107,
+      "explanation": "Official key doubtful: Lindlar hydrogenation converts a terminal alkyne to a terminal alkene, which cannot have cis/trans stereoisomers; cis applies to suitable internal alkynes."
+    },
+    {
+      "originalNumber": 108,
+      "explanation": "Official key doubtful: if 18 g was isolated and an additional 4 g was spilled, material actually formed was about 22 g; the stated 14 g and 50% do not follow directly from the wording."
+    },
+    {
+      "originalNumber": 109,
+      "explanation": "Pentanoic acid has the common name valeric acid."
+    },
+    {
+      "originalNumber": 110,
+      "explanation": "Oxidation of sulfur releases heat, making it an exothermic reaction."
+    },
+    {
+      "originalNumber": 111,
+      "explanation": "Official key doubtful: in normal nucleophilic substitution the C–F bond is strong and F⁻ is a poor leaving group; R–F is usually less reactive than R–I or R–Br."
+    },
+    {
+      "originalNumber": 112,
+      "explanation": "Forward and reverse activation energies differ by the reaction enthalpy: Ea(fwd) − Ea(rev) = ΔH."
+    },
+    {
+      "originalNumber": 113,
+      "explanation": "An SN1 reaction first forms a carbocation after the leaving group departs, then the nucleophile attacks."
+    },
+    {
+      "originalNumber": 114,
+      "explanation": "Homolytic bond cleavage divides the shared electron pair, forming radicals with unpaired electrons."
+    },
+    {
+      "originalNumber": 115,
+      "explanation": "Alkenes commonly react by electrophilic addition across their electron-rich C=C pi bond."
+    },
+    {
+      "originalNumber": 116,
+      "explanation": "UV light favors radical substitution at toluene's benzylic side chain, yielding benzyl bromide."
+    },
+    {
+      "originalNumber": 117,
+      "explanation": "Phenol reacts with acetyl chloride to give phenyl acetate, an ester, with HCl as by-product."
+    },
+    {
+      "originalNumber": 118,
+      "explanation": "4 mol Na reacts exactly with 2 mol Cl₂ in the 2:1 stoichiometric ratio; no chlorine remains."
+    },
+    {
+      "originalNumber": 119,
+      "explanation": "For rate = k[A]^m[B]^n, units of k depend on overall order m+n."
+    },
+    {
+      "originalNumber": 120,
+      "explanation": "At fixed temperature and gas amount, PV = constant, so V ∝ 1/P."
+    },
+    {
+      "originalNumber": 121,
+      "explanation": "A chiral molecule lacks an improper symmetry element that would make it superimposable on its mirror image."
+    },
+    {
+      "originalNumber": 122,
+      "explanation": "Official key doubtful: among common hydrogen halides HF, HCl, HBr and HI, HCl has the lowest boiling point; HI's boiling point exceeds HCl and HBr."
+    },
+    {
+      "originalNumber": 123,
+      "explanation": "The equilibrium constant Kc depends on temperature; changing initial concentrations changes position, not Kc."
+    },
+    {
+      "originalNumber": 124,
+      "explanation": "Fluorine's high electronegativity draws bonding electron density away from nitrogen, reducing bond-pair repulsion and the F–N–F angle."
+    },
+    {
+      "originalNumber": 125,
+      "explanation": "Nitrogen changes from +3 in NO₂⁻ to +5 in NO₃⁻; oxidation releases two electrons."
+    },
+    {
+      "originalNumber": 126,
+      "explanation": "Chlorination of toluene with a Lewis-acid catalyst occurs on the ring; methyl directs mainly to ortho and para products, often with substantial para product."
+    },
+    {
+      "originalNumber": 127,
+      "explanation": "Gamma-ray photons generally carry higher frequency and energy than typical X-ray photons, though their energy ranges can overlap."
+    },
+    {
+      "originalNumber": 128,
+      "explanation": "A negative dot product implies an obtuse angle, so the second vector has a negative x-component when the first points along +x."
+    },
+    {
+      "originalNumber": 129,
+      "explanation": "Between equipotential points, ΔV = 0, so work per unit charge W/q = 0."
+    },
+    {
+      "originalNumber": 130,
+      "explanation": "Official key doubtful: for a stretched string, λ₁:λ₂:λ₃ = 2L:L:2L/3 = 6:3:2, not 3:2:1."
+    },
+    {
+      "originalNumber": 131,
+      "explanation": "Three full turns equal 3 × 2π = 6π ≈ 18.85 radians."
+    },
+    {
+      "originalNumber": 132,
+      "explanation": "A source's efficiency η = R/(R+r) equals 50% when external resistance R equals internal resistance r."
+    },
+    {
+      "originalNumber": 133,
+      "explanation": "Resistivity is a material property at fixed temperature; doubling wire length changes resistance, not resistivity."
+    },
+    {
+      "originalNumber": 134,
+      "explanation": "Instantaneous power P = Fv cosθ; with force perpendicular to velocity, power is zero."
+    },
+    {
+      "originalNumber": 135,
+      "explanation": "Without air drag, a projectile has zero horizontal acceleration, so its horizontal velocity component remains constant."
+    },
+    {
+      "originalNumber": 136,
+      "explanation": "RC = (1 MΩ)(2 μF) = 2 s; charging reaches about 63% of final charge after one time constant."
+    },
+    {
+      "originalNumber": 137,
+      "explanation": "Momentum is conserved in the two-cart collision if external net impulse is negligible, even if kinetic energy decreases."
+    },
+    {
+      "originalNumber": 138,
+      "explanation": "An electric field exerts force F = qE on a nonzero test charge placed in the field."
+    },
+    {
+      "originalNumber": 139,
+      "explanation": "For unit vectors a and b, a·b = |a||b|cosθ = cosθ."
+    },
+    {
+      "originalNumber": 140,
+      "explanation": "Faraday's law gives induced emf proportional to the rate of change of magnetic flux linkage, |ε| = N|dΦ/dt|."
+    },
+    {
+      "originalNumber": 141,
+      "explanation": "a = F/m = 8/4 = 2 m/s²; after 15 s v = 30 m/s, so KE = ½ × 4 × 30² = 1800 J."
+    },
+    {
+      "originalNumber": 142,
+      "explanation": "For Brackett transitions to n = 4, the longest wavelength is 5→4 and shortest is ∞→4; their ratio is 25/9."
+    },
+    {
+      "originalNumber": 143,
+      "explanation": "A depletion region lacks mobile majority charge carriers but contains fixed ionized donor and acceptor ions."
+    },
+    {
+      "originalNumber": 144,
+      "explanation": "While charging a cell, external current is forced against the cell's emf, opposite to the spontaneous discharge direction."
+    },
+    {
+      "originalNumber": 145,
+      "explanation": "An open-open pipe has f₁ = v/(2L); an open-closed pipe has f₁ = v/(4L), giving a 2:1 frequency ratio."
+    },
+    {
+      "originalNumber": 146,
+      "explanation": "The vector cross product has magnitude ABsinθ and a direction perpendicular to both vectors, given by the right-hand rule."
+    },
+    {
+      "originalNumber": 147,
+      "explanation": "Average speed equals the magnitude of average velocity only if the object travels along a straight line without reversing direction."
+    },
+    {
+      "originalNumber": 148,
+      "explanation": "Opposite electric charges attract; when released, movement toward lower electrostatic potential energy converts potential into kinetic energy."
+    },
+    {
+      "originalNumber": 149,
+      "explanation": "Perpendicular vectors have zero dot product: (2)(1) + (1)(1) + (3)x = 0, hence x = −1."
+    },
+    {
+      "originalNumber": 150,
+      "explanation": "The electric field magnitude of a point charge is E = k|q|/r² directed radially."
+    },
+    {
+      "originalNumber": 151,
+      "explanation": "For fixed transmitted power, higher current raises resistive line losses P_loss = I²R."
+    },
+    {
+      "originalNumber": 152,
+      "explanation": "In simplified steady ideal flow, continuity raises speed in a narrowed vessel while Bernoulli's relation lowers static pressure."
+    },
+    {
+      "originalNumber": 153,
+      "explanation": "A progressive wave transports energy through a medium or space, whereas a stationary wave has no net energy transport."
+    },
+    {
+      "originalNumber": 154,
+      "explanation": "Mayer's relation for an ideal gas is Cp − Cv = R, or Cp = Cv + R."
+    },
+    {
+      "originalNumber": 155,
+      "explanation": "Capacitive reactance Xc = 1/(ωC); doubling C halves Xc and doubles current at fixed frequency and voltage."
+    },
+    {
+      "originalNumber": 156,
+      "explanation": "The Coulomb repulsion between protons is roughly 10³⁶ times their gravitational attraction at the same separation."
+    },
+    {
+      "originalNumber": 157,
+      "explanation": "For circular motion projected into SHM, amax = ω²A = (v²/r²)r = v²/r = 4 cm/s²."
+    },
+    {
+      "originalNumber": 158,
+      "explanation": "Resistivity depends on material and temperature, not wire dimensions."
+    },
+    {
+      "originalNumber": 159,
+      "explanation": "Continuity A₁v₁ = A₂v₂ gives v₂ = (0.02 × 3)/0.01 = 6 m/s."
+    },
+    {
+      "originalNumber": 160,
+      "explanation": "Bernoulli's model predicts lower static pressure where ideal-fluid flow speed is higher."
+    },
+    {
+      "originalNumber": 161,
+      "explanation": "Work W = Fd cosθ; since the wall does not move, displacement is zero and work is zero."
+    },
+    {
+      "originalNumber": 162,
+      "explanation": "By Coulomb's inverse-square law, reducing separation to r/4 increases force by (4)² = 16."
+    },
+    {
+      "originalNumber": 163,
+      "explanation": "'Berister' is misspelled; the legal profession is written 'barrister'."
+    },
+    {
+      "originalNumber": 164,
+      "explanation": "Backshift 'am going' to 'was going' and change 'I' to 'he' in reported speech."
+    },
+    {
+      "originalNumber": 165,
+      "explanation": "'Not only ... but also' is a correlative conjunction adding two positive qualities."
+    },
+    {
+      "originalNumber": 166,
+      "explanation": "The finite main verb is 'decided'; 'to meet' and 'request' belong to the infinitival complement."
+    },
+    {
+      "originalNumber": 167,
+      "explanation": "'Even she took the test' uses focusing 'even' to emphasize an unexpected person participating."
+    },
+    {
+      "originalNumber": 168,
+      "explanation": "'The paper should be submitted as soon as possible' is formal, neutral and expands the informal abbreviation ASAP."
+    },
+    {
+      "originalNumber": 169,
+      "explanation": "Stoic means showing little outward emotion during hardship; 'resilient' captures the intended composure in the context, though it is not an exact synonym."
+    },
+    {
+      "originalNumber": 170,
+      "explanation": "'Scriptures' is the correctly spelled plural noun referring to sacred writings."
+    },
+    {
+      "originalNumber": 171,
+      "explanation": "Negative-frequency adverbs like 'rarely' trigger subject-auxiliary inversion: 'Rarely have I seen ...'."
+    },
+    {
+      "originalNumber": 172,
+      "explanation": "The analogy follows familiar animal relationships: a cat is contrasted with a dog, and a mouse with a cat."
+    },
+    {
+      "originalNumber": 173,
+      "explanation": "The argument presumes that exposure to smoking in public places contributes to lung disease, so banning it would reduce cases."
+    },
+    {
+      "originalNumber": 174,
+      "explanation": "Multiplication comes first: 3 × 2 = 6, then 10 − 6 = 4."
+    },
+    {
+      "originalNumber": 175,
+      "explanation": "Examiner perspective: the intended answer is figure 4 following the source's visual rotation pattern. The temporary text-only figure descriptions cannot independently establish the pattern; verify original diagram before public release."
+    },
+    {
+      "originalNumber": 176,
+      "explanation": "75% passed and 80% of these were admitted, so admissions are 0.75 × 0.80 = 0.60 of candidates; 1800/0.60 = 3000."
+    },
+    {
+      "originalNumber": 177,
+      "explanation": "Doubling weekly gives Rs 1000, 2000, 4000 and 8000 in week four."
+    },
+    {
+      "originalNumber": 178,
+      "explanation": "A storm causing power disruption is an external environmental factor, not a personal or design factor."
+    },
+    {
+      "originalNumber": 179,
+      "explanation": "Daughter's current age is 36/2 = 18; four years ago she was 14."
+    },
+    {
+      "originalNumber": 180,
+      "explanation": "North and south legs cancel; eastward travel totals 8 + 5 = 13 m, so displacement is 13 m."
+    }
+  ]
+}
