@@ -63,21 +63,33 @@
   }
 
 
+  // Paper visual identity inherits the exact approved parent-region accent and landmark.
   function publishedCard(p) {
     const id=Number(p.id);
-    return `<article class="sjn-pp-paper-card" aria-label="${esc(p.title)}">
+    const region=regions.find(item=>item.id===p.region);
+    return `<article class="sjn-pp-paper-card is-published" aria-label="${esc(p.title)}">
+      <div class="sjn-pp-paper-topline">
+        <span class="sjn-pp-paper-identity">
+          <span class="sjn-pp-paper-emblem" aria-hidden="true">${regionSymbol(region)}</span>
+          <span>${esc(region.name)} Past Papers</span>
+        </span>
+        <span class="sjn-pp-paper-status is-published"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Published</span>
+      </div>
       <div class="sjn-pp-paper-card-main">
-        <div class="sjn-pp-paper-year">${esc(p.year)}</div>
+        <div class="sjn-pp-paper-year">
+          <small class="sjn-pp-paper-year-caption">YEAR</small><strong>${esc(p.year)}</strong>
+        </div>
         <div class="sjn-pp-paper-detail">
-          <span class="sjn-pp-paper-status is-published">Published</span>
           <h4>${esc(p.title)}</h4>
           <p>${esc(p.description || 'Original MDCAT past paper')}</p>
         </div>
       </div>
       <div class="sjn-pp-paper-bottom">
-        <span>${p.mcqIds.length} questions</span>
+        <span class="sjn-pp-paper-count"><i class="fa-solid fa-list-check" aria-hidden="true"></i> ${p.mcqIds.length} Questions</span>
         <button type="button" class="sjn-pp-start" data-sjn-paper-choose="${id}"
-          aria-expanded="false" aria-controls="sjn-pp-modes-${id}">Start Paper</button>
+          aria-label="Start ${esc(p.title)}" aria-expanded="false" aria-controls="sjn-pp-modes-${id}">
+          <span>Start Paper</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        </button>
       </div>
       <div class="sjn-pp-modes" id="sjn-pp-modes-${id}" hidden>
         <p>Choose how to attempt this paper</p>
