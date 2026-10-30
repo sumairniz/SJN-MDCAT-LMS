@@ -24,7 +24,7 @@
 #module-pastpapers [data-sjn-paper-region="federal"],
 #module-pastpapers [data-sjn-paper-theme="federal"] { --sjn-pp-accent:#879FC8;--sjn-pp-tint:rgba(135,159,200,.10);--sjn-pp-border:rgba(135,159,200,.30);--sjn-pp-icon-bg:#1D2432; }
 #module-pastpapers [data-sjn-paper-region="nums"],
-#module-pastpapers [data-sjn-paper-theme="nums"] { --sjn-pp-accent:#B07BA9;--sjn-pp-tint:rgba(176,123,169,.10);--sjn-pp-border:rgba(176,123,169,.30);--sjn-pp-icon-bg:#2A202C; }
+#module-pastpapers [data-sjn-paper-theme="nums"] { --sjn-pp-accent:#C47BB8;--sjn-pp-tint:rgba(196,123,184,.10);--sjn-pp-border:rgba(196,123,184,.30);--sjn-pp-icon-bg:#2F2030; }
 #module-pastpapers .sjn-pp-symbol { display:block;width:31px;height:31px;max-width:100%;max-height:100%; }
 #module-pastpapers .sjn-pp-region-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px; }
 #module-pastpapers .sjn-pp-region-card { display:flex;align-items:flex-start;gap:14px;width:100%;min-width:0;min-height:151px;text-align:left;padding:23px 19px;background:linear-gradient(145deg,var(--sjn-pp-tint),transparent 80%),linear-gradient(140deg,#19191e,#131317);border:1px solid var(--sjn-pp-border);border-radius:15px;color:#f4f4f5;cursor:pointer;transition:border-color .16s,background .16s,transform .16s; }
