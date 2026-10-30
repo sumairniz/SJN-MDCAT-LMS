@@ -192,3 +192,13 @@ test('NUMS preserves approved single-color berry SVG style and no paper data is 
   assert.match(ui.root.innerHTML,/disabled title="No verified paper questions available yet"/);
   assert.doesNotMatch(ui.root.innerHTML,/data-sjn-paper-choose/);
 });
+
+test('All six region palettes use uniform NUMS-approved 14% tint and 39% border opacity',()=>{
+  const channels={sindh:'101,179,173',punjab:'212,176,102',kpk:'176,154,205',balochistan:'194,142,115',federal:'135,159,200',nums:'212,106,171'};
+  for(const [region,rgb] of Object.entries(channels)){
+    const rule=css.split('[data-sjn-paper-theme="'+region+'"] { ')[1]?.split(' }')[0];
+    assert.ok(rule, 'Missing palette for '+region);
+    assert.ok(rule.includes('--sjn-pp-tint:rgba('+rgb+',.14)'), region+' tint');
+    assert.ok(rule.includes('--sjn-pp-border:rgba('+rgb+',.39)'), region+' border');
+  }
+});
