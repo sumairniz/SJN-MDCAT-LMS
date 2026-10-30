@@ -13,7 +13,8 @@
     { id: 'punjab', name: 'Punjab' },
     { id: 'kpk', name: 'KPK' },
     { id: 'balochistan', name: 'Balochistan' },
-    { id: 'federal', name: 'Federal' }
+    { id: 'federal', name: 'Federal' },
+    { id: 'nums', name: 'NUMS' }
   ]);
   // Fixed simple vector silhouettes inspired by landmarks. They are not
   // exact architectural plans, government seals or external image assets.
@@ -22,7 +23,10 @@
     punjab: '<path d="M32 7V14 M26 16H38L36 22H28L26 16Z M28 22L25 35H39L36 22 M25 35L20 46H44L39 35 M17 49H47 M13 54H51 M20 54V49 M44 54V49"/>',
     kpk: '<path d="M8 54H56 M12 54V27L20 19H44L52 27V54 M12 28H52 M24 54V40Q32 29 40 40V54 M19 33V38 M45 33V38"/>',
     balochistan: '<path d="M6 52L20 32L28 40L38 19L58 52 M15 52L23 42L29 47 M32 29L38 19L46 30 M7 56H57"/>',
-    federal: '<path d="M7 23L32 10L57 23H7Z M11 28H53 M15 28V47 M23 28V47 M30 28V47 M39 28V47 M47 28V47 M10 51H54 M7 55H57"/>'
+    federal: '<path d="M7 23L32 10L57 23H7Z M11 28H53 M15 28V47 M23 28V47 M30 28V47 M39 28V47 M47 28V47 M10 51H54 M7 55H57"/>',
+    // Owner-approved simplified concentric circular mark, inspired by the
+    // supplied NUMS logo; native inline SVG, no image file or external asset.
+    nums: '<path d="M21 7 A27 27 0 1 0 54 50" stroke-width="6"/><path d="M27 5 A31 31 0 0 1 60 39" stroke-width="2.5" stroke-dasharray="3 3"/><circle cx="33" cy="32" r="18" stroke-width="2.5"/><circle cx="33" cy="32" r="10" stroke-width="4"/>'
   });
   function regionSymbol(region) {
     return `<svg class="sjn-pp-symbol" viewBox="0 0 64 64" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">${symbols[region.id]}</svg>`;
@@ -55,7 +59,7 @@
     root.innerHTML = `<div class="sjn-pp-section-heading">
         <div><span class="sjn-pp-section-kicker">BROWSE BY REGION</span><h3>Select a category</h3>
         <p>Choose a region to explore its year-wise examination papers.</p></div>
-        <span class="sjn-pp-total-cats">5 categories</span>
+        <span class="sjn-pp-total-cats">${regions.length} categories</span>
       </div>
       <div class="sjn-pp-region-grid">${regions.map(regionCard).join('')}</div>
       <p class="sjn-pp-library-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>
