@@ -1,3 +1,7 @@
+## 2026-10-30 — NUMS color differentiation, owner-directed update
+
+The owner found NUMS orchid `#C47BB8` too similar to KPK lavender `#B09ACD` and requested applying proposed **Berry Purple `#D46AAB`**, with greater separation. Only NUMS scoped palette changed: accent `#D46AAB`, tint `rgba(212,106,171,.14)`, border `rgba(212,106,171,.39)`, icon background `#30202C`. KPK and other five regions, NUMS circular SVG, layout and functionality unchanged. A **stronger unimplemented alternative** (for consideration only, not authorized to deploy) is deeper raspberry `#DA5E9F`. Do not change to this alternative without owner approval. No database/production changes. Verify GitHub CI and owner visual acceptance.
+
 ## 2026-10-30 — NUMS accent refinement (owner-approved)
 
 Owner reviewed live six-category screenshot and approved recoloring **NUMS only**, from muted plum `#B07BA9` to warmer orchid purple `#C47BB8` (tint `rgba(196,123,184,.10)`, border `rgba(196,123,184,.30)`, icon background `#2F2030`) to distinguish it from KPK lavender `#B09ACD`. The NUMS circular SVG geometry and all existing five regional palettes, layouts, data, functionality, and responsive styling are unchanged. Staging branch only; production/main and Supabase untouched. Tests updated to verify the approved color. Owner screenshot confirmation pending.
