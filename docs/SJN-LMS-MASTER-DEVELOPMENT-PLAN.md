@@ -1,3 +1,7 @@
+## 2026-10-30 — NUMS accent refinement (owner-approved)
+
+Owner reviewed live six-category screenshot and approved recoloring **NUMS only**, from muted plum `#B07BA9` to warmer orchid purple `#C47BB8` (tint `rgba(196,123,184,.10)`, border `rgba(196,123,184,.30)`, icon background `#2F2030`) to distinguish it from KPK lavender `#B09ACD`. The NUMS circular SVG geometry and all existing five regional palettes, layouts, data, functionality, and responsive styling are unchanged. Staging branch only; production/main and Supabase untouched. Tests updated to verify the approved color. Owner screenshot confirmation pending.
+
 ## 2026-10-30 — Owner-approved sixth Past Papers category: NUMS (staging UI only)
 
 Owner approved adding **NUMS** as the sixth browse category after Sindh, Punjab, KPK, Balochistan and Federal; muted plum purple accent `#B07BA9`, same existing card layout, dimensions, hover/focus/touch behavior and paper-list browser. Category icon is a small simplified **inline SVG** of the supplied circular NUMS-style symbol: thick curved outer arc, dashed upper circular arc, concentric inner rings, monochromatic theme accent. No source image uploaded or fetched; original source logo is inspiration only. `public/sjn-pastpapers.js` adds `{id:'nums', name:'NUMS'}` with icon and dynamic six-category label; `public/sjn-pastpapers.css` adds isolated NUMS palette. Tests cover the sixth category and original regional colors. NUMS initially shows the same disabled sample paper empty state, **no fabricated published NUMS paper**.
