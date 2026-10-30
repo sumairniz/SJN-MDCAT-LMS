@@ -1,3 +1,9 @@
+## 2026-10-30 — Owner-approved sixth Past Papers category: NUMS (staging UI only)
+
+Owner approved adding **NUMS** as the sixth browse category after Sindh, Punjab, KPK, Balochistan and Federal; muted plum purple accent `#B07BA9`, same existing card layout, dimensions, hover/focus/touch behavior and paper-list browser. Category icon is a small simplified **inline SVG** of the supplied circular NUMS-style symbol: thick curved outer arc, dashed upper circular arc, concentric inner rings, monochromatic theme accent. No source image uploaded or fetched; original source logo is inspiration only. `public/sjn-pastpapers.js` adds `{id:'nums', name:'NUMS'}` with icon and dynamic six-category label; `public/sjn-pastpapers.css` adds isolated NUMS palette. Tests cover the sixth category and original regional colors. NUMS initially shows the same disabled sample paper empty state, **no fabricated published NUMS paper**.
+
+**Strict scope:** No Supabase schema changes, new MCQs, paper uploads, grading/quiz changes, student history changes, domain or production/main deployment. A real NUMS past paper and source keys must be separately approved before database publication. Check final branch CI and owner screenshot UAT on desktop and mobile prior to sign-off.
+
 ## 2026-10-30 — Owner-approved explanation correction for 720 regional MCQs (staging)
 
 Owner identified that all 720 UHS/KMU/SZABMU/BUMHS explanations were generic source-key statements, unlike SIBA 2025. Owner authorized concise concept-based explanations matching SIBA's style, with explicit `Official key doubtful:` cautions for strongly questionable supplied keys, while preserving all original keys and source options. Examiner-intent interpretations are labeled `Examiner perspective:` where warranted; such wording is NOT a claim that an explanation is official.
