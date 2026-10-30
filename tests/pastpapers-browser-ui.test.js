@@ -94,7 +94,7 @@ test('Approved layout refinements keep compact year-wise paper cards and balance
 });
 
 test('Regional palette matches approved six colors and continues to same-region paper listings',()=>{
-  const colors = { sindh:'#65B3AD', punjab:'#D4B066', kpk:'#B09ACD', balochistan:'#C28E73', federal:'#879FC8', nums:'#B07BA9' };
+  const colors = { sindh:'#65B3AD', punjab:'#D4B066', kpk:'#B09ACD', balochistan:'#C28E73', federal:'#879FC8', nums:'#C47BB8' };
   for(const [region,color] of Object.entries(colors)) {
     assert.ok(css.includes('[data-sjn-paper-region="'+region+'"]'));
     assert.ok(css.includes('[data-sjn-paper-theme="'+region+'"] { --sjn-pp-accent:'+color+';'));
@@ -180,8 +180,8 @@ test('Published paper content remains escaped and other regions stay disabled',(
   assert.match(ui.root.innerHTML,/disabled title=/);
 });
 
-test('NUMS preserves approved single-color plum SVG style and no paper data is invented',()=>{
-  assert.match(css,/\[data-sjn-paper-theme="nums"\] \{ --sjn-pp-accent:#B07BA9/);
+test('NUMS preserves approved single-color orchid SVG style and no paper data is invented',()=>{
+  assert.match(css,/\[data-sjn-paper-theme="nums"\] \{ --sjn-pp-accent:#C47BB8/);
   assert.match(js,/nums: '<path d="M21 7 A27 27/);
   assert.match(js,/stroke-dasharray="3 3"/);
   assert.ok(js.includes('<circle cx="33" cy="32"'));
