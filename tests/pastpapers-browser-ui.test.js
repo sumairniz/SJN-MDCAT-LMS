@@ -39,7 +39,7 @@ test('Past Papers page has no giant parent panel or old two-column viewer, sideb
   assert.doesNotMatch(sect,/bg-sjn-card rounded-2xl|lg:grid-cols|pastpapers-container|pastpaper-viewer|iframe|\.pdf/i);
   assert.match(html,/onclick="switchModule\('pastpapers'\)" id="tab-pastpapers"/);
   assert.match(html,/src="\/sjn-pastpapers\.js"/);
-  assert.match(html,/href="\/sjn-pastpapers\.css"/);
+  assert.match(html,/href="\/sjn-pastpapers\.css\?v=20261030-nums-berry"/);
   assert.match(html,/function renderPastPapersModule\(\) \{\s+window\.SJNPastPapers\?\.setPapers\(pastPapersList\);\s+window\.SJNPastPapers\?\.render\(\);/);
   assert.match(html,/window\.renderPastPapersModule = renderPastPapersModule;/);
 });
