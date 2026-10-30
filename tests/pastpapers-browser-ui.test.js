@@ -44,11 +44,11 @@ test('Past Papers page has no giant parent panel or old two-column viewer, sideb
   assert.match(html,/window\.renderPastPapersModule = renderPastPapersModule;/);
 });
 
-test('Five accessible province/region categories and back navigation work without database',()=>{
+test('Six accessible province/region categories and back navigation work without database',()=>{
   const ui=openBrowser();
-  for(const name of ['Sindh','Punjab','KPK','Balochistan','Federal'])
+  for(const name of ['Sindh','Punjab','KPK','Balochistan','Federal','NUMS'])
     assert.match(ui.root.innerHTML,new RegExp('Browse '+name+' Past Papers'));
-  assert.equal((ui.root.innerHTML.match(/data-sjn-paper-region=/g)||[]).length,5);
+  assert.equal((ui.root.innerHTML.match(/data-sjn-paper-region=/g)||[]).length,6);
   ui.click('sindh');
   assert.match(ui.root.innerHTML,/Sindh MDCAT 2025/);
   assert.match(ui.root.innerHTML,/data-sjn-paper-back/);
@@ -65,6 +65,9 @@ test('Five accessible province/region categories and back navigation work withou
   assert.doesNotMatch(ui.root.innerHTML,/Categories are ready for your review/);
   ui.click('federal');
   assert.match(ui.root.innerHTML,/Federal MDCAT 2025/);
+  ui.back(); ui.click('nums');
+  assert.match(ui.root.innerHTML,/NUMS MDCAT 2025/);
+  assert.match(ui.root.innerHTML,/0 published papers/);
 });
 
 test('Preview only: never launch a quiz, load a PDF, claim a test published, or modify data',()=>{
@@ -90,13 +93,13 @@ test('Approved layout refinements keep compact year-wise paper cards and balance
   assert.match(js,/disabled title="No verified paper questions available yet"/);
 });
 
-test('Regional palette matches approved five colors and continues to same-region paper listings',()=>{
-  const colors = { sindh:'#65B3AD', punjab:'#D4B066', kpk:'#B09ACD', balochistan:'#C28E73', federal:'#879FC8' };
+test('Regional palette matches approved six colors and continues to same-region paper listings',()=>{
+  const colors = { sindh:'#65B3AD', punjab:'#D4B066', kpk:'#B09ACD', balochistan:'#C28E73', federal:'#879FC8', nums:'#B07BA9' };
   for(const [region,color] of Object.entries(colors)) {
     assert.ok(css.includes('[data-sjn-paper-region="'+region+'"]'));
     assert.ok(css.includes('[data-sjn-paper-theme="'+region+'"] { --sjn-pp-accent:'+color+';'));
   }
-  assert.equal(new Set(Object.values(colors)).size,5);
+  assert.equal(new Set(Object.values(colors)).size,6);
   assert.match(css,/\.sjn-pp-region-card \{[^}]*var\(--sjn-pp-tint\)[^}]*var\(--sjn-pp-border\)/);
   assert.match(css,/\.sjn-pp-region-icon \{[^}]*color:var\(--sjn-pp-accent\)/);
   assert.match(css,/\.sjn-pp-paper-card \{[^}]*var\(--sjn-pp-tint\)[^}]*var\(--sjn-pp-border\)/);
@@ -105,20 +108,20 @@ test('Regional palette matches approved five colors and continues to same-region
   assert.doesNotMatch(css,/(?:^|\n)\s*body\s*\{/);
 });
 
-test('Distinct simple landmark vector icons for all five regions, without affecting published state',()=>{
+test('Distinct simple landmark vector icons for all six categories, without affecting published state',()=>{
   const paths=[];
-  for(const region of ['sindh','punjab','kpk','balochistan','federal']) {
+  for(const region of ['sindh','punjab','kpk','balochistan','federal','nums']) {
     const textLine=js.split('\n').find(line=>line.trim().startsWith(region+": '<path d="));
     assert.ok(textLine,'Dedicated symbol for '+region);
     paths.push(textLine.trim());
   }
-  assert.equal(new Set(paths).size,5);
+  assert.equal(new Set(paths).size,6);
   assert.match(js,/function regionSymbol\(region\)/);
   assert.match(js,/stroke-width="2\.6"/);
   assert.doesNotMatch(js,/fa-map-location-dot|fa-landmark/);
   const ui=openBrowser();
-  assert.equal((ui.root.innerHTML.match(/<svg /g)||[]).length,5);
-  for(const region of ['sindh','punjab','kpk','balochistan','federal']) {
+  assert.equal((ui.root.innerHTML.match(/<svg /g)||[]).length,6);
+  for(const region of ['sindh','punjab','kpk','balochistan','federal','nums']) {
     ui.click(region);
     assert.ok(ui.root.innerHTML.includes('data-sjn-paper-theme="'+region+'"'));
     assert.match(ui.root.innerHTML,/sjn-pp-collection-symbol/);
@@ -127,7 +130,7 @@ test('Distinct simple landmark vector icons for all five regions, without affect
     assert.match(ui.root.innerHTML,/disabled title="No verified paper questions available yet"/);
     ui.back();
   }
-  assert.equal((ui.root.innerHTML.match(/<svg /g)||[]).length,5);
+  assert.equal((ui.root.innerHTML.match(/<svg /g)||[]).length,6);
 });
 
 test('Published paper uses existing authenticated exam, never Create Test random draw',()=>{
@@ -175,4 +178,17 @@ test('Published paper content remains escaped and other regions stay disabled',(
   ui.back(); ui.click('punjab');
   assert.match(ui.root.innerHTML,/Not published/);
   assert.match(ui.root.innerHTML,/disabled title=/);
+});
+
+test('NUMS preserves approved single-color plum SVG style and no paper data is invented',()=>{
+  assert.match(css,/\[data-sjn-paper-theme="nums"\] \{ --sjn-pp-accent:#B07BA9/);
+  assert.match(js,/nums: '<path d="M21 7 A27 27/);
+  assert.match(js,/stroke-dasharray="3 3"/);
+  assert.match(js,/<circle cx=\\"33\\" cy=\\"32\\"/);
+  const ui=openBrowser();
+  assert.match(ui.root.innerHTML,/6 categories/);
+  ui.click('nums');
+  assert.match(ui.root.innerHTML,/Papers coming soon|No question papers have been uploaded yet/);
+  assert.match(ui.root.innerHTML,/disabled title="No verified paper questions available yet"/);
+  assert.doesNotMatch(ui.root.innerHTML,/data-sjn-paper-choose/);
 });
