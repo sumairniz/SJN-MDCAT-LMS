@@ -14,15 +14,15 @@
 /* Regional identity exists only inside the Past Papers browser.
    The universal SJN charcoal base and red navigation retain their identity. */
 #module-pastpapers [data-sjn-paper-region="sindh"],
-#module-pastpapers [data-sjn-paper-theme="sindh"] { --sjn-pp-accent:#65B3AD;--sjn-pp-tint:rgba(101,179,173,.10);--sjn-pp-border:rgba(101,179,173,.30);--sjn-pp-icon-bg:#172827; }
+#module-pastpapers [data-sjn-paper-theme="sindh"] { --sjn-pp-accent:#65B3AD;--sjn-pp-tint:rgba(101,179,173,.14);--sjn-pp-border:rgba(101,179,173,.39);--sjn-pp-icon-bg:#172827; }
 #module-pastpapers [data-sjn-paper-region="punjab"],
-#module-pastpapers [data-sjn-paper-theme="punjab"] { --sjn-pp-accent:#D4B066;--sjn-pp-tint:rgba(212,176,102,.095);--sjn-pp-border:rgba(212,176,102,.30);--sjn-pp-icon-bg:#2B251A; }
+#module-pastpapers [data-sjn-paper-theme="punjab"] { --sjn-pp-accent:#D4B066;--sjn-pp-tint:rgba(212,176,102,.14);--sjn-pp-border:rgba(212,176,102,.39);--sjn-pp-icon-bg:#2B251A; }
 #module-pastpapers [data-sjn-paper-region="kpk"],
-#module-pastpapers [data-sjn-paper-theme="kpk"] { --sjn-pp-accent:#B09ACD;--sjn-pp-tint:rgba(176,154,205,.10);--sjn-pp-border:rgba(176,154,205,.30);--sjn-pp-icon-bg:#272134; }
+#module-pastpapers [data-sjn-paper-theme="kpk"] { --sjn-pp-accent:#B09ACD;--sjn-pp-tint:rgba(176,154,205,.14);--sjn-pp-border:rgba(176,154,205,.39);--sjn-pp-icon-bg:#272134; }
 #module-pastpapers [data-sjn-paper-region="balochistan"],
-#module-pastpapers [data-sjn-paper-theme="balochistan"] { --sjn-pp-accent:#C28E73;--sjn-pp-tint:rgba(194,142,115,.10);--sjn-pp-border:rgba(194,142,115,.30);--sjn-pp-icon-bg:#2B211D; }
+#module-pastpapers [data-sjn-paper-theme="balochistan"] { --sjn-pp-accent:#C28E73;--sjn-pp-tint:rgba(194,142,115,.14);--sjn-pp-border:rgba(194,142,115,.39);--sjn-pp-icon-bg:#2B211D; }
 #module-pastpapers [data-sjn-paper-region="federal"],
-#module-pastpapers [data-sjn-paper-theme="federal"] { --sjn-pp-accent:#879FC8;--sjn-pp-tint:rgba(135,159,200,.10);--sjn-pp-border:rgba(135,159,200,.30);--sjn-pp-icon-bg:#1D2432; }
+#module-pastpapers [data-sjn-paper-theme="federal"] { --sjn-pp-accent:#879FC8;--sjn-pp-tint:rgba(135,159,200,.14);--sjn-pp-border:rgba(135,159,200,.39);--sjn-pp-icon-bg:#1D2432; }
 #module-pastpapers [data-sjn-paper-region="nums"],
 #module-pastpapers [data-sjn-paper-theme="nums"] { --sjn-pp-accent:#D46AAB;--sjn-pp-tint:rgba(212,106,171,.14);--sjn-pp-border:rgba(212,106,171,.39);--sjn-pp-icon-bg:#30202C; }
 #module-pastpapers .sjn-pp-symbol { display:block;width:31px;height:31px;max-width:100%;max-height:100%; }
