@@ -184,7 +184,7 @@ test('NUMS preserves approved single-color plum SVG style and no paper data is i
   assert.match(css,/\[data-sjn-paper-theme="nums"\] \{ --sjn-pp-accent:#B07BA9/);
   assert.match(js,/nums: '<path d="M21 7 A27 27/);
   assert.match(js,/stroke-dasharray="3 3"/);
-  assert.match(js,/<circle cx=\\"33\\" cy=\\"32\\"/);
+  assert.ok(js.includes('<circle cx="33" cy="32"'));
   const ui=openBrowser();
   assert.match(ui.root.innerHTML,/6 categories/);
   ui.click('nums');
