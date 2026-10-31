@@ -29,7 +29,7 @@ test('Sample courses remain non-functional for scoring, attempts, and enrollment
  assert.match(js,/No real enrollment or test has been created/);
 });
 test('Syllabus subject groups and keyboard-accessible button navigation are present',()=>{
- assert.match(js,/details class="sjn-c-syllabus-group"/);
+ assert.match(js,/details class="sjn-c-syllabus-group /);
  assert.match(js,/data-c-session/);assert.match(js,/data-c-back/);
  assert.match(js,/data-c-filter/);assert.match(js,/aria-pressed/);
  assert.match(css,/prefers-reduced-motion/);
