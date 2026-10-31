@@ -350,6 +350,42 @@ app.get('/api/history', auth, async (req, res) => {
   }
 });
 
+// Staging academy-curated Genome tests, read only through the student's existing
+// verified login. Completion comes only from server-saved attempts; never from UI.
+app.get('/api/course-tests', auth, async (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  try {
+    const [catalog, attempts, drafts] = await Promise.all([
+      req.db.from('sjn_course_tests')
+        .select('id,session_code,test_number,title,subject,chapter,duration_minutes,availability,mcq_ids_json,syllabus_json')
+        .eq('session_code','genome').eq('published',true).order('test_number'),
+      req.db.from('attempts').select('selection_json,created_at')
+        .eq('user_id',req.user.id).order('id',{ascending:false}).limit(1000),
+      req.db.from('practice_drafts').select('selection_json,updated_at')
+        .eq('user_id',req.user.id).order('updated_at',{ascending:false}).limit(1000)
+    ]);
+    if (catalog.error || attempts.error || drafts.error) throw new Error('Course records unavailable');
+    const completed = new Set((attempts.data||[])
+      .map(a=>Number(a.selection_json?.courseTestId)).filter(x=>Number.isSafeInteger(x)&&x>0));
+    const inProgress = new Set((drafts.data||[])
+      .map(a=>Number(a.selection_json?.courseTestId)).filter(x=>Number.isSafeInteger(x)&&x>0));
+    const tests = (catalog.data||[]).map(t=>({
+      id:Number(t.id),session:'genome',no:t.test_number,name:t.title,
+      subject:t.subject,chapter:t.chapter,minutes:t.duration_minutes,
+      availability:t.availability,completion:completed.has(Number(t.id))?'Completed':
+        inProgress.has(Number(t.id))?'In Progress':'Not Attempted',
+      mcqIds:t.mcq_ids_json,syllabus:t.syllabus_json
+    }));
+    if(tests.some(t=>!Number.isSafeInteger(t.id)||!Array.isArray(t.mcqIds)||
+      !t.mcqIds.length||t.mcqIds.length>200||t.mcqIds.some(id=>!Number.isSafeInteger(id))))
+      throw new Error('Invalid published course manifest');
+    res.json({session:'genome',tests});
+  } catch(e) {
+    console.error('Course test read failed:',e?.code||e?.message);
+    res.status(503).json({error:'Course tests could not be verified. Retry shortly.'});
+  }
+});
+
 // Student-specific Create Test filters. Read ONLY immutable completed attempt
 // items and persistent bookmarks through the existing bearer+cookie auth and
 // per-user Supabase RLS. No draft rows, legacy score-only guesses or writes.
