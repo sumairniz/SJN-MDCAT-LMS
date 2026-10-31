@@ -8,8 +8,8 @@ test('Courses staging preview loads its own scoped assets without changing the e
  assert.doesNotThrow(()=>new vm.Script(js));
  assert.match(html,/id="module-courses"[^>]*aria-label="My Courses and test sessions"/);
  assert.match(html,/id="sjn-courses-root"/);
- assert.match(html,/sjn-courses.css\?v=20261031-courses-preview-1/);
- assert.match(html,/sjn-courses.js\?v=20261031-courses-preview-1/);
+ assert.match(html,/sjn-courses.css\?v=20261101-courses-refinement-2/);
+ assert.match(html,/sjn-courses.js\?v=20261101-courses-refinement-2/);
  assert.match(html,/if \(!hasPublished\) \{ window.SJNCoursesPreview\?\.render\(\); return; \}/);
  assert.doesNotMatch(css,/(?:^|\n)\s*body\s*\{/);
  assert.match(css,/#module-courses .sjn-c-session-card/);
@@ -35,4 +35,20 @@ test('Syllabus subject groups and keyboard-accessible button navigation are pres
  assert.match(css,/prefers-reduced-motion/);
  assert.match(css,/focus-visible/);
  assert.match(css,/@media\(max-width:550px\)/);
+});
+
+test('Approved Courses refinement: details popup, access gating, mobile tabs and subjects only',()=>{
+ assert.match(js,/SJN MedNest Academy/);
+ assert.match(js,/data-c-details/);
+ assert.match(js,/data-c-modal-tab/);
+ assert.match(js,/data-c-modal-close/);
+ assert.match(js,/data-c-modal-backdrop/);
+ assert.match(js,/aria-modal="true"/);
+ assert.match(js,/Not enrolled · Locked/);
+ assert.match(js,/if\(!x\?\.enrolled\)return/);
+ assert.match(js,/data-c-test-tab/);
+ assert.match(css,/#module-courses \.sjn-c-test-tabs/);
+ assert.match(css,/@media\(max-width:850px\)/);
+ assert.match(css,/backdrop-filter:blur\(6px\)/);
+ assert.doesNotMatch(js,/Carbohydrates, lipids and proteins|Molecular shapes and hybridization/);
 });
