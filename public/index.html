@@ -1587,7 +1587,7 @@
       if (wizardSelection.testMode === 'timed') {
         document.getElementById('quiz-timer-box').classList.remove('hidden');
         document.getElementById('quiz-timer-box').classList.add('flex');
-        startTimer(wizardSelection.mcqCount * 60);
+        startTimer((wizardSelection.courseDurationMinutes || wizardSelection.mcqCount) * 60);
         document.getElementById('submit-answer-btn').innerText = 'Submit Full Exam';
       } else {
         document.getElementById('quiz-timer-box').classList.add('hidden');
@@ -2614,7 +2614,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         historyRetakeTitle='Genome Test Session 2026 — Test '+String(courseTest.no).padStart(2,'0');
         wizardSelection={
           bank:'SJN MedNest Course Tests',scope:'course-test',
-          courseTestId:courseTest.id,subject:courseTest.subject||'Mixed Subjects',
+          courseTestId:courseTest.id,courseDurationMinutes:courseTest.minutes,subject:courseTest.subject||'Mixed Subjects',
           selectedSubjects:[...new Set(questions.map(q=>q.subject))],
           selectedChapters:[],selectedTopics:[],mcqCount:questions.length,
           testMode:mode,currentStepNum:4
