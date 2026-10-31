@@ -8,8 +8,8 @@ test('Courses staging preview loads its own scoped assets without changing the e
  assert.doesNotThrow(()=>new vm.Script(js));
  assert.match(html,/id="module-courses"[^>]*aria-label="My Courses and test sessions"/);
  assert.match(html,/id="sjn-courses-root"/);
- assert.match(html,/sjn-courses.css\?v=20261101-courses-refinement-3/);
- assert.match(html,/sjn-courses.js\?v=20261101-courses-refinement-3/);
+ assert.match(html,/sjn-courses.css\?v=20261101-genome-live-1/);
+ assert.match(html,/sjn-courses.js\?v=20261101-genome-live-1/);
  assert.match(html,/if \(!hasPublished\) \{ window.SJNCoursesPreview\?\.render\(\); return; \}/);
  assert.doesNotMatch(css,/(?:^|\n)\s*body\s*\{/);
  assert.match(css,/#module-courses .sjn-c-session-card/);
@@ -22,11 +22,12 @@ test('Three uniquely named sample sessions and directly visible tests',()=>{
  assert.match(js,/Scheduled: /);
  assert.doesNotMatch(js,/data-c-date|calendarPicker|selectedDate/);
 });
-test('Sample courses remain non-functional for scoring, attempts, and enrollment',()=>{
- assert.match(js,/Sample test — exam not available/);
- assert.match(js,/disabled aria-label="Sample test/);
- assert.doesNotMatch(js,/(fetch\(|XMLHttpRequest|localStorage|sessionStorage|SJNStartPublishedPaper|launchGeneratedQuiz|finishQuiz\(|window\.practiceCourse\()/);
- assert.match(js,/No real enrollment or test has been created/);
+test('Genome published tests use guarded live launch while other sessions stay illustrative',()=>{
+ assert.match(js,/window.SJNCourseBridge\.start/);
+ assert.match(js,/data-c-start/);
+ assert.match(js,/!t\.id/);
+ assert.doesNotMatch(js,/(XMLHttpRequest|localStorage|sessionStorage|SJNStartPublishedPaper|launchGeneratedQuiz|finishQuiz\()/);
+ assert.match(js,/Production unchanged/);
 });
 test('Syllabus subject groups and keyboard-accessible button navigation are present',()=>{
  assert.match(js,/details class="sjn-c-syllabus-group /);
@@ -72,4 +73,21 @@ test('Third owner-approved Courses UX has independent access/completion and filt
  assert.match(css,/sjn-c-filter-count/);
  assert.match(css,/sjn-c-card-overlay/);
  assert.doesNotMatch(js,/Sample enrolled|Sample Tests|Demo progress|DESIGN PREVIEW/);
+});
+
+test('The course bridge and backend use the same secure submission flow',()=>{
+ const server=fs.readFileSync(path.join(root,'server.js'),'utf8');
+ const phase=fs.readFileSync(path.join(root,'public/sjn-phase4-preview.js'),'utf8');
+ assert.match(html,/window\.SJNCourseBridge = /);
+ assert.match(html,/historyRetakeTitle='Genome Test Session/);
+ assert.match(html,/courseTestId:courseTest\.id/);
+ assert.match(html,/wizardSelection\.scope === 'course-test'/);
+ assert.match(html,/window\.SJNCoursesPreview\?\.refresh/);
+ assert.match(server,/app\.get\('\/api\/course-tests', auth/);
+ assert.match(server,/\.eq\('user_id',req\.user\.id\)/);
+ assert.match(server,/courseTestId/);
+ assert.match(phase,/courseTestId:wizardSelection\.courseTestId/);
+ assert.match(js,/sjn-c-progress-head/);
+ assert.match(css,/\.sjn-c-progress-head>\.sjn-c-bar/);
+ assert.match(css,/\.sjn-c-launch:not\(\[disabled\]\)/);
 });
