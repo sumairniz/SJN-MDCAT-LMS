@@ -223,3 +223,24 @@ body.sjn-c-dialog-open{overflow:hidden}
  #module-courses .sjn-c-mode-card{padding:11px}
  #module-courses .sjn-c-test-status-wrap{align-self:center}
 }
+
+
+/* Genome stage: align the progress bar between label and percentage.
+   Both widths adapt on desktop and mobile, without hiding the bar. */
+#module-courses .sjn-c-card-foot .sjn-c-progress{flex:1;min-width:0;max-width:none}
+#module-courses .sjn-c-progress-head{display:flex;align-items:center;gap:10px;width:100%;margin:0;min-width:0}
+#module-courses .sjn-c-progress-head>span:first-child{font-size:10px;flex:0 1 auto;min-width:0}
+#module-courses .sjn-c-progress-head>.sjn-c-bar{flex:1 1 54px;min-width:30px;width:auto;height:6px;align-self:center;display:block;margin:0;background:#403b42}
+#module-courses .sjn-c-progress-head>strong{flex:0 0 auto;white-space:nowrap;color:#facc15}
+#module-courses .sjn-c-session-card.is-explore .sjn-c-progress-head>.sjn-c-bar{display:none}
+#module-courses .sjn-c-details-btn{background:#48272d;border-color:#81434b;color:#ffb6bb}
+#module-courses .sjn-c-details-btn:hover{background:#633139;border-color:#aa515a}
+#module-courses .sjn-c-detail-panel .sjn-c-launch:not([disabled]){cursor:pointer;background:#b91c1c;border-color:#e23b3b;color:#fff}
+#module-courses .sjn-c-detail-panel .sjn-c-launch:not([disabled]):hover{background:#dc2626;border-color:#ef4444}
+#module-courses .sjn-c-mode-card:focus-visible,#module-courses .sjn-c-launch:focus-visible{outline:2px solid #fbbf24;outline-offset:3px}
+@media(max-width:550px){
+ #module-courses .sjn-c-progress-head{gap:7px}
+ #module-courses .sjn-c-progress-head>span:first-child{font-size:9px}
+ #module-courses .sjn-c-progress-head>.sjn-c-bar{min-width:28px}
+ #module-courses .sjn-c-card-foot .sjn-c-progress{flex-basis:100%;min-width:0}
+}
