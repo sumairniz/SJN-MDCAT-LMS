@@ -345,7 +345,7 @@
     if (q.source) {
       const b = document.createElement('span');
       b.className = 'sjn-exam-source';
-      b.textContent = q.source;
+      b.textContent = q.source === 'NUMS MDCAT 2026 — third-party marked paper' ? 'NUMS MDCAT 2026' : q.source;
       src.append(b);
     }
     renderMarkAction(q);
