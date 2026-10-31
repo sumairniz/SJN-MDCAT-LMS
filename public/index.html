@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="/sjn-phase4-results.css">
   <link rel="stylesheet" href="/sjn-history.css">
   <link rel="stylesheet" href="/sjn-pastpapers.css?v=20261031-balochistan-b39434">
-  <link rel="stylesheet" href="/sjn-courses.css?v=20261101-courses-refinement-3">
+  <link rel="stylesheet" href="/sjn-courses.css?v=20261101-genome-live-1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
@@ -2590,6 +2590,36 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     };
 
     window.renderPastPapersModule = renderPastPapersModule;
+    // Reuse the same exam engine for academy-curated course tests.
+    // The server validates the exact ordered published questions at submission.
+    window.SJNCourseBridge = {
+      load: () => api('/course-tests'),
+      start: async (id, mode) => {
+        if (!['timed','tutor'].includes(mode) || !Number.isSafeInteger(Number(id)) ||
+            !remoteContentLoaded || window.SJNPhase4Exam?.isOpen?.()) return false;
+        const catalog = await api('/course-tests');
+        const courseTest = (catalog.tests||[]).find(t=>t.id===Number(id) && t.availability==='Available');
+        if(!courseTest || !Array.isArray(courseTest.mcqIds) || !courseTest.mcqIds.length ||
+            courseTest.mcqIds.length>200) return false;
+        const byId = new Map(mcqQuestionBank.map(q=>[q.id,q]));
+        const questions = courseTest.mcqIds.map(qid=>byId.get(qid));
+        if(new Set(courseTest.mcqIds).size!==questions.length ||
+           questions.some(q=>!q||q.bank!=='SJN MedNest Course Tests'||!Number.isSafeInteger(q.revisionId)))
+          return false;
+        wizardQuestionFiltersActive=false;
+        paperSourceFilter=null;
+        historyRetakeTitle='Genome Test Session 2026 — Test '+String(courseTest.no).padStart(2,'0');
+        wizardSelection={
+          bank:'SJN MedNest Course Tests',scope:'course-test',
+          courseTestId:courseTest.id,subject:courseTest.subject||'Mixed Subjects',
+          selectedSubjects:[...new Set(questions.map(q=>q.subject))],
+          selectedChapters:[],selectedTopics:[],mcqCount:questions.length,
+          testMode:mode,currentStepNum:4
+        };
+        launchGeneratedQuiz(questions);
+        return true;
+      }
+    };
     window.SJNStartPublishedPaper = function(paperId, mode) {
       const paper = pastPapersList.find(p => Number(p.id) === Number(paperId));
       if (!paper || !['tutor','timed'].includes(mode) ||
@@ -2933,7 +2963,8 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       const selection = {
         subjects: wizardSelection.selectedSubjects,
         chapters: wizardSelection.selectedChapters,
-        topics: wizardSelection.selectedTopics
+        topics: wizardSelection.selectedTopics,
+        ...(wizardSelection.scope === 'course-test' ? {courseTestId:wizardSelection.courseTestId} : {})
       };
       const submission = {
         submissionKey: currentSubmissionKey, items,
@@ -2973,6 +3004,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         window.SJNPracticeFilters?.resetSelection();
         window.SJNPracticeFilters?.invalidate();
         markStudentHistoryChanged();
+        if (wizardSelection.scope === 'course-test') void window.SJNCoursesPreview?.refresh?.();
         const confirmedGeneration = historyGeneration;
         window.SJNExamRecovery?.forget();
         // The original legacy results workspace should also reflect the
@@ -3046,7 +3078,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
    // Student data is loaded from the authenticated API, never shared browser storage.
   </script>
   <script src="/sjn-pastpapers.js"></script>
-  <script src="/sjn-courses.js?v=20261101-courses-refinement-3"></script>
+  <script src="/sjn-courses.js?v=20261101-genome-live-1"></script>
   <script src="/sjn-history.js"></script>
   <script src="/sjn-phase4-preview.js?v=20261031-nums-short-label"></script>
   <script src="/sjn-phase4-results.js"></script>
