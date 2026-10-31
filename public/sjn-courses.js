@@ -68,7 +68,7 @@ function sessionPage(){
  '<button type="button" class="sjn-c-hero-details" data-c-details="'+s.id+'">Session Details</button></div></div>'+warn()+
  '<div class="sjn-c-test-head"><div><h3 class="sjn-c-content-title">Session Tests</h3><p class="sjn-c-dim">Select a test to see its schedule and syllabus.</p></div><span class="sjn-c-count">'+s.tests.length+' Tests</span></div>'+
  '<div class="sjn-c-filter-row">'+filterNames.map(f=>'<button type="button" class="sjn-c-filter" data-c-filter="'+f+'" aria-pressed="'+(f===state.filter)+'">'+f+' <span class="sjn-c-filter-count">'+s.tests.filter(t=>matches(t,f)).length+'</span></button>').join('')+'</div>'+
- '<div class="sjn-c-tests">'+(visible.length?visible.map(testRow).join(''):'<div class="sjn-c-empty">'+(s.id==='genome'&&!state.genomeLoaded?'Loading published course tests…':state.genomeError?'Unable to load tests. Please reopen My Courses.':'No tests match this filter.')+'</div>')+'</div></div';
+ '<div class="sjn-c-tests">'+(visible.length?visible.map(testRow).join(''):'<div class="sjn-c-empty">'+(s.id==='genome'&&!state.genomeLoaded?'Loading published course tests…':state.genomeError?'Unable to load tests. Please reopen My Courses.':'No tests match this filter.')+'</div>')+'</div></div>';
 }
 function syllabusHTML(t){
  if(t.fullSyllabus)return '<div class="sjn-c-full-syllabus">'+ico('book-open')+' Full Syllabus</div>';
@@ -89,7 +89,7 @@ function testPage(){
  '<div class="sjn-c-detail-metric"><small>Duration</small><strong>'+t.minutes+' min</strong></div><div class="sjn-c-detail-metric"><small>Availability</small><strong>'+badgeAvailability(t.availability)+'</strong></div></div>'+
  '<div class="sjn-c-overview-info"><span class="sjn-c-test-schedule">'+ico('calendar-days')+' Scheduled: '+esc(t.date)+'</span><span>'+ico('book-open')+' '+esc(t.subject)+'</span><span>Attempt status: '+badgeCompletion(t.completion)+'</span></div>'+
  '<h4 class="sjn-c-mode-title">Select Test Mode</h4><div class="sjn-c-modes">'+modeHTML('timed')+modeHTML('tutor')+'</div>'+
- '<button class="sjn-c-launch" type="button" data-c-start="'+t.id+'"'+(t.availability!=='Available'?' disabled aria-label="Test is not available"':'')+'>Start Test '+ico('arrow-right')+'</button></section>'+
+ '<button class="sjn-c-launch" type="button" data-c-start="'+t.id+'"'+((t.availability!=='Available'||!t.id)?' disabled aria-label="Test is not available"':'')+'>Start Test '+ico('arrow-right')+'</button></section>'+
  '<section class="sjn-c-detail-panel'+selected('syllabus')+'" data-c-test-panel="syllabus"><h3 class="sjn-c-detail-title">Test Syllabus</h3>'+
  (t.fullSyllabus?'':'<p class="sjn-c-dim" style="margin:0 0 14px">Subjects and chapters included in this test.</p>')+syllabusHTML(t)+'</section></div></div>';
 }
