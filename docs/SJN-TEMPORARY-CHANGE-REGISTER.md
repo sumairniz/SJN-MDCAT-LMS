@@ -1,5 +1,13 @@
 # SJN MDCAT LMS Pro — Temporary Changes & Pre-Merge Cleanup Register
 
+## TEMP-COURSES-20261101-REV3 — OPEN · owner-approved preview realism
+
+- Enrolled test-session cards and detail views use student-facing wording; only the yellow design-preview notice discloses the static examples. All completion and progress values are fixture examples, not student attempts or saved enrollments.
+- Added UI-only Available/Unavailable/Upcoming plus Not Attempted/In Progress/Completed combinations, counted filters, full-syllabus switch, and Timed/Tutor selection. Start Test remains disabled. Completion is **not** linked to `/api/history` or real results.
+- No server entitlement enforcement exists yet; the locked sample session only illustrates intended access policy. No actual academy course/test publishing, live assessments, admin rules, or WhatsApp/contact action implemented.
+- Before production: replace demo fixture and visual states with authenticated server-backed course enrollment and attempt relationships; enforce test availability and mode permissions on server, calculate counts/progress from persisted submissions, and run browser/mobile UAT. Keep as OPEN until owner separately approves production integration.
+
+
 ## TEMP-COURSES-20261101 — OPEN · approved staging Courses UI design preview
 
 - **Approval:** Owner approved refinement after desktop/mobile screenshot review (2026-11-01).
