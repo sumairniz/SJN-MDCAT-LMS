@@ -1,3 +1,10 @@
+## 2026-11-01 — Owner-approved Genome Courses functional integration (STAGING ONLY)
+
+Owner approved three supplied practice tests for **Genome Test Session 2026**, answer-key corrections, short explanations, the existing Tutor/Timed examination UI, per-test source badge TEST 01/02/03, genuine result/history/retake integration, and progress bar **between** completion label and percentage on desktop/mobile; Details button now soft red. Imported **16 Acellular Life + 45 Physics Force & Momentum Test 01 (not PDF Test 02) + 18 Reproduction = 79 MCQs** into Supabase staging only, bank `SJN MedNest Course Tests`, with current revision links and three ordered published `sjn_course_tests` records. The PDF's broken questions/keys have been corrected for this **practice-only** integration; key-by-key audit is `content/imports/genome-course-tests-2026-key-audit.md` and three versioned JSON source manifests are under `content/imports/`. Physics Q35 wording refinement saved as new immutable revision (old retained).
+
+Implemented authenticated `GET /api/course-tests` (server-derived Completed from saved attempts, In Progress from drafts, no fabricated history), verified full ordered published MCQ-set grading in `sjn_submit_practice_attempt` RPC, and curated course launcher through the existing shared quiz engine with course ID in submission/draft metadata. Test History Retake preserves ID and duration. Respects curated test timing in Phase4 and legacy timers; manual Save & Exit validator accepts academy-set durations. Genome uses live test data; Early Mock and Final Sprint remain illustrative; no real paid enrollment/authz subsystem yet (authenticated **staging** users can enter Genome), no live testing or production merge. **Automated CI and DB integrity are separate from signed-in browser/mobile UAT, which remains pending**. No existing past-paper/question-bank item edited. Old `courses` table remains unused; custom course publishing and admin tools deferred.
+
+
 
 ## 2026-11-01 — My Courses third owner-approved UX revision (staging)
 
