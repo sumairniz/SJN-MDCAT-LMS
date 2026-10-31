@@ -2725,9 +2725,23 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       if (new Set(questions.map(q=>q.id)).size!==questions.length ||
           questions.length!==Number(payload.attempt.total))
         throw new Error('Saved test question order could not be verified.');
+      const isCourseRetake = questions[0].bank === 'SJN MedNest Course Tests';
+      let courseRetake = null;
+      if(isCourseRetake){
+        const originalId = Number(payload.attempt.selection?.courseTestId);
+        if(!Number.isSafeInteger(originalId)||originalId<1)
+          throw new Error('Course test identity is missing from saved history.');
+        const catalog = await api('/course-tests');
+        courseRetake = (catalog.tests||[]).find(t=>t.id===originalId);
+        if(!courseRetake || courseRetake.mcqIds.length!==questions.length ||
+           courseRetake.mcqIds.some((id,i)=>id!==questions[i].id))
+          throw new Error('The original course test is no longer available for retake.');
+      }
       wizardSelection = {
         bank: questions[0].bank || 'Past Papers Question Bank',
-        scope: 'all-subjects', subject: payload.attempt.subject || 'All Subjects',
+        scope: isCourseRetake?'course-test':'all-subjects',
+        ...(isCourseRetake?{courseTestId:courseRetake.id,courseDurationMinutes:courseRetake.minutes}:{}),
+        subject: payload.attempt.subject || 'All Subjects',
         selectedSubjects: [...new Set(questions.map(q=>q.subject))],
         selectedChapters: [], selectedTopics: [], topic: '',
         mcqCount: questions.length, testMode: payload.attempt.mode === 'timed'?'timed':'tutor',
@@ -2967,7 +2981,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         subjects: wizardSelection.selectedSubjects,
         chapters: wizardSelection.selectedChapters,
         topics: wizardSelection.selectedTopics,
-        ...(wizardSelection.scope === 'course-test' ? {courseTestId:wizardSelection.courseTestId} : {})
+        ...(wizardSelection.scope === 'course-test' ? {courseTestId:wizardSelection.courseTestId,courseDurationMinutes:wizardSelection.courseDurationMinutes} : {})
       };
       const submission = {
         submissionKey: currentSubmissionKey, items,
