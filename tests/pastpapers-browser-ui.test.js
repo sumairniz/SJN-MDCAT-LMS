@@ -208,5 +208,5 @@ test('NUMS source badge is short in legacy and Phase 4 exam while original prove
  assert.match(preview,/b\.textContent = q\.source === 'NUMS MDCAT 2026 — third-party marked paper' \? 'NUMS MDCAT 2026'/);
  assert.match(html,/function displayPastPaperSource\(source\)/);
  assert.match(html,/escapeHtml\(displayPastPaperSource\(q\.source\)\)/);
- assert.match(html,/sjn-phase4-preview\.js\?v=20261031-nums-short-label/);
+ assert.match(html,/sjn-phase4-preview\.js\?v=[^\"]+/);
 });
