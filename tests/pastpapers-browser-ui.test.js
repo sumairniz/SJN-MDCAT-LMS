@@ -94,7 +94,7 @@ test('Approved layout refinements keep compact year-wise paper cards and balance
 });
 
 test('Regional palette matches approved six colors and continues to same-region paper listings',()=>{
-  const colors = { sindh:'#65B3AD', punjab:'#D4B066', kpk:'#B09ACD', balochistan:'#C28E73', federal:'#879FC8', nums:'#D46AAB' };
+  const colors = { sindh:'#65B3AD', punjab:'#D4B066', kpk:'#B09ACD', balochistan:'#E58A32', federal:'#879FC8', nums:'#D46AAB' };
   for(const [region,color] of Object.entries(colors)) {
     assert.ok(css.includes('[data-sjn-paper-region="'+region+'"]'));
     assert.ok(css.includes('[data-sjn-paper-theme="'+region+'"] { --sjn-pp-accent:'+color+';'));
@@ -194,7 +194,7 @@ test('NUMS preserves approved single-color berry SVG style and no paper data is 
 });
 
 test('All six region palettes use uniform NUMS-approved 14% tint and 39% border opacity',()=>{
-  const channels={sindh:'101,179,173',punjab:'212,176,102',kpk:'176,154,205',balochistan:'194,142,115',federal:'135,159,200',nums:'212,106,171'};
+  const channels={sindh:'101,179,173',punjab:'212,176,102',kpk:'176,154,205',balochistan:'229,138,50',federal:'135,159,200',nums:'212,106,171'};
   for(const [region,rgb] of Object.entries(channels)){
     const rule=css.split('[data-sjn-paper-theme="'+region+'"] { ')[1]?.split(' }')[0];
     assert.ok(rule, 'Missing palette for '+region);
