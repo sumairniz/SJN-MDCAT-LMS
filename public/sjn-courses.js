@@ -5,9 +5,6 @@
 const root=document.getElementById('sjn-courses-root');if(!root)return;
 const sessions=[
  {id:'genome',name:'Genome Test Session 2026',description:'Chapter-wise preparation, integrated revision and academy-scheduled tests.',type:'Chapter-wise & Mixed Tests',duration:'Nov 2026',enrolled:true,tests:[
-  {no:1,name:'Biomolecules — Chapter Test',date:'12 Nov 2026',subject:'Biology',count:50,minutes:50,availability:'Available',completion:'Completed',syllabus:{Biology:['Biomolecules']}},
-  {no:2,name:'Chemical Bonding — Chapter Test',date:'14 Nov 2026',subject:'Chemistry',count:40,minutes:40,availability:'Available',completion:'Not Attempted',syllabus:{Chemistry:['Chemical Bonding']}},
-  {no:3,name:'Integrated Revision Test',date:'17 Nov 2026',subject:'Mixed Subjects',count:100,minutes:100,availability:'Upcoming',completion:'Not Attempted',syllabus:{Biology:['Cell Structure and Function','Biomolecules'],Chemistry:['Atomic Structure','Chemical Bonding'],Physics:['Force and Motion','Work and Energy']}}
  ]},
  {id:'early',name:'Early Mock Session',description:'Start exam-style preparation early with curated full-length and sectional mocks.',type:'Mock Test Series',duration:'Nov–Dec 2026',enrolled:true,tests:[
   {no:1,name:'Early Mock 01 — Foundation',date:'16 Nov 2026',subject:'Mixed Subjects',count:100,minutes:110,availability:'Available',completion:'In Progress',syllabus:{Biology:['Cell Structure and Function','Enzymes'],Chemistry:['Atomic Structure','Stoichiometry'],Physics:['Force and Motion','Vectors'],English:['Vocab']}},
@@ -18,14 +15,14 @@ const sessions=[
   {no:2,name:'Full-Length Mock 02',date:'06 Dec 2026',subject:'All Subjects',count:180,minutes:180,availability:'Upcoming',completion:'Not Attempted',fullSyllabus:true,syllabus:{}}
  ]}
 ];
-const state={session:null,test:null,filter:'All',modal:null,modalTab:'details',testTab:'overview',mode:'timed',focus:null};
+const state={session:null,test:null,filter:'All',modal:null,modalTab:'details',testTab:'overview',mode:'timed',focus:null,genomeLoaded:false,genomeError:null,loading:false,launching:false};
 const esc=x=>String(x??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const ico=n=>'<i class="fa-solid fa-'+n+'" aria-hidden="true"></i>';
 const subjectClass=x=>({'Biology':'sjn-c-subj-bio','Chemistry':'sjn-c-subj-chem','Physics':'sjn-c-subj-phys','English':'sjn-c-subj-eng','Logical Reasoning':'sjn-c-subj-lr'}[x]||'sjn-c-subj-mixed');
-const label='Design preview · sample sessions and syllabuses only. No real enrollment or test has been created.';
+const label='Staging testing environment · Genome tests are real; the other sessions are illustrative. Production unchanged.';
 const warn=()=>'<p class="sjn-c-preview-note">'+ico('circle-info')+' '+label+'</p>';
 const findSession=id=>sessions.find(s=>s.id===id);
-const stats=s=>{const done=s.tests.filter(t=>t.completion==='Completed').length;return{done,pct:Math.round(done/s.tests.length*100)};};
+const stats=s=>{const done=s.tests.filter(t=>t.completion==='Completed').length;return{done,pct:s.tests.length?Math.round(done/s.tests.length*100):0};};
 const badgeAvailability=x=>'<span class="sjn-c-test-status is-'+x.toLowerCase()+'">'+esc(x)+'</span>';
 const badgeCompletion=x=>'<span class="sjn-c-completion is-'+x.toLowerCase().replaceAll(' ','-')+'">'+ico(x==='Completed'?'circle-check':x==='In Progress'?'rotate':'circle')+' '+esc(x)+'</span>';
 function sessionCard(s){
@@ -35,8 +32,8 @@ function sessionCard(s){
  '<div class="sjn-c-card-top"><span class="sjn-c-kicker">'+ico('bolt')+' SJN MedNest Academy · MDCAT 2026</span><span class="sjn-c-status'+(s.enrolled?'':' is-explore')+'">'+ico(s.enrolled?'circle-check':'lock')+' '+(s.enrolled?'Enrolled':'Not Enrolled')+'</span></div>'+
  '<div><h4 class="sjn-c-card-title">'+esc(s.name)+'</h4><p class="sjn-c-card-sub">'+esc(s.description)+'</p></div>'+
  '<div class="sjn-c-card-info"><span>'+ico('layer-group')+' '+s.tests.length+' Tests</span><span>'+ico('calendar')+' '+esc(s.duration)+'</span><span>'+ico('list-check')+' '+esc(s.type)+'</span></div>'+
- '<div class="sjn-c-card-foot"><span class="sjn-c-progress"><span class="sjn-c-progress-head"><span>'+(s.enrolled?'Progress: '+st.done+' of '+s.tests.length+' completed':'Enrollment required')+'</span><strong>'+(s.enrolled?st.pct+'%':'Locked')+'</strong></span>'+
- '<span class="sjn-c-bar" role="progressbar" aria-label="Session progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+(s.enrolled?st.pct:0)+'"><span style="width:'+(s.enrolled?st.pct:0)+'%"></span></span></span>'+
+ '<div class="sjn-c-card-foot"><span class="sjn-c-progress"><span class="sjn-c-progress-head"><span>'+(s.enrolled?'Progress: '+st.done+' of '+s.tests.length+' completed':'Enrollment required')+'</span>'+
+ '<span class="sjn-c-bar" role="progressbar" aria-label="Session progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+(s.enrolled?st.pct:0)+'"><span style="width:'+(s.enrolled?st.pct:0)+'%"></span></span><strong>'+(s.enrolled?st.pct+'%':'Locked')+'</strong></span></span>'+
  '<span class="sjn-c-card-buttons"><button type="button" class="sjn-c-details-btn" data-c-details="'+s.id+'">Details</button>'+(s.enrolled?'<span class="sjn-c-card-action">View Session '+ico('arrow-right')+'</span>':'<span class="sjn-c-locked-btn">'+ico('lock')+' Locked</span>')+'</span></div></article>';
 }
 function home(){
@@ -71,7 +68,7 @@ function sessionPage(){
  '<button type="button" class="sjn-c-hero-details" data-c-details="'+s.id+'">Session Details</button></div></div>'+warn()+
  '<div class="sjn-c-test-head"><div><h3 class="sjn-c-content-title">Session Tests</h3><p class="sjn-c-dim">Select a test to see its schedule and syllabus.</p></div><span class="sjn-c-count">'+s.tests.length+' Tests</span></div>'+
  '<div class="sjn-c-filter-row">'+filterNames.map(f=>'<button type="button" class="sjn-c-filter" data-c-filter="'+f+'" aria-pressed="'+(f===state.filter)+'">'+f+' <span class="sjn-c-filter-count">'+s.tests.filter(t=>matches(t,f)).length+'</span></button>').join('')+'</div>'+
- '<div class="sjn-c-tests">'+(visible.length?visible.map(testRow).join(''):'<div class="sjn-c-empty">No tests match this filter.</div>')+'</div></div>';
+ '<div class="sjn-c-tests">'+(visible.length?visible.map(testRow).join(''):'<div class="sjn-c-empty">'+(s.id==='genome'&&!state.genomeLoaded?'Loading published course tests…':state.genomeError?'Unable to load tests. Please reopen My Courses.':'No tests match this filter.')+'</div>')+'</div></div';
 }
 function syllabusHTML(t){
  if(t.fullSyllabus)return '<div class="sjn-c-full-syllabus">'+ico('book-open')+' Full Syllabus</div>';
@@ -92,7 +89,7 @@ function testPage(){
  '<div class="sjn-c-detail-metric"><small>Duration</small><strong>'+t.minutes+' min</strong></div><div class="sjn-c-detail-metric"><small>Availability</small><strong>'+badgeAvailability(t.availability)+'</strong></div></div>'+
  '<div class="sjn-c-overview-info"><span class="sjn-c-test-schedule">'+ico('calendar-days')+' Scheduled: '+esc(t.date)+'</span><span>'+ico('book-open')+' '+esc(t.subject)+'</span><span>Attempt status: '+badgeCompletion(t.completion)+'</span></div>'+
  '<h4 class="sjn-c-mode-title">Select Test Mode</h4><div class="sjn-c-modes">'+modeHTML('timed')+modeHTML('tutor')+'</div>'+
- '<button class="sjn-c-launch" type="button" disabled aria-label="Sample test — exam not available">Start Test '+ico('arrow-right')+'</button></section>'+
+ '<button class="sjn-c-launch" type="button" data-c-start="'+t.id+'"'+(t.availability!=='Available'?' disabled aria-label="Test is not available"':'')+'>Start Test '+ico('arrow-right')+'</button></section>'+
  '<section class="sjn-c-detail-panel'+selected('syllabus')+'" data-c-test-panel="syllabus"><h3 class="sjn-c-detail-title">Test Syllabus</h3>'+
  (t.fullSyllabus?'':'<p class="sjn-c-dim" style="margin:0 0 14px">Subjects and chapters included in this test.</p>')+syllabusHTML(t)+'</section></div></div>';
 }
@@ -124,6 +121,23 @@ function switchTestTab(tab){
  root.querySelectorAll('[data-c-test-tab]').forEach(x=>{const on=x.dataset.cTestTab===tab;x.classList.toggle('is-selected',on);x.setAttribute('aria-pressed',String(on));});
  root.querySelectorAll('[data-c-test-panel]').forEach(x=>x.classList.toggle('is-selected',x.dataset.cTestPanel===tab));
 }
+async function refresh(){
+ if(state.loading || !window.SJNCourseBridge?.load)return;
+ state.loading=true;state.genomeError=null;
+ try{
+  const result=await window.SJNCourseBridge.load();
+  if(!result||!Array.isArray(result.tests)||result.session!=='genome')throw Error('Invalid course response');
+  const genome=findSession('genome');
+  genome.tests=result.tests.map(t=>({
+   ...t,date:'Available on demand',count:t.mcqIds.length,
+   fullSyllabus:t.fullSyllabus===true
+  }));
+  state.genomeLoaded=true;
+  if(state.test!==null&&state.session==='genome'&&!genome.tests.some(t=>t.no===state.test))state.test=null;
+  if(!state.modal)render();
+ }catch(e){state.genomeError=e?.message||'Unable to load';if(!state.modal)render();}
+ finally{state.loading=false;}
+}
 function render(){if(state.modal)closeDialog();if(state.test!==null)testPage();else if(state.session)sessionPage();else home();}
 root.addEventListener('click',e=>{
  const bg=e.target.closest('[data-c-modal-backdrop]');if(bg&&e.target===bg){closeDialog();return;}
@@ -131,6 +145,7 @@ root.addEventListener('click',e=>{
  const mt=e.target.closest('[data-c-modal-tab]');if(mt){changeModalTab(mt.dataset.cModalTab);return;}
  const details=e.target.closest('[data-c-details]');if(details){openDialog(details.dataset.cDetails,details);return;}
  const tab=e.target.closest('[data-c-test-tab]');if(tab){switchTestTab(tab.dataset.cTestTab);return;}
+ const start=e.target.closest('[data-c-start]');if(start){if(state.launching||!window.SJNCourseBridge?.start)return;state.launching=true;start.disabled=true;void window.SJNCourseBridge.start(Number(start.dataset.cStart),state.mode).then(ok=>{if(!ok){window.alert('This course test could not be started. Check your login and reload.');start.disabled=false;}}).catch(err=>{window.alert(err?.message||'Unable to start course test');start.disabled=false;}).finally(()=>{state.launching=false;});return;}
  const mode=e.target.closest('[data-c-mode]');if(mode){if(!['timed','tutor'].includes(mode.dataset.cMode))return;state.mode=mode.dataset.cMode;root.querySelectorAll('[data-c-mode]').forEach(x=>{const active=x.dataset.cMode===state.mode;x.classList.toggle('is-active',active);x.setAttribute('aria-pressed',String(active));const symbols=x.querySelectorAll('.sjn-c-mode-top i');if(symbols[1])symbols[1].className='fa-solid fa-'+(active?'circle-check':'circle');});return;}
  const back=e.target.closest('[data-c-back]');if(back){if(back.dataset.cBack==='home'){state.session=null;state.test=null;}else state.test=null;state.filter='All';state.testTab='overview';render();return;}
  const session=e.target.closest('[data-c-session]');if(session){const x=findSession(session.dataset.cSession);if(!x?.enrolled)return;state.session=x.id;state.test=null;state.filter='All';render();return;}
@@ -146,6 +161,6 @@ document.addEventListener('keydown',e=>{
  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
 });
-window.SJNCoursesPreview=Object.freeze({render,closeDialog});
+window.SJNCoursesPreview=Object.freeze({render,refresh,closeDialog});
 render();
 })();
