@@ -12,7 +12,7 @@ const css = fs.readFileSync(path.join(root, 'public/sjn-phase4-preview.css'),'ut
 test('Stage 2: SPA preview syntax, opt-in gate and source integration', () => {
   assert.doesNotThrow(() => new vm.Script(js, { filename:'sjn-phase4-preview.js' }));
   assert.match(page, /href="\/sjn-phase4-preview\.css"/);
-  assert.match(page, /src="\/sjn-phase4-preview\.js"/);
+  assert.match(page, /src="\/sjn-phase4-preview\.js(?:\?v=[^"]+)?"/);
   assert.match(js, /sjnPhase4Preview'\) !== '1'/);
   assert.match(js, /const origLaunch = window\.launchGeneratedQuiz/);
   assert.match(js, /origLaunch\.apply\(this, args\)/);
