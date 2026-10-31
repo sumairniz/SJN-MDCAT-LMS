@@ -20,7 +20,7 @@
 #module-pastpapers [data-sjn-paper-region="kpk"],
 #module-pastpapers [data-sjn-paper-theme="kpk"] { --sjn-pp-accent:#B09ACD;--sjn-pp-tint:rgba(176,154,205,.14);--sjn-pp-border:rgba(176,154,205,.39);--sjn-pp-icon-bg:#272134; }
 #module-pastpapers [data-sjn-paper-region="balochistan"],
-#module-pastpapers [data-sjn-paper-theme="balochistan"] { --sjn-pp-accent:#C28E73;--sjn-pp-tint:rgba(194,142,115,.14);--sjn-pp-border:rgba(194,142,115,.39);--sjn-pp-icon-bg:#2B211D; }
+#module-pastpapers [data-sjn-paper-theme="balochistan"] { --sjn-pp-accent:#E58A32;--sjn-pp-tint:rgba(229,138,50,.14);--sjn-pp-border:rgba(229,138,50,.39);--sjn-pp-icon-bg:#302519; }
 #module-pastpapers [data-sjn-paper-region="federal"],
 #module-pastpapers [data-sjn-paper-theme="federal"] { --sjn-pp-accent:#879FC8;--sjn-pp-tint:rgba(135,159,200,.14);--sjn-pp-border:rgba(135,159,200,.39);--sjn-pp-icon-bg:#1D2432; }
 #module-pastpapers [data-sjn-paper-region="nums"],
