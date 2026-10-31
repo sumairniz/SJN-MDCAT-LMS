@@ -8,8 +8,8 @@ test('Courses staging preview loads its own scoped assets without changing the e
  assert.doesNotThrow(()=>new vm.Script(js));
  assert.match(html,/id="module-courses"[^>]*aria-label="My Courses and test sessions"/);
  assert.match(html,/id="sjn-courses-root"/);
- assert.match(html,/sjn-courses.css\?v=20261101-courses-refinement-2/);
- assert.match(html,/sjn-courses.js\?v=20261101-courses-refinement-2/);
+ assert.match(html,/sjn-courses.css\?v=20261101-courses-refinement-3/);
+ assert.match(html,/sjn-courses.js\?v=20261101-courses-refinement-3/);
  assert.match(html,/if \(!hasPublished\) \{ window.SJNCoursesPreview\?\.render\(\); return; \}/);
  assert.doesNotMatch(css,/(?:^|\n)\s*body\s*\{/);
  assert.match(css,/#module-courses .sjn-c-session-card/);
@@ -23,7 +23,7 @@ test('Three uniquely named sample sessions and directly visible tests',()=>{
  assert.doesNotMatch(js,/data-c-date|calendarPicker|selectedDate/);
 });
 test('Sample courses remain non-functional for scoring, attempts, and enrollment',()=>{
- assert.match(js,/Sample Test · Exam Not Available/);
+ assert.match(js,/Sample test — exam not available/);
  assert.match(js,/disabled aria-label="Sample test/);
  assert.doesNotMatch(js,/(fetch\(|XMLHttpRequest|localStorage|sessionStorage|SJNStartPublishedPaper|launchGeneratedQuiz|finishQuiz\(|window\.practiceCourse\()/);
  assert.match(js,/No real enrollment or test has been created/);
@@ -51,4 +51,25 @@ test('Approved Courses refinement: details popup, access gating, mobile tabs and
  assert.match(css,/@media\(max-width:850px\)/);
  assert.match(css,/backdrop-filter:blur\(6px\)/);
  assert.doesNotMatch(js,/Carbohydrates, lipids and proteins|Molecular shapes and hybridization/);
+});
+
+test('Third owner-approved Courses UX has independent access/completion and filters',()=>{
+ assert.match(js,/data-c-card-overlay|sjn-c-card-overlay/);
+ assert.match(js,/data-c-details/);
+ assert.match(js,/sjn-c-card-action/);
+ assert.match(js,/role="progressbar"/);
+ assert.match(js,/['"]Unattempted['"]/);
+ assert.match(js,/availability==='Available'/);
+ assert.match(js,/completion==='Completed'/);
+ assert.match(js,/data-c-mode/);
+ assert.match(js,/Exam-style test/);
+ assert.match(js,/fullSyllabus/);
+ assert.match(js,/Full Syllabus/);
+ assert.match(js,/Not Attempted/);
+ assert.match(js,/Unavailable/);
+ assert.match(css,/sjn-c-syllabus-list li::before/);
+ assert.match(css,/sjn-c-subj-lr/);
+ assert.match(css,/sjn-c-filter-count/);
+ assert.match(css,/sjn-c-card-overlay/);
+ assert.doesNotMatch(js,/Sample enrolled|Sample Tests|Demo progress|DESIGN PREVIEW/);
 });
