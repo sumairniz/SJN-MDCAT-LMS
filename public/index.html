@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="/sjn-phase4-preview.css">
   <link rel="stylesheet" href="/sjn-phase4-results.css">
   <link rel="stylesheet" href="/sjn-history.css">
-  <link rel="stylesheet" href="/sjn-pastpapers.css?v=20261031-balochistan-tangerine">
+  <link rel="stylesheet" href="/sjn-pastpapers.css?v=20261031-balochistan-b39434">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
@@ -1609,10 +1609,15 @@
       launchGeneratedQuiz();
     }
 
+    // Presentation-only label: preserve original third-party source metadata and MCQ revisions.
+    function displayPastPaperSource(source) {
+      return source === 'NUMS MDCAT 2026 — third-party marked paper' ? 'NUMS MDCAT 2026' : source;
+    }
+
     function renderCurrentQuestion() {
       const q = currentQuizList[currentMcqIndex];
       document.getElementById('quiz-subject-badge').innerText = q.subject;
-    const sourceBadge = q.source ? `<span class="shrink-0 px-2 py-0.5 bg-amber-950/80 border border-amber-700/50 text-amber-400 rounded text-[11px] font-bold uppercase tracking-wider inline-flex items-center gap-1"><i class="fa-solid fa-certificate"></i> ${q.source}</span>` : '';
+    const sourceBadge = q.source ? `<span class="shrink-0 px-2 py-0.5 bg-amber-950/80 border border-amber-700/50 text-amber-400 rounded text-[11px] font-bold uppercase tracking-wider inline-flex items-center gap-1"><i class="fa-solid fa-certificate"></i> ${escapeHtml(displayPastPaperSource(q.source))}</span>` : '';
 document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items-center gap-2 overflow-hidden w-full"><span class="truncate">${escapeHtml(isSingleLevelPracticeSubject(q.subject) ? (q.chapter || q.topic || 'General Chapter') : (q.chapter || 'Chapter') + ' | ' + (q.topic || 'General Topic'))}</span>${sourceBadge}</span>`;
       document.getElementById('quiz-counter').innerText = `Question ${currentMcqIndex + 1} of ${currentQuizList.length}`;
       document.getElementById('quiz-question-text').innerText = q.question;
@@ -3041,7 +3046,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
   </script>
   <script src="/sjn-pastpapers.js"></script>
   <script src="/sjn-history.js"></script>
-  <script src="/sjn-phase4-preview.js"></script>
+  <script src="/sjn-phase4-preview.js?v=20261031-nums-short-label"></script>
   <script src="/sjn-phase4-results.js"></script>
 </body>
 </html>
