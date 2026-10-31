@@ -1,0 +1,92 @@
+/* SJN MDCAT LMS Pro · Courses design preview (development branch).
+ * Display-only sample sessions. Do not imply real enrollments or assessments.
+ * All selectors scoped to #module-courses, separate from Past Papers and exams.
+ */
+#module-courses{--sjn-c-bg:#101013;--sjn-c-panel:#1b1b21;--sjn-c-panel2:#222229;--sjn-c-outline:#35353e;--sjn-c-muted:#a8a8b5;--sjn-c-red:#ef4444;--sjn-c-yellow:#eab308;--sjn-c-softred:rgba(220,38,38,.12);color:#f4f4f5;font-family:inherit}
+#module-courses .sjn-c-page{width:100%;padding:5px 2px 26px}
+#module-courses button{font:inherit}
+#module-courses .sjn-c-eyebrow{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:850;letter-spacing:.075em;color:#f87171;text-transform:uppercase;margin:0 0 11px}
+#module-courses .sjn-c-page-title{font-size:clamp(27px,3vw,37px);font-weight:900;line-height:1.14;letter-spacing:-.045em;color:white;margin:0 0 10px}
+#module-courses .sjn-c-lead{font-size:13px;color:#b2b2bf;line-height:1.6;margin:0}
+#module-courses .sjn-c-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;border-bottom:1px solid #2c2c34;padding:7px 0 22px;margin-bottom:23px}
+#module-courses .sjn-c-preview-note{display:flex;align-items:center;gap:9px;border:1px solid rgba(234,179,8,.26);border-radius:10px;background:rgba(234,179,8,.065);padding:10px 13px;color:#d6bd70;font-size:11px;line-height:1.55;margin:0 0 24px}
+#module-courses .sjn-c-section{margin:0 0 30px}
+#module-courses .sjn-c-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 15px}
+#module-courses .sjn-c-section-head h3{font-size:17px;font-weight:850;letter-spacing:-.025em;color:#fafafa;margin:0}
+#module-courses .sjn-c-section-head p{font-size:12px;color:var(--sjn-c-muted);margin:4px 0 0}
+#module-courses .sjn-c-count{font-size:11px;color:#d4d4d8;border:1px solid #35353d;padding:7px 10px;border-radius:8px;background:#1a1a1f;white-space:nowrap}
+#module-courses .sjn-c-session-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+#module-courses .sjn-c-session-card{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:15px;min-width:0;min-height:234px;padding:19px;text-align:left;border:1px solid #3b3840;border-radius:16px;background:radial-gradient(ellipse at 97% -12%,rgba(220,38,38,.085),transparent 57%),linear-gradient(145deg,#222127,#19191e 65%,#17171b);color:inherit;cursor:pointer;transition:transform .16s,border-color .16s,box-shadow .16s,background .16s}
+#module-courses .sjn-c-session-card::before{content:"";position:absolute;left:0;top:20px;bottom:20px;width:3px;border-radius:0 3px 3px 0;background:#dc2626;opacity:.76}
+#module-courses .sjn-c-session-card:hover{transform:translateY(-3px);border-color:rgba(248,113,113,.54);box-shadow:0 16px 36px rgba(0,0,0,.23);background:radial-gradient(ellipse at 90% 0%,rgba(220,38,38,.13),transparent 62%),linear-gradient(145deg,#262329,#1b1b20)}
+#module-courses .sjn-c-session-card:focus-visible,#module-courses button:focus-visible,#module-courses summary:focus-visible{outline:2px solid #fbbf24;outline-offset:3px}
+#module-courses .sjn-c-session-card.is-explore::before{background:#eab308}
+#module-courses .sjn-c-session-card.is-explore{background:radial-gradient(ellipse at 98% -15%,rgba(234,179,8,.08),transparent 58%),linear-gradient(145deg,#222126,#19191e)}
+#module-courses .sjn-c-session-card.is-explore:hover{border-color:rgba(234,179,8,.5)}
+#module-courses .sjn-c-card-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+#module-courses .sjn-c-kicker{font-size:10px;font-weight:850;color:#fca5a5;letter-spacing:.065em;text-transform:uppercase}
+#module-courses .sjn-c-card.is-explore .sjn-c-kicker,#module-courses .sjn-c-session-card.is-explore .sjn-c-kicker{color:#facc15}
+#module-courses .sjn-c-status{font-size:10px;white-space:nowrap;font-weight:750;display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border-radius:999px;border:1px solid rgba(74,222,128,.19);color:#86efac;background:rgba(22,101,52,.12)}
+#module-courses .sjn-c-status.is-explore{color:#facc15;border-color:rgba(234,179,8,.28);background:rgba(234,179,8,.08)}
+#module-courses .sjn-c-card-title{font-size:clamp(18px,1.8vw,22px);font-weight:860;line-height:1.25;letter-spacing:-.035em;margin:0;color:#fafafa}
+#module-courses .sjn-c-card-sub{font-size:12px;line-height:1.65;color:#afb0bb;min-height:40px;margin:4px 0 0}
+#module-courses .sjn-c-card-info{display:flex;flex-wrap:wrap;gap:8px 17px;color:#c9c9d1;font-size:11px}
+#module-courses .sjn-c-card-info span{display:inline-flex;align-items:center;gap:6px}
+#module-courses .sjn-c-card-info i{color:#d0a94f}
+#module-courses .sjn-c-card-foot{margin-top:auto;border-top:1px solid #34343b;padding-top:12px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+#module-courses .sjn-c-progress{flex:1;min-width:0}
+#module-courses .sjn-c-progress-head{display:flex;align-items:center;justify-content:space-between;gap:7px;color:#b6b6c0;font-size:10px;margin-bottom:6px}
+#module-courses .sjn-c-progress-head strong{color:#facc15}
+#module-courses .sjn-c-bar{height:5px;background:#35353e;border-radius:9px;overflow:hidden}
+#module-courses .sjn-c-bar span{height:100%;background:linear-gradient(90deg,#dc2626,#f87171);display:block;border-radius:9px}
+#module-courses .sjn-c-card-action{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;color:#fca5a5;font-size:12px;font-weight:850}
+#module-courses .is-explore .sjn-c-card-action{color:#facc15}
+#module-courses .sjn-c-back{border:0;background:transparent;color:#bdbdc7;display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:12px;padding:4px 0 15px;cursor:pointer}
+#module-courses .sjn-c-back:hover{color:white}
+#module-courses .sjn-c-session-hero{position:relative;overflow:hidden;padding:22px;border:1px solid #433239;border-radius:17px;background:radial-gradient(ellipse at 94% 15%,rgba(220,38,38,.17),transparent 45%),linear-gradient(135deg,#211d22,#151519 72%);margin-bottom:20px}
+#module-courses .sjn-c-session-hero.is-explore{border-color:#51442e;background:radial-gradient(ellipse at 94% 15%,rgba(234,179,8,.12),transparent 48%),linear-gradient(135deg,#22201e,#151519)}
+#module-courses .sjn-c-hero-row{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+#module-courses .sjn-c-hero-title{font-size:clamp(23px,2.6vw,32px);font-weight:900;letter-spacing:-.045em;line-height:1.2;margin:10px 0;color:#fff}
+#module-courses .sjn-c-hero-desc{font-size:12px;line-height:1.65;color:#bdbbc6;max-width:710px;margin:0 0 15px}
+#module-courses .sjn-c-stats{display:flex;gap:8px;flex-wrap:wrap}
+#module-courses .sjn-c-stat{border:1px solid #3a353c;background:rgba(12,12,16,.42);border-radius:9px;padding:9px 12px;font-size:11px;color:#d3d3dc}
+#module-courses .sjn-c-stat strong{color:white;font-weight:900}
+#module-courses .sjn-c-content-title{font-size:18px;font-weight:850;letter-spacing:-.02em;margin:0 0 4px}
+#module-courses .sjn-c-dim{color:#a5a5b1;font-size:12px;line-height:1.6}
+#module-courses .sjn-c-test-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:20px 0 13px}
+#module-courses .sjn-c-filter-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:0 0 14px}
+#module-courses .sjn-c-filter{border:1px solid #373740;border-radius:9px;color:#bdbdc7;font-size:11px;background:#1c1c22;padding:8px 12px;cursor:pointer}
+#module-courses .sjn-c-filter:hover{background:#25252c}
+#module-courses .sjn-c-filter[aria-pressed="true"]{background:rgba(220,38,38,.15);border-color:rgba(248,113,113,.48);color:#fecaca}
+#module-courses .sjn-c-tests{display:grid;gap:9px}
+#module-courses .sjn-c-test-row{display:flex;align-items:center;width:100%;text-align:left;gap:15px;background:#1d1d23;border:1px solid #393940;border-radius:12px;color:white;min-height:84px;padding:13px 15px;cursor:pointer;transition:background .15s,border-color .15s,transform .15s}
+#module-courses .sjn-c-test-row:hover{background:#25242b;border-color:#706365;transform:translateX(2px)}
+#module-courses .sjn-c-test-number{display:flex;align-items:center;justify-content:center;flex:0 0 45px;width:45px;height:45px;border:1px solid rgba(234,179,8,.24);background:#28251c;color:#f0c859;border-radius:11px;font-weight:900;font-size:15px}
+#module-courses .sjn-c-test-main{min-width:0;flex:1}
+#module-courses .sjn-c-test-name{font-size:13px;font-weight:800;color:#f4f4f5;margin:0 0 5px}
+#module-courses .sjn-c-test-meta{font-size:11px;color:#a7a7b4;display:flex;flex-wrap:wrap;gap:5px 12px}
+#module-courses .sjn-c-test-status{font-size:10px;font-weight:800;white-space:nowrap;border-radius:7px;padding:6px 8px;border:1px solid #51515c;color:#d2d2dc;background:#282830}
+#module-courses .sjn-c-test-status.is-available{color:#86efac;background:#173124;border-color:#28523a}
+#module-courses .sjn-c-test-status.is-upcoming{color:#facc15;background:#332910;border-color:#5b4926}
+#module-courses .sjn-c-test-status.is-completed{color:#bbbdc9;background:#272730;border-color:#41414b}
+#module-courses .sjn-c-test-arrow{color:#f87171;margin-left:3px}
+#module-courses .sjn-c-empty{font-size:12px;color:#a1a1aa;padding:20px;border:1px dashed #42424b;border-radius:12px}
+#module-courses .sjn-c-detail-layout{display:grid;grid-template-columns:minmax(0,1.48fr) minmax(270px,1fr);gap:16px;margin-top:17px}
+#module-courses .sjn-c-detail-panel{border:1px solid #3a3a44;background:#1b1b22;border-radius:15px;padding:19px;min-width:0}
+#module-courses .sjn-c-detail-title{font-size:18px;font-weight:900;letter-spacing:-.025em;margin:0 0 10px}
+#module-courses .sjn-c-detail-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#module-courses .sjn-c-detail-metric{padding:14px 12px;border:1px solid #35353d;border-radius:10px;background:#23232b}
+#module-courses .sjn-c-detail-metric small{font-size:10px;text-transform:uppercase;letter-spacing:.055em;color:#a6a6b4;display:block;margin-bottom:6px}
+#module-courses .sjn-c-detail-metric strong{font-size:18px;letter-spacing:-.025em}
+#module-courses .sjn-c-syllabus-group{border:1px solid #3a3a46;border-radius:11px;background:#20202a;margin-bottom:8px;overflow:hidden}
+#module-courses .sjn-c-syllabus-group summary{display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;padding:11px 13px;font-size:12px;font-weight:850;color:#f4f4f6;list-style:none}
+#module-courses .sjn-c-syllabus-group summary::-webkit-details-marker{display:none}
+#module-courses .sjn-c-syllabus-group summary::after{content:"+";font-size:16px;color:#facc15}
+#module-courses .sjn-c-syllabus-group[open] summary::after{content:"−"}
+#module-courses .sjn-c-syllabus-list{padding:0 13px 12px 29px;color:#c0c0cc;font-size:12px;line-height:1.8;margin:0}
+#module-courses .sjn-c-launch{display:block;width:100%;text-align:center;margin-top:17px;padding:13px 17px;border:1px solid #53464b;background:#30272c;border-radius:10px;font-weight:800;font-size:12px;color:#d4b7ba;cursor:not-allowed}
+#module-courses .sjn-c-small-note{font-size:11px;color:#a9a9b5;line-height:1.55}
+#module-courses .sjn-c-inline-badge{font-size:10px;letter-spacing:.035em;font-weight:800;color:#facc15;border:1px solid rgba(234,179,8,.27);background:rgba(234,179,8,.075);border-radius:7px;padding:5px 8px}
+@media(max-width:850px){#module-courses .sjn-c-session-grid,#module-courses .sjn-c-detail-layout{grid-template-columns:1fr}}
+@media(max-width:550px){#module-courses .sjn-c-heading{padding-bottom:17px;align-items:flex-start}#module-courses .sjn-c-session-card{padding:16px;min-height:218px}#module-courses .sjn-c-session-hero{padding:17px}#module-courses .sjn-c-detail-panel{padding:14px}#module-courses .sjn-c-detail-meta{grid-template-columns:repeat(3,1fr)}#module-courses .sjn-c-detail-metric{padding:10px 8px}#module-courses .sjn-c-detail-metric strong{font-size:15px}#module-courses .sjn-c-test-row{padding:11px;gap:10px}#module-courses .sjn-c-test-number{flex-basis:37px;width:37px;height:40px;font-size:13px}#module-courses .sjn-c-test-status{font-size:9px;padding:5px}#module-courses .sjn-c-card-foot{flex-wrap:wrap}#module-courses .sjn-c-test-meta{gap:4px 9px}}
+@media(prefers-reduced-motion:reduce){#module-courses .sjn-c-session-card,#module-courses .sjn-c-test-row{transition:none}#module-courses .sjn-c-session-card:hover,#module-courses .sjn-c-test-row:hover{transform:none}}
