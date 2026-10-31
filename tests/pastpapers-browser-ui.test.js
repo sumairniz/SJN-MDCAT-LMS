@@ -39,7 +39,7 @@ test('Past Papers page has no giant parent panel or old two-column viewer, sideb
   assert.doesNotMatch(sect,/bg-sjn-card rounded-2xl|lg:grid-cols|pastpapers-container|pastpaper-viewer|iframe|\.pdf/i);
   assert.match(html,/onclick="switchModule\('pastpapers'\)" id="tab-pastpapers"/);
   assert.match(html,/src="\/sjn-pastpapers\.js"/);
-  assert.match(html,/href="\/sjn-pastpapers\.css\?v=20261031-balochistan-tangerine"/);
+  assert.match(html,/href="\/sjn-pastpapers\.css\?v=20261031-balochistan-b39434"/);
   assert.match(html,/function renderPastPapersModule\(\) \{\s+window\.SJNPastPapers\?\.setPapers\(pastPapersList\);\s+window\.SJNPastPapers\?\.render\(\);/);
   assert.match(html,/window\.renderPastPapersModule = renderPastPapersModule;/);
 });
@@ -94,7 +94,7 @@ test('Approved layout refinements keep compact year-wise paper cards and balance
 });
 
 test('Regional palette matches approved six colors and continues to same-region paper listings',()=>{
-  const colors = { sindh:'#65B3AD', punjab:'#D4B066', kpk:'#B09ACD', balochistan:'#E58A32', federal:'#879FC8', nums:'#D46AAB' };
+  const colors = { sindh:'#65B3AD', punjab:'#D4B066', kpk:'#B09ACD', balochistan:'#B39434', federal:'#879FC8', nums:'#D46AAB' };
   for(const [region,color] of Object.entries(colors)) {
     assert.ok(css.includes('[data-sjn-paper-region="'+region+'"]'));
     assert.ok(css.includes('[data-sjn-paper-theme="'+region+'"] { --sjn-pp-accent:'+color+';'));
@@ -194,11 +194,19 @@ test('NUMS preserves approved single-color berry SVG style and no paper data is 
 });
 
 test('All six region palettes use uniform NUMS-approved 14% tint and 39% border opacity',()=>{
-  const channels={sindh:'101,179,173',punjab:'212,176,102',kpk:'176,154,205',balochistan:'229,138,50',federal:'135,159,200',nums:'212,106,171'};
+  const channels={sindh:'101,179,173',punjab:'212,176,102',kpk:'176,154,205',balochistan:'179,148,52',federal:'135,159,200',nums:'212,106,171'};
   for(const [region,rgb] of Object.entries(channels)){
     const rule=css.split('[data-sjn-paper-theme="'+region+'"] { ')[1]?.split(' }')[0];
     assert.ok(rule, 'Missing palette for '+region);
     assert.ok(rule.includes('--sjn-pp-tint:rgba('+rgb+',.14)'), region+' tint');
     assert.ok(rule.includes('--sjn-pp-border:rgba('+rgb+',.39)'), region+' border');
   }
+});
+
+test('NUMS source badge is short in legacy and Phase 4 exam while original provenance remains immutable',()=>{
+ const preview=fs.readFileSync(path.join(rootDir,'public','sjn-phase4-preview.js'),'utf8');
+ assert.match(preview,/b\.textContent = q\.source === 'NUMS MDCAT 2026 — third-party marked paper' \? 'NUMS MDCAT 2026'/);
+ assert.match(html,/function displayPastPaperSource\(source\)/);
+ assert.match(html,/escapeHtml\(displayPastPaperSource\(q\.source\)\)/);
+ assert.match(html,/sjn-phase4-preview\.js\?v=20261031-nums-short-label/);
 });
