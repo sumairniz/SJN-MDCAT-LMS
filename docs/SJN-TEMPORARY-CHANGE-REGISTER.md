@@ -1,4 +1,12 @@
 # SJN MDCAT LMS Pro — Temporary Changes & Pre-Merge Cleanup Register
+## TEMP-COURSES-GENOME-20261101 — OPEN · staging pilot with real imported questions
+
+- Three Genome test records, 79 versioned questions and a dedicated course bank exist only in staging Supabase. No source data copied into production; original practice PDFs/DOCX and corrected import manifests documented in `content/imports/genome-course-tests-2026-key-audit.md`. The imported tests are **private testing material**, not official academy-created question sets.
+- `public/sjn-courses.js` displays real Genome catalog + genuine progress from `GET /api/course-tests`; Early Mock and Final Sprint remain static illustration. New `sjn_course_tests` schema enforces published test membership and exact ordered IDs in grading function. **No actual paid enrollment/entitlement checks**: currently any authenticated staging student can access Genome, as deliberately limited pilot. This MUST NOT be promoted to production without server-side enrollment and access controls.
+- Real course attempt ID carried in server submission and manual Save & Exit draft, timed duration and history Retake. Existing test/history shared engine reused. Owner browser UAT and dependency security/rights review pending. Do not claim tests are production ready.
+- A future owner-approved admin panel needs exact authored tests, scheduling, enrollment, syllabus, tutor/timed permission, progress reporting and key correction interface. The older `courses` legacy table and sample sessions are not real course enrollment systems.
+
+
 
 ## TEMP-COURSES-20261101-REV3 — OPEN · owner-approved preview realism
 
