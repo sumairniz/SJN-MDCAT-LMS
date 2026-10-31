@@ -1,3 +1,7 @@
+## 2026-10-31 — Owner-approved Balochistan Tangerine Orange
+
+Owner approved **only Balochistan** Past Papers category color change from copper `#C28E73` to Tangerine Orange `#E58A32`, keeping 14% tint and 39% border opacity uniform across regions; tinted icon background adjusted to `#302519`. Existing mountain SVG shape, other five regional colors, layout, exams and data unchanged. Cache-versioned Past Papers stylesheet `?v=20261031-balochistan-tangerine`; tests updated to enforce regional accent values and tint/border values. This approval **does not** authorize the separately discussed NUMS source label change; it has not been made. Development branch only; no database/production modifications. Await final CI and owner screenshot confirmation.
+
 ## 2026-10-30 — Owner-approved NUMS MDCAT 2026 paper imported to STAGING
 
 **Scope:** User supplied `NUMS_2026_Marked_Answer_Key.pdf`, third-party highlighted answers, 18 PDF pages corresponding to printed pages 2–19 of 26, **150 questions** (55 Biology, 40 Chemistry, 40 Physics, 15 English). Owner explicitly approved preserving **all highlighted third-party keys** unchanged, explaining key concerns academically without labeling them "official," and proceeding with staging upload. No verified NUMS official key exists in this workflow; source is third-party marked answers.
