@@ -287,7 +287,7 @@
   }
   function startClock() {
     stopClock();
-    state.seconds = wizardSelection.testMode === 'timed' ? currentQuizList.length * 60 : 0;
+    state.seconds = wizardSelection.testMode === 'timed' ? (wizardSelection.courseDurationMinutes || currentQuizList.length) * 60 : 0;
     $('sjn-exam-clock').textContent = clock(state.seconds);
     state.startedAt = Date.now();
     state.interval = window.setInterval(updateClock, 1000);
