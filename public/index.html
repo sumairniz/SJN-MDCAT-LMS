@@ -1161,6 +1161,9 @@
       // Reuse verified in-memory history on ordinary menu visits. The account
       // bridge fetches only on bootstrap, failure, or an actual saved change;
       // never block navigation or re-fetch on every History menu click.
+      if (modName === 'courses' && typeof window.SJNCoursesPreview?.refresh === 'function') {
+        void window.SJNCoursesPreview.refresh();
+      }
       if (modName === 'history' && typeof window.reloadStudentHistory === 'function') {
         void window.reloadStudentHistory();
       }
@@ -2560,7 +2563,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       const hasPublished = customCourses.length > 0;
       if (demo) demo.hidden = hasPublished;
       if (legacy) legacy.hidden = !hasPublished;
-      if (!hasPublished) { window.SJNCoursesPreview?.render(); return; }
+      if (!hasPublished) { window.SJNCoursesPreview?.render(); if (authToken && remoteContentLoaded) void window.SJNCoursesPreview?.refresh?.(); return; }
       const list = document.getElementById('courses-container'); if (!list) return;
       list.innerHTML = '';
       if (!customCourses.length) { list.innerHTML = '<div class="p-5 text-center text-xs text-gray-500">No courses have been published yet.</div>'; document.getElementById('course-viewer').innerHTML = '<div class="h-full min-h-[450px] flex items-center justify-center text-gray-500 text-sm">No course selected.</div>'; return; }
