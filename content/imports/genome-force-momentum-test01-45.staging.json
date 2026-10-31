@@ -1,0 +1,730 @@
+{
+  "session": "genome",
+  "testNo": 2,
+  "title": "Force & Momentum — Chapter Test",
+  "sourceFile": "Force & Momentum.pdf, Test 01 (Q1–45) only",
+  "sourceKeysNote": "Keys audited and corrected for testing; source has 5-option Q24, conflicting keys for Q2/Q14/Q19/Q38/Q39, and ambiguous wording for Q21/Q27/Q42/Q45; corrected render and grading explicitly documented.",
+  "revisedKey": "CDDBDDBAACBDDDDDABACCDBABBAABAAADBCDCADCCACCD",
+  "questions": [
+    {
+      "number": 1,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "Momentum may be expressed in:",
+      "options": [
+        "kg/m",
+        "gram·s",
+        "N·s",
+        "N/s"
+      ],
+      "correctIndex": 2,
+      "explanation": "Momentum has units kg·m/s, equivalent to newton-second (N·s)."
+    },
+    {
+      "number": 2,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "The momentum of an object at a given instant is independent of its:",
+      "options": [
+        "inertia",
+        "speed",
+        "velocity",
+        "acceleration"
+      ],
+      "correctIndex": 3,
+      "explanation": "Momentum p = mv depends on mass and velocity, not acceleration."
+    },
+    {
+      "number": 3,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "Two bodies A and B have equal kinetic energies. The mass of A is nine times that of B. The ratio of the momentum of A to B is:",
+      "options": [
+        "1:9",
+        "1:3",
+        "1:1",
+        "3:1"
+      ],
+      "correctIndex": 3,
+      "explanation": "At equal kinetic energy, p = √(2mK), so pA/pB = √9 = 3."
+    },
+    {
+      "number": 4,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "Two objects P and Q have the same momentum. Q has more kinetic energy than P if Q:",
+      "options": [
+        "weighs more than P",
+        "is moving faster than P",
+        "weighs the same as P",
+        "is moving slower than P"
+      ],
+      "correctIndex": 1,
+      "explanation": "For equal momentum, K = p²/(2m); the lighter, faster body has greater kinetic energy."
+    },
+    {
+      "number": 5,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A 1.0-kg ball moving at 2.0 m/s perpendicular to a wall rebounds at 1.5 m/s. The change in momentum is:",
+      "options": [
+        "zero",
+        "0.5 N·s away from wall",
+        "0.5 N·s toward wall",
+        "3.5 N·s away from wall"
+      ],
+      "correctIndex": 3,
+      "explanation": "Taking away from the wall as positive, Δp = 1(1.5 − (−2.0)) = 3.5 N·s."
+    },
+    {
+      "number": 6,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "If the total momentum of a system is changing:",
+      "options": [
+        "particles must exert forces on each other",
+        "the system must be under gravity",
+        "the center of mass must have constant velocity",
+        "a net external force must act on the system"
+      ],
+      "correctIndex": 3,
+      "explanation": "The rate of change of total momentum equals the net external force."
+    },
+    {
+      "number": 7,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "When a driver accelerates a car, the force that accelerates the car is:",
+      "options": [
+        "the force of the foot on the accelerator",
+        "the static friction of the road on the tires",
+        "the force of the engine on the drive shaft",
+        "the normal force of the road on the tires"
+      ],
+      "correctIndex": 1,
+      "explanation": "The road exerts forward static friction on the driven tires."
+    },
+    {
+      "number": 8,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A 2.5-kg stone is released from rest. After falling for 4.0 s, the magnitude of its momentum is approximately:",
+      "options": [
+        "98 kg·m/s",
+        "78 kg·m/s",
+        "39 kg·m/s",
+        "24 kg·m/s"
+      ],
+      "correctIndex": 0,
+      "explanation": "p = mg t = 2.5 × 9.8 × 4 = 98 kg·m/s."
+    },
+    {
+      "number": 9,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A projectile explodes into fragments in flight. Immediately after the explosion, their total momentum:",
+      "options": [
+        "equals the projectile's momentum immediately before explosion",
+        "has changed into fragment kinetic energy",
+        "is smaller than its original value",
+        "is greater than its original value"
+      ],
+      "correctIndex": 0,
+      "explanation": "The explosion is internal; external impulse during the brief event is negligible."
+    },
+    {
+      "number": 10,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A rifle of mass M at rest fires a bullet of mass m at ground-frame velocity v. The rifle's recoil velocity is:",
+      "options": [
+        "−mv",
+        "−Mv/m",
+        "−mv/M",
+        "mv/M"
+      ],
+      "correctIndex": 2,
+      "explanation": "Initial momentum is zero, so MV + mv = 0 and V = −mv/M."
+    },
+    {
+      "number": 11,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "The thrust of a rocket is:",
+      "options": [
+        "a gravitational force on the rocket",
+        "the force of expelled fuel gases on the rocket",
+        "any force external to the rocket-fuel system",
+        "only the loss of rocket mass"
+      ],
+      "correctIndex": 1,
+      "explanation": "Expelled gases exert the opposite reaction force on the rocket."
+    },
+    {
+      "number": 12,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "Impulse has the same dimensions as:",
+      "options": [
+        "force",
+        "power",
+        "energy",
+        "momentum"
+      ],
+      "correctIndex": 3,
+      "explanation": "Impulse FΔt equals the change in momentum."
+    },
+    {
+      "number": 13,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "Conservation of momentum applies to colliding bodies when:",
+      "options": [
+        "kinetic energy does not change",
+        "the coefficient of restitution equals one",
+        "the coefficient of restitution equals zero",
+        "the net external impulse is zero"
+      ],
+      "correctIndex": 3,
+      "explanation": "Momentum is conserved if the system has zero net external impulse."
+    },
+    {
+      "number": 14,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "Two spheres collide head-on. The magnitude of the impulse of sphere X on sphere Y is:",
+      "options": [
+        "twice the impulse of Y on X",
+        "half the impulse of Y on X",
+        "one-fourth the impulse of Y on X",
+        "the same as the impulse of Y on X"
+      ],
+      "correctIndex": 3,
+      "explanation": "Newton's third law gives equal and opposite contact forces and impulses."
+    },
+    {
+      "number": 15,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "An airbag stops a passenger's head over more time than a windshield. Compared with the windshield, the airbag:",
+      "options": [
+        "causes a much smaller momentum change",
+        "exerts a much smaller impulse",
+        "causes a much smaller kinetic-energy change",
+        "exerts a much smaller average force"
+      ],
+      "correctIndex": 3,
+      "explanation": "For the same momentum change, increasing collision time reduces average force."
+    },
+    {
+      "number": 16,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "An inelastic collision is one in which:",
+      "options": [
+        "momentum is not conserved but kinetic energy is",
+        "total mass is not conserved but momentum is",
+        "neither momentum nor kinetic energy is conserved",
+        "momentum is conserved but kinetic energy is not"
+      ],
+      "correctIndex": 3,
+      "explanation": "In an isolated inelastic collision, momentum is conserved but kinetic energy decreases."
+    },
+    {
+      "number": 17,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A 4.0-N puck moves at 3.0 m/s and hits a stationary 8.0-N puck. They stick together. Their common final speed is:",
+      "options": [
+        "1.0 m/s",
+        "1.5 m/s",
+        "2.0 m/s",
+        "2.3 m/s"
+      ],
+      "correctIndex": 0,
+      "explanation": "Momentum conservation gives v = (4×3)/(4+8) = 1 m/s; weights are proportional to masses."
+    },
+    {
+      "number": 18,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A 3.00-g bullet at 400 m/s embeds in a 3.00-kg block at rest. The final speed of the block-bullet system is approximately:",
+      "options": [
+        "1.33 m/s",
+        "0.40 m/s",
+        "12.0 m/s",
+        "40.0 m/s"
+      ],
+      "correctIndex": 1,
+      "explanation": "v = (0.003×400)/(3.003) ≈ 0.40 m/s."
+    },
+    {
+      "number": 19,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A 3-g bullet embeds in a suspended 10-kg block. The block rises 3 mm. The bullet's initial speed is approximately:",
+      "options": [
+        "8.0 × 10² m/s",
+        "24.0 m/s",
+        "8.00 m/s",
+        "2.4 × 10⁴ m/s"
+      ],
+      "correctIndex": 0,
+      "explanation": "After impact v = √(2gh) ≈ 0.243 m/s. Momentum gives bullet speed ≈ (10.003/0.003)×0.243 ≈ 810 m/s."
+    },
+    {
+      "number": 20,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "An elastic collision is one in which:",
+      "options": [
+        "only kinetic energy is conserved",
+        "total mass is not conserved but momentum is",
+        "both kinetic energy and momentum are conserved",
+        "momentum is conserved but kinetic energy is not"
+      ],
+      "correctIndex": 2,
+      "explanation": "In an isolated elastic collision both momentum and kinetic energy are conserved."
+    },
+    {
+      "number": 21,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A 2.0-kg block A moving at +5.0 m/s undergoes a one-dimensional elastic collision with stationary block B. If B is much more massive, A's velocity afterward is approximately:",
+      "options": [
+        "0",
+        "+5.0 m/s",
+        "−5.0 m/s",
+        "+10 m/s"
+      ],
+      "correctIndex": 2,
+      "explanation": "A light body striking a much heavier stationary body elastically rebounds at about its initial speed."
+    },
+    {
+      "number": 22,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A very massive body at 10 m/s elastically strikes a very light stationary body. The lighter body's final speed is approximately:",
+      "options": [
+        "5 m/s",
+        "10 m/s",
+        "15 m/s",
+        "20 m/s"
+      ],
+      "correctIndex": 3,
+      "explanation": "For M ≫ m, the light body's speed approaches 2u = 20 m/s."
+    },
+    {
+      "number": 23,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "Sphere A (mass m, speed v) makes a head-on elastic collision with stationary sphere B (mass 2m). Their final velocities (vA, vB) are:",
+      "options": [
+        "0, v/2",
+        "−v/3, 2v/3",
+        "−v, v",
+        "−2v/3, v/3"
+      ],
+      "correctIndex": 1,
+      "explanation": "One-dimensional elastic collision formulas give vA = −v/3 and vB = 2v/3."
+    },
+    {
+      "number": 24,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "In a head-on elastic collision with an initially stationary target, the greatest fraction of kinetic energy is transferred when:",
+      "options": [
+        "the two colliding particles have equal mass",
+        "the incident particle is initially moving very slowly",
+        "the incident particle is much more massive",
+        "the incident particle is much less massive"
+      ],
+      "correctIndex": 0,
+      "explanation": "Energy transfer fraction 4mM/(m+M)² is greatest at m = M. Original source had five choices, so its correct E was moved to A."
+    },
+    {
+      "number": 25,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "Momentum may be described by: I. quantity of motion; II. difficulty of stopping a moving body; III. mass × velocity; IV. moment × force. Which are valid?",
+      "options": [
+        "I and II only",
+        "I, II and III",
+        "III and IV",
+        "I and IV"
+      ],
+      "correctIndex": 1,
+      "explanation": "Momentum is mass times velocity and measures how difficult moving matter is to stop."
+    },
+    {
+      "number": 26,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "What force changes the speed of a 2-kg body from 20 m/s to 30 m/s in 2 seconds?",
+      "options": [
+        "5 N",
+        "10 N",
+        "20 N",
+        "none of these"
+      ],
+      "correctIndex": 1,
+      "explanation": "F = mΔv/Δt = 2×10/2 = 10 N."
+    },
+    {
+      "number": 27,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A body of mass M strikes a smooth wall elastically at 60° to the wall's normal, with speed V. The magnitude of momentum change is:",
+      "options": [
+        "MV",
+        "MV/2",
+        "2MV",
+        "zero"
+      ],
+      "correctIndex": 0,
+      "explanation": "Normal momentum reverses; |Δp| = 2MV cos60° = MV. Angle reference made explicit."
+    },
+    {
+      "number": 28,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A light and a heavy body have the same momentum. Which has more kinetic energy?",
+      "options": [
+        "the light body",
+        "the heavy body",
+        "both have equal kinetic energy",
+        "cannot be predicted"
+      ],
+      "correctIndex": 0,
+      "explanation": "K = p²/(2m), so smaller mass means greater kinetic energy for the same p."
+    },
+    {
+      "number": 29,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "If a body's momentum becomes n times its original value, its kinetic energy becomes:",
+      "options": [
+        "n times",
+        "n² times",
+        "n³ times",
+        "2n times"
+      ],
+      "correctIndex": 1,
+      "explanation": "For constant mass, K = p²/(2m), so K scales as n²."
+    },
+    {
+      "number": 30,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A sphere of mass m and speed V embeds in a hanging sandbag of mass M, and the combination rises height h. The initial speed V is:",
+      "options": [
+        "(M+m)/m × √(2gh)",
+        "M/m × √(2gh)",
+        "m/(M+m) × √(2gh)",
+        "m/M × √(2gh)"
+      ],
+      "correctIndex": 0,
+      "explanation": "After collision, speed is √(2gh); momentum gives mV = (M+m)√(2gh)."
+    },
+    {
+      "number": 31,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A rifle recoils freely after firing a bullet. Its recoil kinetic energy is:",
+      "options": [
+        "less than that of the bullet",
+        "more than that of the bullet",
+        "the same as that of the bullet",
+        "equal to or less than that of the bullet"
+      ],
+      "correctIndex": 0,
+      "explanation": "The bullet and rifle have equal momentum magnitude; K = p²/(2m) is smaller for the heavier rifle."
+    },
+    {
+      "number": 32,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A 12-kg bomb splits into parts with mass ratio 1:3. The smaller part has kinetic energy 216 J. The magnitude of momentum of the larger part is:",
+      "options": [
+        "36 kg·m/s",
+        "72 kg·m/s",
+        "108 kg·m/s",
+        "18 kg·m/s"
+      ],
+      "correctIndex": 0,
+      "explanation": "Smaller mass is 3 kg. p = √(2×3×216) = 36 kg·m/s; both fragments have equal opposite momenta."
+    },
+    {
+      "number": 33,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "The kinetic energy of a 2-kg body with momentum 2 N·s is:",
+      "options": [
+        "4 J",
+        "2 J",
+        "3 J",
+        "1 J"
+      ],
+      "correctIndex": 3,
+      "explanation": "K = p²/(2m) = 4/4 = 1 J."
+    },
+    {
+      "number": 34,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "Which particle has the greatest kinetic energy for the same momentum?",
+      "options": [
+        "proton",
+        "electron",
+        "neutron",
+        "deuteron"
+      ],
+      "correctIndex": 1,
+      "explanation": "K = p²/(2m), and the electron has the smallest mass."
+    },
+    {
+      "number": 35,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "An object of mass 3m splits into three equal parts. Two travel at velocities vĵ and vî. The third fragment's velocity is:",
+      "options": [
+        "v(ĵ − î)",
+        "v(î − ĵ)",
+        "−v(ĵ + î)",
+        "v(ĵ − î)/2"
+      ],
+      "correctIndex": 2,
+      "explanation": "Zero initial momentum requires the third velocity to be the negative vector sum of the other two."
+    },
+    {
+      "number": 36,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "Momentum conservation can be applied during a collision between particles when the impact duration is:",
+      "options": [
+        "dependent on the type of collision",
+        "moderately small",
+        "extremely large",
+        "extremely small"
+      ],
+      "correctIndex": 3,
+      "explanation": "The shorter the impact, the less external impulse influences the collision system."
+    },
+    {
+      "number": 37,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A lead ball strikes a wall and falls. A tennis ball of equal mass and incoming speed rebounds. Which is true?",
+      "options": [
+        "the lead ball has greater initial momentum",
+        "the lead ball has greater momentum change",
+        "the tennis ball has greater momentum change",
+        "both have equal momentum change"
+      ],
+      "correctIndex": 2,
+      "explanation": "Reversing velocity yields a larger Δp magnitude than merely stopping."
+    },
+    {
+      "number": 38,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A stationary ²³⁸U nucleus emits an alpha particle of mass 4u with velocity +v. The recoil velocity of the residual nucleus (mass 234u) is:",
+      "options": [
+        "−4v/234",
+        "+v/4",
+        "−4v/238",
+        "+4v/238"
+      ],
+      "correctIndex": 0,
+      "explanation": "Conservation of momentum gives 234u·V + 4u·v = 0, hence V = −4v/234."
+    },
+    {
+      "number": 39,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A moving shell of mass m and velocity v splits into two pieces. The piece of mass m/4 stops. The other piece's speed becomes:",
+      "options": [
+        "v",
+        "2v",
+        "3v/4",
+        "4v/3"
+      ],
+      "correctIndex": 3,
+      "explanation": "mv = (3m/4)V, so V = 4v/3."
+    },
+    {
+      "number": 40,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A ball strikes a vertical wall at 10 m/s and rebounds horizontally at 10 m/s. Therefore:",
+      "options": [
+        "its acceleration is zero",
+        "acceleration occurs only if its initial direction was horizontal",
+        "the velocity changes, so acceleration occurs during collision",
+        "its momentum is unchanged even though it accelerates"
+      ],
+      "correctIndex": 2,
+      "explanation": "The ball reverses velocity, so its momentum changes and it accelerates during impact."
+    },
+    {
+      "number": 41,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "When two bodies stick together after a collision, it is:",
+      "options": [
+        "perfectly elastic",
+        "totally elastic",
+        "perfectly inelastic",
+        "none of these"
+      ],
+      "correctIndex": 2,
+      "explanation": "Sticking together is the defining case of a perfectly inelastic collision."
+    },
+    {
+      "number": 42,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A ball drops 10 m and stops after embedding 1 m into sand. Considering the full ball–sand–Earth system as closed, which is conserved?",
+      "options": [
+        "total momentum, but not kinetic energy",
+        "kinetic energy, but not momentum",
+        "both momentum and kinetic energy",
+        "neither momentum nor kinetic energy"
+      ],
+      "correctIndex": 0,
+      "explanation": "Total momentum of a closed system is conserved, while kinetic energy is dissipated into heat/deformation."
+    },
+    {
+      "number": 43,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "Rocket propellant is expelled at 40 kg/s with exhaust speed 5 × 10⁴ m/s. The thrust is:",
+      "options": [
+        "2 × 10⁴ N",
+        "2 × 10⁵ N",
+        "2 × 10⁶ N",
+        "zero"
+      ],
+      "correctIndex": 2,
+      "explanation": "Thrust = mass-flow rate × exhaust speed = 40 × 50,000 = 2×10⁶ N."
+    },
+    {
+      "number": 44,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "Tripling a car's speed increases its stopping distance (under constant braking deceleration) by a factor of:",
+      "options": [
+        "3",
+        "6",
+        "9",
+        "1/9"
+      ],
+      "correctIndex": 2,
+      "explanation": "Stopping distance d = v²/(2a), so tripling v makes d nine times larger."
+    },
+    {
+      "number": 45,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Momentum and Collisions",
+      "source": "TEST 02",
+      "question": "A boy of mass m jumps onto a moving elastic board of mass M. If the board acquires momentum mv, its kinetic energy becomes:",
+      "options": [
+        "mv²/2",
+        "mv²/(2M)",
+        "Mv²/(2m)",
+        "m²v²/(2M)"
+      ],
+      "correctIndex": 3,
+      "explanation": "For board momentum p = mv, its kinetic energy is K = p²/(2M) = m²v²/(2M)."
+    }
+  ]
+}
