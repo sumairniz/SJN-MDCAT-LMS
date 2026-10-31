@@ -1,5 +1,14 @@
 # SJN MDCAT LMS Pro — Temporary Changes & Pre-Merge Cleanup Register
 
+## TEMP-COURSES-20261101 — OPEN · approved staging Courses UI design preview
+
+- **Approval:** Owner approved refinement after desktop/mobile screenshot review (2026-11-01).
+- **Scope:** `public/sjn-courses.js`, `public/sjn-courses.css`, `public/index.html` cache-version links, `tests/courses-preview-ui.test.js`. Sample-only Genome, Early Mock, Final Sprint sessions with fictional schedules and syllabus; not real enrollment, access control, submissions, or published MCQs.
+- **Preview-only:** “Sample enrolled”/“Not enrolled” badges and route gating are for interface demonstration; future production course entitlements must be enforced server-side. The launcher is disabled, no actual attempt exists. Modal has compact details/schedule; test-detail tabs on mobile. Sample-only subject accents can be reverted after owner UAT.
+- **Before production:** Replace/remove static demo preview and badges, implement authenticated academy-assigned sessions/tests and proper entitlement/schedule checks under separate approval, real progress and server-driven state; verify mobile and dialog keyboard behavior. Avoid copying demo gating as real security. Do not remove Past Papers or exam infrastructure.
+- **Status:** OPEN, owner visual UAT pending. Production untouched.
+
+
 **Created:** 2026-10-16 (Pakistan time)  
 **Status:** PERMANENT PROJECT PROCESS — requested by the owner. Open items below are **not** release-approved.  
 **Scope:** All future short-lived code, preview-only paths, placeholders, temporary feature flags, diagnostic instrumentation, testing workarounds, links/configuration and incomplete staging integrations, wherever they live.  
