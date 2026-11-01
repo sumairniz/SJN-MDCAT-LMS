@@ -359,23 +359,44 @@ app.get('/api/course-tests', auth, async (req, res) => {
       req.db.from('sjn_course_tests')
         .select('id,session_code,test_number,title,subject,chapter,duration_minutes,availability,mcq_ids_json,syllabus_json')
         .eq('session_code','genome').eq('published',true).order('test_number'),
-      req.db.from('attempts').select('selection_json,created_at')
+      req.db.from('attempts').select('id,total,correct,accuracy,selection_json,created_at')
         .eq('user_id',req.user.id).order('id',{ascending:false}).limit(1000),
-      req.db.from('practice_drafts').select('selection_json,updated_at')
+      req.db.from('practice_drafts').select('id,mode,selection_json,updated_at')
         .eq('user_id',req.user.id).order('updated_at',{ascending:false}).limit(1000)
     ]);
     if (catalog.error || attempts.error || drafts.error) throw new Error('Course records unavailable');
-    const completed = new Set((attempts.data||[])
-      .map(a=>Number(a.selection_json?.courseTestId)).filter(x=>Number.isSafeInteger(x)&&x>0));
-    const inProgress = new Set((drafts.data||[])
-      .map(a=>Number(a.selection_json?.courseTestId)).filter(x=>Number.isSafeInteger(x)&&x>0));
-    const tests = (catalog.data||[]).map(t=>({
-      id:Number(t.id),session:'genome',no:t.test_number,name:t.title,
-      subject:t.subject,chapter:t.chapter,minutes:t.duration_minutes,
-      availability:t.availability,completion:completed.has(Number(t.id))?'Completed':
-        inProgress.has(Number(t.id))?'In Progress':'Not Attempted',
-      mcqIds:t.mcq_ids_json,syllabus:t.syllabus_json
-    }));
+    // Attempts and drafts are already scoped to the authenticated student's ID.
+    // The newest saved attempt is the Last Attempt, never the highest score.
+    const latestCompleted = new Map();
+    for(const a of attempts.data||[]){
+      const key=Number(a.selection_json?.courseTestId);
+      if(Number.isSafeInteger(key)&&key>0&&!latestCompleted.has(key))
+        latestCompleted.set(key,a);
+    }
+    const latestDrafts = new Map();
+    for(const d of drafts.data||[]){
+      const key=Number(d.selection_json?.courseTestId);
+      if(Number.isSafeInteger(key)&&key>0&&!latestDrafts.has(key))
+        latestDrafts.set(key,d);
+    }
+    const tests = (catalog.data||[]).map(t=>{
+      const id=Number(t.id);
+      const a=latestCompleted.get(id);
+      const latest = a && Number(a.total)===t.mcq_ids_json.length &&
+        Number.isSafeInteger(Number(a.id)) && Number.isFinite(Number(a.accuracy))
+        ? {id:Number(a.id),total:Number(a.total),correct:Number(a.correct),
+           accuracy:Number(a.accuracy)} : null;
+      const d=latestDrafts.get(id);
+      return {
+        id,session:'genome',no:t.test_number,name:t.title,
+        subject:t.subject,chapter:t.chapter,minutes:t.duration_minutes,
+        availability:t.availability,completion:latest?'Completed':
+          d?'In Progress':'Not Attempted',
+        latestAttempt:latest,
+        draftId:latest?null:(typeof d?.id==='string'?d.id:null),
+        mcqIds:t.mcq_ids_json,syllabus:t.syllabus_json
+      };
+    });
     if(tests.some(t=>!Number.isSafeInteger(t.id)||!Array.isArray(t.mcqIds)||
       !t.mcqIds.length||t.mcqIds.length>200||t.mcqIds.some(id=>!Number.isSafeInteger(id))))
       throw new Error('Invalid published course manifest');
