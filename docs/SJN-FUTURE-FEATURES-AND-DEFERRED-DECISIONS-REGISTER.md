@@ -44,7 +44,15 @@
 | FF-012 | **Strict mocks and exam-specific rules** | **FUTURE DIRECTION / NOT FINAL** | Real high-stakes/course mocks require separately approved timer, Save & Exit/pause/resume, grading, content-visibility and retake policies. Do not automatically inherit ordinary practice-test rules. Share the existing exam interface where appropriate; no parallel duplicated engine. |
 | FF-013 | **Real course access/availability status, scheduling and progress beyond the Genome pilot** | **PARTIAL / INTEGRATION OPEN** | Genome uses genuine saved attempts/drafts for its progress and Last Attempt; other session cards/statuses are examples. Replace fixtures with authoritative enrollment, availability and test assignments; never fabricate completions, percentages or results. |
 | FF-014 | **Course contact / WhatsApp enrollment workflow** | **FUTURE DIRECTION / NOT APPROVED** | Mentioned as deferred during Courses UI revisions. Neither actual contact action nor WhatsApp-based enrollment flow is implemented; no external messaging integration or sensitive-data collection is authorized. |
-| FF-015 | **Global academy/course branding policy** | **OWNER-DEFERRED / DECISION PENDING** | The My Courses view uses the owner-approved display name “SJN MedNest Academy” as course branding; a global product/site rename is **not** approved and remains deferred until Courses design is finalized. |
+| FF-015 | **Future academy / LMS branding discussion** | **OWNER-DEFERRED / DECISION PENDING** | Revisit the broader SJN MedNest naming after the My Courses design is finalized. Proposed/previously discussed names, exact scope and exclusions are detailed below. **No global rename approved.** |
+
+#### FF-015 — Branding follow-up (owner clarification, 2026-11-01)
+
+- **Revisit later, discuss and decide before implementation.** Naming from earlier Chat-5 discussions to review: academy / public-facing brand **SJN MedNest Academy**; LMS display name **SJN MedNest LMS Pro**; existing tutor label **SJN AI Tutor** to remain unless the owner later decides otherwise. Prefer **MedNest** capitalization in normal text; upper-case display treatment for logos/headings is a styling question, not a global rename instruction.
+- **Already scoped separately:** My Courses currently displays **SJN MedNest Academy** as approved *course-area branding*. That does **not** mean the complete website, logo, titles or LMS have been rebranded.
+- **Still undecided:** final academy name, LMS name, where each appears, logo and page-title changes, whether the tutor name stays unchanged, visual consistency, and the exact implementation sequence. The owner wants this discussed **after My Courses is finalized**, not implemented now.
+- **Default technical boundary for the future discussion:** prefer a scoped *visual/student-facing* change; do not rename GitHub repository, internal code identifiers, Supabase databases/tables, application routes, hosted URLs/domains, or integrations by assumption. Any nonvisual renaming needs a separate technical review and explicit approval.
+- **Approval gate:** propose a full before/after naming inventory and visual samples, then await the owner's **separate explicit approval** before touching code, assets, configuration, database, branding or deployment. This documentation update does not authorize any rename.
 
 ### C. Student insights and reporting
 
