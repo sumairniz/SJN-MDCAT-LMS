@@ -157,3 +157,11 @@ test('Older /me response is rejected after another confirmed attempt increments 
   assert.equal(await old,false);
   assert.equal(calls.length,0,'Old response must not overwrite more recently saved stats');
 });
+
+
+test('Staging API region follows the Mumbai database without changing endpoint behavior',()=>{
+ const config=JSON.parse(fs.readFileSync(path.join(__dirname,'..','vercel.json'),'utf8'));
+ assert.deepEqual(config.regions,['bom1']);
+ assert.deepEqual(config.builds,[{src:'server.js',use:'@vercel/node'}]);
+ assert.deepEqual(config.routes,[{src:'/(.*)',dest:'/server.js'}]);
+});
