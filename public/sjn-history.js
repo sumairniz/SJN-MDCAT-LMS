@@ -416,7 +416,8 @@
       state.status=status==='ready'?'ready':status==='error'?'error':'loading';
       render();
     },
-    closeDetail
+    closeDetail,
+    openSavedResult(id){return open(id,'results');}
   };
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',setup,{once:true});
   else setup();
