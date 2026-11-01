@@ -399,3 +399,22 @@ test('Completed Test History review shares practice mark labels, purple state an
   assert.match(css,/--sjn-mark-accent:#a78bfa;--sjn-mark-text:#c4b5fd/);
   assert.doesNotMatch(js,/Unmark Question/);
 });
+
+test('Saved result retrieval overlaps independent reads without weakening per-student history checks',()=>{
+ const start=server.indexOf("app.get('/api/history/:attemptId', auth");
+ const end=server.indexOf("\nconst draftColumns=",start);
+ assert.ok(start>=0 && end>start);
+ const endpoint=server.slice(start,end);
+ const concurrent=(endpoint.match(/await Promise\.all\(\[/g)||[]).length;
+ assert.equal(concurrent,2,'parent/items and revision/bookmark reads are parallel');
+ assert.match(endpoint,/\.eq\('user_id', studentId\)\.eq\('id', id\)\.maybeSingle/);
+ assert.match(endpoint,/\.eq\('user_id', studentId\)\.eq\('attempt_id', id\)/);
+ assert.match(endpoint,/\.eq\('user_id', studentId\)\.in\('mcq_id', ids\)/);
+ assert.match(endpoint,/if \(!attempt\) return res\.status\(404\)/);
+ assert.match(endpoint,/if \(attempt\.details_version !== 1\)/);
+ assert.match(endpoint,/rows\.length !== attempt\.total/);
+ assert.match(endpoint,/if \(revisionError\) throw revisionError/);
+ assert.match(endpoint,/if \(markError\) throw markError/);
+ assert.match(endpoint,/if \(correct !== attempt\.correct\) throw new Error/);
+ assert.match(endpoint,/res\.set\('Cache-Control', 'no-store'\)/);
+});
