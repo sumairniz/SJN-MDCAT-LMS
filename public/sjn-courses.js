@@ -2,7 +2,7 @@
 (()=>{'use strict';
 const root=document.getElementById('sjn-courses-root');if(!root)return;
 const sessions=[
- {id:'genome',name:'Genome Test Session 2026',description:'Chapter-wise preparation, integrated revision and academy-scheduled tests.',type:'Chapter-wise & Mixed Tests',duration:'Nov 2026',enrolled:true,tests:[
+ {id:'genome',name:'Genome Test Session 2026',description:'100 scheduled MDCAT tests covering First and Second Year units, subject full-length assessments, cumulative revision and full-syllabus mocks. Monday to Saturday; Sundays reserved for review.',type:'Unit Tests · Subject Full-Length · Mocks',duration:'02 Nov 2026 – 13 Mar 2027',enrolled:true,tests:[
  ]},
  {id:'early',name:'Early Mock Session',description:'Start exam-style preparation early with curated full-length and sectional mocks.',type:'Mock Test Series',duration:'Nov–Dec 2026',enrolled:true,tests:[
   {no:1,name:'Early Mock 01 — Foundation',date:'16 Nov 2026',subject:'Mixed Subjects',count:100,minutes:110,availability:'Available',completion:'In Progress',syllabus:{Biology:['Cell Structure and Function','Enzymes'],Chemistry:['Atomic Structure','Stoichiometry'],Physics:['Force and Motion','Vectors'],English:['Vocab']}},
@@ -20,7 +20,23 @@ const subjectClass=x=>({'Biology':'sjn-c-subj-bio','Chemistry':'sjn-c-subj-chem'
 const label='Staging testing environment · Genome tests are real; the other sessions are illustrative. Production unchanged.';
 const warn=()=>'<p class="sjn-c-preview-note">'+ico('circle-info')+' '+label+'</p>';
 const findSession=id=>sessions.find(s=>s.id===id);
-const stats=s=>{const done=s.tests.filter(t=>t.hasCompleted||t.completion==='Completed').length;return{done,pct:s.tests.length?Math.round(done/s.tests.length*100):0};};
+const genomePlan=Array.isArray(window.SJNGenomeSchedule)?window.SJNGenomeSchedule:[];
+const totalTests=s=>s.id==='genome'&&genomePlan.length===97?100:s.tests.length;
+const formatPlanDate=date=>{
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(date||''))return date||'—';
+ const [year,month,day]=date.split('-');
+ return day+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][Number(month)-1]+' '+year;
+};
+const scheduleRows=s=>s.id==='genome'&&genomePlan.length===97?[
+ ...[1,2,3].map(no=>{
+  const t=s.tests.find(t=>t.no===no);
+  return {no,units:t?.name||'Pre-uploaded Chapter Test',subject:t?.subject||'',
+    type:'Chapter Test',date:null,count:t?.count??null,minutes:t?.minutes??null};
+ }),...genomePlan
+]:s.tests.map(t=>({no:t.no,units:t.name,subject:t.subject,type:'Test',
+ date:t.date==='Available on demand'?null:t.date,count:t.count,minutes:t.minutes}));
+
+const stats=s=>{const done=s.tests.filter(t=>t.hasCompleted||t.completion==='Completed').length;const total=totalTests(s);return{done,pct:total?Math.round(done/total*100):0};};
 const badgeAvailability=x=>'<span class="sjn-c-test-status is-'+x.toLowerCase()+'">'+esc(x)+'</span>';
 const badgeCompletion=x=>'<span class="sjn-c-completion is-'+x.toLowerCase().replaceAll(' ','-')+'">'+ico(x==='Completed'?'circle-check':x==='In Progress'?'rotate':'circle')+' '+esc(x)+'</span>';
 function sessionCard(s){
@@ -29,8 +45,8 @@ function sessionCard(s){
  (s.enrolled?'<button type="button" class="sjn-c-card-overlay" data-c-session="'+s.id+'" aria-label="Open '+esc(s.name)+'"></button>':'')+
  '<div class="sjn-c-card-top"><span class="sjn-c-kicker">'+ico('bolt')+' SJN MedNest Academy · MDCAT 2026</span><span class="sjn-c-status'+(s.enrolled?'':' is-explore')+'">'+ico(s.enrolled?'circle-check':'lock')+' '+(s.enrolled?'Enrolled':'Not Enrolled')+'</span></div>'+
  '<div><h4 class="sjn-c-card-title">'+esc(s.name)+'</h4><p class="sjn-c-card-sub">'+esc(s.description)+'</p></div>'+
- '<div class="sjn-c-card-info"><span>'+ico('layer-group')+' '+s.tests.length+' Tests</span><span>'+ico('calendar')+' '+esc(s.duration)+'</span><span>'+ico('list-check')+' '+esc(s.type)+'</span></div>'+
- '<div class="sjn-c-card-foot"><span class="sjn-c-progress"><span class="sjn-c-progress-head"><span>'+(s.enrolled?'Progress: '+st.done+' of '+s.tests.length+' completed':'Enrollment required')+'</span>'+
+ '<div class="sjn-c-card-info"><span>'+ico('layer-group')+' '+totalTests(s)+' Tests</span><span>'+ico('calendar')+' '+esc(s.duration)+'</span><span>'+ico('list-check')+' '+esc(s.type)+'</span></div>'+
+ '<div class="sjn-c-card-foot"><span class="sjn-c-progress"><span class="sjn-c-progress-head"><span>'+(s.enrolled?'Progress: '+st.done+' of '+totalTests(s)+' completed':'Enrollment required')+'</span>'+
  '<span class="sjn-c-bar" role="progressbar" aria-label="Session progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+(s.enrolled?st.pct:0)+'"><span style="width:'+(s.enrolled?st.pct:0)+'%"></span></span><strong>'+(s.enrolled?st.pct+'%':'Locked')+'</strong></span></span>'+
  '<span class="sjn-c-card-buttons"><button type="button" class="sjn-c-details-btn'+(s.enrolled?'':' is-explore-details')+'" data-c-details="'+s.id+'">Details</button>'+(s.enrolled?'<span class="sjn-c-card-action">View Session '+ico('arrow-right')+'</span>':'<span class="sjn-c-locked-btn">'+ico('lock')+' Locked</span>')+'</span></div></article>';
 }
@@ -62,7 +78,7 @@ function sessionPage(){
  const st=stats(s),visible=s.tests.filter(t=>matches(t,state.filter));
  root.innerHTML='<div class="sjn-c-page"><button type="button" class="sjn-c-back" data-c-back="home">'+ico('arrow-left')+' All Sessions</button>'+
  '<div class="sjn-c-session-hero"><div class="sjn-c-hero-row"><div class="sjn-c-hero-copy"><span class="sjn-c-kicker">SJN MedNest Academy · '+esc(s.type)+'</span><h2 class="sjn-c-hero-title">'+esc(s.name)+'</h2><p class="sjn-c-hero-desc">'+esc(s.description)+'</p>'+
- '<div class="sjn-c-stats"><span class="sjn-c-stat">'+ico('file-lines')+' <strong>'+s.tests.length+'</strong> Tests</span><span class="sjn-c-stat">'+ico('calendar')+' '+esc(s.duration)+'</span><span class="sjn-c-stat">'+ico('chart-line')+' Progress <strong>'+st.pct+'%</strong></span><button type="button" class="sjn-c-hero-details sjn-c-hero-details-mobile" data-c-details="'+s.id+'">Session Details</button></div></div>'+
+ '<div class="sjn-c-stats"><span class="sjn-c-stat">'+ico('file-lines')+' <strong>'+totalTests(s)+'</strong> Tests</span><span class="sjn-c-stat">'+ico('calendar')+' '+esc(s.duration)+'</span><span class="sjn-c-stat">'+ico('chart-line')+' Progress <strong>'+st.pct+'%</strong></span><button type="button" class="sjn-c-hero-details sjn-c-hero-details-mobile" data-c-details="'+s.id+'">Session Details</button></div></div>'+
  '<button type="button" class="sjn-c-hero-details sjn-c-hero-details-desktop" data-c-details="'+s.id+'">Session Details</button></div></div>'+warn()+
  '<div class="sjn-c-test-head"><div><h3 class="sjn-c-content-title">Session Tests</h3><p class="sjn-c-dim">Select a test to see its schedule and syllabus.</p></div><span class="sjn-c-count">'+s.tests.length+' Tests</span></div>'+
  '<div class="sjn-c-filter-row">'+filterNames.map(f=>'<button type="button" class="sjn-c-filter" data-c-filter="'+f+'" aria-pressed="'+(f===state.filter)+'">'+f+' <span class="sjn-c-filter-count">'+s.tests.filter(t=>matches(t,f)).length+'</span></button>').join('')+'</div>'+
@@ -88,7 +104,7 @@ function testPage(){
  '<div class="sjn-c-overview-info"><span class="sjn-c-test-schedule">'+ico('calendar-days')+' '+(t.date==='Available on demand'?'Available Anytime':'Scheduled: '+esc(t.date))+'</span><span>'+ico('book-open')+' '+esc(t.subject)+'</span><span>Attempt status: '+badgeCompletion(t.completion)+'</span></div>'+
  (t.draftId?'<section class="sjn-c-current-attempt"><div class="sjn-c-last-head"><h4>Current Attempt</h4>'+badgeCompletion('In Progress')+'</div><p>Last manually saved progress · '+Number(t.draftAnswered||0)+' / '+t.count+' answered</p><div class="sjn-c-current-track"><span style="width:'+Math.max(0,Math.min(100,100*Number(t.draftAnswered||0)/t.count))+'%"></span></div><p>Resume your existing '+(t.draftMode==='timed'?'Timed':'Tutor')+' test without changing its saved mode.</p></section>':'')+
  (t.latestAttempt?'<section class="sjn-c-last-attempt"><div class="sjn-c-last-head"><h4>Last Completed Result</h4>'+badgeCompletion('Completed')+'</div><div class="sjn-c-last-metrics"><div><small>Score</small><strong>'+t.latestAttempt.correct+' / '+t.latestAttempt.total+'</strong></div><div><small>Accuracy</small><strong>'+Number(t.latestAttempt.accuracy).toFixed(1)+'%</strong></div></div><button type="button" class="sjn-c-result-button" data-c-result="'+t.latestAttempt.id+'">View Result '+ico('arrow-right')+'</button></section>':'')+'<h4 class="sjn-c-mode-title">'+(t.draftId?'Test Mode — Saved Attempt':'Select Test Mode')+'</h4><div class="sjn-c-modes">'+modeHTML('timed',!!t.draftId)+modeHTML('tutor',!!t.draftId)+'</div>'+
- '<button class="sjn-c-launch" type="button" data-c-start="'+t.id+'"'+((t.availability!=='Available'||!t.id||(t.completion==='In Progress'&&!t.draftId))?' disabled aria-label="Test is not available"':'')+'>'+(t.draftId?'Resume Test':t.latestAttempt?'Retake Test':'Start Test')+' '+ico('arrow-right')+'</button></section>'+
+ '<button class="sjn-c-launch" type="button" data-c-start="'+t.id+'"'+((t.availability!=='Available'||!t.id||(t.completion==='In Progress'&&!t.draftId))?' disabled aria-label="Test is not available"':'')+'>'+(s.id==='genome'&&t.availability==='Upcoming'?'Not Yet Available':t.draftId?'Resume Test':t.latestAttempt?'Retake Test':'Start Test')+' '+ico('arrow-right')+'</button></section>'+
  '<section class="sjn-c-detail-panel'+selected('syllabus')+'" data-c-test-panel="syllabus"><h3 class="sjn-c-detail-title">Test Syllabus</h3>'+
  (t.fullSyllabus?'':'<p class="sjn-c-dim" style="margin:0 0 14px">Subjects and chapters included in this test.</p>')+syllabusHTML(t)+'</section></div></div>';
 }
@@ -127,10 +143,21 @@ async function refresh(){
   const result=await window.SJNCourseBridge.load();
   if(!result||!Array.isArray(result.tests)||result.session!=='genome')throw Error('Invalid course response');
   const genome=findSession('genome');
-  genome.tests=result.tests.map(t=>({
+  const published=result.tests.map(t=>({
    ...t,date:'Available on demand',count:t.mcqIds.length,
    fullSyllabus:t.fullSyllabus===true
   }));
+  // Publishing is independent of schedule: only the next missing planned
+  // test appears as an unattemptable card. Existing attempts stay untouched.
+  const liveNos=new Set(published.map(t=>t.no));
+  const next=genomePlan.find(t=>!liveNos.has(t.no));
+  const upcoming=next?{
+   id:null,no:next.no,name:next.units+' — '+next.type,subject:next.subject,
+   date:formatPlanDate(next.date),count:next.count,minutes:next.minutes,
+   availability:'Upcoming',completion:'Not Attempted',
+   syllabus:{[next.subject]:[next.units]},fullSyllabus:false
+  }:null;
+  genome.tests=upcoming?[...published,upcoming].sort((a,b)=>a.no-b.no):published;
   state.genomeLoaded=true;
   if(state.test!==null&&state.session==='genome'&&!genome.tests.some(t=>t.no===state.test))state.test=null;
   if(!state.modal)render();
