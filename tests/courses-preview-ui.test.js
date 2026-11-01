@@ -95,7 +95,10 @@ test('The course bridge and backend use the same secure submission flow',()=>{
 test('Latest-attempt student UX shares saved history and preserves other sessions',()=>{
  const history=fs.readFileSync(path.join(root,'public/sjn-history.js'),'utf8');
  const server=fs.readFileSync(path.join(root,'server.js'),'utf8');
- assert.match(js,/Your Last Attempt/);
+ assert.match(js,/Last Completed Result/);
+ assert.match(js,/Current Attempt/);
+ assert.match(js,/draftAnswered/);
+ assert.match(js,/Test Mode — Saved Attempt/);
  assert.match(js,/data-c-result/);
  assert.match(js,/View Result/);
  assert.match(js,/Resume Test/);
@@ -106,8 +109,27 @@ test('Latest-attempt student UX shares saved history and preserves other session
  assert.match(css,/\.sjn-c-session-card\.is-explore \.sjn-c-details-btn/);
  assert.match(css,/\.sjn-c-detail-layout\{align-items:start\}/);
  assert.match(server,/latestAttempt:latest/);
- assert.match(server,/draftId:latest\?null/);
+ assert.match(server,/draftId:d\?\.id\|\|null/);
+ assert.match(server,/courseProgressEligible===false/);
+ assert.match(server,/Date\.parse\(candidate\.updated_at\)>Date\.parse\(a\.created_at\)/);
  assert.match(html,/viewResult: async/);
  assert.match(html,/retake: async/);
  assert.match(history,/openSavedResult\(id\)/);
+});
+
+
+test('A newer course draft coexists with the last result, while History retakes stay independent',()=>{
+ const server=fs.readFileSync(path.join(root,'server.js'),'utf8');
+ const phase=fs.readFileSync(path.join(root,'public/sjn-phase4-preview.js'),'utf8');
+ assert.match(server,/completion:d\?'In Progress'/);
+ assert.match(server,/latestAttempt:latest,hasCompleted:!!latest/);
+ assert.match(server,/draftMode:d\?\.mode\|\|null,draftAnswered:answered/);
+ assert.match(js,/const action=t\.draftId\?window\.SJNCourseBridge/);
+ assert.match(js,/if\(activeTest\?\.draftId\)return/);
+ assert.match(js,/modeHTML\('timed',!!t\.draftId\)/);
+ assert.match(html,/courseProgressEligible:courseModeOverride!==null/);
+ assert.match(html,/courseProgressEligible:wizardSelection\.courseProgressEligible!==false/);
+ assert.match(phase,/courseProgressEligible:wizardSelection\.courseProgressEligible!==false/);
+ assert.doesNotMatch(html,/switchModule\('history'\);\s*return window\.SJNHistory\.openSavedResult/);
+ assert.match(html,/return window\.SJNHistory\.openSavedResult\(id\)/);
 });
