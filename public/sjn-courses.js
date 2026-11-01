@@ -109,11 +109,21 @@ function testPage(){
  (t.fullSyllabus?'':'<p class="sjn-c-dim" style="margin:0 0 14px">Subjects and chapters included in this test.</p>')+syllabusHTML(t)+'</section></div></div>';
 }
 function modalHTML(s){
- const rows=s.tests.map(t=>'<li><span class="sjn-c-modal-test-no">'+String(t.no).padStart(2,'0')+'</span><span class="sjn-c-modal-test-title">'+esc(t.name)+'</span><span class="sjn-c-modal-test-date">'+esc(t.date)+'</span></li>').join('');
+ const genome=s.id==='genome';
+ const rows=scheduleRows(s).map(t=>'<li><span class="sjn-c-modal-test-no">'+String(t.no).padStart(2,'0')+'</span>'+
+ '<span class="sjn-c-schedule-main"><strong class="sjn-c-modal-test-title">Test '+String(t.no).padStart(2,'0')+
+ (t.units?' ('+esc(t.units)+')':'')+'</strong><span class="sjn-c-schedule-type">'+esc(t.type)+
+ (t.subject?' · '+esc(t.subject):'')+'</span></span>'+
+ '<span class="sjn-c-schedule-meta"><span class="sjn-c-modal-test-date">'+esc(formatPlanDate(t.date))+'</span>'+
+ (t.count&&t.minutes?'<small>'+t.count+' MCQs · '+t.minutes+' min</small>':'')+'</span></li>').join('');
+ const extra=genome?'<div class="sjn-c-session-notes"><p><strong>Schedule:</strong> Monday to Saturday; Sundays reserved for test review.</p>'+
+ '<p><strong>Assessments:</strong> Unit tests, first- and second-year subject full-length tests, cumulative tests, full-syllabus mocks, and a final test.</p>'+
+ '<p><strong>Dates:</strong> Subject to academy revisions. Ramadan and Eid dates depend on moon sighting.</p>'+
+ '<p><strong>Staging:</strong> Tests 01–03 are uploaded; schedule entries alone are not published tests.</p></div>':'';
  return '<div class="sjn-c-modal-backdrop" data-c-modal-backdrop><div class="sjn-c-dialog" role="dialog" aria-modal="true" aria-labelledby="sjn-c-dialog-title">'+
  '<div class="sjn-c-dialog-header"><div><p class="sjn-c-eyebrow">SJN MedNest Academy · Session</p><h2 id="sjn-c-dialog-title">'+esc(s.name)+'</h2></div><button type="button" class="sjn-c-dialog-close" data-c-modal-close aria-label="Close session details">×</button></div>'+
  '<div class="sjn-c-dialog-tabs"><button type="button" class="sjn-c-dialog-tab'+(state.modalTab==='details'?' is-active':'')+'" data-c-modal-tab="details" aria-pressed="'+(state.modalTab==='details')+'">Session Details</button><button type="button" class="sjn-c-dialog-tab'+(state.modalTab==='schedule'?' is-active':'')+'" data-c-modal-tab="schedule" aria-pressed="'+(state.modalTab==='schedule')+'">Schedule</button></div>'+
- '<div class="sjn-c-dialog-content">'+(state.modalTab==='details'?'<h3>About this session</h3><p class="sjn-c-dialog-intro">'+esc(s.description)+'</p><dl class="sjn-c-modal-facts"><div><dt>Session type</dt><dd>'+esc(s.type)+'</dd></div><div><dt>Duration</dt><dd>'+esc(s.duration)+'</dd></div><div><dt>Tests</dt><dd>'+s.tests.length+' tests</dd></div><div><dt>Access</dt><dd>'+(s.enrolled?'Enrolled':'Not enrolled · Locked')+'</dd></div></dl>':'<h3>Test Schedule</h3><p class="sjn-c-dialog-intro">Scheduled tests in order.</p><ol class="sjn-c-modal-schedule">'+rows+'</ol>')+'</div>'+
+ '<div class="sjn-c-dialog-content">'+(state.modalTab==='details'?'<h3>About this session</h3><p class="sjn-c-dialog-intro">'+esc(s.description)+'</p><dl class="sjn-c-modal-facts"><div><dt>Session type</dt><dd>'+esc(s.type)+'</dd></div><div><dt>Duration</dt><dd>'+esc(s.duration)+'</dd></div><div><dt>Tests</dt><dd>'+totalTests(s)+' tests</dd></div><div><dt>Access</dt><dd>'+(s.enrolled?'Enrolled':'Not enrolled · Locked')+'</dd></div></dl>'+extra:'<h3>Complete Test Schedule</h3><p class="sjn-c-dialog-intro">'+(genome?'Tests 01–100 · Academic plan independent of test availability and student progress.':'Scheduled tests in order.')+'</p><ol class="sjn-c-modal-schedule">'+rows+'</ol>'+(genome?'<p class="sjn-c-schedule-note">Dates and timings may change by academy announcement; Ramadan/Eid adjustments depend on moon sighting.</p>':'') )+'</div>'+
  '<div class="sjn-c-dialog-foot"><span>'+(s.enrolled?'Enrolled':'Enrollment required for test access')+'</span><button type="button" data-c-modal-close>Close</button></div></div></div>';
 }
 function closeDialog(){
