@@ -9,7 +9,7 @@ test('Courses staging preview loads its own scoped assets without changing the e
  assert.match(html,/id="module-courses"[^>]*aria-label="My Courses and test sessions"/);
  assert.match(html,/id="sjn-courses-root"/);
  assert.match(html,/sjn-courses.css\?v=20261102-full-schedule/);
- assert.match(html,/sjn-courses.js\?v=20261101-last-attempt-1/);
+ assert.match(html,/sjn-courses.js\?v=20261102-full-schedule/);
  assert.match(html,/window\.SJNCoursesPreview\?\.refresh\?\.\(\)/);
  assert.doesNotMatch(css,/(?:^|\n)\s*body\s*\{/);
  assert.match(css,/#module-courses .sjn-c-session-card/);
