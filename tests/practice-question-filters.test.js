@@ -118,7 +118,7 @@ test('UI stays compact; direct test entry flows bypass filters; no drafts, autos
   assert.match(html,/wizardQuestionFiltersActive = false;\s+wizardSelection =/);
   assert.match(html,/window\.practiceCourse = function\(id\) \{\s+wizardQuestionFiltersActive = false;/);
   assert.match(html,/window\.practicePastPaper = function\(id, source\) \{\s+wizardQuestionFiltersActive = false;/);
-  assert.match(html,/window\.SJNHistoryLaunchRetake = async function\(payload\) \{\s+wizardQuestionFiltersActive = false;/);
+  assert.match(html,/window\.SJNHistoryLaunchRetake = async function\(payload(?:, courseModeOverride = null)?\) \{\s+wizardQuestionFiltersActive = false;/);
   assert.match(html,/async resume\(id\) \{\s+wizardQuestionFiltersActive = false;/);
   assert.match(html,/window\.SJNPracticeFilters\?\.invalidate\(\)/);
   assert.match(server,/app\.get\('\/api\/practice\/question-status', auth/);
@@ -217,7 +217,7 @@ test('Resume/Retake submission restores visible filters; reselecting scope also 
   await h.filters.load();
   assert.equal(h.filters.status(),'ready');
   assert.equal(h.filters.matches(1),false,'Unused selection excludes answered MCQ');
-  assert.match(html,/window\.SJNHistoryLaunchRetake = async function\(payload\) \{\s+wizardQuestionFiltersActive = false/);
+  assert.match(html,/window\.SJNHistoryLaunchRetake = async function\(payload(?:, courseModeOverride = null)?\) \{\s+wizardQuestionFiltersActive = false/);
   assert.match(html,/async resume\(id\) \{\s+wizardQuestionFiltersActive = false/);
   assert.match(html,/if \(!saved\?\.saved \|\| !saved\?\.id \|\| saved\.total !== items\.length\)/);
   assert.match(html,/if \(modName === 'wizard' && wizardSelection\.currentStepNum === 4 &&\s+wizardQuestionFiltersActive\) \{\s+void window\.SJNPracticeFilters\?\.load\(\)/);
