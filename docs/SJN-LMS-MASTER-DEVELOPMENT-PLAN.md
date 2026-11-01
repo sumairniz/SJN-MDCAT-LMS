@@ -1,3 +1,15 @@
+## 2026-11-02 — Staging Result latency investigation: region alignment experiment (owner-authorized, owner timing UAT pending)
+
+**Problem:** Owner observed Course View Result latency about 2.5 seconds after previous concurrency work and approved targeted further optimization under the speed-first / do-not-regress established functionality principle. No optimistic score display, cross-account cache, or background prefetch was authorized.
+
+**Measurements:** Staging Supabase project resides in `ap-south-1` (Mumbai). PostgreSQL `pg_stat_statements` showed small database query execution times on common history reads (generally milliseconds), meaning 2.5-second observed browser delays are unlikely to be explained by SQL execution alone. Vercel project settings and logs cannot currently be read through the connected Vercel action (403 team-scope authorization). Therefore the currently deployed pre-change Vercel function region has **not** been independently verified, and no end-to-end staging latency comparison is available yet.
+
+**Reversible staging-only change:** `vercel.json` now explicitly sets `"regions":["bom1"]` to locate the existing Express `@vercel/node` function in Mumbai close to staging Supabase. This affects backend functions used by all modules; HTML/CSS/JS CDN caching and routing remain as before. No application logic, authentication, History, grading, RLS, database table, or production code changed. The original region config is recoverable by removing that one property. Vercel official docs support the project-level `regions` override. Tests assert the original builds/routes and explicit region. CI validates source/release checks; it **does not prove** a Vercel deployment ran in `bom1` or that browser response time improved.
+
+**Potential tradeoff:** Requests to the function now route to Mumbai rather than any prior configured location, which should reduce backend-to-Mumbai-Supabase round trips; user-to-function latency or region availability may change for students outside Pakistan/South Asia. The choice needs representative real-world comparisons across Course Test Overview, direct saved Result, History Results/Review/Retake, login, Quiz, and Question Bank before owner acceptance. Static Test Overview rendering is not intentionally delayed by new API calls.
+
+**Release hold:** Development branch only, draft PR unmerged and production untouched. No more changes solely to chase milliseconds without region confirmation, browser Network timings and regression evidence.
+
 ## 2026-11-02 — Owner-approved saved Results read latency refinement (STAGING / CI PASS, owner timing UAT pending)
 
 **Request:** After accepting the November 2 Courses / Test History design, owner supplied a second recording, reported about 1–2 seconds remaining on Course Test View Result, and expressly authorized minimizing delay **only if safe** without disturbing the established History/exam architecture. Source examination showed the existing authenticated `GET /api/history/:attemptId` read four remote Supabase resources serially, although two pairs of reads were independent.
