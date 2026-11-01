@@ -1,4 +1,11 @@
 # SJN MDCAT LMS Pro — Temporary Changes & Pre-Merge Cleanup Register
+## TEMP-COURSES-LAST-ATTEMPT-20261101 — OPEN · latest owner-approved staging refinement
+
+- Staging-only Courses supports visual tweaks: active red mobile tab, compact mobile header, Explore yellow Details, content-height desktop syllabus, Available Anytime.
+- `Your Last Attempt` is computed from authenticated saved attempt rows in existing Test History. Never invent scores. Latest attempt rather than best; View Result uses `SJNHistory.openSavedResult`, Retake uses same verified exam with explicit selected mode, Resume uses existing manual drafts.
+- **Before release:** Verify signed-in and signed-out scenarios; mode change + Retake, latest score after several submissions, draft-resume question integrity, mobile tab state, history result viewer and popup focus behavior; implement paid course entitlement separately, remove illustrative Early Mock/Final Sprint fixtures.
+- No production changes, no new course score store. This remains an owner UAT preview until approved.
+
 ## TEMP-COURSES-GENOME-20261101 — OPEN · staging pilot with real imported questions
 
 - Three Genome test records, 79 versioned questions and a dedicated course bank exist only in staging Supabase. No source data copied into production; original practice PDFs/DOCX and corrected import manifests documented in `content/imports/genome-course-tests-2026-key-audit.md`. The imported tests are **private testing material**, not official academy-created question sets.
