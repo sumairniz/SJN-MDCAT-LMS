@@ -2599,7 +2599,8 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       load: () => api('/course-tests'),
       viewResult: async (id) => {
         if (!Number.isSafeInteger(id)||id<1||!currentUser)throw new Error('Saved result unavailable');
-        switchModule('history');
+        // Open the same authenticated History result directly. Avoid showing
+        // the intermediate History list while verification is in flight.
         return window.SJNHistory.openSavedResult(id);
       },
       resume: async (draftId) => {
@@ -2629,7 +2630,8 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         historyRetakeTitle='Genome Test Session 2026 — Test '+String(courseTest.no).padStart(2,'0');
         wizardSelection={
           bank:'SJN MedNest Course Tests',scope:'course-test',
-          courseTestId:courseTest.id,courseDurationMinutes:courseTest.minutes,subject:courseTest.subject||'Mixed Subjects',
+          courseTestId:courseTest.id,courseDurationMinutes:courseTest.minutes,
+          courseProgressEligible:true,subject:courseTest.subject||'Mixed Subjects',
           selectedSubjects:[...new Set(questions.map(q=>q.subject))],
           selectedChapters:[],selectedTopics:[],mcqCount:questions.length,
           testMode:mode,currentStepNum:4
@@ -2755,7 +2757,12 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       wizardSelection = {
         bank: questions[0].bank || 'Past Papers Question Bank',
         scope: isCourseRetake?'course-test':'all-subjects',
-        ...(isCourseRetake?{courseTestId:courseRetake.id,courseDurationMinutes:courseRetake.minutes}:{}),
+        ...(isCourseRetake?{
+          courseTestId:courseRetake.id,courseDurationMinutes:courseRetake.minutes,
+          // History-initiated retakes remain visible in History but do not
+          // overwrite the course-managed result or active draft.
+          courseProgressEligible:courseModeOverride!==null
+        }:{}),
         subject: payload.attempt.subject || 'All Subjects',
         selectedSubjects: [...new Set(questions.map(q=>q.subject))],
         selectedChapters: [], selectedTopics: [], topic: '',
@@ -2996,7 +3003,11 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         subjects: wizardSelection.selectedSubjects,
         chapters: wizardSelection.selectedChapters,
         topics: wizardSelection.selectedTopics,
-        ...(wizardSelection.scope === 'course-test' ? {courseTestId:wizardSelection.courseTestId,courseDurationMinutes:wizardSelection.courseDurationMinutes} : {})
+        ...(wizardSelection.scope === 'course-test' ? {
+          courseTestId:wizardSelection.courseTestId,
+          courseDurationMinutes:wizardSelection.courseDurationMinutes,
+          courseProgressEligible:wizardSelection.courseProgressEligible!==false
+        } : {})
       };
       const submission = {
         submissionKey: currentSubmissionKey, items,
