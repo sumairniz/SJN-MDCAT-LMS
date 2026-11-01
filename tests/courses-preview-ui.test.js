@@ -8,7 +8,7 @@ test('Courses staging preview loads its own scoped assets without changing the e
  assert.doesNotThrow(()=>new vm.Script(js));
  assert.match(html,/id="module-courses"[^>]*aria-label="My Courses and test sessions"/);
  assert.match(html,/id="sjn-courses-root"/);
- assert.match(html,/sjn-courses.css\?v=20261101-last-attempt-1/);
+ assert.match(html,/sjn-courses.css\?v=20261102-full-schedule/);
  assert.match(html,/sjn-courses.js\?v=20261101-last-attempt-1/);
  assert.match(html,/window\.SJNCoursesPreview\?\.refresh\?\.\(\)/);
  assert.doesNotMatch(css,/(?:^|\n)\s*body\s*\{/);
@@ -132,4 +132,29 @@ test('A newer course draft coexists with the last result, while History retakes 
  assert.match(phase,/courseProgressEligible:wizardSelection\.courseProgressEligible!==false/);
  assert.doesNotMatch(html,/switchModule\('history'\);\s*return window\.SJNHistory\.openSavedResult/);
  assert.match(html,/return window\.SJNHistory\.openSavedResult\(id\)/);
+});
+
+test('Full Genome schedule is read-only planning data independent of attempted tests',()=>{
+ const scheduleSource=fs.readFileSync(path.join(root,'public/sjn-genome-schedule.js'),'utf8');
+ assert.doesNotThrow(()=>new vm.Script(scheduleSource));
+ const ctx={window:{},Object,Number,Error};
+ vm.runInNewContext(scheduleSource,ctx);
+ const plan=Array.from(ctx.window.SJNGenomeSchedule);
+ assert.equal(plan.length,97);
+ assert.deepEqual(plan.map(t=>t.no),Array.from({length:97},(_,i)=>i+4));
+ assert.equal(plan[0].units,'Cell Structure & Function');
+ assert.equal(plan[0].date,'2026-11-02');
+ assert.equal(plan[plan.length-1].date,'2027-03-13');
+ assert.equal(plan[plan.length-1].count,180);
+ assert.equal(plan[plan.length-1].minutes,180);
+ assert.match(html,/sjn-genome-schedule\.js\?v=20261102-full-schedule/);
+ assert.ok(html.indexOf('sjn-genome-schedule.js')<html.indexOf('sjn-courses.js?v=20261102-full-schedule'));
+ assert.match(js,/genomePlan\.find\(t=>!liveNos\.has\(t\.no\)\)/);
+ assert.match(js,/id:null,no:next\.no/);
+ assert.match(js,/availability:'Upcoming',completion:'Not Attempted'/);
+ assert.match(js,/s\.id==='genome'&&t\.availability==='Upcoming'\?'Not Yet Available'/);
+ assert.match(js,/const scheduleRows=/);
+ assert.match(js,/Complete Test Schedule/);
+ assert.match(js,/totalTests\(s\)/);
+ assert.doesNotMatch(scheduleSource,/courseTestId|submissionKey|window\.launchGeneratedQuiz/);
 });
