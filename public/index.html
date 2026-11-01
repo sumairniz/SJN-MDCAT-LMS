@@ -2597,6 +2597,21 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     // The server validates the exact ordered published questions at submission.
     window.SJNCourseBridge = {
       load: () => api('/course-tests'),
+      viewResult: async (id) => {
+        if (!Number.isSafeInteger(id)||id<1||!currentUser)throw new Error('Saved result unavailable');
+        switchModule('history');
+        return window.SJNHistory.openSavedResult(id);
+      },
+      resume: async (draftId) => {
+        if(typeof draftId!=='string'||!currentUser)throw new Error('Saved draft unavailable');
+        return window.SJNDrafts.resume(draftId);
+      },
+      retake: async (id) => {
+        if(!Number.isSafeInteger(id)||id<1||!currentUser)throw new Error('Retake unavailable');
+        const attempt=await window.SJNHistoryFetchAttempt(id);
+        if(!attempt?.retakeAvailable)throw new Error('This test cannot be retaken.');
+        return window.SJNHistoryLaunchRetake(attempt);
+      },
       start: async (id, mode) => {
         if (!['timed','tutor'].includes(mode) || !Number.isSafeInteger(Number(id)) ||
             !remoteContentLoaded || window.SJNPhase4Exam?.isOpen?.()) return false;
