@@ -8,8 +8,8 @@ test('Courses staging preview loads its own scoped assets without changing the e
  assert.doesNotThrow(()=>new vm.Script(js));
  assert.match(html,/id="module-courses"[^>]*aria-label="My Courses and test sessions"/);
  assert.match(html,/id="sjn-courses-root"/);
- assert.match(html,/sjn-courses.css\?v=20261101-genome-live-2/);
- assert.match(html,/sjn-courses.js\?v=20261101-genome-live-2/);
+ assert.match(html,/sjn-courses.css\?v=20261101-last-attempt-1/);
+ assert.match(html,/sjn-courses.js\?v=20261101-last-attempt-1/);
  assert.match(html,/window\.SJNCoursesPreview\?\.refresh\?\.\(\)/);
  assert.doesNotMatch(css,/(?:^|\n)\s*body\s*\{/);
  assert.match(css,/#module-courses .sjn-c-session-card/);
@@ -90,4 +90,24 @@ test('The course bridge and backend use the same secure submission flow',()=>{
  assert.match(js,/sjn-c-progress-head/);
  assert.match(css,/\.sjn-c-progress-head>\.sjn-c-bar/);
  assert.match(css,/\.sjn-c-launch:not\(\[disabled\]\)/);
+});
+
+test('Latest-attempt student UX shares saved history and preserves other sessions',()=>{
+ const history=fs.readFileSync(path.join(root,'public/sjn-history.js'),'utf8');
+ const server=fs.readFileSync(path.join(root,'server.js'),'utf8');
+ assert.match(js,/Your Last Attempt/);
+ assert.match(js,/data-c-result/);
+ assert.match(js,/View Result/);
+ assert.match(js,/Resume Test/);
+ assert.match(js,/Retake Test/);
+ assert.match(js,/Available Anytime/);
+ assert.match(js,/sjn-c-hero-details-mobile/);
+ assert.match(css,/\.sjn-c-test-tab\.is-selected/);
+ assert.match(css,/\.sjn-c-session-card\.is-explore \.sjn-c-details-btn/);
+ assert.match(css,/\.sjn-c-detail-layout\{align-items:start\}/);
+ assert.match(server,/latestAttempt:latest/);
+ assert.match(server,/draftId:latest\?null/);
+ assert.match(html,/viewResult: async/);
+ assert.match(html,/retake: async/);
+ assert.match(history,/openSavedResult\(id\)/);
 });
