@@ -468,10 +468,18 @@ app.get('/api/history/:attemptId', auth, async (req, res) => {
     return res.status(400).json({ error: 'Invalid test identifier.' });
   const studentId = req.user.id;
   try {
-    const { data: attempt, error: parentError } = await req.db
-      .from('attempts')
-      .select('id, title, total, correct, accuracy, mode, subject, selection_json, created_at, details_version, elapsed_seconds')
-      .eq('user_id', studentId).eq('id', id).maybeSingle();
+    // Both reads are scoped to this authenticated student and attempt ID.
+    // Running them together removes one network round trip for saved results;
+    // a missing/foreign parent remains 404 and never exposes the item rows.
+    const [{ data: attempt, error: parentError }, { data: rows, error: itemError }] = await Promise.all([
+      req.db.from('attempts')
+        .select('id, title, total, correct, accuracy, mode, subject, selection_json, created_at, details_version, elapsed_seconds')
+        .eq('user_id', studentId).eq('id', id).maybeSingle(),
+      req.db.from('attempt_items')
+        .select('position, mcq_id, mcq_revision_id, selected_index, is_correct')
+        .eq('user_id', studentId).eq('attempt_id', id)
+        .order('position', { ascending: true })
+    ]);
     if (parentError) throw parentError;
     if (!attempt) return res.status(404).json({ error: 'Test not found.' });
     const basic = {
@@ -490,20 +498,22 @@ app.get('/api/history/:attemptId', auth, async (req, res) => {
         reviewAvailable: false, retakeAvailable: false
       });
     }
-    const { data: rows, error: itemError } = await req.db
-      .from('attempt_items')
-      .select('position, mcq_id, mcq_revision_id, selected_index, is_correct')
-      .eq('user_id', studentId).eq('attempt_id', id)
-      .order('position', { ascending: true });
     if (itemError) throw itemError;
     if (!Array.isArray(rows) || rows.length !== attempt.total || !rows.length ||
         rows.some((r, i) => r.position !== i + 1)) throw new Error('Incomplete historical attempt');
     const revisionIds = rows.map(r => r.mcq_revision_id);
-    const { data: revisions, error: revisionError } = await req.db
-      .from('mcq_revisions')
-      .select('id, mcq_id, bank, subject, chapter, topic, source, question, options_json, correct_index, explanation, mnemonic')
-      .in('id', revisionIds);
+    const ids = rows.map(row => row.mcq_id);
+    // Revision content and student-owned marks depend only on saved items,
+    // not on each other. Keep all existing integrity checks and fail closed.
+    const [{ data: revisions, error: revisionError }, { data: marks, error: markError }] = await Promise.all([
+      req.db.from('mcq_revisions')
+        .select('id, mcq_id, bank, subject, chapter, topic, source, question, options_json, correct_index, explanation, mnemonic')
+        .in('id', revisionIds),
+      req.db.from('bookmarks').select('mcq_id')
+        .eq('user_id', studentId).in('mcq_id', ids)
+    ]);
     if (revisionError) throw revisionError;
+    if (markError) throw markError;
     const byRevisionId = new Map((revisions || []).map(row => [String(row.id), row]));
     const items = rows.map(row => {
       const rev = byRevisionId.get(String(row.mcq_revision_id));
@@ -526,11 +536,6 @@ app.get('/api/history/:attemptId', auth, async (req, res) => {
     });
     const correct = items.filter(item => item.isCorrect).length;
     if (correct !== attempt.correct) throw new Error('Historical score integrity mismatch');
-    const ids = items.map(row => row.mcqId);
-    const { data: marks, error: markError } = await req.db
-      .from('bookmarks').select('mcq_id')
-      .eq('user_id', studentId).in('mcq_id', ids);
-    if (markError) throw markError;
     const marked = new Set((marks || []).map(row => String(row.mcq_id)));
     res.json({
       userId: studentId, attempt: basic,
