@@ -361,21 +361,25 @@ app.get('/api/course-tests', auth, async (req, res) => {
         .eq('session_code','genome').eq('published',true).order('test_number'),
       req.db.from('attempts').select('id,total,correct,accuracy,selection_json,created_at')
         .eq('user_id',req.user.id).order('id',{ascending:false}).limit(1000),
-      req.db.from('practice_drafts').select('id,mode,selection_json,updated_at')
+      req.db.from('practice_drafts').select('id,mode,selection_json,answers_json,updated_at')
         .eq('user_id',req.user.id).order('updated_at',{ascending:false}).limit(1000)
     ]);
     if (catalog.error || attempts.error || drafts.error) throw new Error('Course records unavailable');
     // Attempts and drafts are already scoped to the authenticated student's ID.
-    // The newest saved attempt is the Last Attempt, never the highest score.
+    // The newest eligible *submitted* course attempt is the last completed
+    // result. Independent Test History retakes remain in History but must not
+    // overwrite the managed Course result or completion status.
     const latestCompleted = new Map();
     for(const a of attempts.data||[]){
       const key=Number(a.selection_json?.courseTestId);
+      if(a.selection_json?.courseProgressEligible===false)continue;
       if(Number.isSafeInteger(key)&&key>0&&!latestCompleted.has(key))
         latestCompleted.set(key,a);
     }
     const latestDrafts = new Map();
     for(const d of drafts.data||[]){
       const key=Number(d.selection_json?.courseTestId);
+      if(d.selection_json?.courseProgressEligible===false)continue;
       if(Number.isSafeInteger(key)&&key>0&&!latestDrafts.has(key))
         latestDrafts.set(key,d);
     }
@@ -386,14 +390,22 @@ app.get('/api/course-tests', auth, async (req, res) => {
         Number.isSafeInteger(Number(a.id)) && Number.isFinite(Number(a.accuracy))
         ? {id:Number(a.id),total:Number(a.total),correct:Number(a.correct),
            accuracy:Number(a.accuracy)} : null;
-      const d=latestDrafts.get(id);
+      const candidate=latestDrafts.get(id);
+      // Ignore stale drafts from before the latest completed submission.
+      // A newer Save & Exit takes precedence as the *active* attempt without
+      // erasing the separately verified last completed result.
+      const d=candidate && typeof candidate.id==='string' &&
+        (!a || Date.parse(candidate.updated_at)>Date.parse(a.created_at))
+        ? candidate : null;
+      const answered=d && Array.isArray(d.answers_json)
+        ? d.answers_json.filter(answer=>Number.isInteger(answer)&&answer>=0&&answer<=3).length : 0;
       return {
         id,session:'genome',no:t.test_number,name:t.title,
         subject:t.subject,chapter:t.chapter,minutes:t.duration_minutes,
-        availability:t.availability,completion:latest?'Completed':
-          d?'In Progress':'Not Attempted',
-        latestAttempt:latest,
-        draftId:latest?null:(typeof d?.id==='string'?d.id:null),
+        availability:t.availability,completion:d?'In Progress':
+          latest?'Completed':'Not Attempted',
+        latestAttempt:latest,hasCompleted:!!latest,
+        draftId:d?.id||null,draftMode:d?.mode||null,draftAnswered:answered,
         mcqIds:t.mcq_ids_json,syllabus:t.syllabus_json
       };
     });
