@@ -158,3 +158,10 @@ test('Full Genome schedule is read-only planning data independent of attempted t
  assert.match(js,/totalTests\(s\)/);
  assert.doesNotMatch(scheduleSource,/courseTestId|submissionKey|window\.launchGeneratedQuiz/);
 });
+
+test('Genome cards, details and schedule omit day-of-week and moon-sighting notes',()=>{
+ assert.doesNotMatch(js,/Monday to Saturday|Sundays reserved|Ramadan|Eid|moon sighting/i);
+ assert.match(js,/100 scheduled MDCAT tests/);
+ assert.match(js,/Complete Test Schedule/);
+ assert.match(js,/sjn-c-modal-schedule/);
+});
