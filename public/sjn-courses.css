@@ -283,3 +283,16 @@ body.sjn-c-dialog-open{overflow:hidden}
 #module-courses .sjn-c-last-attempt{background:#202925;border-color:#49644f}
 #module-courses .sjn-c-result-button{background:transparent;color:#cae9d5;border-color:#577362}
 #module-courses .sjn-c-result-button:hover{background:#304438;border-color:#75ac88}
+
+#module-courses .sjn-c-modal-schedule li{grid-template-columns:32px minmax(0,1fr) auto;align-items:start;gap:11px}
+#module-courses .sjn-c-schedule-main{display:flex;flex-direction:column;gap:4px;min-width:0}
+#module-courses .sjn-c-schedule-type{font-size:10px;color:#a8a8b5;line-height:1.5}
+#module-courses .sjn-c-schedule-meta{display:flex;flex-direction:column;gap:4px;text-align:right;white-space:nowrap}
+#module-courses .sjn-c-schedule-meta small{color:#9fa0ab;font-size:10px}
+#module-courses .sjn-c-session-notes{margin-top:15px;border-top:1px solid #37343d;padding-top:10px}
+#module-courses .sjn-c-session-notes p,#module-courses .sjn-c-schedule-note{color:#b9b7c0;font-size:11px;line-height:1.65;margin:9px 0}
+#module-courses .sjn-c-session-notes strong{color:#eeeef1}
+@media(max-width:550px){
+ #module-courses .sjn-c-modal-schedule li{grid-template-columns:27px minmax(0,1fr);gap:7px}
+ #module-courses .sjn-c-schedule-meta{grid-column:2;flex-direction:row;flex-wrap:wrap;justify-content:flex-start;gap:5px 12px;text-align:left}
+}
