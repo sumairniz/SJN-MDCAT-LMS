@@ -2606,11 +2606,11 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         if(typeof draftId!=='string'||!currentUser)throw new Error('Saved draft unavailable');
         return window.SJNDrafts.resume(draftId);
       },
-      retake: async (id) => {
+      retake: async (id, mode) => {
         if(!Number.isSafeInteger(id)||id<1||!currentUser)throw new Error('Retake unavailable');
         const attempt=await window.SJNHistoryFetchAttempt(id);
         if(!attempt?.retakeAvailable)throw new Error('This test cannot be retaken.');
-        return window.SJNHistoryLaunchRetake(attempt);
+        return window.SJNHistoryLaunchRetake(attempt,mode);
       },
       start: async (id, mode) => {
         if (!['timed','tutor'].includes(mode) || !Number.isSafeInteger(Number(id)) ||
@@ -2725,7 +2725,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       if (!currentUser) { window.location.replace(SJNPreviewAuthRoute.to('/landing.html')); return; }
       originalLaunch(...args);
     };
-    window.SJNHistoryLaunchRetake = async function(payload) {
+    window.SJNHistoryLaunchRetake = async function(payload, courseModeOverride = null) {
       wizardQuestionFiltersActive = false;
       if (!currentUser || !payload?.retakeAvailable || !Array.isArray(payload.items) ||
           !payload.items.length || !remoteContentLoaded)
@@ -2759,7 +2759,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         subject: payload.attempt.subject || 'All Subjects',
         selectedSubjects: [...new Set(questions.map(q=>q.subject))],
         selectedChapters: [], selectedTopics: [], topic: '',
-        mcqCount: questions.length, testMode: payload.attempt.mode === 'timed'?'timed':'tutor',
+        mcqCount: questions.length, testMode: isCourseRetake && ['timed','tutor'].includes(courseModeOverride)?courseModeOverride:(payload.attempt.mode === 'timed'?'timed':'tutor'),
         currentStepNum: 4
       };
       paperSourceFilter = null;
