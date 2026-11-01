@@ -475,7 +475,11 @@
         bank:wizardSelection.bank,scope:wizardSelection.scope,
         subjects:wizardSelection.selectedSubjects,
         chapters:wizardSelection.selectedChapters,topics:wizardSelection.selectedTopics,
-        ...(wizardSelection.scope==='course-test' ? {courseTestId:wizardSelection.courseTestId,courseDurationMinutes:wizardSelection.courseDurationMinutes} : {})
+        ...(wizardSelection.scope==='course-test' ? {
+          courseTestId:wizardSelection.courseTestId,
+          courseDurationMinutes:wizardSelection.courseDurationMinutes,
+          courseProgressEligible:wizardSelection.courseProgressEligible!==false
+        } : {})
       },items,
       answers:reset?items.map(()=>null):userAnswers.slice(),
       checked:reset?items.map(()=>false):state.checked.slice(),
