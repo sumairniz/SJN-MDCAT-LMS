@@ -1,6 +1,4 @@
-/* SJN MedNest Academy Courses UX · sample-only staging experience.
-   No real enrollment, test attempt, score, timer, submission, or database action.
-   The one visible yellow notice identifies the preview; sample exams never start. */
+/* SJN MedNest Academy Courses: Genome authenticated pilot, other sessions illustrative.\n   Reuses the existing exam, history, and drafts; no alternate scoring system. */
 (()=>{'use strict';
 const root=document.getElementById('sjn-courses-root');if(!root)return;
 const sessions=[
@@ -146,7 +144,7 @@ root.addEventListener('click',e=>{
  const details=e.target.closest('[data-c-details]');if(details){openDialog(details.dataset.cDetails,details);return;}
  const tab=e.target.closest('[data-c-test-tab]');if(tab){switchTestTab(tab.dataset.cTestTab);return;}
  const result=e.target.closest('[data-c-result]');if(result){void window.SJNCourseBridge?.viewResult?.(Number(result.dataset.cResult)).catch(err=>window.alert(err?.message||'Unable to open result'));return;}
- const start=e.target.closest('[data-c-start]');if(start){if(state.launching)return;const t=findSession(state.session)?.tests.find(t=>t.id===Number(start.dataset.cStart));if(!t||t.availability!=='Available')return;state.launching=true;start.disabled=true;const action=t.completion==='In Progress'?window.SJNCourseBridge?.resume?.(t.draftId):t.completion==='Completed'&&t.latestAttempt?window.SJNCourseBridge?.retake?.(t.latestAttempt.id):window.SJNCourseBridge?.start?.(t.id,state.mode);void Promise.resolve(action).then(ok=>{if(ok===false)throw new Error('Course test could not be started');}).catch(err=>{window.alert(err?.message||'Unable to open course test');start.disabled=false;}).finally(()=>{state.launching=false;});return;}
+ const start=e.target.closest('[data-c-start]');if(start){if(state.launching)return;const t=findSession(state.session)?.tests.find(t=>t.id===Number(start.dataset.cStart));if(!t||t.availability!=='Available')return;state.launching=true;start.disabled=true;const action=t.completion==='In Progress'?window.SJNCourseBridge?.resume?.(t.draftId):t.completion==='Completed'&&t.latestAttempt?window.SJNCourseBridge?.retake?.(t.latestAttempt.id,state.mode):window.SJNCourseBridge?.start?.(t.id,state.mode);void Promise.resolve(action).then(ok=>{if(ok===false)throw new Error('Course test could not be started');}).catch(err=>{window.alert(err?.message||'Unable to open course test');start.disabled=false;}).finally(()=>{state.launching=false;});return;}
  const mode=e.target.closest('[data-c-mode]');if(mode){if(!['timed','tutor'].includes(mode.dataset.cMode))return;state.mode=mode.dataset.cMode;root.querySelectorAll('[data-c-mode]').forEach(x=>{const active=x.dataset.cMode===state.mode;x.classList.toggle('is-active',active);x.setAttribute('aria-pressed',String(active));const symbols=x.querySelectorAll('.sjn-c-mode-top i');if(symbols[1])symbols[1].className='fa-solid fa-'+(active?'circle-check':'circle');});return;}
  const back=e.target.closest('[data-c-back]');if(back){if(back.dataset.cBack==='home'){state.session=null;state.test=null;}else state.test=null;state.filter='All';state.testTab='overview';render();return;}
  const session=e.target.closest('[data-c-session]');if(session){const x=findSession(session.dataset.cSession);if(!x?.enrolled)return;state.session=x.id;state.test=null;state.filter='All';render();return;}
