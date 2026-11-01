@@ -271,3 +271,15 @@ body.sjn-c-dialog-open{overflow:hidden}
  #module-courses .sjn-c-stat{display:flex;align-items:center;gap:5px;min-height:43px}
  #module-courses .sjn-c-last-metrics strong{font-size:18px}
 }
+
+/* Saved course drafts and last completed scores are separate, authenticated records. */
+#module-courses .sjn-c-current-attempt{padding:15px;margin:12px 0;border:1px solid #78633b;background:#302b23;border-radius:12px}
+#module-courses .sjn-c-current-attempt .sjn-c-last-head h4{color:#ffe0a1}
+#module-courses .sjn-c-current-attempt p{font-size:12px;line-height:1.55;color:#d5c7ac;margin:8px 0}
+#module-courses .sjn-c-current-track{height:6px;background:#4b4030;border-radius:999px;overflow:hidden}
+#module-courses .sjn-c-current-track span{display:block;height:100%;background:#eabf64;border-radius:inherit}
+#module-courses .sjn-c-mode-card[disabled]{cursor:default;opacity:.85}
+#module-courses .sjn-c-mode-card[disabled].is-active{border-color:#c4484c;opacity:1}
+#module-courses .sjn-c-last-attempt{background:#202925;border-color:#49644f}
+#module-courses .sjn-c-result-button{background:transparent;color:#cae9d5;border-color:#577362}
+#module-courses .sjn-c-result-button:hover{background:#304438;border-color:#75ac88}
