@@ -23,7 +23,7 @@ test('Three uniquely named sample sessions and directly visible tests',()=>{
  assert.doesNotMatch(js,/data-c-date|calendarPicker|selectedDate/);
 });
 test('Genome published tests use guarded live launch while other sessions stay illustrative',()=>{
- assert.match(js,/window.SJNCourseBridge\.start/);
+ assert.match(js,/SJNCourseBridge\?\.start/);
  assert.match(js,/data-c-start/);
  assert.match(js,/!t\.id/);
  assert.doesNotMatch(js,/(XMLHttpRequest|localStorage|sessionStorage|SJNStartPublishedPaper|launchGeneratedQuiz|finishQuiz\()/);
