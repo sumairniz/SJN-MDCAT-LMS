@@ -39,25 +39,29 @@ test('Folder UI loads lazily with expanded desktop and mobile PDF reader',()=>{
  assert.match(css,/#module-resources\.sjn-r-expanded #resource-viewer/);
 });
 
-test('Mobile PDF reader renders in canvas, not an Android native PDF iframe',()=>{
+test('Responsive continuous PDF.js viewer stays private, paged and lazy',()=>{
  assert.match(ui,/import\(PDFJS_URL\)/);
  assert.match(ui,/pdf\.worker\.min\.mjs/);
  assert.match(ui,/fetch\(link\.url/);
  assert.match(ui,/page\.render\(\{canvasContext:ctx,viewport\}\)/);
- assert.match(ui,/class="sjn-r-pdf-canvas"/);
- assert.match(ui,/if\(!mobileQuery\.matches\)\{desktopFrame/);
- assert.match(ui,/#toolbar=0&navpanes=0/);
+ assert.match(ui,/sjn-r-page-slot/);
+ assert.match(ui,/visibleIndices/);
+ assert.match(ui,/pruneCanvas/);
+ assert.match(ui,/data-r-page-input/);
+ assert.match(ui,/data-r-zoom-input/);
+ assert.match(ui,/touchmove/);
+ assert.match(ui,/scrollTo/);
  assert.doesNotMatch(ui,/<button[^>]*download/i);
 });
-test('Mobile library replaces folder list with an in-page PDF reader and back action',()=>{
+test('Continuous modal reader and mobile viewport isolation',()=>{
  const css=fs.readFileSync(path.join(root,'public/sjn-academy-resources.css'),'utf8');
- assert.match(css,/#module-resources\.sjn-r-reading #resources-container\{display:none\}/);
- assert.match(css,/#module-resources\.sjn-r-reading #resource-viewer\{display:flex/);
+ assert.match(css,/#module-resources\.sjn-r-reading #resource-viewer/);
  assert.match(ui,/data-r-close/);
  assert.match(ui,/stopReader\(\)/);
+ assert.match(ui,/sjn-r-pages/);
  assert.match(css,/sjn-r-folder-icon/);
+ assert.match(css,/sjn-r-scroll/);
 });
-
 test('Interactive resources use collection and document cards without modifying course or exam APIs',()=>{
  const css=fs.readFileSync(path.join(root,'public/sjn-academy-resources.css'),'utf8');
  assert.match(ui,/sjn-r-collection-grid/);
