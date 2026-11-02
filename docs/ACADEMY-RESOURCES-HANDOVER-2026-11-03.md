@@ -1,3 +1,63 @@
+# CURRENT CHECKPOINT — Academy Resources (2026-11-03; design review only)
+
+**Read this section first in a new chat.** It supersedes older setup/blocker status notes below. The **latest user message authorizes DOCUMENTATION UPDATES ONLY**. There is **NO APPROVAL** to implement the next UI/UX redesign, change CSS/JS, add gestures, modify Cloudflare/Supabase/Vercel, or deploy. Ask for explicit approval before implementation. User rejected the prior AI-generated image as an unnecessary preview; use ordinary chat mockups/wireframes and direct explanations if proposing another design, not an image.
+
+## What is implemented and working (owner screenshots, 2026-11-03)
+
+- Brand in intended project discussions: **SJN MedNest Academy / SJN MedNest LMS**; legacy UI still says "SJN MDCAT LMS PRO" (global rename deferred; not in scope).
+- Repo: `sumairniz/SJN-MDCAT-LMS`; branch: `sjn-phase1a-foundation`; tested code HEAD **`f78f24fc9e5b1372bb77982b2885b1450370fc29`**. GitHub Actions completed successfully for this commit (two runs). Documentation-only commits may follow.
+- Staging Preview alias: `https://sjn-mdcat-lms-git-sjn-phase1a-foundation-sjn1.vercel.app`. Vercel functions in Mumbai `bom1`; Supabase staging project `aozknkrwafowsrehdwlr` in Mumbai `ap-south-1`. Do not touch production.
+- Cloudflare private R2 bucket `sjn-mednest-academy-resources`, Standard/APAC; public access disabled. The scoped **Object Read** S3 credentials are safely stored as sensitive Vercel Preview environment variables, restricted to this branch, alongside `R2_ACCOUNT_ID` and `R2_BUCKET_NAME`. Never retrieve, expose, copy, or display secret values.
+- Academy Resources is lazy-loaded independently of the MCQ bootstrap; `server.js` + `lib/academy-resources.js` authenticate student sessions and issue short-lived private PDF links. No resource loading on unrelated pages; preserve exam/history/review speed and behavior.
+- Two published user-named folders in Supabase staging: **MDCAT Syllabus by SJN** and **Biology Resources**. Three published owner-supplied PDFs uploaded to private R2:
+  - `mdcat-syllabus/physics-syllabus-2026-sjn.pdf`
+  - `biology-resources/biotechnology-notes-stb-ftb-kpk-ptb-sjn.pdf`
+  - `biology-resources/biology-one-pagers-stb-sjn.pdf`
+  Keys have NO `pdfs/` parent. No re-upload needed.
+- `public/index.html`, `public/sjn-academy-resources.js`, `public/sjn-academy-resources.css`, `tests/academy-resources.test.js`: larger title, redesigned folder cards, desktop native PDF iframe and Expand/Restore; Android now uses on-demand PDF.js page canvas reader instead of native iframe; Files/back, next/previous page buttons, manual zoom, Expand/Restore. Preview runs and owner supplied screenshots confirming **actual desktop AND Android PDF rendering**, including mobile expand. The earlier issue with Android showing only an "Open" button is resolved.
+- Owner likes **fast desktop PDF opening**, desktop Expand, the "Digital Library" selected-folder name/header, and that PDF files now open inside mobile LMS. Keep these wins.
+- Download buttons are hidden in viewer where supported, but web PDF bytes can still be saved or screenshotted; do not promise DRM.
+
+## UNAPPROVED next-phase requirements — DISCUSSION / DESIGN ONLY
+
+User's latest screenshots plus MedSindh comparison clarified **real UX problems**:
+
+1. **Mobile nested-card waste:** Existing `#module-resources` uses an outer `bg-sjn-card ... p-6` shell. Inside it, `.sjn-r-library` includes another bordered `#resources-container` and an inner `.sjn-r-browser-head` panel, then folder cards. On a narrow phone there are boxes within boxes and excessive padding/margins, which compresses the actual list and reader. This is not a request for *more* decorations. User wants **less chrome, greater usable PDF width/height**, and a clean, professional modern app feel.
+2. **Mobile browser/read transition:** Library should show folders/files prominently, then open a **dedicated reading surface**; while reading, eliminate redundant page heading, outer cards, borders, and side padding. Use the usable viewport. A concise reader header and unobtrusive controls, not several stacked rows of space-consuming headers. Keep easy Files/back and expand/restore.
+3. **Mobile natural gestures:** Pinch-to-zoom, drag/pan when enlarged, swipe horizontally between PDF pages (without accidental page switches during panning or vertical reading). Keep accessible button alternatives for paging/zoom. Current PDF.js canvas only has discrete zoom buttons and previous/next controls, so this is **NOT YET IMPLEMENTED**.
+4. **Desktop PDF control parity:** User wants visible zoom + / -, Fit/Reset and mouse-driven controls (such as Ctrl + wheel zoom) in addition to existing keyboard/touchpad behavior. Desktop current `iframe #toolbar=0` hides native PDF toolbar, so explicit zoom controls are currently absent. Keep fast desktop initial load/Expand, and verify technical feasibility/performance of custom zoom before modifying the engine. This is **NOT YET IMPLEMENTED**.
+5. **Visual quality:** Current redesign is improved but not yet accepted. Maintain minimal consistent red/charcoal SJN MedNest theme, informative folder names and counts, obvious selected state, legible typography, crisp icons, responsive density; compare reference screenshots for interaction quality only, **do not copy a competitor's branding/design exactly**.
+6. **Download suppression:** Keep visible download/print actions hidden, with honest statement that web display cannot prevent saving or screen capture.
+
+**Options for mobile shell (not implemented):**
+- A, **recommended**: *Flat/canvas page layout*. Academy Resources title as normal page heading only while browsing. Folders/files sit on the original page background with one meaningful surface/card per item and no large outer bordered cards. PDF reading uses a full-width, viewport-based in-app viewer without external page/card padding. Header/controls compact; optionally sticky or auto-hide while reading.
+- B: *One container*: Keep a single light page surface around library items, remove inner wrapper and decorative browser-header card. Reader still uses separate immersive surface.
+- C: *Hybrid*: Minimal outer page heading and compact folder section, but expanded PDF takes over viewport immediately on mobile.
+
+**Recommended direction:** A for mobile with meaningful card only per folder/document; preserve desktop two-column library with a compact selected-folder label and fast reader. The large `Academy Resources` page title should remain visible on the browse screen, not occupy reading space. Start design review with simple chat wireframes rather than image generation; do not start coding until owner approves.
+
+## Implementation/QA plan AFTER approval (not authorized now)
+
+- Scope changes to Academy Resources page/JS/CSS and dedicated tests. Do not touch unrelated exam, history, courses, auth, production, or R2 permissions unless there is a demonstrated technical need and separate approval.
+- Mobile: flatten outer wrapper (likely responsive CSS and slight index.html markup), single-column folder/document browsing, compact full-width viewer, pinch gestures/pan/swipe with safeguards. Consider the browser's own scroll/pinch behavior and accessible fallback.
+- Desktop: preserve fast iframe if possible, offer appropriate zoom controls without destroying fast render; avoid large PDF.js desktop migration unless justified and approved.
+- Test real Android (regular + expanded, 2/5/18-page PDFs, pinch/drag/swipe, Files), desktop mouse wheel/zoom/scroll + Expand/Restore, orientation changes, slow network, logout/session changes, long PDFs; compare loading speed and confirm no regressions to exam modules.
+- Run CI, deploy Preview branch only, update this handover and Master Plan with accurate test results; get owner's acceptance before marking stage closed.
+
+## Decision register (as of current message)
+- **Approved and implemented:** first Academy Resources feature; private R2; two folders/three PDFs; initial folder redesign; Android PDF.js reader; hidden visible Download; staging environment integration.
+- **Liked by user, PRESERVE:** desktop fast viewer and Expand; selected folder title in Digital Library; actual in-LMS mobile reading.
+- **Requested but NOT approved for coding:** remove/flatten nested mobile cards; use more phone screen width/height; immersive compact reader; pinch zoom/pan/swipe; desktop visible zoom and mouse zoom; additional refinements inspired by references.
+- **Pending decision:** precise flat-versus-one-shell mobile design; toolbar placement/auto-hide; swipe versus continuous scroll behavior; desktop zoom engine strategy; final visual sign-off.
+- **Deferred:** Academy Admin Panel management, native videos/lectures, global rename, production launch/conversion; no dummy course cleanup or unrelated changes now.
+
+## Chat 7 continuation script
+"Continue **SJN MedNest Academy** on GitHub `sumairniz/SJN-MDCAT-LMS`, dev branch `sjn-phase1a-foundation`. Read `docs/ACADEMY-RESOURCES-HANDOVER-2026-11-03.md` **CURRENT CHECKPOINT** and the Master Development Plan. We are DISCUSSING a pending Academy Resources mobile/desktop redesign; no UI changes are approved yet. First discuss the flat mobile browse layout, immersive PDF reader, pinch/swipe and desktop zoom. Do not edit code or deploy without my explicit approval."
+
+---
+
+## ARCHIVED EARLIER HANDOVER — historical states; superseded above
+
 > **2026-11-03 latest deployment checkpoint:** Owner created R2 bucket-scoped Object Read S3 token and saved both `R2_ACCESS_KEY_ID` / `R2_SECRET_ACCESS_KEY` as Vercel **Secret**, **Preview** limited to `sjn-phase1a-foundation`. Connected Vercel API independently verified all six Preview variables by name and target WITHOUT decrypting them. Fresh forced Preview deployment `dpl_8QejSf1YNik8pfuFPfwEz5t7QgLK` READY, Git SHA `23d37275996b57cf526e92f20f6ba83a8cc131d3`, region `bom1`, branch alias `https://sjn-mdcat-lms-git-sjn-phase1a-foundation-sjn1.vercel.app`. All three object keys verified in private R2 against staging metadata. All three `academy_resource_files` rows were marked published = true for signed-in student UI testing; folders already published. **Important: credential validity, a live authorized PDF retrieval, browser iframe rendering, and desktop/mobile UAT are NOT yet verified.** Owner should sign in on Preview, navigate Academy Resources, open all 3 PDFs and send feedback; if any request fails inspect Vercel logs and signed URL behavior, unpublish if necessary. Production untouched. Documentation continues in this branch.
 
 # Academy Resources — current handover and next-chat checkpoint (2026-11-03)
