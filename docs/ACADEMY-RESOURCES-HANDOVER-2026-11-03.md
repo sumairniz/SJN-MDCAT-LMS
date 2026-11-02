@@ -1,3 +1,5 @@
+> **2026-11-03 card-redesign QA:** Latest implementation commit `2a6462b4acbb3aec08ac4f1961fb16bbc5b0be47` passed both Foundation Checks GitHub Actions runs. Vercel Preview build of this SHA is READY (`sjn-mdcat-o3q83l0nn-sjn1.vercel.app`). Interactive collection and PDF cards and flat mobile shell are implemented; **user visual and Android UAT remain pending**. No production changes; older notes below are history. Desktop zoom gestures and mobile pinch/swipe remain separately pending approval.
+
 # 2026-11-03 — NEW APPROVED Academy Resources card redesign (current)
 
 **Latest approval:** User explicitly authorized implementation of modern, attractive, interactive **LMS-style collection cards** modeled on the interaction quality of existing My Courses and Past Papers cards, plus similarly interactive PDF resource cards. Plain file-manager folder styling was rejected. User emphasized no interference with core LMS features. This supersedes the prior UNAPPROVED designation for **card styling and flattening** below; the historical section remains for context.
