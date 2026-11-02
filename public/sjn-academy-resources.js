@@ -20,14 +20,15 @@ function render(){
  const files=cache.files.filter(x=>x.folder_id===folder);
  const parent=cache.folders.find(x=>x.id===folder)?.parent_id||null;
  const label=folderName(folder);
+ const section=(title,count)=>'<div class="sjn-r-section-label"><span class="sjn-r-section-name">'+title+'</span><span class="sjn-r-section-count">'+count+'</span></div>';
  pane.innerHTML='<div class="sjn-r-browser-head"><div class="sjn-r-browser-kicker">'+ico('layer-group')+' DIGITAL LIBRARY</div>'+
- '<div class="sjn-r-browser-title">'+esc(label)+'</div><div class="sjn-r-browser-sub">'+(folder?'Your selected collection':'Choose a folder to explore study materials')+'</div></div>'+
+ '<div class="sjn-r-browser-title">'+esc(label)+'</div><div class="sjn-r-browser-sub">'+(folder?'Explore documents in this collection':'Choose a collection to explore study materials')+'</div></div>'+
  (folder?'<button class="sjn-r-back" type="button" data-r-back>'+ico('arrow-left')+' Back to '+esc(parent?folderName(parent):'library')+'</button>':'')+
- (dirs.length?'<div class="sjn-r-section-label">FOLDERS <span>'+dirs.length+'</span></div>'+
- dirs.map(x=>'<button type="button" class="sjn-r-folder" data-r-folder="'+esc(x.id)+'" aria-label="Open folder '+esc(x.name)+'"><span class="sjn-r-folder-icon">'+ico('folder-closed')+'</span><span class="sjn-r-folder-copy"><strong>'+esc(x.name)+'</strong><small>'+hasFiles(x.id)+' PDF'+(hasFiles(x.id)===1?'':'s')+'</small></span><span class="sjn-r-next">'+ico('chevron-right')+'</span></button>').join(''):'')+
- (files.length?'<div class="sjn-r-section-label">DOCUMENTS <span>'+files.length+'</span></div>'+
- files.map(x=>'<button type="button" class="sjn-r-document '+(active===x.id?'is-active':'')+'" data-r-file="'+esc(x.id)+'" aria-label="Read '+esc(x.title)+'"><span class="sjn-r-document-icon">'+ico('file-pdf')+'</span><span class="sjn-r-document-copy"><strong>'+esc(x.title)+'</strong><small>PDF Document</small></span><span class="sjn-r-next">'+ico('arrow-up-right-from-square')+'</span></button>').join(''):'')+
- (!dirs.length&&!files.length?'<div class="sjn-r-empty">'+ico('folder-open')+'<p>No published documents in this folder yet.</p></div>':'');
+ (dirs.length?section('COLLECTIONS',dirs.length)+'<div class="sjn-r-card-grid sjn-r-collection-grid">'+
+ dirs.map((x,i)=>'<button type="button" class="sjn-r-folder sjn-r-resource-card" data-r-folder="'+esc(x.id)+'" data-r-tone="'+i%4+'" aria-label="Explore collection '+esc(x.name)+'"><span class="sjn-r-card-top"><span class="sjn-r-folder-icon">'+ico('layer-group')+'</span><span class="sjn-r-card-type">COLLECTION</span></span><span class="sjn-r-folder-copy"><strong>'+esc(x.name)+'</strong><small>'+hasFiles(x.id)+' PDF '+(hasFiles(x.id)===1?'resource':'resources')+'</small></span><span class="sjn-r-card-footer"><span>Explore collection</span><span class="sjn-r-next">'+ico('arrow-right')+'</span></span></button>').join('')+'</div>':'')+
+ (files.length?section('STUDY DOCUMENTS',files.length)+'<div class="sjn-r-card-grid sjn-r-document-grid">'+
+ files.map((x,i)=>'<button type="button" class="sjn-r-document sjn-r-resource-card '+(active===x.id?'is-active':'')+'" data-r-file="'+esc(x.id)+'" data-r-tone="'+i%4+'" aria-label="Read '+esc(x.title)+'" aria-pressed="'+(active===x.id)+'"><span class="sjn-r-card-top"><span class="sjn-r-document-icon">'+ico('file-pdf')+'</span><span class="sjn-r-card-type">PDF RESOURCE</span></span><span class="sjn-r-document-copy"><strong>'+esc(x.title)+'</strong><small>Study material'+(x.size_bytes?' · '+(x.size_bytes>=1048576?(x.size_bytes/1048576).toFixed(1)+' MB':Math.max(1,Math.round(x.size_bytes/1024))+' KB'):'')+'</small></span><span class="sjn-r-card-footer"><span>'+ico('book-open')+' Read document</span><span class="sjn-r-next">'+ico('arrow-up-right-from-square')+'</span></span></button>').join('')+'</div>':'')+
+ (!dirs.length&&!files.length?'<div class="sjn-r-empty">'+ico('book-open-reader')+'<p>No published documents in this collection yet.</p></div>':'');
 }
 function placeholder(){
  viewer.innerHTML='<div class="sjn-r-placeholder"><span class="sjn-r-placeholder-icon">'+ico('book-open-reader')+'</span><strong>Your study space</strong><p>Select a document from the library to start reading.</p></div>';
