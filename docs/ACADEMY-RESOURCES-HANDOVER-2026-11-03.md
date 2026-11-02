@@ -1,0 +1,71 @@
+# Academy Resources — current handover and next-chat checkpoint (2026-11-03)
+
+> **Status: STAGING IMPLEMENTED, PRIVATE PDF OBJECTS VERIFIED, LIVE PDF VIEWER NOT YET READY / OWNER UAT NOT PASSED.** This file is the authoritative current Academy Resources checkpoint. Earlier dated notes in the Master Plan represent historical states and must not be mistaken for present blockers.
+
+## 1. Owner-approved design and operational constraints
+- Product: **SJN MedNest Academy**, Academy Resources module; no global legacy UI rename yet.
+- Professional larger “Academy Resources” heading. Desktop: folder explorer left, selected PDF viewer right, expandable/fullscreen-style reading. Mobile: responsive stack, expandable reader. Owner hasn't signed off with live PDFs.
+- Arbitrary admin-defined folders and nested folders; no forced Biology/Chemistry taxonomy. Future Admin Panel manages folders, PDF uploads, publication, deletion. No lecture/video backend, just optional YouTube tutorial links later.
+- Main auth, MCQs, courses, tests, results, manual Save & Exit, Review, Retake, Test History remain unchanged; **speed first**. Preserve Vercel function Mumbai `bom1` and Supabase Mumbai `ap-south-1`. Resources must not be queried/fetched during MCQ bootstrap or other unrelated module navigation.
+- Never change production without separate owner authorization. No R2 public domains, no secrets in repo/client/chat/screenshots. Explicit owner approval granted for this staging feature and its continued completion.
+
+## 2. Environment and infrastructure (verified 2026-11-03)
+- GitHub repo `sumairniz/SJN-MDCAT-LMS`, working staging branch `sjn-phase1a-foundation`. Production branch untouched. Latest code checkpoint as verified at writing: commit `991551a01a8a4621d16fb4cc55dfd2aaab2f2c33`, two GitHub Actions runs SUCCESS on this SHA (subsequent doc commits do not alter tested source).
+- Staging Supabase project: `aozknkrwafowsrehdwlr`, region Mumbai `ap-south-1`. Do not use production Supabase project `yapvnevvjfewvafbjcgc`.
+- Vercel `sjn-mdcat-lms`, team `sjn1` (ID `team_AOaL10r6OwIXpIy4XlO8DmSH`); ChatGPT Vercel team access already approved and verified. Preview branch `sjn-phase1a-foundation`.
+- Vercel Preview **branch-specific** env names verified: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `R2_ACCOUNT_ID`, `R2_BUCKET_NAME`. **Missing**: `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`. Existing R2 account/bucket values are configured for Preview only.
+- Cloudflare connected account ID `e9fc71a915e2f2bce29531366f580aa8`; R2 bucket `sjn-mednest-academy-resources`, Standard APAC, public r2.dev disabled, no public custom domains. Cloudflare OAuth granted R2 Storage Read + Write but **not API Tokens Write**. Cloudflare connector cannot issue a permanent S3 Access Key ID/Secret from current OAuth scopes. Do not request Full Access; not needed.
+
+## 3. Exact published folder structure and staged PDF records
+Folder names in Supabase `public.academy_resource_folders`, both **is_published = true**:
+1. `MDCAT Syllabus by SJN` — folder id `d3ad348a-7c52-4281-a4ac-742e941e0f3f`.
+2. `Biology Resources` — folder id `6e43b431-8f87-4351-86fe-b98554dcd0fb`.
+
+All THREE files really exist in private R2; direct Cloudflare object listing confirmed exact paths, MIME `application/pdf` and size. Corresponding entries in `public.academy_resource_files` have matching keys and **is_published = false** until server credentials + live verification:
+
+| Folder | Object key in R2 (NO `pdfs/` parent!) | Bytes |
+| --- | --- | ---: |
+| MDCAT Syllabus by SJN | `mdcat-syllabus/physics-syllabus-2026-sjn.pdf` | 7104 |
+| Biology Resources | `biology-resources/biotechnology-notes-stb-ftb-kpk-ptb-sjn.pdf` | 42881 |
+| Biology Resources | `biology-resources/biology-one-pagers-stb-sjn.pdf` | 11836553 |
+
+Original PDFs were supplied by owner; uploaded manually to Cloudflare dashboard with exactly these paths. Earlier ZIP recommendation had an extra `pdfs/` folder, but owner instead created root `biology-resources/` and `mdcat-syllabus/`. **This was fixed** both in Supabase keys and backend key validation; DO NOT tell user to reupload, rename, or add `pdfs/`. Do not upload duplicates.
+
+## 4. Implemented code / migration / current known QA
+- `database/migrations/20261103_academy_resources_private_pdf_folders.sql` applied to **staging**; separate folder/file tables, published-only authenticated SELECT RLS; no public writes. Legacy `resources` table untouched.
+- `server.js`: `/api/content` **no longer reads legacy resources alongside MCQs**. Mounts `registerAcademyResourceRoutes(app, auth)` separately. No PDF bytes travel through exam content endpoint.
+- `lib/academy-resources.js`: authenticated `GET /api/academy-resources` lazy catalog and `GET /api/academy-resources/:id/open`, checks published file + folder, safe PDF key and generates 180-second S3 SigV4 private GET URL using Vercel server-only credentials. Fails closed with HTTP 503 when credentials missing. No public bucket. Key validation allows safe paths without `pdfs/` parent.
+- `public/index.html`, `public/sjn-academy-resources.js`, `public/sjn-academy-resources.css`: larger title, on-demand library init only upon module entry, folder navigation, iframe PDF reader, expanded mode and mobile CSS; resource state cleared on logout. Never preload PDFs during quiz.
+- `tests/academy-resources.test.js` guards isolation/security/UI. GitHub Actions passed for code SHA `991551a01`. **This is not proof of authenticated live PDF GET, rendering, mobile browser test, or owner UAT.**
+- Potential next engineering QA: Validate server-generated SigV4 URL against R2, expiration, PDF iframe loading and byte-range behavior (larger 11.8 MB Biology PDF), mobile navigation & expanded/restore, close/logout, authorization isolation, initial load and quiz regressions. If any unexpected issue, fix dev only and rerun CI. Do not claim mobile/browser E2E performed until actually tested.
+
+## 5. Current only blocking actions: Cloudflare R2 S3 credentials + Vercel Preview secrets
+**User must perform two short secure UI operations; assistant handles the rest afterward.** The current Cloudflare connector has R2 Storage Write, NOT token-management scope; giving broad/full Cloudflare access to ChatGPT is not required and does not fix local-file transfer restrictions. Because the API credential secret is sensitive, the user should type it into Vercel directly rather than sending in chat.
+
+**Action A — Cloudflare**
+1. Cloudflare Dashboard → R2 Object Storage → R2 Overview → under Account Details find **API Tokens** and click **Manage**.
+2. **Create Account API token** (prefer purpose-limited long-lived account token; alternatively User API token if needed).
+3. Name `SJN MedNest LMS - Staging PDF Reader`.
+4. Permissions **Object Read**, restrict to **only** bucket `sjn-mednest-academy-resources`; do not grant Object Write/Admin/DNS/other access. Choose an expiration policy that suits staging use (avoid abrupt expiry for testing; rotate later).
+5. Create. Copy **Access Key ID** and **Secret Access Key** securely (secret shown at creation). **Do not paste secrets into ChatGPT, GitHub, screenshot, or frontend.**
+
+Official docs: https://developers.cloudflare.com/r2/api/tokens/
+
+**Action B — Vercel**
+1. Vercel Dashboard → team **sjn1** → project `sjn-mdcat-lms` → Settings → Environment Variables.
+2. Add `R2_ACCESS_KEY_ID` = Cloudflare Access Key ID; `R2_SECRET_ACCESS_KEY` = Cloudflare Secret Access Key.
+3. Target **Preview only**, restrict each to Git branch `sjn-phase1a-foundation`; use secure/sensitive or encrypted storage. NOT Production, no `NEXT_PUBLIC_` or client-side prefix. `R2_ACCOUNT_ID` and `R2_BUCKET_NAME` already exist; do not duplicate.
+4. Save changes. **Redeploy the staging preview** so new variables are active. Do not deploy/change production.
+5. User confirms **“Credentials configured”**, or shares a screenshot **with secret values hidden** if stuck.
+
+## 6. Assistant's next actions after credential confirmation
+1. Read (not decrypt) Vercel preview environment variable **names, targets, branch**; verify both new keys set in Preview. If needed, request/trigger a staging redeployment (not production).
+2. Validate secure authenticated `GET /api/academy-resources` behavior and a legitimate published PDF open. Current files unpublished; for a controlled end-to-end test publish **one** resource first, verify authorized viewer, then publish other two. Never expose bucket publicly to bypass auth; do not disclose signed URLs.
+3. Check R2 keys/size match table; test 2-page Physics, 5-page Biotech, 18-page image-heavy Biology PDF, normal & expanded desktop/mobile, security, cross-user session, logout cleanup, unrelated Create Test/History/Courses.
+4. Record actual test results and limitations in this file and Master Plan. Ask owner to perform signed-in desktop/mobile UAT before declaring accepted.
+5. Admin Panel (folder creation/upload/delete/visibility) is FUTURE work. No video hosting, no auto loading unrelated resources.
+
+## 7. How to continue in another chat
+Ask: **“Continue SJN MedNest LMS Academy Resources staging. Read `docs/ACADEMY-RESOURCES-HANDOVER-2026-11-03.md` on branch `sjn-phase1a-foundation`, then check Vercel preview credentials and resume live PDF viewer verification. Do not change production or the exam system.”**
+
+The current conversation may be closed; this handover is the cross-chat checkpoint. Never depend on conversation memory alone.
