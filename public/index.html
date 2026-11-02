@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/sjn-history.css">
   <link rel="stylesheet" href="/sjn-pastpapers.css?v=20261031-balochistan-b39434">
   <link rel="stylesheet" href="/sjn-courses.css?v=20261102-full-schedule">
+  <link rel="stylesheet" href="/sjn-academy-resources.css?v=20261103-a">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
@@ -885,12 +886,12 @@
         <div class="bg-sjn-card rounded-2xl border border-sjn-border p-6 space-y-5">
           <div>
             <span class="text-xs font-bold text-yellow-400 uppercase tracking-wider">Study Resources</span>
-            <h2 class="text-xl font-bold text-white flex items-center gap-2">⚡ Academy Study Resources</h2>
-            <p class="text-xs text-gray-400 mt-1">Add PDFs in the code/content folder and students can open and study them directly inside the LMS.</p>
+            <h2 class="sjn-r-head">Academy Resources</h2>
+            <p class="text-xs text-gray-400 mt-1">Browse academy folders and read published PDFs directly inside the LMS.</p>
           </div>
-          <div class="grid grid-cols-1 lg:grid-cols-[minmax(220px,0.8fr)_minmax(0,1.7fr)] gap-4 min-h-[620px]">
-            <div id="resources-container" class="space-y-2 bg-zinc-950/40 rounded-xl border border-sjn-border p-3 overflow-y-auto max-h-[700px]"></div>
-            <div id="resource-viewer" class="bg-zinc-950/50 rounded-xl border border-sjn-border overflow-hidden">
+          <div class="sjn-r-library">
+            <div id="resources-container"></div>
+            <div id="resource-viewer">
               <div class="h-full min-h-[580px] flex items-center justify-center text-center text-gray-500 p-5">
                 <div><i class="fa-solid fa-file-pdf text-4xl mb-3"></i><p class="text-sm">Select a resource to open it here.</p></div>
               </div>
@@ -1164,6 +1165,7 @@
       if (modName === 'courses' && typeof window.SJNCoursesPreview?.refresh === 'function') {
         void window.SJNCoursesPreview.refresh();
       }
+      if (modName === 'resources') void window.SJNResources?.enter();
       if (modName === 'history' && typeof window.reloadStudentHistory === 'function') {
         void window.reloadStudentHistory();
       }
@@ -2159,6 +2161,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       return refreshPromise;
     }
 
+    window.SJNResourcesBridge = {load:(path)=>api(path),userId:()=>currentUser?.id||null};
     async function api(path, options = {}) {
       const headers = { ...(options.headers || {}) };
       const body = options.body && typeof options.body !== 'string'
@@ -2535,13 +2538,13 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         mcqQuestionBank = rows;
         customCourses = Array.isArray(data.courses) ? data.courses : [];
         pastPapersList = Array.isArray(data.pastPapers) ? data.pastPapers : [];
-        window.sjnResources = Array.isArray(data.resources) ? data.resources : [];
+        // Academy Resources are fetched only when their module is opened.
         wizardSelection.bank = 'Past Papers Question Bank';
         wizardSelection.selectedSubjects = getAvailableSubjects();
         wizardSelection.subject = wizardSelection.selectedSubjects.length === 1 ? wizardSelection.selectedSubjects[0] : 'All Subjects';
         remoteContentLoaded = true;
         setQuestionBankLoadNotice(false);
-        renderCoursesModule(); renderPastPapersModule(); renderResourcesModule(); renderSubjectChoices(); updateWizardAvailableCount();
+        renderCoursesModule(); renderPastPapersModule(); renderSubjectChoices(); updateWizardAvailableCount();
         // The exam route waits for authenticated identity and validated content.
         if (window.location.pathname === '/quiz/session') await window.SJNExamRecovery?.restore();
       } catch (error) {
@@ -2677,14 +2680,6 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       paperSourceFilter=source; wizardSelection.bank='Past Papers Question Bank'; wizardSelection.scope='all-subjects'; wizardSelection.selectedSubjects=getAvailableSubjects(); wizardSelection.selectedChapters=['All Chapters']; wizardSelection.selectedTopics=[]; wizardSelection.mcqCount=Math.min(20, getFilteredQuestionPool().length || 1); wizardSelection.currentStepNum=4; switchModule('wizard'); setWizardStep(4); updateWizardAvailableCount(); updateSummaryBox();
     };
 
-
-    window.renderResourcesModule = function() {
-      const list=document.getElementById('resources-container'); if(!list) return; const resources=window.sjnResources||[]; list.innerHTML='';
-      if(!resources.length){list.innerHTML='<div class="p-5 text-center text-xs text-gray-500">No study resources have been published yet.</div>'; return;}
-      resources.forEach((r,i)=>{const b=document.createElement('button'); b.className='w-full text-left p-4 rounded-xl border border-sjn-border bg-zinc-900 hover:border-yellow-500 transition-all'; b.innerHTML=`<div class="font-bold text-white text-sm">${escapeHtml(r.title)}</div><div class="text-[11px] text-gray-500 mt-1">${escapeHtml(r.description||'PDF / Study Material')}</div>`; b.onclick=()=>openResource(r.id||i); list.appendChild(b);});
-      openResource(selectedResourceId||resources[0].id||0);
-    };
-    function openResource(id){const r=(window.sjnResources||[]).find((x,i)=>String(x.id??i)===String(id)) || (window.sjnResources||[])[0]; if(!r)return; selectedResourceId=r.id; const viewer=document.getElementById('resource-viewer'); const safe=escapeHtml(r.url); if((r.type||'pdf').toLowerCase()==='pdf') viewer.innerHTML=`<iframe src="${safe}" class="w-full h-[680px] bg-white"></iframe>`; else viewer.innerHTML=`<div class="p-6"><h3 class="text-xl font-black text-white">${escapeHtml(r.title)}</h3><p class="text-sm text-gray-400 mt-2">${escapeHtml(r.description||'')}</p><a href="${safe}" target="_blank" rel="noopener" class="inline-block mt-5 px-4 py-2 bg-yellow-600 rounded-lg text-white text-xs font-bold">Open Resource</a></div>`;}
 
     window.getFilteredQuestionPool = function() {
       const selectedSubjects = wizardSelection.selectedSubjects?.length ? wizardSelection.selectedSubjects : getAvailableSubjects();
@@ -3120,6 +3115,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     
    // Student data is loaded from the authenticated API, never shared browser storage.
   </script>
+  <script src="/sjn-academy-resources.js?v=20261103-a"></script>
   <script src="/sjn-pastpapers.js"></script>
   <script src="/sjn-genome-schedule.js?v=20261102-full-schedule"></script>
   <script src="/sjn-courses.js?v=20261102-full-schedule"></script>
