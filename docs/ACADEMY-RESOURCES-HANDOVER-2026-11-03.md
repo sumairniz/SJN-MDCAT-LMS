@@ -1,3 +1,22 @@
+# 2026-11-03 — APPROVED continuous reader upgrade (current)
+
+**User approved implementation**, including these refinements:
+- Move "DIGITAL LIBRARY" with its layer icon to the yellow eyebrow above Academy Resources; remove previous "STUDY RESOURCES" and duplicate Digital Library label in folder panel.
+- Eliminate desktop permanent side PDF viewer and its empty placeholder. Show full-width modern collection/PDF cards. Selecting a PDF opens a **centered modal reader** against a dim backdrop, with Expand/Restore and Close.
+- Add desktop visible page number field, previous/next buttons, percentage input, Zoom In/Out and Fit, keyboard page navigation, Ctrl+mouse-wheel zoom. Keep scrolling natural.
+- Android/mobile compact full-viewport reader, manual zoom shown as a percentage, touch pinch-to-zoom, and **continuous vertical scrolling** (Google Drive-like), NOT horizontal swipe-based page flips: intermediate scroll positions can display parts of adjacent pages. Page field still allows jumps.
+- Maintain private Cloudflare R2 signed links and authenticated metadata, lazy resource loading, hidden visible download buttons (NOT DRM), no changes to Supabase data or exam/history/course APIs.
+
+**Staging code:** `public/sjn-academy-resources.js` now shares a PDF.js canvas-based renderer for both desktop and mobile, creates a page stack with viewport-near rendering and distant-canvas cleanup, modal PDF toolbar, zoom and keyboard controls; `public/sjn-academy-resources.css` adds full-width catalog/centered desktop modal/fullscreen mobile reader; `public/index.html` moves eyebrow and refreshes JS/CSS asset versions; `tests/academy-resources.test.js` updated for continuous rendering. Current base developer source prior to docs commit: `424b60c8f28ac123b9467f598773f2a5922aa004`. **CI and user UAT are not yet assumed pass** until explicitly verified. Keep production unchanged.
+
+**Important performance caveat:** desktop previously used fast browser-native PDF iframe, now a custom PDF.js renderer is used for page/zoom control and seamless scroll. This changes loading behavior; check the large 11.8 MB Biology file and desktop opening speed (owner values speed highly). No need to preload resources on other modules. PDF.js is lazy-imported only when a file is opened. Mobile multi-page rendering requires testing on actual Android browser. Rendering pages on demand with canvas reuse should cap memory, but must confirm performance and navigation.
+
+**Requested QA (owner acceptance):** desktop catalog/collection cards, popup dimensions and dim background, Expand/Restore/Close, page number direct navigation, zoom percentage and ctrl-wheel, continuous scroll halfway between pages; Android browse/reader full width and height, pinch/scroll, long PDF, exit to Files, browser back, landscape. Check no visible Download action; students may still save via developer tools/screenshots. Full regression: no changes to MCQ, Course, Past Papers, History and Mumbai `bom1`/Supabase `ap-south-1`.
+
+**Next chat:** Continue SJN MedNest Academy, open this document first on `sjn-phase1a-foundation`, inspect latest CI/deployment and perform UAT fixes. All requested changes in this section were owner-approved; new scope changes require new approval.
+
+---
+
 > **2026-11-03 card-redesign QA:** Latest implementation commit `2a6462b4acbb3aec08ac4f1961fb16bbc5b0be47` passed both Foundation Checks GitHub Actions runs. Vercel Preview build of this SHA is READY (`sjn-mdcat-o3q83l0nn-sjn1.vercel.app`). Interactive collection and PDF cards and flat mobile shell are implemented; **user visual and Android UAT remain pending**. No production changes; older notes below are history. Desktop zoom gestures and mobile pinch/swipe remain separately pending approval.
 
 # 2026-11-03 — NEW APPROVED Academy Resources card redesign (current)
