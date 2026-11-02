@@ -1,3 +1,21 @@
+# 2026-11-03 — NEW APPROVED Academy Resources card redesign (current)
+
+**Latest approval:** User explicitly authorized implementation of modern, attractive, interactive **LMS-style collection cards** modeled on the interaction quality of existing My Courses and Past Papers cards, plus similarly interactive PDF resource cards. Plain file-manager folder styling was rejected. User emphasized no interference with core LMS features. This supersedes the prior UNAPPROVED designation for **card styling and flattening** below; the historical section remains for context.
+
+**Implemented on dev branch `sjn-phase1a-foundation`:**
+- `public/sjn-academy-resources.js`: replaces basic folder/list rows with semantic `button` collection tiles and PDF tiles, folder names/counts, visual categories, hover/active/focus states, Read/Explore actions. Same existing authenticated metadata and PDF-open endpoints, IDs, hierarchical folder logic; no new data fields are required.
+- `public/sjn-academy-resources.css`: per-card subtle accent treatments, decorative geometry, two-column desktop tiles where space allows, one-column mobile cards, no extra nested outer/page cards on mobile, compact library heading and improved reader width. Keeps desktop two-column reader split and existing browser/PDF.js display logic.
+- `tests/academy-resources.test.js`: regression assertions for new card surfaces and module isolation. Run GitHub CI for current head and owner desktop/Android UAT after deployment.
+- No Supabase schema/data edits, R2 bucket/permission changes, Vercel settings changes, server APIs, test engine, history, courses, or Past Papers edits. Only Academy Resources front-end and its tests.
+
+**Preserve:** fast native desktop PDF + Expand/Restore, Android PDF.js canvas reader and actual open, private R2 signed URLs and no visible download buttons, Mumbai `bom1`, lazy loading unrelated to exams.
+
+**Still pending approval / NOT part of this UI card implementation:** Android pinch-to-zoom, swipe page/drag gestures; visible desktop mouse/Zoom/Fit controls; larger immersive reader toolbar architecture. Prior discussion recorded as requests, but latest approval specifically covered card design and flattening. Await separate owner sign-off after testing. Do not claim completed or quietly implement.
+
+**Review:** confirm mobile collection cards fill width, no nested box waste; selected folder header on desktop remains, PDFs are obvious interactive cards; test all three PDFs plus desktop/mobile Expand, Files/back, core exam history. Production branch remains untouched. Design is not owner accepted until screenshots/UAT.
+
+---
+
 # CURRENT CHECKPOINT — Academy Resources (2026-11-03; design review only)
 
 **Read this section first in a new chat.** It supersedes older setup/blocker status notes below. The **latest user message authorizes DOCUMENTATION UPDATES ONLY**. There is **NO APPROVAL** to implement the next UI/UX redesign, change CSS/JS, add gestures, modify Cloudflare/Supabase/Vercel, or deploy. Ask for explicit approval before implementation. User rejected the prior AI-generated image as an unnecessary preview; use ordinary chat mockups/wireframes and direct explanations if proposing another design, not an image.
