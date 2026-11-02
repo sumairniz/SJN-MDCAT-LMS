@@ -2193,6 +2193,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       document.getElementById('session-guard').classList.remove('hidden');
     }
     function coverPrivateWorkspace() {
+      window.SJNResources?.reset();
       window.SJNPracticeFilters?.resetSession();
       wizardQuestionFiltersActive = false;
       coverWorkspaceOverlay();
