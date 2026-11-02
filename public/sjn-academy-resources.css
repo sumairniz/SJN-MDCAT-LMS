@@ -1,0 +1,22 @@
+#module-resources .sjn-r-head{font-size:clamp(26px,3vw,34px);font-weight:850;line-height:1.2;color:#fff}
+#module-resources .sjn-r-library{display:grid;grid-template-columns:minmax(230px,0.8fr) minmax(0,1.7fr);gap:16px;min-height:600px}
+#module-resources #resources-container,#module-resources #resource-viewer{min-width:0;background:#111114;border:1px solid #35353b;border-radius:13px;overflow:hidden}
+#module-resources #resources-container{padding:12px;max-height:75vh;overflow-y:auto}
+#module-resources .sjn-r-toolbar{padding:12px;display:flex;justify-content:space-between;color:#eee;border-bottom:1px solid #34343a}
+#module-resources .sjn-r-toolbar span{font-size:11px;color:#9292a2}
+#module-resources .sjn-r-row{display:flex;width:100%;align-items:center;gap:10px;padding:12px 10px;border:1px solid transparent;border-radius:9px;text-align:left;color:#e5e5e7;font-size:13px;cursor:pointer;background:transparent}
+#module-resources .sjn-r-row:hover,#module-resources .sjn-r-row.is-active{background:#282326;border-color:#753f43}
+#module-resources .sjn-r-arrow{margin-left:auto;color:#aaa}
+#module-resources .sjn-r-row small{margin-left:auto;color:#aaa}
+#module-resources .sjn-r-note{padding:20px 10px;color:#9697a5;font-size:13px}
+#module-resources .sjn-r-placeholder{min-height:550px;display:flex;justify-content:center;align-items:center;flex-direction:column;gap:10px;color:#a5a5b3;text-align:center;padding:20px}
+#module-resources .sjn-r-placeholder span{font-size:38px}
+#module-resources .sjn-r-placeholder strong{color:#eee}
+#module-resources .sjn-r-placeholder p{font-size:12px}
+#module-resources .sjn-r-viewer-bar{padding:11px 15px;display:flex;gap:12px;justify-content:space-between;align-items:center;color:white;font-size:12px}
+#module-resources .sjn-r-viewer-bar div{display:flex;gap:8px}
+#module-resources .sjn-r-viewer-bar button{border:1px solid #555;border-radius:7px;padding:6px 10px}
+#module-resources .sjn-r-frame{width:100%;height:min(72vh,820px);background:white;border:0}
+#module-resources.sjn-r-expanded #resource-viewer{position:fixed;z-index:1000;inset:10px;background:#111114;display:flex;flex-direction:column}
+#module-resources.sjn-r-expanded .sjn-r-frame{height:auto;flex:1}
+@media(max-width:767px){#module-resources .sjn-r-library{grid-template-columns:minmax(0,1fr)}#module-resources #resources-container{max-height:38vh;min-height:100px}#module-resources .sjn-r-placeholder{min-height:260px}#module-resources .sjn-r-frame{height:70vh}#module-resources.sjn-r-expanded #resource-viewer{inset:0}}
