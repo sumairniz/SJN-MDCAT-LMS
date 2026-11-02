@@ -7,6 +7,7 @@ const { validatePracticeSubmission } = require('./lib/practice-submission');
 const { validateDraft, UUID: DRAFT_UUID } = require('./lib/practice-drafts');
 const { buildQuestionStatus } = require('./lib/practice-question-status');
 const { readAllPublishedMcqs } = require('./lib/paginated-content');
+const { registerAcademyResourceRoutes } = require('./lib/academy-resources');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -172,11 +173,10 @@ app.get('/api/preview-status', async (req, res) => {
 // Fetch content from persistent Supabase tables
 app.get('/api/content', async (req, res) => {
   try {
-    const [mcqs, { data: courses }, { data: pastPapers }, { data: resources }] = await Promise.all([
+    const [mcqs, { data: courses }, { data: pastPapers }] = await Promise.all([
       readAllPublishedMcqs(supabase),
       supabase.from('courses').select('*').order('id'),
-      supabase.from('past_papers').select('*').order('year', { ascending: false }),
-      supabase.from('resources').select('*').order('id', { ascending: false })
+      supabase.from('past_papers').select('*').order('year', { ascending: false })
     ]);
 
     // Do not convert a Supabase error to an apparently valid empty bank,
@@ -191,13 +191,15 @@ app.get('/api/content', async (req, res) => {
       banks: [...new Set(mcqs.map(q => q.bank))],
       mcqs: mcqs.map(publicMcq),
       courses: (courses || []).map(r => ({ ...r, chapters: r.chapters_json || [] })),
-      pastPapers: (pastPapers || []).map(r => ({ ...r, mcqIds: r.mcq_ids_json || [] })),
-      resources: resources || []
+      pastPapers: (pastPapers || []).map(r => ({ ...r, mcqIds: r.mcq_ids_json || [] }))
     });
   } catch (e) {
     res.status(500).json({ error: 'Failed to fetch content from database.' });
   }
 });
+
+// Academy Resources is fetched only on visiting its module. No PDF bytes pass through Vercel.
+registerAcademyResourceRoutes(app, auth);
 
 // --- SUPABASE AUTHENTICATION ENDPOINTS ---
 
