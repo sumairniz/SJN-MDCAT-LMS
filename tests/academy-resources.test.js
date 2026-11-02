@@ -57,3 +57,18 @@ test('Mobile library replaces folder list with an in-page PDF reader and back ac
  assert.match(ui,/stopReader\(\)/);
  assert.match(css,/sjn-r-folder-icon/);
 });
+
+test('Interactive resources use collection and document cards without modifying course or exam APIs',()=>{
+ const css=fs.readFileSync(path.join(root,'public/sjn-academy-resources.css'),'utf8');
+ assert.match(ui,/sjn-r-collection-grid/);
+ assert.match(ui,/sjn-r-document-grid/);
+ assert.match(ui,/sjn-r-resource-card/);
+ assert.match(ui,/data-r-folder/);
+ assert.match(ui,/data-r-file/);
+ assert.match(ui,/data-r-card-type|sjn-r-card-type/);
+ assert.match(css,/sjn-r-resource-card:hover/);
+ assert.match(css,/sjn-r-resource-card:focus-visible/);
+ assert.match(css,/#module-resources>div\.bg-sjn-card\{background:transparent/);
+ assert.match(css,/#module-resources\.sjn-r-reading>div\.bg-sjn-card>div:first-child\{display:none\}/);
+ assert.doesNotMatch(ui,/window\.location\s*=/);
+});
