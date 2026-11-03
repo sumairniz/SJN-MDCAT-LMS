@@ -1,3 +1,20 @@
+# 2026-11-03 — LATEST: Owner-approved mobile-header and large-PDF speed adjustment
+
+**Approval scope:** Owner approved ONLY (1) remove mobile-only redundant Expand button, keep Close at top-right; (2) improve 11.84 MB/image-heavy PDF opening speed without reducing image quality or relaxing private access. Everything else should remain unchanged. A network/chat interruption occurred during the first attempt; an explicit GitHub check showed no partial edits had landed, and work resumed safely.
+
+**Implemented on staging branch `sjn-phase1a-foundation`:**
+- `public/sjn-academy-resources.css`: mobile-only `[data-r-expand]` hidden; mobile Close button sits at the top-right with compact single-row PDF title (truncated when long). Desktop Expand/Restore unchanged.
+- `public/sjn-academy-resources.js`: small PDF objects (less than 1 MiB) retain the existing full-fetch in parallel with PDF.js import. Larger PDFs use PDF.js `getDocument({url, rangeChunkSize:512*1024, disableStream:true, disableRange:false})` to request partial content progressively through the existing private, short-lived, authenticated R2 presigned URL. On range/progressive failure, reader retries existing full-fetch path. Status text reports preparation/loading and first-page rendering. **No PDF compression or file reupload**, so no reduction in image/text quality; rendering remains lazy near the viewport.
+- Cloudflare **private** bucket CORS rule `Academy staging PDF reader` updated ONLY to add `Range` in allowed request headers and expose `Content-Range`, `Content-Length` and `Accept-Ranges` for the exact staging branch origin. GET/HEAD only; public bucket access unchanged.
+- `tests/academy-resources.test.js` extended with regression coverage for both fixes; `public/index.html` static asset versions bumped for reliable browser refresh.
+- No MCQ engine, Test History, Courses, Past Papers, Supabase data, R2 objects, main auth, or production edits.
+
+**Important UAT:** Test 11.84 MB Biology One-Pagers on Android/mobile network and desktop, including first-page time and scrolling through later pages. PDF.js partial loading depends on source PDF layout, browser, CORS, and availability; performance improvement is a *goal* and not guaranteed for all PDFs, especially non-linearized image-heavy files. Confirm small Physics and Biotechnology PDFs still open as quickly as before. Test only one Close in upper-right on mobile, desktop Expand/Restore unchanged. The R2 signed URL lasts 180 seconds; very slow/reopened downstream requests may require future token refresh architecture (NOT changed here). Collect actual loading times/device results before claiming speed success. Previous working continuous scroll, pinch-to-zoom and card design preserved.
+
+**Status:** Changes committed; GitHub Actions runs for updated code already succeeded; last static-version bump / docs commit deployment and tests must be inspected before final acceptance. User visual UAT pending. Read this section first in Chat 7. Changes outside these two items require fresh user approval.
+
+---
+
 # 2026-11-03 — APPROVED continuous reader upgrade (current)
 
 **User approved implementation**, including these refinements:
