@@ -63,7 +63,7 @@ async function submit(){
   if(owner!==uid||ticket!==generation)return;
   const answer=String(data.answer||'').trim();
   if(!answer)throw Error('No answer returned.');
-  reply.update(answer);
+  reply.update(answer+(data.incomplete?'\n\n'+(data.note||'This answer may be incomplete. Ask “continue” to finish.') : ''));
   turns.push({role:'user',text:prompt},{role:'model',text:answer.slice(0,3200)});
   turns=turns.slice(-8);
   announcement('SJN AI Tutor is ready for another question.','ready');
