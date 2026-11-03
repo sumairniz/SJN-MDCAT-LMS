@@ -76,3 +76,20 @@ test('Interactive resources use collection and document cards without modifying 
  assert.match(css,/#module-resources\.sjn-r-reading>div\.bg-sjn-card>div:first-child\{display:none\}/);
  assert.doesNotMatch(ui,/window\.location\s*=/);
 });
+
+test('Large PDFs use progressive ranged PDF.js loading while small PDFs retain fast fetch path',()=>{
+ assert.match(ui,/Number\(file\.size_bytes\)>=1024\*1024/);
+ assert.match(ui,/rangeChunkSize:512\*1024/);
+ assert.match(ui,/disableStream:true/);
+ assert.match(ui,/disableRange:false/);
+ assert.match(ui,/pdfTask=lib\.getDocument\(\{data:bytes\}\)/);
+ assert.match(ui,/Retrying document loading/);
+ assert.match(ui,/Rendering first page/);
+});
+test('Mobile hides redundant Expand button and keeps Close at upper-right',()=>{
+ const css=fs.readFileSync(path.join(root,'public/sjn-academy-resources.css'),'utf8');
+ assert.match(css,/#module-resources\.sjn-r-reading \.sjn-r-viewer-actions \[data-r-expand\]\{display:none!important\}/);
+ assert.match(css,/#module-resources\.sjn-r-reading \.sjn-r-viewer-actions \[data-r-close\]/);
+ assert.match(css,/min-height:40px/);
+ assert.match(ui,/data-r-close/);
+});
