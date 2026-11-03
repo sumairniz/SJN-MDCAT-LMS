@@ -1,3 +1,22 @@
+# 2026-11-03 — CURRENT CHECKPOINT: approved loading and repeated page-render fix
+
+**Owner approved this performance-only change** after reporting large image-heavy PDF loading taking 2–3 minutes, no benefit from previous ranged loading, and later PDF pages showing another separate loading delay after page 1. Do not alter accepted mobile header, desktop modal/expand, continuous scrolling, cards, pinch zoom, other LMS modules, or Production. This section supersedes the earlier large-PDF "range optimized" notes below.
+
+**Diagnosed from source:** The previous large PDF path used PDF.js `rangeChunkSize:512*1024`, `disableStream:true`, `disableAutoFetch:false`, permitting many network requests and, on errors, potentially a second full-object GET. Separately `pruneCanvas()` discarded canvases more than two viewport heights away *on every scroll*, forcing the browser to rerasterize when revisiting earlier pages. Rendering is one canvas/page and browser/phone memory must remain bounded. This was confirmed from source, not by measured device timings.
+
+**Changes made:**
+- `public/sjn-academy-resources.js`: large files (>=1 MiB) now use one PDF.js streaming GET (`disableRange:true`, `disableStream:false`) through the *existing* private R2 signed URL instead of 512 KiB range downloads and full-GET fallback. Removes percent indicator; loading status is simple. Small PDFs keep previous existing full-GET path, with PDF.js library import started in parallel.
+- Rendering cache keeps up to 7 mobile or 11 desktop *recent page canvases*, preferentially retaining visible/nearby pages to avoid repeated work on minor backward scrolling, evicting distant pages only after exceeding budget. The PDF document itself remains open while reading. Multiple pages are still rendered on demand; far-away pages may legitimately take time when first visited.
+- Stop infinite rerender loops on an individual page render error. Make render queue recover if zoom cancels an older render task. Warm PDF.js library **only after student enters Academy Resources**, not when visiting Dashboard, exam modules, history or courses.
+- `tests/academy-resources.test.js` covers single streaming download, bounded canvas cache, queue recovery, and mobile Close header. `public/index.html` asset versions bumped to `20261103-stream-v6` so Preview reloads new JS.
+- No PDF source object was changed, compressed, publicly exposed, or re-uploaded. The previous restricted Cloudflare R2 CORS entry remains in place (GET/HEAD scoped to staging). No changes to Supabase, Vercel env vars, server auth, or production.
+
+**Caveats and user acceptance:** The speed gain is *not yet confirmed* on a real phone or network. An unlinearized/image-heavy PDF may still need large portions of its data before first render; network bandwidth, PDF structure, and browser memory remain limiting. A streaming GET may be better or worse depending on file layout. User must test the 11.84 MB Biology One-Pagers and smaller Physics/Biotechnology files, compare first-page time, scroll through multiple pages and backwards, see whether double-loading persists, verify desktop/mob loading and old PDF controls. If still unacceptable, next investigation should consider a losslessly linearized/web-optimized R2 derivative and first-page streaming, but require measured evidence and compatibility testing before replacing any objects.
+
+**Staging:** repo `sumairniz/SJN-MDCAT-LMS`, dev branch `sjn-phase1a-foundation`, Preview alias `https://sjn-mdcat-lms-git-sjn-phase1a-foundation-sjn1.vercel.app`. Check latest GitHub Actions and Vercel deployment status before calling ready. Owner must review actual Android/desktop UX. Production and core exam features untouched.
+
+---
+
 # 2026-11-03 — LATEST: Owner-approved mobile-header and large-PDF speed adjustment
 
 **Approval scope:** Owner approved ONLY (1) remove mobile-only redundant Expand button, keep Close at top-right; (2) improve 11.84 MB/image-heavy PDF opening speed without reducing image quality or relaxing private access. Everything else should remain unchanged. A network/chat interruption occurred during the first attempt; an explicit GitHub check showed no partial edits had landed, and work resumed safely.
