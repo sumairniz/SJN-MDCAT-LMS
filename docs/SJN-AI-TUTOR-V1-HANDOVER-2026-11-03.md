@@ -1,3 +1,19 @@
+# 2026-11-03 — LATEST: AI TUTOR ANSWER FORMATTING & RESPONSE-LENGTH REPAIR
+
+**Scope:** Owner requested previously identified answer formatting and response length issues fixed, after the Gemini reliability repair. Keep the tutor's authentic academy personality and tactful ownership answers; delay larger purple UI/design discussion.
+
+**Preview branch only:** sjn-phase1a-foundation. No production, other LMS modules, Supabase tables or Cloudflare changes.
+
+- New public/sjn-ai-format.js: tutor-only structured output rendering via safe DOM nodes; Markdown headings, paragraphs, bold, italics, ordered/unordered lists, quotes, code and horizontal rules. Math delimiters $...$, $$...$$, backslash-parentheses and backslash-brackets supported. Does not interpret AI-provided HTML.
+- Math uses lazy KaTeX v0.18.4 loaded only when needed, from pinned jsDelivr CDN with published subresource integrity and trust:false. Plain readable fallback when CDN is unavailable. Full math appearance depends on external fonts/CSS and connectivity.
+- public/sjn-ai-tutor.js renders AI answers with formatter, leaves student questions as text; displays an explicit incomplete-answer/continue notice when backend signals unfinished response.
+- public/sjn-ai-tutor.css adds scoped typography; public/index.html loads renderer before chat with cache-busting. Existing purple layout stays otherwise unchanged.
+- lib/ai-tutor.js retains personality but asks the model to match length to user intent. Dynamic output tokens: 350 for a brief greeting, 750 for short factual question, 1400 default, 2400 for explicit worked numerical/detail. It checks Gemini MAX_TOKENS and flags incomplete answers, with a max display cap of 18,000 chars instead of silently cutting at 9,000.
+- tests/ai-tutor-format.test.js covers safe output rendering, headings/lists/math, dynamic length and incomplete marking. Existing CI/release checks and previous isolated AI tests still required.
+
+**User acceptance still required:** After deployment, test simple greeting (short), Newton numerical (typeset equation), multi-part explanation (complete), mobile layout, occasional Gemini overload errors. Note even with these safeguards model quality and external free quota cannot be guaranteed. Raw Markdown and broken LaTeX were fixed structurally but real-device/browser rendering must be checked. UI/theme redesign is not approved now.
+
+---
 # 2026-11-03 — LATEST: AI TUTOR RELIABILITY FIX (OWNER-APPROVED)
 
 **Owner preference:** Existing SJN AI Tutor response personality was praised, specifically neutral academy discussion, natural first-person academy membership, and tactful/non-disclosing ownership response. **Preserve those behaviours**; do not introduce rigid ownership denials or disclose owner identities. Purple UI is not accepted as final, but **UI redesign is postponed until AI reliability is settled**. No changes to UI, Academy Resources, Courses, exam/test/history or Production authorized as part of this fix.
