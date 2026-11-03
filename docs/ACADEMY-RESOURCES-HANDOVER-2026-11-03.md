@@ -1,3 +1,23 @@
+# 2026-11-03 — ACADEMY RESOURCES STAGE CLOSED / ACCEPTED FOR NOW
+
+**Owner decision (LATEST — read first):** The owner reviewed the latest Academy Resources UI and PDF performance repairs, reports that the overall feature now seems satisfactory, and explicitly requests **FINALIZE THIS FEATURE and move to the next feature**. The owner's network is currently unusually slow, so real-world PDF loading speed is **NOT conclusively validated**. Owner will independently repeat the speed test when internet is faster (e.g., at night) and report back. Treat this as **development milestone accepted/closed with ONE deferred network-dependent performance UAT check**, not as confirmation of a specific loading time or that the feature has been promoted to Production. No further modifications are authorized now.
+
+**Accepted staging scope:**
+- Modern full-width interactive LMS-style folder/collection and PDF cards; Digital Library top label; two user-named folders, three private R2 PDFs.
+- Desktop centered PDF modal with dimmed background, Expand/Restore, continuous vertical scrolling, page navigation, zoom/percentage, and fit.
+- Mobile full-screen PDF reader with compact Close control (no redundant Expand), continuous vertical scrolling rather than page-snapping, pinch zoom, navigation, zoom percentage.
+- Private R2 storage and authenticated signed URLs, restricted Cloudflare CORS; original PDF quality preserved.
+- Most recent performance repair: large PDFs use a single streaming request instead of many small range calls; bounded cache of recently rendered pages avoids unnecessary re-rendering when scrolling back; PDF.js warms only upon entering Academy Resources, not on other LMS modules; no loading percentage.
+- GitHub automated checks and latest Vercel Preview build were reported passing/READY after the repair; user confirms design and core reading behavior look satisfactory.
+
+**ONLY OPEN FOLLOW-UP — not blocking feature closure:** When the owner's connection becomes normal, retest the ~11.84 MB Biology One-Pagers PDF on Android and desktop: (a) elapsed time until first readable page, (b) time/behavior scrolling forward to page 2+, (c) backward scrolling should not reload nearby already-viewed pages, (d) compare smaller Physics Syllabus and Biotechnology PDFs. Do not claim measured speed improvement until this is verified. If poor performance persists under stable network conditions, reopen *only the PDF performance subtask* with the owner's approval; investigate with timing and consider PDF web-linearization/serving strategy, keeping private access and PDF quality.
+
+**Guardrails:** Close Academy Resources stage **only on dev branch** `sjn-phase1a-foundation`; **do not merge/promote to Production, alter R2 objects, or change code** as part of documentation finalization. Preserve Mumbai deployment/location, examination engine, test history, Supabase, courses, Past Papers, performance and security boundaries. All further code changes require explicit owner approval.
+
+**Next chat workflow:** First read this section and the top of `docs/SJN-LMS-MASTER-DEVELOPMENT-PLAN.md`. Academy Resources is accepted/closed for current staging phase, with a deferred internet-speed UAT. Ask owner which **next feature** to discuss; do not reopen Academy Resources or start implementing an unspecified next feature on your own. Branding discussion uses **SJN MedNest Academy / SJN MedNest LMS Pro** (legacy interface text remains until separate branding approval).
+
+---
+
 # 2026-11-03 — CURRENT CHECKPOINT: approved loading and repeated page-render fix
 
 **Owner approved this performance-only change** after reporting large image-heavy PDF loading taking 2–3 minutes, no benefit from previous ranged loading, and later PDF pages showing another separate loading delay after page 1. Do not alter accepted mobile header, desktop modal/expand, continuous scrolling, cards, pinch zoom, other LMS modules, or Production. This section supersedes the earlier large-PDF "range optimized" notes below.
