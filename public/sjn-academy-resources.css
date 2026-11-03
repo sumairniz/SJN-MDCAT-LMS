@@ -182,3 +182,13 @@ body.sjn-r-lock{overflow:hidden}
  #module-resources .sjn-r-page-slot{margin-bottom:7px}
  #module-resources .sjn-r-tool-separator{height:21px}
 }
+
+/* Mobile PDF viewer is already fullscreen: keep Close in the top-right and hide redundant Expand. */
+@media(max-width:767px){
+ #module-resources.sjn-r-reading .sjn-r-viewer-actions{margin-left:auto;width:auto;justify-content:flex-end;align-items:center}
+ #module-resources.sjn-r-reading .sjn-r-viewer-actions [data-r-expand]{display:none!important}
+ #module-resources.sjn-r-reading .sjn-r-viewer-actions [data-r-close]{display:grid;place-items:center;min-width:40px;min-height:40px;margin-left:auto}
+ #module-resources.sjn-r-reading .sjn-r-viewer-bar{flex-wrap:nowrap;align-items:center;gap:10px}
+ #module-resources.sjn-r-reading .sjn-r-reader-label{width:auto;flex:1 1 auto;min-width:0}
+ #module-resources.sjn-r-reading .sjn-r-reader-label strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
