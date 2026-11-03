@@ -41,7 +41,9 @@ test('every dashboard auth redirect, including cross-tab login/logout, uses shar
   assert.ok(index.indexOf('src="/sjn-preview-auth-route.js"') < index.indexOf('let mcqQuestionBank ='));
   assert.ok(landing.indexOf('src="/sjn-preview-auth-route.js"') < landing.indexOf('const SJN_AUTH ='));
   const redirects = [...index.matchAll(/window\.location\.replace\((.+)\)/g)].map(match => match[1]);
-  assert.equal(redirects.length, 14, 'Every redirect must be reviewed when adding an auth path');
+  // The obsolete AI submit handler contained a redundant login redirect; the
+  // replacement tutor uses the existing authenticated API bridge instead.
+  assert.equal(redirects.length, 13, 'Every redirect must be reviewed when adding an auth path');
   assert.ok(redirects.every(line => line.startsWith('SJNPreviewAuthRoute.to(')), 'Unexpected unguarded auth redirect');
   assert.match(index, /SJNPreviewAuthRoute\.to\(type === 'logout'/);
   assert.match(index, /SJNPreviewAuthRoute\.to\(event\.type === 'login'/);
