@@ -305,7 +305,7 @@ async function openFile(id){
   const link=await window.SJNResourcesBridge.load('/academy-resources/'+encodeURIComponent(id)+'/open');
   if(v!==openVersion||uid!==owner||uid!==user())return;
   if(link.previewUrl)beginFirstPagePreview(link.previewUrl,v,uid);
-  // Large PDFs fetch only demanded byte ranges; small files may reuse session bytes.
+  // Large PDFs stream the complete original while an authorized preview shows page one.
   const largePdf=Number(file.size_bytes)>=1024*1024;
   if(Number(file.size_bytes)>50*1024*1024)throw Error('PDF exceeds reader limit');
   async function loadFullBytes(){
@@ -321,16 +321,15 @@ async function openFile(id){
    const lib=await engine();
    if(v!==openVersion||uid!==owner||uid!==user())return;
    if(!viewer.querySelector('.sjn-r-first-preview:not([hidden])'))status('Opening document…');
-   // Demand-driven ranges can reach page 1 without downloading the entire 11-MB PDF.
-   // Unlike the old 512-KB mode, do not auto-fetch unneeded pages.
-   // PDF.js falls back to full retrieval if the server ignores Range requests.
+   // Recorded range-only loading was slower for this non-linearized PDF.
+   // Use the previously more efficient single streaming request for full-page
+   // navigation while the independent private JPEG renders page one early.
    pdfTask=lib.getDocument({
     url:link.url,
     withCredentials:false,
-    disableRange:false,
-    disableStream:true,
-    disableAutoFetch:true,
-    rangeChunkSize:1024*1024
+    disableRange:true,
+    disableStream:false,
+    disableAutoFetch:false
    });
    doc=await pdfTask.promise;
   }else{
