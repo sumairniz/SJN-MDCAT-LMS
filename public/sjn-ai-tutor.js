@@ -22,9 +22,10 @@ function addBubble(role,text,{pending=false}={}){
  const bubble=document.createElement('div');bubble.className='sjn-ai-bubble';
  const name=document.createElement('div');name.className='sjn-ai-message-name';name.textContent=role==='user'?'You':'SJN AI Tutor';
  const body=document.createElement('div');body.className='sjn-ai-message-body';body.textContent=text;
+ if(role==='model'&&!pending&&window.SJNAIFormat)window.SJNAIFormat.render(body,text);
  if(pending){row.classList.add('sjn-ai-pending');body.setAttribute('role','status')}
  bubble.append(name,body);row.append(avatar,bubble);list.append(row);scrollBottom();
- return {row,body,update(value){body.textContent=value;row.classList.remove('sjn-ai-pending');scrollBottom()},remove(){row.remove()}};
+ return {row,body,update(value){body.textContent=value;if(role==='model'&&window.SJNAIFormat)window.SJNAIFormat.render(body,value);row.classList.remove('sjn-ai-pending');scrollBottom()},remove(){row.remove()}};
 }
 function reset(){
  generation++;owner=null;turns=[];loadedStatus=false;
