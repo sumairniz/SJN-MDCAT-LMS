@@ -18,6 +18,8 @@ function rememberSmallPdf(id,bytes){
  while(smallPdfCache.size>4)smallPdfCache.delete(smallPdfCache.keys().next().value);
 }
 let request=null,pdfTask=null,pdfDoc=null,pdfjsPromise=null,openVersion=0;
+// Diagnostics are scoped to Academy Resources and contain timings only.
+let lastOpenTimings=null,activeOpenTimings=null;
 let pageCount=0,currentPage=1,zoomPercent=100,renderEpoch=0,renderBusy=false,task=null,queuedFrame=0;
 let pageRatios=[],baseWidth=0,previousFocus=null,readerLastFocused=null;
 let gesture=null,zoomTimer=0,scrollFrame=0,resizeFrame=0;
@@ -212,6 +214,11 @@ async function drawPage(n,epoch){
   slot.dataset.renderKey=scaleZoom+'';
   slot.querySelector('.sjn-r-page-loading')?.remove();
   status('');
+  if(n===1&&activeOpenTimings&&activeOpenTimings.version===openVersion){
+   activeOpenTimings.realFirstPageMs=Math.round(performance.now()-activeOpenTimings.start);
+   lastOpenTimings=Object.freeze({...activeOpenTimings});
+   activeOpenTimings=null;
+  }
  }catch(err){
   if(epoch===renderEpoch&&err?.name!=='RenderingCancelledException'){
    if(slot?.isConnected){
@@ -280,11 +287,13 @@ async function openFile(id){
  const file=cache?.files.find(x=>x.id===id);if(!file)return;
  previousFocus=document.activeElement;
  stopReader();active=id;expanded=false;
+ activeOpenTimings={version:openVersion,start:performance.now(),fileSizeBytes:Number(file.size_bytes)||0};
  root.classList.remove('sjn-r-expanded');render();readerShell(file);
  const v=openVersion,uid=owner;
  try{
   const link=await window.SJNResourcesBridge.load('/academy-resources/'+encodeURIComponent(id)+'/open');
   if(v!==openVersion||uid!==owner||uid!==user())return;
+  if(activeOpenTimings?.version===v)activeOpenTimings.authorizedMs=Math.round(performance.now()-activeOpenTimings.start);
   // Large PDFs stream the complete original while an authorized preview shows page one.
   const largePdf=Number(file.size_bytes)>=1024*1024;
   if(Number(file.size_bytes)>50*1024*1024)throw Error('PDF exceeds reader limit');
@@ -312,6 +321,7 @@ async function openFile(id){
     disableAutoFetch:false
    });
    doc=await pdfTask.promise;
+   if(activeOpenTimings?.version===v)activeOpenTimings.parsedMs=Math.round(performance.now()-activeOpenTimings.start);
   }else{
    // Still reauthorize on /open; cached bytes never outlive the signed-in user.
    const saved=smallPdfCache.get(id);
@@ -320,6 +330,7 @@ async function openFile(id){
    if(!saved)rememberSmallPdf(id,bytes);
    pdfTask=lib.getDocument({data:bytes});
    doc=await pdfTask.promise;
+   if(activeOpenTimings?.version===v)activeOpenTimings.parsedMs=Math.round(performance.now()-activeOpenTimings.start);
   }
   if(v!==openVersion||uid!==owner||uid!==user()){void doc.destroy();return}
   pdfDoc=doc;pageCount=doc.numPages;currentPage=1;
@@ -332,6 +343,7 @@ async function openFile(id){
  }catch(err){
   if(v!==openVersion||err?.name==='AbortError')return;
   smallPdfCache.delete(id);
+  if(activeOpenTimings?.version===v){activeOpenTimings.failed=true;lastOpenTimings=Object.freeze({...activeOpenTimings});activeOpenTimings=null}
   status('Unable to display this PDF in the reader. Please close and retry.');
  }
 }
@@ -393,6 +405,7 @@ resizeObserver.observe(viewer);
 const moduleObserver=new MutationObserver(()=>{if(root.classList.contains('hidden')&&active)closeReader()});
 moduleObserver.observe(root,{attributes:true,attributeFilter:['class']});
 window.SJNResources={
+ getLastOpenTimings:()=>lastOpenTimings?{...lastOpenTimings}:null,
  async enter(){
   const uid=user();if(!uid)return;
   if(owner!==uid)reset();
