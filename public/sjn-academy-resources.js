@@ -88,12 +88,31 @@ function readerShell(file){
  viewer.setAttribute('aria-modal','true');
  viewer.setAttribute('aria-label','PDF reader: '+file.title);
  viewer.innerHTML=readerHeader(file)+readerToolbar()+
- '<div class="sjn-r-scroll" tabindex="0" aria-label="PDF pages, scroll to read continuously"><div class="sjn-r-pages"></div>'+
+ '<div class="sjn-r-scroll" tabindex="0" aria-label="PDF pages, scroll to read continuously"><div class="sjn-r-pages"></div>'+ 
+ ' <img class="sjn-r-first-preview" alt="First page of this document" referrerpolicy="no-referrer" hidden>'+
  '<div class="sjn-r-pdf-status" role="status">Loading secure document…</div></div>';
  viewer.querySelector('[data-r-close]')?.focus({preventScroll:true});
 }
 function status(msg){
  const el=viewer.querySelector('.sjn-r-pdf-status');if(el){el.hidden=!msg;el.textContent=msg||''}
+}
+// Preview is a temporary private JPEG extracted from the owner's original PDF.
+ // Avoid displaying a blank reader while PDF.js downloads and parses the full file.
+function beginFirstPagePreview(url,version,uid){
+ const img=viewer.querySelector('.sjn-r-first-preview');
+ if(!img||typeof url!=='string'||!url.startsWith('https://'))return;
+ img.onload=()=>{
+  if(version!==openVersion||uid!==owner||uid!==user()||!img.isConnected)return;
+  img.style.width=getWidth()+'px';
+  img.hidden=false;
+  status('');
+ };
+ img.onerror=()=>{img.remove()};
+ img.src=url;
+}
+function removeFirstPagePreview(){
+ const img=viewer.querySelector('.sjn-r-first-preview');
+ if(img){img.onload=null;img.onerror=null;img.remove()}
 }
 function scroller(){return viewer.querySelector('.sjn-r-scroll')}
 function stack(){return viewer.querySelector('.sjn-r-pages')}
@@ -124,7 +143,7 @@ function applySizes(){
 function buildSlots(){
  const el=stack();if(!el||!pdfDoc)return;
  el.innerHTML=Array.from({length:pageCount},(_,i)=>'<section class="sjn-r-page-slot" data-r-index="'+(i+1)+'" aria-label="Page '+(i+1)+'"><span class="sjn-r-page-loading">Page '+(i+1)+'</span></section>').join('');
- applySizes();status('Rendering first page…');
+ applySizes();if(viewer.querySelector('.sjn-r-first-preview:not([hidden])'))status('');else status('Rendering first page…');
 }
 function currentVisible(){
  const el=scroller();if(!el)return;
@@ -208,6 +227,7 @@ async function drawPage(n,epoch){
   await task.promise;
   if(epoch!==renderEpoch||doc!==pdfDoc||!slot.isConnected)return;
   slot.querySelector('canvas')?.remove();slot.appendChild(canvas);
+  if(n===1)removeFirstPagePreview();
   slot.dataset.renderKey=scaleZoom+'';
   slot.querySelector('.sjn-r-page-loading')?.remove();
   status('');
@@ -284,6 +304,7 @@ async function openFile(id){
  try{
   const link=await window.SJNResourcesBridge.load('/academy-resources/'+encodeURIComponent(id)+'/open');
   if(v!==openVersion||uid!==owner||uid!==user())return;
+  if(link.previewUrl)beginFirstPagePreview(link.previewUrl,v,uid);
   // Large PDFs fetch only demanded byte ranges; small files may reuse session bytes.
   const largePdf=Number(file.size_bytes)>=1024*1024;
   if(Number(file.size_bytes)>50*1024*1024)throw Error('PDF exceeds reader limit');
@@ -386,6 +407,8 @@ document.addEventListener('keydown',e=>{
  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();goToPage(currentPage-1)}
 });
 const resizeObserver=new ResizeObserver(()=>{
+ const early=viewer.querySelector('.sjn-r-first-preview:not([hidden])');
+ if(early)early.style.width=getWidth()+'px';
  if(!pdfDoc||resizeFrame)return;
  resizeFrame=requestAnimationFrame(()=>{resizeFrame=0;const page=currentPage;applySizes();finishZoom();goToPage(page)});
 });
