@@ -156,11 +156,6 @@ body.sjn-r-lock{overflow:hidden}
 #module-resources .sjn-r-pages{position:relative;min-height:100%;margin:0 auto;padding:12px 0 24px}
 #module-resources .sjn-r-page-slot{position:relative;display:block;margin:0 auto 12px;background:#f9f9f9;box-shadow:0 2px 12px #0005;overflow:hidden}
 #module-resources .sjn-r-page-slot canvas{display:block}
-/* Scoped, transient first-page preview. No reader layout or toolbar changes. */
-#module-resources .sjn-r-scroll{position:relative}
-#module-resources .sjn-r-first-preview{display:block;position:absolute;top:12px;left:50%;transform:translateX(-50%);max-width:calc(100% - 10px);height:auto;aspect-ratio:1997 / 3000;object-fit:contain;background:#fff;z-index:2;box-shadow:0 2px 12px #0005;pointer-events:none}
-#module-resources .sjn-r-first-preview[hidden]{display:none}
-
 #module-resources .sjn-r-page-loading{position:absolute;top:40%;left:0;right:0;text-align:center;color:#555;font-size:12px}
 #module-resources .sjn-r-pdf-status{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);background:#25232bdc;border-radius:10px;color:#f5f1f4;font-size:12px;padding:15px;z-index:1;white-space:nowrap}
 #module-resources .sjn-r-pdf-status[hidden]{display:none}
