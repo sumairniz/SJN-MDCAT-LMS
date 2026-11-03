@@ -8,14 +8,13 @@ const { validateDraft, UUID: DRAFT_UUID } = require('./lib/practice-drafts');
 const { buildQuestionStatus } = require('./lib/practice-question-status');
 const { readAllPublishedMcqs } = require('./lib/paginated-content');
 const { registerAcademyResourceRoutes } = require('./lib/academy-resources');
+const { registerAiTutorRoutes } = require('./lib/ai-tutor');
 const dotenv = require('dotenv');
 
 dotenv.config();
 
 const PORT = Number(process.env.PORT || 3000);
 const JWT_SECRET = process.env.JWT_SECRET || 'CHANGE_ME_IN_PRODUCTION';
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
-const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || '';
 
 // Official Supabase Client Initialization
@@ -733,26 +732,8 @@ app.post('/api/bookmarks/toggle', auth, async (req, res) => {
   }
 });
 
-// AI Tutor Service
-app.post('/api/ai/tutor', auth, async (req, res) => {
-  if (!GEMINI_API_KEY) return res.status(503).json({ error: 'AI Tutor is not configured yet. Add GEMINI_API_KEY to the server environment.' });
-  const prompt = String(req.body.prompt || '').trim();
-  if (!prompt) return res.status(400).json({ error: 'Prompt is required.' });
-  
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(GEMINI_MODEL)}:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`;
-  try {
-    const response = await fetch(url, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: `You are SJN MDCAT LMS AI Tutor. Explain clearly at MDCAT level. Do not invent textbook citations. Student question: ${prompt}` }] }] })
-    });
-    const data = await response.json();
-    if (!response.ok) return res.status(502).json({ error: data?.error?.message || 'AI service error.' });
-    const text = data?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('\n') || 'No answer returned.';
-    res.json({ answer: text });
-  } catch (e) {
-    res.status(502).json({ error: 'Could not reach the AI service.' });
-  }
-});
+// Optional AI Tutor route — isolated from examination modules; safe when unconfigured.
+registerAiTutorRoutes(app, auth);
 
 // Developer Synchronization Endpoint
 app.post('/api/dev/sync', admin, (req, res) => {
