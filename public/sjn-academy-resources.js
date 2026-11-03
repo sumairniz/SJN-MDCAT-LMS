@@ -320,7 +320,7 @@ async function openFile(id){
   if(largePdf){
    const lib=await engine();
    if(v!==openVersion||uid!==owner||uid!==user())return;
-   status('Opening document…');
+   if(!viewer.querySelector('.sjn-r-first-preview:not([hidden])'))status('Opening document…');
    // Demand-driven ranges can reach page 1 without downloading the entire 11-MB PDF.
    // Unlike the old 512-KB mode, do not auto-fetch unneeded pages.
    // PDF.js falls back to full retrieval if the server ignores Range requests.
