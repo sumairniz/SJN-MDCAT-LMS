@@ -117,7 +117,7 @@ function applySizes(){
 function buildSlots(){
  const el=stack();if(!el||!pdfDoc)return;
  el.innerHTML=Array.from({length:pageCount},(_,i)=>'<section class="sjn-r-page-slot" data-r-index="'+(i+1)+'" aria-label="Page '+(i+1)+'"><span class="sjn-r-page-loading">Page '+(i+1)+'</span></section>').join('');
- applySizes();status('');
+ applySizes();status('Rendering first page…');
 }
 function currentVisible(){
  const el=scroller();if(!el)return;
@@ -192,6 +192,7 @@ async function drawPage(n,epoch){
   slot.querySelector('canvas')?.remove();slot.appendChild(canvas);
   slot.dataset.renderKey=scaleZoom+'';
   slot.querySelector('.sjn-r-page-loading')?.remove();
+  status('');
  }catch(err){
   if(epoch===renderEpoch&&err?.name!=='RenderingCancelledException')status('A page could not render. Scroll away and back, or reopen the document.');
  }finally{
@@ -252,18 +253,55 @@ async function openFile(id){
  try{
   const link=await window.SJNResourcesBridge.load('/academy-resources/'+encodeURIComponent(id)+'/open');
   if(v!==openVersion||uid!==owner||uid!==user())return;
-  const [lib,data]=await Promise.all([
-   engine(),(async()=>{
-    request=new AbortController();
-    const res=await fetch(link.url,{signal:request.signal,credentials:'omit',cache:'no-store'});
-    if(!res.ok)throw Error('PDF request failed ('+res.status+')');
-    const buf=await res.arrayBuffer();if(buf.byteLength>50*1024*1024)throw Error('PDF exceeds reader limit');
-    return new Uint8Array(buf)
-   })()
-  ]);
-  if(v!==openVersion||uid!==owner||uid!==user())return;
-  pdfTask=lib.getDocument({data});
-  const doc=await pdfTask.promise;
+  // Only larger PDFs use progressive byte-range retrieval. Small text PDFs keep
+  // their existing parallel fetch + PDF.js startup behavior.
+  const largePdf=Number(file.size_bytes)>=1024*1024;
+  if(Number(file.size_bytes)>50*1024*1024)throw Error('PDF exceeds reader limit');
+  async function loadFullBytes(){
+   request=new AbortController();
+   const res=await fetch(link.url,{signal:request.signal,credentials:'omit',cache:'no-store'});
+   if(!res.ok)throw Error('PDF request failed ('+res.status+')');
+   const buf=await res.arrayBuffer();
+   if(buf.byteLength>50*1024*1024)throw Error('PDF exceeds reader limit');
+   return new Uint8Array(buf);
+  }
+  let doc;
+  if(largePdf){
+   const lib=await engine();
+   if(v!==openVersion||uid!==owner||uid!==user())return;
+   status('Preparing document pages…');
+   try{
+    pdfTask=lib.getDocument({
+     url:link.url,
+     withCredentials:false,
+     rangeChunkSize:512*1024,
+     disableStream:true,
+     disableAutoFetch:false,
+     disableRange:false
+    });
+    pdfTask.onProgress=({loaded,total})=>{
+     if(v===openVersion&&!pdfDoc&&total>0)
+      status('Loading document… '+Math.min(100,Math.round(loaded/total*100))+'%');
+    };
+    doc=await pdfTask.promise;
+   }catch(rangeError){
+    // Preserve compatibility if Range requests or cross-origin response
+    // headers are not supported by the student's browser.
+    if(v!==openVersion||uid!==owner||uid!==user())return;
+    try{await pdfTask?.destroy()}catch(_){}
+    pdfTask=null;
+    status('Retrying document loading…');
+    const bytes=await loadFullBytes();
+    if(v!==openVersion||uid!==owner||uid!==user())return;
+    pdfTask=lib.getDocument({data:bytes});
+    doc=await pdfTask.promise;
+   }
+  }else{
+   const [lib,bytes]=await Promise.all([engine(),loadFullBytes()]);
+   if(v!==openVersion||uid!==owner||uid!==user())return;
+   pdfTask=lib.getDocument({data:bytes});
+   doc=await pdfTask.promise;
+  }
   if(v!==openVersion||uid!==owner||uid!==user()){void doc.destroy();return}
   pdfDoc=doc;pageCount=doc.numPages;currentPage=1;
   if(!pageCount)throw Error('No pages in PDF');
