@@ -77,14 +77,22 @@ test('Interactive resources use collection and document cards without modifying 
  assert.doesNotMatch(ui,/window\.location\s*=/);
 });
 
-test('Large PDFs use progressive ranged PDF.js loading while small PDFs retain fast fetch path',()=>{
+test('Large PDFs stream once without duplicate range/full GET; small PDFs retain fast path',()=>{
  assert.match(ui,/Number\(file\.size_bytes\)>=1024\*1024/);
- assert.match(ui,/rangeChunkSize:512\*1024/);
- assert.match(ui,/disableStream:true/);
- assert.match(ui,/disableRange:false/);
+ assert.match(ui,/disableRange:true/);
+ assert.match(ui,/disableStream:false/);
+ assert.match(ui,/disableAutoFetch:false/);
+ assert.doesNotMatch(ui,/rangeChunkSize:512\*1024/);
+ assert.doesNotMatch(ui,/pdfTask\.onProgress/);
  assert.match(ui,/pdfTask=lib\.getDocument\(\{data:bytes\}\)/);
- assert.match(ui,/Retrying document loading/);
  assert.match(ui,/Rendering first page/);
+});
+test('Canvas cache is bounded and keeps nearby rendered pages; avoid repeated redraw',()=>{
+ assert.match(ui,/const maxCanvases=mobileQuery\.matches\?7:11/);
+ assert.match(ui,/const visible=x\.offsetTop/);
+ assert.match(ui,/if\(rendered\.length<=maxCanvases\)return/);
+ assert.match(ui,/if\(visible\)continue/);
+ assert.match(ui,/if\(epoch===renderEpoch&&pdfDoc/);
 });
 test('Mobile hides redundant Expand button and keeps Close at upper-right',()=>{
  const css=fs.readFileSync(path.join(root,'public/sjn-academy-resources.css'),'utf8');
