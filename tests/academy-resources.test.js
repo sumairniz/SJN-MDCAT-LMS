@@ -16,7 +16,8 @@ test('Resource data no longer loads within critical MCQ content endpoint',()=>{
 });
 test('Private resources use authenticated, explicitly published records and expiring link',()=>{
  assert.match(api,/app\.get\('\/api\/academy-resources',auth/);
- assert.match(api,/app\.get\('\/api\/academy-resources\/:id\/open',auth/);
+ assert.match(api,/app\.get\('\/api\/academy-resources\/:id\/open',\(req,res,next\)=>/);
+ assert.match(api,/\},auth,async\(req,res\)=>/);
  assert.match(api,/\.eq\('is_published',true\)/);
  assert.match(api,/expiresInSeconds:180/);
  assert.match(api,/R2_BUCKET_NAME/);
@@ -77,7 +78,7 @@ test('Interactive resources use collection and document cards without modifying 
  assert.doesNotMatch(ui,/window\.location\s*=/);
 });
 
-test('Large PDFs stream in parallel with private preview; small files reuse session bytes',()=>{
+test('Large PDFs use original streaming path and small files reuse session bytes',()=>{
  assert.match(ui,/Number\(file\.size_bytes\)>=1024\*1024/);
  assert.match(ui,/disableRange:true/);
  assert.match(ui,/disableStream:false/);
@@ -113,20 +114,21 @@ test('Mobile hides redundant Expand button and keeps Close at upper-right',()=>{
  assert.match(ui,/data-r-close/);
 });
 
-test('Optional first page preview is privately signed only after published PDF authorization',()=>{
- assert.match(api,/PRIVATE_FIRST_PAGE_PREVIEWS=Object\.freeze/);
- assert.match(api,/academy-previews\/biology-one-pagers-stb-sjn-page1\.jpg/);
- assert.match(api,/const previewKey=PRIVATE_FIRST_PAGE_PREVIEWS\[data\.object_key\]/);
- assert.match(api,/const previewUrl=previewKey\?presignedGet\(previewKey\):null/);
- assert.match(api,/\.\.\.\(previewUrl\?\{previewUrl,previewAspectRatio:3000\/1997\}:\{\}\)/);
- assert.ok(api.indexOf("const previewKey=PRIVATE_FIRST_PAGE_PREVIEWS")>api.indexOf("if(!url)return res.status(503)"));
- assert.match(ui,/if\(link\.previewUrl\)beginFirstPagePreview\(link\.previewUrl,v,uid\)/);
- assert.match(ui,/version!==openVersion\|\|uid!==owner\|\|uid!==user\(\)/);
- assert.match(ui,/referrerpolicy="no-referrer"/);
- assert.match(ui,/if\(n===1\)removeFirstPagePreview\(\)/);
- assert.match(ui,/img\.onerror=\(\)=>\{img\.remove\(\)\}/);
- assert.doesNotMatch(api,/r2\.dev|publicUrl/);
- const css=fs.readFileSync(path.join(root,'public/sjn-academy-resources.css'),'utf8');
- assert.match(css,/#module-resources \.sjn-r-first-preview\[hidden\]\{display:none\}/);
- assert.match(css,/pointer-events:none/);
+test('Real PDF first page is measured without a visual preview shortcut',()=>{
+ assert.match(ui,/getLastOpenTimings:/);
+ assert.match(ui,/realFirstPageMs=/);
+ assert.match(ui,/authorizedMs=/);
+ assert.match(ui,/parsedMs=/);
+ assert.match(ui,/page\.render\(\{canvasContext:ctx,viewport\}\)/);
+ assert.doesNotMatch(ui,/beginFirstPagePreview|previewUrl|sjn-r-first-preview/);
+ assert.doesNotMatch(api,/PRIVATE_FIRST_PAGE_PREVIEWS|previewUrl|academy-previews/);
+});
+test('Published folder access uses one RLS-protected query with secure fallback',()=>{
+ assert.match(api,/academy_resource_folders\(id,is_published\)/);
+ assert.match(api,/if\(q\.error\)/);
+ assert.match(api,/if\(!f\.data\)return res\.status\(404\)/);
+ assert.match(api,/academy_resource_folders\.is_published!==true/);
+ assert.match(api,/resource-auth;dur=/);
+ assert.match(api,/resource-db;dur=/);
+ assert.doesNotMatch(api,/X-Amz-Signature.*res\.json/);
 });
