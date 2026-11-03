@@ -148,13 +148,24 @@ function visibleIndices(){
  .sort((a,b)=>Math.abs((a.top+a.bot)/2-(top+bot)/2)-Math.abs((b.top+b.bot)/2-(top+bot)/2)).map(x=>x.i);
 }
 function pruneCanvas(){
- const el=scroller();if(!el)return;
- const top=el.scrollTop,bot=top+el.clientHeight;
- slots().forEach(x=>{
-  if(x.offsetTop+x.offsetHeight<top-el.clientHeight*2||x.offsetTop>bot+el.clientHeight*2){
-   const canvas=x.querySelector('canvas');if(canvas){canvas.width=0;canvas.height=0;canvas.remove();delete x.dataset.renderKey}
-  }
- });
+ // Keep recently rendered pages so ordinary back-and-forth scrolling does
+ // not decode large scans a second time. Bound retained canvas memory.
+ const pages=slots(),el=scroller();if(!el)return;
+ const maxCanvases=mobileQuery.matches?7:11;
+ const rendered=pages.filter(x=>x.querySelector('canvas'));
+ if(rendered.length<=maxCanvases)return;
+ const anchor=el.scrollTop+el.clientHeight/2;
+ const rank=rendered.map(x=>({x,distance:Math.abs(x.offsetTop+x.offsetHeight/2-anchor)}))
+  .sort((a,b)=>b.distance-a.distance);
+ let remaining=rendered.length;
+ for(const {x} of rank){
+  if(remaining<=maxCanvases)break;
+  // Never discard the currently visible page; avoid unnecessary redraws.
+  const visible=x.offsetTop+x.offsetHeight>el.scrollTop&&x.offsetTop<el.scrollTop+el.clientHeight;
+  if(visible)continue;
+  const canvas=x.querySelector('canvas');
+  if(canvas){canvas.width=0;canvas.height=0;canvas.remove();delete x.dataset.renderKey;remaining--;}
+ }
 }
 function scheduleRender(){
  if(!pdfDoc||renderBusy)return;
@@ -194,10 +205,22 @@ async function drawPage(n,epoch){
   slot.querySelector('.sjn-r-page-loading')?.remove();
   status('');
  }catch(err){
-  if(epoch===renderEpoch&&err?.name!=='RenderingCancelledException')status('A page could not render. Scroll away and back, or reopen the document.');
+  if(epoch===renderEpoch&&err?.name!=='RenderingCancelledException'){
+   if(slot?.isConnected){
+    slot.dataset.renderKey=scaleZoom+'';
+    const placeholder=slot.querySelector('.sjn-r-page-loading');
+    if(placeholder)placeholder.textContent='Page '+n+' could not be rendered. Reopen the document to retry.';
+   }
+   // Do not retry the same broken page endlessly.
+   if(n===1)status('This page could not be displayed. Close and reopen the document.');
+  }
  }finally{
   task=null;renderBusy=false;
-  if(pdfDoc&&viewer.querySelector('.sjn-r-scroll'))scheduleRender();
+  if(epoch===renderEpoch&&pdfDoc&&viewer.querySelector('.sjn-r-scroll')){
+   pruneCanvas();
+   // Yield to input/paint between heavy rasterizations on Android.
+   requestAnimationFrame(()=>{if(pdfDoc&&epoch===renderEpoch)scheduleRender()});
+  }
  }
 }
 function onScroll(){
@@ -253,8 +276,8 @@ async function openFile(id){
  try{
   const link=await window.SJNResourcesBridge.load('/academy-resources/'+encodeURIComponent(id)+'/open');
   if(v!==openVersion||uid!==owner||uid!==user())return;
-  // Only larger PDFs use progressive byte-range retrieval. Small text PDFs keep
-  // their existing parallel fetch + PDF.js startup behavior.
+  // Large PDFs use one progressive streaming request; smaller text PDFs
+  // keep their established parallel fetch + PDF.js startup behavior.
   const largePdf=Number(file.size_bytes)>=1024*1024;
   if(Number(file.size_bytes)>50*1024*1024)throw Error('PDF exceeds reader limit');
   async function loadFullBytes(){
@@ -269,33 +292,18 @@ async function openFile(id){
   if(largePdf){
    const lib=await engine();
    if(v!==openVersion||uid!==owner||uid!==user())return;
-   status('Preparing document pages…');
-   try{
-    pdfTask=lib.getDocument({
-     url:link.url,
-     withCredentials:false,
-     rangeChunkSize:512*1024,
-     disableStream:true,
-     disableAutoFetch:false,
-     disableRange:false
-    });
-    pdfTask.onProgress=({loaded,total})=>{
-     if(v===openVersion&&!pdfDoc&&total>0)
-      status('Loading document… '+Math.min(100,Math.round(loaded/total*100))+'%');
-    };
-    doc=await pdfTask.promise;
-   }catch(rangeError){
-    // Preserve compatibility if Range requests or cross-origin response
-    // headers are not supported by the student's browser.
-    if(v!==openVersion||uid!==owner||uid!==user())return;
-    try{await pdfTask?.destroy()}catch(_){}
-    pdfTask=null;
-    status('Retrying document loading…');
-    const bytes=await loadFullBytes();
-    if(v!==openVersion||uid!==owner||uid!==user())return;
-    pdfTask=lib.getDocument({data:bytes});
-    doc=await pdfTask.promise;
-   }
+   status('Opening document…');
+   // ONE streaming GET instead of many 512-KB range requests followed by
+   // another full download. Streaming also lets PDF.js parse available bytes.
+   // The request remains protected by the existing expiring R2 signed URL.
+   pdfTask=lib.getDocument({
+    url:link.url,
+    withCredentials:false,
+    disableRange:true,
+    disableStream:false,
+    disableAutoFetch:false
+   });
+   doc=await pdfTask.promise;
   }else{
    const [lib,bytes]=await Promise.all([engine(),loadFullBytes()]);
    if(v!==openVersion||uid!==owner||uid!==user())return;
