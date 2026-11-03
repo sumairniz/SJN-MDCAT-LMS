@@ -216,10 +216,11 @@ async function drawPage(n,epoch){
   }
  }finally{
   task=null;renderBusy=false;
-  if(epoch===renderEpoch&&pdfDoc&&viewer.querySelector('.sjn-r-scroll')){
-   pruneCanvas();
-   // Yield to input/paint between heavy rasterizations on Android.
-   requestAnimationFrame(()=>{if(pdfDoc&&epoch===renderEpoch)scheduleRender()});
+  if(pdfDoc&&viewer.querySelector('.sjn-r-scroll')){
+   if(epoch===renderEpoch)pruneCanvas();
+   // Always resume the latest render queue after a zoom cancels an old task.
+   // An obsolete epoch must not strand the next visible page.
+   requestAnimationFrame(()=>{if(pdfDoc)scheduleRender()});
   }
  }
 }
@@ -390,6 +391,9 @@ window.SJNResources={
    if(owner!==uid)return;
    cache={folders:Array.isArray(data.folders)?data.folders:[],files:Array.isArray(data.files)?data.files:[]};
    render();
+   // Warm PDF.js only when the student has opened Academy Resources.
+   // This runs in parallel with browsing, without affecting exams or history.
+   void engine().catch(()=>{});
   }).catch(err=>{if(owner===uid)pane.innerHTML='<p class="sjn-r-note">'+esc(err.message||'Library temporarily unavailable')+'</p>'}).finally(()=>{loading=null});
   return loading;
  },
