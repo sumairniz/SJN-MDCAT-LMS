@@ -77,12 +77,12 @@ test('Interactive resources use collection and document cards without modifying 
  assert.doesNotMatch(ui,/window\.location\s*=/);
 });
 
-test('Large PDFs demand-load ranges; small PDFs keep safe session-only reuse',()=>{
+test('Large PDFs stream in parallel with private preview; small files reuse session bytes',()=>{
  assert.match(ui,/Number\(file\.size_bytes\)>=1024\*1024/);
- assert.match(ui,/disableRange:false/);
- assert.match(ui,/disableStream:true/);
- assert.match(ui,/disableAutoFetch:true/);
- assert.match(ui,/rangeChunkSize:1024\*1024/);
+ assert.match(ui,/disableRange:true/);
+ assert.match(ui,/disableStream:false/);
+ assert.match(ui,/disableAutoFetch:false/);
+ assert.doesNotMatch(ui,/rangeChunkSize:1024\*1024/);
  assert.doesNotMatch(ui,/rangeChunkSize:512\*1024/);
  assert.doesNotMatch(ui,/pdfTask\.onProgress/);
  assert.match(ui,/pdfTask=lib\.getDocument\(\{data:bytes\}\)/);
