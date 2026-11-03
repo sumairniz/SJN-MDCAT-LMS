@@ -1,10 +1,10 @@
 (()=>{
 'use strict';
 // AI-only, text-node-based rendering. Never parse model-provided HTML.
-const CSS_URL='https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/katex.min.css';
-const JS_URL='https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/katex.min.js';
-const CSS_SRI='sha384-WwGtaC6ywCHxA5cstpj/3+xIZvTez8dq2IcBQaXRkenHZ7FVVq1ZROtURwfbtTlG';
-const JS_SRI='sha384-a1WQdjRj162i159OYq041X6I4K8NenkrI09LlPmiHg0YOb7CR+wJOraXwK9abpnE';
+const CSS_URL='https://cdn.jsdelivr.net/npm/katex@0.18.4/dist/katex.min.css';
+const JS_URL='https://cdn.jsdelivr.net/npm/katex@0.18.4/dist/katex.min.js';
+const CSS_SRI='sha384-u1zONI5gPXUx0UKI62c75/zww972y0v2rSK5ZYlVdS6xEuWDeZWUI66v6t1gvlXJ';
+const JS_SRI='sha384-ykMNcWQhhTUb0YV9SPpPUFURHZ+tWmubkakGBP+OgNK/UXdO2gtzglWx0Rj9hnO3';
 let mathLoading=null;
 function loadMath(){
  if(window.katex)return Promise.resolve(true);
