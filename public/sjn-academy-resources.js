@@ -10,6 +10,13 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const ico=s=>'<i class="fa-solid fa-'+s+'" aria-hidden="true"></i>';
 const user=()=>window.SJNResourcesBridge?.userId?.();
 let owner=null,cache=null,loading=null,folder=null,active=null,expanded=false;
+// Small document cache: in-memory per authenticated session, never browser storage.
+const smallPdfCache=new Map(),SMALL_CACHE_MAX_ENTRY=256*1024;
+function rememberSmallPdf(id,bytes){
+ if(bytes.byteLength>SMALL_CACHE_MAX_ENTRY)return;
+ smallPdfCache.delete(id);smallPdfCache.set(id,bytes.slice());
+ while(smallPdfCache.size>4)smallPdfCache.delete(smallPdfCache.keys().next().value);
+}
 let request=null,pdfTask=null,pdfDoc=null,pdfjsPromise=null,openVersion=0;
 let pageCount=0,currentPage=1,zoomPercent=100,renderEpoch=0,renderBusy=false,task=null,queuedFrame=0;
 let pageRatios=[],baseWidth=0,previousFocus=null,readerLastFocused=null;
@@ -56,7 +63,7 @@ function closeReader(){
  if(wasOpen&&previousFocus?.isConnected)previousFocus.focus({preventScroll:true});
  previousFocus=null;
 }
-function reset(){closeReader();owner=null;cache=null;folder=null;loading=null;render()}
+function reset(){closeReader();smallPdfCache.clear();owner=null;cache=null;folder=null;loading=null;render()}
 function readerHeader(file){
  return '<div class="sjn-r-viewer-bar"><div class="sjn-r-reader-label"><span class="sjn-r-reader-icon">'+ico('file-pdf')+'</span><strong title="'+esc(file.title)+'">'+esc(file.title)+'</strong></div>'+
  '<div class="sjn-r-viewer-actions"><button type="button" data-r-expand title="Expand or restore reader">'+ico('expand')+'<span> Expand</span></button>'+
@@ -277,8 +284,7 @@ async function openFile(id){
  try{
   const link=await window.SJNResourcesBridge.load('/academy-resources/'+encodeURIComponent(id)+'/open');
   if(v!==openVersion||uid!==owner||uid!==user())return;
-  // Large PDFs use one progressive streaming request; smaller text PDFs
-  // keep their established parallel fetch + PDF.js startup behavior.
+  // Large PDFs fetch only demanded byte ranges; small files may reuse session bytes.
   const largePdf=Number(file.size_bytes)>=1024*1024;
   if(Number(file.size_bytes)>50*1024*1024)throw Error('PDF exceeds reader limit');
   async function loadFullBytes(){
@@ -294,20 +300,24 @@ async function openFile(id){
    const lib=await engine();
    if(v!==openVersion||uid!==owner||uid!==user())return;
    status('Opening document…');
-   // ONE streaming GET instead of many 512-KB range requests followed by
-   // another full download. Streaming also lets PDF.js parse available bytes.
-   // The request remains protected by the existing expiring R2 signed URL.
+   // Demand-driven ranges can reach page 1 without downloading the entire 11-MB PDF.
+   // Unlike the old 512-KB mode, do not auto-fetch unneeded pages.
+   // PDF.js falls back to full retrieval if the server ignores Range requests.
    pdfTask=lib.getDocument({
     url:link.url,
     withCredentials:false,
-    disableRange:true,
-    disableStream:false,
-    disableAutoFetch:false
+    disableRange:false,
+    disableStream:true,
+    disableAutoFetch:true,
+    rangeChunkSize:1024*1024
    });
    doc=await pdfTask.promise;
   }else{
-   const [lib,bytes]=await Promise.all([engine(),loadFullBytes()]);
+   // Still reauthorize on /open; cached bytes never outlive the signed-in user.
+   const saved=smallPdfCache.get(id);
+   const [lib,bytes]=await Promise.all([engine(),saved?Promise.resolve(saved.slice()):loadFullBytes()]);
    if(v!==openVersion||uid!==owner||uid!==user())return;
+   if(!saved)rememberSmallPdf(id,bytes);
    pdfTask=lib.getDocument({data:bytes});
    doc=await pdfTask.promise;
   }
@@ -321,6 +331,7 @@ async function openFile(id){
   buildSlots();updateControls();goToPage(1);scheduleRender();
  }catch(err){
   if(v!==openVersion||err?.name==='AbortError')return;
+  smallPdfCache.delete(id);
   status('Unable to display this PDF in the reader. Please close and retry.');
  }
 }
@@ -385,15 +396,15 @@ window.SJNResources={
  async enter(){
   const uid=user();if(!uid)return;
   if(owner!==uid)reset();
+  // Warm the PDF parser concurrent with the resource catalog, only on this module.
+  void engine().catch(()=>{});
   if(cache||loading)return loading;
   owner=uid;pane.innerHTML='<p class="sjn-r-note">Loading academy library…</p>';
   loading=window.SJNResourcesBridge.load('/academy-resources').then(data=>{
    if(owner!==uid)return;
    cache={folders:Array.isArray(data.folders)?data.folders:[],files:Array.isArray(data.files)?data.files:[]};
    render();
-   // Warm PDF.js only when the student has opened Academy Resources.
-   // This runs in parallel with browsing, without affecting exams or history.
-   void engine().catch(()=>{});
+   // PDF.js warm-up already started on module entry.
   }).catch(err=>{if(owner===uid)pane.innerHTML='<p class="sjn-r-note">'+esc(err.message||'Library temporarily unavailable')+'</p>'}).finally(()=>{loading=null});
   return loading;
  },
