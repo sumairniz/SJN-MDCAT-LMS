@@ -92,7 +92,9 @@ test('Canvas cache is bounded and keeps nearby rendered pages; avoid repeated re
  assert.match(ui,/const visible=x\.offsetTop/);
  assert.match(ui,/if\(rendered\.length<=maxCanvases\)return/);
  assert.match(ui,/if\(visible\)continue/);
- assert.match(ui,/if\(epoch===renderEpoch&&pdfDoc/);
+ assert.match(ui,/if\(epoch===renderEpoch\)pruneCanvas\(\)/);
+ assert.match(ui,/requestAnimationFrame\(\(\)=>\{if\(pdfDoc\)scheduleRender\(\)\}\)/);
+ assert.match(ui,/void engine\(\)\.catch\(\(\)=>\{\}\)/);
 });
 test('Mobile hides redundant Expand button and keeps Close at upper-right',()=>{
  const css=fs.readFileSync(path.join(root,'public/sjn-academy-resources.css'),'utf8');
