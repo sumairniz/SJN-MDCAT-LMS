@@ -1,3 +1,26 @@
+# 2026-11-03 — LATEST: AI TUTOR RELIABILITY FIX (OWNER-APPROVED)
+
+**Owner preference:** Existing SJN AI Tutor response personality was praised, specifically neutral academy discussion, natural first-person academy membership, and tactful/non-disclosing ownership response. **Preserve those behaviours**; do not introduce rigid ownership denials or disclose owner identities. Purple UI is not accepted as final, but **UI redesign is postponed until AI reliability is settled**. No changes to UI, Academy Resources, Courses, exam/test/history or Production authorized as part of this fix.
+
+**Reported from actual student-like conversation:** Gemini produced proper educational answers intermittently, with many generic "AI provider is temporarily unavailable" responses between successes. AI also renders raw Markdown and TeX in chat, and can generate long answers; these are known DEFERRED UI/output-formatting tasks, not in scope for current reliability fix.
+
+**Diagnosis:** Earlier `lib/ai-tutor.js` mapped all non-429 provider failures to 503 with the same message; 23-second timeout, no retry, and all failed attempts incremented per-instance daily allowance. Actual external failure code cannot be retroactively identified: existing Vercel Hobby runtime logs did not retain the relevant window, and the shorter checked window returned no records. Therefore **do not claim** the root cause was definitely quota, model selection, or network. Google documents transient 5xx overload; free tier also has 429 quotas.
+
+**Implemented on `sjn-phase1a-foundation`:**
+- For Gemini generation calls, one bounded retry (maximum **two total requests**) only for transient network errors and HTTP 500/502/503/504, with short 700–800 ms delay. No automatic retry for 429, bad API key/project, missing model or provider timeout.
+- Provider calls have individual 30-second abort limits; safe server-side logging writes only coarse error class, HTTP status, attempt number, elapsed milliseconds or finish reason. No API keys, question text, student identifiers, raw provider bodies, or answer contents are logged.
+- Distinct user-safe messages for 429 free-tier limits, 401/403 key/access errors, 404 model unavailable, 400 invalid or overly long input, timeout, network failure, and empty/incomplete reply. Failure outcomes refund the **per-instance daily successful-answer count**, while preserving a short attempt cooldown. Do not claim this is a global durable limiter: Vercel serverless instance memory varies.
+- Increased generation output token ceiling from 1100 to 2000 to mitigate prematurely cut explanations. **AI system instructions and response personality unchanged.** No UI changes.
+- Added `tests/ai-tutor-reliability.test.js` with mocked network retry / quota / 403 / invalid history coverage.
+
+**Limits:** Provider quotas and overloaded service cannot be eliminated. Google AI Studio may have a lower free request quota than browser Gemini chat; regular chat and API are independent. Backoff/retry may improve transient availability but cannot guarantee reliability. Very long model responses can still truncate at 9000 characters, and raw Markdown/LaTeX remains a separate later UI work item.
+
+**Follow-up validation:** After current Preview deployment passes CI and is READY, owner should send separated questions (at least ~9s apart) and report exact on-screen error for failures. Verify a short Chemistry explanation, brief Roman Urdu question, and a multi-turn Physics discussion; check provider status in AI Studio Rate Limit/Usage when 429 appears. If outages persist, use fresh Vercel Preview runtime logs during failure and classify the exact provider status before any additional fix. Do not use the owner's API key outside Vercel.
+
+**Stage:** AI v1 functioning intermittently, reliability mitigation implemented; NOT FINALIZED. UI/design and rich Markdown/LaTeX formatting remain pending discussion/approval. Keep the rest of LMS unchanged and do not promote to Production.
+
+---
+
 # SJN MedNest Academy — SJN AI Tutor v1 Handover
 **Date:** 2026-11-03 (Pakistan)
 **Branch:** \`sjn-phase1a-foundation\` (Preview ONLY)
