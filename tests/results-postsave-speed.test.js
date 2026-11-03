@@ -15,7 +15,8 @@ const deferred = () => {
 
 const submitSource = (() => {
   const start = html.indexOf('    const originalFinishQuiz = window.finishQuiz;');
-  const end = html.indexOf('\n    window.sendAiDoubt = ', start);
+  // The legacy inline AI handler was removed; the next isolated listener is the stable boundary.
+  const end = html.indexOf("\n    window.addEventListener('storage', event => {", start);
   assert.ok(start >= 0 && end > start, 'Must exercise the actual final submission bridge');
   return html.slice(start, end);
 })();
