@@ -68,3 +68,29 @@
  #module-aitutor .sjn-ai-caption{font-size:9px}
 }
 @media(prefers-reduced-motion:reduce){#module-aitutor .sjn-ai-mic.is-listening{animation:none}}
+
+/* AI-answer typography only; legacy LMS modules remain completely untouched. */
+#module-aitutor .sjn-ai-message-body{white-space:normal;overflow-wrap:anywhere}
+#module-aitutor .sjn-ai-message-body p{margin:0 0 .8em;line-height:1.72}
+#module-aitutor .sjn-ai-message-body p:last-child{margin-bottom:0}
+#module-aitutor .sjn-ai-message-body h3,
+#module-aitutor .sjn-ai-message-body h4{font-weight:800;color:#f7ecff;margin:1em 0 .48em;line-height:1.36}
+#module-aitutor .sjn-ai-message-body h3{font-size:1.13em}
+#module-aitutor .sjn-ai-message-body h4{font-size:1.05em}
+#module-aitutor .sjn-ai-message-body h3:first-child,
+#module-aitutor .sjn-ai-message-body h4:first-child{margin-top:0}
+#module-aitutor .sjn-ai-message-body ul,
+#module-aitutor .sjn-ai-message-body ol{margin:.55em 0 1em;padding-left:1.35em}
+#module-aitutor .sjn-ai-message-body li{margin:.25em 0;line-height:1.6}
+#module-aitutor .sjn-ai-message-body ul{list-style-type:disc}
+#module-aitutor .sjn-ai-message-body ol{list-style-type:decimal}
+#module-aitutor .sjn-ai-message-body strong{font-weight:750;color:#faf4ff}
+#module-aitutor .sjn-ai-message-body blockquote{border-left:3px solid #b777e9;margin:.9em 0;padding:.3em .85em;background:#ffffff0b;border-radius:0 6px 6px 0}
+#module-aitutor .sjn-ai-message-body code{background:#342b3e;padding:.12em .32em;border-radius:5px;font-size:.93em}
+#module-aitutor .sjn-ai-message-body pre{white-space:pre;overflow-x:auto;padding:12px;border-radius:9px;background:#15101b;border:1px solid #50405c}
+#module-aitutor .sjn-ai-message-body pre code{background:transparent;padding:0}
+#module-aitutor .sjn-ai-message-body hr{border:0;border-top:1px solid #54425f;margin:1em 0}
+#module-aitutor .sjn-ai-math-wrapper{overflow-x:auto;overflow-y:hidden;margin:.75em 0;max-width:100%}
+#module-aitutor .sjn-ai-math-block{min-width:max-content;text-align:center;padding:.4em}
+#module-aitutor .sjn-ai-math-inline{display:inline}
+#module-aitutor .sjn-ai-math-wrapper .katex{color:#f5ebff}
