@@ -77,15 +77,24 @@ test('Interactive resources use collection and document cards without modifying 
  assert.doesNotMatch(ui,/window\.location\s*=/);
 });
 
-test('Large PDFs stream once without duplicate range/full GET; small PDFs retain fast path',()=>{
+test('Large PDFs demand-load ranges; small PDFs keep safe session-only reuse',()=>{
  assert.match(ui,/Number\(file\.size_bytes\)>=1024\*1024/);
- assert.match(ui,/disableRange:true/);
- assert.match(ui,/disableStream:false/);
- assert.match(ui,/disableAutoFetch:false/);
+ assert.match(ui,/disableRange:false/);
+ assert.match(ui,/disableStream:true/);
+ assert.match(ui,/disableAutoFetch:true/);
+ assert.match(ui,/rangeChunkSize:1024\*1024/);
  assert.doesNotMatch(ui,/rangeChunkSize:512\*1024/);
  assert.doesNotMatch(ui,/pdfTask\.onProgress/);
  assert.match(ui,/pdfTask=lib\.getDocument\(\{data:bytes\}\)/);
  assert.match(ui,/Rendering first page/);
+ assert.match(ui,/const smallPdfCache=new Map\(\)/);
+ assert.match(ui,/SMALL_CACHE_MAX_ENTRY=256\*1024/);
+ assert.match(ui,/smallPdfCache\.clear\(\)/);
+ assert.match(ui,/smallPdfCache\.delete\(id\)/);
+ assert.match(ui,/const link=await window\.SJNResourcesBridge\.load/);
+ assert.ok(ui.indexOf('const link=await window.SJNResourcesBridge.load')<ui.indexOf('const saved=smallPdfCache.get(id)'));
+ assert.match(ui,/if\(!saved\)rememberSmallPdf\(id,bytes\)/);
+ assert.match(ui,/void engine\(\)\.catch\(\(\)=>\{\}\);/);
 });
 test('Canvas cache is bounded and keeps nearby rendered pages; avoid repeated redraw',()=>{
  assert.match(ui,/const maxCanvases=mobileQuery\.matches\?7:11/);
