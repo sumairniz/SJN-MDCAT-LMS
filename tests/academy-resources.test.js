@@ -112,3 +112,21 @@ test('Mobile hides redundant Expand button and keeps Close at upper-right',()=>{
  assert.match(css,/min-height:40px/);
  assert.match(ui,/data-r-close/);
 });
+
+test('Optional first page preview is privately signed only after published PDF authorization',()=>{
+ assert.match(api,/PRIVATE_FIRST_PAGE_PREVIEWS=Object\.freeze/);
+ assert.match(api,/academy-previews\/biology-one-pagers-stb-sjn-page1\.jpg/);
+ assert.match(api,/const previewKey=PRIVATE_FIRST_PAGE_PREVIEWS\[data\.object_key\]/);
+ assert.match(api,/const previewUrl=previewKey\?presignedGet\(previewKey\):null/);
+ assert.match(api,/\.\.\.\(previewUrl\?\{previewUrl,previewAspectRatio:3000\/1997\}:\{\}\)/);
+ assert.ok(api.indexOf("const previewKey=PRIVATE_FIRST_PAGE_PREVIEWS")>api.indexOf("if(!url)return res.status(503)"));
+ assert.match(ui,/if\(link\.previewUrl\)beginFirstPagePreview\(link\.previewUrl,v,uid\)/);
+ assert.match(ui,/version!==openVersion\|\|uid!==owner\|\|uid!==user\(\)/);
+ assert.match(ui,/referrerpolicy="no-referrer"/);
+ assert.match(ui,/if\(n===1\)removeFirstPagePreview\(\)/);
+ assert.match(ui,/img\.onerror=\(\)=>\{img\.remove\(\)\}/);
+ assert.doesNotMatch(api,/r2\.dev|publicUrl/);
+ const css=fs.readFileSync(path.join(root,'public/sjn-academy-resources.css'),'utf8');
+ assert.match(css,/#module-resources \.sjn-r-first-preview\[hidden\]\{display:none\}/);
+ assert.match(css,/pointer-events:none/);
+});
