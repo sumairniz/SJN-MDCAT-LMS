@@ -362,11 +362,11 @@ function courseView(data){
  const courses=[...new Set(data.courseCatalog.map(x=>x.session))];
  if(!state.course){
  return panel('Course Analytics','Select a course to view individual test performance',
- '<div class="sjn-a-bank-grid">'+courses.map(code=>{const tests=data.courseCatalog.filter(x=>x.session===code);
+ '<div class="sjn-a-bank-grid sjn-a-course-grid">'+courses.map(code=>{const tests=data.courseCatalog.filter(x=>x.session===code);
  const ids=new Set(tests.map(x=>String(x.id)));const rows=data.tests.filter(x=>x.source_type==='courses'&&ids.has(String(x.group_key)));
  const s=sum(rows);
  return '<button class="sjn-a-bank-card" data-a-course="'+html(code)+'" type="button" data-tone="purple"><div class="sjn-a-bank-icon">'+icon('graduation-cap')+'</div>'+
- '<strong>'+html(code==='genome'?'Genome Test Session':code)+'</strong><small>'+tests.length+' published tests · '+rows.length+' recorded attempts</small>'+
+ '<strong>'+html(code==='genome'?'Genome Test Session':code)+'</strong><small>'+tests.length+' published tests · '+rows.length+' historical test attempts</small>'+countPills(s,true)+
  '<div class="sjn-a-bank-coverage"><span>Answer accuracy</span><b>'+accuracy(s)+'</b></div>'+
  '<span class="sjn-a-source-link">Explore Course '+icon('arrow-right')+'</span></button>';}).join('')+
  (!courses.length?'<div class="sjn-a-empty">No course tests have been published yet.</div>':'')+'</div>');}
@@ -380,7 +380,7 @@ function courseView(data){
  '<div class="sjn-a-panel-tools"><strong>Individual Tests</strong></div><div class="sjn-a-detail-list">'+tests.map(t=>{
  const r=sum(all.filter(x=>String(x.group_key)===String(t.id))),matches=rows.filter(x=>String(x.group_key)===String(t.id));
  return '<div class="sjn-a-course-test"><div><strong>'+html(t.title)+'</strong><small>Test '+t.testNumber+' · '+fmt(matches.length)+' completed attempt(s)</small></div>'+
- '<div class="sjn-a-test-numbers">'+statusTag(r)+'<strong>'+accuracy(r)+'</strong><small>'+fmt(r.answered)+' answered</small></div>'+
+ '<div class="sjn-a-test-numbers">'+statusTag(r)+'<strong>'+accuracy(r)+'</strong><small>'+fmt(r.answered)+' answered</small></div>'+countPills(r,true)+
  (matches.length?'<div class="sjn-a-course-subjects">'+rowsBy(all.filter(x=>String(x.group_key)===String(t.id)),x=>x.subject).map(x=>
  '<span>'+html(x.name)+': <b>'+accuracy(x)+'</b> ('+fmt(x.answered)+')</span>').join('')+
  rowsBy(all.filter(x=>String(x.group_key)===String(t.id)&&x.chapter),x=>x.chapter).map(x=>
