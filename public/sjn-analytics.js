@@ -167,20 +167,102 @@ function rowsBy(data,fn){
  return [...map].map(([name,rows])=>({name,...sum(rows),rows}));
 }
 function trend(data){
- const rows=(data.daily||[]).map(x=>({day:x.day,value:answered(x)?100*number(x.correct)/number(x.answered):null,count:number(x.answered)}));
+ // The underlying API exposes daily counts; we aggregate into readable buckets
+ // without averaging percentages (which would misweight small study days).
+ const bucket=state.period==='all'?'month':
+  state.period==='quarter'?'week':'day';
+ const groups=new Map();
+ const entries=(data.daily||[]).filter(x=>x.day&&number(x.answered)>0);
+ for(const row of entries){
+  const keyDate=new Date(String(row.day)+'T12:00:00Z');
+  if(!Number.isFinite(keyDate.getTime()))continue;
+  let key=String(row.day);
+  if(bucket==='month')key=key.slice(0,7)+'-01';
+  if(bucket==='week'){
+   keyDate.setUTCDate(keyDate.getUTCDate() - (keyDate.getUTCDay()+6)%7);
+   key=keyDate.toISOString().slice(0,10);
+  }
+  const item=groups.get(key)||{day:key,answered:0,correct:0};
+  item.answered+=number(row.answered);item.correct+=number(row.correct);
+  groups.set(key,item);
+ }
+ const rows=[...groups.values()].sort((a,b)=>a.day.localeCompare(b.day));
  if(!rows.length)return '<div class="sjn-a-empty">'+icon('chart-line')+'<p>No answered questions in this period yet.</p></div>';
- const width=700,height=190,left=28,right=12,top=16,bottom=27;
- const coords=rows.map((r,i)=>({x:left+(rows.length===1?.5:i/(rows.length-1))*(width-left-right),
- y:top+(100-(r.value??0))/100*(height-top-bottom),...r})).filter(x=>x.value!==null);
- let line=coords.map((p,i)=>(i?'L':'M')+p.x.toFixed(1)+' '+p.y.toFixed(1)).join(' ');
- const step=Math.max(1,Math.ceil(rows.length/7));
- const ticks=[0,25,50,75,100].map(v=>'<line x1="'+left+'" x2="'+(width-right)+'" y1="'+(top+(100-v)/100*(height-top-bottom))+'" y2="'+(top+(100-v)/100*(height-top-bottom))+'" stroke="#2e3240" stroke-width="1"/><text x="2" y="'+(top+(100-v)/100*(height-top-bottom)+4)+'" fill="#8993a7" font-size="11">'+v+'</text>').join('');
- const xlabels=rows.filter((_,i)=>i%step===0||i===rows.length-1).map((r,i,arr)=>'<text x="'+(left+(rows.length===1?.5:rows.findIndex(x=>x===r)/(rows.length-1))*(width-left-right)).toFixed(1)+'" y="'+(height-5)+'" text-anchor="middle" font-size="11" fill="#9197aa">'+html(r.day.slice(5))+'</text>').join('');
- return '<div class="sjn-a-trend"><svg viewBox="0 0 '+width+' '+height+'" role="img" aria-label="Answer accuracy over time">'+ticks+
- (line?'<path d="'+line+'" fill="none" stroke="#63b3fa" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>':'')+
- coords.map(p=>'<circle cx="'+p.x+'" cy="'+p.y+'" r="4" fill="#72dcbb"><title>'+html(p.day)+': '+Math.round(p.value)+'% · '+fmt(p.count)+' answered</title></circle>').join('')+xlabels+
- '</svg></div><div class="sjn-a-legend">Daily accuracy for days with answered questions. Hover or tap chart points for counts.</div>';
+ const dateText=(day)=>new Date(day+'T12:00:00Z').toLocaleDateString(undefined,
+  bucket==='month'?{month:'short',year:'numeric'}:{month:'short',day:'numeric',timeZone:'UTC'});
+ const display=(day)=>bucket==='week'?'Week of '+dateText(day):dateText(day);
+ const width=720,height=226,left=36,right=20,top=18,bottom=43,plot=width-left-right;
+ const times=rows.map(x=>Date.parse(x.day+'T12:00:00Z'));
+ const min=Math.min(...times),max=Math.max(...times);
+ const coords=rows.map((r,i)=>{
+  const ratio=min===max?.5:(times[i]-min)/(max-min);
+  return {...r,px:left+ratio*plot,py:top+(1-r.correct/r.answered)*(height-top-bottom),
+   percentage:100*r.correct/r.answered,display:display(r.day)};
+ });
+ const grid=[0,25,50,75,100].map(v=>{
+  const y=(top+(100-v)/100*(height-top-bottom)).toFixed(1);
+  return '<line x1="'+left+'" x2="'+(width-right)+'" y1="'+y+'" y2="'+y+
+   '" stroke="#303b49" stroke-width="1"/><text x="2" y="'+(+y+4)+'" fill="#abb7c8" font-size="12">'+v+'%</text>';
+ }).join('');
+ const path=coords.map((p,i)=>(i?'L':'M')+p.px.toFixed(1)+' '+p.py.toFixed(1)).join(' ');
+ const count=Math.min(coords.length,6);
+ const labels=Array.from({length:count},(_,i)=>coords[Math.round(i*(coords.length-1)/Math.max(1,count-1))])
+  .filter((r,i,a)=>i===0||r.day!==a[i-1].day)
+  .map(r=>'<text x="'+r.px.toFixed(1)+'" y="'+(height-13)+
+   '" text-anchor="middle" font-size="12" fill="#c4cedc">'+html(dateText(r.day))+'</text>').join('');
+ const points=coords.map((r,i)=>'<circle class="sjn-a-point" tabindex="0" role="button"'+
+  ' aria-label="'+html(r.display+': '+r.percentage.toFixed(1)+' percent, '+r.correct+' correct out of '+r.answered+' answered')+'"'+
+  ' data-a-chart-point="'+i+'" cx="'+r.px.toFixed(1)+'" cy="'+r.py.toFixed(1)+'" r="7" fill="#6cd1be" stroke="#193340" stroke-width="3"/>'+
+  '<circle class="sjn-a-point-hit" data-a-chart-point="'+i+'" cx="'+r.px.toFixed(1)+
+  '" cy="'+r.py.toFixed(1)+'" r="15" fill="transparent" aria-hidden="true"/>').join('');
+ // Store only date/count aggregates from the current student within this DOM subtree.
+ const tooltipData=coords.map(r=>({date:r.display,answered:r.answered,correct:r.correct,
+  accuracy:r.percentage.toFixed(1)}));
+ return '<div class="sjn-a-trend" data-a-chart="1" data-a-points="'+html(JSON.stringify(tooltipData))+'">'+
+  '<svg viewBox="0 0 '+width+' '+height+'" role="group" aria-label="Accuracy trend over time">'+
+  '<defs><linearGradient id="sjn-a-trend-grad" x1="0" x2="0" y1="0" y2="1">'+
+  '<stop offset="0%" stop-color="#6bb6f5" stop-opacity=".22"/>'+
+  '<stop offset="100%" stop-color="#6bb6f5" stop-opacity="0"/></linearGradient></defs>'+
+  grid+
+  (coords.length>1?'<path d="'+path+'L '+coords[coords.length-1].px.toFixed(1)+' '+
+    (height-bottom)+'L '+coords[0].px.toFixed(1)+' '+(height-bottom)+'Z" fill="url(#sjn-a-trend-grad)"/>':'')+
+  '<path d="'+path+'" fill="none" stroke="#74b9f3" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>'+
+  labels+points+'</svg>'+
+  '<div class="sjn-a-chart-tooltip" role="status" aria-live="polite" hidden></div></div>'+
+  '<div class="sjn-a-legend">'+
+  (bucket==='month'?'Monthly':bucket==='week'?'Weekly':'Daily')+
+  ' accuracy · select a point to see its date, accuracy and answered-question count.</div>';
 }
+function pointTooltip(target){
+ const chart=target?.closest?.('[data-a-chart]');
+ if(!chart)return false;
+ const index=Number(target.dataset.aChartPoint);
+ if(!Number.isSafeInteger(index)||index<0)return false;
+ const tooltip=chart.querySelector('.sjn-a-chart-tooltip');
+ const point=chart.querySelector('.sjn-a-point[data-a-chart-point="'+index+'"]');
+ const dataText=chart.dataset.aPoints;
+ if(!tooltip||!point||!dataText)return false;
+ let data;
+ try{data=JSON.parse(dataText)?.[index]}catch(_){return false}
+ if(!data)return false;
+ tooltip.innerHTML='<strong>'+html(data.date)+'</strong>'+
+ '<span>Accuracy <b>'+html(data.accuracy)+'%</b></span>'+
+ '<span>Answered <b>'+fmt(data.answered)+'</b></span>'+
+ '<span>Correct <b>'+fmt(data.correct)+'</b></span>';
+ const boundary=chart.getBoundingClientRect(),p=point.getBoundingClientRect();
+ const x=p.left+p.width/2-boundary.left;
+ const y=p.top-boundary.top;
+ tooltip.style.left=Math.min(Math.max(x,90),Math.max(90,boundary.width-90))+'px';
+ tooltip.style.top=Math.max(4,y-9)+'px';
+ tooltip.hidden=false;
+ return true;
+}
+function hidePointTooltip(target){
+ const chart=target?.closest?.('[data-a-chart]');
+ const tooltip=chart?.querySelector('.sjn-a-chart-tooltip');
+ if(tooltip)tooltip.hidden=true;
+}
+
 function sourceCard(info,rows,buttonLabel,action){
  const s=sum(rows),catalog=state.data.bankCatalog||[],covers=state.data.lifetimeCoverage||[];
  const bank=info.id==='sjn'?'SJN Question Bank':info.id==='pastbank'?'Past Papers Question Bank':null;
@@ -355,6 +437,29 @@ root.addEventListener('click',e=>{
  else if(back==='bank')state.bank='';else if(back==='course')state.course='';else if(back==='paper')state.paper='';render();return}
  if(btn.hasAttribute('data-a-apply')){const a=$('[data-a-from]'),b=$('[data-a-to]');
  state.from=a?.value||'';state.to=b?.value||'';void load();return}
+});
+// The graphic responds to pointer hover, keyboard focus and mobile taps.
+root.addEventListener('pointerover',e=>{
+ const point=e.target.closest?.('[data-a-chart-point]');
+ if(point)pointTooltip(point);
+});
+root.addEventListener('pointerout',e=>{
+ const point=e.target.closest?.('[data-a-chart-point]');
+ if(point&&!point.contains(e.relatedTarget))hidePointTooltip(point);
+});
+root.addEventListener('focusin',e=>{
+ const point=e.target.closest?.('[data-a-chart-point]');
+ if(point)pointTooltip(point);
+});
+root.addEventListener('focusout',e=>{
+ const point=e.target.closest?.('[data-a-chart-point]');
+ if(point)hidePointTooltip(point);
+});
+root.addEventListener('click',e=>{
+ const point=e.target.closest?.('[data-a-chart-point]');
+ if(point){pointTooltip(point);return}
+ const chart=e.target.closest?.('[data-a-chart]');
+ if(chart)hidePointTooltip(chart);
 });
 root.addEventListener('change',e=>{
  if(e.target.matches('[data-a-period]')){state.period=e.target.value;
