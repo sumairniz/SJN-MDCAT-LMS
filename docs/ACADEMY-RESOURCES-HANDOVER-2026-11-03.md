@@ -1,3 +1,15 @@
+# 2026-11-05 — STAGING HYBRID RANGE + STREAM EXPERIMENT (USER APPROVED)
+
+**Status:** Instrumented, reversible staging A/B, **not a confirmed performance fix**. User approved proceeding. Baseline authenticated Biology PDF (11,836,553 bytes, 18 pages) first actual page was **4,347 ms**, full transfer complete at **3,893 ms**, auth **661 ms** (single browser capture; network may vary). Exact user re-upload SHA-256: `8fd48a1f95c2c3fe5840ae908dfddb5070a3ca22adabf9e94d5debe1b8ed1a27`; matching the private R2 object by hash still needs verification.
+
+**Implementation (dev branch only):** In `public/sjn-academy-resources.js`, the existing streaming PDF.js call remains default (`disableRange:true,disableStream:false,disableAutoFetch:false`). A URL query flag `academyPdfRangeProbe=1` switches only the large-file PDF.js transport to `disableRange:false,disableStream:false,disableAutoFetch:false,rangeChunkSize:512*1024`. This is *not* the old unsuccessful range-only setting (`disableStream:true,disableAutoFetch:true`). A timing-only `transportMode` field distinguishes test cases; existing `authorizedMs`, `r2FirstProgressMs`, `r2DownloadCompleteMs`, `parsedMs`, `realFirstPageMs`, and `downloadedBytes` continue to track browser behavior. No UI design, API permission, bucket, object key, auth/session, exams, Courses or production change. Added regression tests and asset cache bust.
+
+**A/B procedure** (use same account, Chrome profile, PDF and connection; fresh document open each time): open standard staging URL `https://sjn-mdcat-lms-git-sjn-phase1a-foundation-sjn1.vercel.app/index.html?sjnPhase4Preview=1`, navigate Academy Resources → Biology One-Pagers, then inspect `window.SJNResources.getLastOpenTimings()`. Repeat with `&academyPdfRangeProbe=1` appended to the URL. Capture `transportMode`, `realFirstPageMs`, `authorizedMs`, `parsedMs`, `r2DownloadCompleteMs` and actual `downloadedBytes`, plus page 2 and last-page navigation. Repeat 3x alternating order and compare medians; don't claim speed from just one run. Note browser caches / signed URL variability. The flagged version is for **benchmarking**, not automatic rollout. If hybrid is slower or causes extra R2 requests, revert to default.
+
+**Source fidelity blocker:** QPDF is missing in the local container; local apt and direct download failed. PyMuPDF `linear=True` errors on the source. Ghostscript linearized an 11,388,550-byte candidate, but strict rendered-pixel equivalence fails around the CamScanner watermark; it was not uploaded or published. The original stays private and unchanged. Lossless conversion + private R2 derivative benchmark remain required before switching stored objects or integrating future Admin upload automation.
+
+---
+
 # 2026-11-05 — BIOLOGY ORIGINAL RECEIVED; LINEARIZED CANDIDATE VERIFIED (NOT PUBLISHED)
 
 **Status:** Owner reattached source `Bio one pagers(STB) by S.J NIZAMANI (1).pdf` in this conversation, fixing the prior source-file access blocker. Exact local source size **11,836,553 bytes**, **18 pages**; not web-linearized. We have not verified its checksum against the private R2 original (matching size alone is insufficient).
