@@ -1,3 +1,15 @@
+# 2026-11-05 — PDF READER STABILIZATION; PERFORMANCE EXPERIMENTS CLOSED (LATEST)
+
+**Owner decision:** Stop speculative PDF performance experiments, prioritize the pending Admin Panel, and leave Academy Resources in its most reliable current form. This feature is **functionally stable but not guaranteed fast**; latency is network-dependent and **the original 4.347-second baseline is not a consistently reproducible performance claim**.
+
+**Implemented on development branch only:** Removed `academyPdfRangeProbe` and hybrid range+stream code from `public/sjn-academy-resources.js`. All PDFs >=1 MiB now use the original reader's stable `pdfjsLib.getDocument({url,withCredentials:false,disableRange:true,disableStream:false,disableAutoFetch:false})` (single streaming path). Retained secure authenticated short-lived R2 signed URLs, existing small PDF session cache, page rendering, zoom, mobile behaviors, and numeric performance diagnostics. Updated related tests to reject probe switches and refreshed script cache-busting. No change to R2 documents, Supabase data/schema, permissions, Courses, MCQ engine, History, AI Tutor, reader design, or production.
+
+**Decision evidence:** A normal 11.84MB Biology PDF first-page measurement was 4,347ms on a good connection; later user browser experiments recorded 138,120ms and 140,149ms on stream-only; an opt-in range-plus-stream test recorded 64,587ms but on non-comparable conditions (first-page parse 23,036ms, displayed 64,587ms). There is **no controlled evidence supporting hybrid as faster**. Ghostscript derivative had minor pixel differences; rejected as lossless, not uploaded. QPDF derivative and real R2 A/B test remain uncompleted; **do not describe loading-speed problem as solved**. All range experiments explicitly shelved as deferred/future work.
+
+**Priority after checks pass:** Shift directly to **Admin Panel** requirements, data model, security and implementation planning under existing user approval protocol. Revisit PDF speed only when owner explicitly prioritizes it again. Do not reactivate the old query flag or substitute document-specific first-page images.
+
+---
+
 # 2026-11-05 — FIRST CONFIRMED HYBRID RANGE+STREAM BROWSER RESULT
 
 **User screenshot:** Chrome mobile emulation, Biology One-Pagers 11,836,553 bytes, query `academyPdfRangeProbe=1`, diagnostic confirms `transportMode:"range-plus-stream"`. Measured since click: `authorizedMs=288`, `pdfjsReadyMs=290`, `r2FirstProgressMs=1084`, `parsedMs=23036`, `firstPagePreparedMs=23037`, `r2DownloadCompleteMs=40371`, `realFirstPageMs=64587`, `downloadedBytes=12058624`, `expectedBytes=11836553`, `server_authMs=28`, `server_dbMs=31`, `server_signMs=1`. Progressive parsing occurred **17,335ms before** reported full transfer completion, but the genuine first page was displayed **41,550ms after** page preparation; this gap needs instrumentation to distinguish page.render, queue/scheduling, and browser CPU contention. Reported traffic 12,058,624 bytes vs nominal file size 11,836,553. Note PDF.js progress measurements are not precise network bytes; do not treat this alone as evidence of efficient partial transfer.
