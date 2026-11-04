@@ -20,7 +20,7 @@ test('Analytics renders verified data, navigates hierarchy and clears on student
  let uid='student-one',calls=0;
  const listeners=new Map();
  const root={innerHTML:'',contains(){return true;},replaceChildren(){this.innerHTML='';},
-  querySelector(){return null;},addEventListener(kind,fn){listeners.set(kind,fn)}};
+  querySelector(){return null;},addEventListener(kind,fn){if(!listeners.has(kind))listeners.set(kind,[]);listeners.get(kind).push(fn)}};
  const window={SJNAnalyticsBridge:{userId:()=>uid,load:async()=>{
   calls++;return {userId:uid,summary:summary()};
  }}};
@@ -32,9 +32,9 @@ test('Analytics renders verified data, navigates hierarchy and clears on student
  assert.match(root.innerHTML,/80%/);
  assert.match(root.innerHTML,/15/);
  assert.match(root.innerHTML,/Past Papers Question Bank/);
- const click=dataset=>listeners.get('click')({target:{closest:q=>q==='button'?{
+ const click=dataset=>{const event={target:{closest:q=>q==='button'?{
   dataset,hasAttribute:()=>false
- }:null}});
+ }:null}};for(const listener of (listeners.get('click')||[]))listener(event)};
  click({aTab:'banks'});
  assert.match(root.innerHTML,/Question Bank Analytics/);
  click({aBank:'Past Papers Question Bank'});
