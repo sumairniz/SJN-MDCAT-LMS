@@ -338,8 +338,11 @@
  #module-analytics .sjn-a-detail-volume .sjn-a-mini-stat{font-size:10px;padding:9px 4px}
 }
 @media(max-width:800px){
- #module-analytics .sjn-a-detail-name{flex:1;min-width:0}
- #module-analytics .sjn-a-detail-volume{margin-top:8px}
+ #module-analytics .sjn-a-detail-row{display:flex;flex-wrap:wrap;align-items:center}
+ #module-analytics .sjn-a-detail-name{flex:1;min-width:0;order:1}
+ #module-analytics .sjn-a-detail-outcome{order:2}
+ #module-analytics .sjn-a-detail-row>i{order:3}
+ #module-analytics .sjn-a-detail-volume{order:4;flex:0 0 100%;margin-top:6px}
 }
 @media(max-width:600px){
  #module-analytics .sjn-a-course-test{padding:14px}
