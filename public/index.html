@@ -3068,8 +3068,8 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         wizardQuestionFiltersActive = true;
         window.SJNPracticeFilters?.resetSelection();
         window.SJNPracticeFilters?.invalidate();
-        window.SJNAnalytics?.invalidate();
         markStudentHistoryChanged();
+        window.SJNAnalytics?.invalidate();
         if (wizardSelection.scope === 'course-test') void window.SJNCoursesPreview?.refresh?.();
         const confirmedGeneration = historyGeneration;
         window.SJNExamRecovery?.forget();
