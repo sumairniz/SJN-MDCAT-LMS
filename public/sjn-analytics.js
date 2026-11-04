@@ -271,7 +271,7 @@ function sourceCard(info,rows,buttonLabel,action){
  return '<button class="sjn-a-source" data-tone="'+info.tone+'" data-a-tab="'+action+'" type="button"><div class="sjn-a-source-top">'+
  '<span class="sjn-a-source-icon">'+icon(info.symbol)+'</span><span>'+icon('arrow-up-right-from-square')+'</span></div>'+
  '<strong>'+html(info.name)+'</strong><small>'+html(info.sub)+'</small><div class="sjn-a-source-stat">'+
- '<span>Accuracy <b>'+accuracy(s)+'</b></span><span>'+fmt(s.answered)+' answered</span></div>'+
+ '<span>Accuracy <b>'+accuracy(s)+'</b></span><span>Answered <b>'+fmt(s.answered)+'</b></span></div>'+countPills(s,true)+
  (bank?bar(used,total,info.tone)+'<small>'+fmt(used)+' of '+fmt(total)+' questions covered (lifetime)</small>':'')+
  '<span class="sjn-a-source-link">'+html(buttonLabel)+' '+icon('arrow-right')+'</span></button>';
 }
@@ -319,7 +319,7 @@ function bankView(data){
   const used=data.lifetimeCoverage.filter(r=>r.bank===bank).reduce((a,x)=>a+number(x.covered),0);
   return '<button type="button" class="sjn-a-bank-card" data-a-bank="'+html(bank)+'" data-tone="'+info.tone+'">'+
   '<div class="sjn-a-bank-icon">'+icon(info.symbol)+'</div><strong>'+html(bank)+'</strong>'+
-  '<small>'+fmt(s.answered)+' answers · '+accuracy(s)+' accuracy</small>'+
+  '<div class="sjn-a-bank-stats"><span>Accuracy <b>'+accuracy(s)+'</b></span><span>Answered <b>'+fmt(s.answered)+'</b></span></div>'+countPills(s,true)+
   '<div class="sjn-a-bank-coverage"><span>Lifetime Coverage</span><b>'+pct(used,catalog)+'</b></div>'+
   bar(used,catalog,info.tone)+'<small>'+fmt(used)+' / '+fmt(catalog)+' unique questions</small>'+
   '<span class="sjn-a-source-link">Explore Subjects '+icon('arrow-right')+'</span></button>';
@@ -348,9 +348,12 @@ function bankView(data){
  const detail=rank([...combined.values()]);
  return header+panel(state.chapter||state.subject||state.bank,'Your selected period · '+level+'-wise insights',stats+
  '<div class="sjn-a-panel-tools"><strong>'+level+' Breakdown</strong>'+sortControl()+'</div>'+
- (detail.length?'<div class="sjn-a-detail-list">'+detail.map(x=>'<button type="button" class="sjn-a-detail-row"'+(level!=='Topic'?' data-a-'+key+'="'+html(x.name)+'"':'')+'>'+
- '<span class="sjn-a-detail-name"><strong>'+html(x.name)+'</strong><small>'+fmt(x.answered)+' answered · '+fmt(x.skipped)+' skipped · '+fmt(x.covered)+' / '+fmt(x.available)+' covered</small></span>'+
- '<span class="sjn-a-detail-score" data-tone="'+tone(x)+'">'+accuracy(x)+'</span>'+
+ (detail.length?'<div class="sjn-a-detail-list">'+detail.map(x=>'<button type="button" class="sjn-a-detail-row" data-subject="'+subjectTone(state.subject||x.name)+'"'+(level!=='Topic'?' data-a-'+key+'="'+html(x.name)+'"':'')+'>'+
+ '<span class="sjn-a-detail-name"><strong>'+html(x.name)+'</strong>'+
+ '<span class="sjn-a-coverage-stat"><b>'+fmt(x.covered)+'</b> / <b>'+fmt(x.available)+'</b> unique covered</span>'+
+ '<span class="sjn-a-detail-volume">'+labelStats(x)+'</span></span>'+
+ '<span class="sjn-a-detail-outcome"><strong class="sjn-a-detail-score" data-tone="'+tone(x)+'">'+accuracy(x)+'</strong>'+
+ '<small>'+fmt(x.answered)+' answered</small></span>'+
  (level==='Topic'?'':icon('chevron-right'))+'</button>').join('')+'</div>':
  '<div class="sjn-a-empty compact">No questions in this section yet.</div>')+
  '<p class="sjn-a-help">Accuracy uses answered questions from the selected period. Coverage reflects lifetime unique questions and is not affected by the date filter.</p>');
