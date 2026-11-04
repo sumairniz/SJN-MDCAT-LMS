@@ -30,7 +30,8 @@ const dateLabel=v=>{const dt=new Date(v);return Number.isFinite(dt.getTime())?dt
 const user=()=>window.SJNAnalyticsBridge?.userId?.()||null;
 const state={owner:null,period:'month',from:'',to:'',view:'overview',bank:'',subject:'',chapter:'',course:'',paper:'',sort:'weak',status:'idle',data:null,cache:new Map(),pending:null,generation:0};
 function periodRange(){
- const now=new Date(),end=new Date(now);
+ // Stable minute-aligned periods avoid redundant requests on ordinary tab visits.
+ const now=new Date(Math.floor(Date.now()/60000)*60000),end=new Date(now);
  let start=null,prevStart=null,prevEnd=null;
  const days={day:1,week:7,fifteen:15,month:30,quarter:90}[state.period];
  if(days){start=new Date(end.getTime()-days*86400000);prevEnd=start;prevStart=new Date(start.getTime()-days*86400000)}
