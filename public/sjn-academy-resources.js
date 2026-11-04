@@ -293,15 +293,38 @@ async function openFile(id){
  try{
   const link=await window.SJNResourcesBridge.load('/academy-resources/'+encodeURIComponent(id)+'/open');
   if(v!==openVersion||uid!==owner||uid!==user())return;
-  if(activeOpenTimings?.version===v)activeOpenTimings.authorizedMs=Math.round(performance.now()-activeOpenTimings.start);
-  // Large PDFs stream the complete original while an authorized preview shows page one.
+  if(activeOpenTimings?.version===v){
+   const t=activeOpenTimings;
+   t.authorizedMs=Math.round(performance.now()-t.start);
+   // Browser-native Server-Timing splits authenticated Vercel work into its
+   // existing auth, metadata and signing stages. Never copy resource URLs.
+   const path='/api/academy-resources/'+encodeURIComponent(id)+'/open';
+   const resources=performance.getEntriesByType('resource');
+   for(let i=resources.length-1;i>=0;i--){
+    const entry=resources[i];
+    if(entry.name.includes(path)&&entry.startTime>=t.start){
+     for(const metric of entry.serverTiming||[]){
+      if(['resource-auth','resource-db','resource-sign'].includes(metric.name)&&
+         Number.isFinite(metric.duration))t[metric.name.replace('resource-','server_')+'Ms']=Math.round(metric.duration);
+     }
+     break;
+    }
+   }
+  }
+  // Large PDFs retain the proven streaming fallback until optimized PDFs
+  // can be compared on the same R2 origin with actual browser timings.
   const largePdf=Number(file.size_bytes)>=1024*1024;
   if(Number(file.size_bytes)>50*1024*1024)throw Error('PDF exceeds reader limit');
   async function loadFullBytes(){
    request=new AbortController();
    const res=await fetch(link.url,{signal:request.signal,credentials:'omit',cache:'no-store'});
+   if(activeOpenTimings?.version===v)activeOpenTimings.r2HeadersMs=Math.round(performance.now()-activeOpenTimings.start);
    if(!res.ok)throw Error('PDF request failed ('+res.status+')');
    const buf=await res.arrayBuffer();
+   if(activeOpenTimings?.version===v){
+    activeOpenTimings.r2DownloadCompleteMs=Math.round(performance.now()-activeOpenTimings.start);
+    activeOpenTimings.downloadedBytes=buf.byteLength;
+   }
    if(buf.byteLength>50*1024*1024)throw Error('PDF exceeds reader limit');
    return new Uint8Array(buf);
   }
@@ -309,10 +332,10 @@ async function openFile(id){
   if(largePdf){
    const lib=await engine();
    if(v!==openVersion||uid!==owner||uid!==user())return;
+   if(activeOpenTimings?.version===v)activeOpenTimings.pdfjsReadyMs=Math.round(performance.now()-activeOpenTimings.start);
    status('Opening document…');
-   // Recorded range-only loading was slower for this non-linearized PDF.
-   // Use the previously more efficient single streaming request for full-page
-   // navigation while the independent private JPEG renders page one early.
+   // The old range-only experiment regressed on non-linearized PDFs. Keep
+   // one streaming request until benchmarked linearized R2 derivatives exist.
    pdfTask=lib.getDocument({
     url:link.url,
     withCredentials:false,
@@ -320,6 +343,16 @@ async function openFile(id){
     disableStream:false,
     disableAutoFetch:false
    });
+   pdfTask.onProgress=({loaded,total})=>{
+    const t=activeOpenTimings;
+    if(t?.version!==v||uid!==owner||uid!==user())return;
+    if(loaded>0&&t.r2FirstProgressMs===undefined)t.r2FirstProgressMs=Math.round(performance.now()-t.start);
+    if(Number.isFinite(loaded)&&loaded>=0)t.downloadedBytes=loaded;
+    if(Number.isFinite(total)&&total>0){
+     t.expectedBytes=total;
+     if(loaded>=total)t.r2DownloadCompleteMs=Math.round(performance.now()-t.start);
+    }
+   };
    doc=await pdfTask.promise;
    if(activeOpenTimings?.version===v)activeOpenTimings.parsedMs=Math.round(performance.now()-activeOpenTimings.start);
   }else{
@@ -327,6 +360,11 @@ async function openFile(id){
    const saved=smallPdfCache.get(id);
    const [lib,bytes]=await Promise.all([engine(),saved?Promise.resolve(saved.slice()):loadFullBytes()]);
    if(v!==openVersion||uid!==owner||uid!==user())return;
+   if(activeOpenTimings?.version===v){
+    activeOpenTimings.pdfjsReadyMs=Math.round(performance.now()-activeOpenTimings.start);
+    activeOpenTimings.smallPdfCacheHit=!!saved;
+    if(saved)activeOpenTimings.downloadedBytes=bytes.byteLength;
+   }
    if(!saved)rememberSmallPdf(id,bytes);
    pdfTask=lib.getDocument({data:bytes});
    doc=await pdfTask.promise;
@@ -337,6 +375,7 @@ async function openFile(id){
   if(!pageCount)throw Error('No pages in PDF');
   const first=await doc.getPage(1);
   if(v!==openVersion||uid!==owner||uid!==user())return;
+  if(activeOpenTimings?.version===v)activeOpenTimings.firstPagePreparedMs=Math.round(performance.now()-activeOpenTimings.start);
   const vp=first.getViewport({scale:1});
   pageRatios=Array(pageCount).fill(vp.height/vp.width);
   buildSlots();updateControls();goToPage(1);scheduleRender();
