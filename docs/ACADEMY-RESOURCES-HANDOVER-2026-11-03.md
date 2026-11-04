@@ -1,3 +1,15 @@
+# 2026-11-05 — BIOLOGY ORIGINAL RECEIVED; LINEARIZED CANDIDATE VERIFIED (NOT PUBLISHED)
+
+**Status:** Owner reattached source `Bio one pagers(STB) by S.J NIZAMANI (1).pdf` in this conversation, fixing the prior source-file access blocker. Exact local source size **11,836,553 bytes**, **18 pages**; not web-linearized. We have not verified its checksum against the private R2 original (matching size alone is insufficient).
+
+**Local isolated test:** A Ghostscript 10.05.1 `pdfwrite -dFastWebView` conversion produced a separate **11,388,550-byte** (3.78% smaller) candidate. PyMuPDF recognizes it as web-linearized; its first-page section ends at **byte 578,351**, versus the original's cross-reference at the end. That difference makes progressive loading plausible, but it is **NOT a real R2/Chrome first-page speed result**.
+
+**QA:** All **18/18 page sizes, extracted text and links** match. All **18 main full-page JPEG payloads** match the originals after excluding an extra JPEG EOI marker emitted by Ghostscript. A full-page pixel comparison at native 1997x3000 found **5,217 differing pixels out of ~107,838,000** (0.00484%). Most differences occur in the CamScanner watermark; page one also has a few small text-area rendering differences. **Strict pixel equivalence fails**, so this is a **visually near-equivalent benchmark candidate only, not a lossless production derivative**. The prior large MasterBook Ghostscript candidate remains rejected due to actual text substitutions. Do not confuse the two.
+
+**Boundaries and next gate:** The current processing container does not have QPDF, cannot obtain new packages from the network, and no approved connected action accepts direct local raw binary transfer to the private Cloudflare R2 staging bucket. The PDF.js frontend still serves the existing original object and keeps the 4.347-second first-page baseline. There is **no demonstrated latency improvement**. Use qpdf on a trusted upload host to produce a truly lossless linearized derivative, compare text/images/annotations/pixels, stage it as a separate private R2 key, and measure the first genuine page via existing timing instrumentation before changing any object mapping. Do not alter unrelated LMS modules or production.
+
+---
+
 # 2026-11-04 — PHASES 1–2 INSTRUMENTATION & CONTROLLED PDF BENCHMARK (LATEST)
 
 **User approval:** Proceed with true performance measurement and isolated linearized-vs-original benchmarks. No PDF viewer layout changes, no file-specific preview, no production release or modification to exams/Courses/History/AI Tutor. We must not claim a speed improvement until authenticated browser measurements demonstrate one.
