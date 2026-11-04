@@ -93,6 +93,8 @@ test('Large PDFs use original streaming path and small files reuse session bytes
  assert.match(ui,/r2HeadersMs=/);
  assert.match(ui,/downloadedBytes=/);
  assert.match(ui,/expectedBytes=/);
+ assert.match(ui,/activeOpenTimings=null/);
+ assert.match(ui,/lastOpenTimings=null;smallPdfCache\.clear\(\)/);
  assert.match(ui,/resource-auth/);
  assert.match(ui,/resource-db/);
  assert.match(ui,/resource-sign/);
