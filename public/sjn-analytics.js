@@ -362,33 +362,80 @@ function bankView(data){
 function courseView(data){
  const courses=[...new Set(data.courseCatalog.map(x=>x.session))];
  if(!state.course){
- return panel('Course Analytics','Select a course to view individual test performance',
- '<div class="sjn-a-bank-grid sjn-a-course-grid">'+courses.map(code=>{const tests=data.courseCatalog.filter(x=>x.session===code);
- const ids=new Set(tests.map(x=>String(x.id)));const rows=data.tests.filter(x=>x.source_type==='courses'&&ids.has(String(x.group_key)));
- const s=sum(rows);
- return '<button class="sjn-a-bank-card" data-a-course="'+html(code)+'" type="button" data-tone="purple"><div class="sjn-a-bank-icon">'+icon('graduation-cap')+'</div>'+
- '<strong>'+html(code==='genome'?'Genome Test Session':code)+'</strong><small>'+tests.length+' published tests · '+rows.length+' historical test attempts</small>'+countPills(s,true)+
- '<div class="sjn-a-bank-coverage"><span>Answer accuracy</span><b>'+accuracy(s)+'</b></div>'+
- '<span class="sjn-a-source-link">Explore Course '+icon('arrow-right')+'</span></button>';}).join('')+
- (!courses.length?'<div class="sjn-a-empty">No course tests have been published yet.</div>':'')+'</div>');}
- const tests=data.courseCatalog.filter(x=>x.session===state.course),ids=new Set(tests.map(x=>String(x.id)));
+  return panel('Course Analytics','Select a course to view individual test performance',
+   '<div class="sjn-a-bank-grid sjn-a-course-grid">'+courses.map(code=>{
+    const tests=data.courseCatalog.filter(x=>x.session===code);
+    const ids=new Set(tests.map(x=>String(x.id)));
+    const rows=data.tests.filter(x=>x.source_type==='courses'&&ids.has(String(x.group_key)));
+    const summary=sum(rows);
+    return '<button class="sjn-a-bank-card" data-a-course="'+html(code)+'" type="button" data-tone="purple">'+
+      '<div class="sjn-a-bank-icon">'+icon('graduation-cap')+'</div>'+
+      '<strong>'+html(code==='genome'?'Genome Test Session':code)+'</strong>'+
+      '<small>'+tests.length+' published tests · '+rows.length+' historical test attempts</small>'+
+      countPills(summary,true)+
+      '<div class="sjn-a-bank-coverage"><span>Answer accuracy</span><b>'+accuracy(summary)+'</b></div>'+
+      '<span class="sjn-a-source-link">Explore Course '+icon('arrow-right')+'</span></button>';
+   }).join('')+(!courses.length?'<div class="sjn-a-empty">No course tests have been published yet.</div>':'')+'</div>');
+ }
+ const tests=data.courseCatalog.filter(x=>x.session===state.course);
+ const ids=new Set(tests.map(x=>String(x.id)));
  const rows=data.tests.filter(x=>x.source_type==='courses'&&ids.has(String(x.group_key)));
  const all=data.nodes.filter(x=>x.source_type==='courses'&&ids.has(String(x.group_key)));
- return '<div class="sjn-a-backline"><button data-a-back="course">'+icon('arrow-left')+' All Courses</button></div>'+
- panel(state.course==='genome'?'Genome Test Session':state.course,'Course-wide performance for your selected period',
- '<div class="sjn-a-inline-stat">'+metric('Answer Accuracy',accuracy(sum(all)),fmt(sum(all).answered)+' answered','bullseye','teal')+
- metric('Test Attempts',fmt(rows.length),tests.length+' published tests','clipboard-check','purple')+'</div>'+
- '<div class="sjn-a-panel-tools"><strong>Individual Tests</strong></div><div class="sjn-a-detail-list">'+tests.map(t=>{
- const r=sum(all.filter(x=>String(x.group_key)===String(t.id))),matches=rows.filter(x=>String(x.group_key)===String(t.id));
- return '<div class="sjn-a-course-test"><div><strong>'+html(t.title)+'</strong><small>Test '+t.testNumber+' · '+fmt(matches.length)+' completed attempt(s)</small></div>'+
- '<div class="sjn-a-test-numbers">'+statusTag(r)+'<strong>'+accuracy(r)+'</strong><small>'+fmt(r.answered)+' answered</small></div>'+countPills(r,true)+
- (matches.length?'<div class="sjn-a-course-subjects">'+rowsBy(all.filter(x=>String(x.group_key)===String(t.id)),x=>x.subject).map(x=>
- '<span data-subject="'+subjectTone(x.name)+'">'+html(x.name)+': <b>'+accuracy(x)+'</b> ('+fmt(x.answered)+')</span>').join('')+
- rowsBy(all.filter(x=>String(x.group_key)===String(t.id)&&x.chapter),x=>x.chapter).map(x=>
- '<span class="sjn-a-chapter-stat">Chapter · '+html(x.name)+': <b>'+accuracy(x)+'</b> ('+fmt(x.answered)+')</span>').join('')+
- '</div>':'')+'</div>';}).join('')+'</div>'+
- '<p class="sjn-a-help">Course question topics are not shown. Chapter breakdowns are displayed only when relevant metadata exists. Test History retakes may be included in historical attempt totals but do not replace the Course page\'s latest official result.</p>');
+ const title=state.course==='genome'?'Genome Test Session':state.course;
+ const items=tests.map(test=>{
+  const attempts=rows.filter(x=>String(x.group_key)===String(test.id))
+   .sort((a,b)=>String(b.created_at).localeCompare(String(a.created_at))||
+    number(b.attempt_id)-number(a.attempt_id));
+  const key=String(test.id);
+  const selected=attempts.find(x=>String(x.attempt_id)===String(state.selectedAttempts[key]))||attempts[0];
+  const individual=selected?(data.courseAttemptBreakdown||[]).filter(x=>
+    String(x.attempt_id)===String(selected.attempt_id) && String(x.group_key)===key):[];
+  const bySubject=rowsBy(individual,x=>x.subject||'Not classified');
+  const result=selected||zero();
+  const attemptPicker=attempts.length>1?
+   '<label class="sjn-a-attempt-select">Attempt <select data-a-attempt="'+html(key)+'" aria-label="'+html(test.title)+' attempt">'+
+   attempts.map((x,i)=>'<option value="'+html(String(x.attempt_id))+'"'+
+     (selected&&String(selected.attempt_id)===String(x.attempt_id)?' selected':'')+'>'+
+     html((i===0?'Latest · ':'')+dateLabel(x.created_at))+'</option>').join('')+'</select></label>':'';
+  const breakdown=!selected?
+   '<div class="sjn-a-empty compact">No completed attempt for this test in the selected period.</div>':
+   '<div class="sjn-a-course-subject-list">'+bySubject.map(subject=>{
+    const chapters=rowsBy(subject.rows,x=>x.chapter||'');
+    return '<details class="sjn-a-course-subject" data-subject="'+subjectTone(subject.name)+'">'+
+     '<summary><span class="sjn-a-course-subject-title">'+html(subject.name)+'</span>'+
+     '<span class="sjn-a-course-subject-accuracy">'+accuracy(subject)+'</span>'+
+     icon('chevron-down')+'</summary>'+
+     '<div class="sjn-a-course-subject-content">'+
+       '<div class="sjn-a-course-subject-total">'+fmt(subject.questions)+' questions in this subject · '+
+         fmt(subject.answered)+' answered</div>'+countPills(subject,true)+
+       (chapters.length?
+       '<div class="sjn-a-course-chapter-list"><div class="sjn-a-course-chapter-head">Chapter breakdown</div>'+
+       rank(chapters).map(ch=>'<div class="sjn-a-course-chapter"><div><strong>'+html(ch.name)+'</strong>'+
+        '<small>'+fmt(ch.questions)+' questions · '+fmt(ch.correct)+' correct · '+
+        fmt(ch.incorrect)+' incorrect · '+fmt(ch.skipped)+' skipped</small></div>'+
+        '<span>'+accuracy(ch)+'</span></div>').join('')+'</div>':
+       '<p class="sjn-a-help">Chapter breakdown is unavailable for this subject in the selected test.</p>')+
+     '</div></details>';
+   }).join('')+'</div>';
+  return '<article class="sjn-a-course-test"><div class="sjn-a-course-test-heading"><div><strong>'+
+   html(test.title)+'</strong><small>Test '+fmt(test.testNumber)+' · '+
+   fmt(attempts.length)+' completed attempt(s) in this period</small></div>'+attemptPicker+'</div>'+
+   '<div class="sjn-a-course-test-score"><span>Selected attempt accuracy</span><strong>'+accuracy(result)+'</strong></div>'+
+   (selected?countPills(result,true):'')+
+   '<div class="sjn-a-course-test-subtitle">Subject breakdown'+
+   (selected?' · '+fmt(result.questions)+' total MCQs':'')+'</div>'+breakdown+'</article>';
+ }).join('');
+ return '<div class="sjn-a-backline"><button data-a-back="course">'+icon('arrow-left')+
+  ' All Courses</button></div>'+
+  panel(title,'Course performance during the selected time period',
+   '<div class="sjn-a-inline-stat">'+
+   metric('Overall Answer Accuracy',accuracy(sum(all)),fmt(sum(all).answered)+' historical answers','bullseye','teal')+
+   metric('Test Attempts',fmt(rows.length),fmt(tests.length)+' published tests','clipboard-check','purple')+'</div>'+
+   '<div class="sjn-a-panel-tools"><strong>Individual Tests</strong></div>'+
+   '<div class="sjn-a-detail-list">'+items+'</div>'+
+   '<p class="sjn-a-help">Each test opens its latest completed attempt by default. Choose an earlier attempt to inspect that result. Subject rows expand into available chapter details; topics are never displayed for Courses.</p>');
 }
+
 function paperView(data){
  const papers=data.paperCatalog||[];
  if(!state.paper)return panel('Full-Length Past Papers','Review your completed examinations by paper, subject, chapter and topic',
@@ -469,6 +516,9 @@ root.addEventListener('change',e=>{
  if(e.target.matches('[data-a-period]')){state.period=e.target.value;
  if(state.period==='custom'&&!state.from){const now=new Date();state.to=calendarDate(now);state.from=calendarDate(new Date(now.getTime()-30*86400000))}
  if(state.period==='custom'){render();return}void load();return}
+ if(e.target.matches('[data-a-attempt]')){
+   state.selectedAttempts[e.target.dataset.aAttempt]=e.target.value;render();return;
+ }
  if(e.target.matches('[data-a-sort]')){state.sort=e.target.value;render()}
 });
 window.SJNAnalytics={enter:()=>load(),reset,invalidate,refresh:()=>load(true)};
