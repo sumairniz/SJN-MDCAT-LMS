@@ -1,3 +1,21 @@
+# 2026-11-05 — ANALYTICS V1 OWNER-APPROVED VISUAL REFINEMENT / DATE FILTER REPAIR
+
+**Scope:** Staging development branch only; user explicitly approved redesign refinements after reviewing a 54-second Chrome recording. **Owner visual re-acceptance remains pending.** Production/main, content, course/exam flow, bookmarks, PDF reader, R2, Supabase schema and study history unchanged.
+
+**Actual dated-filter root cause:** The Analytics `server.js` ISO timestamp validator used `\\d` inside a JavaScript regex literal, which matched a backslash followed by `d` instead of digits. Thus genuine period start/end ISO timestamps failed validation; `All Time` worked because it omitted them. Fixed the regex to `\d` and added an explicit regression test accepting a correctly formatted UTC timestamp while rejecting malformed dates. Existing staging SQL aggregation was separately verified under an authenticated RLS context with a time window. **Default period changed from Last 30 Days to All Time**; recent-period choices still available and must work, not be bypassed.
+
+**Header/navigation:** Removed the large decorative Analytics icon; a compact chart icon now precedes the small `PERFORMANCE CENTER` kicker, consistent with other library/station headings. Sidebar retained left chart icon and replaced `INSIGHTS` text at right with a matching small chart-statistic icon.
+
+**Visual design:** Retained approved Analytics layout and dark academic palette, while adding restrained gradient depth, better borders, accessible brighter captions, prominent accuracy/coverage figures and colored Correct/Incorrect/Skipped numerical tiles. Bank → Subject → Chapter → Topic rows now show unique-question coverage and each colored outcome as an accessible number and label. No Marked/Unused filters introduced in Course or Full-Length Past Papers. Reused existing Courses subject identities (Biology green `#34d399`, Chemistry purple `#a78bfa`, Physics blue `#60a5fa`, English amber `#fbbf24`, Logical Reasoning pink `#f472b6`), and Past Papers regional identities (Sindh `#65B3AD`, Punjab `#D4B066`, KPK `#B09ACD`, Balochistan `#B39434`, Federal `#879FC8`, NUMS `#D46AAB`). Course test and FLP cards have clearer completed-attempt and answer-outcome counts. Focus Areas show correct/incorrect/skipped alongside accuracy and sample size.
+
+**Graph:** Replaced ambiguous short ISO-like date labels with readable month/day names; All Time groups by month, 90-day mode groups by week and shorter periods retain daily groups. Grouped accuracy is always `sum(correct)/sum(answered)` rather than a misleading arithmetic mean of percentages; no-data days are not manufactured. New keyboard-focus, pointer-hover and touch-friendly tooltip reports date/period, accuracy, answered, correct. Chart is still performance-only and does not claim exam readiness.
+
+**Stability:** Existing account-isolated memory caching and post-submission invalidation remain intact; expanded tests validate the ISO-regex fix, All Time default, visual semantic color mapping, chart tooltip handlers, and cross-account isolation. CSS is scoped to `#module-analytics`, responsive and reduced-motion-aware. Staging database and release artifacts were not replaced or rewritten.
+
+**Acceptance pending:** Owner should open My Analytics from staging and verify that All Time opens by default and that Last 30 Days, Last 24 Hours and Custom Range show valid data or an honest empty state (not Retry); check legibility, chapter/topic counters, course and regional paper cards, hover/touch tooltips, mobile layout and usability. Automated checks and READY status do not replace authenticated visual testing or guarantee sub-millisecond loading.
+
+---
+
 # SJN MedNest — Analytics V1 Staging Handover (2026-11-05)
 
 **Owner approval:** Implement Analytics on staging with professional responsive UI, using the approved hierarchy, historical student data and global time selector. No Mistake Diary implementation was authorized in this phase; it is next. No production changes.
