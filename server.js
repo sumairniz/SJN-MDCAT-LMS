@@ -357,7 +357,7 @@ app.get('/api/student-analytics', auth, async (req,res)=>{
   res.set('Cache-Control','private, no-store');
   const parseTime=(value)=>{
     if(value===undefined||value==='')return null;
-    if(typeof value!=='string'||!/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$/.test(value))return undefined;
+    if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(value))return undefined;
     const time=Date.parse(value);
     return Number.isFinite(time)&&new Date(time).toISOString()===value?value:undefined;
   };
