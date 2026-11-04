@@ -351,6 +351,42 @@ app.get('/api/history', auth, async (req, res) => {
   }
 });
 
+// Read-only Analytics: a single authenticated, RLS-invoker SQL aggregation.
+// No score writes, student record downloads, or guessing old summary-only answers.
+app.get('/api/student-analytics', auth, async (req,res)=>{
+  res.set('Cache-Control','private, no-store');
+  const parseTime=(value)=>{
+    if(value===undefined||value==='')return null;
+    if(typeof value!=='string'||!/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$/.test(value))return undefined;
+    const time=Date.parse(value);
+    return Number.isFinite(time)&&new Date(time).toISOString()===value?value:undefined;
+  };
+  const from=parseTime(req.query.from),to=parseTime(req.query.to);
+  const previousFrom=parseTime(req.query.previousFrom),previousTo=parseTime(req.query.previousTo);
+  const offset=Number(req.query.offset||0);
+  if([from,to,previousFrom,previousTo].includes(undefined)||
+    (from===null)!==(to===null)||
+    (previousFrom===null)!==(previousTo===null)||
+    (from!==null&&from>=to)||(previousFrom!==null&&previousFrom>=previousTo)||
+    !Number.isInteger(offset)||offset< -720||offset>840)
+    return res.status(400).json({error:'Invalid Analytics time period.'});
+  try{
+    const {data,error}=await req.db.rpc('sjn_student_analytics',{
+      p_from:from,p_to:to,p_previous_from:previousFrom,p_previous_to:previousTo,
+      p_utc_offset_minutes:offset
+    });
+    if(error)throw error;
+    if(!data||typeof data!=='object'||Array.isArray(data)||
+       !Array.isArray(data.nodes)||!data.totals||
+       !Array.isArray(data.bankCatalog)||!Array.isArray(data.lifetimeCoverage))
+      throw new Error('Incomplete Analytics summary');
+    res.json({userId:req.user.id,summary:data});
+  }catch(e){
+    console.error('Student Analytics unavailable:',e?.code||e?.message);
+    res.status(503).json({error:'Your Analytics could not be verified. Please retry.'});
+  }
+});
+
 // Staging academy-curated Genome tests, read only through the student's existing
 // verified login. Completion comes only from server-saved attempts; never from UI.
 app.get('/api/course-tests', auth, async (req, res) => {
