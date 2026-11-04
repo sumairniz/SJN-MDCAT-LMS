@@ -277,7 +277,9 @@ function courseView(data){
  '<div class="sjn-a-test-numbers">'+statusTag(r)+'<strong>'+accuracy(r)+'</strong><small>'+fmt(r.answered)+' answered</small></div>'+
  (matches.length?'<div class="sjn-a-course-subjects">'+rowsBy(all.filter(x=>String(x.group_key)===String(t.id)),x=>x.subject).map(x=>
  '<span>'+html(x.name)+': <b>'+accuracy(x)+'</b> ('+fmt(x.answered)+')</span>').join('')+
- (t.chapter?'<small>Chapter: '+html(t.chapter)+'</small>':'')+'</div>':'')+'</div>';}).join('')+'</div>'+
+ rowsBy(all.filter(x=>String(x.group_key)===String(t.id)&&x.chapter),x=>x.chapter).map(x=>
+ '<span>Chapter · '+html(x.name)+': <b>'+accuracy(x)+'</b> ('+fmt(x.answered)+')</span>').join('')+
+ '</div>':'')+'</div>';}).join('')+'</div>'+
  '<p class="sjn-a-help">Course question topics are not shown. Chapter breakdowns are displayed only when relevant metadata exists. Test History retakes may be included in historical attempt totals but do not replace the Course page\'s latest official result.</p>');
 }
 function paperView(data){
