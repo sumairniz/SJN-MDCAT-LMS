@@ -19,7 +19,7 @@ const summary=()=>({
 test('Analytics renders verified data, navigates hierarchy and clears on student change',async()=>{
  let uid='student-one',calls=0;
  const listeners=new Map();
- const root={innerHTML:'',replaceChildren(){this.innerHTML='';},
+ const root={innerHTML:'',contains(){return true;},replaceChildren(){this.innerHTML='';},
   querySelector(){return null;},addEventListener(kind,fn){listeners.set(kind,fn)}};
  const window={SJNAnalyticsBridge:{userId:()=>uid,load:async()=>{
   calls++;return {userId:uid,summary:summary()};
