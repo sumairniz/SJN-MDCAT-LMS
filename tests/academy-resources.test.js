@@ -80,17 +80,11 @@ test('Interactive resources use collection and document cards without modifying 
 
 test('Large PDFs use original streaming path and small files reuse session bytes',()=>{
  assert.match(ui,/Number\(file\.size_bytes\)>=1024\*1024/);
- assert.match(ui,/const rangeProbe=new URLSearchParams\(window\.location\.search\)/);
- assert.match(ui,/academyPdfRangeProbe/);
- assert.match(ui,/disableRange:!rangeProbe/);
+ assert.match(ui,/disableRange:true/);
  assert.match(ui,/disableStream:false/);
  assert.match(ui,/disableAutoFetch:false/);
- assert.match(ui,/rangeChunkSize:512\*1024/);
- assert.match(ui,/transportMode=/);
- assert.match(ui,/disableStream:false/);
- assert.match(ui,/disableAutoFetch:false/);
- assert.doesNotMatch(ui,/rangeChunkSize:1024\*1024/);
- // Explicit opt-in range probe; default route remains single-stream.
+ assert.doesNotMatch(ui,/academyPdfRangeProbe|rangeProbe|rangeChunkSize/);
+ assert.match(ui,/transportMode=largePdf\?'stream-only':'small-file-bytes'/);
  assert.match(ui,/pdfTask\.onProgress/);
  assert.match(ui,/r2FirstProgressMs=/);
  assert.match(ui,/r2DownloadCompleteMs=/);
