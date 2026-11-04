@@ -85,7 +85,17 @@ test('Large PDFs use original streaming path and small files reuse session bytes
  assert.match(ui,/disableAutoFetch:false/);
  assert.doesNotMatch(ui,/rangeChunkSize:1024\*1024/);
  assert.doesNotMatch(ui,/rangeChunkSize:512\*1024/);
- assert.doesNotMatch(ui,/pdfTask\.onProgress/);
+ assert.match(ui,/pdfTask\.onProgress/);
+ assert.match(ui,/r2FirstProgressMs=/);
+ assert.match(ui,/r2DownloadCompleteMs=/);
+ assert.match(ui,/pdfjsReadyMs=/);
+ assert.match(ui,/firstPagePreparedMs=/);
+ assert.match(ui,/r2HeadersMs=/);
+ assert.match(ui,/downloadedBytes=/);
+ assert.match(ui,/expectedBytes=/);
+ assert.match(ui,/resource-auth/);
+ assert.match(ui,/resource-db/);
+ assert.match(ui,/resource-sign/);
  assert.match(ui,/pdfTask=lib\.getDocument\(\{data:bytes\}\)/);
  assert.match(ui,/Rendering first page/);
  assert.match(ui,/const smallPdfCache=new Map\(\)/);
