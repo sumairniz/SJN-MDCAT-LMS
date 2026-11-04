@@ -12,6 +12,8 @@ const summary=()=>({
   incorrect:3,skipped:5,unique_questions:17}],
  bankCatalog:[{bank:'Past Papers Question Bank',subject:'Biology',chapter:'Biomolecules',topic:'Proteins',available:200}],
  lifetimeCoverage:[{bank:'Past Papers Question Bank',subject:'Biology',chapter:'Biomolecules',topic:'Proteins',covered:17}],
+ periodCoverage:[{bank:'Past Papers Question Bank',subject:'Biology',chapter:'Biomolecules',topic:'Proteins',covered:0,answered_unique:0}],
+ courseAttemptBreakdown:[],
  courseCatalog:[{id:1,session:'genome',title:'Acellular Life',subject:'Biology',chapter:'Acellular Life',testNumber:1}],
  paperCatalog:[{id:3,title:'SIBA MDCAT 2025',region:'sindh',year:'2025',size:180}],
  tests:[],legacyAttempts:1
@@ -39,6 +41,8 @@ test('Analytics renders verified data, navigates hierarchy and clears on student
  assert.match(root.innerHTML,/Question Bank Analytics/);
  click({aBank:'Past Papers Question Bank'});
  assert.match(root.innerHTML,/Subject Breakdown/);
+ assert.match(root.innerHTML,/0 \/ 200 unique covered/);
+ assert.doesNotMatch(root.innerHTML,/17 \/ 200 unique covered/);
  click({aSubject:'Biology'});
  assert.match(root.innerHTML,/Chapter Breakdown/);
  click({aChapter:'Biomolecules'});
