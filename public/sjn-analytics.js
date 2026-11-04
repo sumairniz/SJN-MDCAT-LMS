@@ -391,12 +391,12 @@ function courseView(data){
 function paperView(data){
  const papers=data.paperCatalog||[];
  if(!state.paper)return panel('Full-Length Past Papers','Review your completed examinations by paper, subject, chapter and topic',
- '<div class="sjn-a-bank-grid">'+papers.map(p=>{const rows=data.tests.filter(x=>x.source_type==='papers'&&x.title===p.title);
+ '<div class="sjn-a-bank-grid sjn-a-paper-grid">'+papers.map(p=>{const rows=data.tests.filter(x=>x.source_type==='papers'&&x.title===p.title);
  const total=rows.reduce((a,x)=>a+number(x.answered),0),correct=rows.reduce((a,x)=>a+number(x.correct),0);
- return '<button type="button" class="sjn-a-bank-card" data-tone="amber" data-a-paper="'+html(String(p.id))+'">'+
+ return '<button type="button" class="sjn-a-bank-card" data-region="'+regionTone(p.region)+'" data-tone="amber" data-a-paper="'+html(String(p.id))+'">'+
  '<div class="sjn-a-bank-icon">'+icon('file-lines')+'</div><strong>'+html(p.title)+'</strong><small>'+html(p.region||'MDCAT')+' · '+html(p.year||'')+'</small>'+
  '<div class="sjn-a-bank-coverage"><span>Accuracy</span><b>'+pct(correct,total)+'</b></div>'+
- '<small>'+rows.length+' recorded attempt(s)</small><span class="sjn-a-source-link">View Paper Analytics '+icon('arrow-right')+'</span></button>';}).join('')+
+ '<small>'+rows.length+' recorded attempt(s) · '+fmt(p.size)+' questions per paper</small>'+countPills(sum(rows),true)+'<span class="sjn-a-source-link">View Paper Analytics '+icon('arrow-right')+'</span></button>';}).join('')+
  (!papers.length?'<div class="sjn-a-empty">No full-length papers have been published yet.</div>':'')+'</div>');
  const p=papers.find(x=>String(x.id)===String(state.paper));if(!p){state.paper='';return paperView(data)}
  const all=data.nodes.filter(x=>x.source_type==='papers'&&x.group_key===p.title);
@@ -408,11 +408,11 @@ function paperView(data){
  '<div class="sjn-a-panel-tools"><strong>Subject Breakdown</strong>'+sortControl()+'</div>'+
  (by.length?'<div class="sjn-a-paper-groups">'+rank(by).map(x=>{
  const chapterRows=rowsBy(x.rows,r=>r.chapter||'Not classified');
- return '<details class="sjn-a-paper-subject"><summary><strong>'+html(x.name)+'</strong><span>'+accuracy(x)+' · '+fmt(x.answered)+' answered</span>'+icon('chevron-down')+'</summary>'+
+ return '<details class="sjn-a-paper-subject" data-subject="'+subjectTone(x.name)+'"><summary><strong>'+html(x.name)+'</strong><span>'+accuracy(x)+' · '+fmt(x.answered)+' answered</span>'+icon('chevron-down')+'</summary>'+countPills(x,true)+
  '<div class="sjn-a-paper-chapters">'+rank(chapterRows).map(c=>{
  const topics=rowsBy(c.rows,r=>r.topic||'Not classified');
- return '<details><summary>'+html(c.name)+' <span>'+accuracy(c)+'</span></summary>'+
- '<div class="sjn-a-topic-list">'+rank(topics).map(t=>'<div>'+html(t.name)+'<strong>'+accuracy(t)+'</strong><small>'+fmt(t.answered)+' answered</small></div>').join('')+'</div></details>';
+ return '<details><summary>'+html(c.name)+' <span>'+accuracy(c)+'</span></summary>'+countPills(c,true)+
+ '<div class="sjn-a-topic-list">'+rank(topics).map(t=>'<div><span>'+html(t.name)+'<small>'+fmt(t.answered)+' answered</small></span>'+labelStats(t)+'<strong>'+accuracy(t)+'</strong></div>').join('')+'</div></details>';
  }).join('')+'</div></details>';}).join('')+'</div>':'<div class="sjn-a-empty compact">No completed attempts for this paper in this period.</div>'));
 }
 function render(){
