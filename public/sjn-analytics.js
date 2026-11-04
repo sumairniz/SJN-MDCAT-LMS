@@ -281,7 +281,7 @@ function focus(data){
  const candidates=by.filter(x=>sample(x)).sort((a,b)=>number(a.correct)/number(a.answered)-number(b.correct)/number(b.answered)).slice(0,4);
  if(!candidates.length)return '<div class="sjn-a-empty compact">Focus recommendations appear after at least 15 answered questions in a chapter.</div>';
  return '<div class="sjn-a-focus-list">'+candidates.map(x=>{const [bank,subject,chapter]=x.name.split('|||');
- return '<div class="sjn-a-focus"><div><strong>'+html(chapter||subject)+'</strong><small>'+html(subject)+' · '+html(bank)+'</small></div>'+
+ return '<div class="sjn-a-focus" data-subject="'+subjectTone(subject)+'"><div><strong>'+html(chapter||subject)+'</strong><small>'+html(subject)+' · '+html(bank)+'</small>'+labelStats(x)+'</div>'+
  '<div class="sjn-a-focus-score"><strong>'+accuracy(x)+'</strong><small>'+fmt(x.answered)+' answered</small></div></div>';}).join('')+'</div>';
 }
 function overview(data){
@@ -382,9 +382,9 @@ function courseView(data){
  return '<div class="sjn-a-course-test"><div><strong>'+html(t.title)+'</strong><small>Test '+t.testNumber+' · '+fmt(matches.length)+' completed attempt(s)</small></div>'+
  '<div class="sjn-a-test-numbers">'+statusTag(r)+'<strong>'+accuracy(r)+'</strong><small>'+fmt(r.answered)+' answered</small></div>'+countPills(r,true)+
  (matches.length?'<div class="sjn-a-course-subjects">'+rowsBy(all.filter(x=>String(x.group_key)===String(t.id)),x=>x.subject).map(x=>
- '<span>'+html(x.name)+': <b>'+accuracy(x)+'</b> ('+fmt(x.answered)+')</span>').join('')+
+ '<span data-subject="'+subjectTone(x.name)+'">'+html(x.name)+': <b>'+accuracy(x)+'</b> ('+fmt(x.answered)+')</span>').join('')+
  rowsBy(all.filter(x=>String(x.group_key)===String(t.id)&&x.chapter),x=>x.chapter).map(x=>
- '<span>Chapter · '+html(x.name)+': <b>'+accuracy(x)+'</b> ('+fmt(x.answered)+')</span>').join('')+
+ '<span class="sjn-a-chapter-stat">Chapter · '+html(x.name)+': <b>'+accuracy(x)+'</b> ('+fmt(x.answered)+')</span>').join('')+
  '</div>':'')+'</div>';}).join('')+'</div>'+
  '<p class="sjn-a-help">Course question topics are not shown. Chapter breakdowns are displayed only when relevant metadata exists. Test History retakes may be included in historical attempt totals but do not replace the Course page\'s latest official result.</p>');
 }
