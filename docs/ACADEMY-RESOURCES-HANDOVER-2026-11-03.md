@@ -1,3 +1,11 @@
+# 2026-11-05 — FIRST CONFIRMED HYBRID RANGE+STREAM BROWSER RESULT
+
+**User screenshot:** Chrome mobile emulation, Biology One-Pagers 11,836,553 bytes, query `academyPdfRangeProbe=1`, diagnostic confirms `transportMode:"range-plus-stream"`. Measured since click: `authorizedMs=288`, `pdfjsReadyMs=290`, `r2FirstProgressMs=1084`, `parsedMs=23036`, `firstPagePreparedMs=23037`, `r2DownloadCompleteMs=40371`, `realFirstPageMs=64587`, `downloadedBytes=12058624`, `expectedBytes=11836553`, `server_authMs=28`, `server_dbMs=31`, `server_signMs=1`. Progressive parsing occurred **17,335ms before** reported full transfer completion, but the genuine first page was displayed **41,550ms after** page preparation; this gap needs instrumentation to distinguish page.render, queue/scheduling, and browser CPU contention. Reported traffic 12,058,624 bytes vs nominal file size 11,836,553. Note PDF.js progress measurements are not precise network bytes; do not treat this alone as evidence of efficient partial transfer.
+
+**Comparison caveat:** Earlier two supposed A/B screenshots were **both** `stream-only`, with first-page times 138,120ms (auth 457, full transfer 124,578) and 140,149ms (auth 884, full transfer 107,634). Historical separate initial normal-run baseline 4,347ms. Different times/network conditions, no paired contemporaneous alternation → **no causal speed claim**; hybrid is not approved as default. Do not promote it. Proposed follow-up: instrument actual `page.render` start/end in numeric telemetry and compare three alternated same-network runs with existing original transport. Keep user-facing visuals and all other LMS modules unchanged. No source/R2 changes from this result.
+
+---
+
 # 2026-11-05 — STAGING HYBRID RANGE + STREAM EXPERIMENT (USER APPROVED)
 
 **Status:** Instrumented, reversible staging A/B, **not a confirmed performance fix**. User approved proceeding. Baseline authenticated Biology PDF (11,836,553 bytes, 18 pages) first actual page was **4,347 ms**, full transfer complete at **3,893 ms**, auth **661 ms** (single browser capture; network may vary). Exact user re-upload SHA-256: `8fd48a1f95c2c3fe5840ae908dfddb5070a3ca22adabf9e94d5debe1b8ed1a27`; matching the private R2 object by hash still needs verification.
