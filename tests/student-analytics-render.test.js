@@ -41,8 +41,8 @@ test('Analytics renders verified data, navigates hierarchy and clears on student
  assert.match(root.innerHTML,/Question Bank Analytics/);
  click({aBank:'Past Papers Question Bank'});
  assert.match(root.innerHTML,/Subject Breakdown/);
- assert.match(root.innerHTML,/0 \/ 200 unique covered/);
- assert.doesNotMatch(root.innerHTML,/17 \/ 200 unique covered/);
+ assert.match(root.innerHTML,/<b>0<\/b> \/ <b>200<\/b> unique covered/);
+ assert.doesNotMatch(root.innerHTML,/<b>17<\/b> \/ <b>200<\/b> unique covered/);
  click({aSubject:'Biology'});
  assert.match(root.innerHTML,/Chapter Breakdown/);
  click({aChapter:'Biomolecules'});
