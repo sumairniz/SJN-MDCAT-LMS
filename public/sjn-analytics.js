@@ -40,7 +40,7 @@ const dateISO=d=>d.toISOString();
 const calendarDate=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
 const dateLabel=v=>{const dt=new Date(v);return Number.isFinite(dt.getTime())?dt.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}):'Unknown date'};
 const user=()=>window.SJNAnalyticsBridge?.userId?.()||null;
-const state={owner:null,period:'all',from:'',to:'',view:'overview',bank:'',subject:'',chapter:'',course:'',paper:'',sort:'weak',status:'idle',data:null,cache:new Map(),pending:null,generation:0};
+const state={owner:null,period:'all',from:'',to:'',view:'overview',bank:'',subject:'',chapter:'',course:'',paper:'',sort:'weak',status:'idle',data:null,selectedAttempts:{},cache:new Map(),pending:null,generation:0};
 function periodRange(){
  // Stable minute-aligned periods avoid redundant requests on ordinary tab visits.
  const now=new Date(Math.floor(Date.now()/60000)*60000),end=new Date(now);
@@ -68,7 +68,7 @@ function invalidate(){
  state.cache.clear();state.data=null;state.status='idle';state.generation++;
  state.pending=null;
 }
-function reset(){state.owner=null;state.view='overview';state.bank='';state.subject='';state.chapter='';state.course='';state.paper='';invalidate();root.replaceChildren();}
+function reset(){state.owner=null;state.view='overview';state.bank='';state.subject='';state.chapter='';state.course='';state.paper='';state.selectedAttempts={};invalidate();root.replaceChildren();}
 function loading(){
  root.innerHTML='<div class="sjn-a-loading"><span class="sjn-a-spin"></span><div><strong>Preparing your performance insights</strong><p>Reading verified results from your completed tests…</p></div></div>';
 }
@@ -92,6 +92,7 @@ async function load(force=false){
    const data=payload?.summary;
    if(payload?.userId!==uid||!data||!data.totals||!Array.isArray(data.nodes)||
     !Array.isArray(data.bankCatalog)||!Array.isArray(data.lifetimeCoverage)||
+    !Array.isArray(data.periodCoverage)||!Array.isArray(data.courseAttemptBreakdown)||
     !Array.isArray(data.daily)||!Array.isArray(data.tests))throw Error('Incomplete student Analytics data');
    state.data=data;state.cache.set(k,{data,at:Date.now()});
    if(state.cache.size>5)state.cache.delete(state.cache.keys().next().value);
@@ -264,7 +265,7 @@ function hidePointTooltip(target){
 }
 
 function sourceCard(info,rows,buttonLabel,action){
- const s=sum(rows),catalog=state.data.bankCatalog||[],covers=state.data.lifetimeCoverage||[];
+ const s=sum(rows),catalog=state.data.bankCatalog||[],covers=state.data.periodCoverage||[];
  const bank=info.id==='sjn'?'SJN Question Bank':info.id==='pastbank'?'Past Papers Question Bank':null;
  const total=bank?catalog.filter(c=>c.bank===bank).reduce((a,x)=>a+number(x.available),0):null;
  const used=bank?covers.filter(c=>c.bank===bank).reduce((a,x)=>a+number(x.covered),0):null;
@@ -272,7 +273,7 @@ function sourceCard(info,rows,buttonLabel,action){
  '<span class="sjn-a-source-icon">'+icon(info.symbol)+'</span><span>'+icon('arrow-up-right-from-square')+'</span></div>'+
  '<strong>'+html(info.name)+'</strong><small>'+html(info.sub)+'</small><div class="sjn-a-source-stat">'+
  '<span>Accuracy <b>'+accuracy(s)+'</b></span><span>Answered <b>'+fmt(s.answered)+'</b></span></div>'+countPills(s,true)+
- (bank?bar(used,total,info.tone)+'<small>'+fmt(used)+' of '+fmt(total)+' questions covered (lifetime)</small>':'')+
+ (bank?bar(used,total,info.tone)+'<small>'+fmt(used)+' of '+fmt(total)+' unique questions covered in selected period</small>':'')+
  '<span class="sjn-a-source-link">'+html(buttonLabel)+' '+icon('arrow-right')+'</span></button>';
 }
 function focus(data){
@@ -316,17 +317,17 @@ function bankView(data){
   const info=sources[bank==='SJN Question Bank'?0:1];
   const rows=data.nodes.filter(r=>r.bank===bank),s=sum(rows);
   const catalog=data.bankCatalog.filter(r=>r.bank===bank).reduce((a,x)=>a+number(x.available),0);
-  const used=data.lifetimeCoverage.filter(r=>r.bank===bank).reduce((a,x)=>a+number(x.covered),0);
+  const used=data.periodCoverage.filter(r=>r.bank===bank).reduce((a,x)=>a+number(x.covered),0);
   return '<button type="button" class="sjn-a-bank-card" data-a-bank="'+html(bank)+'" data-tone="'+info.tone+'">'+
   '<div class="sjn-a-bank-icon">'+icon(info.symbol)+'</div><strong>'+html(bank)+'</strong>'+
   '<div class="sjn-a-bank-stats"><span>Accuracy <b>'+accuracy(s)+'</b></span><span>Answered <b>'+fmt(s.answered)+'</b></span></div>'+countPills(s,true)+
-  '<div class="sjn-a-bank-coverage"><span>Lifetime Coverage</span><b>'+pct(used,catalog)+'</b></div>'+
+  '<div class="sjn-a-bank-coverage"><span>Selected-period coverage</span><b>'+pct(used,catalog)+'</b></div>'+
   bar(used,catalog,info.tone)+'<small>'+fmt(used)+' / '+fmt(catalog)+' unique questions</small>'+
   '<span class="sjn-a-source-link">Explore Subjects '+icon('arrow-right')+'</span></button>';
  }).join('')+'</div>');}
  const rows=data.nodes.filter(r=>r.bank===state.bank);
  const catalog=data.bankCatalog.filter(r=>r.bank===state.bank);
- const lifetime=data.lifetimeCoverage.filter(r=>r.bank===state.bank);
+ const periodCovered=data.periodCoverage.filter(r=>r.bank===state.bank);
  const match=r=>(!state.subject||r.subject===state.subject)&&(!state.chapter||r.chapter===state.chapter);
  const picked=rows.filter(match),tot=sum(picked);
  const names=[state.bank,state.subject,state.chapter].filter(Boolean);
@@ -335,7 +336,7 @@ function bankView(data){
  const parents=state.chapter?['subject','chapter']:state.subject?['subject']:[];
  const by=rowsBy(picked,r=>r[key]||'Not classified');
  const avail=rowsBy(catalog.filter(match),r=>r[key]||'Not classified');
- const covered=rowsBy(lifetime.filter(match),r=>r[key]||'Not classified');
+ const covered=rowsBy(periodCovered.filter(match),r=>r[key]||'Not classified');
  const combined=new Map();
  for(const item of [...by,...avail,...covered])if(!combined.has(item.name))combined.set(item.name,{name:item.name,...zero(),available:0,covered:0});
  for(const x of by)Object.assign(combined.get(x.name),Object.fromEntries(Object.keys(zero()).map(k=>[k,number(x[k])])));
@@ -344,19 +345,19 @@ function bankView(data){
  const header='<div class="sjn-a-backline"><button data-a-back="'+(state.chapter?'chapter':state.subject?'subject':'bank')+'">'+icon('arrow-left')+' Back</button>'+
  breadcrumb(names)+'</div>';
  const stats='<div class="sjn-a-inline-stat">'+metric('Answer Accuracy',accuracy(tot),fmt(tot.answered)+' answered','bullseye','teal')+
- metric('Unique Coverage',fmt(lifetime.filter(match).reduce((a,r)=>a+number(r.covered),0)),fmt(catalog.filter(match).reduce((a,r)=>a+number(r.available),0))+' available','layer-group','blue')+'</div>';
+ metric('Unique Coverage',fmt(periodCovered.filter(match).reduce((a,r)=>a+number(r.covered),0)),fmt(catalog.filter(match).reduce((a,r)=>a+number(r.available),0))+' available','layer-group','blue')+'</div>';
  const detail=rank([...combined.values()]);
  return header+panel(state.chapter||state.subject||state.bank,'Your selected period · '+level+'-wise insights',stats+
  '<div class="sjn-a-panel-tools"><strong>'+level+' Breakdown</strong>'+sortControl()+'</div>'+
  (detail.length?'<div class="sjn-a-detail-list">'+detail.map(x=>'<button type="button" class="sjn-a-detail-row" data-subject="'+subjectTone(state.subject||x.name)+'"'+(level!=='Topic'?' data-a-'+key+'="'+html(x.name)+'"':'')+'>'+
  '<span class="sjn-a-detail-name"><strong>'+html(x.name)+'</strong>'+
- '<span class="sjn-a-coverage-stat"><b>'+fmt(x.covered)+'</b> / <b>'+fmt(x.available)+'</b> unique covered</span>'+
- '<span class="sjn-a-detail-volume">'+labelStats(x)+'</span></span>'+
+ '<span class="sjn-a-coverage-stat"><b>'+fmt(x.covered)+'</b> / <b>'+fmt(x.available)+'</b> unique covered</span></span>'+
+ '<span class="sjn-a-detail-volume">'+labelStats(x)+'</span>'+
  '<span class="sjn-a-detail-outcome"><strong class="sjn-a-detail-score" data-tone="'+tone(x)+'">'+accuracy(x)+'</strong>'+
  '<small>'+fmt(x.answered)+' answered</small></span>'+
  (level==='Topic'?'':icon('chevron-right'))+'</button>').join('')+'</div>':
  '<div class="sjn-a-empty compact">No questions in this section yet.</div>')+
- '<p class="sjn-a-help">Accuracy uses answered questions from the selected period. Coverage reflects lifetime unique questions and is not affected by the date filter.</p>');
+ '<p class="sjn-a-help">Accuracy uses answered questions; coverage counts distinct MCQs included in completed attempts during the selected period, including skipped questions. The available bank total remains unchanged.</p>');
 }
 function courseView(data){
  const courses=[...new Set(data.courseCatalog.map(x=>x.session))];
