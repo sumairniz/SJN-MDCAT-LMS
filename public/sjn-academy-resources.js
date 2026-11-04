@@ -46,7 +46,7 @@ function render(){
 
 function placeholder(){viewer.innerHTML=''}
 function stopReader(){
- openVersion++;renderEpoch++;
+ openVersion++;renderEpoch++;activeOpenTimings=null;
  if(request){request.abort();request=null}
  if(task){try{task.cancel()}catch(_){ }task=null}
  if(pdfTask){try{void pdfTask.destroy()}catch(_){ }pdfTask=null}
@@ -65,7 +65,7 @@ function closeReader(){
  if(wasOpen&&previousFocus?.isConnected)previousFocus.focus({preventScroll:true});
  previousFocus=null;
 }
-function reset(){closeReader();smallPdfCache.clear();owner=null;cache=null;folder=null;loading=null;render()}
+function reset(){closeReader();lastOpenTimings=null;smallPdfCache.clear();owner=null;cache=null;folder=null;loading=null;render()}
 function readerHeader(file){
  return '<div class="sjn-r-viewer-bar"><div class="sjn-r-reader-label"><span class="sjn-r-reader-icon">'+ico('file-pdf')+'</span><strong title="'+esc(file.title)+'">'+esc(file.title)+'</strong></div>'+
  '<div class="sjn-r-viewer-actions"><button type="button" data-r-expand title="Expand or restore reader">'+ico('expand')+'<span> Expand</span></button>'+
