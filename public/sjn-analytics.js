@@ -218,7 +218,7 @@ function trend(data){
   '" cy="'+r.py.toFixed(1)+'" r="15" fill="transparent" aria-hidden="true"/>').join('');
  // Store only date/count aggregates from the current student within this DOM subtree.
  const tooltipData=coords.map(r=>({date:r.display,answered:r.answered,correct:r.correct,
-  accuracy:r.percentage.toFixed(1)}));
+  accuracy:r.percentage.toFixed(1),x:r.px}));
  return '<div class="sjn-a-trend" data-a-chart="1" data-a-points="'+html(JSON.stringify(tooltipData))+'">'+
   '<svg viewBox="0 0 '+width+' '+height+'" role="group" aria-label="Accuracy trend over time">'+
   '<defs><linearGradient id="sjn-a-trend-grad" x1="0" x2="0" y1="0" y2="1">'+
@@ -234,29 +234,43 @@ function trend(data){
   (bucket==='month'?'Monthly':bucket==='week'?'Weekly':'Daily')+
   ' accuracy · select a point to see its date, accuracy and answered-question count.</div>';
 }
-function pointTooltip(target){
- const chart=target?.closest?.('[data-a-chart]');
- if(!chart)return false;
- const index=Number(target.dataset.aChartPoint);
- if(!Number.isSafeInteger(index)||index<0)return false;
+function chartData(chart){
+ try{const rows=JSON.parse(chart?.dataset?.aPoints||'[]');
+  return Array.isArray(rows)?rows:[];}catch(_){return [];}
+}
+function presentChartPoint(chart,index){
+ const points=chartData(chart),record=points[index];
  const tooltip=chart.querySelector('.sjn-a-chart-tooltip');
- const point=chart.querySelector('.sjn-a-point[data-a-chart-point="'+index+'"]');
- const dataText=chart.dataset.aPoints;
- if(!tooltip||!point||!dataText)return false;
- let data;
- try{data=JSON.parse(dataText)?.[index]}catch(_){return false}
- if(!data)return false;
- tooltip.innerHTML='<strong>'+html(data.date)+'</strong>'+
- '<span>Accuracy <b>'+html(data.accuracy)+'%</b></span>'+
- '<span>Answered <b>'+fmt(data.answered)+'</b></span>'+
- '<span>Correct <b>'+fmt(data.correct)+'</b></span>';
- const boundary=chart.getBoundingClientRect(),p=point.getBoundingClientRect();
- const x=p.left+p.width/2-boundary.left;
- const y=p.top-boundary.top;
- tooltip.style.left=Math.min(Math.max(x,90),Math.max(90,boundary.width-90))+'px';
- tooltip.style.top=Math.max(4,y-9)+'px';
+ if(!record||!tooltip)return false;
+ tooltip.innerHTML='<strong>'+html(record.date)+'</strong>'+
+  '<span>Accuracy <b>'+html(record.accuracy)+'%</b></span>'+
+  '<span>Answered <b>'+fmt(record.answered)+'</b></span>'+
+  '<span>Correct <b>'+fmt(record.correct)+'</b></span>';
+ tooltip.setAttribute('data-selected-index',String(index));
+ const svg=chart.querySelector('svg'),rect=svg?.getBoundingClientRect();
+ if(rect?.width){
+  const left=(36+Math.max(0,Math.min(1,(Number(record.x)-36)/664))*664)/720*rect.width;
+  // Keep desktop tooltip inside the visible chart width, including at endpoints.
+  tooltip.style.left=Math.min(Math.max(left,96),Math.max(96,rect.width-96))+'px';
+ }
+ tooltip.style.top='0px';
  tooltip.hidden=false;
  return true;
+}
+function pointTooltip(target){
+ const chart=target?.closest?.('[data-a-chart]');if(!chart)return false;
+ const index=Number(target.dataset.aChartPoint);
+ return Number.isSafeInteger(index)&&index>=0?presentChartPoint(chart,index):false;
+}
+function plotNearestPoint(chart,clientX){
+ const svg=chart?.querySelector?.('svg'),rect=svg?.getBoundingClientRect();
+ if(!rect||!rect.width||!Number.isFinite(clientX))return false;
+ const x=(clientX-rect.left)/rect.width*720,rows=chartData(chart);
+ if(!rows.length)return false;
+ let index=0,distance=Infinity;
+ rows.forEach((r,i)=>{const next=Math.abs(Number(r.x)-x);
+  if(next<distance){index=i;distance=next;}});
+ return presentChartPoint(chart,index);
 }
 function hidePointTooltip(target){
  const chart=target?.closest?.('[data-a-chart]');
@@ -489,15 +503,21 @@ root.addEventListener('click',e=>{
  if(btn.hasAttribute('data-a-apply')){const a=$('[data-a-from]'),b=$('[data-a-to]');
  state.from=a?.value||'';state.to=b?.value||'';void load();return}
 });
-// The graphic responds to pointer hover, keyboard focus and mobile taps.
-root.addEventListener('pointerover',e=>{
- const point=e.target.closest?.('[data-a-chart-point]');
- if(point)pointTooltip(point);
+// Desktop: hover anywhere in the SVG plot and select the nearest recorded
+// interval. Mobile: touch or pointer-down anywhere in the plot; details stay
+// visible beneath the graph (never clipped at either endpoint).
+root.addEventListener('pointermove',e=>{
+ const chart=e.target.closest?.('[data-a-chart]');
+ if(chart&&e.pointerType!=='touch')plotNearestPoint(chart,e.clientX);
 });
-root.addEventListener('pointerout',e=>{
- const point=e.target.closest?.('[data-a-chart-point]');
- if(point&&!point.contains(e.relatedTarget))hidePointTooltip(point);
+root.addEventListener('pointerdown',e=>{
+ const chart=e.target.closest?.('[data-a-chart]');
+ if(chart)plotNearestPoint(chart,e.clientX);
 });
+root.addEventListener('pointerleave',e=>{
+ const chart=e.target.closest?.('[data-a-chart]');
+ if(chart&&e.pointerType!=='touch')hidePointTooltip(chart);
+},true);
 root.addEventListener('focusin',e=>{
  const point=e.target.closest?.('[data-a-chart-point]');
  if(point)pointTooltip(point);
@@ -510,7 +530,7 @@ root.addEventListener('click',e=>{
  const point=e.target.closest?.('[data-a-chart-point]');
  if(point){pointTooltip(point);return}
  const chart=e.target.closest?.('[data-a-chart]');
- if(chart)hidePointTooltip(chart);
+ if(chart&&Number.isFinite(e.clientX))plotNearestPoint(chart,e.clientX);
 });
 root.addEventListener('change',e=>{
  if(e.target.matches('[data-a-period]')){state.period=e.target.value;
