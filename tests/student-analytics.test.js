@@ -58,6 +58,15 @@ test('Analytics endpoint is read-only, authenticated, period validated and sends
  assert.match(sql,/FROM public\.attempt_items/);
  assert.match(sql,/FROM public\.mcqs/);
  assert.match(sql,/REVOKE ALL ON FUNCTION public\.sjn_student_analytics/);
+ const nextSql=fs.readFileSync(path.join(root,'database/migrations/20261105_student_analytics_period_and_course_detail.sql'),'utf8');
+ assert.match(nextSql,/period_coverage AS/);
+ assert.match(nextSql,/COUNT\(DISTINCT i\.mcq_id\)/);
+ assert.match(nextSql,/FROM chosen a/);
+ assert.match(nextSql,/course_attempt_breakdown AS/);
+ assert.match(nextSql,/GROUP BY attempt_id,group_key,subject,chapter/);
+ assert.match(nextSql,/SECURITY INVOKER/);
+ assert.match(nextSql,/periodCoverage/);
+ assert.match(nextSql,/courseAttemptBreakdown/);
  assert.match(sql,/GRANT EXECUTE ON FUNCTION public\.sjn_student_analytics[^\n]+TO authenticated/);
  assert.doesNotMatch(sql,/\b(UPDATE|DELETE|INSERT INTO) public\.(attempts|attempt_items|mcqs)/i);
  assert.doesNotMatch(api,/app\.post\('\/api\/student-analytics'/);
@@ -76,7 +85,9 @@ test('Date-filter API accepts genuine ISO timestamps but rejects malformed dates
 test('Refined Analytics has readable outcomes, identity colors and interactive graph tooltips',()=>{
  assert.match(js,/data-a-chart-point/);
  assert.match(js,/function pointTooltip/);
- assert.match(js,/pointerover/);
+ assert.match(js,/pointermove/);
+ assert.match(js,/pointerdown/);
+ assert.match(js,/plotNearestPoint/);
  assert.match(js,/focusin/);
  assert.match(js,/Monthly/);
  assert.match(js,/Weekly/);
