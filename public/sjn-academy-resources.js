@@ -6,8 +6,6 @@ const pane=root.querySelector('#resources-container'),viewer=root.querySelector(
 const PDFJS_URL='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs';
 const PDFJS_WORKER='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
 const mobileQuery=window.matchMedia('(max-width: 767px)');
-// Opt-in staging experiment only. Default PDF delivery remains unchanged.
-const rangeProbe=new URLSearchParams(window.location.search).get('academyPdfRangeProbe')==='1';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
 const ico=s=>'<i class="fa-solid fa-'+s+'" aria-hidden="true"></i>';
 const user=()=>window.SJNResourcesBridge?.userId?.();
@@ -313,10 +311,9 @@ async function openFile(id){
     }
    }
   }
-  // Compare hybrid range+stream against original stream-only delivery without
-  // changing the normal student path. Range probe requires the explicit URL flag.
+  // Stable original streaming delivery. Experimental range transport retired.
   const largePdf=Number(file.size_bytes)>=1024*1024;
-  if(activeOpenTimings?.version===v)activeOpenTimings.transportMode=largePdf?(rangeProbe?'range-plus-stream':'stream-only'):'small-file-bytes';
+  if(activeOpenTimings?.version===v)activeOpenTimings.transportMode=largePdf?'stream-only':'small-file-bytes';
   if(Number(file.size_bytes)>50*1024*1024)throw Error('PDF exceeds reader limit');
   async function loadFullBytes(){
    request=new AbortController();
@@ -337,16 +334,13 @@ async function openFile(id){
    if(v!==openVersion||uid!==owner||uid!==user())return;
    if(activeOpenTimings?.version===v)activeOpenTimings.pdfjsReadyMs=Math.round(performance.now()-activeOpenTimings.start);
    status('Opening document…');
-   // Previous range-only (stream OFF, auto-fetch OFF) was slower.
-   // Opt-in hybrid (stream ON, auto-fetch ON) is a distinct measurable trial.
-   // Signed R2 URL, authentication, and regular path are untouched.
+   // Stable stream-only path: no ranges and no per-file preview shortcuts.
    pdfTask=lib.getDocument({
     url:link.url,
     withCredentials:false,
-    disableRange:!rangeProbe,
+    disableRange:true,
     disableStream:false,
-    disableAutoFetch:false,
-    ...(rangeProbe?{rangeChunkSize:512*1024}:{})
+    disableAutoFetch:false
    });
    pdfTask.onProgress=({loaded,total})=>{
     const t=activeOpenTimings;
