@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="/sjn-phase4-preview.css">
   <link rel="stylesheet" href="/sjn-phase4-results.css">
   <link rel="stylesheet" href="/sjn-history.css">
+  <link rel="stylesheet" href="/sjn-analytics.css?v=20261105-a1">
   <link rel="stylesheet" href="/sjn-pastpapers.css?v=20261031-balochistan-b39434">
   <link rel="stylesheet" href="/sjn-courses.css?v=20261102-full-schedule">
   <link rel="stylesheet" href="/sjn-academy-resources.css?v=20261104-resource-timings-v10">
@@ -285,7 +286,14 @@
         <span class="text-xs text-yellow-400">⚡</span>
       </button>
 
-      <button onclick="switchModule('history')" id="tab-history" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
+      <button onclick="switchModule('analytics')" id="tab-analytics" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
+         <div class="flex items-center space-x-3">
+           <i class="fa-solid fa-chart-line w-5 text-cyan-400"></i>
+           <span>My Analytics</span>
+         </div>
+         <span class="text-xs text-cyan-300 hidden-collapsed">INSIGHTS</span>
+       </button>
+       <button onclick="switchModule('history')" id="tab-history" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
         <div class="flex items-center space-x-3">
           <i class="fa-solid fa-clock-rotate-left w-5 text-emerald-400"></i>
           <span>Test History</span>
@@ -901,7 +909,8 @@
         </div>
       </section>
 
-      <section id="module-history" class="module-view space-y-6 hidden">
+      <section id="module-analytics" class="module-view hidden" aria-label="My Analytics performance center"></section>
+       <section id="module-history" class="module-view space-y-6 hidden">
         <div class="bg-sjn-card rounded-2xl border border-sjn-border sjn-history-container">
           <div id="sjn-history-list-view">
             <div>
@@ -1177,6 +1186,7 @@
         void window.SJNCoursesPreview.refresh();
       }
       if (modName === 'resources') void window.SJNResources?.enter();
+       if (modName === 'analytics') void window.SJNAnalytics?.enter();
       if (modName === 'aitutor') void window.SJNAITutor?.enter();
       if (modName === 'history' && typeof window.reloadStudentHistory === 'function') {
         void window.reloadStudentHistory();
@@ -2174,6 +2184,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     }
 
     window.SJNResourcesBridge = {load:(path)=>api(path),userId:()=>currentUser?.id||null};
+     window.SJNAnalyticsBridge = {load:(path)=>api(path),userId:()=>currentUser?.id||null};
     window.SJNAITutorBridge = {load:(path)=>api(path),send:(path,options)=>api(path,options),userId:()=>currentUser?.id||null};
     async function api(path, options = {}) {
       const headers = { ...(options.headers || {}) };
@@ -2207,6 +2218,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     }
     function coverPrivateWorkspace() {
       window.SJNResources?.reset();
+      window.SJNAnalytics?.reset();
       window.SJNAITutor?.reset();
       window.SJNPracticeFilters?.resetSession();
       wizardQuestionFiltersActive = false;
@@ -3056,6 +3068,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         wizardQuestionFiltersActive = true;
         window.SJNPracticeFilters?.resetSelection();
         window.SJNPracticeFilters?.invalidate();
+        window.SJNAnalytics?.invalidate();
         markStudentHistoryChanged();
         if (wizardSelection.scope === 'course-test') void window.SJNCoursesPreview?.refresh?.();
         const confirmedGeneration = historyGeneration;
@@ -3128,6 +3141,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
   <script src="/sjn-genome-schedule.js?v=20261102-full-schedule"></script>
   <script src="/sjn-courses.js?v=20261102-full-schedule"></script>
   <script src="/sjn-history.js"></script>
+   <script src="/sjn-analytics.js?v=20261105-a1"></script>
   <script src="/sjn-phase4-preview.js?v=20261101-genome-timers"></script>
   <script src="/sjn-phase4-results.js"></script>
 </body>
