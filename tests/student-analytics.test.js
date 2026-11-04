@@ -62,3 +62,32 @@ test('Analytics endpoint is read-only, authenticated, period validated and sends
  assert.doesNotMatch(sql,/\b(UPDATE|DELETE|INSERT INTO) public\.(attempts|attempt_items|mcqs)/i);
  assert.doesNotMatch(api,/app\.post\('\/api\/student-analytics'/);
 });
+
+test('Date-filter API accepts genuine ISO timestamps but rejects malformed dates',()=>{
+ const match=api.match(/!\/(\^.+?\$)\/\.test\(value\)/);
+ assert.ok(match,'Missing strict ISO format guard');
+ const valid=new RegExp(match[1]);
+ assert.equal(valid.test('2026-11-05T03:15:00.000Z'),true);
+ assert.equal(valid.test('2026-11-05'),false);
+ assert.equal(valid.test('2026-11-05T03:15:00Z'),false);
+ assert.equal(valid.test('2026-11-05T03:15:00.000Zextra'),false);
+ assert.match(js,/period:'all'/,'All Time must be the default');
+});
+test('Refined Analytics has readable outcomes, identity colors and interactive graph tooltips',()=>{
+ assert.match(js,/data-a-chart-point/);
+ assert.match(js,/function pointTooltip/);
+ assert.match(js,/pointerover/);
+ assert.match(js,/focusin/);
+ assert.match(js,/Monthly/);
+ assert.match(js,/Weekly/);
+ assert.match(js,/Daily/);
+ assert.match(js,/data-subject/);
+ assert.match(js,/data-region/);
+ assert.match(js,/function countPills/);
+ assert.match(js,/correct.*incorrect.*skipped/);
+ assert.match(css,/sjn-a-counts/);
+ assert.match(css,/sjn-a-chart-tooltip/);
+ for(const id of ['bio','chem','phys','eng','lr'])assert.ok(css.includes('data-subject="'+id+'"'));
+ for(const id of ['sindh','punjab','kpk','balochistan','federal','nums'])assert.ok(css.includes('data-region="'+id+'"'));
+ assert.doesNotMatch(js,/sjn-a-head-icon.*chart-line/);
+});
