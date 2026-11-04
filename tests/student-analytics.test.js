@@ -38,8 +38,8 @@ test('Analytics uses the approved four sections, hierarchy, date periods and evi
   assert.ok(js.includes(name),name);
  for(const name of ['Last 24 Hours','Last 7 Days','Last 15 Days','Last 30 Days','Last 90 Days','Previous Month','Custom Range','All Time'])
   assert.ok(js.includes(name),name);
- assert.match(js,/data-a-bank/);assert.match(js,/data-a-subject/);
- assert.match(js,/data-a-chapter/);assert.match(js,/data-a-course/);assert.match(js,/data-a-paper/);
+ assert.match(js,/data-a-bank/);assert.match(js,/btn\.dataset\.aSubject/);
+ assert.match(js,/btn\.dataset\.aChapter/);assert.match(js,/data-a-course/);assert.match(js,/data-a-paper/);
  assert.match(js,/answered\(r\)>=15/);
  assert.match(js,/More practice needed/);
  assert.match(js,/No answered questions in this period yet/);
