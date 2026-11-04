@@ -6,7 +6,19 @@ if(!root)return;
 const $=sel=>root.querySelector(sel);
 const html=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
 const icon=name=>'<i class="fa-solid fa-'+name+'" aria-hidden="true"></i>';
-const validSource=new Set(['sjn','pastbank','courses','papers']);
+const subjectTone=name=>{
+ const value=String(name||'').toLowerCase();
+ return value.includes('biolog')?'bio':value.includes('chem')?'chem':
+ value.includes('phys')?'phys':value.includes('english')?'eng':
+ value.includes('logical')?'lr':'mixed';
+};
+const regionTone=name=>{
+ const value=String(name||'').trim().toLowerCase();
+ return ['sindh','punjab','kpk','balochistan','federal','nums'].includes(value)?value:
+ value==='kp'?'kpk':'mixed';
+};
+const subjectBadge=name=>'<span class="sjn-a-subject-badge" data-subject="'+subjectTone(name)+'">'+
+ html(name)+'</span>';
 const sources=[
  {id:'sjn',name:'SJN Question Bank',sub:'Academy practice questions',symbol:'book-open',tone:'blue'},
  {id:'pastbank',name:'Past Papers Question Bank',sub:'Chapter and topic-based past questions',symbol:'layer-group',tone:'teal'},
@@ -28,7 +40,7 @@ const dateISO=d=>d.toISOString();
 const calendarDate=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
 const dateLabel=v=>{const dt=new Date(v);return Number.isFinite(dt.getTime())?dt.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}):'Unknown date'};
 const user=()=>window.SJNAnalyticsBridge?.userId?.()||null;
-const state={owner:null,period:'month',from:'',to:'',view:'overview',bank:'',subject:'',chapter:'',course:'',paper:'',sort:'weak',status:'idle',data:null,cache:new Map(),pending:null,generation:0};
+const state={owner:null,period:'all',from:'',to:'',view:'overview',bank:'',subject:'',chapter:'',course:'',paper:'',sort:'weak',status:'idle',data:null,cache:new Map(),pending:null,generation:0};
 function periodRange(){
  // Stable minute-aligned periods avoid redundant requests on ordinary tab visits.
  const now=new Date(Math.floor(Date.now()/60000)*60000),end=new Date(now);
@@ -91,7 +103,7 @@ async function load(force=false){
  state.pending={key:k,promise};return promise;
 }
 function heading(){
- return '<div class="sjn-a-head"><div class="sjn-a-head-icon">'+icon('chart-line')+'</div><div class="sjn-a-heading-copy"><div class="sjn-a-eyebrow">PERFORMANCE CENTER</div>'+
+ return '<div class="sjn-a-head"><div class="sjn-a-heading-copy"><div class="sjn-a-eyebrow">'+icon('chart-line')+'<span>PERFORMANCE CENTER</span></div>'+
  '<h2>My Analytics</h2><p>Understand your progress. Focus on what matters.</p></div></div>';
 }
 function periodControls(){
@@ -116,10 +128,18 @@ function panel(title,sub,body,cls=''){
  return '<section class="sjn-a-panel '+cls+'"><div class="sjn-a-panel-head"><div><h3>'+html(title)+'</h3>'+
  (sub?'<p>'+html(sub)+'</p>':'')+'</div></div>'+body+'</section>';
 }
-function countPills(r){
- return '<div class="sjn-a-counts">'+
+function countPills(r,compact=false){
+ return '<div class="sjn-a-counts'+(compact?' is-compact':'')+'">'+
  [['correct','Correct','good'],['incorrect','Incorrect','bad'],['skipped','Skipped','mid']].map(([k,label,t])=>
  '<div data-tone="'+t+'"><strong>'+fmt(r[k])+'</strong><span>'+label+'</span></div>').join('')+'</div>';
+}
+function evidenceLine(r){
+ return '<span class="sjn-a-evidence"><b>'+fmt(r.answered)+'</b> answered <em>·</em> <b>'+fmt(r.skipped)+'</b> skipped</span>';
+}
+function labelStats(r){
+ return '<span class="sjn-a-mini-stat" data-tone="good">'+fmt(r.correct)+' correct</span>'+
+ '<span class="sjn-a-mini-stat" data-tone="bad">'+fmt(r.incorrect)+' incorrect</span>'+
+ '<span class="sjn-a-mini-stat" data-tone="mid">'+fmt(r.skipped)+' skipped</span>';
 }
 function summary(r){return '<div class="sjn-a-sumline"><span>Answer accuracy <strong>'+accuracy(r)+'</strong></span>'+
  '<span>Answered <strong>'+fmt(r.answered)+'</strong></span><span>Skipped <strong>'+fmt(r.skipped)+'</strong></span></div>'}
