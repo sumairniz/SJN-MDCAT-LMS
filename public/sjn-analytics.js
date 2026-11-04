@@ -68,7 +68,7 @@ async function load(force=false){
  const cached=state.cache.get(k);
  if(!force&&cached&&Date.now()-cached.at<90000){state.data=cached.data;state.status='ready';render();return}
  if(state.pending&&state.pending.key===k)return state.pending.promise;
- const ticket=++state.generation;state.status='loading';if(!state.data)loading();else render();
+ const ticket=++state.generation;state.status='loading';state.data=null;loading();
  const query=new URLSearchParams({offset:String(period.offset)});
  if(period.from){query.set('from',period.from);query.set('to',period.to)}
  if(period.previousFrom){query.set('previousFrom',period.previousFrom);query.set('previousTo',period.previousTo)}
