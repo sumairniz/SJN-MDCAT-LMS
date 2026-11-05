@@ -1,0 +1,79 @@
+/* SJN MedNest Student Dashboard: scoped visual polish, no other module styles. */
+#module-dashboard{--db-muted:#bdc8d9;--db-edge:#343b48;color:#eff4fb}
+#module-dashboard *{box-sizing:border-box}
+#module-dashboard [hidden]{display:none!important}
+#module-dashboard button,#module-dashboard a{font:inherit}
+#module-dashboard button:focus-visible,#module-dashboard a:focus-visible{outline:2px solid #7dd0d0;outline-offset:3px}
+#module-dashboard .sjn-db-hero{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(300px,.88fr);gap:26px;align-items:center;position:relative;padding:27px 31px;background:linear-gradient(120deg,#3b090d 0%,#24151c 45%,#171b25 100%);border:1px solid #69313d;border-radius:20px;overflow:hidden;box-shadow:0 12px 32px #0002}
+#module-dashboard .sjn-db-hero:before{position:absolute;content:"";width:170px;height:170px;border-radius:100%;right:-95px;bottom:-100px;background:#b62c46;opacity:.12;pointer-events:none}
+#module-dashboard .sjn-db-eyebrow{display:inline-flex;align-items:center;gap:8px;color:#fc8b96;background:#a82d3624;border:1px solid #a2474965;border-radius:30px;padding:6px 11px;letter-spacing:.65px;font-weight:850;font-size:10px}
+#module-dashboard .sjn-db-hero-copy h1{font-size:clamp(24px,2.2vw,33px);line-height:1.18;font-weight:900;letter-spacing:-.8px;margin:12px 0}
+#module-dashboard .sjn-db-hero-copy h1 span,#module-dashboard .sjn-db-hero-copy h1 i{color:#fa6575}
+#module-dashboard .sjn-db-hero-copy h1 i{font-size:.7em}
+#module-dashboard .sjn-db-welcome-line{font-weight:670;color:#f3e8ea;font-size:14px;line-height:1.5;margin:0 0 4px}
+#module-dashboard .sjn-db-welcome-subline{color:#c6b8c4;font-size:12px;line-height:1.5;margin:0}
+#module-dashboard .sjn-db-quote-panel{position:relative;display:grid;align-content:center;gap:9px;min-height:150px;padding:17px 22px 17px 23px;border-left:3px solid #ec7380;background:linear-gradient(105deg,#53233135,#ffffff05);border-radius:0 14px 14px 0}
+#module-dashboard .sjn-db-quote-mark{font-size:21px;color:#f092a1;opacity:.8}
+#module-dashboard .sjn-db-quote-panel blockquote{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-style:italic;font-size:clamp(15px,1.34vw,19px);line-height:1.45;color:#f7e9ec;margin:0}
+#module-dashboard .sjn-db-quote-panel a{display:inline-flex;width:fit-content;align-items:center;gap:7px;font-size:11px;font-weight:800;color:#ffb4be;text-decoration:none}
+#module-dashboard .sjn-db-quote-panel a:hover{text-decoration:underline}
+#module-dashboard .sjn-db-quote-panel a i{font-size:9px}
+#module-dashboard .sjn-db-quote-tag{font-size:9px;letter-spacing:1.1px;color:#d2a4b0;font-weight:800}
+#module-dashboard .sjn-db-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+#module-dashboard .sjn-db-stat{--db-color:#d1dde8;--db-shade:#26313a;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:7px;padding:19px 18px 18px;background:linear-gradient(145deg,color-mix(in srgb,var(--db-color) 10%,#191d26),#151920 90%);border:1px solid color-mix(in srgb,var(--db-color) 23%,#343d49);border-radius:17px;box-shadow:0 8px 25px #00000020,inset 0 1px #ffffff0b}
+#module-dashboard .sjn-db-stat--blue{--db-color:#6eb8f5}
+#module-dashboard .sjn-db-stat--green{--db-color:#63d5ae}
+#module-dashboard .sjn-db-stat--amber{--db-color:#edbf63}
+#module-dashboard .sjn-db-stat--purple{--db-color:#bc9cfc}
+#module-dashboard .sjn-db-stat-header{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;font-size:10px;font-weight:800;letter-spacing:.55px;color:#c1cad9}
+#module-dashboard .sjn-db-stat-header i{height:35px;width:35px;display:grid;place-items:center;border-radius:10px;color:var(--db-color);background:color-mix(in srgb,var(--db-color) 12%,#242733);font-size:15px}
+#module-dashboard .sjn-db-stat-value{font-size:clamp(22px,2.1vw,30px);line-height:1.1;font-weight:900;color:var(--db-color);letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+#module-dashboard .sjn-db-rank{font-size:clamp(17px,1.8vw,23px);color:#f3e9ff}
+#module-dashboard .sjn-db-stat small{color:#afbbce;font-size:10px;line-height:1.55}
+#module-dashboard .sjn-db-meter{margin-top:auto;height:7px;width:100%;background:#303744;border-radius:20px;overflow:hidden}
+#module-dashboard .sjn-db-meter>div{height:100%;border-radius:20px;background:var(--db-color);transition:width .22s}
+#module-dashboard .sjn-db-bottom{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(245px,1fr);gap:17px;align-items:stretch}
+#module-dashboard .sjn-db-subject-panel,#module-dashboard .sjn-db-start-panel{min-width:0;background:linear-gradient(145deg,#1c212b,#15191f);border:1px solid #373f4d;border-radius:18px;padding:22px;box-shadow:inset 0 1px #ffffff0a}
+#module-dashboard .sjn-db-panel-head{display:flex;align-items:start;justify-content:space-between;gap:15px;margin-bottom:22px}
+#module-dashboard .sjn-db-panel-head h2{font-size:16px;line-height:1.3;font-weight:850;margin:0;display:flex;align-items:center;gap:9px;color:#f5f8ff}
+#module-dashboard .sjn-db-panel-head h2 i{color:#ef6678}
+#module-dashboard .sjn-db-start-panel .sjn-db-panel-head h2 i{color:#eebb65}
+#module-dashboard .sjn-db-panel-head p{font-size:11px;color:#aebcce;line-height:1.5;margin:6px 0 0}
+#module-dashboard .sjn-db-all-time{white-space:nowrap;font-size:10px;font-weight:900;letter-spacing:1px;color:#8cdbcd;background:#2a48444d;border:1px solid #4b897d55;border-radius:8px;padding:8px 10px}
+#module-dashboard .sjn-db-subjects{display:grid;gap:17px}
+#module-dashboard .sjn-db-subject{--subject:#9da8b7}
+#module-dashboard .sjn-db-subject[data-subject=bio]{--subject:#34d399}
+#module-dashboard .sjn-db-subject[data-subject=chem]{--subject:#a78bfa}
+#module-dashboard .sjn-db-subject[data-subject=phys]{--subject:#60a5fa}
+#module-dashboard .sjn-db-subject[data-subject=eng]{--subject:#fbbf24}
+#module-dashboard .sjn-db-subject[data-subject=lr]{--subject:#f472b6}
+#module-dashboard .sjn-db-subject-line{display:flex;justify-content:space-between;align-items:center;gap:8px}
+#module-dashboard .sjn-db-subject-line b{font-size:13px;font-weight:780;color:#f1f4fa}
+#module-dashboard .sjn-db-subject-line span{font-size:13px;font-weight:860;color:var(--subject);font-variant-numeric:tabular-nums}
+#module-dashboard .sjn-db-subject small{display:block;font-size:10px;color:#bbc8d8;line-height:1.5;margin:4px 0 7px}
+#module-dashboard .sjn-db-track{background:#303847;height:9px;border-radius:50px;overflow:hidden}
+#module-dashboard .sjn-db-track span{display:block;height:100%;background:var(--subject);border-radius:50px;transition:width .25s}
+#module-dashboard .sjn-db-error{font-size:12px;color:#f9b4c0;padding:12px;background:#4b252b;border:1px solid #a14a57;border-radius:10px;margin-top:20px}
+#module-dashboard .sjn-db-error button{color:#fff;text-decoration:underline;font-weight:800}
+#module-dashboard .sjn-db-start-panel{display:flex;flex-direction:column;gap:11px}
+#module-dashboard .sjn-db-start-panel button{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:9px;font-weight:770;line-height:1.4}
+#module-dashboard .sjn-db-create{color:#fff;border:1px solid #ef595b;background:linear-gradient(100deg,#df272e,#ae1d2b);width:100%;min-height:49px;padding:13px;border-radius:12px;box-shadow:0 7px 18px #bb2c3633;font-size:12px}
+#module-dashboard .sjn-db-create:hover{background:linear-gradient(100deg,#e43840,#b42b37)}
+#module-dashboard .sjn-db-create i:last-child{margin-left:auto}
+#module-dashboard .sjn-db-shortcuts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+#module-dashboard .sjn-db-shortcuts button{min-height:52px;justify-content:center;border-radius:11px;padding:10px;border:1px solid #3d4755;color:#dbe4ef;background:#222a34;font-size:12px}
+#module-dashboard .sjn-db-shortcuts button:first-child i{color:#90a9ee}
+#module-dashboard .sjn-db-shortcuts button:last-child i{color:#f5c46b}
+#module-dashboard .sjn-db-shortcuts button:hover{border-color:#7391af;background:#2b3744}
+#module-dashboard .sjn-db-resume{border:1px solid #3b887a;background:linear-gradient(145deg,#18352f,#1a2930);border-radius:13px;padding:15px;margin-bottom:7px;display:grid;gap:8px}
+#module-dashboard .sjn-db-resume-label{font-size:10px;color:#9fe6ce;font-weight:870;letter-spacing:.55px}
+#module-dashboard .sjn-db-resume strong{color:#f1fbf6;font-size:13px;line-height:1.4;overflow-wrap:anywhere}
+#module-dashboard .sjn-db-resume small{font-size:10px;color:#b2d3ca}
+#module-dashboard .sjn-db-resume button{justify-content:center;color:#10362d;background:#8ce3c1;padding:10px;border-radius:8px;font-size:12px}
+#module-dashboard .sjn-db-resume button:disabled{opacity:.6;cursor:wait}
+#module-dashboard .sjn-db-resume [role=alert]{font-size:11px;color:#fecaca}
+@media(max-width:1200px){#module-dashboard .sjn-db-hero{grid-template-columns:1fr 1fr;gap:16px}#module-dashboard .sjn-db-bottom{grid-template-columns:1.5fr 1fr}}
+@media(max-width:900px){#module-dashboard .sjn-db-stats{grid-template-columns:repeat(2,minmax(0,1fr))}#module-dashboard .sjn-db-hero{grid-template-columns:1fr}#module-dashboard .sjn-db-quote-panel{min-height:90px;padding:12px 16px}#module-dashboard .sjn-db-bottom{grid-template-columns:1fr}}
+@media(max-width:600px){#module-dashboard .sjn-db-hero{padding:23px 20px;gap:19px}#module-dashboard .sjn-db-hero-copy h1{font-size:25px}#module-dashboard .sjn-db-quote-panel blockquote{font-size:16px}#module-dashboard .sjn-db-stats{gap:10px}#module-dashboard .sjn-db-stat{padding:14px;min-height:140px}#module-dashboard .sjn-db-stat-value{font-size:24px}#module-dashboard .sjn-db-rank{font-size:18px}#module-dashboard .sjn-db-stat-header{font-size:9px}#module-dashboard .sjn-db-stat-header i{width:28px;height:28px;font-size:12px}#module-dashboard .sjn-db-subject-panel,#module-dashboard .sjn-db-start-panel{padding:18px}#module-dashboard .sjn-db-panel-head{flex-wrap:wrap}#module-dashboard .sjn-db-panel-head h2{font-size:15px}}
+@media(max-width:365px){#module-dashboard .sjn-db-shortcuts{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){#module-dashboard .sjn-db-track span,#module-dashboard .sjn-db-meter>div{transition:none}}
