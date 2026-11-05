@@ -30,7 +30,8 @@ const quotes=[
  {text:'But see first.',author:'Sir William Osler',source:osler,band:'high'},
  {text:'The practice of medicine is an art, not a trade; a calling, not a business.',author:'Sir William Osler',source:'https://www.acponline.org/about-acp/about-internal-medicine/sir-william-osler-and-internal-medicine',band:'all'},
  {text:'Nothing in life is to be feared, it is only to be understood.',author:'Marie Curie',source:'https://www.nobelprize.org/uploads/2025/04/annual-review-2024.pdf',band:'low'},
- {text:'The first principle is that you must not fool yourself—and you are the easiest person to fool.',author:'Richard P. Feynman',source:'https://calteches.library.caltech.edu/51/2/CargoCult.htm',band:'high'}
+ {text:'The first principle is that you must not fool yourself—and you are the easiest person to fool.',author:'Richard P. Feynman',source:'https://calteches.library.caltech.edu/51/2/CargoCult.htm',band:'high'},
+ {text:'Your time is limited, so don’t waste it living someone else’s life.',author:'Steve Jobs',source:'https://news.stanford.edu/stories/2005/06/steve-jobs-2005-graduates-stay-hungry-stay-foolish?view=print',band:'low'}
 ];
 let owner=null,payload=null,cachedAt=0,request=null,serial=0,needsRefresh=true,historyOwner=null,saved=[];
 function subjectName(raw){
@@ -70,7 +71,7 @@ function renderTotals(data){
  setText('nav-mcqs-count',fmt(answered));
  setText('nav-accuracy',accuracy(correct,answered));
  for(const subject of subjects){
-  const rows=data.nodes.filter(x=>subjectName(x.subject)===subject.name);
+  const rows=data.nodes.filter(x=>['sjn','pastbank','courses','papers'].includes(x.source_type)&&subjectName(x.subject)===subject.name);
   let a=0,c=0;
   for(const row of rows){a+=valueNumber(row.answered);c+=valueNumber(row.correct);}
   const percent=a>0?100*c/a:0;
