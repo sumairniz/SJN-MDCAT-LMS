@@ -417,6 +417,7 @@ function courseView(data){
     const chapters=rowsBy(subject.rows,x=>x.chapter||'');
     return '<details class="sjn-a-course-subject" data-subject="'+subjectTone(subject.name)+'">'+
      '<summary><span class="sjn-a-course-subject-title">'+html(subject.name)+'</span>'+
+     '<span class="sjn-a-course-subject-count">'+fmt(subject.questions)+' MCQs</span>'+
      '<span class="sjn-a-course-subject-accuracy">'+accuracy(subject)+'</span>'+
      icon('chevron-down')+'</summary>'+
      '<div class="sjn-a-course-subject-content">'+
