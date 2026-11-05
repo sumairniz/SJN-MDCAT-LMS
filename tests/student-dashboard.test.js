@@ -101,7 +101,7 @@ test('Existing finalized features and pending level logic are not replaced',()=>
 });
 
 test('Source-linked study and life library has 50 unique, non-medical quotations',()=>{
- const lines=[...code.matchAll(/\\{text:"([^"]+)",author:"([^"]+)",source:"(https:[^"]+)",band:"(all|support|steady)"\\}/g)];
+ const lines=[...code.matchAll(/\{text:"([^"]+)",author:"([^"]+)",source:"(https:[^"]+)",band:"(all|support|steady)"\}/g)];
  assert.equal(lines.length,50);
  assert.equal(new Set(lines.map(m=>m[1])).size,50);
  assert.ok(lines.every(m=>!/(medicine|doctor|physician|patient|disease|MBBS|BDS)/i.test(m[1])));
