@@ -5,7 +5,7 @@ const base=path.join(__dirname,'..');
 const html=fs.readFileSync(path.join(base,'public/index.html'),'utf8');
 const code=fs.readFileSync(path.join(base,'public/sjn-dashboard.js'),'utf8');
 const css=fs.readFileSync(path.join(base,'public/sjn-dashboard.css'),'utf8');
-function fixture(owner='student-1'){
+function fixture(owner='student-1',DateClass=Date){
  const handlers=new Map(),elements=new Map(),calls=[];
  const el=(id)=>{
   if(!elements.has(id))elements.set(id,{textContent:'',style:{width:''},hidden:false,dataset:{},
@@ -27,7 +27,7 @@ function fixture(owner='student-1'){
   resume:async id=>calls.push({resume:id})};
  const window={SJNDashboardBridge:bridge};
  const document={getElementById:id=>el(id)};
- vm.runInNewContext(code,{window,document,Date,Math,Number,String,Array,JSON,Intl,console,Promise},{filename:'sjn-dashboard.js'});
+ vm.runInNewContext(code,{window,document,Date:DateClass,Math,Number,String,Array,JSON,Intl,console,Promise},{filename:'sjn-dashboard.js'});
  return {window,elements:el,calls,bridge,changeOwner:id=>{user=id},source};
 }
 test('Dashboard assets load; welcome copy and Quick Start replace duplicate launcher',()=>{
@@ -98,4 +98,35 @@ test('Existing finalized features and pending level logic are not replaced',()=>
  assert.match(code,/window\.SJNDashboard=\{enter,reset,invalidate,sync,updateHistory\}/);
  assert.doesNotMatch(code,/localStorage|sessionStorage/);
  assert.doesNotMatch(code,/\.post\(|\.put\(|method:'POST'|method:'PUT'/);
+});
+
+test('Source-linked study and life library has 50 unique, non-medical quotations',()=>{
+ const lines=[...code.matchAll(/\\{text:"([^"]+)",author:"([^"]+)",source:"(https:[^"]+)",band:"(all|support|steady)"\\}/g)];
+ assert.equal(lines.length,50);
+ assert.equal(new Set(lines.map(m=>m[1])).size,50);
+ assert.ok(lines.every(m=>!/(medicine|doctor|physician|patient|disease|MBBS|BDS)/i.test(m[1])));
+ assert.ok(lines.every(m=>m[1].length<=145));
+ assert.ok(lines.every(m=>m[3].startsWith('https://')));
+ assert.ok(lines.some(m=>m[4]==='support'));
+ assert.ok(lines.some(m=>m[4]==='steady'));
+ assert.ok(lines.some(m=>m[4]==='all'));
+});
+test('Quote is stable on refresh within each eight-hour slot and changes across all three daily slots',async()=>{
+ let hour=1;
+ class LocalDate extends Date{
+  constructor(...args){super(...(args.length?args:[2026,10,5,hour,0,0]));}
+ }
+ const x=fixture('student-1',LocalDate);
+ await x.window.SJNDashboard.enter();
+ const get=()=>x.elements('sjn-db-quote-text').textContent;
+ const quote1=get();
+ hour=7;await x.window.SJNDashboard.enter(true);
+ assert.equal(get(),quote1);
+ hour=8;await x.window.SJNDashboard.enter();
+ const quote2=get();assert.notEqual(quote2,quote1);
+ hour=16;await x.window.SJNDashboard.enter();
+ const quote3=get();assert.notEqual(quote3,quote2);
+ hour=23;await x.window.SJNDashboard.enter();
+ assert.equal(get(),quote3);
+ assert.equal(x.calls.length,2);
 });
