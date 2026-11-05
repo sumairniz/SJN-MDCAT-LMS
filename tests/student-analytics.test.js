@@ -141,3 +141,16 @@ test('Final Analytics mobile layouts keep two inner metrics equal and promote Ov
  assert.ok(positions.every(p=>p>=0),'All five cards should remain');
  assert.ok(positions.every((p,i)=>i===0||p>positions[i-1]),'The card order must remain accuracy, total, unique, tests, skipped');
 });
+
+test('Only mobile first Overview accuracy tile uses the new balanced right-hand percentage',()=>{
+ const micro=css.slice(css.lastIndexOf('/* Owner-approved final micro-adjustment'));
+ assert.match(micro,/@media\(max-width:600px\)/);
+ assert.match(micro,/\.sjn-a-metrics > \.sjn-a-metric:first-child\{/);
+ assert.match(micro,/grid-template-columns:minmax\(0,1fr\) max-content/);
+ assert.match(micro,/grid-column:2;grid-row:1\/4/);
+ assert.match(micro,/font-size:clamp\(34px,9vw,52px\)/);
+ assert.doesNotMatch(micro,/\.sjn-a-inline-stat|\.sjn-a-metrics > \.sjn-a-metric:last-child|@media\(min-width/);
+ const earlier=css.slice(0,css.lastIndexOf('/* Owner-approved final micro-adjustment'));
+ assert.match(earlier,/\.sjn-a-metrics\{grid-template-columns:repeat\(5,minmax\(0,1fr\)\)\}/);
+ assert.match(earlier,/\.sjn-a-inline-stat > \.sjn-a-metric\{grid-column:auto;min-width:0\}/);
+});
