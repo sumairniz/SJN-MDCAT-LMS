@@ -153,3 +153,25 @@
  #module-mistakes .sjn-m-crumb .sjn-m-back-button{min-height:36px}
  /* Preserve the already accepted two-dropdown mobile filter layout. */
 }
+
+/* V1.2 — desktop-only single-line category controls, status pinned far right.
+   Category choices remain independently scrollable on narrower desktop windows.
+   Existing mobile (<751px) two-dropdown layout is deliberately untouched. */
+@media(min-width:751px){
+ #module-mistakes .sjn-m-listhead{align-items:flex-end}
+ #module-mistakes .sjn-m-filter-layout{
+  display:flex;flex:1 1 auto;min-width:0;flex-wrap:nowrap;
+  justify-content:space-between;align-items:flex-end;gap:14px
+ }
+ #module-mistakes .sjn-m-desktop-categories{
+  order:0;flex:1 1 auto;min-width:0;display:flex;flex-wrap:nowrap;
+  gap:7px;align-items:center;overflow-x:auto;scrollbar-width:thin;
+  padding:2px 0;white-space:nowrap
+ }
+ #module-mistakes .sjn-m-category-chip{flex:0 0 auto;white-space:nowrap}
+ #module-mistakes .sjn-m-filters{
+  order:1;flex:0 0 auto;min-width:0;justify-content:flex-end;
+  flex-wrap:nowrap;margin-left:auto
+ }
+ #module-mistakes .sjn-m-filters>label:not(.sjn-m-mobile-category){min-width:170px}
+}
