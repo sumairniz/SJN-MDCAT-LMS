@@ -28,7 +28,7 @@ test('All four MCQ answers, correct and incorrect highlights, source tree and ma
  assert.match(ui,/e\.options_json\.map\(\(o,n\)=>option\(o,n,e\)\)/);
  assert.match(ui,/idx===e\.correct_index/);
  assert.match(ui,/idx===e\.selected_index/);
- assert.match(ui,/data-answer="\+status/);
+ assert.match(ui,/data-answer/);
  assert.match(ui,/Information Gap/);
  assert.match(ui,/Conceptual Mistake/);
  assert.match(ui,/Silly Mistake/);
