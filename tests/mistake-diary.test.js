@@ -112,3 +112,16 @@ test('V1.1 catalog normalizes grouping by question bank chapter, course test and
  assert.match(migration,/SECURITY INVOKER/);
  assert.doesNotMatch(migration,/INSERT INTO|UPDATE public\.attempts|DELETE FROM/i);
 });
+
+test('V1.2 aligns desktop category chips before right-pinned review status and preserves mobile',()=>{
+ const cssText=fs.readFileSync(path.join(root,'public/sjn-mistakes.css'),'utf8');
+ const desktop=cssText.split('/* V1.2 — desktop-only')[1];
+ assert.ok(desktop);
+ assert.match(desktop,/@media\(min-width:751px\)/);
+ assert.match(desktop,/\.sjn-m-desktop-categories\{[\s\S]*?order:0;/);
+ assert.match(desktop,/\.sjn-m-filters\{[\s\S]*?order:1;/);
+ assert.match(desktop,/margin-left:auto/);
+ assert.match(desktop,/flex-wrap:nowrap/);
+ assert.match(cssText,/@media\(max-width:750px\)/);
+ assert.match(cssText,/\.sjn-m-filters \.sjn-m-mobile-category\{display:flex\}/);
+});
