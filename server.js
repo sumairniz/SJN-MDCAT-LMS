@@ -378,7 +378,8 @@ app.get('/api/student-analytics', auth, async (req,res)=>{
     if(error)throw error;
     if(!data||typeof data!=='object'||Array.isArray(data)||
        !Array.isArray(data.nodes)||!data.totals||
-       !Array.isArray(data.bankCatalog)||!Array.isArray(data.lifetimeCoverage))
+       !Array.isArray(data.bankCatalog)||!Array.isArray(data.lifetimeCoverage)||
+       !Array.isArray(data.periodCoverage)||!Array.isArray(data.courseAttemptBreakdown))
       throw new Error('Incomplete Analytics summary');
     res.json({userId:req.user.id,summary:data});
   }catch(e){
