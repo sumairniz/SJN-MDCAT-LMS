@@ -4,7 +4,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
 const js=fs.readFileSync(path.join(__dirname,'../public/sjn-analytics.js'),'utf8');
 const summary=()=>({
- totals:{tests:2,questions:20,answered:15,correct:12,incorrect:3,skipped:5,elapsed_seconds:700},
+ totals:{tests:2,questions:20,answered:15,unique_answered:9,correct:12,incorrect:3,skipped:5,elapsed_seconds:700},
  previous:{questions:10,answered:8,correct:5},
  daily:[{day:'2026-11-01',questions:20,answered:15,correct:12}],
  nodes:[{source_type:'pastbank',bank:'Past Papers Question Bank',subject:'Biology',
@@ -34,6 +34,10 @@ test('Analytics renders verified data, navigates hierarchy and clears on student
  assert.match(root.innerHTML,/80%/);
  assert.match(root.innerHTML,/15/);
  assert.match(root.innerHTML,/Past Papers Question Bank/);
+ assert.match(root.innerHTML,/Total Answered/);
+ assert.match(root.innerHTML,/Unique Answered/);
+ assert.match(root.innerHTML,/Distinct MCQs answered/);
+ assert.doesNotMatch(root.innerHTML,/Older score-only attempts|summary-only record/);
  const click=dataset=>{const event={target:{closest:q=>q==='button'?{
   dataset,hasAttribute:()=>false
  }:null}};for(const listener of (listeners.get('click')||[]))listener(event)};
