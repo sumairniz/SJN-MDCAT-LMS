@@ -1,3 +1,13 @@
+# 2026-11-05 — FINAL MOBILE ACCURACY TILE MICRO-ADJUSTMENT
+
+**Approved precise scope:** Move the existing Answer Accuracy percentage into the empty right side of the full-width **mobile Overview** first metric card (≤600px). Preserve icon, label and answered count on the left, and use a proportional responsive percentage font. All other mobile elements, charts, desktop cards, all calculations, backend/data, and production are locked and untouched.
+
+**Files changed:** `public/sjn-analytics.css` adds only a media-scoped rule for `#module-analytics .sjn-a-metrics > .sjn-a-metric:first-child` and its existing children; `public/index.html` bumps only the Analytics CSS cache version; `tests/student-analytics.test.js` adds a layout-isolation regression guard. No HTML metric markup, JS logic, or SQL changes.
+
+**Status:** Implemented on staging; check GitHub CI and Vercel Preview READY. Owner mobile visual confirmation is the final gate before closing Analytics. No redesign or other adjustments authorized.
+
+---
+
 # 2026-11-05 — MOBILE ANALYTICS FINAL ARRANGEMENT (OWNER APPROVED)
 
 **Finalized/locked:** Desktop Analytics styling and behavior explicitly accepted by owner. Do not alter desktop layout, colors, graphs, data logic, or navigation without a new explicit approval.
