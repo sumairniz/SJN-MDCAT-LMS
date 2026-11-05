@@ -121,3 +121,35 @@
  #module-mistakes .sjn-m-page,#module-mistakes .sjn-m-next{gap:4px;font-size:10px}
  #module-mistakes .sjn-m-page button,#module-mistakes .sjn-m-next button{padding:7px 9px;font-size:10px}
 }
+
+/* Mistake Diary V1.1 — scoped owner-approved refinements. */
+#module-mistakes .sjn-m-head{justify-content:flex-start}
+#module-mistakes .sjn-m-eyebrow{gap:9px}
+#module-mistakes .sjn-m-eyebrow i{font-size:15px;color:#e6b565;background:#423725;border:1px solid #675036;border-radius:7px;width:27px;height:27px;display:inline-grid;place-items:center}
+#module-mistakes .sjn-m-head-mark{display:none}
+#module-mistakes .sjn-m-crumb{align-items:center}
+#module-mistakes .sjn-m-crumb .sjn-m-back-button{background:#303947;border:1px solid #526072;color:#f3e4c9;border-radius:9px;min-height:36px;padding:7px 13px;font-weight:800;font-size:11px;display:inline-flex;align-items:center;gap:8px}
+#module-mistakes .sjn-m-crumb .sjn-m-back-button:hover{background:#3c4655;border-color:#af946d;color:white}
+#module-mistakes .sjn-m-filter-layout{display:flex;align-items:center;gap:14px;flex-wrap:wrap;min-width:0}
+#module-mistakes .sjn-m-mobile-category{display:none}
+#module-mistakes .sjn-m-desktop-categories{display:flex;flex-wrap:wrap;gap:7px;align-items:center;flex:1 1 100%}
+#module-mistakes .sjn-m-category-chip{--category:#a8b6c6;--category-bg:#27313e;display:inline-flex;align-items:center;justify-content:center;min-height:34px;background:var(--category-bg);border:1px solid color-mix(in srgb,var(--category) 34%,#374252);color:var(--category);border-radius:9px;padding:8px 11px;font-size:10.5px;font-weight:800;transition:background .16s,border-color .16s,transform .16s}
+#module-mistakes .sjn-m-category-chip:hover{transform:translateY(-1px);border-color:var(--category);filter:brightness(1.16)}
+#module-mistakes .sjn-m-category-chip.active{background:color-mix(in srgb,var(--category) 18%,#1b2531);border-color:var(--category);color:#fff;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--category) 15%,transparent)}
+#module-mistakes [data-category=information]{--category:#64b5f6;--category-bg:#223748}
+#module-mistakes [data-category=conceptual]{--category:#b49aff;--category-bg:#352c4d}
+#module-mistakes [data-category=silly]{--category:#f2ba65;--category-bg:#453724}
+#module-mistakes [data-category=retention]{--category:#68d7b2;--category-bg:#223f35}
+#module-mistakes [data-category=uncategorized]{--category:#adb6c4;--category-bg:#2d333f}
+#module-mistakes .sjn-m-badges .sjn-m-category{background:var(--category-bg);color:var(--category);border-color:color-mix(in srgb,var(--category) 40%,#394354)}
+#module-mistakes .sjn-m-note-caption{display:inline-flex;align-items:baseline;gap:5px;flex-wrap:wrap}
+#module-mistakes .sjn-m-note-caption small{font-size:10px;font-weight:500;color:#9caabc}
+#module-mistakes .sjn-m-next button,#module-mistakes .sjn-m-page button{min-height:39px;border-color:#6e665a;color:#f4d29a;font-weight:800}
+#module-mistakes .sjn-m-next button:not(:disabled):hover,#module-mistakes .sjn-m-page button:not(:disabled):hover{background:#3b3c40;border-color:#be9c6b;color:#fff3dd}
+@media(max-width:750px){
+ #module-mistakes .sjn-m-desktop-categories{display:none}
+ #module-mistakes .sjn-m-mobile-category{display:flex}
+ #module-mistakes .sjn-m-filter-layout{display:block}
+ #module-mistakes .sjn-m-crumb .sjn-m-back-button{min-height:36px}
+ /* Preserve the already accepted two-dropdown mobile filter layout. */
+}
