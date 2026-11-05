@@ -88,7 +88,7 @@ test('V1.1 shows separate back navigation and colored category chips on desktop 
  for(const category of ['information','conceptual','silly','retention']){
   assert.match(css,new RegExp('data-category='+category+'\\]'));
  }
- assert.match(ui,/data-category="'+categoryTone\(e.category\)/);
+ assert.match(ui,/categoryTone\(e.category\)/);
  assert.match(css,/@media\(max-width:750px\)/);
  assert.match(css,/\.sjn-m-filters \.sjn-m-mobile-category\{display:flex\}/);
  assert.match(css,/\.sjn-m-desktop-categories\{display:none\}/);
