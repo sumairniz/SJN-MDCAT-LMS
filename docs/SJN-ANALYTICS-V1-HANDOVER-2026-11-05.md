@@ -1,3 +1,15 @@
+# 2026-11-05 — MOBILE ANALYTICS FINAL ARRANGEMENT (OWNER APPROVED)
+
+**Finalized/locked:** Desktop Analytics styling and behavior explicitly accepted by owner. Do not alter desktop layout, colors, graphs, data logic, or navigation without a new explicit approval.
+
+**Two mobile-only visual corrections (no data/JS behavior changes):**
+1. All inner Analytics paired summary metrics (Question Bank, Course and Full-Length Past Paper, including subject/chapter/topic drill-down screens) now share one balanced row at mobile widths ≤600px. Removed the broad `.sjn-a-metric:last-child` full-width rule that was unintentionally stretching the second inner metric. Inner `.sjn-a-inline-stat > .sjn-a-metric` explicitly keeps equal two-column sizing.
+2. The five-card main Overview at widths ≤600px now displays **Answer Accuracy full-width first**, then **Total Answered | Unique Answered**, then **Tests Completed | Skipped Questions** in two equal rows. No stats or labels changed.
+
+**Scope/QA:** Scoped `public/sjn-analytics.css` responsive overrides only, updated the stylesheet query version in `public/index.html` for cache refresh, and added targeted regression test assertions in `tests/student-analytics.test.js`. All Time monthly, 90-day weekly, short-range daily graph behavior and both desktop/mobile graph interactions remain unchanged. No migration/API/quiz/history/other LMS changes. Vercel staging Preview and automated CI required before handover. Owner mobile acceptance still pending; when accepted, mark Analytics closed and proceed to Mistake Diary discussion.
+
+---
+
 # 2026-11-05 — OWNER-APPROVED TOTAL VS UNIQUE ANSWERED CARDS / FOOTER REMOVAL
 
 **Staging-only change:** In Overview, **Total Answered** (every answered item in successfully submitted attempts, including retakes) now appears beside **Unique Answered** (count of distinct `mcq_id` with `selected_index IS NOT NULL` in submitted attempts during the selected date period). Skipped-only items do **not** count in either statistic. Existing **Skipped Questions** stays separate. A single MCQ answered repeatedly counts once as unique, even across different banks/tests; totals continue to include each answer instance. Date filters apply to both metrics using the exact same `chosen` completed-attempt set. Existing question-bank **Unique Covered** semantics remain distinct and unchanged (a skipped item can still be covered).
