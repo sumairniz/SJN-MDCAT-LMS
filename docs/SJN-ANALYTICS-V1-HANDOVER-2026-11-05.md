@@ -1,3 +1,21 @@
+# 2026-11-05 — OWNER-APPROVED ANALYTICS V1.2 TARGETED REFINEMENT (PENDING OWNER UAT)
+
+**Scope:** User approved four small improvements only: date-dependent Unique Coverage, desktop Question Bank row alignment, Course subject→chapter expansion with per-attempt metrics, and graph nearest-point interaction/phone-safe tooltip. Staging only, production untouched.
+
+**Period-specific unique coverage:** Added `periodCoverage` (bank/subject/chapter/topic distinct MCQs included in successfully submitted attempts in selected time range) to read-only `sjn_student_analytics` function. Counts skipped-as-covered, consistently with existing practice-bank semantics; `answered_unique` separately returned for future distinction. `bankCatalog` denominators remain all available MCQs and do not change with date filter. `lifetimeCoverage` remains returned for compatibility but no longer used by the Question Bank UI. A period with no submitted practice is 0 covered. SQL migration `database/migrations/20261105_student_analytics_period_and_course_detail.sql` applied to staging Supabase project `aozknkrwafowsrehdwlr`; no attempt or question rows changed.
+
+**Desktop vs mobile:** At desktop widths >=801px, Question Bank subject/chapter/topic rows align the colored Correct/Incorrect/Skipped metrics in a centered middle column, with a larger row name, coverage, and accuracy. Mobile (<801px) retains stacked detail tiles. Existing academic palette and navigation preserved.
+
+**Courses:** SQL `courseAttemptBreakdown` groups immutable saved question results by **individual attempt ID → course test → subject → chapter**. Test-level cards select latest completed attempt in the selected period by default, with a selector to inspect older attempts. Subject accordion displays total MCQs, answer accuracy, and expands to correct/incorrect/skipped and chapter-wise counts and accuracy only when metadata exists. No Course topics exposed; chapter names remain hidden within the exam-taking interface. Course-wide summary still covers all submitted attempts and is labeled as historical aggregate; one selected test attempt is never mixed with its retakes.
+
+**Graph:** Desktop pointermove over the entire SVG plot, mobile pointerdown/touch, keyboard focus, and click select the nearest real recorded date. No fabricated interpolated data. Tooltip is kept within graph on desktop and becomes a full-width **below-graph panel on mobile** to avoid clipping and disappearing at endpoints. Tooltip displays date/period, accuracy, correct and answered count.
+
+**Performance/security:** In-memory account-isolated cache, per-period data, authenticated API and existing RLS-invoker function retained. Endpoint now requires both new arrays to avoid silently returning incorrect coverage. Regression tests validate date-scoping, latest-vs-older Course attempts and chart event wiring. The owner must still verify the actual Chrome desktop/mobile UI and figures before final acceptance; CI and Preview READY do not substitute for personal UAT.
+
+**Next work:** After owner review, discuss Mistake Diary. PDF performance remains owner-deferred FF-023. Admin Panel later. No other LMS features changed.
+
+---
+
 # 2026-11-05 — ANALYTICS V1 OWNER-APPROVED VISUAL REFINEMENT / DATE FILTER REPAIR
 
 **Scope:** Staging development branch only; user explicitly approved redesign refinements after reviewing a 54-second Chrome recording. **Owner visual re-acceptance remains pending.** Production/main, content, course/exam flow, bookmarks, PDF reader, R2, Supabase schema and study history unchanged.
