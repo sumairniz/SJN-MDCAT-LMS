@@ -160,7 +160,7 @@ async function resumeSaved(){
  }finally{if(button){button.disabled=false;button.textContent='Resume Test'}}
 }
 $('sjn-db-retry')?.addEventListener('click',()=>{void enter(true)});
-$('sjn-db-resume-button')?.addEventListener('click',()=>{void resumeSaved()});
+$('sjn-db-resume-button')?.addEventListener('click',()=>resumeSaved());
 for(const [id,module] of [['sjn-db-create-test','wizard'],['sjn-db-courses','courses'],['sjn-db-papers','pastpapers']]){
  $(id)?.addEventListener('click',()=>{bridge()?.openModule?.(module)});
 }
