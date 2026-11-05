@@ -360,3 +360,18 @@
  }
  #module-analytics .sjn-a-trend svg{width:100%;height:auto}
 }
+
+
+/* Owner approved — five-card summary, retaining the existing visual theme. */
+#module-analytics .sjn-a-metrics{grid-template-columns:repeat(5,minmax(0,1fr))}
+#module-analytics [data-tone=green]{--tone:#34d399;--tone-dim:#193b33}
+@media(max-width:1250px){
+ #module-analytics .sjn-a-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:900px){
+ #module-analytics .sjn-a-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:600px){
+ #module-analytics .sjn-a-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #module-analytics .sjn-a-metric:last-child{grid-column:1/-1}
+}
