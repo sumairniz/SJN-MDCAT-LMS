@@ -2281,7 +2281,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     let historyGeneration = 0;
     let loadedHistoryGeneration = -1;
     let loadedHistoryStudentId = null;
-    function markStudentHistoryChanged() { historyGeneration++; window.SJNDashboard?.invalidate(); }
+    function markStudentHistoryChanged() { historyGeneration++; }
     async function loadStudentHistory({ fresh = false } = {}) {
       const expectedStudentId = currentUser?.id;
       if (!expectedStudentId) return false;
@@ -2817,7 +2817,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         const result=await api('/practice/drafts',{method:'PUT',
           headers:{'X-SJN-Expected-Student':expected},body:draft});
         if (currentUser?.id!==expected)throw new Error('Account changed while saving.');
-        if (result?.saved === true) markStudentHistoryChanged();
+        if (result?.saved === true) { markStudentHistoryChanged(); window.SJNDashboard?.invalidate(); }
         return result;
       },
       async resume(id) {
@@ -2977,7 +2977,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         window.SJNPracticeFilters?.invalidate();
         markStudentHistoryChanged();
         window.SJNAnalytics?.invalidate();
-        if (document.getElementById('module-dashboard')?.classList.contains('hidden')===false) void window.SJNDashboard?.enter();
+        window.SJNDashboard?.invalidate();
         if (wizardSelection.scope === 'course-test') void window.SJNCoursesPreview?.refresh?.();
         const confirmedGeneration = historyGeneration;
         window.SJNExamRecovery?.forget();
