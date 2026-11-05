@@ -37,7 +37,7 @@ test('All four MCQ answers, correct and incorrect highlights, source tree and ma
  assert.match(ui,/Need Review/);
  assert.match(ui,/In Progress/);
  assert.match(ui,/Mastered/);
- assert.match(ui,/data-m-note/);
+ assert.match(ui,/data-m-edit="note"/);
  assert.match(ui,/data-m-next/);
  assert.match(ui,/source_kind==='banks'/);
  assert.match(ui,/source_kind==='courses'/);
