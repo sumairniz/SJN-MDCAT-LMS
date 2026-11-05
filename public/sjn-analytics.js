@@ -516,7 +516,7 @@ root.addEventListener('pointerdown',e=>{
 });
 root.addEventListener('pointerleave',e=>{
  const chart=e.target.closest?.('[data-a-chart]');
- if(chart&&e.pointerType!=='touch')hidePointTooltip(chart);
+ if(chart&&e.target===chart&&e.pointerType!=='touch')hidePointTooltip(chart);
 },true);
 root.addEventListener('focusin',e=>{
  const point=e.target.closest?.('[data-a-chart-point]');
