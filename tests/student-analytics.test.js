@@ -122,3 +122,22 @@ test('Overview separately displays period-scoped total and unique answered with 
  assert.match(css,/sjn-a-metrics\{grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
  assert.match(css,/@media\(max-width:600px\)/);
 });
+
+test('Final Analytics mobile layouts keep two inner metrics equal and promote Overview accuracy',()=>{
+ const mobile=css.slice(css.lastIndexOf('/* Owner-approved final mobile arrangement'));
+ assert.ok(mobile.length>100,'Expected narrow-screen layout override');
+ assert.match(mobile,/@media\(max-width:600px\)/);
+ assert.match(mobile,/\.sjn-a-metrics > \.sjn-a-metric:first-child\{grid-column:1\/-1\}/);
+ assert.match(mobile,/\.sjn-a-metrics > \.sjn-a-metric:not\(:first-child\)\{grid-column:auto\}/);
+ assert.match(mobile,/\.sjn-a-inline-stat\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)\}/);
+ assert.match(mobile,/\.sjn-a-inline-stat > \.sjn-a-metric\{grid-column:auto;min-width:0\}/);
+ assert.doesNotMatch(css,/\.sjn-a-metric:last-child\{grid-column:1\/-1\}/);
+ // Existing desktop design remains five metric cards per row.
+ assert.match(css,/\.sjn-a-metrics\{grid-template-columns:repeat\(5,minmax\(0,1fr\)\)\}/);
+ // The DOM's first Overview card must be Answer Accuracy, followed by four small cards.
+ const overview=js.slice(js.indexOf('function overview('),js.indexOf('function breadcrumb('));
+ const labels=['Answer Accuracy','Total Answered','Unique Answered','Tests Completed','Skipped Questions'];
+ const positions=labels.map(label=>overview.indexOf("metric('"+label+"'"));
+ assert.ok(positions.every(p=>p>=0),'All five cards should remain');
+ assert.ok(positions.every((p,i)=>i===0||p>positions[i-1]),'The card order must remain accuracy, total, unique, tests, skipped');
+});
