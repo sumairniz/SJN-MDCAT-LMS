@@ -211,11 +211,13 @@ async function save(id){
   entry.review_status=d.annotation.review_status;
   state.dirty=true;
   // Re-query the summary so that review-status counts and grouped data remain authoritative.
-  const cd=await bridge().load('/mistake-diary/catalog');
-  if(uid!==bridge()?.userId?.())return;
-  if(cd?.userId===uid&&cd.totals&&Array.isArray(cd.groups)){
-   state.totals=cd.totals;state.groups=cd.groups;state.dirty=false;
-  }
+  try{
+   const cd=await bridge().load('/mistake-diary/catalog');
+   if(uid!==bridge()?.userId?.())return;
+   if(cd?.userId===uid&&cd.totals&&Array.isArray(cd.groups)){
+    state.totals=cd.totals;state.groups=cd.groups;state.dirty=false;
+   }
+  }catch(_){/* Annotation was confirmed; summary can retry independently. */}
   render();
   const msg=root.querySelector('[data-m-detail="'+id+'"] [data-m-feedback]');
   if(msg)msg.textContent='Changes saved securely.';
