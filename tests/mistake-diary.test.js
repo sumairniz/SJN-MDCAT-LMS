@@ -74,3 +74,41 @@ test('DB derives incorrect MCQs, preserves immutable revisions and applies stude
  assert.doesNotMatch(sql,/UPDATE\s+public\.(attempts|attempt_items|mcq_revisions)/i);
  assert.doesNotMatch(sql,/TRUNCATE|DROP TABLE\s+public\.attempt/i);
 });
+
+
+test('V1.1 keeps the five subjects in approved entrance-exam weightage order',()=>{
+ assert.match(ui,/const subjectOrder=\['Biology','Chemistry','Physics','English','Logical Reasoning'\]/);
+ assert.match(ui,/subjectRank\(a\[0\]\)-subjectRank\(b\[0\]\)/);
+});
+test('V1.1 shows separate back navigation and colored category chips on desktop only',()=>{
+ assert.match(ui,/class="sjn-m-back-button"/);
+ assert.match(ui,/data-m-back="previous"/);
+ assert.match(ui,/sjn-m-desktop-categories/);
+ assert.match(ui,/sjn-m-mobile-category/);
+ for(const category of ['information','conceptual','silly','retention']){
+  assert.match(css,new RegExp('data-category='+category+'\\]'));
+ }
+ assert.match(ui,/data-category="'+categoryTone\(e.category\)/);
+ assert.match(css,/@media\(max-width:750px\)/);
+ assert.match(css,/\.sjn-m-filters \.sjn-m-mobile-category\{display:flex\}/);
+ assert.match(css,/\.sjn-m-desktop-categories\{display:none\}/);
+});
+test('V1.1 keeps manual note saves and prevents accidental unsaved navigation',()=>{
+ assert.match(ui,/function hasUnsavedChanges\(/);
+ assert.match(ui,/function mayNavigate\(/);
+ assert.match(ui,/window\.confirm\(/);
+ assert.match(ui,/if\(action\.mSave\)\{void save\(action\.mSave\);return;\}/);
+ assert.match(ui,/window\.addEventListener\('beforeunload'/);
+ assert.match(html,/window\.SJNMistakes\?\.canLeave\?\.\(\) === false/);
+ assert.match(ui,/sjn-m-note-caption/);
+ assert.match(ui,/data-m-next/);
+});
+test('V1.1 catalog normalizes grouping by question bank chapter, course test and full paper',()=>{
+ const migration=fs.readFileSync(path.join(root,'database/migrations/20261106_mistake_diary_catalog_source_grouping.sql'),'utf8');
+ assert.match(migration,/CASE WHEN source_kind='banks' THEN subject ELSE '' END/);
+ assert.match(migration,/CASE WHEN source_kind='banks' THEN chapter ELSE '' END/);
+ assert.match(migration,/CASE WHEN source_kind='courses' THEN course_test_id ELSE NULL END/);
+ assert.match(migration,/CASE WHEN source_kind='papers' THEN paper_title ELSE '' END/);
+ assert.match(migration,/SECURITY INVOKER/);
+ assert.doesNotMatch(migration,/INSERT INTO|UPDATE public\.attempts|DELETE FROM/i);
+});
