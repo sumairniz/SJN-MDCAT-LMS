@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/sjn-phase4-results.css">
   <link rel="stylesheet" href="/sjn-history.css">
   <link rel="stylesheet" href="/sjn-analytics.css?v=20261105-mobile-accuracy-v6">
+  <link rel="stylesheet" href="/sjn-dashboard.css?v=20261105-dashboard-v1">
   <link rel="stylesheet" href="/sjn-pastpapers.css?v=20261031-balochistan-b39434">
   <link rel="stylesheet" href="/sjn-courses.css?v=20261102-full-schedule">
   <link rel="stylesheet" href="/sjn-academy-resources.css?v=20261104-resource-timings-v10">
@@ -1087,6 +1088,7 @@
         void window.SJNCoursesPreview.refresh();
       }
       if (modName === 'resources') void window.SJNResources?.enter();
+      if (modName === 'dashboard') void window.SJNDashboard?.enter();
        if (modName === 'analytics') void window.SJNAnalytics?.enter();
       if (modName === 'aitutor') void window.SJNAITutor?.enter();
       if (modName === 'history' && typeof window.reloadStudentHistory === 'function') {
@@ -1649,6 +1651,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       document.getElementById('dash-accuracy-bar').style.width = `${accuracy}%`;
       document.getElementById('dash-streak').innerText = `${sjnProfile.streakDays} Days`;
       document.getElementById('dash-rank').innerHTML = `<span>${sjnProfile.rank}</span>`;
+      window.SJNDashboard?.sync();
     }
 
     function renderHistoryTable() {
@@ -2086,6 +2089,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
 
     window.SJNResourcesBridge = {load:(path)=>api(path),userId:()=>currentUser?.id||null};
      window.SJNAnalyticsBridge = {load:(path)=>api(path),userId:()=>currentUser?.id||null};
+    window.SJNDashboardBridge = {load:(path)=>api(path),userId:()=>currentUser?.id||null,openModule:(module)=>switchModule(module),resume:(id)=>window.SJNDrafts.resume(id)};
     window.SJNAITutorBridge = {load:(path)=>api(path),send:(path,options)=>api(path,options),userId:()=>currentUser?.id||null};
     async function api(path, options = {}) {
       const headers = { ...(options.headers || {}) };
@@ -2120,6 +2124,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     function coverPrivateWorkspace() {
       window.SJNResources?.reset();
       window.SJNAnalytics?.reset();
+      window.SJNDashboard?.reset();
       window.SJNAITutor?.reset();
       window.SJNPracticeFilters?.resetSession();
       wizardQuestionFiltersActive = false;
@@ -2276,7 +2281,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
     let historyGeneration = 0;
     let loadedHistoryGeneration = -1;
     let loadedHistoryStudentId = null;
-    function markStudentHistoryChanged() { historyGeneration++; }
+    function markStudentHistoryChanged() { historyGeneration++; window.SJNDashboard?.invalidate(); }
     async function loadStudentHistory({ fresh = false } = {}) {
       const expectedStudentId = currentUser?.id;
       if (!expectedStudentId) return false;
@@ -2351,6 +2356,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
           }))
         ];
         sjnProfile.streakDays = countStudyStreak(payload.attempts);
+        window.SJNDashboard?.updateHistory(expectedStudentId,sjnProfile.historyLogs);
         historyLoadStatus = 'ready';
         loadedHistoryStudentId = expectedStudentId;
         loadedHistoryGeneration = generation;
@@ -2971,6 +2977,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         window.SJNPracticeFilters?.invalidate();
         markStudentHistoryChanged();
         window.SJNAnalytics?.invalidate();
+        if (document.getElementById('module-dashboard')?.classList.contains('hidden')===false) void window.SJNDashboard?.enter();
         if (wizardSelection.scope === 'course-test') void window.SJNCoursesPreview?.refresh?.();
         const confirmedGeneration = historyGeneration;
         window.SJNExamRecovery?.forget();
@@ -3024,6 +3031,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
       if (!(await loadAccount())) return;
       // Fetch personal history separately, after verified dashboard content is visible.
       void loadStudentHistory();
+      void window.SJNDashboard?.enter();
       await loadContent();
     });
   })();
@@ -3042,6 +3050,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
   <script src="/sjn-genome-schedule.js?v=20261102-full-schedule"></script>
   <script src="/sjn-courses.js?v=20261102-full-schedule"></script>
   <script src="/sjn-history.js"></script>
+  <script src="/sjn-dashboard.js?v=20261105-dashboard-v1"></script>
    <script src="/sjn-analytics.js?v=20261105-total-unique-v4"></script>
   <script src="/sjn-phase4-preview.js?v=20261101-genome-timers"></script>
   <script src="/sjn-phase4-results.js"></script>
