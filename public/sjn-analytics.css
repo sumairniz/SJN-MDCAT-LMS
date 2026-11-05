@@ -371,7 +371,14 @@
 @media(max-width:900px){
  #module-analytics .sjn-a-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+/* Owner-approved final mobile arrangement; desktop layouts remain untouched.
+   The former generic :last-child rule also stretched the SECOND inner summary
+   card (Accuracy/Coverage, Course and FLP) to full width. Scope grid spans only
+   to the five-card Overview, keeping each inner pair evenly side by side. */
 @media(max-width:600px){
  #module-analytics .sjn-a-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
- #module-analytics .sjn-a-metric:last-child{grid-column:1/-1}
+ #module-analytics .sjn-a-metrics > .sjn-a-metric:first-child{grid-column:1/-1}
+ #module-analytics .sjn-a-metrics > .sjn-a-metric:not(:first-child){grid-column:auto}
+ #module-analytics .sjn-a-inline-stat{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #module-analytics .sjn-a-inline-stat > .sjn-a-metric{grid-column:auto;min-width:0}
 }
