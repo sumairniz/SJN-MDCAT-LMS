@@ -1,3 +1,5 @@
+> **2026-11-05 final staging QA checkpoint:** The Mistake Diary branch checkpoint `b4a52277246948b291b2b7e9bce1fa8b104a7751` passed both Foundation workflows and was directly verified **READY** on its Vercel preview deployment `sjn-mdcat-9nfktetqy-sjn1.vercel.app` (matching SHA and development branch). After that check, added the non-destructive `database/migrations/20261105_mistake_diary_mcq_fk_index.sql` on staging to address the only newly introduced foreign-key index notice from Supabase performance advisors; index creation succeeded. Previous non-Diary index advisories and the existing secure grading function warning are unchanged and are outside this scope. A scoped authenticated-role view/catalog isolation check and rollback-only annotation INSERT/UPDATE check both succeeded without persisting test notes. Recheck latest head CI/Preview as normal after the index/documentation-only commits. **Owner desktop/mobile UAT still pending**; no production/main.
+
 # Mistake Diary V1 — Staging Implementation and Owner Handover (2026-11-05)
 
 ## Status and explicit approval
