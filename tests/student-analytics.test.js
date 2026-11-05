@@ -102,3 +102,23 @@ test('Refined Analytics has readable outcomes, identity colors and interactive g
  for(const id of ['sindh','punjab','kpk','balochistan','federal','nums'])assert.ok(css.includes('data-region="'+id+'"'));
  assert.doesNotMatch(js,/sjn-a-head-icon.*chart-line/);
 });
+
+test('Overview separately displays period-scoped total and unique answered with skips excluded',()=>{
+ const revised=fs.readFileSync(path.join(root,
+   'database/migrations/20261105_student_analytics_unique_answered.sql'),'utf8');
+ assert.match(revised,/\bunique_answered\b/);
+ assert.match(revised,/COUNT\(DISTINCT mcq_id\) FILTER \(WHERE selected_index IS NOT NULL\)/);
+ assert.match(revised,/FROM facts/);
+ assert.match(revised,/chosen AS MATERIALIZED/);
+ assert.match(revised,/SECURITY INVOKER/);
+ assert.match(revised,/auth\.uid\(\)/);
+ assert.match(js,/metric\('Total Answered'/);
+ assert.match(js,/metric\('Unique Answered'/);
+ assert.match(js,/t\.unique_answered/);
+ assert.match(js,/Distinct MCQs answered/);
+ assert.match(js,/data\.totals\.unique_answered>number\(data\.totals\.answered\)/);
+ assert.doesNotMatch(js,/Older score-only attempts are excluded/);
+ assert.doesNotMatch(js,/<footer class="sjn-a-foot">/);
+ assert.match(css,/sjn-a-metrics\{grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
+ assert.match(css,/@media\(max-width:600px\)/);
+});
