@@ -2817,7 +2817,8 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
         const result=await api('/practice/drafts',{method:'PUT',
           headers:{'X-SJN-Expected-Student':expected},body:draft});
         if (currentUser?.id!==expected)throw new Error('Account changed while saving.');
-        if (result?.saved === true) { markStudentHistoryChanged(); window.SJNDashboard?.invalidate(); }
+        if (result?.saved === true) markStudentHistoryChanged();
+        if (result?.saved === true) window.SJNDashboard?.invalidate();
         return result;
       },
       async resume(id) {
