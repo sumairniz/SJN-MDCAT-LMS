@@ -1076,7 +1076,7 @@
     function switchModule(modName) {
       // Warn before leaving an edited Mistake Diary question; never auto-save.
       if (modName !== 'mistakes' &&
-          !document.getElementById('module-mistakes')?.classList.contains('hidden') &&
+          document.getElementById('module-mistakes')?.classList?.contains?.('hidden') === false &&
           window.SJNMistakes?.canLeave?.() === false) return;
       document.querySelectorAll('.module-view').forEach(m => m.classList.add('hidden'));
       document.querySelectorAll('.nav-tab').forEach(t => {
