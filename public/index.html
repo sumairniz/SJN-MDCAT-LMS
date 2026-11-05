@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="/sjn-phase4-results.css">
   <link rel="stylesheet" href="/sjn-history.css">
   <link rel="stylesheet" href="/sjn-analytics.css?v=20261105-mobile-accuracy-v6">
-  <link rel="stylesheet" href="/sjn-mistakes.css?v=20261105-mistakes-v1">
+  <link rel="stylesheet" href="/sjn-mistakes.css?v=20261106-mistakes-refinements-v2">
   <link rel="stylesheet" href="/sjn-dashboard.css?v=20261105-dashboard-v1">
   <link rel="stylesheet" href="/sjn-pastpapers.css?v=20261031-balochistan-b39434">
   <link rel="stylesheet" href="/sjn-courses.css?v=20261102-full-schedule">
@@ -297,7 +297,7 @@
        </button>
        <button onclick="switchModule('mistakes')" id="tab-mistakes" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
          <div class="flex items-center space-x-3"><i class="fa-solid fa-book-open-reader w-5 text-amber-400" aria-hidden="true"></i><span>Mistake Diary</span></div>
-         <i class="fa-solid fa-bookmark text-amber-300 text-sm hidden-collapsed" aria-hidden="true"></i>
+         <i class="fa-solid fa-pen-to-square text-amber-300 text-sm hidden-collapsed" aria-hidden="true"></i>
        </button>
        <button onclick="switchModule('history')" id="tab-history" class="nav-tab w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-gray-300 hover:bg-zinc-800/60 hover:text-white transition-all">
         <div class="flex items-center space-x-3">
@@ -1074,6 +1074,10 @@
     };
 
     function switchModule(modName) {
+      // Warn before leaving an edited Mistake Diary question; never auto-save.
+      if (modName !== 'mistakes' &&
+          !document.getElementById('module-mistakes')?.classList.contains('hidden') &&
+          window.SJNMistakes?.canLeave?.() === false) return;
       document.querySelectorAll('.module-view').forEach(m => m.classList.add('hidden'));
       document.querySelectorAll('.nav-tab').forEach(t => {
         t.classList.remove('bg-red-600', 'text-white', 'shadow-lg', 'shadow-red-600/20');
@@ -3061,7 +3065,7 @@ document.getElementById('quiz-chapter-tag').innerHTML = `<span class="flex items
   <script src="/sjn-genome-schedule.js?v=20261102-full-schedule"></script>
   <script src="/sjn-courses.js?v=20261102-full-schedule"></script>
   <script src="/sjn-history.js"></script>
-  <script src="/sjn-mistakes.js?v=20261105-mistakes-v1"></script>
+  <script src="/sjn-mistakes.js?v=20261106-mistakes-refinements-v2"></script>
   <script src="/sjn-dashboard.js?v=20261105-quotes-50-eight-hour"></script>
    <script src="/sjn-analytics.js?v=20261105-total-unique-v4"></script>
   <script src="/sjn-phase4-preview.js?v=20261101-genome-timers"></script>
