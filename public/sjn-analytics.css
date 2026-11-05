@@ -300,6 +300,7 @@
 #module-analytics .sjn-a-course-subject>summary{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer;list-style:none;color:#eaf4fe}
 #module-analytics .sjn-a-course-subject>summary::-webkit-details-marker{display:none}
 #module-analytics .sjn-a-course-subject-title{flex:1;color:var(--subject,#c6dcf2);font-size:13px;font-weight:800}
+#module-analytics .sjn-a-course-subject-count{color:#c1d0e2;font-size:11px;font-weight:740;white-space:nowrap}
 #module-analytics .sjn-a-course-subject-accuracy{font-size:16px;font-weight:850;font-variant-numeric:tabular-nums}
 #module-analytics .sjn-a-course-subject>summary i{color:#a1b5c8;transition:transform .15s}
 #module-analytics .sjn-a-course-subject[open]>summary i{transform:rotate(180deg)}
