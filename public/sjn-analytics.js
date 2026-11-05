@@ -93,7 +93,9 @@ async function load(force=false){
    if(payload?.userId!==uid||!data||!data.totals||!Array.isArray(data.nodes)||
     !Array.isArray(data.bankCatalog)||!Array.isArray(data.lifetimeCoverage)||
     !Array.isArray(data.periodCoverage)||!Array.isArray(data.courseAttemptBreakdown)||
-    !Array.isArray(data.daily)||!Array.isArray(data.tests))throw Error('Incomplete student Analytics data');
+    !Array.isArray(data.daily)||!Array.isArray(data.tests)||
+    !Number.isInteger(data.totals?.unique_answered)||data.totals.unique_answered<0||
+    data.totals.unique_answered>number(data.totals.answered))throw Error('Incomplete student Analytics data');
    state.data=data;state.cache.set(k,{data,at:Date.now()});
    if(state.cache.size>5)state.cache.delete(state.cache.keys().next().value);
    state.status='ready';render();
@@ -308,7 +310,8 @@ function overview(data){
  (change>0?'+':'')+change.toFixed(1)+' pp vs previous equivalent period</span>';
  }
  const metrics='<div class="sjn-a-metrics">'+metric('Answer Accuracy',accuracy(t),fmt(t.correct)+' of '+fmt(t.answered)+' answered','bullseye','teal')+
- metric('Questions Answered',fmt(t.answered),'From submitted tests','list-check','blue')+
+ metric('Total Answered',fmt(t.answered),'Includes repeated MCQ answers','list-check','blue')+
+ metric('Unique Answered',fmt(t.unique_answered),'Distinct MCQs answered','fingerprint','green')+
  metric('Tests Completed',fmt(t.tests),'Verified question-level records','clipboard-check','purple')+
  metric('Skipped Questions',fmt(t.skipped),'Not counted as answered','forward','amber')+'</div>';
  const cards='<div class="sjn-a-source-grid">'+sources.map(info=>sourceCard(info,data.nodes.filter(n=>n.source_type===info.id),'Explore Analytics',info.id==='sjn'||info.id==='pastbank'?'banks':info.id)).join('')+'</div>';
@@ -486,8 +489,7 @@ function render(){
   state.data?'<div class="sjn-a-content">'+
    (state.view==='banks'?bankView(state.data):state.view==='courses'?courseView(state.data):
     state.view==='papers'?paperView(state.data):overview(state.data))+
-   '<footer class="sjn-a-foot">Based on your own verified completed attempts. Older score-only attempts are excluded from question-level insights.'+
-   (number(state.data.legacyAttempts)?' '+fmt(state.data.legacyAttempts)+' older summary-only record(s) are not included.':'')+'</footer></div>':'');
+   '</div>':'');
 }
 root.addEventListener('click',e=>{
  const btn=e.target.closest('button');if(!btn||!root.contains(btn))return;
