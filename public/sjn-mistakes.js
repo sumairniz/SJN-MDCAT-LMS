@@ -252,6 +252,7 @@ root.addEventListener('click',event=>{
  const action=button.dataset;
  if(action.mRetry!==undefined){if(mayNavigate())void catalog(true);return;}
  if(action.mCategory){if(state.group&&state.category!==action.mCategory&&mayNavigate()){state.category=action.mCategory;state.page=1;void entries();}return;}
+ if(action.mSave){void save(action.mSave);return;}
  if(!mayNavigate())return;
  if(action.mTab){state.source=action.mTab;state.subject='';state.group=null;state.page=1;state.category='all';state.status='all';render();return;}
  if(action.mSubject){state.subject=action.mSubject;render();return;}
@@ -269,7 +270,6 @@ root.addEventListener('click',event=>{
  if(action.mExpand){
   state.expanded=String(state.expanded)===action.mExpand?null:action.mExpand;render();return;
  }
- if(action.mSave){void save(action.mSave);return;}
  if(action.mPage){state.page+=action.mPage==='next'?1:-1;void entries();return;}
  if(action.mNext!==undefined||action.mPrev!==undefined){
   const at=state.entries.findIndex(e=>String(e.mcq_id)===String(state.expanded));
@@ -288,5 +288,6 @@ root.addEventListener('change',event=>{
  if(filter==='category')state.category=event.target.value;
  state.page=1;void entries();
 });
+window.addEventListener('beforeunload',event=>{if(hasUnsavedChanges()){event.preventDefault();event.returnValue='';}});
 window.SJNMistakes={enter:()=>catalog(),reset,invalidate,canLeave:mayNavigate};
 })();
