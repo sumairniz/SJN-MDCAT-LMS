@@ -12,6 +12,19 @@ const state={owner:null,source:'banks',subject:'',group:null,groups:[],totals:nu
 const sources=[['banks','Question Banks','book-open'],['courses','My Courses','graduation-cap'],['papers','Full-Length Past Papers','file-lines']];
 const categories=[['information','Information Gap'],['conceptual','Conceptual Mistake'],['silly','Silly Mistake'],['retention','Retention Gap']];
 const statuses=[['need-review','Need Review'],['in-progress','In Progress'],['mastered','Mastered']];
+const subjectOrder=['Biology','Chemistry','Physics','English','Logical Reasoning'];
+const subjectRank=name=>{const pos=subjectOrder.indexOf(String(name));return pos<0?subjectOrder.length:pos;};
+const categoryTone=value=>['information','conceptual','silly','retention'].includes(value)?value:'uncategorized';
+// Saving remains explicitly manual. Guard against dropping edits on in-page or sidebar navigation.
+function hasUnsavedChanges(){
+ const box=root.querySelector('[data-m-detail]');if(!box)return false;
+ const entry=state.entries.find(e=>String(e.mcq_id)===box.dataset.mDetail);
+ if(!entry)return false;
+ return (box.querySelector('[data-m-edit="category"]')?.value||null)!==(entry.category||null)||
+   (box.querySelector('[data-m-edit="status"]')?.value||'need-review')!==entry.review_status||
+   (box.querySelector('[data-m-edit="note"]')?.value||'')!==(entry.learning_note||'');
+}
+function mayNavigate(){return !hasUnsavedChanges()||window.confirm('You have unsaved Mistake Diary changes. Discard them and continue?');}
 const fmt=n=>Number(n||0).toLocaleString();
 const tone=s=>({Biology:'bio',Chemistry:'chem',Physics:'phys',English:'eng','Logical Reasoning':'lr'}[s]||'mixed');
 function groupKey(x){
@@ -27,9 +40,9 @@ function reset(){
 }
 function invalidate(){state.request++;state.dirty=true;state.group=null;state.entries=[];state.phase='idle';}
 function header(){return '<header class="sjn-m-head"><div class="sjn-m-heading">'+
- '<div class="sjn-m-eyebrow">'+icon('notebook')+' LEARNING JOURNAL</div>'+
+ '<div class="sjn-m-eyebrow">'+icon('book-open-reader')+' <span>LEARNING JOURNAL</span></div>'+
  '<h2>Mistake Diary</h2><p>Understand your mistakes. Strengthen your preparation.</p>'+
- '</div><span class="sjn-m-head-mark">'+icon('book-open-reader')+'</span></header>'}
+ '</div></header>'}
 function metric(name,n,desc,ico,t){return '<div class="sjn-m-stat" data-tone="'+t+'">'+
  '<span class="sjn-m-stat-icon">'+icon(ico)+'</span><span>'+html(name)+'</span>'+
  '<strong>'+fmt(n)+'</strong><small>'+html(desc)+'</small></div>';}
@@ -43,11 +56,19 @@ function summary(){
 }
 function tabs(){return '<nav class="sjn-m-tabs" aria-label="Mistake sources">'+sources.map(([id,name,ico])=>
  '<button type="button" data-m-tab="'+id+'" class="'+(state.source===id?'is-active':'')+'" aria-current="'+(state.source===id?'page':'false')+'">'+icon(ico)+'<span>'+name+'</span></button>').join('')+'</nav>'}
-function filters(){return '<div class="sjn-m-filters"><label>Review status<select data-m-filter="status">'+
+function filters(){
+ const status='<label>Review status<select data-m-filter="status">'+
  [['all','All statuses'],...statuses].map(([v,s])=>'<option value="'+v+'"'+(state.status===v?' selected':'')+'>'+s+'</option>').join('')+
- '</select></label><label>Mistake type<select data-m-filter="category">'+
+ '</select></label>';
+ const categorySelect='<label class="sjn-m-mobile-category">Mistake type<select data-m-filter="category">'+
  [['all','All categories'],...categories].map(([v,s])=>'<option value="'+v+'"'+(state.category===v?' selected':'')+'>'+s+'</option>').join('')+
- '</select></label></div>'}
+ '</select></label>';
+ const chips='<div class="sjn-m-desktop-categories" role="group" aria-label="Filter by mistake category">'+
+ [['all','All Categories'],...categories].map(([v,n])=>
+ '<button type="button" class="sjn-m-category-chip'+(state.category===v?' active':'')+
+ '" data-category="'+categoryTone(v)+'" data-m-category="'+v+'" aria-pressed="'+(state.category===v)+'">'+html(n)+'</button>').join('')+'</div>';
+ return '<div class="sjn-m-filter-layout"><div class="sjn-m-filters">'+status+categorySelect+'</div>'+chips+'</div>';
+}
 function option(label,idx,e){
  let status=idx===e.correct_index?'correct':idx===e.selected_index?'wrong':'neutral';
  return '<div class="sjn-m-option" data-answer="'+status+'"><span class="sjn-m-option-letter">'+
@@ -67,7 +88,7 @@ function expanded(e){
  '<div class="sjn-m-editor"><label>Why did this happen?<select data-m-edit="category">'+
  '<option value=""'+(e.category===null?' selected':'')+'>Not Categorized</option>'+c+'</select></label>'+
  '<label>Review status<select data-m-edit="status">'+s+'</select></label>'+
- '<label class="sjn-m-note">My Learning Note <span>(optional)</span><textarea data-m-edit="note" maxlength="1200" rows="3" placeholder="What will help you avoid this mistake next time?">'+
+ '<label class="sjn-m-note"><span class="sjn-m-note-caption">My Learning Note <small>(optional)</small></span><textarea data-m-edit="note" maxlength="1200" rows="3" placeholder="What will help you avoid this mistake next time?">'+
  html(e.learning_note)+'</textarea></label>'+
  '<div class="sjn-m-editor-footer"><small data-m-feedback aria-live="polite">Changes save only when you press Save.</small>'+
  '<button type="button" class="sjn-m-save" data-m-save="'+html(e.mcq_id)+'">'+icon('floppy-disk')+' Save Changes</button></div></div>'+
@@ -93,7 +114,7 @@ function entry(e,i){
  '<div class="sjn-m-badges"><span>'+html(e.subject)+'</span>'+
  (e.chapter?'<span>'+html(e.chapter)+'</span>':'')+
  (e.topic?'<span>Topic: '+html(e.topic)+'</span>':'')+
- '<span class="sjn-m-category">'+html(category)+'</span>'+
+ '<span class="sjn-m-category" data-category="'+categoryTone(e.category)+'">'+html(category)+'</span>'+
  (Number(e.wrong_count)>1?'<span>'+fmt(e.wrong_count)+' incorrect attempts</span>':'')+
  '</div><span class="sjn-m-open">'+(open?'Hide details':'Review mistake')+' '+icon(open?'chevron-up':'chevron-down')+'</span></button>'+
  (open?expanded(e):'')+'</article>';
@@ -105,7 +126,7 @@ function tree(){
  if(state.source==='banks'&&!state.subject){
   const map=new Map();
   for(const g of groups)map.set(g.subject,(map.get(g.subject)||0)+Number(g.mistake_count));
-  return '<div class="sjn-m-tree">'+[...map.entries()].sort((a,b)=>a[0].localeCompare(b[0]))
+  return '<div class="sjn-m-tree">'+[...map.entries()].sort((a,b)=>subjectRank(a[0])-subjectRank(b[0])||a[0].localeCompare(b[0]))
    .map(([name,n])=>'<button class="sjn-m-group" data-m-subject="'+html(name)+'" data-subject="'+tone(name)+'">'+
     '<span class="sjn-m-group-icon">'+icon({bio:'dna',chem:'flask',phys:'atom',eng:'book-open',lr:'brain'}[tone(name)]||'book')+'</span>'+
     '<span class="sjn-m-group-text"><strong>'+html(name)+'</strong><small>View mistakes by chapter</small></span>'+
@@ -127,7 +148,8 @@ function tree(){
 }
 function breadcrumbs(){
  if(!state.group&&!state.subject)return '';
- return '<div class="sjn-m-crumb"><button data-m-back="root">'+icon('house')+' All '+html(sources.find(s=>s[0]===state.source)?.[1])+'</button>'+
+ const back='<button type="button" class="sjn-m-back-button" data-m-back="previous">'+icon('arrow-left')+' Back</button>';
+ return '<div class="sjn-m-crumb">'+back+'<button data-m-back="root">'+icon('house')+' All '+html(sources.find(s=>s[0]===state.source)?.[1])+'</button>'+
  (state.source==='banks'&&state.subject?'<span>/</span><button data-m-back="subject">'+html(state.subject)+'</button>':'')+
  (state.group?'<span>/</span><strong>'+html(state.source==='banks'?(state.group.chapter||'General Chapter'):
     state.source==='courses'?state.group.test_title:state.group.paper_title)+'</strong>':'')+'</div>';
@@ -164,7 +186,7 @@ function basePath(){
 async function catalog(force=false){
  const uid=bridge()?.userId?.();if(!uid){reset();return}
  if(state.owner!==uid){reset();state.owner=uid;}
- if(!force&&!state.dirty&&state.totals){render();return;}
+ if(!force&&!state.dirty&&state.totals){if(!root.querySelector('[data-m-detail]'))render();return;}
  const ticket=++state.request;state.phase='loading';render();
  try{
   const d=await bridge().load('/mistake-diary/catalog');
@@ -228,13 +250,19 @@ async function save(id){
 root.addEventListener('click',event=>{
  const button=event.target.closest('button');if(!button||!root.contains(button)||state.busy)return;
  const action=button.dataset;
- if(action.mRetry!==undefined){void catalog(true);return;}
+ if(action.mRetry!==undefined){if(mayNavigate())void catalog(true);return;}
+ if(action.mCategory){if(state.group&&state.category!==action.mCategory&&mayNavigate()){state.category=action.mCategory;state.page=1;void entries();}return;}
+ if(!mayNavigate())return;
  if(action.mTab){state.source=action.mTab;state.subject='';state.group=null;state.page=1;state.category='all';state.status='all';render();return;}
  if(action.mSubject){state.subject=action.mSubject;render();return;}
  if(action.mGroup){
   state.group=state.groups.find(g=>groupKey(g)===action.mGroup)||null;
   state.page=1;state.category='all';state.status='all';
   if(state.group)void entries();return;
+ }
+ if(action.mBack==='previous'){
+  if(state.group){state.group=null;}else{state.subject='';}
+  state.expanded=null;render();return;
  }
  if(action.mBack==='root'){state.group=null;state.subject='';render();return;}
  if(action.mBack==='subject'){state.group=null;render();return;}
@@ -252,9 +280,13 @@ root.addEventListener('click',event=>{
 root.addEventListener('change',event=>{
  const filter=event.target.dataset.mFilter;
  if(!state.group||!filter)return;
+ if(!mayNavigate()){
+  event.target.value=filter==='status'?state.status:state.category;
+  return;
+ }
  if(filter==='status')state.status=event.target.value;
  if(filter==='category')state.category=event.target.value;
  state.page=1;void entries();
 });
-window.SJNMistakes={enter:()=>catalog(),reset,invalidate};
+window.SJNMistakes={enter:()=>catalog(),reset,invalidate,canLeave:mayNavigate};
 })();
