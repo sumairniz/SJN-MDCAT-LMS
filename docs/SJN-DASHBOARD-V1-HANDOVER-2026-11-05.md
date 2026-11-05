@@ -1,3 +1,17 @@
+# 2026-11-05 — OWNER ACCEPTANCE AND QUOTATION SCOPE UPDATE (Chat 8)
+
+**Owner acceptance:** Dashboard V1 visual design, welcome banner, four statistics, subject performance and **Quick Start** are now explicitly **OWNER-ACCEPTED**. Preserve this layout, rather than reopening or removing Quick Start. The five-level criteria remain a separately unapproved decision.
+
+**Owner-approved quotation change (staging only):** Remove medicine/doctor/physician-centric quotations; the Academy prepares students for entrance tests, not only future MBBS careers, and BDS/other paths and exam setbacks must be respected. Expand the source-linked library from 10 to **50 distinct brief quotations** on learning, everyday resilience, patience, rest, flexibility and character. Avoid implying exam rank, perfect grades, or a single medical career determines life's value. Quotes retain clickable original-work/institutional transcript links. Source excerpts require academic spot-check before broad production release; source links are **not** a guarantee of exact textual verification for every entry.
+
+**Selection:** Student- and accuracy-aware, without displaying any performance judgement: fewer than 15 answers or below 60% accuracy gets supportive+universal entries; otherwise steady-progress+universal entries. Three *local-calendar* eight-hour windows: 00:00–07:59, 08:00–15:59, 16:00–23:59. Selection is deterministic per account, band and window; refreshing inside a window does not reroll, consecutive windows move to distinct entries when band remains unchanged. No quote-specific network calls, private browser storage or new database schema. Changing accuracy band may change the quote inside a window. The selected quote is refreshed when Dashboard is entered; an indefinitely open Dashboard does not have a standalone background polling timer.
+
+**Changes:** `public/sjn-dashboard.js`, Dashboard JS asset version in `public/index.html`, `tests/student-dashboard.test.js`, this handover and Master Plan checkpoint. **No change** to Analytics logic, header values, scoring, exam, courses, History, Tutor, Resources, Student Levels, R2, Supabase, `main` or production.
+
+**Release gate:** CI/Preview READY on the exact latest staging SHA, owner desktop/mobile quotation review, source-by-source quote verification (including precise translation/ellipsis) before claiming the library fully authenticated, then separate production authorization.
+
+---
+
 # Dashboard V1 — Staging Implementation Handover (2026-11-05)
 
 **Owner approval:** User approved a scoped improvement to the student homepage after discussing its design. All changes are on `sjn-phase1a-foundation` only; production/main and the completed Analytics, Courses, MCQ exam engine, History, AI Tutor, and Academy Resources are untouched.
