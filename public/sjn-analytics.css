@@ -382,3 +382,36 @@
  #module-analytics .sjn-a-inline-stat{grid-template-columns:repeat(2,minmax(0,1fr))}
  #module-analytics .sjn-a-inline-stat > .sjn-a-metric{grid-column:auto;min-width:0}
 }
+
+/* Owner-approved final micro-adjustment: ONLY mobile Overview Answer Accuracy.
+   Leave desktop, inner summary pairs, other cards and chart styling unchanged. */
+@media(max-width:600px){
+ #module-analytics .sjn-a-metrics > .sjn-a-metric:first-child{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) max-content;
+  grid-template-rows:32px auto auto;
+  column-gap:12px;
+  row-gap:6px;
+  align-content:center;
+  align-items:start;
+  min-height:150px;
+ }
+ #module-analytics .sjn-a-metrics > .sjn-a-metric:first-child > .sjn-a-metric-icon{
+  grid-column:1;grid-row:1;
+ }
+ #module-analytics .sjn-a-metrics > .sjn-a-metric:first-child > .sjn-a-metric-label{
+  grid-column:1;grid-row:2;
+ }
+ #module-analytics .sjn-a-metrics > .sjn-a-metric:first-child > small{
+  grid-column:1;grid-row:3;
+ }
+ #module-analytics .sjn-a-metrics > .sjn-a-metric:first-child > strong{
+  grid-column:2;grid-row:1/4;
+  align-self:center;
+  justify-self:end;
+  font-size:clamp(34px,9vw,52px);
+  line-height:1;
+  letter-spacing:-1.2px;
+  white-space:nowrap;
+ }
+}
