@@ -9,6 +9,7 @@ const { buildQuestionStatus } = require('./lib/practice-question-status');
 const { readAllPublishedMcqs } = require('./lib/paginated-content');
 const { registerAcademyResourceRoutes } = require('./lib/academy-resources');
 const { registerAiTutorRoutes } = require('./lib/ai-tutor');
+const { registerMistakeDiaryRoutes } = require('./lib/mistake-diary');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -350,6 +351,9 @@ app.get('/api/history', auth, async (req, res) => {
     res.status(500).json({ error: 'Failed to load test history.' });
   }
 });
+
+// Mistake Diary is isolated from atomic grading and existing student Analytics.
+registerMistakeDiaryRoutes(app,auth);
 
 // Read-only Analytics: a single authenticated, RLS-invoker SQL aggregation.
 // No score writes, student record downloads, or guessing old summary-only answers.
