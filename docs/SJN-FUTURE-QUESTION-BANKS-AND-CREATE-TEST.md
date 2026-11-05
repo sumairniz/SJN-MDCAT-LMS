@@ -1,3 +1,5 @@
+> **2026-11-06 OWNER DECISION OVERRIDES OLDER OPTIONAL CUSTOM ALLOCATION TEXT BELOW:** Create Practice Test will have **no custom per-chapter quota UI**. Finalized *product direction* is **automatic, approximately balanced, meaningfully weighted distribution**, using the number of overall **published questions in the relevant question bank and selected chapter** as the weight (not student-filter availability). Every selected chapter must contribute if genuinely feasible. Existing student filters are **strict** and retain OR semantics: e.g., desired 9 MCQs but only 7 available under Unused means take those **7**, redistribute the missing 2 to other selected chapters from the **same filter** when enough qualifying questions exist. No filter bypass, duplicates, silent chapter omission, or silent reduced total. The exact allocation formula and implementation are **not authorized**; previous optional/custom suggestions are superseded. See [Automatic Chapter Distribution Policy](SJN-CREATE-TEST-AUTOMATIC-CHAPTER-DISTRIBUTION-POLICY-2026-11-06.md).
+
 # SJN MDCAT LMS Pro — Future Question Banks, Create Test & Product Direction
 
 **As-of:** 2026-10-17 (Pakistan time)  
