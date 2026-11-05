@@ -1,3 +1,15 @@
+# 2026-11-05 — OWNER-APPROVED TOTAL VS UNIQUE ANSWERED CARDS / FOOTER REMOVAL
+
+**Staging-only change:** In Overview, **Total Answered** (every answered item in successfully submitted attempts, including retakes) now appears beside **Unique Answered** (count of distinct `mcq_id` with `selected_index IS NOT NULL` in submitted attempts during the selected date period). Skipped-only items do **not** count in either statistic. Existing **Skipped Questions** stays separate. A single MCQ answered repeatedly counts once as unique, even across different banks/tests; totals continue to include each answer instance. Date filters apply to both metrics using the exact same `chosen` completed-attempt set. Existing question-bank **Unique Covered** semantics remain distinct and unchanged (a skipped item can still be covered).
+
+**Read-only SQL:** `database/migrations/20261105_student_analytics_unique_answered.sql` replaced the existing authenticated `SECURITY INVOKER` `sjn_student_analytics` summary function in staging only, adding `totals.unique_answered` from `facts`. No alteration to stored attempts, exam scoring, MCQ content, flags or other modules. Student endpoint identity and RLS checks remain unchanged. A staged authenticated period query returned total answered=613, distinct answered=340, skipped=1214; unique<=total check passed. These figures are a single QA run, **not sample cards or a promise of any user's exact visible statistics**.
+
+**UI:** `public/sjn-analytics.js` displays five overview statistics (Answer Accuracy, Total Answered, Unique Answered, Tests Completed, Skipped Questions); `public/sjn-analytics.css` gives the new unique card its own green academic accent and responsive five/three/two-column layout. Removed the entire technical footer about older score-only records from the student-visible Analytics page. Historical summary-only records are still excluded internally from question-level calculations because their detailed answers do not exist; removal of the footer does not fabricate data. Updated `public/index.html` asset version to load the new UI. All other Dashboard, bank, course, paper and graph layouts remain unchanged.
+
+**Testing and release gate:** Automated UI/SQL regression tests exercise both labels, skip-exclusive distinct SQL, footer absence, and responsive layout. Staging migration applied and queried successfully. Owner visual acceptance on laptop/mobile still pending, and production branch/main remains untouched.
+
+---
+
 # 2026-11-05 — OWNER-APPROVED ANALYTICS V1.2 TARGETED REFINEMENT (PENDING OWNER UAT)
 
 **Scope:** User approved four small improvements only: date-dependent Unique Coverage, desktop Question Bank row alignment, Course subject→chapter expansion with per-attempt metrics, and graph nearest-point interaction/phone-safe tooltip. Staging only, production untouched.
