@@ -1,3 +1,5 @@
+> **2026-11-05 Chat 8 handover:** Dashboard V1 is **OWNER-ACCEPTED / FEATURE CLOSED ON STAGING**, including Quick Start and 50 life/study quote library with three local eight-hour time windows. Final attribution/wording verification of the quotations remains an academic release obligation, not an unfinished dashboard-layout feature. Five-level criteria remain an independent open decision. **Current product design discussion: FF-019 Mistake Diary (not implemented; no code/DB authorization).** Production/PR merge remain separately gated. See Dashboard V1 handover.
+
 # SJN MDCAT LMS Pro — Future Features & Deferred Decisions Register
 
 **Created:** 2026-11-01 (Pakistan time)  
