@@ -80,10 +80,10 @@ Deno.serve(async req=>{
  // An invitation creates an explicit membership. It becomes active only after
  // the verified invited account completes MFA and proves its mailbox.
  if(member.status==="invited"){
-    const {error:e}=await srv.from("mednest_management_members").update({status:"active",updated_at:new Date().toISOString()}).eq("user_id",identity.id).eq("status","invited");
-    if(e)return reply(origin,503,{error:"Account activation unavailable"});
-    try{await audit(identity.id,"staff.activate",identity.id,{method:"verified_mfa_invitation"})}catch(_){return reply(origin,503,{error:"Activation audit unavailable"})}
-    member.status="active";
+   // A valid password and MFA alone cannot substitute for staff-only
+   // independent mailbox verification. The onboarding Edge Function
+   // exclusively activates this row after an authenticated OTP proof.
+   return reply(origin,403,{error:"Staff-only email verification required"});
  }
  if(action==="me"){
    return reply(origin,200,{member:safeMember(member),mfa_required:aal!=="aal2",verified:true});
@@ -106,6 +106,12 @@ Deno.serve(async req=>{
  }
  if(member.technical_role!=="chief_admin")return reply(origin,403,{error:"Only Chief Admin can manage staff access"});
  if(action==="team.invite"){
+   // Do not invoke default Supabase Auth invite emails while global student
+   // Auth mail settings and delivery restrictions are shared.
+   // Reopen once management-only provider sends verified invitations.
+   return reply(origin,503,{error:"Staff invitations are unavailable until the dedicated email provider is configured and invitation delivery is verified"});
+ }
+ if(false && action==="team.invite"){
    const email=asString(body.email,254).toLowerCase();
    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length>254)return reply(origin,400,{error:"Valid email required"});
    const permissions=body.permissions;
