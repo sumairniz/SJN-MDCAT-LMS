@@ -1,8 +1,24 @@
 # SJN Madnest Management Panel — Foundation Product Blueprint & Cross-Chat Source of Truth
 
 **Date:** 2026-11-06 (Pakistan time)  
-**Status:** **LIVE OWNER–DEVELOPER DESIGN DISCUSSION; NO APP/DB/DEPLOYMENT IMPLEMENTATION APPROVED.**  
+**Status:** **FOUNDATION RECOMMENDATIONS OWNER-APPROVED (2026-11-06); PHASE 1 DESIGN AUTHORIZED; NO APP/DB/DEPLOYMENT IMPLEMENTATION APPROVED.**  
 **Precise project name for this staff application:** **SJN Madnest Management Panel**. The owner explicitly corrected speech-to-text errors: **S-J-N**, **Madnest** (not Madness; not Exam Madness). The management-panel name does **not** silently authorize a global student LMS brand rename; academy-wide branding is a separate decision.
+
+## OWNER APPROVAL CHECKPOINT — 2026-11-06
+
+The Owner explicitly replied **“Yes, I approved.”** to the developer's question asking for approval of the **seven recommended foundational design approaches as the initial Management Panel blueprint, before Phase 1 design**. This authorizes **architecture and UI specification/design**, not production or staging code implementation, database changes, invitations, admin provisioning or deployment.
+
+**Now accepted as initial product/design foundations** (subject to later owner refinement of individual screens and sensitive operations):
+
+1. **Management permissions:** One protected Owner + equal Management Team Members with reusable presets and fine-grained individual capability flags; Owner alone invites/removes staff or grants staff permissions. Academic editing, reviews, publication, paid access and account-management actions have separately grantable permissions.
+2. **Academic publication review:** Configurable Direct Publish / one independent reviewer / optional two reviewers, by applicable content and permission. Initial developer preference: new imported batches default to one reviewer, with authorized Owner override; official past-paper key correction merits review. This is a starting default, not an irreversible all-content mandate.
+3. **Registration:** Existing Open registration remains active initially; future Approval Required and Invite Only modes configurable from Management Panel. Student-side **Login → Sign In** and only **Sign Up** hidden for Invite Only; retain backend controls and protect existing accounts during mode transitions.
+4. **Bulk import:** Excel (.xlsx)/CSV first, per-row chapter/topic/source classification, optional batch defaults, validation and duplicate preview, drafts, permissioned review/publish, throttled resumable jobs for 500–3,000+ MCQs. PDF/Word extraction separately verified later.
+5. **Access and enrollment:** One centralized server-enforced Free/Premium/Restricted feature system with student overrides, course-specific grants/expiry, auditable account suspension, preserving existing student results and independent of payment gateway.
+6. **Performance:** A separate Management Panel deployment, segregated workloads, minimal student-path changes and realistic before/after p50/p95 tests, targeting **no measurable LMS/exam regression**. No guarantee of literal zero shared-infrastructure impact.
+7. **Management interface:** Professional responsive desktop-first app with Question Content Studio, Courses/Papers, Resources, Students, Feature Access, Team Management, Academic Review, Audit/Reports/Analytics, keeping student exam UI intact.
+
+**Still open, not implicit authorization to implement:** Detailed exact permission toggles, risk/approval policies and bypass controls, rule precedence for active exams and bulk suspensions, how invitations and auth cookies are handled between domains, admin API/schema threat model, SJN Question Bank construction, import processing limits, performance baseline/SLOs, first-phase screen designs and release QA. See the dedicated [Phase 1 Foundation Design](SJN-MADNEST-MANAGEMENT-PANEL-PHASE-1-DESIGN-2026-11-06.md).
 
 ## 0. Absolute priority and continuity contract
 
@@ -38,9 +54,9 @@
 - Owner can select globally **Free/Premium/Restricted** for supported student features, per-student allow/deny overrides and per-course paid/unpaid entitlements. Entire LMS access can be invite/approval restricted without deleting user histories. Don't disrupt active examination sessions when changing policy; define precise emergency suspension behavior before implementation.
 - Team/staff accounts should be invited or provisioned **from Team Management inside the panel**, not by manually editing Supabase. Secure server-side Supabase Auth invitation/API and two-factor authentication are potential technical foundations (final workflow still needs owner review).
 
-## 2. Developer-recommended detailed design — OPEN FOR OWNER APPROVAL
+## 2. Owner-approved design direction — implementation specifics require approval
 
-The owner requests concrete expert suggestions in these seven areas. **Every item here is a RECOMMENDATION until the owner explicitly accepts it.** Do not silently treat developer-preferred defaults as owner-finalized requirements.
+**The Owner approved the seven recommended approaches as a foundation.** Detailed technical decisions in each section remain design suggestions until separately reviewed; this approval is not authorization to create/change deployed software, roles, content, permissions or data.
 
 ### A. Management permissions — role templates + per-action toggles
 
@@ -130,7 +146,7 @@ The owner explicitly asked developers to remember these while designing Admin Pa
 5. **Phase E: Quality/Insights/Reports** — academic approval inbox, Report Issue, student performance/approximate online presence, operations analytics. Some quality flow must ship earlier with publishing if Owner chooses mandatory review.
 6. **Independent student-exam enhancements** (220 max, chapter distribution engine, Mistake Diary review shortcuts) require their own separate test and approval windows, **not hidden inside the Admin foundation**.
 
-## 5. Decisions to ask Owner after presenting recommendations
+## 5. Foundation approved — details still to finalize
 
 | Item | Proposed default | Decision state |
 | --- | --- | --- |
