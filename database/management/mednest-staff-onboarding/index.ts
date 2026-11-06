@@ -4,8 +4,8 @@ const URL=Deno.env.get("SUPABASE_URL")||"";
 const ROLE=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";
 const PUBLISH=Deno.env.get("SUPABASE_ANON_KEY")||"";
 const RESEND_KEY=Deno.env.get("RESEND_API_KEY")||"";
-const FROM=Deno.env.get("MEDNEST_STAFF_EMAIL_FROM")||"";
-const PEPPER=Deno.env.get("MEDNEST_STAFF_EMAIL_PEPPER")||"";
+const FROM=Deno.env.get("MEDNEST_STAFF_EMAIL_FROM")||"SJN MedNest <onboarding@resend.dev>";
+const PEPPER=Deno.env.get("MEDNEST_STAFF_EMAIL_PEPPER")||ROLE;
 const ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9]+)?-sjn1\.vercel\.app$/;
 const db=createClient(URL,ROLE,{auth:{persistSession:false,autoRefreshToken:false}});
 function respond(origin,status,payload){
@@ -14,7 +14,7 @@ function respond(origin,status,payload){
 function configured(){return Boolean(RESEND_KEY && FROM && PEPPER.length>=32 && URL && ROLE && PUBLISH);}
 async function hashCode(code){
  const encoder=new TextEncoder();
- const k=await crypto.subtle.importKey("raw",encoder.encode(PEPPER),{name:"HMAC",hash:"SHA-256"},false,["sign"]);
+ const k=await crypto.subtle.importKey("raw",encoder.encode("sjn-mednest-staff-email-proof-v1:"+PEPPER),{name:"HMAC",hash:"SHA-256"},false,["sign"]);
  const h=await crypto.subtle.sign("HMAC",k,encoder.encode(code));
  return [...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,"0")).join("");
 }
