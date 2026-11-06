@@ -99,7 +99,7 @@ Deno.serve(async req=>{
  if(memberError)return response(origin,503,{error:"Unable to check staff authorization"});
  if(!member||member.status!=="active"||member.email!==email)
   return response(origin,403,{error:"Management account not authorized"});
- if(action==="me")return response(origin,200,{member:safeMember(member),verified:true});
+ if(action==="me")return response(origin,200,{member:safeMember(member),verified:true,invitation_sender_configured:Boolean(RESEND&&SENDER&&!/onboarding@resend\.dev/i.test(SENDER))});
  if(action==="team.list"){
   if(member.technical_role!=="chief_admin")return response(origin,403,{error:"Chief Admin only"});
   const [members,invitations]=await Promise.all([
