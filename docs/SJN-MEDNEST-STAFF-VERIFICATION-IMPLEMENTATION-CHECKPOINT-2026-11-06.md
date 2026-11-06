@@ -39,8 +39,8 @@ Resend sender cannot operate without:
 
 ## Remaining technical gates
 
-- Existing `team.invite` still uses the staging Supabase Auth default invite emails, which may not deliver to ordinary staff due the default SMTP restrictions. Before inviting real members, replace or complement this path with the staff-only provider and verify invite accept/initial-password flow. This is not complete.
-- Existing `mednest-management` activation of `invited` membership after MFA without checking this staff-only email proof must be removed or made conditional before real team invitations are enabled. Currently the new verification path exists but the older invited-member path remains: **do not invite real staff until reconciled**.
+- **Staff invitations temporarily disabled securely** (server returns 503 instead of using default Supabase Auth email). Chief Admin can manage existing staff once active, but cannot send invitations until provider-backed invite delivery and credential setup are separately implemented and tested. This avoids impacting student email settings.
+- **Resolved in subsequent staging backend update:** legacy invited-member activation after MFA alone was removed. All invited members must complete staff-specific email proof first. Backend `mednest-management` Edge Function version 5; source commit `c529ad5f4feb0af5cb6c29d125b405e40e178821`.
 - The existing public-style first-time Chief Admin signup on Management Sign In can create another staging Auth identity; after initial setup, retire that UI and rely on Chief Admin-only invitations, keeping the student system unchanged.
 - Transactionality of team.invite and team.update audit is still a documented technical debt item and should be hardened before rollout.
 - Test migration/DB advisors, mobile visual QA and student performance before production.
@@ -48,3 +48,10 @@ Resend sender cannot operate without:
 **Do not change student global Auth email confirmation settings or enable shared SMTP to solve this; the owner explicitly forbids changes affecting Student LMS.**
 
 **Cross-chat:** Official brand **SJN MedNest**, highest role **Chief Admin**, matching Auth UUID from approved personal account only; first staff-only verification is still pending email provider configuration. Every other Management Team Member requires independently verified email and MFA. Work on branch `sjn-phase1a-foundation`, no main/production change without explicit authorization.
+
+## Verified remediation and next action
+
+- Latest test source commit `1e63378e112d442a7a582aa9f8897007f75f31c0`; pending/check resulting CI before final certification.
+- Resend supports testing the sender `onboarding@resend.dev` to **the Resend account owner's own registered address**, without a custom domain. A domain verified through Resend is required for emails to arbitrary staff recipients. The test sender can be used to activate the initial Chief Admin if the Resend account is opened with that same personal email. Do not use the sandbox sender to invite other team members.
+- Current verification function is **fail-closed** with unconfigured Resend secrets. The user must independently create/configure a verified Resend account and place the API key and high-entropy pepper in Supabase **staging Edge Functions → Secrets**; never send keys/OTP/passwords in ChatGPT messages.
+- Initial Chief Admin bootstrap references one exact **approved staging Auth UUID** recorded privately in protected database; it no longer relies solely on an email address embedded in public Edge source.
