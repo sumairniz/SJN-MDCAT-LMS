@@ -1,3 +1,5 @@
+> **2026-11-06 — STEP 1 READ-ONLY ARCHITECTURE AUDIT COMPLETED:** Owner authorized beginning the first Phase 1A technical foundation step. Actual existing code, staging Supabase RLS/security/performance advisors, and Vercel project inventory were reviewed without implementation changes. **Important gates:** existing student developer-token is not staff RBAC; `mcqs` has anonymous SELECT including correct keys, so premium question segregation is mandatory; course pilot lacks paid entitlements; isolated `apps/management` project and separate authenticated staff API with Owner-guarded permissions are proposed; Supabase security advisors have two existing warnings. Full findings and next approvals: [Step 1 Security Architecture Audit](SJN-MADNEST-MANAGEMENT-PANEL-STEP-1-SECURITY-ARCHITECTURE-AUDIT-2026-11-06.md). Nothing deployed or provisioned.
+
 # SJN Madnest Management Panel — Phase 1 Foundation Design (pre-implementation)
 
 **As of:** 2026-11-06 (Pakistan time)  
