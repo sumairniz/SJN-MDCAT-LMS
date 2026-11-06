@@ -10,7 +10,7 @@ test("Management Step 2 has no student app file imports or active authentication
   const page = read("index.html");
   const client = read("app.js");
   const config = JSON.parse(read("vercel.json"));
-  assert.match(page, /SJN Madnest/);
+  assert.match(page, /SJN MedNest/);
   assert.match(page, /Management Sign In/);
   assert.match(page, /id="email"[^>]*disabled/);
   assert.match(page, /id="password"[^>]*disabled/);
@@ -25,4 +25,20 @@ test("Management Step 2 shows no fabricated student statistics", () => {
   assert.match(page, /Registered Students<\/span><strong>—<\/strong>/);
   assert.match(page, /Published MCQs<\/span><strong>—<\/strong>/);
   assert.match(page, /No student data, privileged APIs or live management functions/);
+});
+
+test("MedNest branding, current SJN landing-mark consistency, and team identity preview",()=>{
+ const page=read("index.html");
+ const script=read("app.js");
+ const stylesheet=read("styles.css");
+ assert.doesNotMatch(page,/Madnest|MADNEST|Madness/);
+ assert.match(page,/SJN MedNest/);
+ assert.equal((page.match(/class="brand-symbol(?: brand-symbol--small)?"/g)||[]).length,2);
+ assert.match(page,/<span class="brand-symbol" aria-hidden="true">SJN<\/span>/);
+ assert.match(page,/Total Management Members/);
+ assert.match(page,/DISPLAY NAME OR NICKNAME/);
+ assert.match(page,/PUBLIC \/ ORGANIZATIONAL TITLE/);
+ assert.match(page,/TECHNICAL PERMISSIONS/);
+ assert.match(script,/teamPreview\.classList\.toggle/);
+ assert.match(stylesheet,/team-stat-grid/);
 });

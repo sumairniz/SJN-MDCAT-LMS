@@ -11,6 +11,7 @@
   const closeButton = document.getElementById("preview-close");
   const overviewOnly = document.getElementById("overview-only");
   const placeholder = document.getElementById("module-placeholder");
+  const teamPreview = document.getElementById("team-preview");
   const heading = document.getElementById("module-heading");
   const description = document.getElementById("module-description");
   const crumb = document.getElementById("header-crumb");
@@ -27,7 +28,7 @@
     students: ["Student Management", "View authorized student records, academic performance and account status once student-scoped permissions exist.", "FUTURE ACCESS PHASE"],
     access: ["Feature & Enrollment Access", "Manage whole-feature Free or Premium policies and whole-course/session enrollment. Individual questions are never premium products.", "FUTURE ACCESS PHASE"],
     reviews: ["Academic Reviews", "Choose direct publishing or one/two reviewers according to the Owner's content-review policy.", "FUTURE REVIEW PHASE"],
-    team: ["Team & Permissions", "Owner-only staff invitations and permission assignment. Team members may receive equal or individualized capabilities.", "NEXT: PHASE 1A"],
+    team: ["Team & Permissions", "One protected Owner, peer Management Team Members and optional individual titles and nicknames — completely separate from technical permissions.", "NEXT: PHASE 1A"],
     reports: ["Reports & Activity", "Review academic issue reports, authorized operational events and transparent management audit records.", "FUTURE OPERATIONS PHASE"],
     settings: ["Academy Settings", "Manage supported academy configuration with explicit permission checks and activity history.", "FUTURE OPERATIONS PHASE"]
   });
@@ -63,7 +64,8 @@
     crumb.textContent = key === "overview" ? "Overview" : data[0];
     phase.textContent = data[2];
     overviewOnly.classList.toggle("is-hidden", key !== "overview");
-    placeholder.classList.toggle("is-hidden", key === "overview");
+    teamPreview.classList.toggle("is-hidden", key !== "team");
+    placeholder.classList.toggle("is-hidden", key === "overview" || key === "team");
     placeholderTitle.textContent = data[0];
     placeholderCopy.textContent = data[1];
     document.querySelectorAll("[data-module]").forEach(function (button) {
