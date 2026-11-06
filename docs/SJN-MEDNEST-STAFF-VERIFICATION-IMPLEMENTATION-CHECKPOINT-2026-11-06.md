@@ -1,0 +1,50 @@
+# SJN MedNest Management Panel — Staff-only Email Verification and Chief Admin Bootstrap
+
+**Date:** 2026-11-06 Pakistan time  
+**Status:** **Staging security implementation deployed; external email sender configuration required before actual verification email and first Chief Admin activation.**  
+**Owner authorization:** "do it", after explicitly requiring management-only verification for every staff member and no change to student registration, student LMS experience, production, or Supabase's shared authentication settings.
+
+## Delivered
+
+- New staging Supabase Edge Function `mednest-staff-onboarding`, ACTIVE **version 2**. Versioned source: `database/management/mednest-staff-onboarding/index.ts`.
+- Authenticated Management Panel login can now detect that a verified-Auth account lacks management membership, check onboarding eligibility through the protected service, and present a distinct **Verify Management Email** screen.
+- Protected email-code delivery supports external **Resend** API only when its separate secure settings are present; sends an eight-digit one-time code to the authenticated approved user’s exact email, expires in 10 minutes, max five verification attempts per code, minimum 90 seconds between sends and up to five sends/day.
+- Code hashes are server-side HMAC-SHA256 with a separate secret pepper. Neither raw code nor pepper are stored in database or source.
+- New RLS-protected staging `mednest_management_email_challenges` database table, no direct student/anonymous reads/writes.
+- New RLS-protected `mednest_management_bootstrap_approvals` table, exactly one **approved Auth UUID and email** recorded as pending initial Chief Admin. This is *not* an access grant.
+- A service-role-only, transactionally atomic SQL verification function validates one-time code, its expiry, email matching the Auth identity, preapproved account UUID/email, unique Chief Admin and audit record. If any DB step fails, the transaction rolls back.
+- Newly invited Management Team Members must pass the same email proof before their invitation becomes active when using the new onboarding route.
+- No student Supabase Auth confirmation/SMTP/rate-limit changes, student UI or existing exam engine changes, LMS database schema edits, or production deployment. The new tables/functions are exclusively for management staging.
+
+## Verification and deployment checkpoints
+
+- Latest Management UI commit `9addfbc67f71682052f91fafd2a35921c28e5f02`, GitHub CI Foundation checks **SUCCESS** (two runs).
+- Isolated Vercel Preview deployment **READY**: `dpl_Aiw98Sy1AFDXjg85QNcP9jDzCBtd`, **https://sjn-mednest-management-jp0gb1lu5-sjn1.vercel.app**. The Vercel project remains SSO-protected for all deployments.
+- Latest revised staff-only Edge Function source commit `fd16f4f989a4c96c3d7474d2e73e1a49ea630046`. Only the Edge source and new management-specific database objects changed after the Vercel UI deployment; no UI re-deploy needed for the backend hotfix.
+- Staging DB verified: one approved (pending) initial Auth identity, **zero management membership grants, zero email challenges, zero management audit events**.
+- Direct privilege audit verified `authenticated` cannot read the approval table or execute privileged bootstrap function.
+- User’s personal email was already registered in staging during prior steps. No new registration is required; avoid trying the first-time signup form again.
+
+## EXTERNAL DEPENDENCY — requires user action; not silently solved
+
+Resend sender cannot operate without:
+1. User-managed Resend account and verified sending domain/sender accepted by Resend. See https://supabase.com/docs/guides/functions/examples/send-emails and https://resend.com/docs.
+2. Supabase **Edge Function secrets**, configured only in the staging Supabase project:
+   - `RESEND_API_KEY`: private Resend API key;
+   - `MEDNEST_STAFF_EMAIL_FROM`: validated From identity such as `SJN MedNest <no-reply@verified-domain.example>`;
+   - `MEDNEST_STAFF_EMAIL_PEPPER`: independently generated 32+ character high-entropy secret for HMAC hashing (not a password and not sent to browser).
+3. Configure and verify those secrets directly in Supabase Dashboard **Edge Functions → Secrets**, not in GitHub or ChatGPT messages. **Do not share credentials in chat.**
+4. After configuration, owner visits protected Management Panel → Sign In using existing personal email/password → Verify Management Email → Send Verification Code → privately enter code → configure authenticator MFA → access Chief Admin.
+5. Test actual email arrival, provider send logs, approved-email match, wrong/expired OTP, resend throttling, unauthorized student login and no disruption to student LMS. Until complete, **do not claim Chief Admin activated or real staff onboarding successful**.
+
+## Remaining technical gates
+
+- Existing `team.invite` still uses the staging Supabase Auth default invite emails, which may not deliver to ordinary staff due the default SMTP restrictions. Before inviting real members, replace or complement this path with the staff-only provider and verify invite accept/initial-password flow. This is not complete.
+- Existing `mednest-management` activation of `invited` membership after MFA without checking this staff-only email proof must be removed or made conditional before real team invitations are enabled. Currently the new verification path exists but the older invited-member path remains: **do not invite real staff until reconciled**.
+- The existing public-style first-time Chief Admin signup on Management Sign In can create another staging Auth identity; after initial setup, retire that UI and rely on Chief Admin-only invitations, keeping the student system unchanged.
+- Transactionality of team.invite and team.update audit is still a documented technical debt item and should be hardened before rollout.
+- Test migration/DB advisors, mobile visual QA and student performance before production.
+
+**Do not change student global Auth email confirmation settings or enable shared SMTP to solve this; the owner explicitly forbids changes affecting Student LMS.**
+
+**Cross-chat:** Official brand **SJN MedNest**, highest role **Chief Admin**, matching Auth UUID from approved personal account only; first staff-only verification is still pending email provider configuration. Every other Management Team Member requires independently verified email and MFA. Work on branch `sjn-phase1a-foundation`, no main/production change without explicit authorization.
