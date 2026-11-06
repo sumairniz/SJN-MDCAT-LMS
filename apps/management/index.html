@@ -42,57 +42,40 @@
         </div>
         <p class="section-kicker">AUTHORIZED STAFF ACCESS</p>
         <h2 id="signin-title">Management Sign In</h2>
-        <p class="intro">Secure sign-in for authorized staff. Initial Chief Admin account setup is available below.</p>
+        <p class="intro">Secure sign-in for authorized management staff. New team members join only through a private Chief Admin invitation.</p>
         <form id="management-signin" autocomplete="on">
           <div class="field"><label for="email">Email Address</label><input id="email" name="email" type="email" autocomplete="username" required maxlength="254" placeholder="name@academy.com"></div>
           <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Enter account password"></div>
           <button class="primary-btn" id="signin-submit" type="submit">Sign In <span aria-hidden="true">→</span></button>
         </form>
-        <div class="auth-registration">
-          <button id="first-chief-toggle" type="button" class="setup-link" aria-expanded="false" aria-controls="chief-setup-panel">First-time Chief Admin account setup <span aria-hidden="true">→</span></button>
-          <section id="chief-setup-panel" class="security-flow is-hidden" aria-labelledby="chief-setup-title">
-            <h3 id="chief-setup-title">First-time staff authentication setup</h3>
-            <p>This creates a verified sign-in identity in the academy's staging authentication system. It does not register for student courses and does not automatically grant Chief Admin privileges.</p>
-            <form id="chief-setup-form">
-              <div class="field"><label for="chief-email">Personal email address</label><input id="chief-email" name="email" type="email" maxlength="254" autocomplete="email" required placeholder="Enter your personal email"></div>
-              <div class="field"><label for="chief-password">Create a strong password</label><input id="chief-password" name="new-password" type="password" autocomplete="new-password" minlength="12" maxlength="128" required placeholder="At least 12 characters"></div>
-              <div class="field"><label for="chief-confirm-password">Confirm password</label><input id="chief-confirm-password" type="password" autocomplete="new-password" minlength="12" maxlength="128" required placeholder="Repeat password"></div>
-              <button id="chief-setup-submit" class="primary-btn" type="submit">Create Authentication Account <span aria-hidden="true">→</span></button>
-            </form>
-            <p id="chief-setup-feedback" class="auth-feedback" role="status" aria-live="polite"></p>
-            <p class="secondary-note">Account creation never grants administrative privileges. Chief Admin access requires independent verification and approval. Never share passwords or codes.</p>
-            <button id="first-chief-cancel" type="button" class="return-btn">← Back to Sign In</button>
-          </section>
-        </div>
-        <section id="staff-verify-panel" class="security-flow is-hidden" aria-label="Verify staff email ownership">
-          <h3>Verify Management Email</h3>
-          <p id="staff-verify-intro">After signing in with your existing account, verify email ownership before your Chief Admin or invited staff access is activated.</p>
-          <p id="staff-verify-status" class="auth-feedback" role="status" aria-live="polite"></p>
-          <button id="staff-verify-send" type="button" class="primary-btn">Send Verification Code <span aria-hidden="true">→</span></button>
-          <form id="staff-verify-form" class="is-hidden">
-            <div class="field"><label for="staff-verify-code">8-digit email code</label><input id="staff-verify-code" inputmode="numeric" autocomplete="one-time-code" type="text" pattern="[0-9]{8}" maxlength="8" required placeholder="00000000"></div>
-            <button id="staff-verify-confirm" type="submit" class="primary-btn">Verify Email and Continue <span aria-hidden="true">→</span></button>
+        <section id="staff-invitation-panel" class="security-flow is-hidden" aria-label="Accept staff invitation">
+          <h3>Accept Your Management Invitation</h3>
+          <p id="invitation-description">Only invited management staff can register. Confirm the email address and set your own password.</p>
+          <p id="invitation-feedback" class="auth-feedback" role="status" aria-live="polite"></p>
+          <form id="invitation-accept-form" autocomplete="on">
+            <div class="field"><label for="invitation-email">Invited email address</label><input id="invitation-email" type="email" autocomplete="username" readonly required></div>
+            <div class="field"><label for="invitation-password">Password (minimum 12 characters for new accounts)</label><input id="invitation-password" type="password" autocomplete="new-password" minlength="12" required></div>
+            <div class="field" id="invitation-confirm-field"><label for="invitation-password-confirm">Confirm new password</label><input id="invitation-password-confirm" type="password" autocomplete="new-password" minlength="12"></div>
+            <button id="invitation-accept-submit" class="primary-btn" type="submit">Create Account &amp; Accept Invitation <span aria-hidden="true">→</span></button>
           </form>
-          <p class="secondary-note">Codes expire in 10 minutes. Don't share them with anyone. No student email verification settings have been changed.</p>
-          <button id="staff-verify-cancel" type="button" class="return-btn">← Sign Out</button>
+          <button id="invitation-existing-toggle" class="setup-link" type="button">I already have an account</button>
+          <button id="invitation-cancel" class="return-btn" type="button">← Back to Sign In</button>
+          <p class="secondary-note">Your invitation is personal and expires after 72 hours. Never share the invitation link or password.</p>
         </section>
-        <section id="mfa-panel" class="security-flow is-hidden" aria-label="Authenticator verification">
-          <h3>Authenticator Verification</h3>
-          <p id="mfa-guidance">Management access requires an authenticator app verification code.</p>
-          <div id="mfa-enrollment" class="is-hidden">
-            <img id="mfa-qr" class="mfa-qr" alt="Scan this authentication QR code" hidden>
-            <p>Or enter this setup secret in the authenticator app:</p>
-            <code id="mfa-secret"></code>
-          </div>
-          <form id="mfa-form">
-            <div class="field"><label for="mfa-code">6-digit authentication code</label><input id="mfa-code" name="mfa_code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required placeholder="000000"></div>
-            <button id="mfa-submit" class="primary-btn" type="submit">Verify Security Code <span aria-hidden="true">→</span></button>
+        <section id="staff-stepup-panel" class="security-flow is-hidden" aria-label="Confirm sensitive staff management action">
+          <h3>Confirm Staff Access Change</h3>
+          <p>To invite a member or change their permissions, verify an email security code. No authenticator app or QR scan is needed.</p>
+          <p id="staff-stepup-status" class="auth-feedback" role="status" aria-live="polite"></p>
+          <button id="staff-stepup-send" type="button" class="secondary-btn">Send Email Security Code</button>
+          <form id="staff-stepup-form">
+            <div class="field"><label for="staff-stepup-code">8-digit email security code</label><input id="staff-stepup-code" type="text" inputmode="numeric" maxlength="8" pattern="[0-9]{8}" autocomplete="one-time-code" required placeholder="00000000"></div>
+            <button id="staff-stepup-confirm" type="submit" class="primary-btn">Verify &amp; Continue <span aria-hidden="true">→</span></button>
           </form>
-          <button type="button" class="return-btn" id="mfa-cancel">Sign out of this account</button>
+          <button id="staff-stepup-cancel" type="button" class="return-btn">← Cancel</button>
         </section>
         <p id="auth-feedback" class="auth-feedback" role="status" aria-live="polite"></p>
-        <div class="notice"><span class="notice-icon" aria-hidden="true">i</span><span><strong>Authorized management staff only.</strong> Sign In uses staging Supabase Auth; Chief Admin powers require separate verification, assignment and two-factor authentication. No student LMS registration is required.</span></div>
-        <p class="secondary-note">Chief Admin authorization is not automatically assigned to student accounts.</p>
+        <div class="notice"><span class="notice-icon" aria-hidden="true">i</span><span><strong>Authorized management staff only.</strong> Sign In uses staging Supabase Auth; Chief Admin powers require separate staff authorization; sensitive changes require an additional email security code. No student LMS registration is required.</span></div>
+        <p class="secondary-note">Team access is invitation-only. Chief Admin controls staff permissions and account status.</p>
       </div>
       <footer class="auth-bottom"><span>SECURE WORKSPACE FOUNDATION</span><span>© SJN MedNest</span></footer>
     </main>
@@ -166,12 +149,16 @@
           <div class="team-stat-grid">
             <article class="metric-card"><span>Total Management Members</span><strong id="team-total">—</strong><small>Includes the Chief Admin and management members</small></article>
             <article class="metric-card"><span>Active Team Members</span><strong id="team-active">—</strong><small>Active authorized members</small></article>
-            <article class="metric-card"><span>Pending Invitations</span><strong id="team-invited">—</strong><small>Pending activation</small></article>
+            <article class="metric-card"><span>Pending Invitations</span><strong id="team-invited">—</strong><small>Pending email invitations</small></article>
           </div>
           <div class="team-preview-grid">
             <section class="panel-card">
               <div class="panel-title"><span>Management Team</span><span class="subtle-tag">CHIEF ADMIN CONTROL</span></div>
+              <div class="staff-invite-notice" id="staff-invite-sender-notice">To send invitations to new team members, configure a verified academy email sending domain. Normal Chief Admin sign-in is already available.</div>
+              <div class="panel-title"><span>Management Members</span></div>
               <div id="team-directory-list" class="staff-list"><p class="secondary-note">Team information is loaded only for an authenticated Chief Admin.</p></div>
+              <div class="panel-title"><span>Pending Invitations</span></div>
+              <div id="pending-invitations-list" class="staff-list"><p class="secondary-note">Pending invitations are visible only to Chief Admin.</p></div>
               <button id="team-invite-show" class="secondary-btn is-hidden" type="button">Invite Management Team Member <span aria-hidden="true">+</span></button>
               <form id="team-invite-form" class="staff-form is-hidden">
                 <div class="field"><label for="invite-email">Team member email</label><input id="invite-email" type="email" required maxlength="254" autocomplete="off" placeholder="staff@example.com"></div>
@@ -183,7 +170,7 @@
               </form>
               <form id="team-edit-form" class="staff-form is-hidden">
                 <h3 id="edit-member-heading">Edit Management Team Member</h3>
-                <div class="field"><label for="edit-member-status">Account status</label><select id="edit-member-status"><option value="active">Active</option><option value="suspended">Suspended</option><option value="invited">Invited</option></select></div>
+                <div class="field"><label for="edit-member-status">Account status</label><select id="edit-member-status"><option value="active">Active</option><option value="suspended">Suspended</option></select></div>
                 <div class="field"><label for="edit-member-name">Display name (optional)</label><input id="edit-member-name" maxlength="100"></div>
                 <div class="field"><label for="edit-member-title">Organizational title (optional)</label><input id="edit-member-title" maxlength="100"></div>
                 <div class="field"><label>Authorized capabilities</label><div id="edit-member-permissions" class="permission-choices"></div></div>
