@@ -17,7 +17,7 @@ const PERMS=new Set([
 // Student LMS on_auth_user_created handler, inserting a student profile.
 // New-staff invitations must remain locked until staff identities are isolated.
 const STAFF_IDENTITY_ISOLATED=false;
-const ACTIONS=new Set(["me","team.list","team.invite","team.update","team.revoke_invite","audit.list","invite.preview","invite.accept"]);
+const ACTIONS=new Set(["me","team.list","team.invite","team.update","team.revoke_invite","audit.list","invite.preview","invite.accept","profile.update"]);
 const db=createClient(URL,SERVICE,{auth:{persistSession:false,autoRefreshToken:false}});
 function response(origin,status,body){return new Response(JSON.stringify(body),{status,headers:{
  "content-type":"application/json; charset=utf-8","cache-control":"no-store, private",
@@ -106,6 +106,24 @@ Deno.serve(async req=>{
  if(!member||member.status!=="active"||member.email!==email)
   return response(origin,403,{error:"Management account not authorized"});
  if(action==="me")return response(origin,200,{member:safeMember(member),verified:true,invitation_sender_configured:Boolean(STAFF_IDENTITY_ISOLATED&&RESEND&&SENDER&&!/onboarding@resend\.dev/i.test(SENDER))});
+ if(action==="profile.update"){
+  if(member.technical_role!=="chief_admin")return response(origin,403,{error:"Your profile details are assigned by Chief Admin"});
+  const name=body.display_name===null||body.display_name===""?null:safeString(body.display_name);
+  const title=body.organizational_title===null||body.organizational_title===""?null:safeString(body.organizational_title);
+  if((body.display_name&&!name)||(body.organizational_title&&!title))
+    return response(origin,400,{error:"Display name and title must be 100 characters or fewer"});
+  const {data,error}=await db.rpc("mednest_update_chief_own_profile",{
+    p_actor:user.id,p_display_name:name,p_organizational_title:title
+  });
+  if(error)return response(origin,503,{error:"Could not update profile details"});
+  if(data!=="updated")return response(origin,403,{error:"Profile update denied"});
+  const {data:updated,error:readError}=await db.from("mednest_management_members")
+    .select("user_id,email,technical_role,status,permissions,display_name,organizational_title,created_at,updated_at")
+    .eq("user_id",user.id).single();
+  if(readError||!updated)return response(origin,503,{error:"Profile saved; refresh to load your details"});
+  return response(origin,200,{success:true,member:safeMember(updated)});
+ }
+
  if(action==="team.list"){
   if(member.technical_role!=="chief_admin")return response(origin,403,{error:"Chief Admin only"});
   const [members,invitations]=await Promise.all([
