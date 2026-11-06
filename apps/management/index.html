@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1018">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="description" content="SJN Madnest Management Panel — isolated development interface preview.">
+  <title>SJN Madnest | Management Panel — Development Preview</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div id="signin" class="auth-screen">
+    <div class="auth-story">
+      <div class="brand brand--large">
+        <span class="brand-symbol" aria-hidden="true">S</span>
+        <span><strong>SJN <span class="brand-accent">Madnest</span></strong><small>MANAGEMENT PANEL</small></span>
+      </div>
+      <div class="story-copy">
+        <span class="eyebrow"><span class="status-dot"></span> PRIVATE ACADEMY WORKSPACE</span>
+        <h1>Everything behind the academy.<br><em>One clear workspace.</em></h1>
+        <p>A dedicated place to organize learning content, manage courses, support students and collaborate with your authorized team.</p>
+        <div class="story-features" aria-label="Planned management areas">
+          <span>Question banks</span><span>Course sessions</span><span>Student access</span><span>Team permissions</span>
+        </div>
+      </div>
+      <p class="story-footer">SJN Madnest Academy <span aria-hidden="true">/</span> Management Environment</p>
+      <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+    </div>
+    <main class="auth-panel" aria-labelledby="signin-title">
+      <div class="auth-top"><span class="stage-pill">DEVELOPMENT PREVIEW</span><span class="auth-top-line">STEP 2 / INITIAL INTERFACE</span></div>
+      <div class="auth-content">
+        <div class="auth-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <p class="section-kicker">AUTHORIZATION REQUIRED</p>
+        <h2 id="signin-title">Management Sign In</h2>
+        <p class="intro">Staff authentication will be activated after the Owner account and permission controls are securely implemented.</p>
+        <div class="field">
+          <label for="email">Management email</label>
+          <input id="email" type="email" autocomplete="off" placeholder="name@academy.com" disabled>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" type="password" autocomplete="off" placeholder="Password" disabled>
+        </div>
+        <button class="primary-btn" type="button" disabled>Sign In <span aria-hidden="true">→</span></button>
+        <div class="notice"><span class="notice-icon" aria-hidden="true">i</span><span><strong>Not connected to student accounts.</strong> Credentials are not accepted or transmitted in this preview.</span></div>
+        <div class="auth-separator"><span>EXPLORE THE PROPOSED INTERFACE</span></div>
+        <button id="preview-open" class="secondary-btn" type="button">View Management Layout <span aria-hidden="true">↗</span></button>
+        <p class="secondary-note">Layout preview only. No student data, privileged APIs or live management functions.</p>
+      </div>
+      <footer class="auth-bottom"><span>SECURE WORKSPACE FOUNDATION</span><span>© SJN Madnest</span></footer>
+    </main>
+  </div>
+
+  <div id="workspace" class="workspace is-hidden" aria-hidden="true">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-symbol brand-symbol--small" aria-hidden="true">S</span>
+        <div><strong>SJN <span class="brand-accent">Madnest</span></strong><small>MANAGEMENT PANEL</small></div>
+      </div>
+      <div class="sidebar-section">WORKSPACE</div>
+      <nav id="modules" aria-label="Management modules">
+        <button class="nav-item active" type="button" data-module="overview"><span class="nav-glyph" aria-hidden="true">◫</span>Overview</button>
+        <button class="nav-item" type="button" data-module="questions"><span class="nav-glyph" aria-hidden="true">▤</span>Question Content Studio</button>
+        <button class="nav-item" type="button" data-module="papers"><span class="nav-glyph" aria-hidden="true">▦</span>Full-Length Past Papers</button>
+        <button class="nav-item" type="button" data-module="courses"><span class="nav-glyph" aria-hidden="true">◈</span>Courses &amp; Sessions</button>
+        <button class="nav-item" type="button" data-module="resources"><span class="nav-glyph" aria-hidden="true">▱</span>Academy Resources</button>
+        <button class="nav-item" type="button" data-module="students"><span class="nav-glyph" aria-hidden="true">◎</span>Student Management</button>
+        <button class="nav-item" type="button" data-module="access"><span class="nav-glyph" aria-hidden="true">◉</span>Feature &amp; Enrollment Access</button>
+        <div class="sidebar-section sidebar-section--second">ACADEMY OPERATIONS</div>
+        <button class="nav-item" type="button" data-module="reviews"><span class="nav-glyph" aria-hidden="true">◇</span>Academic Reviews</button>
+        <button class="nav-item" type="button" data-module="team"><span class="nav-glyph" aria-hidden="true">♧</span>Team &amp; Permissions</button>
+        <button class="nav-item" type="button" data-module="reports"><span class="nav-glyph" aria-hidden="true">☰</span>Reports &amp; Activity</button>
+        <button class="nav-item" type="button" data-module="settings"><span class="nav-glyph" aria-hidden="true">⚙</span>Academy Settings</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="safe-preview"><span class="status-dot"></span><span>Visual preview<br><small>No live access</small></span></div>
+        <button id="preview-close" class="return-btn" type="button">← Back to Sign In</button>
+      </div>
+    </aside>
+    <div class="sidebar-scrim" id="scrim" hidden></div>
+    <div class="workspace-main">
+      <header class="workspace-header">
+        <div class="workspace-header-left"><button type="button" class="menu-button" id="menu-toggle" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">☰</button><span class="header-trail">Academy Management <span aria-hidden="true">/</span> <strong id="header-crumb">Overview</strong></span></div>
+        <div class="header-right"><span class="preview-indicator"><span class="status-dot"></span> INTERFACE PREVIEW</span><div class="avatar-placeholder" aria-label="Staff account not connected">SM</div></div>
+      </header>
+      <main class="overview-container">
+        <section class="page-heading">
+          <div><span class="eyebrow eyebrow--red">ACADEMY CONTROL CENTER</span><h1 id="module-heading">Academy Overview</h1><p id="module-description">Your academy operations, organized in one place. Live metrics become available after secure staff authentication.</p></div>
+          <span class="page-phase" id="page-phase">FOUNDATION PREVIEW</span>
+        </section>
+        <section id="overview-only" aria-label="Placeholder academy statistics">
+          <div class="metric-grid">
+            <article class="metric-card"><span>Registered Students</span><strong>—</strong><small>Requires authorized data access</small></article>
+            <article class="metric-card"><span>Published MCQs</span><strong>—</strong><small>Verified counts when connected</small></article>
+            <article class="metric-card"><span>Active Courses</span><strong>—</strong><small>Managed in later phases</small></article>
+            <article class="metric-card"><span>Pending Reviews</span><strong>—</strong><small>Review workflow not activated</small></article>
+          </div>
+          <div class="preview-grid">
+            <section class="panel-card"><div class="panel-title"><span>Management Modules</span><span class="subtle-tag">PLANNED</span></div>
+              <p>A dedicated workspace for your authorized management team. Every operation will be permission-controlled.</p>
+              <div class="feature-row"><span class="feature-mark">01</span><div><strong>Academic content</strong><small>Questions, past papers, images, chapters and topics</small></div><span class="upcoming">Future phase</span></div>
+              <div class="feature-row"><span class="feature-mark">02</span><div><strong>Courses &amp; enrollments</strong><small>Sessions, schedules and whole-course access</small></div><span class="upcoming">Future phase</span></div>
+              <div class="feature-row"><span class="feature-mark">03</span><div><strong>Team &amp; governance</strong><small>Owner-managed access, review and audit history</small></div><span class="upcoming">Phase 1A</span></div>
+            </section>
+            <section class="panel-card panel-card--quiet"><div class="panel-title"><span>Security First</span><span class="security-badge">PLANNED</span></div>
+              <div class="shield-art" aria-hidden="true">◇</div>
+              <h3>Protected by design</h3><p>The Management Panel will have its own staff authentication, Owner-controlled permissions and audit records.</p>
+              <div class="divider-soft"></div><p class="tiny-text">This preview does not read, write or display any student or academy records.</p>
+            </section>
+          </div>
+        </section>
+        <section id="module-placeholder" class="module-placeholder is-hidden" aria-live="polite">
+          <div class="placeholder-symbol" aria-hidden="true">◇</div>
+          <span class="eyebrow eyebrow--red">PLANNED MANAGEMENT MODULE</span>
+          <h2 id="module-placeholder-title">Module preview</h2>
+          <p id="module-placeholder-copy">This area will be implemented in an approved phase with secure authorization and real data.</p>
+          <span class="disabled-feature-tag">NO LIVE CONTROLS IN THIS PREVIEW</span>
+        </section>
+        <footer class="workspace-footer"><span>SJN Madnest Management Panel</span><span>Step 2 • Interface preview • No live data</span></footer>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
