@@ -13,6 +13,10 @@ const PERMS=new Set([
  "enrollments.grant","enrollments.revoke","access.change","reports.view","reports.resolve",
  "analytics.view","audit.view","finance.verify","announcements.manage"
 ]);
+// Staff signup through this staging Auth project would trigger the existing
+// Student LMS on_auth_user_created handler, inserting a student profile.
+// New-staff invitations must remain locked until staff identities are isolated.
+const STAFF_IDENTITY_ISOLATED=false;
 const ACTIONS=new Set(["me","team.list","team.invite","team.update","team.revoke_invite","audit.list","invite.preview","invite.accept"]);
 const db=createClient(URL,SERVICE,{auth:{persistSession:false,autoRefreshToken:false}});
 function response(origin,status,body){return new Response(JSON.stringify(body),{status,headers:{
@@ -63,6 +67,7 @@ Deno.serve(async req=>{
  try{body=await req.json();if(!body||!ACTIONS.has(body.action)||JSON.stringify(body).length>14000)throw Error()}catch{return response(origin,400,{error:"Invalid request"})}
  const action=body.action;
  if(action==="invite.preview"){
+  if(!STAFF_IDENTITY_ISOLATED)return response(origin,503,{error:"New staff onboarding is temporarily paused until staff authentication is isolated from student profiles"});
   if(!tokenFormat(body.token))return response(origin,400,{error:"Invalid invitation"});
   const {data,error}=await db.from("mednest_management_invitations")
    .select("email,display_name,organizational_title,expires_at,state")
@@ -85,6 +90,7 @@ Deno.serve(async req=>{
  if(j.sub!==user.id)return response(origin,401,{error:"Invalid staff identity"});
  const email=(user.email||"").toLowerCase();
  if(action==="invite.accept"){
+  if(!STAFF_IDENTITY_ISOLATED)return response(origin,503,{error:"Invitation activation is paused until staff identities are isolated from student profiles"});
   if(!tokenFormat(body.token))return response(origin,400,{error:"Invalid invitation"});
   const {data,error}=await db.rpc("mednest_accept_management_invitation",{
     p_user_id:user.id,p_email:email,p_token_hash:await sha256(body.token.toLowerCase())
@@ -99,7 +105,7 @@ Deno.serve(async req=>{
  if(memberError)return response(origin,503,{error:"Unable to check staff authorization"});
  if(!member||member.status!=="active"||member.email!==email)
   return response(origin,403,{error:"Management account not authorized"});
- if(action==="me")return response(origin,200,{member:safeMember(member),verified:true,invitation_sender_configured:Boolean(RESEND&&SENDER&&!/onboarding@resend\.dev/i.test(SENDER))});
+ if(action==="me")return response(origin,200,{member:safeMember(member),verified:true,invitation_sender_configured:Boolean(STAFF_IDENTITY_ISOLATED&&RESEND&&SENDER&&!/onboarding@resend\.dev/i.test(SENDER))});
  if(action==="team.list"){
   if(member.technical_role!=="chief_admin")return response(origin,403,{error:"Chief Admin only"});
   const [members,invitations]=await Promise.all([
@@ -127,6 +133,7 @@ Deno.serve(async req=>{
  if(verifiedStepup===null)return response(origin,503,{error:"Unable to verify email authorization"});
  if(!verifiedStepup)return response(origin,403,{error:"Verify a fresh email security code before changing staff access",stepup_required:true});
  if(action==="team.invite"){
+  if(!STAFF_IDENTITY_ISOLATED)return response(origin,503,{error:"Staff invitations are paused to protect student LMS data; a separate staff identity provider is required"});
   if(!RESEND||!SENDER||/onboarding@resend\.dev/i.test(SENDER))
    return response(origin,503,{error:"Invitations to other people require a verified academy email sending domain. Configure MEDNEST_STAFF_EMAIL_FROM in the staging Supabase Edge Function secrets."});
   const emailTo=safeString(body.email,254)?.toLowerCase();
