@@ -64,7 +64,7 @@ test("Isolated preview route and management origin are protected",()=>{
  assert.match(c,/auth\.signOut/);
  assert.match(c,/detectSessionInUrl:true/);
  assert.match(c,/emailRedirectTo:EMAIL_CONFIRM_REDIRECT/);
- assert.match(c,/sjn-mednest-management-git-sjn-phase1a-foundation-sjn1\\.vercel\\.app/);
+ assert.ok(c.includes("sjn-mednest-management-git-sjn-phase1a-foundation-sjn1.vercel.app"));
  assert.match(h,/isolated-auth-preview\.js/);
  assert.match(a,/sjn-mednest-management/);
  assert.match(a,/const ORIGIN=/);
