@@ -30,3 +30,142 @@
 @media(max-width:1160px){.team-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.team-preview-grid{grid-template-columns:1fr}}
 @media(max-width:950px){.story-copy h1{font-size:36px;letter-spacing:-1.2px}}
 @media(max-width:550px){.story-copy h1{font-size:32px;letter-spacing:-.9px}.sidebar{width:278px}.team-stat-grid{grid-template-columns:1fr 1fr;gap:10px}.team-stat-grid .metric-card:last-child{grid-column:1/-1}.team-preview-grid{gap:12px}}
+
+
+/* SJN MedNest: display-only appearance preferences, independent of student LMS. */
+.appearance-picker{display:inline-flex;align-items:center;gap:3px;border:1px solid #394052;background:#202634;padding:4px;border-radius:11px;flex:none}
+.appearance-option{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid transparent;background:transparent;color:#b3bfd0;border-radius:7px;height:29px;padding:0 10px;font-size:10px;font-weight:750;min-width:44px;transition:background .15s,color .15s,border-color .15s}
+.appearance-option svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.appearance-option:hover{color:#fff;background:#343c4d}
+.appearance-option[aria-pressed="true"]{background:#3c3140;color:#ffbec6;border-color:#64414b}
+.auth-top .appearance-picker{margin-left:auto}
+.avatar-placeholder{cursor:pointer}
+.avatar-placeholder:hover{outline:1px solid #d45e6d}
+.profile-preview-banner{border:1px solid rgba(214,75,86,.24);border-radius:13px;background:rgba(214,75,86,.09);padding:17px 20px;margin-bottom:21px}
+.profile-preview-banner p{margin:9px 0 0;line-height:1.7;font-size:11px;color:#b5bdcc}
+.profile-main-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,1.08fr);gap:20px}
+.member-identity{display:flex;align-items:center;gap:16px;margin:32px 0 24px}
+.member-profile-avatar{height:66px;width:66px;border-radius:17px;background:rgba(198,63,78,.11);color:#e47783;display:grid;place-items:center;border:1px solid rgba(198,63,78,.2);flex:none}
+.member-identity h2{font-size:17px;margin:0 0 5px;letter-spacing:-.25px}
+.member-identity p{font-size:11px;color:#9faaba;line-height:1.5;margin:0 0 10px}
+.sample-badge{display:inline-block;color:#b3bdca;background:#282e3a;border:1px solid #3b4351;font-size:9px;font-weight:760;letter-spacing:.2px;border-radius:6px;padding:5px 7px;white-space:nowrap}
+.profile-detail-list{margin:0}
+.profile-detail-list>div{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-top:1px solid #323747;padding:17px 0}
+.profile-detail-list dt{font-weight:670;font-size:11px;color:#929dad}
+.profile-detail-list dd{margin:0;font-size:11px;color:#e5e8f0;text-align:right;line-height:1.5}
+.profile-detail-list dd strong{font-weight:800}
+.member-privacy-note{font-size:10px!important;color:#98a3b2!important;line-height:1.75!important;margin-top:20px!important}
+.permission-intro{font-size:11px;line-height:1.8;margin:21px 0;color:#a5afbd}
+.permission-preview-list>div{display:flex;align-items:center;gap:10px;border-top:1px solid #303748;padding:15px 0}
+.permission-icon{width:25px;height:25px;min-width:25px;background:#2b3840;border:1px solid #3e5b57;color:#80bfa3;border-radius:7px;display:grid;place-items:center;font-size:11px}
+.permission-preview-list>div>span:nth-child(2){flex:1;min-width:0}
+.permission-preview-list strong{display:block;font-size:11px}
+.permission-preview-list small{display:block;font-size:10px;color:#9aa5b6;line-height:1.6;margin-top:4px}
+@media(max-width:1160px){.profile-main-grid{grid-template-columns:1fr}}
+@media(max-width:620px){.appearance-option{padding:0 7px;min-width:30px}.appearance-option span{display:none}.auth-top .appearance-option span{display:inline}.auth-top .appearance-picker{margin-left:auto}.header-right{gap:10px}.profile-detail-list>div{flex-direction:column;gap:5px}.profile-detail-list dd{text-align:left}}
+@media(max-width:380px){.auth-top .appearance-option span{display:none}}
+
+/* Daylight palette is complete across sign in, workspace, navigation, inputs, cards, 
+   headings, active/hover, controls, and member-profile preview. */
+html[data-theme="light"]{color-scheme:light;--bg:#f5f7fb;--panel:#ffffff;--panel-alt:#f3f5f9;--line:#dae0e9;--text:#182234;--muted:#526173;--subtle:#657386;--red:#b92e45;--red-deep:#992438;--red-bg:rgba(179,45,65,.07);--ring:rgba(179,45,65,.18)}
+html[data-theme="light"] body{background:#f5f7fb;color:#182234}
+html[data-theme="light"] .auth-story{background:radial-gradient(ellipse at 0% 85%,rgba(187,57,83,.07),transparent 46%),linear-gradient(145deg,#ffffff,#f6f7fb 60%,#f5edf0);border-right-color:#e0e4ec}
+html[data-theme="light"] .auth-panel{background:#ffffff}
+html[data-theme="light"] .brand strong,html[data-theme="light"] .sidebar-brand strong{color:#20283a}
+html[data-theme="light"] .brand small,html[data-theme="light"] .sidebar-brand small{color:#657386}
+html[data-theme="light"] .story-copy h1{color:#20283a}
+html[data-theme="light"] .story-copy h1 em{color:#bd3850}
+html[data-theme="light"] .story-copy p{color:#48586c}
+html[data-theme="light"] .story-features span{background:#fff;border-color:#dce2eb;color:#445168;box-shadow:0 3px 13px rgba(18,29,44,.03)}
+html[data-theme="light"] .story-footer{color:#647187}
+html[data-theme="light"] .story-footer span{color:#919aaa}
+html[data-theme="light"] .ambient{border-color:rgba(175,51,69,.05)}
+html[data-theme="light"] .eyebrow,html[data-theme="light"] .section-kicker{color:#ac2b43}
+html[data-theme="light"] .stage-pill{background:#fff1f3;color:#ac2f46;border-color:#f1c9cf}
+html[data-theme="light"] .auth-top-line{color:#687588}
+html[data-theme="light"] .auth-icon{background:#fff0f2;color:#c84156;border-color:#f1d0d7}
+html[data-theme="light"] .auth-content h2{color:#20293b}
+html[data-theme="light"] .intro{color:#4d5a6e}
+html[data-theme="light"] .field label{color:#283348}
+html[data-theme="light"] .field input{background:#f5f7fb;border-color:#d9dfeb;color:#303e51}
+html[data-theme="light"] .field input::placeholder{color:#838d9c}
+html[data-theme="light"] .primary-btn{background:linear-gradient(105deg,#ad3047,#c84b5b);color:#fff}
+html[data-theme="light"] .secondary-btn{background:#fff;border-color:#c8cfdb;color:#263249;box-shadow:0 4px 13px rgba(23,37,56,.035)}
+html[data-theme="light"] .secondary-btn:hover{background:#f8e9ed;border-color:#bd5265;color:#992a3d}
+html[data-theme="light"] .notice{background:#f4f6fa;border-color:#e0e4eb;color:#48586c}
+html[data-theme="light"] .notice strong{color:#273247}
+html[data-theme="light"] .notice-icon{border-color:#8895a6}
+html[data-theme="light"] .auth-separator{color:#66758a}
+html[data-theme="light"] .auth-separator::before,html[data-theme="light"] .auth-separator::after{background:#dce2e9}
+html[data-theme="light"] .secondary-note,html[data-theme="light"] .auth-bottom{color:#647287}
+html[data-theme="light"] .workspace{background:#f5f7fb}
+html[data-theme="light"] .sidebar{background:#ffffff;border-right-color:#e0e5ed;box-shadow:5px 0 22px rgba(19,35,57,.025)}
+html[data-theme="light"] .sidebar-section{color:#68758a}
+html[data-theme="light"] .nav-item{color:#46546a}
+html[data-theme="light"] .nav-item:hover{background:#f4f6fa;color:#1b273a}
+html[data-theme="light"] .nav-item.active{background:#fcebee;color:#a52c44;border-color:#f4cbd2}
+html[data-theme="light"] .nav-glyph{color:#6b7890}
+html[data-theme="light"] .nav-item.active .nav-glyph{color:#b92e45}
+html[data-theme="light"] .safe-preview{background:#f7f8fb;border-color:#e0e5ec;color:#283246}
+html[data-theme="light"] .safe-preview small{color:#667387}
+html[data-theme="light"] .return-btn{color:#526277}
+html[data-theme="light"] .return-btn:hover{color:#ac2c44}
+html[data-theme="light"] .workspace-header{background:#fff;border-bottom-color:#e0e5ed}
+html[data-theme="light"] .header-trail{color:#667387}
+html[data-theme="light"] .header-trail strong{color:#263348}
+html[data-theme="light"] .header-trail>span{color:#a4acba}
+html[data-theme="light"] .preview-indicator{color:#66758b}
+html[data-theme="light"] .avatar-placeholder{background:#fff0f2;border-color:#efd1d6;color:#9e2b40}
+html[data-theme="light"] .menu-button{color:#253047;background:#f4f6f9;border-color:#d5dae4}
+html[data-theme="light"] .page-heading h1{color:#1d2739}
+html[data-theme="light"] .page-heading p{color:#526277}
+html[data-theme="light"] .page-phase{background:#fff1f2;border-color:#f0d0d5;color:#a2344c}
+html[data-theme="light"] .metric-card{background:#fff;border-color:#dde3eb;box-shadow:0 5px 20px rgba(15,36,60,.035)}
+html[data-theme="light"] .metric-card span{color:#273248}
+html[data-theme="light"] .metric-card strong{color:#253146}
+html[data-theme="light"] .metric-card small{color:#65748a}
+html[data-theme="light"] .panel-card{background:#fff;border-color:#dde3eb;box-shadow:0 5px 20px rgba(15,36,60,.03)}
+html[data-theme="light"] .panel-card--quiet{background:linear-gradient(160deg,#ffffff,#f9fafc)}
+html[data-theme="light"] .panel-title{color:#243146}
+html[data-theme="light"] .panel-card>p{color:#59677a}
+html[data-theme="light"] .subtle-tag{background:#f5f7fb;color:#637187;border-color:#dfe5ee}
+html[data-theme="light"] .feature-row{border-top-color:#e4e8ef}
+html[data-theme="light"] .feature-mark{background:#f8ebef;color:#b5344c}
+html[data-theme="light"] .feature-row strong{color:#283448}
+html[data-theme="light"] .feature-row small,html[data-theme="light"] .upcoming{color:#647287}
+html[data-theme="light"] .security-badge{background:#e9f5ed;border-color:#d1e8d8;color:#2b724a}
+html[data-theme="light"] .shield-art{color:#ba3a50;background:radial-gradient(circle,rgba(180,65,81,.08),transparent 66%)}
+html[data-theme="light"] .panel-card h3{color:#253148}
+html[data-theme="light"] .divider-soft{background:#e1e6ee}
+html[data-theme="light"] .module-placeholder{background:#fff;border-color:#d5dce7}
+html[data-theme="light"] .placeholder-symbol{background:#fff0f2;border-color:#f0d4d9;color:#b13851}
+html[data-theme="light"] .module-placeholder h2{color:#233248}
+html[data-theme="light"] .module-placeholder p{color:#5b6a80}
+html[data-theme="light"] .disabled-feature-tag{background:#f4f6fa;color:#66758a;border-color:#d9dfeb}
+html[data-theme="light"] .workspace-footer{color:#69778c}
+html[data-theme="light"] .empty-team p{color:#58687d}
+html[data-theme="light"] .preview-disabled-btn{background:#f3f5f9;border-color:#dde4ec;color:#798598}
+html[data-theme="light"] .profile-field-preview{border-bottom-color:#e3e8ef}
+html[data-theme="light"] .profile-field-preview small{color:#ac3047}
+html[data-theme="light"] .profile-field-preview strong{color:#273349}
+html[data-theme="light"] .profile-field-preview p{color:#5d6b80}
+html[data-theme="light"] .appearance-picker{background:#f2f5f9;border-color:#dce2ec}
+html[data-theme="light"] .appearance-option{color:#526176}
+html[data-theme="light"] .appearance-option:hover{color:#1c2738;background:#e3e8f0}
+html[data-theme="light"] .appearance-option[aria-pressed="true"]{color:#a53047;background:#fff;border-color:#dfd0d8;box-shadow:0 2px 7px rgba(17,36,57,.05)}
+html[data-theme="light"] .profile-preview-banner{background:#fff2f4;border-color:#f2ccd3}
+html[data-theme="light"] .profile-preview-banner p{color:#556378}
+html[data-theme="light"] .member-profile-avatar{background:#fff0f2;color:#b63850;border-color:#f2cbd2}
+html[data-theme="light"] .member-identity h2{color:#243147}
+html[data-theme="light"] .member-identity p{color:#5c6b80}
+html[data-theme="light"] .sample-badge{background:#f3f5f9;color:#647187;border-color:#dce3eb}
+html[data-theme="light"] .profile-detail-list>div{border-top-color:#e0e5ed}
+html[data-theme="light"] .profile-detail-list dt{color:#5d6b80}
+html[data-theme="light"] .profile-detail-list dd{color:#273249}
+html[data-theme="light"] .member-privacy-note{color:#5d6b80!important}
+html[data-theme="light"] .permission-intro{color:#5a687c}
+html[data-theme="light"] .permission-preview-list>div{border-top-color:#e1e6ed}
+html[data-theme="light"] .permission-icon{background:#ecf8f0;border-color:#cfe8d7;color:#388454}
+html[data-theme="light"] .permission-preview-list strong{color:#283448}
+html[data-theme="light"] .permission-preview-list small{color:#5f6e81}
+html[data-theme="light"] .profile-main-grid .panel-card{min-width:0}

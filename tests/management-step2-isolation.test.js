@@ -42,3 +42,36 @@ test("MedNest branding, current SJN landing-mark consistency, and team identity 
  assert.match(script,/teamPreview\.classList\.toggle/);
  assert.match(stylesheet,/team-stat-grid/);
 });
+
+test("Owner-approved Chief Admin terminology and staff-neutral workspace text", () => {
+  const page = read("index.html");
+  const script = read("app.js");
+  assert.match(page, /Academy Management<br><em>Workspace\.<\/em>/);
+  assert.match(page, /AUTHORIZED STAFF ACCESS/);
+  assert.match(page, /Chief Admin-controlled/);
+  assert.match(page, /id="profile-preview"/);
+  assert.match(page, /Role &amp; Permissions/);
+  assert.match(page, /EXAMPLE ONLY — NO STAFF ACCOUNT CONNECTED/);
+  assert.match(page, /Management team directory/);
+  assert.doesNotMatch(page, /Owner-managed|Owner-controlled|your authorized team|Your management team/);
+  assert.match(script, /profilePreview\.classList\.toggle/);
+});
+test("Appearance preference is isolated, reactive, accessible, and does not allow API connections", () => {
+  const page = read("index.html");
+  const mode = read("theme.js");
+  const style = read("styles.css");
+  const opts = (page.match(/data-theme-choice="(?:system|dark|light)"/g) || []);
+  assert.deepEqual(opts.sort(), ["dark","dark","light","light","system","system"]);
+  assert.ok(page.indexOf('src="/theme.js"') < page.indexOf('rel="stylesheet" href="/styles.css"'));
+  assert.match(mode, /prefers-color-scheme: dark/);
+  assert.match(mode, /localStorage\.getItem\(KEY\)/);
+  assert.match(mode, /localStorage\.setItem\(KEY, next\)/);
+  assert.match(mode, /addEventListener\("change", render\)/);
+  assert.match(style, /html\[data-theme="light"\] \.sidebar/);
+  assert.match(style, /html\[data-theme="light"\] \.auth-panel/);
+  assert.match(style, /html\[data-theme="light"\] \.profile-preview-banner/);
+  assert.doesNotMatch(mode, /\bfetch\s*\(|XMLHttpRequest|supabase|service_role|password|cookie/);
+  const csp = JSON.parse(read("vercel.json")).headers[0].headers.find(x => x.key === "Content-Security-Policy").value;
+  assert.match(csp, /connect-src 'none'/);
+  assert.match(csp, /form-action 'none'/);
+});

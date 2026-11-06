@@ -12,6 +12,7 @@
   const overviewOnly = document.getElementById("overview-only");
   const placeholder = document.getElementById("module-placeholder");
   const teamPreview = document.getElementById("team-preview");
+  const profilePreview = document.getElementById("profile-preview");
   const heading = document.getElementById("module-heading");
   const description = document.getElementById("module-description");
   const crumb = document.getElementById("header-crumb");
@@ -20,15 +21,16 @@
   const phase = document.getElementById("page-phase");
 
   const modules = Object.freeze({
-    overview: ["Academy Overview", "Your academy operations, organized in one place. Live metrics become available after secure staff authentication.", "FOUNDATION PREVIEW"],
+    overview: ["Academy Overview", "A centralized overview of academy activity, academic content, student engagement, and management operations.", "FOUNDATION PREVIEW"],
     questions: ["Question Content Studio", "Create and review MCQs, organize SJN and Past Papers Question Banks, and manage subject, chapter and topic metadata.", "FUTURE CONTENT PHASE"],
     papers: ["Full-Length Past Papers", "Manage paper years, regions, codes, question sets and source-preserving academic corrections.", "FUTURE CONTENT PHASE"],
     courses: ["Courses & Sessions", "Configure course sessions, tests, schedules and content availability without changing the student exam engine.", "FUTURE COURSE PHASE"],
     resources: ["Academy Resources", "Organize protected folders, PDFs and supporting learning resources with authorized staff workflows.", "FUTURE RESOURCE PHASE"],
     students: ["Student Management", "View authorized student records, academic performance and account status once student-scoped permissions exist.", "FUTURE ACCESS PHASE"],
     access: ["Feature & Enrollment Access", "Manage whole-feature Free or Premium policies and whole-course/session enrollment. Individual questions are never premium products.", "FUTURE ACCESS PHASE"],
-    reviews: ["Academic Reviews", "Choose direct publishing or one/two reviewers according to the Owner's content-review policy.", "FUTURE REVIEW PHASE"],
-    team: ["Team & Permissions", "One protected Owner, peer Management Team Members and optional individual titles and nicknames — completely separate from technical permissions.", "NEXT: PHASE 1A"],
+    reviews: ["Academic Reviews", "Choose direct publishing or one/two reviewers according to Chief Admin-configured academic review policies.", "FUTURE REVIEW PHASE"],
+    team: ["Team & Permissions", "One protected Chief Admin role, peer Management Team Members, independent role permissions and optional individual titles and nicknames.", "NEXT: PHASE 1A"],
+    profile: ["Member Profile", "A detailed view of a verified member identity, technical role, granted permissions and independent optional title.", "PROFILE DESIGN PREVIEW"],
     reports: ["Reports & Activity", "Review academic issue reports, authorized operational events and transparent management audit records.", "FUTURE OPERATIONS PHASE"],
     settings: ["Academy Settings", "Manage supported academy configuration with explicit permission checks and activity history.", "FUTURE OPERATIONS PHASE"]
   });
@@ -65,7 +67,8 @@
     phase.textContent = data[2];
     overviewOnly.classList.toggle("is-hidden", key !== "overview");
     teamPreview.classList.toggle("is-hidden", key !== "team");
-    placeholder.classList.toggle("is-hidden", key === "overview" || key === "team");
+    profilePreview.classList.toggle("is-hidden", key !== "profile");
+    placeholder.classList.toggle("is-hidden", key === "overview" || key === "team" || key === "profile");
     placeholderTitle.textContent = data[0];
     placeholderCopy.textContent = data[1];
     document.querySelectorAll("[data-module]").forEach(function (button) {
@@ -78,6 +81,7 @@
     window.scrollTo(0, 0);
   }
   openButton.addEventListener("click", showPreview);
+  document.getElementById("profile-preview-open").addEventListener("click", function () { selectModule("profile"); });
   closeButton.addEventListener("click", returnToSignIn);
   document.querySelectorAll("[data-module]").forEach(function (button) {
     button.addEventListener("click", function () { selectModule(button.dataset.module); });
