@@ -62,10 +62,13 @@ test("Isolated preview route and management origin are protected",()=>{
  assert.match(c,/auth\.signInWithPassword/);
  assert.match(c,/auth\.signUp/);
  assert.match(c,/auth\.signOut/);
- assert.match(c,/detectSessionInUrl:false/);
+ assert.match(c,/detectSessionInUrl:true/);
+ assert.match(c,/emailRedirectTo:EMAIL_CONFIRM_REDIRECT/);
+ assert.match(c,/sjn-mednest-management-git-sjn-phase1a-foundation-sjn1\\.vercel\\.app/);
  assert.match(h,/isolated-auth-preview\.js/);
  assert.match(a,/sjn-mednest-management/);
  assert.match(a,/const ORIGIN=/);
+ assert.match(a,/git-sjn-phase1a-foundation/);
  assert.doesNotMatch(a,/access-control-allow-origin": "\*"/);
  assert.doesNotMatch(c,/service_role|sb_secret_|innerHTML\s*=/);
 });
