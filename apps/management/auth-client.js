@@ -97,6 +97,11 @@ async function checkSession(){
  const response=await manage("me");
  if(!response?.member?.id)throw Error("Not an authorized management member");
  fillProfile(response.member);
+ invitationSenderReady=Boolean(response.invitation_sender_configured);
+ const senderNotice=$("staff-invite-sender-notice");
+ senderNotice.textContent=invitationSenderReady
+  ?"Academy email invitations are available. Chief Admin must approve each send with a recent email security code."
+  :"Staff invitations require a verified academy email sending domain. The current Resend test sender can verify Chief Admin actions, but cannot email arbitrary team members.";
  if(!authorized){authorized=true;window.dispatchEvent(new Event("mednest:authorized"))}
 }
 async function signIn(event){
@@ -208,6 +213,7 @@ function renderInvitations(invitations){
 }
 async function loadTeam(){
  visible("team-invite-show",staff?.role==="chief_admin");
+ $("team-invite-show").disabled=!invitationSenderReady;
  if(staff?.role!=="chief_admin"){
   $("team-directory-list").replaceChildren(element("p","secondary-note","Only Chief Admin can manage staff access."));
   $("pending-invitations-list").replaceChildren(element("p","secondary-note","Only Chief Admin can view pending invitations."));
