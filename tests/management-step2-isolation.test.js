@@ -154,6 +154,48 @@ test("New staff creation remains fail-closed while Auth signup inserts student p
  assert.match(browser,/team-invite-show"\)\.disabled=!invitationSenderReady/);
  assert.match(browser,/student-profile creation|Student LMS.s automatic student-profile creation/i);
  assert.match(h,/id="staff-invite-sender-notice"/);
- assert.match(h,/id="team-test-security"/);
+ assert.doesNotMatch(h,/id="team-test-security"/);
+ assert.doesNotMatch(browser,/team-test-security/);
  assert.match(browser,/staff-stepup-send/);
+});
+
+test("Chief Administrator is separate from ordinary Team Members",()=>{
+ const h=html(),a=client(),api=management(),app=read("apps/management/app.js");
+ for(const id of ["chief-administrator-card","chief-administrator-identity","chief-profile-open",
+  "team-directory-list","team-total","team-active","team-invited"])
+   assert.ok(h.includes('id="'+id+'"'),id);
+ assert.match(a,/members\.filter\(m=>m\.role!=="chief_admin"\)/);
+ assert.match(a,/members\.find\(m=>m\.role==="chief_admin"\)/);
+ assert.match(a,/displayRole\(role\)/);
+ assert.match(a,/role==="chief_admin"\?"Chief Administrator"/);
+ assert.match(app,/profile: \["My Profile"/);
+ assert.match(h,/id="member-profile-name"/);
+ assert.match(h,/id="member-profile-role"/);
+ assert.match(h,/id="chief-profile-form"/);
+ assert.match(h,/id="chief-profile-display-name"/);
+ assert.match(h,/id="chief-profile-title"/);
+ assert.match(api,/profile\.update/);
+ assert.match(api,/mednest_update_chief_own_profile/);
+ assert.match(api,/member\.technical_role!=="chief_admin"/);
+});
+test("Permission selection uses compact grouped checkboxes instead of oversized full-width inputs",()=>{
+ const a=client(),css=read("apps/management/styles.css");
+ const groups=["Academic Content","Courses & Resources","Students & Enrollment","Reports & Operations"];
+ for(const group of groups)assert.ok(a.includes('name:"'+group+'"'),group);
+ assert.match(a,/function buildChoices\(id,selected=\[\]\)/);
+ assert.match(a,/fieldset","permission-group"/);
+ assert.match(a,/input"\);/);
+ assert.match(css,/\.permission-option input\[type="checkbox"\]/);
+ assert.match(css,/width:16px!important;height:16px!important/);
+ assert.match(css,/html\[data-theme="light"\] \.staff-form \.permission-option/);
+ assert.match(css,/@media\(max-width:760px\)/);
+});
+test("Temporary email security test button removed without disabling email step-up protection",()=>{
+ const h=html(),a=client(),edge=management();
+ assert.doesNotMatch(h,/Test Email Security Verification|id="team-test-security"/);
+ assert.doesNotMatch(a,/team-test-security/);
+ assert.match(a,/security\("status"\)/);
+ assert.match(a,/security\("verify",\{code\}\)/);
+ assert.match(edge,/checkStepup\(user\.id,j\.session_id\)/);
+ assert.match(h,/id="staff-stepup-backdrop"/);
 });
