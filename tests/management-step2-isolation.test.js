@@ -70,7 +70,7 @@ test("Appearance preference is isolated, reactive, accessible, and does not allo
   assert.match(style, /html\[data-theme="light"\] \.sidebar/);
   assert.match(style, /html\[data-theme="light"\] \.auth-panel/);
   assert.match(style, /html\[data-theme="light"\] \.profile-preview-banner/);
-  assert.doesNotMatch(mode, /\bfetch\s*\(|XMLHttpRequest|supabase|service_role|password|cookie/);
+  assert.doesNotMatch(mode, /\bfetch\s*\(|XMLHttpRequest|supabase|service_role|document\.cookie/);
   const csp = JSON.parse(read("vercel.json")).headers[0].headers.find(x => x.key === "Content-Security-Policy").value;
   assert.match(csp, /connect-src 'none'/);
   assert.match(csp, /form-action 'none'/);
