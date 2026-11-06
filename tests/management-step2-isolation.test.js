@@ -4,141 +4,140 @@ const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
 const root=path.resolve(__dirname,"..");
-const read=p=>fs.readFileSync(path.join(root,p),"utf8");
+const read=file=>fs.readFileSync(path.join(root,file),"utf8");
 const html=()=>read("apps/management/index.html");
-const ui=()=>read("apps/management/app.js");
-const auth=()=>read("apps/management/auth-client.js");
-const edge=()=>read("database/management/mednest-edge-function/index.ts");
-const policy=()=>JSON.parse(read("apps/management/vercel.json")).headers[0].headers.find(x=>x.key==="Content-Security-Policy").value;
+const client=()=>read("apps/management/auth-client.js");
+const management=()=>read("database/management/mednest-edge-function/index.ts");
+const stepup=()=>read("database/management/mednest-management-stepup/index.ts");
+const onboarding=()=>read("database/management/mednest-staff-onboarding/index.ts");
+const csp=()=>JSON.parse(read("apps/management/vercel.json")).headers[0].headers.find(x=>x.key==="Content-Security-Policy").value;
 
-test("Management app keeps corrected MedNest identity, distinct theme and common logo",()=>{
- const h=html(),s=read("apps/management/styles.css");
+test("SJN MedNest remains isolated, branded and supports complete light/dark themes",()=>{
+ const h=html(),css=read("apps/management/styles.css");
  assert.match(h,/SJN MedNest/);
  assert.doesNotMatch(h,/SJN Madnest|SJN Madness/);
  assert.match(h,/Academy Management<br><em>Workspace\.<\/em>/);
  assert.equal((h.match(/class="brand-symbol(?: brand-symbol--small)?"/g)||[]).length,2);
- assert.match(h,/<span class="brand-symbol" aria-hidden="true">SJN<\/span>/);
- assert.match(h,/data-theme-choice="system"/);
- assert.match(h,/data-theme-choice="dark"/);
- assert.match(h,/data-theme-choice="light"/);
- assert.match(s,/html\[data-theme="light"\] \.auth-panel/);
- assert.match(s,/html\[data-theme="light"\] \.sidebar/);
+ for(const theme of ["system","light","dark"])assert.ok(h.includes('data-theme-choice="'+theme+'"'));
+ for(const selector of ['.auth-panel','.sidebar','.staff-stepup-modal'])
+  assert.ok(css.includes('html[data-theme="light"] '+selector),selector);
+ assert.match(css,/staff-stepup-backdrop/);
+ assert.match(css,/staff-invite-notice/);
 });
-test("Staff Sign In is a real form; no student LMS UI or API import",()=>{
- const h=html(),a=auth(),shell=ui();
+test("Approved password-only management login removes mandatory MFA and public Chief Admin signup",()=>{
+ const h=html(),a=client(),u=read("apps/management/app.js");
  assert.match(h,/id="management-signin"/);
- assert.match(h,/id="mfa-panel"/);
- assert.match(h,/id="mfa-form"/);
- assert.match(h,/src="\/auth-client\.js"/);
- assert.match(a,/signInWithPassword/);
- assert.match(a,/auth\.mfa\.challengeAndVerify/);
- assert.match(a,/auth\.mfa\.enroll/);
- assert.match(a,/auth\.mfa\.listFactors/);
- assert.match(a,/mednest-management/);
+ assert.match(a,/auth\.signInWithPassword/);
  assert.match(a,/staff-session-v1/);
- assert.match(shell,/mednest:authorized/);
- assert.match(shell,/mednest:signout/);
- assert.doesNotMatch(a,/from ['"]\.\.\/\.\.\/public\//);
- assert.doesNotMatch(a,/service_role|SERVICE_ROLE_KEY|SUPABASE_SECRET/);
- assert.doesNotMatch(a,/innerHTML\s*=/);
+ assert.match(u,/mednest:authorized/);
+ assert.match(u,/mednest:signout/);
+ assert.doesNotMatch(h,/id="mfa-panel"|id="mfa-qr"|id="chief-setup-panel"/);
+ assert.doesNotMatch(h,/First-time Chief Admin account setup|Scan this authentication QR code/);
+ assert.doesNotMatch(a,/auth\.mfa\.|startMfa|mfa\.enroll/);
+ assert.doesNotMatch(management(),/aal2|mfa_required/);
+ assert.doesNotMatch(a,/service_role|SERVICE_ROLE_KEY|SUPABASE_SECRET|innerHTML\s*=/);
 });
-test("Member profile displays verified role and fine-grained effective permission data",()=>{
- const h=html(),a=auth();
- for(const id of ["member-profile-name","member-profile-title","member-profile-email","member-profile-role","member-profile-status","member-permissions-list","team-directory-list","team-invite-form","team-edit-form","audit-event-list"])assert.ok(h.includes('id="'+id+'"'),id);
- assert.match(a,/function fillProfile/);
- assert.match(a,/member\.permissions/);
- assert.match(a,/role==="chief_admin"/);
- assert.match(a,/request\("team\.invite"/);
- assert.match(a,/request\("team\.update"/);
- assert.match(a,/request\("audit\.list"/);
- assert.match(h,/Chief Admin/);
- assert.match(h,/Member Profile/);
+test("Only individual email invitations create Management Team Members",()=>{
+ const h=html(),a=client(),s=management();
+ for(const id of ["staff-invitation-panel","invitation-accept-form","invitation-email",
+  "invitation-password","invitation-password-confirm","invitation-existing-toggle",
+  "pending-invitations-list","team-invite-form","team-edit-form","staff-invite-sender-notice"])
+  assert.ok(h.includes('id="'+id+'"'),id);
+ assert.match(a,/parseInviteFromUrl/);
+ assert.match(a,/^/);
+ assert.match(a,/window\.history\.replaceState/);
+ assert.match(a,/manage\("invite\.accept",\{token:inviteToken\}\)/);
+ assert.match(a,/auth\.signUp\(\{email,password/);
+ assert.match(a,/auth\.signInWithPassword\(\{email,password\}\)/);
+ assert.match(s,/invite\.preview/);
+ assert.match(s,/invite\.accept/);
+ assert.match(s,/mednest_accept_management_invitation/);
+ assert.match(s,/sha256\(body\.token\.toLowerCase\(\)\)/);
+ assert.match(s,/mednest_create_management_invitation/);
+ assert.match(s,/mednest_revoke_management_invitation/);
+ assert.match(s,/invitation_sender_configured/);
+ assert.match(a,/team-invite-show"\)\.disabled=!invitationSenderReady/);
 });
-test("Edge service checks verified JWT, staff membership, email, MFA, and Chief Admin role",()=>{
- const s=edge();
- assert.match(s,/srv\.auth\.getUser\(jwt\)/);
- assert.match(s,/verified\.user\.email_confirmed_at/);
- assert.match(s,/mednest_management_members/);
- assert.match(s,/member\.email!==identity\.email\?\.toLowerCase\(\)/);
- assert.match(s,/aal!=="aal2"/);
+test("Chief Admin can invite, update and revoke only with verified session-bound email approval",()=>{
+ const s=management(),p=stepup();
+ assert.match(s,/db\.auth\.getUser\(jwt\)/);
+ assert.match(s,/j\.sub!==user\.id/);
  assert.match(s,/member\.technical_role!=="chief_admin"/);
- assert.match(s,/team\.invite/);
- assert.match(s,/team\.update/);
- assert.match(s,/audit\.list/);
- assert.match(s,/new Response\(null,\{status:204/);
- assert.doesNotMatch(s,/raw_user_meta_data|user_metadata\s*[.\[]/);
- assert.doesNotMatch(s,/x-admin-token|ADMIN_TOKEN/);
+ assert.match(s,/member\.status!=="active"/);
+ assert.match(s,/checkStepup\(user\.id,j\.session_id\)/);
+ assert.match(s,/stepup_required:true/);
+ assert.match(s,/mednest_update_member_with_email_stepup/);
+ assert.match(s,/mednest_create_management_invitation/);
+ assert.match(s,/mednest_revoke_management_invitation/);
+ assert.match(p,/auth\.getUser\(jwt\)/);
+ assert.match(p,/claims\.session_id/);
+ assert.match(p,/mednest_reserve_management_stepup/);
+ assert.match(p,/mednest_verify_management_stepup/);
+ assert.match(p,/mednest_management_members/);
+ assert.match(p,/technical_role!=="chief_admin"/);
+ assert.match(p,/verified_until/);
+ assert.doesNotMatch(p,/user_metadata|raw_user_meta_data|service_role.*["'][a-zA-Z0-9]{30}/);
 });
-test("Auth separation, restricted origin, and server-only privileged keys",()=>{
- const c=policy(),h=html(),a=auth(),s=edge();
- assert.match(c,/script-src 'self' https:\/\/esm\.sh/);
- assert.match(c,/https:\/\/aozknkrwafowsrehdwlr\.supabase\.co/);
- assert.match(c,/form-action 'none'/);
- assert.match(c,/frame-ancestors 'none'/);
- assert.match(s,/ADMIN_ORIGINS\.test\(origin\)/);
+test("Email approval codes are session-scoped, hashed, temporary, throttled and never sent to client",()=>{
+ const s=stepup();
+ assert.match(s,/HMAC/);
+ assert.match(s,/sjn-mednest-staff-stepup-v1/);
+ assert.match(s,/session\+":"\+code/);
+ assert.match(s,/code8\(\)/);
+ assert.match(s,/RESEND_API_KEY/);
+ assert.match(s,/api\.resend\.com\/emails/);
+ assert.match(s,/if\(!sent\.ok\)/);
+ assert.match(s,/8-digit|eight-digit/);
+ assert.doesNotMatch(s,/code:code|otp:code|secret:code/);
+ assert.match(client(),/security\("verify",\{code\}\)/);
+ const h=html();
+ assert.match(h,/id="staff-stepup-backdrop"/);
+ assert.match(h,/id="staff-stepup-send"/);
+ assert.match(h,/id="staff-stepup-code"/);
+ assert.match(h,/id="staff-stepup-form"/);
+});
+test("Invitations and permissions reject unauthorized student or ordinary team member",()=>{
+ const s=management();
+ assert.match(s,/Management account not authorized/);
+ assert.match(s,/Only Chief Admin may change staff access/);
+ assert.match(s,/Chief Admin cannot edit own role/);
+ assert.match(s,/validatePermissions/);
+ assert.match(s,/if\(!RESEND\|\|!SENDER/);
+ assert.match(s,/invitation_sender_configured/);
+ assert.match(s,/session_id/);
+ assert.match(s,/token64\(\)/);
+ assert.match(s,/sha256\(token\)/);
+ assert.match(s,/Date\(data\.expires_at\)/);
+ assert.doesNotMatch(s,/user_metadata|raw_user_meta_data/);
+});
+test("Management CSP, service-only secrets and student source isolation",()=>{
+ const p=csp(),h=html(),a=client(),s=management();
+ assert.match(p,/default-src 'none'/);
+ assert.match(p,/script-src 'self' https:\/\/esm\.sh/);
+ assert.match(p,/connect-src 'self' https:\/\/aozknkrwafowsrehdwlr\.supabase\.co/);
+ assert.match(p,/form-action 'none'/);
+ assert.match(p,/frame-ancestors 'none'/);
  assert.match(s,/SUPABASE_SERVICE_ROLE_KEY/);
  assert.match(a,/sb_publishable_/);
- assert.match(h,/Authorized management staff only/);
+ assert.match(s,/ORIGINS\.test\(origin\)/);
+ assert.match(stepup(),/ORIGINS\.test\(origin\)/);
+ assert.match(h,/No student LMS registration is required/);
  assert.match(h,/id="team-total"/);
  assert.match(h,/id="team-active"/);
  assert.match(h,/id="team-invited"/);
  assert.match(h,/Registered Students<\/span><strong>—<\/strong>/);
  assert.match(h,/Published MCQs<\/span><strong>—<\/strong>/);
 });
-
-test("Dedicated Chief Admin identity setup neither requires student UI nor grants staff privileges",()=>{
- const page=html(),browser=auth(),server=edge();
- for(const id of ["chief-setup-panel","chief-setup-form","chief-setup-submit","chief-setup-feedback"])assert.match(page,new RegExp('id="'+id+'"'));
- assert.match(page,/No student LMS registration is required/);
- assert.match(browser,/client\.auth\.signUp\(/);
- assert.match(browser,/emailRedirectTo:window\.location\.origin\+"\/"/);
- assert.match(browser,/registerInitialChief/);
- assert.doesNotMatch(browser,/from\(["']mednest_management_members["']\)/);
- assert.match(server,/srv\.auth\.getUser\(jwt\)/);
- assert.match(server,/mednest_management_members/);
- assert.match(server,/member\.technical_role!=="chief_admin"/);
+test("Previously implemented one-time email proof remains separate from ordinary login",()=>{
+ const s=onboarding();
+ assert.match(s,/mednest_management_bootstrap_approvals/);
+ assert.match(s,/MEDNEST_STAFF_EMAIL_PEPPER/);
+ assert.match(s,/mednest_complete_staff_email_verification/);
+ assert.doesNotMatch(s,/jumanniz8@gmail\.com/);
+ assert.doesNotMatch(client(),/mednest-staff-onboarding/);
 });
-
-test("Staff verification requires authenticated account and separate provider",()=>{
- const page=html(),browser=auth();
- for(const id of ["staff-verify-panel","staff-verify-send","staff-verify-form","staff-verify-code","staff-verify-status"])
-  assert.match(page,new RegExp('id="'+id+'"'));
- assert.match(browser,/VERIFY_API=URL\+"\/functions\/v1\/mednest-staff-onboarding"/);
- assert.match(browser,/await onboardingRequest\("status"\)/);
- assert.match(browser,/await onboardingRequest\("send"\)/);
- assert.match(browser,/await onboardingRequest\("verify",\{code\}\)/);
- assert.match(browser,/err\.status=resp\.status/);
- assert.match(browser,/if\(e\.status===403\)/);
- assert.match(page,/no administrative privileges|No student email verification settings have been changed/i);
-});
-
-test("Staff-only OTP is mandatory for invited members and Chief Admin bootstrap",()=>{
- const edge=read("database/management/mednest-edge-function/index.ts");
- const verify=read("database/management/mednest-staff-onboarding/index.ts");
- assert.match(edge,/Staff-only email verification required/);
- assert.doesNotMatch(edge,/staff\.activate/);
- assert.match(edge,/Staff invitations are unavailable until the dedicated email provider is configured/);
- assert.doesNotMatch(edge,/inviteUserByEmail/);
- assert.match(verify,/mednest_management_bootstrap_approvals/);
- assert.doesNotMatch(verify,/jumanniz8@gmail\.com/);
- assert.match(verify,/MEDNEST_STAFF_EMAIL_PEPPER/);
- assert.match(verify,/RESEND_API_KEY/);
- assert.match(verify,/expires_at:new Date\(now\+10\*60\*1000\)/);
- assert.match(verify,/attempt_count:0/);
- assert.match(verify,/await db\.rpc\("mednest_complete_staff_email_verification"/);
-});
-
-test("Chief Admin email proof transitions to MFA without exposing privileged routes",()=>{
- const edge=read("database/management/mednest-edge-function/index.ts");
- const probe=edge.indexOf('if(action==="me")');
- const enforce=edge.indexOf('if(aal!=="aal2")');
- const list=edge.indexOf('if(action==="team.list")');
- assert.ok(probe>0 && enforce>probe && list>enforce,"profile handshake before MFA enforcement; privileged ops afterward");
- assert.match(edge,/if\(member.status!=="active"\)return reply\(origin,403,\{error:"Staff-only email verification required"\}\)/);
- assert.match(edge,/mfa_required:aal!=="aal2"/);
- assert.match(edge,/if\(member.technical_role!=="chief_admin"\)/);
- assert.equal((edge.match(/if\(action==="me"\)/g)||[]).length,1);
- const browser=auth();
- assert.match(browser,/await checkSession\(\);/);
- assert.match(browser,/if\(data.mfa_required\)\{staff=data.member;await startMfa\(\);return\}/);
+test("Every JavaScript DOM lookup has a matching management UI element",()=>{
+ const js=client(),h=html();
+ const ids=[...js.matchAll(/\$\("([a-z0-9-]+)"\)/gi)].map(m=>m[1]);
+ for(const id of new Set(ids)) assert.ok(h.includes('id="'+id+'"'),"Missing #"+id);
 });
