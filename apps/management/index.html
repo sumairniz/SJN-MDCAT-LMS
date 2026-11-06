@@ -105,7 +105,7 @@
   <button type="button" class="appearance-option" data-theme-choice="system" aria-label="Follow device appearance" aria-pressed="true" title="System appearance"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 22h8m-4-4v4"/></svg><span>Auto</span></button>
   <button type="button" class="appearance-option" data-theme-choice="dark" aria-label="Use dark appearance" aria-pressed="false" title="Dark appearance"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.9 13.3A9 9 0 0 1 10.7 3.1a9 9 0 1 0 10.2 10.2Z"/></svg><span>Dark</span></button>
   <button type="button" class="appearance-option" data-theme-choice="light" aria-label="Use light appearance" aria-pressed="false" title="Light appearance"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg><span>Light</span></button>
-</div><button type="button" id="profile-preview-open" class="avatar-placeholder" aria-label="View example management profile" title="Example management profile"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></button></div>
+</div><button type="button" id="profile-preview-open" class="avatar-placeholder" aria-label="View my management profile" title="My profile"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></button></div>
       </header>
       <main class="overview-container">
         <section class="page-heading">
@@ -133,20 +133,29 @@
             </section>
           </div>
         </section>
-        <section id="team-preview" class="team-preview is-hidden" aria-label="Team management design preview">
+        <section id="team-preview" class="team-preview is-hidden" aria-label="Management Team and permissions">
           <div id="team-notice" class="profile-preview-banner"><p>Team membership is available only to the Chief Admin. No member can grant or change their own access.</p></div>
           <div class="team-stat-grid">
-            <article class="metric-card"><span>Total Management Members</span><strong id="team-total">—</strong><small>Includes the Chief Admin and management members</small></article>
-            <article class="metric-card"><span>Active Team Members</span><strong id="team-active">—</strong><small>Active authorized members</small></article>
+            <article class="metric-card"><span>Management Team Members</span><strong id="team-total">—</strong><small>Excludes the protected Chief Administrator</small></article>
+            <article class="metric-card"><span>Active Team Members</span><strong id="team-active">—</strong><small>Active management staff</small></article>
             <article class="metric-card"><span>Pending Invitations</span><strong id="team-invited">—</strong><small>Pending email invitations</small></article>
           </div>
+          <section id="chief-administrator-card" class="chief-administrator-card is-hidden" aria-label="Protected Chief Administrator account">
+            <div class="chief-card-icon" aria-hidden="true">✦</div>
+            <div class="chief-card-copy">
+              <span class="chief-card-eyebrow">PROTECTED ACCOUNT · UNIQUE ROLE</span>
+              <h2>Chief Administrator</h2>
+              <p id="chief-administrator-identity">Verified management identity</p>
+              <p class="chief-card-note">Full management control. Changes to staff access require an emailed security code.</p>
+            </div>
+            <button type="button" id="chief-profile-open" class="chief-card-action">View My Profile</button>
+          </section>
           <div class="team-preview-grid">
             <section class="panel-card">
               <div class="panel-title"><span>Management Team</span><span class="subtle-tag">CHIEF ADMIN CONTROL</span></div>
               <div class="staff-invite-notice" id="staff-invite-sender-notice">To send invitations to new team members, configure a verified academy email sending domain. Normal Chief Admin sign-in is already available.</div>
-              <div class="panel-title"><span>Management Members</span></div>
-              <button id="team-test-security" class="secondary-btn is-hidden" type="button">Test Email Security Verification</button>
-              <div id="team-directory-list" class="staff-list"><p class="secondary-note">Team information is loaded only for an authenticated Chief Admin.</p></div>
+              <div class="panel-title"><span>Team Members</span><span class="subtle-tag">INVITATION-BASED</span></div>
+              <div id="team-directory-list" class="staff-list"><p class="secondary-note">Authorized Management Team Members appear here after their invitations are accepted.</p></div>
               <div class="panel-title"><span>Pending Invitations</span></div>
               <div id="pending-invitations-list" class="staff-list"><p class="secondary-note">Pending invitations are visible only to Chief Admin.</p></div>
               <button id="team-invite-show" class="secondary-btn is-hidden" type="button">Invite Management Team Member <span aria-hidden="true">+</span></button>
@@ -154,7 +163,7 @@
                 <div class="field"><label for="invite-email">Team member email</label><input id="invite-email" type="email" required maxlength="254" autocomplete="off" placeholder="staff@example.com"></div>
                 <div class="field"><label for="invite-name">Display name (optional)</label><input id="invite-name" type="text" maxlength="100" placeholder="Name or nickname"></div>
                 <div class="field"><label for="invite-title">Organizational title (optional)</label><input id="invite-title" type="text" maxlength="100" placeholder="Academic Director"></div>
-                <div class="field"><label>Technical permissions — independently assignable</label><div id="invite-permissions" class="permission-choices"></div></div>
+                <div class="field"><label>Assigned technical permissions</label><p class="permission-selector-help">Select the areas this member may access. Titles never grant permissions.</p><div id="invite-permissions" class="permission-choices"></div></div>
                 <button class="primary-btn" type="submit">Send Staff Invitation <span aria-hidden="true">→</span></button>
                 <button class="return-btn" type="button" id="invite-cancel">Cancel</button>
               </form>
@@ -163,42 +172,51 @@
                 <div class="field"><label for="edit-member-status">Account status</label><select id="edit-member-status"><option value="active">Active</option><option value="suspended">Suspended</option></select></div>
                 <div class="field"><label for="edit-member-name">Display name (optional)</label><input id="edit-member-name" maxlength="100"></div>
                 <div class="field"><label for="edit-member-title">Organizational title (optional)</label><input id="edit-member-title" maxlength="100"></div>
-                <div class="field"><label>Authorized capabilities</label><div id="edit-member-permissions" class="permission-choices"></div></div>
+                <div class="field"><label>Authorized capabilities</label><p class="permission-selector-help">Permission changes are verified by email and recorded in the audit log.</p><div id="edit-member-permissions" class="permission-choices"></div></div>
                 <button class="primary-btn" type="submit">Save Member Changes <span aria-hidden="true">→</span></button>
                 <button class="return-btn" type="button" id="edit-member-cancel">Cancel</button>
               </form>
               <p id="team-feedback" role="status" aria-live="polite" class="auth-feedback"></p>
             </section>
-            <section class="panel-card panel-card--quiet">
-              <div class="panel-title"><span>Identity & Permissions</span><span class="subtle-tag">ENFORCED</span></div>
-              <div class="profile-field-preview"><small>DISPLAY NAME OR NICKNAME</small><strong>Optional — editable independently of the technical role</strong><p>Used for how a team member appears in the Management Panel.</p></div>
-              <div class="profile-field-preview"><small>PUBLIC / ORGANIZATIONAL TITLE</small><strong>Optional — e.g. CEO, Academic Director</strong><p>A title is separate from the Chief Admin or Management Team Member technical role.</p></div>
-              <div class="profile-field-preview"><small>TECHNICAL PERMISSIONS</small><strong>Chief Admin-controlled access</strong><p>Separate from the name and title. Audit trails retain verified account identity.</p></div>
+            <section class="panel-card panel-card--quiet team-guidance">
+              <div class="panel-title"><span>Access Management</span><span class="subtle-tag">SECURE BY DEFAULT</span></div>
+              <div class="team-guidance-step"><span>01</span><div><strong>Invite a member</strong><p>Send an individual, private invitation to an approved email address.</p></div></div>
+              <div class="team-guidance-step"><span>02</span><div><strong>Assign permissions</strong><p>Select only the academic and operational capabilities they need.</p></div></div>
+              <div class="team-guidance-step"><span>03</span><div><strong>Maintain control</strong><p>Review access, suspend accounts and revoke invitations. Changes are audited.</p></div></div>
+              <p class="team-guidance-footnote">New member invitations remain unavailable until staff authentication is isolated from student registration.</p>
             </section>
           </div>
         </section>
-        <section id="profile-preview" class="profile-preview is-hidden" aria-label="Example management member profile" aria-live="polite">
-  <div class="profile-preview-banner"><span class="subtle-tag">VERIFIED STAFF ACCOUNT</span><p>Technical roles and permissions are checked on the management server. Personal titles never grant additional access.</p></div>
+        <section id="profile-preview" class="profile-preview is-hidden" aria-label="My authenticated management profile" aria-live="polite">
+  <div class="profile-preview-banner"><span class="subtle-tag">MY VERIFIED ACCOUNT</span><p>This page always shows the current signed-in member. Your technical role is protected independently of your display name or title.</p></div>
   <div class="profile-main-grid">
     <section class="panel-card">
-      <div class="panel-title"><span>Member Identity</span><span class="subtle-tag">PROFILE DESIGN</span></div>
+      <div class="panel-title"><span>My Identity</span><span class="subtle-tag">ACCOUNT DETAILS</span></div>
       <div class="member-identity">
         <div class="member-profile-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 22v-2a8 8 0 0 1 16 0v2"/></svg></div>
-        <div><h2 id="member-profile-name">Management Team Member</h2><p id="member-profile-title">Organizational title is optional</p><span class="sample-badge" id="member-profile-status">VERIFIED ACCOUNT</span></div>
+        <div><h2 id="member-profile-name">Signed-in Member</h2><p id="member-profile-title">Optional organizational title</p><span class="sample-badge" id="member-profile-status">VERIFIED ACCOUNT</span></div>
       </div>
       <dl class="profile-detail-list">
         <div><dt>Verified account</dt><dd id="member-profile-email">—</dd></div>
         <div><dt>Technical role</dt><dd id="member-profile-role">—</dd></div>
         <div><dt>Member status</dt><dd id="member-profile-account-status">—</dd></div>
-        <div><dt>Last activity</dt><dd id="member-profile-activity">Protected staff session</dd></div>
+        <div><dt>Access</dt><dd id="member-profile-activity">Authenticated management account</dd></div>
       </dl>
-      <p class="member-privacy-note">Display names and optional titles never change the technical role. Audit history will use the verified underlying staff account ID.</p>
+      <p class="member-privacy-note">Only your Chief Administrator account can update its own display name and title. Team member names and titles are assigned by the Chief Administrator.</p>
+      <form id="chief-profile-form" class="staff-form is-hidden" aria-label="Edit Chief Administrator profile">
+        <h3>Personalize Your Profile</h3>
+        <div class="field"><label for="chief-profile-display-name">Display name or nickname</label><input id="chief-profile-display-name" type="text" maxlength="100" autocomplete="name" placeholder="Optional display name"></div>
+        <div class="field"><label for="chief-profile-title">Organizational title (optional)</label><input id="chief-profile-title" type="text" maxlength="100" placeholder="e.g. Founder, Academic Director"></div>
+        <button id="chief-profile-save" type="submit" class="primary-btn">Save Profile Details <span aria-hidden="true">→</span></button>
+        <p id="chief-profile-feedback" role="status" aria-live="polite" class="auth-feedback"></p>
+      </form>
+      <button id="chief-profile-edit" class="secondary-btn is-hidden chief-profile-edit" type="button">Edit My Profile <span aria-hidden="true">✎</span></button>
     </section>
     <section class="panel-card">
       <div class="panel-title"><span>Role &amp; Permissions</span><span class="subtle-tag">EFFECTIVE ACCESS</span></div>
-      <p class="permission-intro">This example shows the categories a member will be able to inspect in their own profile. Actual permissions will be fetched from the protected staff system, not inferred from titles.</p>
+      <p class="permission-intro">Your effective permissions come from your verified staff account. This screen is informational and cannot grant additional access.</p>
       <div id="member-permissions-list" class="permission-preview-list"><p>Permissions are loaded from verified staff membership.</p></div>
-      <p class="member-privacy-note">Management Team Members will see only permissions actually granted to them. This screen does not grant, modify or verify any access.</p>
+      <p class="member-privacy-note">Technical permissions are assigned and enforced by the management server. Organizational titles never change access.</p>
     </section>
   </div>
 </section>
