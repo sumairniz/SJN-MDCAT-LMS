@@ -1,5 +1,13 @@
 # SJN MedNest Management Panel — Staff Authentication & Team Access
 
+## November 7, 2026: Chief Administrator profile fix and approved 30-minute approval window
+
+- Fixed the PostgreSQL reserved-keyword collision: the audited, Chief-only `mednest_update_chief_own_profile` function declared `current_role`, which PostgreSQL interpreted as its built-in role expression instead of the locally intended membership role. The variable was renamed to `v_staff_role`, preserving the verified Chief-only check and server-only RPC permissions. The staging profile save returned `updated` in an explicit transaction **rolled back immediately**, with zero persisted test profile or audit records. The owner's personal profile values were **not** changed by the developer; the owner should click Save again to store their intended values.
+- Approved convenience/security adjustment: Chief Admin email security proof stays **8-digit, valid 10 minutes to enter**, with existing anti-bruteforce/resend limits. Once successfully verified, it authorizes **sensitive Management Team membership, invitation and permission changes for 30 minutes in that specific authenticated session**. A login on another device/session does not inherit the approval. This does not create a new role or modify Chief Admin privileges.
+- **No email code for:** normal Management Panel login, the Chief Administrator's own display-name/title changes, routine MCQ/course/resource operations, and normal student-management operations. This follows the user's explicit approval; future highest-risk credential/account-owner changes need separate handling.
+- Updated staging SQL functions, management email-security response, page wording and tests. No student Auth settings, student trigger, Student LMS source, production, or existing student data changes.
+
+
 **Owner-approved development milestone:** password-based staff Sign In, Chief Admin invitations and per-member technical permissions, email verification for onboarding, and email security approval for high-impact staff changes.  
 **Deployment:** independent protected Vercel Management Panel project, root `apps/management/`, branch `sjn-phase1a-foundation`.
 
@@ -7,7 +15,7 @@
 
 - **Chief Admin:** first account has been created, mailbox ownership independently verified with the management-only Resend verification flow, and the uniquely protected `chief_admin` technical membership activated and audited. The owner signs in with the account's **existing email and password**. No QR scan, authenticator app or mandatory MFA challenge for ordinary login.
 - **Member Profile:** verified email, active role, effective permission codes, optional display name/nickname and organizational title. Organizational titles cannot grant permissions.
-- **Chief Admin email security verification:** a short-lived **eight-digit email code** (10-minute TTL, five attempts per challenge, 90-second resend delay, five sends/day), bound to the exact Supabase Auth `session_id`. Successful verification permits sensitive staff changes for **10 minutes** in that session. The frontend includes a **Test Email Security Verification** control on the Team page, so the owner can verify delivery independently of invitations.
+- **Chief Admin email security verification:** a short-lived **eight-digit email code** (10-minute TTL, five attempts per challenge, 90-second resend delay, five sends/day), bound to the exact Supabase Auth `session_id`. Successful verification permits sensitive staff access changes for **30 minutes in the same signed-in session**. This is automatically requested only when needed; the old standalone test-only email button was removed.
 - **Server authority:** all management operations verify the signed-in Supabase JWT with Supabase Auth and re-read the separate management-only membership table; technical roles and permissions cannot be set by client metadata. Ordinary staff cannot invite, suspend or change permissions.
 - **Team directory and pending invitations** displayed only to Chief Admin. Atomic server RPCs have been implemented for pending invite record creation, acceptance, revocation, and changes to member status/technical permissions, with activity auditing.
 - **Full Auto, Dark and Light modes** retained across the complete Management Panel.
