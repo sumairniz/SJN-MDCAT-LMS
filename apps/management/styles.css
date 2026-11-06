@@ -216,3 +216,8 @@ html[data-theme="light"] .auth-feedback[data-error="true"]{color:#a9233e}
 html[data-theme="light"] .setup-link{color:#ae2d44}
 html[data-theme="light"] .setup-link:hover{color:#87233b}
 @media(max-width:520px){#chief-setup-panel{padding:15px}}
+
+/* Management-only email ownership flow: never modifies Student LMS styles */
+#staff-verify-panel .primary-btn{width:100%;margin:12px 0}
+#staff-verify-panel .auth-feedback{overflow-wrap:anywhere}
+#staff-verify-panel .return-btn{margin-top:12px}

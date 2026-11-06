@@ -1,6 +1,6 @@
 "use strict";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.95.0?bundle";
-const URL="https://aozknkrwafowsrehdwlr.supabase.co", KEY="sb_publishable_9CjKnd4hEIIvS7OXvTq_aA_tTkLsBts", API=URL+"/functions/v1/mednest-management";
+const URL="https://aozknkrwafowsrehdwlr.supabase.co", KEY="sb_publishable_9CjKnd4hEIIvS7OXvTq_aA_tTkLsBts", API=URL+"/functions/v1/mednest-management", VERIFY_API=URL+"/functions/v1/mednest-staff-onboarding";
 const PERMS=Object.freeze({
 "content.view":"View academic content","content.create":"Create MCQs","content.edit":"Edit MCQs","content.import":"Bulk import MCQs","content.review":"Review questions","content.publish":"Publish questions","content.archive":"Archive questions","taxonomy.manage":"Manage chapters and topics","pastpapers.manage":"Manage past papers","courses.manage":"Manage course sessions","courses.publish":"Publish courses","resources.manage":"Manage Academy Resources","students.view":"View student performance","students.details":"View student details","students.create":"Create student accounts","students.suspend":"Suspend students","enrollments.grant":"Grant course enrollment","enrollments.revoke":"Revoke course enrollment","access.change":"Change whole-feature access","reports.view":"View reports","reports.resolve":"Resolve reports","analytics.view":"View analytics","audit.view":"View activity log","finance.verify":"Verify payments","announcements.manage":"Manage announcements"});
 const client=createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,storageKey:"sjn-mednest-staff-session-v1"}});
@@ -16,7 +16,7 @@ async function request(action,fields={}){
   headers:{"authorization":"Bearer "+session.access_token,"apikey":KEY,"content-type":"application/json"},
   body:JSON.stringify({action,...fields})});
  const result=await resp.json().catch(()=>{throw Error("Invalid management server response")});
- if(!resp.ok)throw Error(result?.error||"Management request failed");
+ if(!resp.ok){const err=new Error(result?.error||"Management request failed");err.status=resp.status;throw err;}
  return result;
 }
 function fillProfile(member){
@@ -58,20 +58,77 @@ async function startMfa(){
  if(setup.error||!setup.data?.id)throw Error("Unable to set up authenticator");
  mfaScreen(setup.data.id,setup.data);
 }
+
+async function onboardingRequest(action,values={}){
+ const {data:{session},error}=await client.auth.getSession();
+ if(error||!session?.access_token)throw Error("Sign in required");
+ const response=await fetch(VERIFY_API,{method:"POST",cache:"no-store",credentials:"omit",
+  headers:{"authorization":"Bearer "+session.access_token,"apikey":KEY,"content-type":"application/json"},
+  body:JSON.stringify({action,...values})});
+ const payload=await response.json().catch(()=>({error:"Verification service unavailable"}));
+ if(!response.ok){
+   const e=new Error(payload.error||"Verification request failed");e.status=response.status;throw e;
+ }
+ return payload;
+}
+async function displayStaffVerification(){
+ const result=await onboardingRequest("status");
+ show("staff-verify-panel",true);show("management-signin",false);show("mfa-panel",false);
+ show("chief-setup-panel",false);show("first-chief-toggle",false);
+ show("staff-verify-form",false);
+ $("staff-verify-intro").textContent="Signed in as "+result.email+". This is a management-only email ownership check.";
+ const send=$("staff-verify-send");
+ send.disabled=!result.configured;
+ report("staff-verify-status",result.configured
+  ?"Request an eight-digit verification code to this email. The code expires in ten minutes."
+  :"Email verification is prepared but its separate delivery provider is not configured yet. Your account is safe; no administrative permissions have been assigned.",
+  !result.configured);
+}
+async function sendStaffVerification(){
+ if(doing)return;doing=true;$("staff-verify-send").disabled=true;
+ report("staff-verify-status","Requesting verification email…");
+ try{
+  const response=await onboardingRequest("send");
+  report("staff-verify-status",response.message||"Check your email");
+  show("staff-verify-form",true);
+ }catch(e){
+  report("staff-verify-status",e.message,true);
+  $("staff-verify-send").disabled=e.status===503;
+ }finally{doing=false}
+}
+async function verifyStaffEmail(event){
+ event.preventDefault();if(doing)return;doing=true;$("staff-verify-confirm").disabled=true;
+ try{
+  const code=$("staff-verify-code").value.trim();
+  if(!/^\d{8}$/.test(code))throw Error("Enter the eight-digit verification code");
+  const result=await onboardingRequest("verify",{code});
+  if(!result.verified)throw Error("Email verification was not completed");
+  $("staff-verify-code").value="";show("staff-verify-panel",false);
+  report("auth-feedback","Email ownership verified. Now complete authenticator security.");
+  await checkSession();
+ }catch(e){report("staff-verify-status",e.message,true)}
+ finally{doing=false;$("staff-verify-confirm").disabled=false}
+}
+
 async function checkSession(){
  const {data:{session}}=await client.auth.getSession();
  if(!session?.access_token){staff=null;authorized=false;show("management-signin",true);show("mfa-panel",false);return}
- const data=await request("me");
+ let data;
+ try{data=await request("me");}
+ catch(e){
+  if(e.status===403){await displayStaffVerification();return}
+  throw e;
+ }
  if(!data?.member?.id)throw Error("Account not authorized for management");
  if(data.mfa_required){staff=data.member;await startMfa();return}
- show("management-signin",true);show("mfa-panel",false);fillProfile(data.member);
+ show("management-signin",true);show("mfa-panel",false);show("staff-verify-panel",false);fillProfile(data.member);
  if(!authorized){authorized=true;window.dispatchEvent(new Event("mednest:authorized"))}
  else await refreshModule();
 }
 async function signOut(){
  try{await client.auth.signOut({scope:"local"})}catch(_){}
  staff=null;authorized=false;factor=null;editing=null;
- show("management-signin",true);show("mfa-panel",false);
+ show("management-signin",true);show("mfa-panel",false);show("staff-verify-panel",false);
  $("password").value="";$("mfa-code").value="";
  window.dispatchEvent(new Event("mednest:signed-out"));
 }
@@ -91,16 +148,21 @@ async function registerInitialChief(event){
   report("chief-setup-feedback","Passwords must match and be at least 12 characters.",true);return;
  }
  doing=true;$("chief-setup-submit").disabled=true;
- report("chief-setup-feedback","Requesting email verification…");
+ report("chief-setup-feedback","Creating authentication account…");
  try{
   // This creates only an Auth identity. Only a separately reviewed, verified
   // Auth UUID/email may later receive the protected Chief Admin membership.
   const {data,error}=await client.auth.signUp({
    email,password,options:{emailRedirectTo:window.location.origin+"/"}
   });
-  if(error)throw Error("Unable to start account setup. Verify details and try later.");
+  if(error){
+    if(error.code==="user_already_exists"||error.status===422)throw Error("An authentication account already exists for this email. Return to Sign In instead of registering again.");
+    throw Error("Account setup was not completed. Contact management if this persists.");
+  }
   if(data?.session)await client.auth.signOut({scope:"local"});
-  report("chief-setup-feedback","If a confirmation email was sent, open it and verify your address. Then return to the Management Panel. Chief Admin access is assigned separately after verification; no Student LMS registration is needed.");
+  report("chief-setup-feedback",data?.session
+   ?"Authentication account created. This staging project did not require email confirmation. Sign in and complete separate staff-only email verification; no privileges have been granted."
+   :"Account request received. Check for a confirmation message if one is sent, then return to Management Sign In. Chief Admin privileges require separate staff email verification.");
  }catch(e){report("chief-setup-feedback",e.message||"Account setup unavailable",true)}
  finally{
   $("chief-password").value="";$("chief-confirm-password").value="";
@@ -203,6 +265,9 @@ async function saveMember(event){
  finally{submit.disabled=false}
 }
 $("management-signin").addEventListener("submit",signIn);
+$("staff-verify-send").addEventListener("click",sendStaffVerification);
+$("staff-verify-form").addEventListener("submit",verifyStaffEmail);
+$("staff-verify-cancel").addEventListener("click",signOut);
 $("first-chief-toggle").addEventListener("click",()=>toggleChiefSetup(true));
 $("first-chief-cancel").addEventListener("click",()=>toggleChiefSetup(false));
 $("chief-setup-form").addEventListener("submit",registerInitialChief);

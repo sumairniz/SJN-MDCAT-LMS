@@ -98,3 +98,16 @@ test("Dedicated Chief Admin identity setup neither requires student UI nor grant
  assert.match(server,/mednest_management_members/);
  assert.match(server,/member\.technical_role!=="chief_admin"/);
 });
+
+test("Staff verification requires authenticated account and separate provider",()=>{
+ const page=html(),browser=auth();
+ for(const id of ["staff-verify-panel","staff-verify-send","staff-verify-form","staff-verify-code","staff-verify-status"])
+  assert.match(page,new RegExp('id="'+id+'"'));
+ assert.match(browser,/VERIFY_API=URL\+"\/functions\/v1\/mednest-staff-onboarding"/);
+ assert.match(browser,/await onboardingRequest\("status"\)/);
+ assert.match(browser,/await onboardingRequest\("send"\)/);
+ assert.match(browser,/await onboardingRequest\("verify",\{code\}\)/);
+ assert.match(browser,/err\.status=resp\.status/);
+ assert.match(browser,/if\(e\.status===403\)/);
+ assert.match(page,/no administrative privileges|No student email verification settings have been changed/i);
+});
