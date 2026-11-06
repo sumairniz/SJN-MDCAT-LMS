@@ -75,9 +75,6 @@ Deno.serve(async req=>{
   const payload=jwt.split(".")[1].replace(/-/g,"+").replace(/_/g,"/");
   aal=JSON.parse(atob(payload)).aal;
  }catch(_){return reply(origin,401,{error:"Invalid authenticated session"})}
- if(action==="me"){
-   return reply(origin,200,{member:safeMember(member),mfa_required:aal!=="aal2",verified:true});
- }
  if(aal!=="aal2")return reply(origin,403,{error:"Authenticator verification required",mfa_required:true});
  if(member.status!=="active"&&member.status!=="invited")return reply(origin,403,{error:"Account inactive"});
  // An invitation creates an explicit membership. It becomes active only after
@@ -87,6 +84,9 @@ Deno.serve(async req=>{
     if(e)return reply(origin,503,{error:"Account activation unavailable"});
     try{await audit(identity.id,"staff.activate",identity.id,{method:"verified_mfa_invitation"})}catch(_){return reply(origin,503,{error:"Activation audit unavailable"})}
     member.status="active";
+ }
+ if(action==="me"){
+   return reply(origin,200,{member:safeMember(member),mfa_required:aal!=="aal2",verified:true});
  }
  if(action==="team.list"){
     if(member.technical_role!=="chief_admin")return reply(origin,403,{error:"Chief Admin only"});
