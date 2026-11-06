@@ -29,11 +29,8 @@
 
 Resend sender cannot operate without:
 1. User-managed Resend account and verified sending domain/sender accepted by Resend. See https://supabase.com/docs/guides/functions/examples/send-emails and https://resend.com/docs.
-2. Supabase **Edge Function secrets**, configured only in the staging Supabase project:
-   - `RESEND_API_KEY`: private Resend API key;
-   - `MEDNEST_STAFF_EMAIL_FROM`: validated From identity such as `SJN MedNest <no-reply@verified-domain.example>`;
-   - `MEDNEST_STAFF_EMAIL_PEPPER`: independently generated 32+ character high-entropy secret for HMAC hashing (not a password and not sent to browser).
-3. Configure and verify those secrets directly in Supabase Dashboard **Edge Functions → Secrets**, not in GitHub or ChatGPT messages. **Do not share credentials in chat.**
+2. For **initial owner-only testing without an academy domain**, create a Resend account with the **same personally controlled email that is being verified**. The test sender `SJN MedNest <onboarding@resend.dev>` can deliver to the Resend account owner only (verify against Resend's current testing restrictions).
+3. Configure the **one required secret** `RESEND_API_KEY` in staging Supabase Dashboard **Edge Functions → Secrets**. The code defaults to the Resend test sender and derives a domain-separated HMAC key from the protected Supabase service-role secret. Optional overrides for future academy email sender and independently provisioned pepper are `MEDNEST_STAFF_EMAIL_FROM` and `MEDNEST_STAFF_EMAIL_PEPPER`. **Do not share API credentials in chat or GitHub.**
 4. After configuration, owner visits protected Management Panel → Sign In using existing personal email/password → Verify Management Email → Send Verification Code → privately enter code → configure authenticator MFA → access Chief Admin.
 5. Test actual email arrival, provider send logs, approved-email match, wrong/expired OTP, resend throttling, unauthorized student login and no disruption to student LMS. Until complete, **do not claim Chief Admin activated or real staff onboarding successful**.
 
@@ -55,3 +52,7 @@ Resend sender cannot operate without:
 - Resend supports testing the sender `onboarding@resend.dev` to **the Resend account owner's own registered address**, without a custom domain. A domain verified through Resend is required for emails to arbitrary staff recipients. The test sender can be used to activate the initial Chief Admin if the Resend account is opened with that same personal email. Do not use the sandbox sender to invite other team members.
 - Current verification function is **fail-closed** with unconfigured Resend secrets. The user must independently create/configure a verified Resend account and place the API key and high-entropy pepper in Supabase **staging Edge Functions → Secrets**; never send keys/OTP/passwords in ChatGPT messages.
 - Initial Chief Admin bootstrap references one exact **approved staging Auth UUID** recorded privately in protected database; it no longer relies solely on an email address embedded in public Edge source.
+
+## Final simplified first-account setup
+
+**Staging Edge Function `mednest-staff-onboarding` version 3, repo commit `1b2e0a640bf562f05c1ffb6083ed1f9ad718a043`:** Only `RESEND_API_KEY` is needed for an initial sender-only test when Resend is created with the approved email. The default sender is `SJN MedNest <onboarding@resend.dev>`; this is a temporary Resend-provided testing sender, **not an academy-owned sending domain**. OTP HMAC now uses a domain-separated secret derived from the already-protected Supabase service-role credential unless an independently generated pepper is configured. All keys remain server-side. After the first verified Chief Admin account is activated, a verified domain/sender and separate invitations must be implemented before sending any staff invitations. Student global Auth remains unchanged.
