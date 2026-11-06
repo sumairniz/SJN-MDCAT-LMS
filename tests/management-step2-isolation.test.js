@@ -199,3 +199,28 @@ test("Temporary email security test button removed without disabling email step-
  assert.match(edge,/checkStepup\(user\.id,j\.session_id\)/);
  assert.match(h,/id="staff-stepup-backdrop"/);
 });
+
+test("Chief Administrator profile saving is role-scoped but not subject to email step-up",()=>{
+ const api=management(),page=html(),clientJs=client();
+ const start=api.indexOf('if(action==="profile.update")');
+ const enforced=api.indexOf('checkStepup(user.id,j.session_id)');
+ assert.ok(start>0 && enforced>start,"profile editing must precede sensitive-action authorization");
+ const endpoint=api.slice(start,enforced);
+ assert.match(endpoint,/member.technical_role!=="chief_admin"/);
+ assert.match(endpoint,/mednest_update_chief_own_profile/);
+ assert.doesNotMatch(endpoint,/checkStepup\(/);
+ assert.match(clientJs,/manage\("profile.update"/);
+ assert.match(page,/id="chief-profile-form"/);
+ assert.match(page,/Routine academy work and profile edits need no code/);
+});
+test("Email-code approval is limited to sensitive staff operations for 30 minutes",()=>{
+ const src=stepup(),ui=client(),page=html(),api=management();
+ assert.match(src,/30 minutes in this session/);
+ assert.match(ui,/authorized for 30 minutes in this session/);
+ assert.match(page,/Approval remains valid for 30 minutes/);
+ assert.match(src,/mednest_verify_management_stepup/);
+ assert.match(api,/checkStepup\(user.id,j.session_id\)/);
+ assert.match(api,/if\(action==="team.invite"\)/);
+ assert.match(api,/if\(action==="team.update"\)/);
+ assert.match(api,/if\(action==="team.revoke_invite"\)/);
+});
