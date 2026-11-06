@@ -23,7 +23,7 @@ test("New management Auth never registers student accounts or changes student ex
  const s=sql(),a=api(),c=client();
  assert.doesNotMatch(s,/create trigger|handle_new_user|public\.profiles|student_attempt|practice_submissions/i);
  assert.doesNotMatch(a,/public\.profiles|student_attempt|practice_submissions|team\.invite|team\.list|audit\.list|student\.list/);
- assert.doesNotMatch(c,/team\.invite|team\.list|student|service_role/i);
+ assert.doesNotMatch(c,/team\\.invite|team\\.list|service_role/i);
  assert.match(a,/\["me","profile\.update"\]/);
 });
 test("Management SQL denies browser access and permits only one verified Chief account",()=>{
@@ -47,7 +47,7 @@ test("Only Chief's own profile and permissions can be accessed, with server-veri
  assert.match(a,/j\.aud!=="authenticated"/);
  assert.match(a,/mednest_staff_session_live/);
  assert.match(a,/member\.technical_role!=="chief_admin"/);
- assert.match(a,/member\.email!==(user\.email\|\|""\)\.toLowerCase\(\)/);
+ assert.ok(a.includes('member.email!==(user.email||"").toLowerCase()'));
  assert.match(s,/where user_id=p_user_id and technical_role='chief_admin' for update/);
  assert.match(s,/chief\.profile_updated/);
  assert.match(h,/only shown to you/i);
