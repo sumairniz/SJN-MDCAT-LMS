@@ -127,3 +127,18 @@ test("Staff-only OTP is mandatory for invited members and Chief Admin bootstrap"
  assert.match(verify,/attempt_count:0/);
  assert.match(verify,/await db\.rpc\("mednest_complete_staff_email_verification"/);
 });
+
+test("Chief Admin email proof transitions to MFA without exposing privileged routes",()=>{
+ const edge=read("database/management/mednest-edge-function/index.ts");
+ const probe=edge.indexOf('if(action==="me")');
+ const enforce=edge.indexOf('if(aal!=="aal2")');
+ const list=edge.indexOf('if(action==="team.list")');
+ assert.ok(probe>0 && enforce>probe && list>enforce,"profile handshake before MFA enforcement; privileged ops afterward");
+ assert.match(edge,/if\(member.status!=="active"\)return reply\(origin,403,\{error:"Staff-only email verification required"\}\)/);
+ assert.match(edge,/mfa_required:aal!=="aal2"/);
+ assert.match(edge,/if\(member.technical_role!=="chief_admin"\)/);
+ assert.equal((edge.match(/if\(action==="me"\)/g)||[]).length,1);
+ const browser=auth();
+ assert.match(browser,/await checkSession\(\);/);
+ assert.match(browser,/if\(data.mfa_required\)\{staff=data.member;await startMfa\(\);return\}/);
+});
