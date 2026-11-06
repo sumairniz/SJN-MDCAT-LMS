@@ -84,7 +84,7 @@ Deno.serve(async req=>{
    p_user_id:user.id,p_session_id:session,p_hash:await digest(session,payload.code)
  });
  if(error)return respond(origin,503,{error:"Unable to complete security verification"});
- if(result==="verified")return respond(origin,200,{verified:true,message:"Email verified for sensitive staff changes (10 minutes)."});
+ if(result==="verified")return respond(origin,200,{verified:true,message:"Email confirmed. Sensitive staff-access changes are authorized for 30 minutes in this session."});
  if(result==="invalid")return respond(origin,400,{error:"Incorrect security code"});
  if(result==="expired")return respond(origin,410,{error:"Code expired or verification attempts exhausted"});
  return respond(origin,403,{error:"Security authorization unavailable"});
