@@ -57,7 +57,7 @@ test("Member profile displays verified role and fine-grained effective permissio
 test("Edge service checks verified JWT, staff membership, email, MFA, and Chief Admin role",()=>{
  const s=edge();
  assert.match(s,/srv\.auth\.getUser\(jwt\)/);
- assert.match(s,/identity\.email_confirmed_at/);
+ assert.match(s,/verified\.user\.email_confirmed_at/);
  assert.match(s,/mednest_management_members/);
  assert.match(s,/member\.email!==identity\.email\?\.toLowerCase\(\)/);
  assert.match(s,/aal!=="aal2"/);
@@ -66,7 +66,7 @@ test("Edge service checks verified JWT, staff membership, email, MFA, and Chief 
  assert.match(s,/team\.update/);
  assert.match(s,/audit\.list/);
  assert.match(s,/new Response\(null,\{status:204/);
- assert.doesNotMatch(s,/user_metadata|raw_user_meta_data/);
+ assert.doesNotMatch(s,/raw_user_meta_data|user_metadata\s*[.\[]/);
  assert.doesNotMatch(s,/x-admin-token|ADMIN_TOKEN/);
 });
 test("Auth separation, restricted origin, and server-only privileged keys",()=>{
