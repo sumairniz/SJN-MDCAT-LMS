@@ -4,7 +4,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.95.0?bundle
 const URL=Deno.env.get("SUPABASE_URL")||"";
 const SERVICE=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";
 const PROJECT_REF="tdqbjhrmfluiinntmjfh";
-const ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9]+)?-sjn1\.vercel\.app$/;
+const ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9]+|-git-sjn-phase1a-foundation)-sjn1\.vercel\.app$/;
 const db=createClient(URL,SERVICE,{auth:{persistSession:false,autoRefreshToken:false}});
 function reply(origin,status,data){return new Response(JSON.stringify(data),{status,headers:{"content-type":"application/json","access-control-allow-origin":origin||"null","vary":"Origin","x-content-type-options":"nosniff","cache-control":"no-store"}})}
 function jwtPayload(token){try{return JSON.parse(atob(token.split(".")[1].replace(/-/g,"+").replace(/_/g,"/")))}catch{return null}}
