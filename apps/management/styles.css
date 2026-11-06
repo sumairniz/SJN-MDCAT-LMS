@@ -242,3 +242,88 @@ html[data-theme="light"] .staff-stepup-modal h3{color:#25344a}
 html[data-theme="light"] .staff-stepup-modal p{color:#506176}
 html[data-theme="light"] .staff-invite-notice{color:#954e3a;background:#fff5f1;border-color:#eed9d0}
 @media(max-width:560px){.staff-stepup-backdrop{padding:10px}.staff-stepup-modal{padding:19px;max-height:calc(100vh - 20px)}}
+
+
+/* Chief Administrator identity + grouped permissions: visual cleanup (Phase 1A) */
+.chief-administrator-card{
+ display:flex;align-items:center;gap:17px;margin:20px 0 0;padding:21px 24px;
+ border:1px solid rgba(222,94,106,.3);border-radius:15px;
+ background:linear-gradient(115deg,rgba(150,42,62,.17),rgba(32,39,54,.85));
+}
+.chief-card-icon{width:52px;height:52px;display:grid;place-items:center;flex:none;
+ background:rgba(212,74,88,.14);border:1px solid rgba(212,74,88,.31);border-radius:15px;
+ color:#ed99a2;font-size:25px}
+.chief-card-copy{flex:1;min-width:0}
+.chief-card-eyebrow{font-size:9px;font-weight:800;letter-spacing:1.35px;color:#efa2a9}
+.chief-card-copy h2{font-size:18px;letter-spacing:-.35px;margin:6px 0;color:var(--text)}
+.chief-card-copy p{font-size:11px;line-height:1.6;color:var(--muted);margin:3px 0;overflow-wrap:anywhere}
+.chief-card-copy .chief-card-note{margin-top:7px}
+.chief-card-action{flex:none;border:1px solid rgba(221,105,118,.4);
+ background:rgba(212,79,95,.11);color:#f3c1c6;font-size:11px;
+ font-weight:750;padding:11px 14px;border-radius:9px}
+.chief-card-action:hover{background:rgba(212,79,95,.2)}
+.team-guidance .team-guidance-step{display:flex;align-items:flex-start;gap:13px;
+ padding:17px 0;border-bottom:1px solid var(--line)}
+.team-guidance-step>span{font-size:10px;font-weight:800;color:#e68b95;
+ padding:7px;background:var(--red-bg);border-radius:7px;flex:none}
+.team-guidance-step strong{font-size:12px;color:var(--text);display:block}
+.team-guidance-step p{font-size:11px;color:var(--muted);line-height:1.7;margin:7px 0 0;text-align:left}
+.team-guidance .team-guidance-footnote{font-size:10px;line-height:1.7;color:var(--muted);margin:19px 0 0;text-align:left}
+.staff-empty-state{font-size:11px;line-height:1.8;color:var(--muted);margin:0;
+ border:1px dashed var(--line);border-radius:11px;padding:18px}
+.permission-selector-help{color:var(--muted);font-size:10px;line-height:1.6;margin:7px 0 12px}
+/* Override the generic input 100%-width field rule that previously enlarged checkboxes. */
+.staff-form .permission-choices{display:flex;flex-direction:column;gap:12px;
+ overflow:visible;max-height:none;padding:8px 0 0}
+.staff-form .permission-group{min-width:0;margin:0;padding:15px;
+ border:1px solid #3b4352;border-radius:12px;background:#1d2431}
+.staff-form .permission-group-legend{font-size:12px;font-weight:800;
+ color:var(--text);padding:0 7px}
+.staff-form .permission-group-legend span,.staff-form .permission-group-legend small{display:block}
+.staff-form .permission-group-legend small{font-size:10px;font-weight:500;
+ margin-top:3px;color:var(--muted)}
+.staff-form .permission-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:8px;margin-top:5px}
+.staff-form .permission-option{display:flex;gap:9px;align-items:center;min-width:0;
+ padding:10px;border-radius:8px;background:rgba(255,255,255,.025);
+ border:1px solid #343c4e;color:var(--muted);font-size:11px;
+ line-height:1.5;font-weight:550;cursor:pointer}
+.staff-form .permission-option:has(input:checked){border-color:#a34d60;
+ background:rgba(190,66,84,.1);color:var(--text)}
+.staff-form .permission-option input[type="checkbox"]{appearance:auto!important;
+ width:16px!important;height:16px!important;min-width:16px;flex:none;
+ margin:0!important;padding:0!important;border-radius:3px;cursor:pointer;accent-color:#d34c60}
+.staff-form .permission-option span{overflow-wrap:anywhere}
+.effective-role-summary{border:1px solid #40554d;background:#21372f;
+ border-radius:11px;padding:17px!important;display:block!important}
+.effective-role-summary strong{font-size:13px;color:#c8e7d3}
+.effective-role-summary p{font-size:11px;color:#b2cabc;line-height:1.7;margin:8px 0 0}
+.effective-permission-section{border-top:1px solid var(--line);padding:15px 0}
+.effective-permission-section h3{text-align:left;font-size:12px;color:var(--text);margin:0 0 9px}
+.effective-permission-tags{display:flex;flex-wrap:wrap;gap:7px}
+.effective-permission-tag{font-size:10px;border:1px solid #41516b;background:#253246;
+ padding:7px 9px;border-radius:7px;color:#cfdded}
+.chief-profile-edit{margin-top:16px;max-width:265px}
+#chief-profile-form .primary-btn{margin-top:15px}
+#chief-profile-form .field input{color:var(--text)}
+/* Bright-mode contrast, including controls and content created after login */
+html[data-theme="light"] .chief-administrator-card{background:linear-gradient(110deg,#fff3f5,#fbfcff);
+ border-color:#e8cbd3}
+html[data-theme="light"] .chief-card-icon{background:#fff0f3;color:#b5364d;border-color:#efcdd4}
+html[data-theme="light"] .chief-card-eyebrow{color:#aa3349}
+html[data-theme="light"] .chief-card-action{background:#fff2f5;color:#9e3247;border-color:#e7bfca}
+html[data-theme="light"] .chief-card-action:hover{background:#ffe9ef}
+html[data-theme="light"] .staff-form .permission-group{background:#f8fafc;border-color:#dce3ed}
+html[data-theme="light"] .staff-form .permission-option{background:#fff;border-color:#e2e7f0;color:#526177}
+html[data-theme="light"] .staff-form .permission-option:has(input:checked){
+ background:#fff1f4;border-color:#d78495;color:#9c2f44}
+html[data-theme="light"] .effective-role-summary{background:#f0fbf4;border-color:#ccead5}
+html[data-theme="light"] .effective-role-summary strong{color:#236643}
+html[data-theme="light"] .effective-role-summary p{color:#417255}
+html[data-theme="light"] .effective-permission-tag{background:#edf3fa;color:#3b506a;border-color:#d9e4f1}
+html[data-theme="light"] .staff-empty-state{border-color:#d5dfeb;color:#5b6880}
+@media(max-width:760px){
+ .chief-administrator-card{flex-wrap:wrap;padding:17px}
+ .chief-card-action{width:100%;text-align:center}
+ .staff-form .permission-grid{grid-template-columns:1fr}
+}
