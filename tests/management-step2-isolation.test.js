@@ -111,3 +111,19 @@ test("Staff verification requires authenticated account and separate provider",(
  assert.match(browser,/if\(e\.status===403\)/);
  assert.match(page,/no administrative privileges|No student email verification settings have been changed/i);
 });
+
+test("Staff-only OTP is mandatory for invited members and Chief Admin bootstrap",()=>{
+ const edge=read("database/management/mednest-edge-function/index.ts");
+ const verify=read("database/management/mednest-staff-onboarding/index.ts");
+ assert.match(edge,/Staff-only email verification required/);
+ assert.doesNotMatch(edge,/staff\.activate/);
+ assert.match(edge,/Staff invitations are unavailable until the dedicated email provider is configured/);
+ assert.doesNotMatch(edge,/inviteUserByEmail/);
+ assert.match(verify,/mednest_management_bootstrap_approvals/);
+ assert.doesNotMatch(verify,/jumanniz8@gmail\.com/);
+ assert.match(verify,/MEDNEST_STAFF_EMAIL_PEPPER/);
+ assert.match(verify,/RESEND_API_KEY/);
+ assert.match(verify,/expires_at:new Date\(now\+10\*60\*1000\)/);
+ assert.match(verify,/attempt_count:0/);
+ assert.match(verify,/await db\.rpc\("mednest_complete_staff_email_verification"/);
+});
