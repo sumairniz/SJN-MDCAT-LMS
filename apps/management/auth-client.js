@@ -25,6 +25,13 @@ const PERMS=Object.freeze({
  "analytics.view":"View analytics","audit.view":"View activity log",
  "finance.verify":"Verify payment records","announcements.manage":"Manage announcements"
 });
+
+const PERMISSION_GROUPS=[
+ {name:"Academic Content",description:"Questions, papers, and subject organization",codes:["content.view","content.create","content.edit","content.import","content.review","content.publish","content.archive","taxonomy.manage","pastpapers.manage"]},
+ {name:"Courses & Resources",description:"Sessions, schedules, and library resources",codes:["courses.manage","courses.publish","resources.manage"]},
+ {name:"Students & Enrollment",description:"Student information, access, and course membership",codes:["students.view","students.details","students.create","students.suspend","enrollments.grant","enrollments.revoke","access.change"]},
+ {name:"Reports & Operations",description:"Analytics, support, payments, and notifications",codes:["reports.view","reports.resolve","analytics.view","audit.view","finance.verify","announcements.manage"]}
+];
 const $=id=>document.getElementById(id);
 const visible=(id,on)=>$(id).classList.toggle("is-hidden",!on);
 const notice=(id,message,error=false)=>{const element=$(id);element.textContent=message||"";element.dataset.error=String(error)};
@@ -57,30 +64,65 @@ async function call(endpoint,action,fields={},useAuth=true){
 }
 const manage=(action,fields)=>call(API,action,fields);
 const security=(action,fields)=>call(SECURITY,action,fields);
+function displayRole(role){return role==="chief_admin"?"Chief Administrator":"Management Team Member"}
 function fillProfile(m){
  staff=m;
- $("member-profile-name").textContent=m.display_name||"Management Team Member";
- $("member-profile-title").textContent=m.organizational_title||"No organizational title";
+ const chief=m.role==="chief_admin";
+ const display=m.display_name||(chief?"Chief Administrator":"Management Team Member");
+ $("member-profile-name").textContent=display;
+ $("member-profile-title").textContent=m.organizational_title||"No organizational title assigned";
  $("member-profile-email").textContent=m.email||"—";
- $("member-profile-role").textContent=m.role==="chief_admin"?"Chief Admin":"Management Team Member";
+ $("member-profile-role").textContent=displayRole(m.role);
  $("member-profile-status").textContent=(m.status||"active").toUpperCase();
- $("member-profile-account-status").textContent=m.status||"—";
- const box=$("member-permissions-list");box.replaceChildren();
- const rights=m.role==="chief_admin"
-  ?[["Chief Admin","Full management privileges; staff changes require a recent email security approval"]]
-  :(m.permissions||[]).map(x=>[PERMS[x]||x,x]);
- if(!rights.length){box.append(element("p","secondary-note","No operational permissions assigned"));return;}
- for(const [name,detail] of rights){
-  const row=element("div","staff-row"),left=element("div");
-  left.append(element("strong","",name),element("p","",detail));row.append(left);box.append(row);
+ $("member-profile-account-status").textContent=m.status==="active"?"Active":"Inactive";
+ $("member-profile-activity").textContent="Verified staff access";
+ visible("chief-profile-form",false);
+ visible("chief-profile-edit",chief);
+ if(chief){
+  $("chief-profile-display-name").value=m.display_name||"";
+  $("chief-profile-title").value=m.organizational_title||"";
+  $("chief-administrator-identity").textContent=m.display_name?
+   m.display_name+" · "+m.email:m.email;
+ }
+ const avatar=$("profile-preview-open");
+ avatar.setAttribute("aria-label","View my profile: "+display);
+ avatar.title=display+" · "+displayRole(m.role);
+ const rights=$("member-permissions-list");rights.replaceChildren();
+ if(chief){
+  const panel=element("div","effective-role-summary");
+  panel.append(element("strong","","Full Management Access"),element("p","",
+   "You have the protected Chief Administrator role. Sensitive staff changes require a fresh email approval."));
+  rights.append(panel);
+ }else if(!m.permissions?.length){
+  rights.append(element("p","secondary-note","No operational permissions assigned"));
+ }else{
+  for(const group of PERMISSION_GROUPS){
+   const granted=group.codes.filter(code=>m.permissions.includes(code));
+   if(!granted.length)continue;
+   const section=element("section","effective-permission-section");
+   section.append(element("h3","",group.name));
+   const tags=element("div","effective-permission-tags");
+   for(const code of granted)tags.append(element("span","effective-permission-tag",PERMS[code]||code));
+   section.append(tags);rights.append(section);
+  }
  }
 }
 function buildChoices(id,selected=[]){
  const box=$(id);box.replaceChildren();
- for(const [code,label] of Object.entries(PERMS)){
-  const row=element("label"),check=element("input");
-  check.type="checkbox";check.value=code;check.checked=selected.includes(code);
-  row.append(check,element("span","",label));box.append(row);
+ for(const group of PERMISSION_GROUPS){
+  const section=element("fieldset","permission-group");
+  const heading=element("legend","permission-group-legend");
+  heading.append(element("span","",group.name),element("small","",group.description));
+  section.append(heading);
+  const controls=element("div","permission-grid");
+  for(const code of group.codes){
+   const label=element("label","permission-option");
+   const check=element("input");
+   check.type="checkbox";check.value=code;check.checked=selected.includes(code);
+   label.append(check,element("span","",PERMS[code]||code));
+   controls.append(label);
+  }
+  section.append(controls);box.append(section);
  }
 }
 function selectedChoices(id){return [...$(id).querySelectorAll('input[type="checkbox"]:checked')].map(x=>x.value)}
@@ -180,13 +222,25 @@ async function acceptInvitation(event){
 }
 function renderMembers(members){
  const area=$("team-directory-list");area.replaceChildren();
- $("team-total").textContent=members.length;
- $("team-active").textContent=members.filter(x=>x.status==="active").length;
- if(!members.length){area.append(element("p","secondary-note","No active management members"));return}
- for(const member of members){
+ // The Chief Administrator is presented in a separate protected identity panel.
+ // Team counts and directory refer only to ordinary Management Team Members.
+ const team=members.filter(m=>m.role!=="chief_admin");
+ const chief=members.find(m=>m.role==="chief_admin");
+ visible("chief-administrator-card",Boolean(chief));
+ if(chief){
+  $("chief-administrator-identity").textContent=chief.display_name
+   ?chief.display_name+" · "+chief.email:chief.email;
+ }
+ $("team-total").textContent=team.length;
+ $("team-active").textContent=team.filter(x=>x.status==="active").length;
+ if(!team.length){
+  area.append(element("p","staff-empty-state","No Management Team Members yet. This area will display authorized members after staff onboarding is safely enabled."));
+  return;
+ }
+ for(const member of team){
   const row=element("div","staff-row"),left=element("div");
   left.append(element("strong","",member.display_name||member.email),
-    element("p","",member.email+" · "+(member.role==="chief_admin"?"Chief Admin":"Management Team Member")+" · "+member.status));
+    element("p","",member.email+" · "+displayRole(member.role)+" · "+member.status));
   if(member.organizational_title)left.append(element("p","",member.organizational_title));
   row.append(left);
   if(member.role!=="chief_admin"){
@@ -213,7 +267,6 @@ function renderInvitations(invitations){
 }
 async function loadTeam(){
  visible("team-invite-show",staff?.role==="chief_admin");
- visible("team-test-security",staff?.role==="chief_admin");
  $("team-invite-show").disabled=!invitationSenderReady;
  if(staff?.role!=="chief_admin"){
   $("team-directory-list").replaceChildren(element("p","secondary-note","Only Chief Admin can manage staff access."));
@@ -330,14 +383,45 @@ async function saveMember(event){
   });
  }finally{submit.disabled=false}
 }
+async function saveChiefProfile(event){
+ event.preventDefault();
+ if(staff?.role!=="chief_admin"){
+  notice("chief-profile-feedback","Only Chief Administrator may update this profile",true);
+  return;
+ }
+ const save=$("chief-profile-save");save.disabled=true;
+ try{
+  const result=await manage("profile.update",{
+   display_name:$("chief-profile-display-name").value.trim()||null,
+   organizational_title:$("chief-profile-title").value.trim()||null
+  });
+  if(!result.success||!result.member)throw Error("Profile could not be updated");
+  fillProfile(result.member);
+  notice("chief-profile-feedback","Profile updated successfully.");
+  visible("chief-profile-form",false);
+ }catch(e){
+  notice("chief-profile-feedback",e.message,true);
+ }finally{save.disabled=false}
+}
 $("management-signin").addEventListener("submit",signIn);
+$("chief-profile-form").addEventListener("submit",saveChiefProfile);
+$("chief-profile-edit").addEventListener("click",()=>{
+  if(staff?.role!=="chief_admin")return;
+  visible("chief-profile-form",true);
+  visible("chief-profile-edit",false);
+  notice("chief-profile-feedback","");
+  $("chief-profile-display-name").focus();
+});
+$("chief-profile-open").addEventListener("click",()=>{
+  const profileNav=document.querySelector('[data-module="profile"]');
+  profileNav?.click();
+});
 $("invitation-accept-form").addEventListener("submit",acceptInvitation);
 $("invitation-existing-toggle").addEventListener("click",toggleExistingAccount);
 $("invitation-cancel").addEventListener("click",()=>{inviteToken=null;inviteDetails=null;visible("staff-invitation-panel",false);visible("management-signin",true)});
 $("staff-stepup-send").addEventListener("click",sendStepup);
 $("staff-stepup-form").addEventListener("submit",verifyStepup);
 $("staff-stepup-cancel").addEventListener("click",()=>{pendingSensitive=null;closeStepup()});
-$("team-test-security").addEventListener("click",()=>{pendingSensitive=null;openStepup()});
 $("team-invite-show").addEventListener("click",()=>{buildChoices("invite-permissions");visible("team-invite-form",true);visible("team-edit-form",false)});
 $("invite-cancel").addEventListener("click",()=>visible("team-invite-form",false));
 $("edit-member-cancel").addEventListener("click",()=>visible("team-edit-form",false));
