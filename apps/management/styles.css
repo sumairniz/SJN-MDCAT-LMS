@@ -203,3 +203,16 @@ html[data-theme="light"] .staff-row{background:#fafbfd;border-color:#dce2eb}
 html[data-theme="light"] .staff-row button{color:#273348;background:#f2f5f9;border-color:#dce3ed}
 html[data-theme="light"] .field select{color:#263247;background:#fff;border-color:#dce3ea}
 html[data-theme="light"] .auth-feedback[data-error="true"]{color:#a9233e}
+
+/* Owner-authorized manager-only Chief Admin account onboarding; never assigns privileges. */
+.auth-registration{margin-top:14px}
+.setup-link{border:0;padding:9px 0;background:transparent;color:#f3a6af;font-weight:700;font-size:11px;cursor:pointer;text-align:left}
+.setup-link:hover{color:#fff}
+.setup-link span{margin-left:8px}
+.auth-registration .security-flow{margin:9px 0 14px}
+#chief-setup-panel .field{margin:15px 0}
+#chief-setup-panel .secondary-note{text-align:left}
+#chief-setup-panel .return-btn{padding:14px 0}
+html[data-theme="light"] .setup-link{color:#ae2d44}
+html[data-theme="light"] .setup-link:hover{color:#87233b}
+@media(max-width:520px){#chief-setup-panel{padding:15px}}

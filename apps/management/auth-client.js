@@ -75,6 +75,38 @@ async function signOut(){
  $("password").value="";$("mfa-code").value="";
  window.dispatchEvent(new Event("mednest:signed-out"));
 }
+function toggleChiefSetup(open){
+ show("chief-setup-panel",open);
+ show("management-signin",!open);
+ show("first-chief-toggle",!open);
+ $("first-chief-toggle").setAttribute("aria-expanded",String(open));
+ report("auth-feedback","");
+ if(open)$("chief-email").focus();
+ else{$("chief-password").value="";$("chief-confirm-password").value="";$("email").focus()}
+}
+async function registerInitialChief(event){
+ event.preventDefault();if(doing)return;
+ const email=$("chief-email").value.trim().toLowerCase(),password=$("chief-password").value;
+ if(password.length<12||password!==$("chief-confirm-password").value){
+  report("chief-setup-feedback","Passwords must match and be at least 12 characters.",true);return;
+ }
+ doing=true;$("chief-setup-submit").disabled=true;
+ report("chief-setup-feedback","Requesting email verification…");
+ try{
+  // This creates only an Auth identity. Only a separately reviewed, verified
+  // Auth UUID/email may later receive the protected Chief Admin membership.
+  const {data,error}=await client.auth.signUp({
+   email,password,options:{emailRedirectTo:window.location.origin+"/"}
+  });
+  if(error)throw Error("Unable to start account setup. Verify details and try later.");
+  if(data?.session)await client.auth.signOut({scope:"local"});
+  report("chief-setup-feedback","If a confirmation email was sent, open it and verify your address. Then return to the Management Panel. Chief Admin access is assigned separately after verification; no Student LMS registration is needed.");
+ }catch(e){report("chief-setup-feedback",e.message||"Account setup unavailable",true)}
+ finally{
+  $("chief-password").value="";$("chief-confirm-password").value="";
+  doing=false;$("chief-setup-submit").disabled=false;
+ }
+}
 async function signIn(event){
  event.preventDefault();if(doing)return;doing=true;$("signin-submit").disabled=true;
  report("auth-feedback","Verifying management credentials…");
@@ -171,6 +203,9 @@ async function saveMember(event){
  finally{submit.disabled=false}
 }
 $("management-signin").addEventListener("submit",signIn);
+$("first-chief-toggle").addEventListener("click",()=>toggleChiefSetup(true));
+$("first-chief-cancel").addEventListener("click",()=>toggleChiefSetup(false));
+$("chief-setup-form").addEventListener("submit",registerInitialChief);
 $("mfa-form").addEventListener("submit",verifyMfa);
 $("mfa-cancel").addEventListener("click",signOut);
 $("team-invite-show").addEventListener("click",()=>{buildChoices("invite-permissions");show("team-invite-form",true);show("team-edit-form",false)});

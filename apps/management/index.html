@@ -42,12 +42,28 @@
         </div>
         <p class="section-kicker">AUTHORIZED STAFF ACCESS</p>
         <h2 id="signin-title">Management Sign In</h2>
-        <p class="intro">Management staff will be able to sign in after the Chief Admin account and secure permission controls are established.</p>
+        <p class="intro">Secure sign-in for authorized staff. Initial Chief Admin account setup is available below.</p>
         <form id="management-signin" autocomplete="on">
           <div class="field"><label for="email">Email Address</label><input id="email" name="email" type="email" autocomplete="username" required maxlength="254" placeholder="name@academy.com"></div>
           <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Enter account password"></div>
           <button class="primary-btn" id="signin-submit" type="submit">Sign In <span aria-hidden="true">→</span></button>
         </form>
+        <div class="auth-registration">
+          <button id="first-chief-toggle" type="button" class="setup-link" aria-expanded="false" aria-controls="chief-setup-panel">First-time Chief Admin account setup <span aria-hidden="true">→</span></button>
+          <section id="chief-setup-panel" class="security-flow is-hidden" aria-labelledby="chief-setup-title">
+            <h3 id="chief-setup-title">Create a Chief Admin login</h3>
+            <p>This creates a verified sign-in identity in the academy's staging authentication system. It does not register for student courses and does not automatically grant Chief Admin privileges.</p>
+            <form id="chief-setup-form">
+              <div class="field"><label for="chief-email">Personal email address</label><input id="chief-email" name="email" type="email" maxlength="254" autocomplete="email" required placeholder="Enter your personal email"></div>
+              <div class="field"><label for="chief-password">Create a strong password</label><input id="chief-password" name="new-password" type="password" autocomplete="new-password" minlength="12" maxlength="128" required placeholder="At least 12 characters"></div>
+              <div class="field"><label for="chief-confirm-password">Confirm password</label><input id="chief-confirm-password" type="password" autocomplete="new-password" minlength="12" maxlength="128" required placeholder="Repeat password"></div>
+              <button id="chief-setup-submit" class="primary-btn" type="submit">Create and Verify Account <span aria-hidden="true">→</span></button>
+            </form>
+            <p id="chief-setup-feedback" class="auth-feedback" role="status" aria-live="polite"></p>
+            <p class="secondary-note">Account creation never grants administrative privileges. Chief Admin access requires independent verification and approval. Never share passwords or codes.</p>
+            <button id="first-chief-cancel" type="button" class="return-btn">← Back to Sign In</button>
+          </section>
+        </div>
         <section id="mfa-panel" class="security-flow is-hidden" aria-label="Authenticator verification">
           <h3>Authenticator Verification</h3>
           <p id="mfa-guidance">Management access requires an authenticator app verification code.</p>
@@ -63,7 +79,7 @@
           <button type="button" class="return-btn" id="mfa-cancel">Sign out of this account</button>
         </section>
         <p id="auth-feedback" class="auth-feedback" role="status" aria-live="polite"></p>
-        <div class="notice"><span class="notice-icon" aria-hidden="true">i</span><span><strong>Authorized management staff only.</strong> Sign In uses staging Supabase Auth, but access is granted only to independently verified staff members after security verification.</span></div>
+        <div class="notice"><span class="notice-icon" aria-hidden="true">i</span><span><strong>Authorized management staff only.</strong> Sign In uses staging Supabase Auth; Chief Admin powers require separate verification, assignment and two-factor authentication. No student LMS registration is required.</span></div>
         <p class="secondary-note">Chief Admin authorization is not automatically assigned to student accounts.</p>
       </div>
       <footer class="auth-bottom"><span>SECURE WORKSPACE FOUNDATION</span><span>© SJN MedNest</span></footer>

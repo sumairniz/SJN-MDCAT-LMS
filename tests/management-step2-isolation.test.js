@@ -85,3 +85,16 @@ test("Auth separation, restricted origin, and server-only privileged keys",()=>{
  assert.match(h,/Registered Students<\/span><strong>—<\/strong>/);
  assert.match(h,/Published MCQs<\/span><strong>—<\/strong>/);
 });
+
+test("Dedicated Chief Admin identity setup neither requires student UI nor grants staff privileges",()=>{
+ const page=html(),browser=auth(),server=edge();
+ for(const id of ["chief-setup-panel","chief-setup-form","chief-setup-submit","chief-setup-feedback"])assert.match(page,new RegExp('id="'+id+'"'));
+ assert.match(page,/No student LMS registration is required/);
+ assert.match(browser,/client\.auth\.signUp\(/);
+ assert.match(browser,/emailRedirectTo:window\.location\.origin\+"\/"/);
+ assert.match(browser,/registerInitialChief/);
+ assert.doesNotMatch(browser,/from\(["']mednest_management_members["']\)/);
+ assert.match(server,/srv\.auth\.getUser\(jwt\)/);
+ assert.match(server,/mednest_management_members/);
+ assert.match(server,/member\.technical_role!=="chief_admin"/);
+});
