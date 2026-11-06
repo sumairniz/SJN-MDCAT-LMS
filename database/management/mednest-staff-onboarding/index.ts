@@ -40,7 +40,11 @@ Deno.serve(async req=>{
  if(staffError)return respond(origin,503,{error:"Unable to read protected staff state"});
  let eligible=false;
  if(staff && staff.status==="invited" && staff.email===email && staff.technical_role==="member")eligible=true;
- if(!staff && email==="jumanniz8@gmail.com"){
+ if(!staff){
+   const {data:approval,error:approvalError}=await db.from("mednest_management_bootstrap_approvals")
+     .select("user_id").eq("user_id",user.id).eq("approved_email",email).is("verified_at",null).maybeSingle();
+   if(approvalError)return respond(origin,503,{error:"Unable to verify approved bootstrap identity"});
+   if(!approval)return respond(origin,403,{error:"Account is not approved for staff onboarding"});
    const {count,error:e}=await db.from("mednest_management_members").select("user_id",{head:true,count:"exact"}).eq("technical_role","chief_admin");
    if(e)return respond(origin,503,{error:"Unable to verify Chief Admin state"});
    eligible=count===0;
