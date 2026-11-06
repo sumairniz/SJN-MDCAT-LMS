@@ -34,3 +34,12 @@ Official Supabase docs say Free has an allowance of two active projects, but org
 **Sequence next:** Owner confirms updated visual QA; review organization/cost for isolated staff Auth project; when approved, create and wire the staff Auth project with migration strategy; configure verified invitation sender and complete end-to-end staff invitation/member permissions tests; then move to priority Question Content Studio and other approved Management Panel modules.
 
 Read this document alongside `docs/SJN-MEDNEST-MANAGEMENT-PANEL-SIMPLIFIED-LOGIN-INVITATIONS-CHECKPOINT-2026-11-06.md` and official `docs/SJN-LMS-MASTER-DEVELOPMENT-PLAN.md`. Current implemented state supersedes historical TOTP/QR and example-profile notes.
+
+## November 7 — Follow-up bug fix: profile save and sensitive security window
+
+- User reported **Profile update denied** after entering intended name/title, and explicitly approved fixing it and extending email approval for staff-sensitive changes to 30 minutes. Production and student systems remain excluded.
+- Root cause: PL/pgSQL function declared `current_role` to hold the staff technical role, but `CURRENT_ROLE` is PostgreSQL's built-in session-role expression. This returned a database role rather than `chief_admin`, causing the protected RPC to report `denied`. Renamed variable to `v_staff_role`, preserving active-Chief-only member predicate and service-only execution. The staff member's protected role code and unique privilege protections were not altered.
+- Applied staging migration `mednest_fix_chief_profile_and_30_minute_security_window`; profile RPC now reports **updated** under an explicit rollback-only test and left **no persisted sample name, sample title or audit entry**. Protected account still active with existing empty self-profile settings pending the owner's Save.
+- The email step-up verification code remains valid for 10 minutes and has rate/attempt controls; after verification, only sensitive staff-access changes are authorized for **30 minutes in the same authentication session**. No OTP required for normal login, own name/title, academic work, or routine student tasks.
+- Updated email security Edge Function `mednest-management-stepup` to return accurate 30-minute wording, Management Panel UI and regression tests. No global Supabase Auth settings changed. Student LMS/production untouched.
+- The preexisting protected preview will need to be refreshed after deployment for updated wording. Role-based authorization is always server-side.
