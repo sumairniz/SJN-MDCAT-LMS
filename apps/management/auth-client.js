@@ -350,7 +350,7 @@ async function verifyStepup(event){
   closeStepup();
   const pending=pendingSensitive;pendingSensitive=null;
   if(pending)await runSensitive(pending.action,pending.payload,pending.onComplete);
-  else notice("team-feedback","Email security confirmed. Sensitive management actions are authorized for 10 minutes.");
+  else notice("team-feedback","Email security confirmed. Sensitive staff-access changes are authorized for 30 minutes in this session.");
  }catch(e){notice("staff-stepup-status",e.message,true)}
  finally{$("staff-stepup-confirm").disabled=false;$("staff-stepup-code").value=""}
 }
