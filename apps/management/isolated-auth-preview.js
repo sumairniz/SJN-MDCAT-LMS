@@ -4,8 +4,10 @@ import {createClient} from "https://esm.sh/@supabase/supabase-js@2.95.0?bundle";
 const URL="https://tdqbjhrmfluiinntmjfh.supabase.co";
 const KEY="sb_publishable_Redb-pOjNOSpDKg1uIbUBg_-PUCt5XX";
 const API=URL+"/functions/v1/mednest-isolated-auth";
+// Stable, deployment-protected branch alias: never redirect verification to localhost.
+const EMAIL_CONFIRM_REDIRECT="https://sjn-mednest-management-git-sjn-phase1a-foundation-sjn1.vercel.app/isolated-auth-preview.html";
 const client=createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,
- detectSessionInUrl:false,storageKey:"sjn-mednest-isolated-staff-v1"}});
+ detectSessionInUrl:true,storageKey:"sjn-mednest-isolated-staff-v1"}});
 const $=id=>document.getElementById(id);
 let active=false;
 const status=(message,error=false)=>{const el=$("auth-status");el.textContent=message;el.dataset.error=String(error)};
@@ -47,7 +49,7 @@ $("setup-btn").addEventListener("click",async()=>{
  }
  $("setup-btn").disabled=true;status("Creating independent authentication identity…");
  try{
-  const {data,error}=await client.auth.signUp({email,password});
+  const {data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:EMAIL_CONFIRM_REDIRECT}});
   $("staff-password").value="";
   if(error)throw Error("Account setup failed. Confirm whether the new-project email service is configured.");
   if(data.session){await load();return}
@@ -68,5 +70,14 @@ $("signout-btn").addEventListener("click",async()=>{
  active=false;$("signed-in").hidden=true;$("signed-out").hidden=false;
  $("staff-password").value="";status("Signed out of the independent management account.");
 });
+// Display a useful message for reused/expired links without exposing token fragments.
+const callbackHash=window.location.hash.startsWith("#error=")?new URLSearchParams(window.location.hash.slice(1)):null;
+if(callbackHash){
+ const code=callbackHash.get("error_code")||"verification_failed";
+ window.history.replaceState(null,"",window.location.pathname+window.location.search);
+ status(code==="otp_expired"
+  ?"This email confirmation link was already used or has expired. If you already confirmed your email, use Sign In with your existing password."
+  :"Email confirmation could not be completed. If you already confirmed, use Sign In; otherwise request a fresh confirmation link.",true);
+}
 const {data:{session}}=await client.auth.getSession();
 if(session)await load();
