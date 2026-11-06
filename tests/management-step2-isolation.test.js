@@ -60,7 +60,7 @@ test("Appearance preference is isolated, reactive, accessible, and does not allo
   const page = read("index.html");
   const mode = read("theme.js");
   const style = read("styles.css");
-  const opts = (page.match(/data-theme-choice="(?:system|dark|light)"/g) || []);
+  const opts = (page.match(/data-theme-choice="(?:system|dark|light)"/g) || []).map(value => value.match(/="([^"]+)"/)[1]);
   assert.deepEqual(opts.sort(), ["dark","dark","light","light","system","system"]);
   assert.ok(page.indexOf('src="/theme.js"') < page.indexOf('rel="stylesheet" href="/styles.css"'));
   assert.match(mode, /prefers-color-scheme: dark/);
