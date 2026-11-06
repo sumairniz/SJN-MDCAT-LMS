@@ -141,3 +141,19 @@ test("Every JavaScript DOM lookup has a matching management UI element",()=>{
  const ids=[...js.matchAll(/\$\("([a-z0-9-]+)"\)/gi)].map(m=>m[1]);
  for(const id of new Set(ids)) assert.ok(h.includes('id="'+id+'"'),"Missing #"+id);
 });
+
+test("New staff creation remains fail-closed while Auth signup inserts student profiles",()=>{
+ const server=management(),h=html(),browser=client();
+ assert.match(server,/const STAFF_IDENTITY_ISOLATED=false/);
+ for(const a of ["invite.preview","invite.accept","team.invite"]){
+  const index=server.indexOf('if(action==="'+a+'")');
+  assert.ok(index>=0,a+" must have a route");
+  assert.match(server.slice(index,index+390),/if\(!STAFF_IDENTITY_ISOLATED\)return response\(origin,503/);
+ }
+ assert.match(server,/invitation_sender_configured:Boolean\(STAFF_IDENTITY_ISOLATED&&RESEND/);
+ assert.match(browser,/team-invite-show"\)\.disabled=!invitationSenderReady/);
+ assert.match(browser,/student-profile creation|Student LMS.s automatic student-profile creation/i);
+ assert.match(h,/id="staff-invite-sender-notice"/);
+ assert.match(h,/id="team-test-security"/);
+ assert.match(browser,/staff-stepup-send/);
+});
