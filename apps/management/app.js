@@ -30,7 +30,7 @@
     access: ["Feature & Enrollment Access", "Manage whole-feature Free or Premium policies and whole-course/session enrollment. Individual questions are never premium products.", "FUTURE ACCESS PHASE"],
     reviews: ["Academic Reviews", "Choose direct publishing or one/two reviewers according to Chief Admin-configured academic review policies.", "FUTURE REVIEW PHASE"],
     team: ["Team & Permissions", "Chief Admin-controlled team membership with individual permissions, separate titles and detailed staff profiles.", "CHIEF ADMIN ACCESS"],
-    profile: ["Member Profile", "A verified management account, its technical role and detailed effective permissions, independently of personal titles.", "VERIFIED PROFILE"],
+    profile: ["My Profile", "Your verified management identity, protected role and effective permissions, independent of optional display names and titles.", "VERIFIED PROFILE"],
     reports: ["Reports & Activity", "Review academic issue reports, authorized operational events and transparent management audit records.", "FUTURE OPERATIONS PHASE"],
     settings: ["Academy Settings", "Manage supported academy configuration with explicit permission checks and activity history.", "FUTURE OPERATIONS PHASE"]
   });
