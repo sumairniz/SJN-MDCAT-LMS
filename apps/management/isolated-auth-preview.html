@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SJN MedNest — Isolated Staff Auth Verification</title>
+<link rel="stylesheet" href="./isolated-auth-preview.css"></head>
+<body>
+<main class="page">
+<header><div class="brand"><span class="brand-symbol">SJN</span><div><strong>SJN MedNest</strong><small>MANAGEMENT · ISOLATED STAFF AUTH</small></div></div>
+<a href="./index.html">Return to existing Management Panel</a></header>
+<section class="panel">
+<div class="meta">SECURE FOUNDATION TEST · DEVELOPMENT ONLY</div>
+<h1>Chief Administrator authentication</h1>
+<p class="intro">This protected preview tests independent Management Auth. It does not change the existing Management Panel login, student LMS, or student accounts.</p>
+<div id="signed-out">
+<form id="identity-form">
+<label for="staff-email">Verified Chief Administrator email</label><input id="staff-email" type="email" autocomplete="username" required maxlength="254" placeholder="Your existing verified email">
+<label for="staff-password">Management Auth password</label><input id="staff-password" type="password" autocomplete="current-password" required minlength="12">
+<div class="actions"><button type="submit" id="signin-btn">Sign In</button><button type="button" id="setup-btn" class="secondary">One-time new-project account setup</button></div>
+</form>
+<p class="hint">First-time setup uses the same approved email, but creates a separate staff authentication identity. Choose a private password. You may need to confirm email ownership again because this is an independent Supabase Auth project. Never share the password, verification email or code in chat.</p>
+</div>
+<section id="signed-in" hidden>
+<div class="verified">Independent Chief Administrator account verified</div>
+<dl><dt>Role</dt><dd>Chief Administrator</dd><dt>Verified email (only shown to you)</dt><dd id="profile-email"></dd><dt>Account state</dt><dd id="profile-state"></dd></dl>
+<form id="profile-form"><label for="display-name">Display name (optional)</label><input id="display-name" maxlength="100">
+<label for="organization-title">Organizational title (optional)</label><input id="organization-title" maxlength="100">
+<div class="actions"><button type="submit">Save My Profile</button><button type="button" id="signout-btn" class="secondary">Sign Out</button></div></form>
+</section>
+<p id="auth-status" role="status" aria-live="polite"></p>
+<div class="footnote">No staff invitation, student-data access, or production promotion is enabled by this test.</div>
+</section></main>
+<script type="module" src="./isolated-auth-preview.js"></script>
+</body></html>
