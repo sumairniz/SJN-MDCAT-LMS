@@ -101,7 +101,7 @@ async function checkSession(){
  const senderNotice=$("staff-invite-sender-notice");
  senderNotice.textContent=invitationSenderReady
   ?"Academy email invitations are available. Chief Admin must approve each send with a recent email security code."
-  :"Staff invitations require a verified academy email sending domain. The current Resend test sender can verify Chief Admin actions, but cannot email arbitrary team members.";
+  :"Staff invitations are paused while separate staff registration is isolated from the Student LMS's automatic student-profile creation. A verified academy sending domain will also be required.";
  if(!authorized){authorized=true;window.dispatchEvent(new Event("mednest:authorized"))}
 }
 async function signIn(event){
@@ -213,6 +213,7 @@ function renderInvitations(invitations){
 }
 async function loadTeam(){
  visible("team-invite-show",staff?.role==="chief_admin");
+ visible("team-test-security",staff?.role==="chief_admin");
  $("team-invite-show").disabled=!invitationSenderReady;
  if(staff?.role!=="chief_admin"){
   $("team-directory-list").replaceChildren(element("p","secondary-note","Only Chief Admin can manage staff access."));
@@ -296,6 +297,7 @@ async function verifyStepup(event){
   closeStepup();
   const pending=pendingSensitive;pendingSensitive=null;
   if(pending)await runSensitive(pending.action,pending.payload,pending.onComplete);
+  else notice("team-feedback","Email security confirmed. Sensitive management actions are authorized for 10 minutes.");
  }catch(e){notice("staff-stepup-status",e.message,true)}
  finally{$("staff-stepup-confirm").disabled=false;$("staff-stepup-code").value=""}
 }
@@ -335,6 +337,7 @@ $("invitation-cancel").addEventListener("click",()=>{inviteToken=null;inviteDeta
 $("staff-stepup-send").addEventListener("click",sendStepup);
 $("staff-stepup-form").addEventListener("submit",verifyStepup);
 $("staff-stepup-cancel").addEventListener("click",()=>{pendingSensitive=null;closeStepup()});
+$("team-test-security").addEventListener("click",()=>{pendingSensitive=null;openStepup()});
 $("team-invite-show").addEventListener("click",()=>{buildChoices("invite-permissions");visible("team-invite-form",true);visible("team-edit-form",false)});
 $("invite-cancel").addEventListener("click",()=>visible("team-invite-form",false));
 $("edit-member-cancel").addEventListener("click",()=>visible("team-edit-form",false));
