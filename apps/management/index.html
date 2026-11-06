@@ -10,6 +10,7 @@
   <script src="/theme.js"></script>
   <link rel="stylesheet" href="/styles.css">
   <script src="/app.js" defer></script>
+  <script type="module" src="/auth-client.js"></script>
 </head>
 <body>
   <div id="signin" class="auth-screen">
@@ -42,19 +43,28 @@
         <p class="section-kicker">AUTHORIZED STAFF ACCESS</p>
         <h2 id="signin-title">Management Sign In</h2>
         <p class="intro">Management staff will be able to sign in after the Chief Admin account and secure permission controls are established.</p>
-        <div class="field">
-          <label for="email">Email Address</label>
-          <input id="email" type="email" autocomplete="off" placeholder="name@academy.com" disabled>
-        </div>
-        <div class="field">
-          <label for="password">Password</label>
-          <input id="password" type="password" autocomplete="off" placeholder="Password" disabled>
-        </div>
-        <button class="primary-btn" type="button" disabled>Sign In <span aria-hidden="true">→</span></button>
-        <div class="notice"><span class="notice-icon" aria-hidden="true">i</span><span><strong>Not connected to student accounts.</strong> Credentials are not accepted or transmitted in this preview.</span></div>
-        <div class="auth-separator"><span>EXPLORE THE PROPOSED INTERFACE</span></div>
-        <button id="preview-open" class="secondary-btn" type="button">View Management Layout <span aria-hidden="true">↗</span></button>
-        <p class="secondary-note">Layout preview only. No student data, privileged APIs or live management functions.</p>
+        <form id="management-signin" autocomplete="on">
+          <div class="field"><label for="email">Email Address</label><input id="email" name="email" type="email" autocomplete="username" required maxlength="254" placeholder="name@academy.com"></div>
+          <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Enter account password"></div>
+          <button class="primary-btn" id="signin-submit" type="submit">Sign In <span aria-hidden="true">→</span></button>
+        </form>
+        <section id="mfa-panel" class="security-flow is-hidden" aria-label="Authenticator verification">
+          <h3>Authenticator Verification</h3>
+          <p id="mfa-guidance">Management access requires an authenticator app verification code.</p>
+          <div id="mfa-enrollment" class="is-hidden">
+            <img id="mfa-qr" class="mfa-qr" alt="Scan this authentication QR code" hidden>
+            <p>Or enter this setup secret in the authenticator app:</p>
+            <code id="mfa-secret"></code>
+          </div>
+          <form id="mfa-form">
+            <div class="field"><label for="mfa-code">6-digit authentication code</label><input id="mfa-code" name="mfa_code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required placeholder="000000"></div>
+            <button id="mfa-submit" class="primary-btn" type="submit">Verify Security Code <span aria-hidden="true">→</span></button>
+          </form>
+          <button type="button" class="return-btn" id="mfa-cancel">Sign out of this account</button>
+        </section>
+        <p id="auth-feedback" class="auth-feedback" role="status" aria-live="polite"></p>
+        <div class="notice"><span class="notice-icon" aria-hidden="true">i</span><span><strong>Authorized management staff only.</strong> Sign In uses staging Supabase Auth, but access is granted only to independently verified staff members after security verification.</span></div>
+        <p class="secondary-note">Chief Admin authorization is not automatically assigned to student accounts.</p>
       </div>
       <footer class="auth-bottom"><span>SECURE WORKSPACE FOUNDATION</span><span>© SJN MedNest</span></footer>
     </main>
@@ -83,15 +93,15 @@
         <button class="nav-item" type="button" data-module="settings"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>Academy Settings</button>
       </nav>
       <div class="sidebar-bottom">
-        <div class="safe-preview"><span class="status-dot"></span><span>Visual preview<br><small>No live access</small></span></div>
-        <button id="preview-close" class="return-btn" type="button">← Back to Sign In</button>
+        <div class="safe-preview"><span class="status-dot"></span><span>Secure workspace<br><small>Verified staff access only</small></span></div>
+        <button id="preview-close" class="return-btn" type="button">← Sign Out</button>
       </div>
     </aside>
     <div class="sidebar-scrim" id="scrim" hidden></div>
     <div class="workspace-main">
       <header class="workspace-header">
         <div class="workspace-header-left"><button type="button" class="menu-button" id="menu-toggle" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">☰</button><span class="header-trail">Academy Management <span aria-hidden="true">/</span> <strong id="header-crumb">Overview</strong></span></div>
-        <div class="header-right"><span class="preview-indicator"><span class="status-dot"></span> INTERFACE PREVIEW</span><div class="appearance-picker" role="group" aria-label="Management Panel appearance">
+        <div class="header-right"><span class="preview-indicator"><span class="status-dot"></span> STAFF WORKSPACE</span><div class="appearance-picker" role="group" aria-label="Management Panel appearance">
   <button type="button" class="appearance-option" data-theme-choice="system" aria-label="Follow device appearance" aria-pressed="true" title="System appearance"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 22h8m-4-4v4"/></svg><span>Auto</span></button>
   <button type="button" class="appearance-option" data-theme-choice="dark" aria-label="Use dark appearance" aria-pressed="false" title="Dark appearance"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.9 13.3A9 9 0 0 1 10.7 3.1a9 9 0 1 0 10.2 10.2Z"/></svg><span>Dark</span></button>
   <button type="button" class="appearance-option" data-theme-choice="light" aria-label="Use light appearance" aria-pressed="false" title="Light appearance"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg><span>Light</span></button>
@@ -100,7 +110,7 @@
       <main class="overview-container">
         <section class="page-heading">
           <div><span class="eyebrow eyebrow--red">ACADEMY MANAGEMENT WORKSPACE</span><h1 id="module-heading">Academy Overview</h1><p id="module-description">A centralized overview of academy activity, academic content, student engagement, and management operations.</p></div>
-          <span class="page-phase" id="page-phase">FOUNDATION PREVIEW</span>
+          <span class="page-phase" id="page-phase">STAFF FOUNDATION</span>
         </section>
         <section id="overview-only" aria-label="Placeholder academy statistics">
           <div class="metric-grid">
@@ -124,23 +134,38 @@
           </div>
         </section>
         <section id="team-preview" class="team-preview is-hidden" aria-label="Team management design preview">
+          <div id="team-notice" class="profile-preview-banner"><p>Team membership is available only to the Chief Admin. No member can grant or change their own access.</p></div>
           <div class="team-stat-grid">
-            <article class="metric-card"><span>Total Management Members</span><strong>—</strong><small>Includes the Chief Admin and management members</small></article>
-            <article class="metric-card"><span>Active Team Members</span><strong>—</strong><small>No staff records connected</small></article>
-            <article class="metric-card"><span>Pending Invitations</span><strong>—</strong><small>Invitations are not available yet</small></article>
+            <article class="metric-card"><span>Total Management Members</span><strong id="team-total">—</strong><small>Includes the Chief Admin and management members</small></article>
+            <article class="metric-card"><span>Active Team Members</span><strong id="team-active">—</strong><small>Active authorized members</small></article>
+            <article class="metric-card"><span>Pending Invitations</span><strong id="team-invited">—</strong><small>Pending activation</small></article>
           </div>
           <div class="team-preview-grid">
             <section class="panel-card">
-              <div class="panel-title"><span>Team Directory</span><span class="subtle-tag">COMING IN PHASE 1A</span></div>
-              <div class="empty-team">
-                <div class="placeholder-symbol team-symbol" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a7 7 0 0 1 14 0v2M19 8v6M16 11h6"/></svg></div>
-                <h2>Management team directory</h2>
-                <p>Authorized members, invitations, technical roles and effective permissions will appear here after secure staff access is implemented.</p>
-                <button type="button" class="preview-disabled-btn" disabled>Invite Team Member — Not Available Yet</button>
-              </div>
+              <div class="panel-title"><span>Management Team</span><span class="subtle-tag">CHIEF ADMIN CONTROL</span></div>
+              <div id="team-directory-list" class="staff-list"><p class="secondary-note">Team information is loaded only for an authenticated Chief Admin.</p></div>
+              <button id="team-invite-show" class="secondary-btn is-hidden" type="button">Invite Management Team Member <span aria-hidden="true">+</span></button>
+              <form id="team-invite-form" class="staff-form is-hidden">
+                <div class="field"><label for="invite-email">Team member email</label><input id="invite-email" type="email" required maxlength="254" autocomplete="off" placeholder="staff@example.com"></div>
+                <div class="field"><label for="invite-name">Display name (optional)</label><input id="invite-name" type="text" maxlength="100" placeholder="Name or nickname"></div>
+                <div class="field"><label for="invite-title">Organizational title (optional)</label><input id="invite-title" type="text" maxlength="100" placeholder="Academic Director"></div>
+                <div class="field"><label>Technical permissions — independently assignable</label><div id="invite-permissions" class="permission-choices"></div></div>
+                <button class="primary-btn" type="submit">Send Staff Invitation <span aria-hidden="true">→</span></button>
+                <button class="return-btn" type="button" id="invite-cancel">Cancel</button>
+              </form>
+              <form id="team-edit-form" class="staff-form is-hidden">
+                <h3 id="edit-member-heading">Edit Management Team Member</h3>
+                <div class="field"><label for="edit-member-status">Account status</label><select id="edit-member-status"><option value="active">Active</option><option value="suspended">Suspended</option><option value="invited">Invited</option></select></div>
+                <div class="field"><label for="edit-member-name">Display name (optional)</label><input id="edit-member-name" maxlength="100"></div>
+                <div class="field"><label for="edit-member-title">Organizational title (optional)</label><input id="edit-member-title" maxlength="100"></div>
+                <div class="field"><label>Authorized capabilities</label><div id="edit-member-permissions" class="permission-choices"></div></div>
+                <button class="primary-btn" type="submit">Save Member Changes <span aria-hidden="true">→</span></button>
+                <button class="return-btn" type="button" id="edit-member-cancel">Cancel</button>
+              </form>
+              <p id="team-feedback" role="status" aria-live="polite" class="auth-feedback"></p>
             </section>
             <section class="panel-card panel-card--quiet">
-              <div class="panel-title"><span>Member Profile Fields</span><span class="subtle-tag">PLANNED</span></div>
+              <div class="panel-title"><span>Identity & Permissions</span><span class="subtle-tag">ENFORCED</span></div>
               <div class="profile-field-preview"><small>DISPLAY NAME OR NICKNAME</small><strong>Optional — editable independently of the technical role</strong><p>Used for how a team member appears in the Management Panel.</p></div>
               <div class="profile-field-preview"><small>PUBLIC / ORGANIZATIONAL TITLE</small><strong>Optional — e.g. CEO, Academic Director</strong><p>A title is separate from the Chief Admin or Management Team Member technical role.</p></div>
               <div class="profile-field-preview"><small>TECHNICAL PERMISSIONS</small><strong>Chief Admin-controlled access</strong><p>Separate from the name and title. Audit trails retain verified account identity.</p></div>
@@ -148,44 +173,39 @@
           </div>
         </section>
         <section id="profile-preview" class="profile-preview is-hidden" aria-label="Example management member profile" aria-live="polite">
-  <div class="profile-preview-banner"><span class="subtle-tag">EXAMPLE ONLY — NO STAFF ACCOUNT CONNECTED</span><p>Profile fields will reflect a verified signed-in member after secure authentication is implemented. The information below demonstrates the layout, not a real account or granted access.</p></div>
+  <div class="profile-preview-banner"><span class="subtle-tag">VERIFIED STAFF ACCOUNT</span><p>Technical roles and permissions are checked on the management server. Personal titles never grant additional access.</p></div>
   <div class="profile-main-grid">
     <section class="panel-card">
       <div class="panel-title"><span>Member Identity</span><span class="subtle-tag">PROFILE DESIGN</span></div>
       <div class="member-identity">
         <div class="member-profile-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 22v-2a8 8 0 0 1 16 0v2"/></svg></div>
-        <div><h2>Display name or nickname</h2><p>Organizational title — optional (e.g., CEO, Academic Director)</p><span class="sample-badge">ILLUSTRATIVE PROFILE</span></div>
+        <div><h2 id="member-profile-name">Management Team Member</h2><p id="member-profile-title">Organizational title is optional</p><span class="sample-badge" id="member-profile-status">VERIFIED ACCOUNT</span></div>
       </div>
       <dl class="profile-detail-list">
-        <div><dt>Verified account</dt><dd>Displayed after secure staff sign-in</dd></div>
-        <div><dt>Technical role</dt><dd><strong>Chief Admin</strong> <span class="sample-badge">Example</span></dd></div>
-        <div><dt>Member status</dt><dd>Available after activation</dd></div>
-        <div><dt>Last activity</dt><dd>Not connected</dd></div>
+        <div><dt>Verified account</dt><dd id="member-profile-email">—</dd></div>
+        <div><dt>Technical role</dt><dd id="member-profile-role">—</dd></div>
+        <div><dt>Member status</dt><dd id="member-profile-account-status">—</dd></div>
+        <div><dt>Last activity</dt><dd id="member-profile-activity">Protected staff session</dd></div>
       </dl>
       <p class="member-privacy-note">Display names and optional titles never change the technical role. Audit history will use the verified underlying staff account ID.</p>
     </section>
     <section class="panel-card">
-      <div class="panel-title"><span>Role &amp; Permissions</span><span class="subtle-tag">EXAMPLE PERMISSIONS</span></div>
+      <div class="panel-title"><span>Role &amp; Permissions</span><span class="subtle-tag">EFFECTIVE ACCESS</span></div>
       <p class="permission-intro">This example shows the categories a member will be able to inspect in their own profile. Actual permissions will be fetched from the protected staff system, not inferred from titles.</p>
-      <div class="permission-preview-list">
-        <div><span class="permission-icon" aria-hidden="true">✓</span><span><strong>Management team access</strong><small>Invite, suspend and assign staff permissions</small></span><span class="sample-badge">Chief Admin only</span></div>
-        <div><span class="permission-icon" aria-hidden="true">✓</span><span><strong>Academic content</strong><small>Create, edit, review and publish questions</small></span><span class="sample-badge">Example</span></div>
-        <div><span class="permission-icon" aria-hidden="true">✓</span><span><strong>Courses and sessions</strong><small>Manage scheduling and entire session access</small></span><span class="sample-badge">Example</span></div>
-        <div><span class="permission-icon" aria-hidden="true">✓</span><span><strong>Student access</strong><small>View permitted student records, enrollment and feature access</small></span><span class="sample-badge">Example</span></div>
-        <div><span class="permission-icon" aria-hidden="true">✓</span><span><strong>Reports and audit</strong><small>Review academic and management activity</small></span><span class="sample-badge">Example</span></div>
-      </div>
+      <div id="member-permissions-list" class="permission-preview-list"><p>Permissions are loaded from verified staff membership.</p></div>
       <p class="member-privacy-note">Management Team Members will see only permissions actually granted to them. This screen does not grant, modify or verify any access.</p>
     </section>
   </div>
 </section>
-<section id="module-placeholder" class="module-placeholder is-hidden" aria-live="polite">
+<section id="audit-preview" class="team-preview is-hidden" aria-label="Staff audit log"><div class="panel-card"><div class="panel-title"><span>Management Activity Log</span><span class="subtle-tag">LAST 50 EVENTS</span></div><div id="audit-event-list" class="staff-list"><p>Loading authorized activity…</p></div></div></section>
+        <section id="module-placeholder" class="module-placeholder is-hidden" aria-live="polite">
           <div class="placeholder-symbol" aria-hidden="true">◇</div>
           <span class="eyebrow eyebrow--red">PLANNED MANAGEMENT MODULE</span>
           <h2 id="module-placeholder-title">Module preview</h2>
           <p id="module-placeholder-copy">This area will be implemented in an approved phase with secure authorization and real data.</p>
           <span class="disabled-feature-tag">NO LIVE CONTROLS IN THIS PREVIEW</span>
         </section>
-        <footer class="workspace-footer"><span>SJN MedNest Management Panel</span><span>Step 2 • Interface preview • No live data</span></footer>
+        <footer class="workspace-footer"><span>SJN MedNest Management Panel</span><span>Phase 1A • Secured staff foundation</span></footer>
       </main>
     </div>
   </div>

@@ -1,13 +1,13 @@
 "use strict";
-// Step 2 is an inert interface preview. There are NO auth or data endpoints,
-// credentials are never collected, and no administration actions are enabled.
+// Management shell navigation. Authentication and authorization live in auth-client.js
+// and the verified Supabase Edge function, never in visible labels or client roles.
 (function () {
   const signIn = document.getElementById("signin");
   const workspace = document.getElementById("workspace");
   const sidebar = document.getElementById("sidebar");
   const scrim = document.getElementById("scrim");
   const menuToggle = document.getElementById("menu-toggle");
-  const openButton = document.getElementById("preview-open");
+  const auditPreview = document.getElementById("audit-preview");
   const closeButton = document.getElementById("preview-close");
   const overviewOnly = document.getElementById("overview-only");
   const placeholder = document.getElementById("module-placeholder");
@@ -29,8 +29,8 @@
     students: ["Student Management", "View authorized student records, academic performance and account status once student-scoped permissions exist.", "FUTURE ACCESS PHASE"],
     access: ["Feature & Enrollment Access", "Manage whole-feature Free or Premium policies and whole-course/session enrollment. Individual questions are never premium products.", "FUTURE ACCESS PHASE"],
     reviews: ["Academic Reviews", "Choose direct publishing or one/two reviewers according to Chief Admin-configured academic review policies.", "FUTURE REVIEW PHASE"],
-    team: ["Team & Permissions", "One protected Chief Admin role, peer Management Team Members, independent role permissions and optional individual titles and nicknames.", "NEXT: PHASE 1A"],
-    profile: ["Member Profile", "A detailed view of a verified member identity, technical role, granted permissions and independent optional title.", "PROFILE DESIGN PREVIEW"],
+    team: ["Team & Permissions", "Chief Admin-controlled team membership with individual permissions, separate titles and detailed staff profiles.", "CHIEF ADMIN ACCESS"],
+    profile: ["Member Profile", "A verified management account, its technical role and detailed effective permissions, independently of personal titles.", "VERIFIED PROFILE"],
     reports: ["Reports & Activity", "Review academic issue reports, authorized operational events and transparent management audit records.", "FUTURE OPERATIONS PHASE"],
     settings: ["Academy Settings", "Manage supported academy configuration with explicit permission checks and activity history.", "FUTURE OPERATIONS PHASE"]
   });
@@ -56,7 +56,7 @@
     signIn.classList.remove("is-hidden");
     signIn.setAttribute("aria-hidden", "false");
     window.scrollTo(0, 0);
-    openButton.focus();
+    document.getElementById("email").focus();
   }
   function selectModule(key) {
     const data = modules[key];
@@ -68,7 +68,8 @@
     overviewOnly.classList.toggle("is-hidden", key !== "overview");
     teamPreview.classList.toggle("is-hidden", key !== "team");
     profilePreview.classList.toggle("is-hidden", key !== "profile");
-    placeholder.classList.toggle("is-hidden", key === "overview" || key === "team" || key === "profile");
+    auditPreview.classList.toggle("is-hidden", key !== "reports");
+    placeholder.classList.toggle("is-hidden", key === "overview" || key === "team" || key === "profile" || key === "reports");
     placeholderTitle.textContent = data[0];
     placeholderCopy.textContent = data[1];
     document.querySelectorAll("[data-module]").forEach(function (button) {
@@ -78,11 +79,13 @@
       else button.removeAttribute("aria-current");
     });
     closeMenu();
+    window.dispatchEvent(new CustomEvent("mednest:module", {detail: {key}}));
     window.scrollTo(0, 0);
   }
-  openButton.addEventListener("click", showPreview);
+  window.addEventListener("mednest:authorized", showPreview);
   document.getElementById("profile-preview-open").addEventListener("click", function () { selectModule("profile"); });
-  closeButton.addEventListener("click", returnToSignIn);
+  closeButton.addEventListener("click", function () { window.dispatchEvent(new Event("mednest:signout")); });
+  window.addEventListener("mednest:signed-out",returnToSignIn);
   document.querySelectorAll("[data-module]").forEach(function (button) {
     button.addEventListener("click", function () { selectModule(button.dataset.module); });
   });
