@@ -111,28 +111,6 @@ Deno.serve(async req=>{
    // Reopen once management-only provider sends verified invitations.
    return reply(origin,503,{error:"Staff invitations are unavailable until the dedicated email provider is configured and invitation delivery is verified"});
  }
- if(false && action==="team.invite"){
-   const email=asString(body.email,254).toLowerCase();
-   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length>254)return reply(origin,400,{error:"Valid email required"});
-   const permissions=body.permissions;
-   if(!Array.isArray(permissions)||permissions.length>PERMISSIONS.size||
-      permissions.some(p=>!PERMISSIONS.has(p))||new Set(permissions).size!==permissions.length)
-      return reply(origin,400,{error:"Invalid permission assignment"});
-   const displayName=asString(body.display_name,100)||null;
-   const title=asString(body.organizational_title,100)||null;
-   // Invites never grant Chief Admin status. Email must not be bound to an
-   // existing student account implicitly or via user-editable metadata.
-   const {data:invited,error:inviteError}=await srv.auth.admin.inviteUserByEmail(email);
-   if(inviteError||!invited?.user?.id)return reply(origin,409,{error:"Invitation could not be created; check for an existing account"});
-   const {error:insertError}=await srv.from("mednest_management_members").insert({
-     user_id:invited.user.id,email,technical_role:"member",status:"invited",
-     permissions,display_name:displayName,organizational_title:title,invited_by:identity.id
-   });
-   if(insertError)return reply(origin,503,{error:"Invitation sent but membership could not be registered; administrator review required"});
-   try{await audit(identity.id,"staff.invite",invited.user.id,{email,permissions})}
-   catch(_){return reply(origin,503,{error:"Invitation registered but audit failed; administrator review required"})}
-   return reply(origin,201,{success:true,message:"Team invitation created"});
- }
  if(action==="team.update"){
    const target=body.user_id;
    if(!validUuid(target)||target===identity.id)return reply(origin,400,{error:"Cannot modify Chief Admin or own privileges"});
