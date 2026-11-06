@@ -1,24 +1,27 @@
-# SJN MedNest Management Panel — Step 2 Visual Preview
+# SJN MedNest Management Panel — Phase 1A staging authentication foundation
 
-This **inert static interface** lives entirely under `apps/management/` and is intentionally isolated from the existing student LMS (repository root's `server.js` and `public/`).
+**Source:** `apps/management/` on `sjn-phase1a-foundation`. This is a separate Vercel project, not the student LMS.
 
-**What works:** a responsive Management Sign In presentation, a clearly labeled layout preview, module navigation and mobile sidebar. The Sign In controls are disabled and do not transmit/record credentials. All cards use dashes/placeholders rather than fabricated counts. No student data or authenticated APIs.
+## Implemented
+- Branded responsive staff Sign In using staging Supabase Auth (email and password).
+- Required TOTP authenticator enrollment/challenge before any privileged operation.
+- Server-verified session and **deny-by-default staff membership** in `public.mednest_management_members` (not student `profiles.role`).
+- `database/management/mednest-edge-function/index.ts` versioned staging Edge Function (no service-role key in static frontend). Checks verified JWT, confirmed email, authoritative membership, token AAL, Chief Admin-only team invitations/permission updates, permissioned audit history.
+- Management-team listing and role/permission editor for Chief Admin, with individual capability controls; staff self-profile displays technical role/actual granted rights independently of nickname and organizational title.
+- Audit log of staff-sensitive management actions, separate `public.mednest_management_audit` table, with Row Level Security, no direct anon/authenticated access.
+- Full light/dark/auto appearance system persists, still management-only.
 
-**What does NOT work:** login, staff membership, invitations, permissions, Audit Logs, content management, premium feature toggles, student records and actual app routes. These require the separately approved and tested Phase 1A secure foundation.
+## Crucial safety gates
+**No Chief Admin account has been assigned.** The staging staff table initially has zero rows and an index ensuring no more than one Chief Admin. Real entry requires **explicitly confirmed verified Auth UID/email** and a safely audited bootstrap procedure; do not guess from existing student accounts, academy name, or ChatGPT profile. Until then, ordinary students are rejected even if they can authenticate.
 
-**Security:** restrictive static CSP forbids forms and network connections, frame embedding is denied, and no confidential environment variables or Supabase keys are used. When implementing legitimate authentication, revise the CSP only as narrowly necessary after security review. Protect the Vercel preview deployment with Vercel Authentication where available.
+- Auth for staff uses a **separate browser storage key**, but the same staging Supabase Auth identity system. Session storage contains OAuth tokens; do not treat localStorage as a permission source. The staff service re-checks current membership on every privileged call.
+- Supabase Edge Function is deployed with `verify_jwt=false` because the function itself checks `srv.auth.getUser(jwt)` and enforces staff roles, email confirmation, AAL2 and Origin allowlist. **Never remove those checks.** Unverified requests must remain denied.
+- Browser code contains only the Supabase **publishable key**; no backend service key. Management API uses service_role only in Supabase-hosted runtime.
+- No current student LMS code, RLS policy on existing tables, student exam or main production was changed.
+- The Edge Function is functional but cannot be end-to-end tested with a real staff account until Chief Admin bootstrap; browser visual acceptance and authenticated invitation/role tests are pending.
+- The current system does not provide actual MCQ editing, course editing, whole-feature premium rules, student data, or other operational modules. These are later phases and remain placeholders.
 
-**Deployment:** separate Vercel project with Root Directory `apps/management`, static framework, Git source `sjn-phase1a-foundation`. No custom domain, no production deployment. Future custom domain `admin.<academy-domain>`.
+## Recommended next step
+Confirm the specific existing staging Supabase Auth account UUID and verified email that should be elevated to Chief Admin, using a user-controlled identity confirmation workflow. Apply a single tightly reviewed bootstrap on staging only, then enroll TOTP, validate login/member roster, test revoke/suspend/role boundaries and audit, and perform student performance regression tests before declaring Phase 1A complete.
 
-**Important:** this preview is not a functional admin portal. Do not use its pages to authenticate staff or grant access. The student app remains unaffected. Refer to `docs/SJN-MEDNEST-MANAGEMENT-PANEL-FOUNDATION-BLUEPRINT-2026-11-06.md` and Phase 1 Foundation Design.
-
-**Branding checkpoint:** The temporary CSS-based `SJN` mark matches the current landing-page logo in `public/landing.html`. It is not a finalized logo asset; when the academy chooses an official logo, use one canonical shared brand asset across the student website and management panel. The future staff custom domain will be `admin.<academy-domain>`. Technical role/permission and optional display name/nickname/organizational title remain separate; audit identity must be immutable.
-
-## Owner-approved Chief Admin, staff-neutral copy, and appearance (2026-11-06)
-
-- **Chief Admin** is the protected technical top-level role (previously described as Owner or Super Admin), with the same sole authority over staff admission/roles and all academy operations. Other staff are Management Team Members with equal or individually configured permissions.
-- Organizational titles and user-facing display names are optional, independent profile properties, never authorizers.
-- Every actual member profile must show **verified account identity, technical role, member status and detailed effective permissions**; the present Member Profile page is an explicitly marked illustrative preview, not a staff roster or authorization lookup.
-- The **Academy Management Workspace** heading and descriptive copy are neutral and address all authorized staff. Never use an exclusive "your team" or "Owner" address on generic pages.
-- **System (default) / Dark / Light** controls are on both the Sign In and workspace header. `theme.js` runs before paint, applies the OS preference when System is selected, observes OS theme changes, and remembers only the explicit non-sensitive appearance preference in localStorage when available. The two views share the same preference. Light mode includes complete background, navigation, cards, controls, text and profile contrast; CSS remains isolated to `apps/management/`.
-- These controls are the **only live personalization in Step 2**. Credential entry, actual staff identity and permission actions are still disabled. No Supabase call, student data, main LMS bundle or privileged backend has been added.
+**Security follow-ups:** adopt transactional audit writes for member mutation, carefully review browser-local session storage and invite recovery policies, verify Auth redirect URL/invitation configuration, disable/limit Vercel default alias and verify activity logs under adverse conditions. Do not release staff operations to production without these gates.
