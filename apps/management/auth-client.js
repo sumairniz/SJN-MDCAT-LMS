@@ -1,284 +1,342 @@
 "use strict";
+// SJN MedNest Management Panel: password sign-in + Chief Admin invitations,
+// with server-verified, session-bound email approval for sensitive actions.
+// No QR scanning, authenticator app, frontend role claims or student-LMS code.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.95.0?bundle";
-const URL="https://aozknkrwafowsrehdwlr.supabase.co", KEY="sb_publishable_9CjKnd4hEIIvS7OXvTq_aA_tTkLsBts", API=URL+"/functions/v1/mednest-management", VERIFY_API=URL+"/functions/v1/mednest-staff-onboarding";
+const URL="https://aozknkrwafowsrehdwlr.supabase.co";
+const KEY="sb_publishable_9CjKnd4hEIIvS7OXvTq_aA_tTkLsBts";
+const API=URL+"/functions/v1/mednest-management";
+const SECURITY=URL+"/functions/v1/mednest-management-stepup";
+const client=createClient(URL,KEY,{auth:{
+  autoRefreshToken:true,persistSession:true,detectSessionInUrl:false,
+  storageKey:"sjn-mednest-staff-session-v1"
+}});
 const PERMS=Object.freeze({
-"content.view":"View academic content","content.create":"Create MCQs","content.edit":"Edit MCQs","content.import":"Bulk import MCQs","content.review":"Review questions","content.publish":"Publish questions","content.archive":"Archive questions","taxonomy.manage":"Manage chapters and topics","pastpapers.manage":"Manage past papers","courses.manage":"Manage course sessions","courses.publish":"Publish courses","resources.manage":"Manage Academy Resources","students.view":"View student performance","students.details":"View student details","students.create":"Create student accounts","students.suspend":"Suspend students","enrollments.grant":"Grant course enrollment","enrollments.revoke":"Revoke course enrollment","access.change":"Change whole-feature access","reports.view":"View reports","reports.resolve":"Resolve reports","analytics.view":"View analytics","audit.view":"View activity log","finance.verify":"Verify payments","announcements.manage":"Manage announcements"});
-const client=createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,storageKey:"sjn-mednest-staff-session-v1"}});
+ "content.view":"View academic content","content.create":"Create MCQs","content.edit":"Edit MCQs",
+ "content.import":"Bulk import MCQs","content.review":"Review questions",
+ "content.publish":"Publish questions","content.archive":"Archive questions",
+ "taxonomy.manage":"Manage chapters and topics","pastpapers.manage":"Manage past papers",
+ "courses.manage":"Manage course sessions","courses.publish":"Publish courses",
+ "resources.manage":"Manage Academy Resources","students.view":"View student performance",
+ "students.details":"View student details","students.create":"Create student accounts",
+ "students.suspend":"Suspend student accounts","enrollments.grant":"Grant course enrollment",
+ "enrollments.revoke":"Revoke course enrollment","access.change":"Change whole-module access",
+ "reports.view":"View reports","reports.resolve":"Resolve reports",
+ "analytics.view":"View analytics","audit.view":"View activity log",
+ "finance.verify":"Verify payment records","announcements.manage":"Manage announcements"
+});
 const $=id=>document.getElementById(id);
-let staff=null,authorized=false,doing=false,factor=null,editing=null;
-function show(id,yes){$(id).classList.toggle("is-hidden",!yes)}
-function report(id,message,isError=false){$(id).textContent=message||"";$(id).dataset.error=String(isError)}
-function el(tag,className,value){const e=document.createElement(tag);if(className)e.className=className;if(value!==undefined)e.textContent=String(value);return e}
-async function request(action,fields={}){
- const {data:{session},error}=await client.auth.getSession();
- if(error||!session?.access_token)throw Error("Authenticated staff session required");
- const resp=await fetch(API,{method:"POST",cache:"no-store",credentials:"omit",
-  headers:{"authorization":"Bearer "+session.access_token,"apikey":KEY,"content-type":"application/json"},
-  body:JSON.stringify({action,...fields})});
- const result=await resp.json().catch(()=>{throw Error("Invalid management server response")});
- if(!resp.ok){const err=new Error(result?.error||"Management request failed");err.status=resp.status;throw err;}
+const visible=(id,on)=>$(id).classList.toggle("is-hidden",!on);
+const notice=(id,message,error=false)=>{const element=$(id);element.textContent=message||"";element.dataset.error=String(error)};
+const element=(tag,cls,value)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(value!==undefined)e.textContent=String(value);return e};
+let staff=null,authorized=false,busy=false,editing=null,inviteToken=null,inviteDetails=null,existingInvite=false;
+let pendingSensitive=null,invitationSenderReady=false;
+function parseInviteFromUrl(){
+ const match=window.location.hash.match(/^#invite=([a-f0-9]{64})$/i);
+ if(!match)return null;
+ window.history.replaceState(null,"",window.location.pathname+window.location.search);
+ return match[1].toLowerCase();
+}
+async function call(endpoint,action,fields={},useAuth=true){
+ const headers={"apikey":KEY,"content-type":"application/json"};
+ if(useAuth){
+  const {data:{session},error}=await client.auth.getSession();
+  if(error||!session?.access_token)throw Error("Sign In required");
+  headers.authorization="Bearer "+session.access_token;
+ }
+ let response;
+ try{response=await fetch(endpoint,{method:"POST",cache:"no-store",credentials:"omit",
+    headers,body:JSON.stringify({action,...fields})})}
+ catch{throw Error("Unable to connect to the Management Panel security service")}
+ const result=await response.json().catch(()=>({error:"Invalid management response"}));
+ if(!response.ok){
+  const e=new Error(result?.error||"Management request failed");
+  e.status=response.status;e.stepupRequired=Boolean(result?.stepup_required);throw e;
+ }
  return result;
 }
-function fillProfile(member){
- staff=member;
- $("member-profile-name").textContent=member.display_name||"Management Team Member";
- $("member-profile-title").textContent=member.organizational_title||"No organizational title";
- $("member-profile-email").textContent=member.email||"—";
- $("member-profile-role").textContent=member.role==="chief_admin"?"Chief Admin":"Management Team Member";
- $("member-profile-status").textContent=(member.status||"active").toUpperCase();
- $("member-profile-account-status").textContent=member.status||"—";
- const area=$("member-permissions-list");area.replaceChildren();
- const rights=member.role==="chief_admin"?[["Chief Admin","All permissions; exclusive staff access management"]]:
-   (member.permissions||[]).map(code=>[PERMS[code]||code,code]);
- if(!rights.length){area.append(el("p","secondary-note","No operational permissions assigned"));return}
- for(const [title,desc] of rights){const row=el("div","staff-row"),left=el("div");left.append(el("strong","",title),el("p","",desc));row.append(left);area.append(row)}
+const manage=(action,fields)=>call(API,action,fields);
+const security=(action,fields)=>call(SECURITY,action,fields);
+function fillProfile(m){
+ staff=m;
+ $("member-profile-name").textContent=m.display_name||"Management Team Member";
+ $("member-profile-title").textContent=m.organizational_title||"No organizational title";
+ $("member-profile-email").textContent=m.email||"—";
+ $("member-profile-role").textContent=m.role==="chief_admin"?"Chief Admin":"Management Team Member";
+ $("member-profile-status").textContent=(m.status||"active").toUpperCase();
+ $("member-profile-account-status").textContent=m.status||"—";
+ const box=$("member-permissions-list");box.replaceChildren();
+ const rights=m.role==="chief_admin"
+  ?[["Chief Admin","Full management privileges; staff changes require a recent email security approval"]]
+  :(m.permissions||[]).map(x=>[PERMS[x]||x,x]);
+ if(!rights.length){box.append(element("p","secondary-note","No operational permissions assigned"));return;}
+ for(const [name,detail] of rights){
+  const row=element("div","staff-row"),left=element("div");
+  left.append(element("strong","",name),element("p","",detail));row.append(left);box.append(row);
+ }
 }
-function buildChoices(where,selected=[]){
- const area=$(where);area.replaceChildren();
+function buildChoices(id,selected=[]){
+ const box=$(id);box.replaceChildren();
  for(const [code,label] of Object.entries(PERMS)){
-  const row=el("label"),check=el("input");check.type="checkbox";check.value=code;check.checked=selected.includes(code);
-  row.append(check,el("span","",label));area.append(row);
+  const row=element("label"),check=element("input");
+  check.type="checkbox";check.value=code;check.checked=selected.includes(code);
+  row.append(check,element("span","",label));box.append(row);
  }
 }
-function checked(where){return [...$(where).querySelectorAll('input[type="checkbox"]:checked')].map(x=>x.value)}
-function mfaScreen(id,setup=null){
- factor=id;show("mfa-panel",true);show("management-signin",false);show("mfa-enrollment",!!setup);
- $("mfa-qr").hidden=!setup;
- if(setup){$("mfa-qr").src=setup.totp?.qr_code||"";$("mfa-secret").textContent=setup.totp?.secret||""}
- else{$("mfa-qr").removeAttribute("src");$("mfa-secret").textContent=""}
- $("mfa-guidance").textContent=setup?"Add the account to an authenticator app and verify the code.":"Enter the current six-digit code from your authenticator app.";
- $("mfa-code").value="";$("mfa-code").focus();
-}
-async function startMfa(){
- const {data,error}=await client.auth.mfa.listFactors();
- if(error)throw Error("Unable to check authenticator factors");
- const factor=(data?.totp||[]).find(x=>x.status==="verified");
- if(factor){mfaScreen(factor.id);return}
- const setup=await client.auth.mfa.enroll({factorType:"totp",friendlyName:"SJN MedNest Management"});
- if(setup.error||!setup.data?.id)throw Error("Unable to set up authenticator");
- mfaScreen(setup.data.id,setup.data);
-}
-
-async function onboardingRequest(action,values={}){
- const {data:{session},error}=await client.auth.getSession();
- if(error||!session?.access_token)throw Error("Sign in required");
- const response=await fetch(VERIFY_API,{method:"POST",cache:"no-store",credentials:"omit",
-  headers:{"authorization":"Bearer "+session.access_token,"apikey":KEY,"content-type":"application/json"},
-  body:JSON.stringify({action,...values})});
- const payload=await response.json().catch(()=>({error:"Verification service unavailable"}));
- if(!response.ok){
-   const e=new Error(payload.error||"Verification request failed");e.status=response.status;throw e;
- }
- return payload;
-}
-async function displayStaffVerification(){
- const result=await onboardingRequest("status");
- show("staff-verify-panel",true);show("management-signin",false);show("mfa-panel",false);
- show("chief-setup-panel",false);show("first-chief-toggle",false);
- show("staff-verify-form",false);
- $("staff-verify-intro").textContent="Signed in as "+result.email+". This is a management-only email ownership check.";
- const send=$("staff-verify-send");
- send.disabled=!result.configured;
- report("staff-verify-status",result.configured
-  ?"Request an eight-digit verification code to this email. The code expires in ten minutes."
-  :"Email verification is prepared but its separate delivery provider is not configured yet. Your account is safe; no administrative permissions have been assigned.",
-  !result.configured);
-}
-async function sendStaffVerification(){
- if(doing)return;doing=true;$("staff-verify-send").disabled=true;
- report("staff-verify-status","Requesting verification email…");
- try{
-  const response=await onboardingRequest("send");
-  report("staff-verify-status",response.message||"Check your email");
-  show("staff-verify-form",true);
- }catch(e){
-  report("staff-verify-status",e.message,true);
-  $("staff-verify-send").disabled=e.status===503;
- }finally{doing=false}
-}
-async function verifyStaffEmail(event){
- event.preventDefault();if(doing)return;doing=true;$("staff-verify-confirm").disabled=true;
- try{
-  const code=$("staff-verify-code").value.trim();
-  if(!/^\d{8}$/.test(code))throw Error("Enter the eight-digit verification code");
-  const result=await onboardingRequest("verify",{code});
-  if(!result.verified)throw Error("Email verification was not completed");
-  $("staff-verify-code").value="";show("staff-verify-panel",false);
-  report("auth-feedback","Email ownership verified. Now complete authenticator security.");
-  await checkSession();
- }catch(e){report("staff-verify-status",e.message,true)}
- finally{doing=false;$("staff-verify-confirm").disabled=false}
-}
-
-async function checkSession(){
- const {data:{session}}=await client.auth.getSession();
- if(!session?.access_token){staff=null;authorized=false;show("management-signin",true);show("mfa-panel",false);return}
- let data;
- try{data=await request("me");}
- catch(e){
-  if(e.status===403){await displayStaffVerification();return}
-  throw e;
- }
- if(!data?.member?.id)throw Error("Account not authorized for management");
- if(data.mfa_required){staff=data.member;await startMfa();return}
- show("management-signin",true);show("mfa-panel",false);show("staff-verify-panel",false);fillProfile(data.member);
- if(!authorized){authorized=true;window.dispatchEvent(new Event("mednest:authorized"))}
- else await refreshModule();
-}
+function selectedChoices(id){return [...$(id).querySelectorAll('input[type="checkbox"]:checked')].map(x=>x.value)}
 async function signOut(){
  try{await client.auth.signOut({scope:"local"})}catch(_){}
- staff=null;authorized=false;factor=null;editing=null;
- show("management-signin",true);show("mfa-panel",false);show("staff-verify-panel",false);
- $("password").value="";$("mfa-code").value="";
+ staff=null;authorized=false;editing=null;pendingSensitive=null;
+ $("password").value="";$("staff-stepup-code").value="";
+ closeStepup();visible("staff-invitation-panel",false);visible("management-signin",true);
  window.dispatchEvent(new Event("mednest:signed-out"));
 }
-function toggleChiefSetup(open){
- show("chief-setup-panel",open);
- show("management-signin",!open);
- show("first-chief-toggle",!open);
- $("first-chief-toggle").setAttribute("aria-expanded",String(open));
- report("auth-feedback","");
- if(open)$("chief-email").focus();
- else{$("chief-password").value="";$("chief-confirm-password").value="";$("email").focus()}
-}
-async function registerInitialChief(event){
- event.preventDefault();if(doing)return;
- const email=$("chief-email").value.trim().toLowerCase(),password=$("chief-password").value;
- if(password.length<12||password!==$("chief-confirm-password").value){
-  report("chief-setup-feedback","Passwords must match and be at least 12 characters.",true);return;
- }
- doing=true;$("chief-setup-submit").disabled=true;
- report("chief-setup-feedback","Creating authentication account…");
- try{
-  // This creates only an Auth identity. Only a separately reviewed, verified
-  // Auth UUID/email may later receive the protected Chief Admin membership.
-  const {data,error}=await client.auth.signUp({
-   email,password,options:{emailRedirectTo:window.location.origin+"/"}
-  });
-  if(error){
-    if(error.code==="user_already_exists"||error.status===422)throw Error("An authentication account already exists for this email. Return to Sign In instead of registering again.");
-    throw Error("Account setup was not completed. Contact management if this persists.");
-  }
-  if(data?.session)await client.auth.signOut({scope:"local"});
-  report("chief-setup-feedback",data?.session
-   ?"Authentication account created. This staging project did not require email confirmation. Sign in and complete separate staff-only email verification; no privileges have been granted."
-   :"Account request received. Check for a confirmation message if one is sent, then return to Management Sign In. Chief Admin privileges require separate staff email verification.");
- }catch(e){report("chief-setup-feedback",e.message||"Account setup unavailable",true)}
- finally{
-  $("chief-password").value="";$("chief-confirm-password").value="";
-  doing=false;$("chief-setup-submit").disabled=false;
- }
+async function checkSession(){
+ const {data:{session}}=await client.auth.getSession();
+ if(!session?.access_token)return;
+ const response=await manage("me");
+ if(!response?.member?.id)throw Error("Not an authorized management member");
+ fillProfile(response.member);
+ if(!authorized){authorized=true;window.dispatchEvent(new Event("mednest:authorized"))}
 }
 async function signIn(event){
- event.preventDefault();if(doing)return;doing=true;$("signin-submit").disabled=true;
- report("auth-feedback","Verifying management credentials…");
+ event.preventDefault();if(busy)return;busy=true;$("signin-submit").disabled=true;
+ notice("auth-feedback","Signing in securely…");
  try{
   const email=$("email").value.trim().toLowerCase(),password=$("password").value;
-  const {error}=await client.auth.signInWithPassword({email,password});$("password").value="";
-  if(error)throw Error("Sign In failed. Check the supplied credentials.");
-  await checkSession();report("auth-feedback",authorized?"Management account verified.":"Additional security verification required.");
- }catch(e){await signOut();report("auth-feedback",e.message||"Sign In failed",true)}
- finally{doing=false;$("signin-submit").disabled=false}
+  const {error}=await client.auth.signInWithPassword({email,password});
+  $("password").value="";
+  if(error)throw Error("Incorrect email or password");
+  await checkSession();notice("auth-feedback","");
+ }catch(e){
+  await signOut();
+  notice("auth-feedback",e.message==="Not an authorized management member"?
+    "This account has no Management Panel access. Ask Chief Admin to invite you.":e.message,true);
+ }finally{busy=false;$("signin-submit").disabled=false}
 }
-async function verifyMfa(event){
- event.preventDefault();if(doing||!factor)return;doing=true;$("mfa-submit").disabled=true;
+async function loadInvitation(){
+ if(!inviteToken)return;
  try{
-  const code=$("mfa-code").value.trim();if(!/^\d{6}$/.test(code))throw Error("Enter a six-digit code.");
-  const {error}=await client.auth.mfa.challengeAndVerify({factorId:factor,code});
-  if(error)throw Error("Authenticator verification failed");
-  await client.auth.refreshSession();factor=null;await checkSession();report("auth-feedback","");
- }catch(e){report("auth-feedback",e.message||"MFA failed",true)}
- finally{doing=false;$("mfa-submit").disabled=false}
+  const data=await call(API,"invite.preview",{token:inviteToken},false);
+  inviteDetails=data.invitation;
+  $("invitation-email").value=inviteDetails.email;
+  $("invitation-description").textContent=
+    "You were invited to SJN MedNest Management Panel"+(inviteDetails.display_name?
+      " as "+inviteDetails.display_name:"")+
+    ". Use the exact invited email and choose a private password. No student registration is required.";
+  visible("management-signin",false);visible("staff-invitation-panel",true);
+  notice("invitation-feedback","Invitation valid until "+new Date(inviteDetails.expires_at).toLocaleString()+".");
+  $("invitation-password").focus();
+ }catch(e){
+  inviteToken=null;visible("staff-invitation-panel",false);
+  notice("auth-feedback",e.message,true);
+ }
+}
+function toggleExistingAccount(){
+ existingInvite=!existingInvite;
+ visible("invitation-confirm-field",!existingInvite);
+ $("invitation-password-confirm").required=!existingInvite;
+ $("invitation-password").autocomplete=existingInvite?"current-password":"new-password";
+ $("invitation-accept-submit").textContent=existingInvite?
+  "Sign In & Accept Invitation":"Create Account & Accept Invitation";
+ $("invitation-existing-toggle").textContent=existingInvite?
+  "I need to create a new account":"I already have an account";
+ notice("invitation-feedback",existingInvite?
+  "Use the password of your existing account, which must match the invitation email.":
+  "Create a new password. Your personal email invitation is your proof of access.");
+}
+async function acceptInvitation(event){
+ event.preventDefault();if(busy||!inviteToken||!inviteDetails)return;
+ busy=true;$("invitation-accept-submit").disabled=true;
+ const email=inviteDetails.email,password=$("invitation-password").value;
+ try{
+  if(!existingInvite){
+   if(password.length<12||password!==$("invitation-password-confirm").value)
+    throw Error("New passwords must match and contain at least 12 characters.");
+   const {data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:window.location.origin+"/"}});
+   if(error){
+    if(error.status===422||error.code==="user_already_exists")
+     throw Error("This email already has an account. Select 'I already have an account' and enter its password.");
+    throw Error("Unable to create this authentication account.");
+   }
+   if(!data?.session)throw Error("Account created; check your email if a confirmation link is sent. Reopen the original invitation link and sign in to finish activation.");
+  }else{
+   const {error}=await client.auth.signInWithPassword({email,password});
+   if(error)throw Error("Existing account sign-in failed. Check the email and password.");
+  }
+  $("invitation-password").value="";$("invitation-password-confirm").value="";
+  const accepted=await manage("invite.accept",{token:inviteToken});
+  if(!accepted.accepted)throw Error("Invitation not yet accepted");
+  inviteToken=null;inviteDetails=null;
+  visible("staff-invitation-panel",false);visible("management-signin",true);
+  await checkSession();
+ }catch(e){notice("invitation-feedback",e.message,true)}
+ finally{busy=false;$("invitation-accept-submit").disabled=false}
 }
 function renderMembers(members){
  const area=$("team-directory-list");area.replaceChildren();
  $("team-total").textContent=members.length;
  $("team-active").textContent=members.filter(x=>x.status==="active").length;
- $("team-invited").textContent=members.filter(x=>x.status==="invited").length;
- if(!members.length){area.append(el("p","secondary-note","No team members available"));return}
- for(const m of members){
-  const row=el("div","staff-row"),left=el("div");
-  left.append(el("strong","",m.display_name||m.email),el("p","",m.email+" · "+(m.role==="chief_admin"?"Chief Admin":"Management Team Member")+" · "+m.status));
-  if(m.organizational_title)left.append(el("p","",m.organizational_title));
+ if(!members.length){area.append(element("p","secondary-note","No active management members"));return}
+ for(const member of members){
+  const row=element("div","staff-row"),left=element("div");
+  left.append(element("strong","",member.display_name||member.email),
+    element("p","",member.email+" · "+(member.role==="chief_admin"?"Chief Admin":"Management Team Member")+" · "+member.status));
+  if(member.organizational_title)left.append(element("p","",member.organizational_title));
   row.append(left);
-  if(m.role!=="chief_admin"){
-    const btn=el("button","","Manage access");btn.type="button";btn.addEventListener("click",()=>editMember(m));row.append(btn);
+  if(member.role!=="chief_admin"){
+   const edit=element("button","","Manage access");edit.type="button";
+   edit.addEventListener("click",()=>openEdit(member));row.append(edit);
   }
   area.append(row);
  }
 }
-function editMember(member){
- editing=member;$("edit-member-heading").textContent="Edit: "+(member.display_name||member.email);
- $("edit-member-status").value=member.status;$("edit-member-name").value=member.display_name||"";
- $("edit-member-title").value=member.organizational_title||"";
- buildChoices("edit-member-permissions",member.permissions||[]);
- show("team-edit-form",true);show("team-invite-form",false);
- $("team-edit-form").scrollIntoView({block:"nearest",behavior:"smooth"});
+function renderInvitations(invitations){
+ const box=$("pending-invitations-list");box.replaceChildren();
+ $("team-invited").textContent=invitations.length;
+ if(!invitations.length){box.append(element("p","secondary-note","No pending invitations"));return}
+ for(const inv of invitations){
+  const row=element("div","staff-row"),info=element("div");
+  info.append(element("strong","",inv.display_name||inv.email),
+   element("p","",inv.email+" · Expires "+new Date(inv.expires_at).toLocaleString()));
+  row.append(info);
+  const cancel=element("button","","Revoke invitation");cancel.type="button";
+  cancel.addEventListener("click",()=>sensitive("team.revoke_invite",{invitation_id:inv.id},
+   async()=>{notice("team-feedback","Invitation revoked.");await loadTeam()}));
+  row.append(cancel);box.append(row);
+ }
 }
-async function teamList(){
- show("team-invite-show",staff?.role==="chief_admin");
+async function loadTeam(){
+ visible("team-invite-show",staff?.role==="chief_admin");
  if(staff?.role!=="chief_admin"){
-  $("team-directory-list").replaceChildren(el("p","secondary-note","Only Chief Admin can manage staff access."));
+  $("team-directory-list").replaceChildren(element("p","secondary-note","Only Chief Admin can manage staff access."));
+  $("pending-invitations-list").replaceChildren(element("p","secondary-note","Only Chief Admin can view pending invitations."));
   return;
  }
- try{const data=await request("team.list");renderMembers(data.members||[])}
- catch(e){report("team-feedback",e.message,true)}
-}
-async function auditList(){
- const box=$("audit-event-list");box.replaceChildren(el("p","secondary-note","Loading activity…"));
  try{
-  const data=await request("audit.list");box.replaceChildren();
-  if(!data.events?.length){box.append(el("p","secondary-note","No staff activity recorded."));return}
-  for(const record of data.events){
-    const row=el("div","staff-row"),left=el("div");
-    left.append(el("strong","",record.action),el("p","",new Date(record.created_at).toLocaleString()+" · Actor ID: "+record.actor_user_id));
-    row.append(left);box.append(row);
+  const response=await manage("team.list");
+  renderMembers(response.members||[]);
+  renderInvitations(response.invitations||[]);
+ }catch(e){notice("team-feedback",e.message,true)}
+}
+async function loadAudit(){
+ const box=$("audit-event-list");box.replaceChildren(element("p","secondary-note","Loading activity…"));
+ try{
+  const result=await manage("audit.list");box.replaceChildren();
+  if(!result.events?.length){box.append(element("p","secondary-note","No management activity recorded"));return}
+  for(const event of result.events){
+   const row=element("div","staff-row"),info=element("div");
+   info.append(element("strong","",event.action),element("p","",new Date(event.created_at).toLocaleString()+" · Actor ID: "+event.actor_user_id));
+   row.append(info);box.append(row);
   }
- }catch(e){box.replaceChildren(el("p","auth-feedback",e.message))}
+ }catch(e){box.replaceChildren(element("p","auth-feedback",e.message))}
 }
 async function refreshModule(){
- const name=document.querySelector('.nav-item[aria-current="page"]')?.dataset.module;
- if(name==="team")await teamList();if(name==="reports")await auditList();
+ const m=document.querySelector('.nav-item[aria-current="page"]')?.dataset.module;
+ if(m==="team")await loadTeam();if(m==="reports")await loadAudit();
+}
+function openEdit(m){
+ editing=m;$("edit-member-heading").textContent="Edit: "+(m.display_name||m.email);
+ $("edit-member-status").value=m.status;
+ $("edit-member-name").value=m.display_name||"";
+ $("edit-member-title").value=m.organizational_title||"";
+ buildChoices("edit-member-permissions",m.permissions||[]);
+ visible("team-edit-form",true);visible("team-invite-form",false);
+ $("team-edit-form").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function openStepup(){
+ visible("staff-stepup-backdrop",true);
+ $("staff-stepup-code").value="";
+ notice("staff-stepup-status","A fresh email code is required to change staff access. Click Send Email Security Code.");
+ $("staff-stepup-send").focus();
+}
+function closeStepup(){visible("staff-stepup-backdrop",false);$("staff-stepup-code").value=""}
+async function sensitive(action,payload,onComplete){
+ if(staff?.role!=="chief_admin"){notice("team-feedback","Chief Admin access required",true);return}
+ try{
+  const s=await security("status");
+  if(!s.verified){
+   pendingSensitive={action,payload,onComplete};
+   openStepup();return;
+  }
+  await runSensitive(action,payload,onComplete);
+ }catch(e){notice("team-feedback",e.message,true)}
+}
+async function runSensitive(action,payload,onComplete){
+ try{
+  const result=await manage(action,payload);
+  await onComplete(result);
+ }catch(e){
+  if(e.stepupRequired){pendingSensitive={action,payload,onComplete};openStepup()}
+  else notice("team-feedback",e.message,true);
+ }
+}
+async function sendStepup(){
+ $("staff-stepup-send").disabled=true;
+ notice("staff-stepup-status","Sending a fresh security code…");
+ try{
+  const response=await security("send");
+  notice("staff-stepup-status",response.message||"Security email sent");
+ }catch(e){notice("staff-stepup-status",e.message,true)}
+ finally{$("staff-stepup-send").disabled=false}
+}
+async function verifyStepup(event){
+ event.preventDefault();$("staff-stepup-confirm").disabled=true;
+ try{
+  const code=$("staff-stepup-code").value.trim();
+  if(!/^\d{8}$/.test(code))throw Error("Enter the eight-digit code");
+  const data=await security("verify",{code});
+  if(!data.verified)throw Error("Email security not confirmed");
+  closeStepup();
+  const pending=pendingSensitive;pendingSensitive=null;
+  if(pending)await runSensitive(pending.action,pending.payload,pending.onComplete);
+ }catch(e){notice("staff-stepup-status",e.message,true)}
+ finally{$("staff-stepup-confirm").disabled=false;$("staff-stepup-code").value=""}
 }
 async function invite(event){
- event.preventDefault();if(staff?.role!=="chief_admin")return;
- const submit=$("team-invite-form").querySelector('button[type="submit"]');submit.disabled=true;
+ event.preventDefault();
+ const form=$("team-invite-form"),submit=form.querySelector('button[type="submit"]');
+ submit.disabled=true;
+ const payload={email:$("invite-email").value.trim(),
+  display_name:$("invite-name").value.trim()||null,
+  organizational_title:$("invite-title").value.trim()||null,
+  permissions:selectedChoices("invite-permissions")};
  try{
-  await request("team.invite",{email:$("invite-email").value.trim(),
-   display_name:$("invite-name").value.trim(),organizational_title:$("invite-title").value.trim(),
-   permissions:checked("invite-permissions")});
-  report("team-feedback","Team invitation created. The new member must verify the invitation and complete MFA.");
-  show("team-invite-form",false);await teamList();
- }catch(e){report("team-feedback",e.message,true)}
- finally{submit.disabled=false}
+  await sensitive("team.invite",payload,async()=>{
+   notice("team-feedback","Invitation emailed. The recipient must accept the one-time link and create their own account.");
+   form.reset();visible("team-invite-form",false);await loadTeam();
+  });
+ }finally{submit.disabled=false}
 }
 async function saveMember(event){
- event.preventDefault();if(staff?.role!=="chief_admin"||!editing)return;
+ event.preventDefault();if(!editing)return;
  const submit=$("team-edit-form").querySelector('button[type="submit"]');submit.disabled=true;
+ const payload={user_id:editing.id,status:$("edit-member-status").value,
+  display_name:$("edit-member-name").value.trim()||null,
+  organizational_title:$("edit-member-title").value.trim()||null,
+  permissions:selectedChoices("edit-member-permissions")};
  try{
-  await request("team.update",{user_id:editing.id,status:$("edit-member-status").value,
-   display_name:$("edit-member-name").value.trim()||null,
-   organizational_title:$("edit-member-title").value.trim()||null,
-   permissions:checked("edit-member-permissions")});
-  report("team-feedback","Staff member updated.");show("team-edit-form",false);editing=null;await teamList();
- }catch(e){report("team-feedback",e.message,true)}
- finally{submit.disabled=false}
+  await sensitive("team.update",payload,async()=>{
+   notice("team-feedback","Management member updated with audit record.");
+   editing=null;visible("team-edit-form",false);await loadTeam();
+  });
+ }finally{submit.disabled=false}
 }
 $("management-signin").addEventListener("submit",signIn);
-$("staff-verify-send").addEventListener("click",sendStaffVerification);
-$("staff-verify-form").addEventListener("submit",verifyStaffEmail);
-$("staff-verify-cancel").addEventListener("click",signOut);
-$("first-chief-toggle").addEventListener("click",()=>toggleChiefSetup(true));
-$("first-chief-cancel").addEventListener("click",()=>toggleChiefSetup(false));
-$("chief-setup-form").addEventListener("submit",registerInitialChief);
-$("mfa-form").addEventListener("submit",verifyMfa);
-$("mfa-cancel").addEventListener("click",signOut);
-$("team-invite-show").addEventListener("click",()=>{buildChoices("invite-permissions");show("team-invite-form",true);show("team-edit-form",false)});
-$("invite-cancel").addEventListener("click",()=>show("team-invite-form",false));
-$("edit-member-cancel").addEventListener("click",()=>show("team-edit-form",false));
+$("invitation-accept-form").addEventListener("submit",acceptInvitation);
+$("invitation-existing-toggle").addEventListener("click",toggleExistingAccount);
+$("invitation-cancel").addEventListener("click",()=>{inviteToken=null;inviteDetails=null;visible("staff-invitation-panel",false);visible("management-signin",true)});
+$("staff-stepup-send").addEventListener("click",sendStepup);
+$("staff-stepup-form").addEventListener("submit",verifyStepup);
+$("staff-stepup-cancel").addEventListener("click",()=>{pendingSensitive=null;closeStepup()});
+$("team-invite-show").addEventListener("click",()=>{buildChoices("invite-permissions");visible("team-invite-form",true);visible("team-edit-form",false)});
+$("invite-cancel").addEventListener("click",()=>visible("team-invite-form",false));
+$("edit-member-cancel").addEventListener("click",()=>visible("team-edit-form",false));
 $("team-invite-form").addEventListener("submit",invite);
 $("team-edit-form").addEventListener("submit",saveMember);
 window.addEventListener("mednest:module",()=>{if(staff&&authorized)refreshModule()});
 window.addEventListener("mednest:signout",signOut);
-document.addEventListener("visibilitychange",()=>{if(!document.hidden&&authorized)checkSession().catch(()=>signOut())});
-try{await checkSession()}catch(_){await signOut()}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&authorized)checkSession().catch(signOut)});
+inviteToken=parseInviteFromUrl();
+if(inviteToken)await loadInvitation();
+else try{await checkSession()}catch{await signOut()}
