@@ -62,17 +62,6 @@
           <button id="invitation-cancel" class="return-btn" type="button">← Back to Sign In</button>
           <p class="secondary-note">Your invitation is personal and expires after 72 hours. Never share the invitation link or password.</p>
         </section>
-        <section id="staff-stepup-panel" class="security-flow is-hidden" aria-label="Confirm sensitive staff management action">
-          <h3>Confirm Staff Access Change</h3>
-          <p>To invite a member or change their permissions, verify an email security code. No authenticator app or QR scan is needed.</p>
-          <p id="staff-stepup-status" class="auth-feedback" role="status" aria-live="polite"></p>
-          <button id="staff-stepup-send" type="button" class="secondary-btn">Send Email Security Code</button>
-          <form id="staff-stepup-form">
-            <div class="field"><label for="staff-stepup-code">8-digit email security code</label><input id="staff-stepup-code" type="text" inputmode="numeric" maxlength="8" pattern="[0-9]{8}" autocomplete="one-time-code" required placeholder="00000000"></div>
-            <button id="staff-stepup-confirm" type="submit" class="primary-btn">Verify &amp; Continue <span aria-hidden="true">→</span></button>
-          </form>
-          <button id="staff-stepup-cancel" type="button" class="return-btn">← Cancel</button>
-        </section>
         <p id="auth-feedback" class="auth-feedback" role="status" aria-live="polite"></p>
         <div class="notice"><span class="notice-icon" aria-hidden="true">i</span><span><strong>Authorized management staff only.</strong> Sign In uses staging Supabase Auth; Chief Admin powers require separate staff authorization; sensitive changes require an additional email security code. No student LMS registration is required.</span></div>
         <p class="secondary-note">Team access is invitation-only. Chief Admin controls staff permissions and account status.</p>
@@ -223,6 +212,19 @@
         <footer class="workspace-footer"><span>SJN MedNest Management Panel</span><span>Phase 1A • Secured staff foundation</span></footer>
       </main>
     </div>
+  </div>
+  <div id="staff-stepup-backdrop" class="staff-stepup-backdrop is-hidden">
+        <section id="staff-stepup-panel" class="security-flow staff-stepup-modal" role="dialog" aria-modal="true" aria-label="Confirm sensitive staff management action">
+          <h3>Confirm Staff Access Change</h3>
+          <p>To invite a member or change their permissions, verify an email security code. No authenticator app or QR scan is needed.</p>
+          <p id="staff-stepup-status" class="auth-feedback" role="status" aria-live="polite"></p>
+          <button id="staff-stepup-send" type="button" class="secondary-btn">Send Email Security Code</button>
+          <form id="staff-stepup-form">
+            <div class="field"><label for="staff-stepup-code">8-digit email security code</label><input id="staff-stepup-code" type="text" inputmode="numeric" maxlength="8" pattern="[0-9]{8}" autocomplete="one-time-code" required placeholder="00000000"></div>
+            <button id="staff-stepup-confirm" type="submit" class="primary-btn">Verify &amp; Continue <span aria-hidden="true">→</span></button>
+          </form>
+          <button id="staff-stepup-cancel" type="button" class="return-btn">← Cancel</button>
+        </section>
   </div>
 </body>
 </html>
