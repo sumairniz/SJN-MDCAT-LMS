@@ -5,6 +5,7 @@
  const $=id=>document.getElementById(id);
  if(!core||!$("content-studio-preview"))return;
  let drafts=[],selected=-1,filter="all",page=0;
+ let savedBatchId=null,clientBatchKey=null;
  const PAGE_SIZE=40;
  const feedback=(message,error=false)=>{const el=$("studio-feedback");el.textContent=message;el.dataset.error=String(error)};
  const show=(id,on)=>$(id).classList.toggle("is-hidden",!on);
@@ -138,6 +139,81 @@
    if(!window.confirm("Clear all unpublished drafts from this browser session? Export first if you want to keep them."))return;
    drafts=[];selected=-1;page=0;show("studio-editor",false);render();
    feedback("Browser draft cleared. Existing LMS MCQs were not affected.");
+ });
+ const storageStatus=(message,error=false)=>{
+   const el=$("studio-storage-status");el.textContent=message;el.dataset.error=String(error);
+ };
+ const storage=()=>{
+   if(!window.MedNestStudioStorage)throw Error("Protected draft storage is not ready. Refresh the Management Panel.");
+   return window.MedNestStudioStorage;
+ };
+ const busy=(active)=>{
+   for(const id of ["studio-save-batch","studio-refresh-batches","studio-load-batch"])$(id).disabled=active;
+ };
+ async function reloadBatchList(){
+   const response=await storage().list();
+   const list=$("studio-saved-batches");const previous=list.value;
+   list.replaceChildren(new Option("Select a saved draft batch",""));
+   for(const batch of response.batches||[]){
+     const label=batch.title+" — "+new Date(batch.updated_at).toLocaleString();
+     list.append(new Option(label,batch.id));
+   }
+   if([...list.options].some(x=>x.value===previous))list.value=previous;
+ }
+ $("studio-refresh-batches").addEventListener("click",async()=>{
+   busy(true);
+   try{await reloadBatchList();storageStatus("Protected draft batches refreshed.");}
+   catch(e){storageStatus(e.message,true)}
+   finally{busy(false)}
+ });
+ $("studio-save-batch").addEventListener("click",async()=>{
+   busy(true);
+   const currentBatchId=savedBatchId;
+   try{
+     if(!drafts.length)throw Error("Add or import MCQ drafts first.");
+     const title=$("studio-batch-name").value.trim();
+     if(!title)throw Error("Enter a name for this draft batch.");
+     if(drafts.length>3000)throw Error("Protected storage supports 3,000 rows per batch. Split larger imports.");
+     // Keep idempotency token in memory to safely resume failed chunk uploads.
+     if(!clientBatchKey)clientBatchKey=window.crypto.randomUUID();
+     const result=await storage().save({
+       batchId:currentBatchId,clientKey:clientBatchKey,title,items:drafts,
+       onProgress:(done,total)=>storageStatus("Securely saved "+done+" of "+total+" draft rows…")
+     });
+     savedBatchId=result.batchId;
+     clientBatchKey=result.clientKey;
+     storageStatus("Saved "+result.saved+" draft rows to Management Auth. This did NOT publish or alter student MCQs.");
+     await reloadBatchList();
+     $("studio-saved-batches").value=savedBatchId;
+   }catch(e){storageStatus(e.message,true)}
+   finally{busy(false)}
+ });
+ $("studio-load-batch").addEventListener("click",async()=>{
+   const id=$("studio-saved-batches").value;
+   if(!id){storageStatus("Choose a saved draft batch first.",true);return;}
+   if(drafts.length&&!window.confirm("Replace current browser drafts with the selected saved batch? Export unsaved changes first."))return;
+   busy(true);
+   try{
+     const result=await storage().load(id);
+     if(!result.batch?.id||result.batch.id!==id)throw Error("Saved batch could not be verified.");
+     // Apply only after every page has loaded successfully.
+     drafts=result.rows;
+     selected=-1;page=0;filter="all";$("studio-filter").value="all";
+     savedBatchId=id;clientBatchKey=result.batch.client_key;
+     $("studio-batch-name").value=result.batch.title;
+     show("studio-editor",false);render();
+     storageStatus("Loaded "+drafts.length+" unpublished rows from protected Management Auth storage.");
+   }catch(e){storageStatus(e.message,true)}
+   finally{busy(false)}
+ });
+ window.addEventListener("mednest:signed-out",()=>{
+   // Browser memory must not retain sensitive staff draft content after sign-out.
+   drafts=[];selected=-1;filter="all";page=0;
+   savedBatchId=null;clientBatchKey=null;
+   $("studio-saved-batches").replaceChildren(new Option("Select a saved draft batch",""));
+   writeEditor({});$("studio-batch-name").value="Unpublished MCQ Review Batch";
+   $("studio-file").value="";show("studio-editor",false);render();
+   storageStatus("Signed out. Browser draft data cleared; saved Management Auth batches remain protected.");
  });
  $("studio-editor").classList.add("is-hidden");
  render();
