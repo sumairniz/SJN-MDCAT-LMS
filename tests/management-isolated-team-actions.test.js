@@ -8,7 +8,7 @@ const get=p=>fs.readFileSync(path.join(root,p),"utf8");
 test("New isolated team action API remains explicitly fail-closed",()=>{
  const s=get("database/management/mednest-isolated-team-actions/index.ts");
  assert.match(s,/const WRITES_ENABLED=false/);
- assert.match(s,/if\(!\["capabilities","invite\\.preview"\]\\.includes\(body.action\)&&!WRITES_ENABLED\)/);
+ assert.ok(s.includes('if(!["capabilities","invite.preview"].includes(body.action)&&!WRITES_ENABLED)'));
  assert.match(s,/if\(!WRITES_ENABLED\)return response/);
  assert.match(s,/mednest_staff_session_live/);
  assert.match(s,/db\.auth\.getUser\(token\)/);
