@@ -4,6 +4,7 @@ import {createClient} from "https://esm.sh/@supabase/supabase-js@2.95.0?bundle";
 const URL="https://tdqbjhrmfluiinntmjfh.supabase.co";
 const KEY="sb_publishable_Redb-pOjNOSpDKg1uIbUBg_-PUCt5XX";
 const API=URL+"/functions/v1/mednest-isolated-auth";
+const STEPUP=URL+"/functions/v1/mednest-isolated-stepup";
 // Stable, deployment-protected branch alias: never redirect verification to localhost.
 const EMAIL_CONFIRM_REDIRECT="https://sjn-mednest-management-git-sjn-phase1a-foundation-sjn1.vercel.app/isolated-auth-preview.html";
 const client=createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,
@@ -11,10 +12,10 @@ const client=createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:tr
 const $=id=>document.getElementById(id);
 let active=false;
 const status=(message,error=false)=>{const el=$("auth-status");el.textContent=message;el.dataset.error=String(error)};
-async function api(action,fields={}){
+async function api(action,fields={},endpoint=API){
  const {data:{session}}=await client.auth.getSession();
  if(!session?.access_token)throw Error("Sign in to the isolated management account first.");
- const r=await fetch(API,{method:"POST",cache:"no-store",credentials:"omit",headers:{
+ const r=await fetch(endpoint,{method:"POST",cache:"no-store",credentials:"omit",headers:{
   "apikey":KEY,"content-type":"application/json","authorization":"Bearer "+session.access_token
  },body:JSON.stringify({action,...fields})});
  const data=await r.json().catch(()=>({error:"Unable to read management verification response"}));
@@ -23,6 +24,7 @@ async function api(action,fields={}){
 }
 function fill(member){
  active=true;$("signed-out").hidden=true;$("signed-in").hidden=false;
+ refreshStepup().catch(()=>{});
  $("profile-email").textContent=member.email;
  $("profile-state").textContent=member.status;
  $("display-name").value=member.display_name||"";
@@ -42,20 +44,6 @@ $("identity-form").addEventListener("submit",async event=>{
   await load();
  }catch(e){status(e.message,true)}finally{button.disabled=false}
 });
-$("setup-btn").addEventListener("click",async()=>{
- const email=$("staff-email").value.trim().toLowerCase(),password=$("staff-password").value;
- if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||password.length<12){
-  status("Enter your already approved email and a new private password containing at least 12 characters.",true);return;
- }
- $("setup-btn").disabled=true;status("Creating independent authentication identity…");
- try{
-  const {data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:EMAIL_CONFIRM_REDIRECT}});
-  $("staff-password").value="";
-  if(error)throw Error("Account setup failed. Confirm whether the new-project email service is configured.");
-  if(data.session){await load();return}
-  status("Setup request received. Confirm the email from the new Auth project, then return here and use Sign In. Your old Management Panel account is unchanged.");
- }catch(e){status(e.message,true)}finally{$("setup-btn").disabled=false}
-});
 $("profile-form").addEventListener("submit",async event=>{
  event.preventDefault();status("Saving protected profile…");
  try{
@@ -68,7 +56,9 @@ $("profile-form").addEventListener("submit",async event=>{
 $("signout-btn").addEventListener("click",async()=>{
  await client.auth.signOut({scope:"local"});
  active=false;$("signed-in").hidden=true;$("signed-out").hidden=false;
- $("staff-password").value="";status("Signed out of the independent management account.");
+ $("staff-password").value="";$("stepup-form").hidden=true;
+ $("stepup-status").textContent="Security authorization is session-specific. Sign in to check it.";
+ status("Signed out of the independent management account.");
 });
 // Display a useful message for reused/expired links without exposing token fragments.
 const callbackHash=window.location.hash.startsWith("#error=")?new URLSearchParams(window.location.hash.slice(1)):null;
@@ -81,3 +71,49 @@ if(callbackHash){
 }
 const {data:{session}}=await client.auth.getSession();
 if(session)await load();
+
+async function refreshStepup(){
+ const el=$("stepup-status");
+ if(!active)return;
+ try{
+  const result=await api("status",{},STEPUP);
+  $("stepup-send").disabled=!result.configured;
+  $("stepup-form").hidden=true;
+  if(result.verified){
+   const end=new Date(result.expires_at);
+   el.textContent="Authorized until "+end.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})+
+    " in this signed-in session. After expiry, another code is required before your next sensitive change.";
+  }else if(!result.configured){
+   el.textContent="Email security is built, but the new project's verified email sender is not configured yet. No code can be sent.";
+  }else{
+   el.textContent="Not currently verified. Sensitive operations will need an email code; ordinary profile actions do not.";
+  }
+ }catch(e){el.textContent="Unable to check sensitive-action authorization: "+e.message}
+}
+$("stepup-refresh").addEventListener("click",()=>refreshStepup());
+$("stepup-send").addEventListener("click",async()=>{
+ const b=$("stepup-send"); b.disabled=true;
+ $("stepup-status").textContent="Requesting secure email code…";
+ try{
+  const out=await api("send",{},STEPUP);
+  $("stepup-status").textContent=out.message||"Security code request submitted.";
+  $("stepup-form").hidden=Boolean(out.already_verified);
+  if(!out.already_verified)$("stepup-code").focus();
+ }catch(e){$("stepup-status").textContent=e.message}
+ finally{b.disabled=false}
+});
+$("stepup-form").addEventListener("submit",async event=>{
+ event.preventDefault();
+ const code=$("stepup-code").value.trim();
+ if(!/^[0-9]{8}$/.test(code)){ $("stepup-status").textContent="Enter the eight-digit code";return }
+ const button=$("stepup-form").querySelector("button[type=submit]");
+ button.disabled=true;
+ try{
+  const out=await api("verify",{code},STEPUP);
+  $("stepup-code").value="";
+  $("stepup-form").hidden=true;
+  $("stepup-status").textContent=out.message||"Sensitive action authorization verified.";
+  await refreshStepup();
+ }catch(e){$("stepup-status").textContent=e.message;$("stepup-code").value=""}
+ finally{button.disabled=false}
+});
