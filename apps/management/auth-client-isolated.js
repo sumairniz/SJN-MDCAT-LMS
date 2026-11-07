@@ -197,8 +197,8 @@ function renderMembers(members){
   $("chief-administrator-identity").textContent=chief.display_name
    ?chief.display_name:"Protected Chief Administrator account";
  }
- $("team-total").textContent=team.length;
- $("team-active").textContent=team.filter(x=>x.status==="active").length;
+ $("team-total").textContent=members.length;
+ $("team-active").textContent=members.filter(x=>x.status==="active").length;
  if(!team.length){
   area.append(element("p","staff-empty-state","No Management Team Members yet. This area will display authorized members after staff onboarding is safely enabled."));
   return;
