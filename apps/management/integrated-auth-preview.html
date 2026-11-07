@@ -9,8 +9,11 @@
   <title>SJN MedNest | Integrated Management Auth Preview</title>
   <script src="/theme.js"></script>
   <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/content-studio.css">
   <script src="/app.js" defer></script>
   <script type="module" src="/auth-client-isolated.js"></script>
+  <script defer src="/content-studio-core.js"></script>
+  <script defer src="/content-studio.js"></script>
 </head>
 <body>
   <div id="signin" class="auth-screen">
@@ -133,6 +136,76 @@
             </section>
           </div>
         </section>
+        <section id="content-studio-preview" class="is-hidden" aria-label="Question Content Studio">
+  <div class="studio-banner"><strong>Safe draft workspace</strong> — Create and validate MCQs without modifying the student Question Bank. Original past-paper text and source keys remain unchanged. Drafts remain in this browser session until exported. Live publishing and XLSX import require the separately authorized content service.</div>
+  <div class="studio-summary" aria-label="Draft import quality">
+    <article><span>Draft questions</span><strong id="studio-total">0</strong></article>
+    <article><span>Ready</span><strong id="studio-ready">0</strong></article>
+    <article><span>Needs review</span><strong id="studio-review">0</strong></article>
+    <article><span>Invalid</span><strong id="studio-invalid">0</strong></article>
+  </div>
+  <div class="studio-panels">
+    <section class="studio-panel">
+      <h2>Import &amp; Validate MCQs</h2>
+      <p>Upload a UTF-8 CSV with one question per row. Include each row's Question Bank, Subject, Chapter, Topic, source and all four options. Mixed subjects/chapters are supported. Questions are checked for missing fields, invalid answers and duplicate rows before review.</p>
+      <div class="studio-actions"><button type="button" id="studio-template">Download CSV Template</button><button type="button" id="studio-new">Create Single MCQ</button></div>
+      <label for="studio-file">Choose a CSV batch (maximum 10,000 draft questions)</label>
+      <input class="studio-file" id="studio-file" type="file" accept=".csv,text/csv">
+      <p>CSV is available in this foundation. Excel (.xlsx) file import and direct publication are not yet enabled.</p>
+    </section>
+    <section class="studio-panel">
+      <h2>Quality &amp; Source Protection</h2>
+      <p>Questions in the original Past Papers Question Bank require a traceable source. No AI-generated answer-key corrections are applied. Warnings call for manual academic review.</p>
+      <p><strong>Approved ordinary banks:</strong> SJN Question Bank (new academy-authored drafts) and Past Papers Question Bank (original exam-source content).</p>
+      <p><strong>Course Tests:</strong> remain a separate protected question pool, not imported here. The original source-paper records and immutable student attempt revisions are untouched.</p>
+      <div class="studio-actions"><button type="button" id="studio-export" disabled>Export Unpublished Drafts</button><button type="button" id="studio-clear">Clear Drafts</button></div>
+    </section>
+  </div>
+  <section class="studio-panel" aria-label="Draft question review table">
+    <h2>Import Review Queue</h2>
+    <div class="studio-toolbar">
+      <label for="studio-filter">Filter by validation</label>
+      <select id="studio-filter"><option value="all">All drafts</option><option value="ready">Ready</option><option value="review">Needs review</option><option value="invalid">Invalid</option></select>
+      <span id="studio-range" class="tiny-text">No drafts</span>
+    </div>
+    <div class="studio-table-scroll"><table class="studio-table">
+      <thead><tr><th>Status</th><th>Question Bank</th><th>Subject / Chapter</th><th>Question statement</th><th>Action</th></tr></thead>
+      <tbody id="studio-draft-list"></tbody>
+    </table></div>
+    <div class="studio-pagination"><span id="studio-page">Page 1 of 1</span>
+      <div class="studio-toolbar"><button id="studio-prev" type="button">Previous</button><button id="studio-next" type="button">Next</button></div>
+    </div>
+    <p id="studio-feedback" class="studio-feedback" role="status" aria-live="polite"></p>
+  </section>
+  <section class="studio-panel is-hidden" id="studio-editor" aria-label="Question draft editor">
+    <h2 id="studio-editor-heading">Create a new MCQ draft</h2>
+    <p>Editing a draft never edits a published MCQ. Answer labels are A–D. You can export the draft package for academic review.</p>
+    <form id="studio-editor-form">
+      <div class="studio-editor-grid">
+        <div class="studio-field"><label for="studio-bank">Question Bank</label><select id="studio-bank"><option value="SJN Question Bank">SJN Question Bank</option><option value="Past Papers Question Bank">Past Papers Question Bank</option></select></div>
+        <div class="studio-field"><label for="studio-subject">Subject</label><select id="studio-subject"><option>Biology</option><option>Chemistry</option><option>Physics</option><option>English</option><option>Logical Reasoning</option></select></div>
+        <div class="studio-field"><label for="studio-chapter">Chapter</label><input id="studio-chapter" maxlength="160" required></div>
+        <div class="studio-field"><label for="studio-topic">Topic</label><input id="studio-topic" maxlength="160" required></div>
+        <div class="studio-field studio-field--wide"><label for="studio-question">Question statement</label><textarea id="studio-question" maxlength="6000" rows="3" required></textarea></div>
+        <div class="studio-field"><label for="studio-option_a">Option A</label><textarea id="studio-option_a" maxlength="6000" rows="2" required></textarea></div>
+        <div class="studio-field"><label for="studio-option_b">Option B</label><textarea id="studio-option_b" maxlength="6000" rows="2" required></textarea></div>
+        <div class="studio-field"><label for="studio-option_c">Option C</label><textarea id="studio-option_c" maxlength="6000" rows="2" required></textarea></div>
+        <div class="studio-field"><label for="studio-option_d">Option D</label><textarea id="studio-option_d" maxlength="6000" rows="2" required></textarea></div>
+        <div class="studio-field"><label for="studio-correct_option">Correct answer</label><select id="studio-correct_option"><option value="">Select the correct option</option><option>A</option><option>B</option><option>C</option><option>D</option></select></div>
+        <div class="studio-field"><label for="studio-source">Question source</label><input id="studio-source" maxlength="200" placeholder="UHS 2025 / SJN author"></div>
+        <div class="studio-field studio-field--wide"><label for="studio-explanation">Concise textbook-aligned explanation</label><textarea id="studio-explanation" rows="3"></textarea></div>
+        <div class="studio-field studio-field--wide"><label for="studio-mnemonic">Mnemonic (optional)</label><textarea id="studio-mnemonic" rows="2"></textarea></div>
+        <div class="studio-field"><label for="studio-region">Region</label><select id="studio-region"><option value="">Not applicable</option><option value="sindh">Sindh</option><option value="punjab">Punjab</option><option value="kpk">KP</option><option value="balochistan">Balochistan</option><option value="federal">Federal</option><option value="nums">NUMS</option></select></div>
+        <div class="studio-field"><label for="studio-year">Past paper year</label><input id="studio-year" maxlength="4" inputmode="numeric" placeholder="2025"></div>
+        <div class="studio-field"><label for="studio-paper_code">Original paper code (optional)</label><input id="studio-paper_code" maxlength="100" placeholder="Blue / Code 2"></div>
+      </div>
+      <div class="studio-editor-actions">
+        <button id="studio-save" class="primary-btn" type="submit">Add to Draft</button>
+        <button id="studio-cancel" class="secondary-btn" type="button">Cancel</button>
+      </div>
+    </form>
+  </section>
+</section>
         <section id="team-preview" class="team-preview is-hidden" aria-label="Management Team and permissions">
           <div id="team-notice" class="profile-preview-banner"><p>Team membership is available only to the Chief Admin. No member can grant or change their own access.</p></div>
           <div class="team-stat-grid">
