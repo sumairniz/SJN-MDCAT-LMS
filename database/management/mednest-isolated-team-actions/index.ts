@@ -8,7 +8,7 @@ const RESEND=Deno.env.get("RESEND_API_KEY")||"";
 const SENDER=Deno.env.get("MEDNEST_STAFF_EMAIL_FROM")||"";
 const INVITE_BASE="https://sjn-mednest-management-git-sjn-phase1a-foundation-sjn1.vercel.app/isolated-staff-invite.html";
 // Gate is deliberately hard-coded false; configuration alone cannot activate writes.
-const WRITES_ENABLED=false;
+const WRITES_ENABLED=false; // Hard-disabled; configure secrets alone cannot switch on invitations.
 const SENDER_APPROVED=Deno.env.get("MEDNEST_STAFF_SENDER_VERIFIED")==="true";
 const REF="tdqbjhrmfluiinntmjfh";
 const ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9]+|-git-sjn-phase1a-foundation)-sjn1\.vercel\.app$/;
@@ -44,7 +44,7 @@ Deno.serve(async req=>{
   "capabilities","team.invite","team.update","team.revoke_invite","invite.preview","invite.accept"
  ].includes(body.action))throw Error()}
  catch{return response(origin,400,{error:"Unsupported action"})}
- if(body.action!=="capabilities"&&!WRITES_ENABLED)
+ if(!["capabilities","invite.preview"].includes(body.action)&&!WRITES_ENABLED)
   return response(origin,503,{error:"Staff access changes remain disabled pending verified email delivery and owner security UAT"});
  const token=(req.headers.get("authorization")||"").replace(/^Bearer /,"");
  const claims=jwtClaims(token);
@@ -67,7 +67,24 @@ Deno.serve(async req=>{
    staff_invitation_delivery_enabled:WRITES_ENABLED&&senderConfigured()
   });
  }
- // No live writes without both explicit activation and verified sender.
+ // Invitation preview is available only to the EXACT signed-in verified recipient.
+ // Tokens are never accepted as authorization without matching email + live session.
+ if(body.action==="invite.preview"){
+  if(!code(body.token))return response(origin,400,{error:"Invalid invitation"});
+  const {data:inv,error:invError}=await db.from("mednest_staff_invitations")
+   .select("display_name,organizational_title,email,expires_at,state,delivery_status")
+   .eq("token_hash",await hash(body.token)).maybeSingle();
+  if(invError)return response(origin,503,{error:"Invitation lookup unavailable"});
+  if(!inv||inv.email!==(user.email||"").trim().toLowerCase()
+    ||inv.state!=="pending"||inv.delivery_status!=="sent"
+    ||new Date(inv.expires_at)<=new Date())
+   return response(origin,403,{error:"No valid invitation for this verified management email"});
+  return response(origin,200,{invitation:{
+   display_name:inv.display_name,organizational_title:inv.organizational_title,
+   email:inv.email,expires_at:inv.expires_at
+  },acceptance_enabled:WRITES_ENABLED});
+ }
+ // Live staff mutations remain disabled until owner-reviewed activation.
  if(!WRITES_ENABLED)return response(origin,503,{error:"Staff operations unavailable"});
  if(body.action==="invite.accept"){
   if(!code(body.token))return response(origin,400,{error:"Invalid invitation"});
@@ -79,17 +96,6 @@ Deno.serve(async req=>{
    response(origin,403,{error:"Invitation invalid, expired, or does not match the verified email"});
  }
  if(!isChief)return response(origin,403,{error:"Chief Administrator required"});
- if(body.action==="invite.preview"){
-  // Privately delegated to owner after verification; invitation token never returned in a list.
-  if(!code(body.token))return response(origin,400,{error:"Invalid invitation"});
-  const {data,error}=await db.from("mednest_staff_invitations")
-   .select("display_name,organizational_title,email,expires_at,state")
-   .eq("token_hash",await hash(body.token)).maybeSingle();
-  if(error||!data||data.state!=="pending"||new Date(data.expires_at)<=new Date())
-   return response(origin,410,{error:"Invitation unavailable"});
-  return response(origin,200,{invitation:{display_name:data.display_name,
-   organizational_title:data.organizational_title,email:data.email,expires_at:data.expires_at}});
- }
  if(body.action==="team.invite"){
   if(!senderConfigured())return response(origin,503,{error:"Dedicated verified staff email sender is not configured"});
   const email=typeof body.email==="string"?body.email.trim().toLowerCase():"";
@@ -124,11 +130,13 @@ Deno.serve(async req=>{
    })});
    delivered=out.ok;
   }catch{}
-  if(!delivered){
-   await db.from("mednest_staff_invitations").update({state:"revoked",updated_at:new Date().toISOString()})
-    .eq("id",invitationId).eq("state","pending");
-   return response(origin,503,{error:"Invitation email could not be delivered; no usable invitation was issued"});
-  }
+  // Invitation starts queued/nonredeemable; only the atomic service-role
+  // finalize RPC can mark it sent after provider acceptance.
+  const {data:finalized,error:finalizeError}=await db.rpc("mednest_staff_finalize_invitation_delivery",{
+   p_actor:user.id,p_session:claims.session_id,p_invitation:invitationId,p_delivered:delivered
+  });
+  if(finalizeError||finalized!=="sent")
+   return response(origin,503,{error:"Invitation could not be activated safely; contact Chief Administrator"});
   return response(origin,200,{sent:true});
  }
  if(body.action==="team.revoke_invite"){
