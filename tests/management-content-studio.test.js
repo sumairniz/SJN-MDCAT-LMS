@@ -82,7 +82,8 @@ test("Professional panel exposes draft-only Content Studio and no direct student
  assert.ok(ui.includes('core.exportDrafts(drafts)'));
  assert.ok(ui.includes('const PAGE_SIZE=40'));
  assert.ok(!ui.includes("supabase.co"));
- assert.ok(!ui.includes("fetch("));
+ assert.ok(ui.includes('fetch("/content-studio-taxonomy-snapshot.json"'));
+ assert.ok(!ui.includes("fetch(\"https://"));
  assert.ok(!engine.includes("supabase.co"));
  assert.ok(!engine.includes("fetch("));
  assert.ok(!html.includes('id="studio-publish"'));
