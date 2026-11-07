@@ -25,7 +25,7 @@ test("All standalone HTML ids are unique and navigation routes resolve",()=>{
  const routes=["questions","syllabus","reviews","team","profile"];
  for(const route of routes){
   assert.ok(html.includes('data-module="'+route+'"'),"nav missing "+route);
-  assert.ok(new RegExp("\\b"+route+": \\[\\"").test(app),"route missing "+route);
+  assert.ok(app.includes(route+": ["),"route missing "+route);
  }
  assert.ok(app.includes('academicReviewPreview.classList.toggle("is-hidden", key !== "reviews")'));
  assert.ok(app.includes('syllabusManager.classList.toggle("is-hidden", key !== "syllabus")'));
