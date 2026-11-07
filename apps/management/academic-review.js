@@ -101,12 +101,19 @@ async function openDetail(id){
   $("review-detail-pane").scrollIntoView({behavior:"smooth",block:"nearest"});
   const pending=selected.state==="pending";
   const own=selected.author_user_id===(await client.auth.getUser()).data.user?.id;
-  $("review-approve").disabled=!pending||own;
-  $("review-request-changes").disabled=!pending||own;
-  $("review-withdraw").disabled=!pending||!own;
   status("Submission loaded. Self-approval is blocked; source MCQs are unchanged.");
  }catch(e){selected=null;status(e.message,true)}
- finally{busy(false)}
+ finally{
+  busy(false);
+  // busy(false) must not unintentionally re-enable actions prohibited by role or state.
+  if(selected){
+   const own=selected.author_user_id===(await client.auth.getUser()).data.user?.id;
+   const pending=selected.state==="pending";
+   $("review-approve").disabled=!pending||own;
+   $("review-request-changes").disabled=!pending||own;
+   $("review-withdraw").disabled=!pending||!own;
+  }
+ }
 }
 async function run(fn){
  if(loading)return;
