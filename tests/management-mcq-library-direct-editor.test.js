@@ -29,7 +29,7 @@ test("MCQ edit API preserves original revision, rejects stale updates and checks
  assert.ok(api.includes('mednest_mcq_edit_save_draft'));
  assert.ok(api.includes("Select an approved active syllabus topic"));
  assert.ok(api.includes("Edited Subject, Chapter and Topic must match"));
- assert.ok(api.includes("source:source"));
+ assert.ok(api.includes("fields:baseline"));
  assert.ok(api.includes("published:false"));
 });
 test("Management edit draft SQL cannot directly edit MCQ source or historical revisions",()=>{
