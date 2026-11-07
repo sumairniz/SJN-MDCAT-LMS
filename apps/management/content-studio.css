@@ -38,3 +38,12 @@
 .studio-editor-actions button{width:auto}
 @media(max-width:920px){.studio-panels{grid-template-columns:1fr}.studio-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.studio-editor-grid{grid-template-columns:1fr}.studio-summary article{padding:13px}.studio-panel{padding:16px}.studio-summary strong{font-size:25px}}
+
+/* Chief-only direct MCQ Library: same responsive shell, separate publish-disabled editing. */
+#mcq-library .studio-panel{margin-bottom:18px}
+#mcq-lib-search{min-width:160px;flex:1;border:1px solid var(--line);border-radius:9px;background:var(--panel-alt);color:var(--text);padding:10px 12px;font-size:12px}
+#mcq-lib-results td:nth-child(4){max-width:380px;min-width:180px}
+#mcq-lib-edit-bank[readonly]{opacity:.8;cursor:not-allowed}
+#mcq-lib-paging{color:var(--muted);font-size:12px}
+#mcq-lib-syllabus-topic{width:100%}
+#mcq-lib-editor .studio-editor-actions{align-items:center}
