@@ -76,7 +76,9 @@ test("Professional panel exposes draft-only Content Studio and no direct student
  assert.ok(html.includes('id="studio-editor-form"'));
  assert.ok(app.includes('key !== "questions"'));
  assert.ok(app.includes('key === "questions"'));
- assert.ok(ui.includes('core.importCSV(text)'));
+ assert.ok(ui.includes('core.importCSV(await file.text())'));
+ assert.ok(ui.includes('MedNestXLSX.readXLSX'));
+ assert.ok(ui.includes('MedNestXLSX.toCSV'));
  assert.ok(ui.includes('core.exportDrafts(drafts)'));
  assert.ok(ui.includes('const PAGE_SIZE=40'));
  assert.ok(!ui.includes("supabase.co"));
