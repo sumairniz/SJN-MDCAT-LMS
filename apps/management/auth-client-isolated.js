@@ -47,12 +47,6 @@ function parseInviteFromUrl(){
  }
  return null;
 }
-function disabledLegacyInviteParser(){
- const match=window.location.hash.match(/^#invite=([a-f0-9]{64})$/i);
- if(!match)return null;
- window.history.replaceState(null,"",window.location.pathname+window.location.search);
- return match[1].toLowerCase();
-}
 async function call(endpoint,action,fields={},useAuth=true){
  const headers={"apikey":KEY,"content-type":"application/json"};
  if(useAuth){
@@ -141,13 +135,19 @@ function selectedChoices(id){return [...$(id).querySelectorAll('input[type="chec
 async function signOut(){
  try{await client.auth.signOut({scope:"local"})}catch(_){}
  staff=null;authorized=false;editing=null;pendingSensitive=null;
+ $("member-profile-email").textContent="—";
+ $("member-profile-name").textContent="Signed out";
+ $("chief-administrator-identity").textContent="Protected account";
+ $("team-directory-list").replaceChildren();
+ $("pending-invitations-list").replaceChildren();
+ $("audit-event-list").replaceChildren();
  $("password").value="";$("staff-stepup-code").value="";
  closeStepup();visible("staff-invitation-panel",false);visible("management-signin",true);
  window.dispatchEvent(new Event("mednest:signed-out"));
 }
 async function checkSession(){
  const {data:{session}}=await client.auth.getSession();
- if(!session?.access_token)return;
+ if(!session?.access_token){if(authorized)await signOut();return;}
  const response=await manage("me");
  if(response?.member?.role!=="chief_admin"||response.member.status!=="active")
    throw Error("No active isolated Chief Administrator access");
@@ -175,64 +175,16 @@ async function signIn(event){
     "This account has no Management Panel access. Ask Chief Admin to invite you.":e.message,true);
  }finally{busy=false;$("signin-submit").disabled=false}
 }
+// Staff invitation sign-up and acceptance are not supported in this preview.
 async function loadInvitation(){
- if(!inviteToken)return;
- try{
-  const data=await call(API,"invite.preview",{token:inviteToken},false);
-  inviteDetails=data.invitation;
-  $("invitation-email").value=inviteDetails.email;
-  $("invitation-description").textContent=
-    "You were invited to SJN MedNest Management Panel"+(inviteDetails.display_name?
-      " as "+inviteDetails.display_name:"")+
-    ". Use the exact invited email and choose a private password. No student registration is required.";
-  visible("management-signin",false);visible("staff-invitation-panel",true);
-  notice("invitation-feedback","Invitation valid until "+new Date(inviteDetails.expires_at).toLocaleString()+".");
-  $("invitation-password").focus();
- }catch(e){
-  inviteToken=null;visible("staff-invitation-panel",false);
-  notice("auth-feedback",e.message,true);
- }
+ notice("auth-feedback","Staff registration is disabled until verified onboarding is approved.",true);
+ visible("staff-invitation-panel",false);
 }
-function toggleExistingAccount(){
- existingInvite=!existingInvite;
- visible("invitation-confirm-field",!existingInvite);
- $("invitation-password-confirm").required=!existingInvite;
- $("invitation-password").autocomplete=existingInvite?"current-password":"new-password";
- $("invitation-accept-submit").textContent=existingInvite?
-  "Sign In & Accept Invitation":"Create Account & Accept Invitation";
- $("invitation-existing-toggle").textContent=existingInvite?
-  "I need to create a new account":"I already have an account";
- notice("invitation-feedback",existingInvite?
-  "Use the password of your existing account, which must match the invitation email.":
-  "Create a new password. Your personal email invitation is your proof of access.");
-}
+function toggleExistingAccount(){notice("auth-feedback","Invitations are disabled in this preview.",true);}
 async function acceptInvitation(event){
- event.preventDefault();if(busy||!inviteToken||!inviteDetails)return;
- busy=true;$("invitation-accept-submit").disabled=true;
- const email=inviteDetails.email,password=$("invitation-password").value;
- try{
-  if(!existingInvite){
-   if(password.length<12||password!==$("invitation-password-confirm").value)
-    throw Error("New passwords must match and contain at least 12 characters.");
-   const {data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:window.location.origin+"/"}});
-   if(error){
-    if(error.status===422||error.code==="user_already_exists")
-     throw Error("This email already has an account. Select 'I already have an account' and enter its password.");
-    throw Error("Unable to create this authentication account.");
-   }
-   if(!data?.session)throw Error("Account created; check your email if a confirmation link is sent. Reopen the original invitation link and sign in to finish activation.");
-  }else{
-   const {error}=await client.auth.signInWithPassword({email,password});
-   if(error)throw Error("Existing account sign-in failed. Check the email and password.");
-  }
-  $("invitation-password").value="";$("invitation-password-confirm").value="";
-  const accepted=await manage("invite.accept",{token:inviteToken});
-  if(!accepted.accepted)throw Error("Invitation not yet accepted");
-  inviteToken=null;inviteDetails=null;
-  visible("staff-invitation-panel",false);visible("management-signin",true);
-  await checkSession();
- }catch(e){notice("invitation-feedback",e.message,true)}
- finally{busy=false;$("invitation-accept-submit").disabled=false}
+ event.preventDefault();
+ notice("auth-feedback","Staff invitations are disabled until verified onboarding is approved.",true);
+ visible("staff-invitation-panel",false);
 }
 function renderMembers(members){
  const area=$("team-directory-list");area.replaceChildren();
