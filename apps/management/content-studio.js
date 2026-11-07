@@ -137,7 +137,8 @@
  $("studio-clear").addEventListener("click",()=>{
    if(!drafts.length)return;
    if(!window.confirm("Clear all unpublished drafts from this browser session? Export first if you want to keep them."))return;
-   drafts=[];selected=-1;page=0;show("studio-editor",false);render();
+   drafts=[];selected=-1;page=0;savedBatchId=null;clientBatchKey=null;
+   $("studio-saved-batches").value="";show("studio-editor",false);render();
    feedback("Browser draft cleared. Existing LMS MCQs were not affected.");
  });
  const storageStatus=(message,error=false)=>{
