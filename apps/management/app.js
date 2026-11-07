@@ -13,6 +13,7 @@
   const placeholder = document.getElementById("module-placeholder");
   const teamPreview = document.getElementById("team-preview");
   const contentStudioPreview = document.getElementById("content-studio-preview");
+  const academicReviewPreview = document.getElementById("academic-review-preview");
   const syllabusManager = document.getElementById("syllabus-manager");
   const profilePreview = document.getElementById("profile-preview");
   const heading = document.getElementById("module-heading");
@@ -31,7 +32,7 @@
     resources: ["Academy Resources", "Organize protected folders, PDFs and supporting learning resources with authorized staff workflows.", "FUTURE RESOURCE PHASE"],
     students: ["Student Management", "View authorized student records, academic performance and account status once student-scoped permissions exist.", "FUTURE ACCESS PHASE"],
     access: ["Feature & Enrollment Access", "Manage whole-feature Free or Premium policies and whole-course/session enrollment. Individual questions are never premium products.", "FUTURE ACCESS PHASE"],
-    reviews: ["Academic Reviews", "Choose direct publishing or one/two reviewers according to Chief Admin-configured academic review policies.", "FUTURE REVIEW PHASE"],
+    reviews: ["Academic Reviews", "Manage unpublished MCQ correction submissions, independent review decisions and Chief-configured approval policy.", "PROTECTED ACADEMIC REVIEW"],
     team: ["Team & Permissions", "Chief Admin-controlled team membership with individual permissions, separate titles and detailed staff profiles.", "CHIEF ADMIN ACCESS"],
     profile: ["My Profile", "Your verified management identity, protected role and effective permissions, independent of optional display names and titles.", "VERIFIED PROFILE"],
     reports: ["Reports & Activity", "Review academic issue reports, authorized operational events and transparent management audit records.", "FUTURE OPERATIONS PHASE"],
@@ -71,10 +72,11 @@
     overviewOnly.classList.toggle("is-hidden", key !== "overview");
     teamPreview.classList.toggle("is-hidden", key !== "team");
     if (contentStudioPreview) contentStudioPreview.classList.toggle("is-hidden", key !== "questions");
+    if (academicReviewPreview) academicReviewPreview.classList.toggle("is-hidden", key !== "reviews");
     if (syllabusManager) syllabusManager.classList.toggle("is-hidden", key !== "syllabus");
     profilePreview.classList.toggle("is-hidden", key !== "profile");
     auditPreview.classList.toggle("is-hidden", key !== "reports");
-    placeholder.classList.toggle("is-hidden", key === "overview" || key === "questions" || key === "syllabus" || key === "team" || key === "profile" || key === "reports");
+    placeholder.classList.toggle("is-hidden", key === "overview" || key === "questions" || key === "reviews" || key === "syllabus" || key === "team" || key === "profile" || key === "reports");
     placeholderTitle.textContent = data[0];
     placeholderCopy.textContent = data[1];
     document.querySelectorAll("[data-module]").forEach(function (button) {
