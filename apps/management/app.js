@@ -12,6 +12,7 @@
   const overviewOnly = document.getElementById("overview-only");
   const placeholder = document.getElementById("module-placeholder");
   const teamPreview = document.getElementById("team-preview");
+  const contentStudioPreview = document.getElementById("content-studio-preview");
   const profilePreview = document.getElementById("profile-preview");
   const heading = document.getElementById("module-heading");
   const description = document.getElementById("module-description");
@@ -22,7 +23,7 @@
 
   const modules = Object.freeze({
     overview: ["Academy Overview", "A centralized overview of academy activity, academic content, student engagement, and management operations.", "FOUNDATION PREVIEW"],
-    questions: ["Question Content Studio", "Create and review MCQs, organize SJN and Past Papers Question Banks, and manage subject, chapter and topic metadata.", "FUTURE CONTENT PHASE"],
+    questions: ["Question Content Studio", "Create and validate academic MCQ drafts, import CSV batches and review taxonomy before publishing.", "DRAFT CONTENT STUDIO"],
     papers: ["Full-Length Past Papers", "Manage paper years, regions, codes, question sets and source-preserving academic corrections.", "FUTURE CONTENT PHASE"],
     courses: ["Courses & Sessions", "Configure course sessions, tests, schedules and content availability without changing the student exam engine.", "FUTURE COURSE PHASE"],
     resources: ["Academy Resources", "Organize protected folders, PDFs and supporting learning resources with authorized staff workflows.", "FUTURE RESOURCE PHASE"],
@@ -67,9 +68,10 @@
     phase.textContent = data[2];
     overviewOnly.classList.toggle("is-hidden", key !== "overview");
     teamPreview.classList.toggle("is-hidden", key !== "team");
+    if (contentStudioPreview) contentStudioPreview.classList.toggle("is-hidden", key !== "questions");
     profilePreview.classList.toggle("is-hidden", key !== "profile");
     auditPreview.classList.toggle("is-hidden", key !== "reports");
-    placeholder.classList.toggle("is-hidden", key === "overview" || key === "team" || key === "profile" || key === "reports");
+    placeholder.classList.toggle("is-hidden", key === "overview" || key === "questions" || key === "team" || key === "profile" || key === "reports");
     placeholderTitle.textContent = data[0];
     placeholderCopy.textContent = data[1];
     document.querySelectorAll("[data-module]").forEach(function (button) {
