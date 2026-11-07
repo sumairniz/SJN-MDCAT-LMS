@@ -5,6 +5,7 @@ const URL="https://tdqbjhrmfluiinntmjfh.supabase.co";
 const KEY="sb_publishable_Redb-pOjNOSpDKg1uIbUBg_-PUCt5XX";
 const API=URL+"/functions/v1/mednest-isolated-auth";
 const STEPUP=URL+"/functions/v1/mednest-isolated-stepup";
+const TEAM=URL+"/functions/v1/mednest-isolated-team";
 // Stable, deployment-protected branch alias: never redirect verification to localhost.
 const EMAIL_CONFIRM_REDIRECT="https://sjn-mednest-management-git-sjn-phase1a-foundation-sjn1.vercel.app/isolated-auth-preview.html";
 const client=createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,
@@ -25,6 +26,7 @@ async function api(action,fields={},endpoint=API){
 function fill(member){
  active=true;$("signed-out").hidden=true;$("signed-in").hidden=false;
  refreshStepup().catch(()=>{});
+ refreshTeam().catch(()=>{});
  $("profile-email").textContent=member.email;
  $("profile-state").textContent=member.status;
  $("display-name").value=member.display_name||"";
@@ -117,3 +119,39 @@ $("stepup-form").addEventListener("submit",async event=>{
  }catch(e){$("stepup-status").textContent=e.message;$("stepup-code").value=""}
  finally{button.disabled=false}
 });
+
+async function refreshTeam(){
+ if(!active)return;
+ const report=$("team-status"),list=$("team-members"),stats=$("team-summary");
+ report.textContent="Loading isolated staff access…";
+ list.replaceChildren();stats.replaceChildren();
+ try{
+  const result=await api("team.list",{},TEAM);
+  const members=result.members||[],pending=result.invitations||[];
+  const chief=result.chief||[];
+  const summary=document.createElement("p");
+  summary.className="hint";
+  summary.textContent="Chief Administrator: "+chief.length+
+    " · Management Team Members: "+members.length+
+    " · Pending invitations: "+pending.length;
+  stats.append(summary);
+  if(!members.length){
+   const empty=document.createElement("p");empty.className="hint";
+   empty.textContent="No additional Management Team Members. Invitations remain locked until secure onboarding is ready.";
+   list.append(empty);
+  }
+  for(const m of members){
+   const item=document.createElement("article");item.className="staff-preview-member";
+   const title=document.createElement("strong");
+   title.textContent=m.display_name||"Management Team Member";
+   const detail=document.createElement("p");detail.className="hint";
+   detail.textContent=(m.organizational_title||"Team Member")+" · "+m.status+
+     " · "+(m.permissions||[]).length+" permissions";
+   item.append(title,detail);list.append(item);
+  }
+  report.textContent=result.mutations_enabled?
+   "Staff directory available. Sensitive actions require approval.":
+   "Staff directory available (read-only). Invitations and permissions changes are safely disabled.";
+ }catch(e){report.textContent="Unable to load protected staff directory: "+e.message}
+}
+$("team-reload").addEventListener("click",()=>refreshTeam());
