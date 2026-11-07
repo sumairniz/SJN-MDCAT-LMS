@@ -19,6 +19,7 @@
   <script defer src="/content-studio.js"></script>
   <script type="module" src="/content-studio-storage.js"></script>
   <script type="module" src="/mcq-library.js"></script>
+  <script type="module" src="/academic-review.js"></script>
   <script type="module" src="/syllabus-manager.js"></script>
 </head>
 <body>
@@ -143,7 +144,58 @@
             </section>
           </div>
         </section>
-        <section id="syllabus-manager" class="is-hidden" aria-label="Syllabus & Taxonomy Manager">
+        <section id="academic-review-preview" class="is-hidden" aria-label="Academic Review & Approval Workflow">
+  <div class="studio-banner"><strong>Academic Review is separate from publishing.</strong> A reviewed MCQ becomes <strong>Approved for Release</strong> only; it does not change any student question until a separate secure, authorized publication service passes its safety review.</div>
+  <div class="studio-summary">
+    <article><span>My correction drafts</span><strong id="review-draft-count">0</strong></article>
+    <article><span>Pending reviews</span><strong id="review-pending-count">0</strong></article>
+    <article><span>Approved for release</span><strong id="review-approved-count">0</strong></article>
+    <article><span>Student publications</span><strong>0</strong><small>Disabled</small></article>
+  </div>
+  <div class="studio-panels">
+    <section class="studio-panel">
+      <h2>Submit an MCQ Correction for Review</h2>
+      <p>Revisions made through Question Content Studio can be submitted here. A submission freezes the exact draft version, original MCQ ID and source revision for reviewers. Direct mode bypasses additional review only when Chief authorizes that policy; it still cannot publish to students.</p>
+      <label class="studio-field" for="review-draft-picker"><span>Choose a saved MCQ correction draft</span>
+        <select id="review-draft-picker"><option value="">Select a saved unpublished correction draft</option></select></label>
+      <div class="studio-actions"><button id="review-refresh-drafts" type="button">Refresh My Drafts</button>
+        <button id="review-submit" type="button">Submit for Review</button></div>
+    </section>
+    <section class="studio-panel">
+      <h2>Review Policy</h2>
+      <p>Current policy applies to corrections of existing MCQs. The default requires one independent reviewer. Two-reviewer mode requires two different authorized reviewers, neither of whom authored the draft.</p>
+      <div class="studio-field"><label for="review-policy-mode">MCQ correction approval rule</label>
+        <select id="review-policy-mode"><option value="one">One independent reviewer (default)</option>
+          <option value="two">Two independent reviewers</option><option value="direct">Direct approval — authorized editor</option></select></div>
+      <div class="studio-actions"><button id="review-save-policy" type="button">Save Review Policy</button><button id="review-refresh-policy" type="button">Refresh Policy</button></div>
+      <p class="studio-feedback">Review policy changes are sensitive actions. The Chief Administrator must complete the existing email security verification. No code is required for ordinary review browsing.</p>
+    </section>
+  </div>
+  <section class="studio-panel">
+    <div class="syllabus-heading"><h2>Academic Review Queue</h2><button id="review-refresh-queue" class="studio-edit" type="button">Refresh Queue</button></div>
+    <div class="studio-toolbar"><label for="review-state">Status</label>
+      <select id="review-state"><option value="pending">Pending review</option>
+        <option value="approved_for_release">Approved for release</option><option value="needs_changes">Needs changes</option>
+        <option value="withdrawn">Withdrawn</option></select></div>
+    <div class="studio-table-scroll"><table class="studio-table">
+      <thead><tr><th>MCQ ID</th><th>Source Bank</th><th>Review State</th><th>Reviewers</th><th>Action</th></tr></thead>
+      <tbody id="review-queue-list"><tr><td colspan="5">Review queue not yet loaded.</td></tr></tbody></table></div>
+  </section>
+  <section class="studio-panel is-hidden" id="review-detail-pane" aria-label="Review a submitted MCQ">
+    <h2 id="review-detail-title">MCQ Correction Review</h2>
+    <p id="review-detail-info" class="studio-feedback"></p>
+    <div id="review-detail-fields" class="studio-editor-grid"></div>
+    <div class="studio-field"><label for="review-reason">Reason for requesting changes (at least 5 characters)</label>
+      <textarea id="review-reason" rows="2" maxlength="1000" placeholder="Identify the exact key, explanation or classification to correct"></textarea></div>
+    <div class="studio-actions"><button type="button" id="review-approve">Approve Correction</button>
+      <button type="button" id="review-request-changes">Request Changes</button>
+      <button type="button" id="review-withdraw">Withdraw My Pending Review</button>
+      <button type="button" id="review-close">Close</button></div>
+    <p class="studio-feedback">The system forbids self-approval and duplicate reviewers. An approval is not a student publication.</p>
+  </section>
+  <p id="review-status" class="studio-feedback" role="status" aria-live="polite">Sign in to load academic review records.</p>
+</section>
+<section id="syllabus-manager" class="is-hidden" aria-label="Syllabus & Taxonomy Manager">
           <div class="studio-banner"><strong>Your academy syllabus starts independently.</strong> Existing student MCQ chapter/topic labels are provisional and are not imported or approved automatically. Changes here do not alter student questions, courses or test history.</div>
           <div class="studio-summary">
             <article><span>Subjects</span><strong id="syllabus-subject-count">0</strong></article>
