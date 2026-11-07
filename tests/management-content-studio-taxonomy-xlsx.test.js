@@ -83,3 +83,24 @@ test("Metadata snapshot is taxonomy-only, no question statements, answers or stu
  assert.ok(data.entries.every(x=>Object.keys(x).sort().join(",")==="chapter,subject,topic,usage_count"));
  assert.ok(data.entries.every(x=>!Object.keys(x).some(k=>/question|answer|correct|email|user_id|token/.test(k))));
 });
+
+test("Bulk topic correction proposals are scoped and never mutate student MCQs",()=>{
+ const template=taxonomy.RENAME_HEADERS.join(",")+"\n"+
+ "Biology,Biological Molecules,Carbohydrates,Carbohydratess,Textbook typo\n"+
+ "Biology,Biological Molecules,Importance of Water,Carbohydrates,merge conflict\n"+
+ "Biology,Bioenergetics,Krebs Cycle,Krebs cycle,cosmetic\n"+
+ "Physics,Waves,Krebs Cycle,Krebs Cyle,wrong chapter\n";
+ const plan=taxonomy.reviewRenamePlan(template,cat,core.parseCSV);
+ assert.equal(plan.length,4);
+ assert.equal(plan[0].status,"proposed");
+ assert.equal(plan[1].status,"invalid");
+ assert.ok(plan[1].problems.some(x=>x.includes("Target already exists")));
+ assert.equal(plan[2].status,"invalid");
+ assert.ok(plan[2].problems.some(x=>x.includes("No rename required")));
+ assert.equal(plan[3].status,"invalid");
+ assert.ok(plan[3].problems.some(x=>x.includes("Existing topic not found")));
+ const output=taxonomy.exportRenamePlan(plan);
+ assert.equal(output.purpose,"review_only_no_database_changes");
+ assert.equal(output.rows.length,4);
+ assert.ok(!get("apps/management/content-studio-taxonomy.js").includes("supabase.co"));
+});
