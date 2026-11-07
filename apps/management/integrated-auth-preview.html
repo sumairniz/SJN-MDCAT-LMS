@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1018">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="description" content="SJN MedNest protected integrated staff-authentication preview. No student access.">
+  <title>SJN MedNest | Integrated Management Auth Preview</title>
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/content-studio.css">
+  <link rel="stylesheet" href="/syllabus-manager.css">
+  <script src="/app.js" defer></script>
+  <script type="module" src="/auth-client-isolated.js"></script>
+  <script defer src="/content-studio-core.js"></script>
+  <script defer src="/content-studio-taxonomy.js"></script>
+  <script defer src="/content-studio-xlsx.js"></script>
+  <script defer src="/content-studio.js"></script>
+  <script type="module" src="/content-studio-storage.js"></script>
+  <script type="module" src="/mcq-library.js"></script>
+  <script type="module" src="/syllabus-manager.js"></script>
+</head>
+<body>
+  <div id="signin" class="auth-screen">
+    <div class="auth-story">
+      <div class="brand brand--large">
+        <span class="brand-symbol" aria-hidden="true">SJN</span>
+        <span><strong>SJN <span class="brand-accent">MedNest</span></strong><small>MANAGEMENT PANEL</small></span>
+      </div>
+      <div class="story-copy">
+        <span class="eyebrow"><span class="status-dot"></span> ACADEMY MANAGEMENT WORKSPACE</span>
+        <h1>Academy Management<br><em>Workspace.</em></h1>
+        <p>A centralized platform for managing academic content, courses, students, resources, and academy operations.</p>
+        <div class="story-features" aria-label="Planned management areas">
+          <span>Question banks</span><span>Course sessions</span><span>Student access</span><span>Team permissions</span>
+        </div>
+      </div>
+      <p class="story-footer">SJN MedNest Academy <span aria-hidden="true">/</span> Management Environment</p>
+      <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+    </div>
+    <main class="auth-panel" aria-labelledby="signin-title">
+      <div class="auth-top"><span class="stage-pill">DEVELOPMENT PREVIEW</span><div class="appearance-picker" role="group" aria-label="Management Panel appearance">
+  <button type="button" class="appearance-option" data-theme-choice="system" aria-label="Follow device appearance" aria-pressed="true" title="System appearance"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 22h8m-4-4v4"/></svg><span>Auto</span></button>
+  <button type="button" class="appearance-option" data-theme-choice="dark" aria-label="Use dark appearance" aria-pressed="false" title="Dark appearance"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.9 13.3A9 9 0 0 1 10.7 3.1a9 9 0 1 0 10.2 10.2Z"/></svg><span>Dark</span></button>
+  <button type="button" class="appearance-option" data-theme-choice="light" aria-label="Use light appearance" aria-pressed="false" title="Light appearance"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg><span>Light</span></button>
+</div></div>
+      <div class="auth-content">
+        <div class="auth-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <p class="section-kicker">AUTHORIZED STAFF ACCESS</p>
+        <h2 id="signin-title">Management Sign In</h2>
+        <p class="intro">Sign in using your already-verified independent Chief Administrator account. Staff invitations are disabled until their separate security tests pass.</p>
+        <form id="management-signin" autocomplete="on">
+          <div class="field"><label for="email">Email Address</label><input id="email" name="email" type="email" autocomplete="username" required maxlength="254" placeholder="name@academy.com"></div>
+          <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Enter account password"></div>
+          <button class="primary-btn" id="signin-submit" type="submit">Sign In <span aria-hidden="true">→</span></button>
+        </form>
+        <section id="staff-invitation-panel" class="security-flow is-hidden" aria-hidden="true" aria-label="Accept staff invitation">
+          <h3>Accept Your Management Invitation</h3>
+          <p id="invitation-description">Only invited management staff can register. Confirm the email address and set your own password.</p>
+          <p id="invitation-feedback" class="auth-feedback" role="status" aria-live="polite"></p>
+          <form id="invitation-accept-form" autocomplete="on">
+            <div class="field"><label for="invitation-email">Invited email address</label><input id="invitation-email" type="email" autocomplete="username" readonly required></div>
+            <div class="field"><label for="invitation-password">Password (minimum 12 characters for new accounts)</label><input id="invitation-password" type="password" autocomplete="new-password" minlength="12" required></div>
+            <div class="field" id="invitation-confirm-field"><label for="invitation-password-confirm">Confirm new password</label><input id="invitation-password-confirm" type="password" autocomplete="new-password" minlength="12"></div>
+            <button id="invitation-accept-submit" class="primary-btn" type="submit">Create Account &amp; Accept Invitation <span aria-hidden="true">→</span></button>
+          </form>
+          <button id="invitation-existing-toggle" class="setup-link" type="button">I already have an account</button>
+          <button id="invitation-cancel" class="return-btn" type="button">← Back to Sign In</button>
+          <p class="secondary-note">Your invitation is personal and expires after 72 hours. Never share the invitation link or password.</p>
+        </section>
+        <p id="auth-feedback" class="auth-feedback" role="status" aria-live="polite"></p>
+        <div class="notice"><span class="notice-icon" aria-hidden="true">i</span><span><strong>Authorized management staff only.</strong> This protected preview uses the independent Management Auth project. It does not access Student LMS authentication. Staff invitations and sensitive changes are not yet enabled.</span></div>
+        <p class="secondary-note">Read-only Chief Administrator integration preview. The existing Management Panel login is preserved separately as a rollback.</p>
+      </div>
+      <footer class="auth-bottom"><span>SECURE WORKSPACE FOUNDATION</span><span>© SJN MedNest</span></footer>
+    </main>
+  </div>
+
+  <div id="workspace" class="workspace is-hidden" aria-hidden="true">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-symbol brand-symbol--small" aria-hidden="true">SJN</span>
+        <div><strong>SJN <span class="brand-accent">MedNest</span></strong><small>MANAGEMENT PANEL</small></div>
+      </div>
+      <div class="sidebar-section">WORKSPACE</div>
+      <nav id="modules" aria-label="Management modules">
+        <button class="nav-item active" type="button" data-module="overview"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>Overview</button>
+        <button class="nav-item" type="button" data-module="questions"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/><path d="M9 7h7M9 11h7"/></svg></span>Question Content Studio</button>
+        <button class="nav-item" type="button" data-module="syllabus"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5h16M4 12h16M4 19h16M6 3v4M12 10v4M18 17v4"/></svg></span>Syllabus &amp; Taxonomy</button>
+        <button class="nav-item" type="button" data-module="papers"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>Full-Length Past Papers</button>
+        <button class="nav-item" type="button" data-module="courses"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></svg></span>Courses &amp; Sessions</button>
+        <button class="nav-item" type="button" data-module="resources"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10H3V7Z"/><path d="M3 11h18"/></svg></span>Academy Resources</button>
+        <button class="nav-item" type="button" data-module="students"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="8" r="4"/><path d="M2 21v-2a6 6 0 0 1 12 0v2M17 11a4 4 0 0 0 0-8M17 15a6 6 0 0 1 5 6"/></svg></span>Student Management</button>
+        <button class="nav-item" type="button" data-module="access"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4M12 15v2"/></svg></span>Feature &amp; Enrollment Access</button>
+        <div class="sidebar-section sidebar-section--second">ACADEMY OPERATIONS</div>
+        <button class="nav-item" type="button" data-module="reviews"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg></span>Academic Reviews</button>
+        <button class="nav-item" type="button" data-module="team"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21v-2a7 7 0 0 1 12-5"/><path d="M19 15v6M16 18h6"/></svg></span>Team &amp; Permissions</button>
+        <button class="nav-item" type="button" data-module="profile"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg></span>My Profile</button>
+        <button class="nav-item" type="button" data-module="reports"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20v-5"/></svg></span>Reports &amp; Activity</button>
+        <button class="nav-item" type="button" data-module="settings"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>Academy Settings</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="safe-preview"><span class="status-dot"></span><span>Secure workspace<br><small>Verified staff access only</small></span></div>
+        <button id="preview-close" class="return-btn" type="button">← Sign Out</button>
+      </div>
+    </aside>
+    <div class="sidebar-scrim" id="scrim" hidden></div>
+    <div class="workspace-main">
+      <header class="workspace-header">
+        <div class="workspace-header-left"><button type="button" class="menu-button" id="menu-toggle" aria-controls="sidebar" aria-expanded="false" aria-label="Open navigation">☰</button><span class="header-trail">Academy Management <span aria-hidden="true">/</span> <strong id="header-crumb">Overview</strong></span></div>
+        <div class="header-right"><span class="preview-indicator"><span class="status-dot"></span> STAFF WORKSPACE</span><div class="appearance-picker" role="group" aria-label="Management Panel appearance">
+  <button type="button" class="appearance-option" data-theme-choice="system" aria-label="Follow device appearance" aria-pressed="true" title="System appearance"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 22h8m-4-4v4"/></svg><span>Auto</span></button>
+  <button type="button" class="appearance-option" data-theme-choice="dark" aria-label="Use dark appearance" aria-pressed="false" title="Dark appearance"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.9 13.3A9 9 0 0 1 10.7 3.1a9 9 0 1 0 10.2 10.2Z"/></svg><span>Dark</span></button>
+  <button type="button" class="appearance-option" data-theme-choice="light" aria-label="Use light appearance" aria-pressed="false" title="Light appearance"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg><span>Light</span></button>
+</div><button type="button" id="profile-preview-open" class="avatar-placeholder" aria-label="View my management profile" title="My profile"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></button></div>
+      </header>
+      <main class="overview-container">
+        <section class="page-heading">
+          <div><span class="eyebrow eyebrow--red">ACADEMY MANAGEMENT WORKSPACE</span><h1 id="module-heading">Academy Overview</h1><p id="module-description">A centralized overview of academy activity, academic content, student engagement, and management operations.</p></div>
+          <span class="page-phase" id="page-phase">STAFF FOUNDATION</span>
+        </section>
+        <section id="overview-only" aria-label="Placeholder academy statistics">
+          <div class="metric-grid">
+            <article class="metric-card"><span>Registered Students</span><strong>—</strong><small>Requires authorized data access</small></article>
+            <article class="metric-card"><span>Published MCQs</span><strong>—</strong><small>Verified counts when connected</small></article>
+            <article class="metric-card"><span>Active Courses</span><strong>—</strong><small>Managed in later phases</small></article>
+            <article class="metric-card"><span>Pending Reviews</span><strong>—</strong><small>Review workflow not activated</small></article>
+          </div>
+          <div class="preview-grid">
+            <section class="panel-card"><div class="panel-title"><span>Management Modules</span><span class="subtle-tag">PLANNED</span></div>
+              <p>Academic, student and staff operations will be available to authorized management members according to their permissions.</p>
+              <div class="feature-row"><span class="feature-mark">01</span><div><strong>Academic content</strong><small>Questions, past papers, images, chapters and topics</small></div><span class="upcoming">Future phase</span></div>
+              <div class="feature-row"><span class="feature-mark">02</span><div><strong>Courses &amp; enrollments</strong><small>Sessions, schedules and whole-course access</small></div><span class="upcoming">Future phase</span></div>
+              <div class="feature-row"><span class="feature-mark">03</span><div><strong>Team &amp; governance</strong><small>Chief Admin-controlled access, review and audit history</small></div><span class="upcoming">Phase 1A</span></div>
+            </section>
+            <section class="panel-card panel-card--quiet"><div class="panel-title"><span>Security First</span><span class="security-badge">PLANNED</span></div>
+              <div class="shield-art" aria-hidden="true">◇</div>
+              <h3>Protected by design</h3><p>The Management Panel will use its own staff authentication, Chief Admin-controlled permissions and audit records.</p>
+              <div class="divider-soft"></div><p class="tiny-text">This preview does not read, write or display any student or academy records.</p>
+            </section>
+          </div>
+        </section>
+        <section id="syllabus-manager" class="is-hidden" aria-label="Syllabus & Taxonomy Manager">
+          <div class="studio-banner"><strong>Your academy syllabus starts independently.</strong> Existing student MCQ chapter/topic labels are provisional and are not imported or approved automatically. Changes here do not alter student questions, courses or test history.</div>
+          <div class="studio-summary">
+            <article><span>Subjects</span><strong id="syllabus-subject-count">0</strong></article>
+            <article><span>Chapters</span><strong id="syllabus-chapter-count">0</strong></article>
+            <article><span>Topics</span><strong id="syllabus-topic-count">0</strong></article>
+            <article><span>Approved topics</span><strong id="syllabus-approved-count">0</strong></article>
+          </div>
+          <div class="syllabus-layout">
+            <section class="studio-panel">
+              <div class="syllabus-heading"><h2>Master Syllabus</h2><button type="button" id="syllabus-refresh" class="studio-edit">Refresh</button></div>
+              <p>Choose a subject, chapter or topic to edit it. Draft syllabus content is not shown in the Student LMS until separately integrated and approved.</p>
+              <div class="studio-toolbar"><label for="syllabus-search">Find chapter/topic</label>
+                <input type="search" id="syllabus-search" placeholder="Search approved or draft syllabus" autocomplete="off">
+                <label for="syllabus-filter">Show</label><select id="syllabus-filter"><option value="current">Draft + active</option><option value="all">Include archived</option></select></div>
+              <div id="syllabus-tree" class="syllabus-tree" role="group" aria-label="Syllabus hierarchy"><p>No syllabus has been uploaded yet.</p></div>
+            </section>
+            <section class="studio-panel">
+              <h2>Manage Subject, Chapter &amp; Topic</h2>
+              <p>Edit names directly, add missing topics or move a topic to a different chapter. Every entry has a stable internal ID; changing its name never deletes student attempts.</p>
+              <div class="studio-field"><label for="syllabus-kind">Type</label><select id="syllabus-kind"><option value="subject">Subject</option><option value="chapter">Chapter</option><option value="topic">Topic</option></select></div>
+              <div class="studio-field"><label for="syllabus-parent">Parent subject/chapter</label><select id="syllabus-parent"><option value="">No parent — Subject</option></select></div>
+              <div class="studio-field"><label for="syllabus-name">Name</label><input id="syllabus-name" maxlength="160" placeholder="Enter approved academic name"></div>
+              <div class="studio-actions"><button type="button" id="syllabus-create">Add to Draft Syllabus</button><button type="button" id="syllabus-rename">Rename Selected</button><button type="button" id="syllabus-move">Move Selected</button></div>
+              <div class="studio-actions"><button type="button" id="syllabus-activate">Approve Selected Subject &amp; Descendants</button><button type="button" id="syllabus-archive">Archive Selected</button><button type="button" id="syllabus-restore">Restore as Draft</button></div>
+              <p id="syllabus-selection" class="tiny-text">No existing node selected. Create subjects first, then chapters and topics.</p>
+              <p class="studio-feedback" id="syllabus-feedback" role="status" aria-live="polite"></p>
+            </section>
+          </div>
+          <section class="studio-panel">
+            <h2>Upload or Paste Your Full Syllabus</h2>
+            <p>Upload a syllabus-only CSV or Excel worksheet, or paste <code>Subject &gt; Chapter &gt; Topic</code> lines. This does not require MCQs. Review before importing; duplicate names are reused rather than silently recreated.</p>
+            <div class="studio-actions"><button type="button" id="syllabus-template">Download Syllabus CSV Template</button></div>
+            <input type="file" class="studio-file" id="syllabus-file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+            <div class="studio-field"><label for="syllabus-paste">Paste syllabus outline (one path per line)</label>
+              <textarea id="syllabus-paste" rows="7" placeholder="Biology &gt; Biological Molecules &gt; Carbohydrates&#10;Biology &gt; Biological Molecules &gt; Proteins&#10;Physics &gt; Waves &gt; Sound"></textarea></div>
+            <div class="studio-actions"><button type="button" id="syllabus-preview">Preview Syllabus Import</button><button type="button" id="syllabus-import" disabled>Save Valid Rows as Draft</button></div>
+            <p id="syllabus-import-feedback" class="studio-feedback" role="status" aria-live="polite"></p>
+            <div class="studio-table-scroll"><table class="studio-table"><thead><tr><th>Status</th><th>Subject</th><th>Chapter</th><th>Topic</th></tr></thead><tbody id="syllabus-preview-rows"><tr><td colspan="4">No import preview yet.</td></tr></tbody></table></div>
+          </section>
+          <p class="studio-feedback">Deletion uses reversible archive. New syllabus topics cannot change existing student Question Banks until legacy mapping and publication controls pass separate review.</p>
+        </section>
+        <section id="content-studio-preview" class="is-hidden" aria-label="Question Content Studio">
+  <section id="mcq-library" aria-label="Existing MCQ Library">
+    <div class="studio-banner"><strong>Existing MCQ Library &amp; Direct Editor.</strong> Search original Question Bank and regional past-paper MCQs. Edit individually without Excel. Every Save creates an unpublished Chief-only correction draft; it does not modify student questions. Restricted Course Test MCQs are excluded from this library.</div>
+    <div class="studio-panel">
+      <div class="syllabus-heading"><h2>Browse Existing MCQs</h2><button type="button" class="studio-edit" id="mcq-lib-refresh">Refresh Questions</button></div>
+      <p>Search by exact question ID or part of the question statement. Open an MCQ to prepare a revised answer, explanation or syllabus classification without changing its original revision.</p>
+      <div class="studio-toolbar">
+        <label for="mcq-lib-search">Question ID / text</label><input type="search" id="mcq-lib-search" maxlength="120" placeholder="Enter MCQ number or question text" autocomplete="off">
+        <label for="mcq-lib-bank">Question bank / paper</label>
+        <select id="mcq-lib-bank"><option value="">All ordinary / regional papers</option><option>Past Papers Question Bank</option><option>BUMHS MDCAT Past Papers</option><option>KMU MDCAT Past Papers</option><option>NUMS MDCAT Past Papers</option><option>SIBA MDCAT Past Papers</option><option>SZABMU MDCAT Past Papers</option><option>UHS MDCAT Past Papers</option></select>
+        <label for="mcq-lib-subject">Subject</label>
+        <select id="mcq-lib-subject"><option value="">All subjects</option><option>Biology</option><option>Chemistry</option><option>Physics</option><option>English</option><option>Logical Reasoning</option></select>
+        <button type="button" id="mcq-lib-search-button" class="studio-edit">Search</button>
+      </div>
+      <p class="studio-feedback" id="mcq-lib-status" role="status" aria-live="polite">Sign in as Chief Administrator to view the protected MCQ Library.</p>
+      <div class="studio-table-scroll"><table class="studio-table"><thead><tr><th>MCQ ID</th><th>Bank / Paper</th><th>Subject / Chapter</th><th>Question</th><th>Action</th></tr></thead>
+        <tbody id="mcq-lib-results"><tr><td colspan="5">MCQ Library is not loaded yet.</td></tr></tbody></table></div>
+      <div class="studio-pagination"><span id="mcq-lib-paging">—</span><div class="studio-toolbar"><button id="mcq-lib-prev" type="button">Previous</button><button id="mcq-lib-next" type="button">Next</button></div></div>
+    </div>
+    <section id="mcq-lib-editor" class="studio-panel is-hidden" aria-label="Direct MCQ correction draft editor">
+      <div class="syllabus-heading"><h2 id="mcq-lib-editor-title">Edit Existing MCQ</h2><button type="button" class="studio-edit" id="mcq-lib-close">Close Editor</button></div>
+      <p id="mcq-lib-source" class="studio-feedback">Original source and revision will be preserved in the edit draft.</p>
+      <form id="mcq-lib-edit-form">
+        <div class="studio-editor-grid">
+          <div class="studio-field"><label for="mcq-lib-edit-bank">Existing bank (read-only)</label><input id="mcq-lib-edit-bank" readonly></div>
+          <div class="studio-field"><label for="mcq-lib-edit-subject">Subject</label><input id="mcq-lib-edit-subject" maxlength="80" required></div>
+          <div class="studio-field"><label for="mcq-lib-edit-chapter">Chapter (provisional until syllabus tagged)</label><input id="mcq-lib-edit-chapter" maxlength="160"></div>
+          <div class="studio-field"><label for="mcq-lib-edit-topic">Topic (provisional until syllabus tagged)</label><input id="mcq-lib-edit-topic" maxlength="160"></div>
+          <div class="studio-field studio-field--wide"><label for="mcq-lib-edit-question">Question statement</label><textarea id="mcq-lib-edit-question" rows="3" maxlength="6000" required></textarea></div>
+          <div class="studio-field"><label for="mcq-lib-edit-option_a">Option A</label><textarea id="mcq-lib-edit-option_a" rows="2" maxlength="6000" required></textarea></div>
+          <div class="studio-field"><label for="mcq-lib-edit-option_b">Option B</label><textarea id="mcq-lib-edit-option_b" rows="2" maxlength="6000" required></textarea></div>
+          <div class="studio-field"><label for="mcq-lib-edit-option_c">Option C</label><textarea id="mcq-lib-edit-option_c" rows="2" maxlength="6000" required></textarea></div>
+          <div class="studio-field"><label for="mcq-lib-edit-option_d">Option D</label><textarea id="mcq-lib-edit-option_d" rows="2" maxlength="6000" required></textarea></div>
+          <div class="studio-field"><label for="mcq-lib-edit-correct_option">Correct option (A–D)</label><select id="mcq-lib-edit-correct_option"><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select></div>
+          <div class="studio-field"><label for="mcq-lib-edit-source">Source / paper</label><input id="mcq-lib-edit-source" maxlength="250"></div>
+          <div class="studio-field studio-field--wide"><label for="mcq-lib-edit-explanation">Textbook-aligned explanation</label><textarea id="mcq-lib-edit-explanation" rows="3" maxlength="6000"></textarea></div>
+          <div class="studio-field studio-field--wide"><label for="mcq-lib-edit-mnemonic">Mnemonic (optional)</label><textarea id="mcq-lib-edit-mnemonic" rows="2" maxlength="2000"></textarea></div>
+          <div class="studio-field studio-field--wide"><label for="mcq-lib-syllabus-topic">Approved master syllabus classification (optional until syllabus approved)</label><select id="mcq-lib-syllabus-topic"><option value="">Not yet mapped — preserve existing classification for now</option></select></div>
+        </div>
+        <div class="studio-editor-actions"><button id="mcq-lib-save" type="submit" class="primary-btn">Save Unpublished Correction Draft</button><button id="mcq-lib-reset" type="button" class="secondary-btn">Reset to Published Source</button></div>
+      </form>
+      <p class="studio-feedback" id="mcq-lib-editor-status" role="status" aria-live="polite">No MCQ editing session opened.</p>
+    </section>
+  </section>
+
+  <div class="studio-banner"><strong>Safe draft workspace</strong> — Create and validate MCQs without modifying the student Question Bank. Original past-paper text and source keys remain unchanged. Drafts remain in this browser session until exported. Live publishing and XLSX import require the separately authorized content service.</div>
+  <div class="studio-summary" aria-label="Draft import quality">
+    <article><span>Draft questions</span><strong id="studio-total">0</strong></article>
+    <article><span>Ready</span><strong id="studio-ready">0</strong></article>
+    <article><span>Needs review</span><strong id="studio-review">0</strong></article>
+    <article><span>Invalid</span><strong id="studio-invalid">0</strong></article>
+  </div>
+  <div class="studio-panels">
+    <section class="studio-panel">
+      <h2>Import &amp; Validate MCQs</h2>
+      <p>Upload a UTF-8 CSV with one question per row. Include each row's Question Bank, Subject, Chapter, Topic, source and all four options. Mixed subjects/chapters are supported. Questions are checked for missing fields, invalid answers, syllabus classification and duplicate rows before review.</p>
+      <div class="studio-actions"><button type="button" id="studio-template">Download CSV Template</button><button type="button" id="studio-new">Create Single MCQ</button></div>
+      <label for="studio-file">Choose a CSV or XLSX file (maximum 10,000 review rows)</label>
+      <input class="studio-file" id="studio-file" type="file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+      <p>CSV and Excel (.xlsx) first-worksheet imports are supported in this development version. Existing LMS chapter/topic labels are matched by subject and spelling; uncertain matches require manual review. Direct student publishing remains disabled.</p>
+    </section>
+    <section class="studio-panel">
+      <h2>Quality &amp; Source Protection</h2>
+      <p>Questions in the original Past Papers Question Bank require a traceable source. No AI-generated answer-key corrections are applied. Warnings call for manual academic review.</p>
+      <p><strong>Approved ordinary banks:</strong> SJN Question Bank (new academy-authored drafts) and Past Papers Question Bank (original exam-source content).</p>
+      <p><strong>Course Tests:</strong> remain a separate protected question pool, not imported here. The original source-paper records and immutable student attempt revisions are untouched.</p>
+      <div class="studio-actions"><button type="button" id="studio-export" disabled>Export Unpublished Drafts</button><button type="button" id="studio-clear">Clear Browser Drafts</button></div>
+      <div class="studio-storage">
+        <h3>Protected Draft Storage</h3>
+        <p>Store or retrieve unpublished drafts in the separate Management Authentication database. Chief Administrator only. Saving never publishes MCQs to students.</p>
+        <div class="studio-field"><label for="studio-batch-name">Draft batch name</label><input id="studio-batch-name" type="text" maxlength="120" placeholder="November academic review batch" value="Unpublished MCQ Review Batch"></div>
+        <div class="studio-actions"><button type="button" id="studio-save-batch">Save Draft Batch</button><button type="button" id="studio-refresh-batches">Refresh Saved Batches</button></div>
+        <div class="studio-field"><label for="studio-saved-batches">Saved Management Draft Batches</label><select id="studio-saved-batches"><option value="">Select a saved draft batch</option></select></div>
+        <div class="studio-actions"><button type="button" id="studio-load-batch">Load Selected Batch</button></div>
+        <p id="studio-storage-status" class="studio-feedback" role="status" aria-live="polite">Protected draft storage is available after Management Auth sign-in.</p>
+      </div>
+    </section>
+  </div>
+  <section class="studio-panel" aria-label="Taxonomy correction review">
+    <h2>Bulk Topic Spelling Corrections — Review Only</h2>
+    <p>For existing LMS topics with incorrect spelling, prepare a correction proposal without changing student records. Up to 1,000 proposed topic renames per CSV, with exact Subject/Chapter scope and duplicate/collision checks. This is a separate operation from importing new MCQs.</p>
+    <div class="studio-actions"><button id="studio-rename-template" type="button">Download Topic Correction Template</button>
+      <button id="studio-rename-export" type="button" disabled>Export Reviewed Correction Plan</button></div>
+    <label for="studio-rename-file">Choose topic corrections CSV</label>
+    <input type="file" id="studio-rename-file" class="studio-file" accept=".csv,text/csv">
+    <p id="studio-rename-status" class="studio-feedback" role="status" aria-live="polite">Existing master syllabus labels are not modified by this CSV proposal. For everyday changes use Syllabus & Taxonomy → Rename Selected. Bulk correction plans still require separate review.</p>
+    <div class="studio-table-scroll"><table class="studio-table">
+      <thead><tr><th>Status</th><th>Subject / Chapter</th><th>Existing Topic</th><th>Proposed Topic</th><th>Usage / Review</th></tr></thead>
+      <tbody id="studio-rename-list"><tr><td colspan="5">No correction proposals imported.</td></tr></tbody>
+    </table></div>
+  </section>
+  <section class="studio-panel" aria-label="Draft question review table">
+    <h2>Import Review Queue</h2>
+    <p id="studio-taxonomy-source" class="tiny-text">Loading the existing LMS taxonomy reference…</p>
+    <div class="studio-toolbar">
+      <label for="studio-filter">Filter by validation</label>
+      <select id="studio-filter"><option value="all">All drafts</option><option value="ready">Ready</option><option value="review">Needs review</option><option value="invalid">Invalid</option></select>
+      <span id="studio-range" class="tiny-text">No drafts</span>
+    </div>
+    <div class="studio-table-scroll"><table class="studio-table">
+      <thead><tr><th>Status</th><th>Question Bank</th><th>Subject / Chapter</th><th>Question statement</th><th>Action</th></tr></thead>
+      <tbody id="studio-draft-list"></tbody>
+    </table></div>
+    <div class="studio-pagination"><span id="studio-page">Page 1 of 1</span>
+      <div class="studio-toolbar"><button id="studio-prev" type="button">Previous</button><button id="studio-next" type="button">Next</button></div>
+    </div>
+    <p id="studio-feedback" class="studio-feedback" role="status" aria-live="polite"></p>
+  </section>
+  <section id="studio-taxonomy-editor" class="studio-panel is-hidden" aria-label="Review taxonomy matches">
+    <h2>Match Existing LMS Chapter and Topic</h2>
+    <p id="studio-taxonomy-original"></p>
+    <p>Choose labels from your owner-managed approved Academy syllabus, not the temporary classifications attached to existing MCQs. This only changes your unpublished draft; student questions remain unchanged.</p>
+    <div class="studio-editor-grid">
+      <div class="studio-field"><label for="studio-taxonomy-chapter">Existing chapter</label><select id="studio-taxonomy-chapter"></select></div>
+      <div class="studio-field"><label for="studio-taxonomy-topic">Existing topic in selected chapter</label><select id="studio-taxonomy-topic"></select></div>
+    </div>
+    <div class="studio-editor-actions"><button id="studio-taxonomy-apply" type="button" class="primary-btn">Apply Existing Topic Match</button>
+      <button id="studio-taxonomy-cancel" type="button" class="secondary-btn">Cancel</button></div>
+  </section>
+  <section class="studio-panel is-hidden" id="studio-editor" aria-label="Question draft editor">
+    <h2 id="studio-editor-heading">Create a new MCQ draft</h2>
+    <p>Editing a draft never edits a published MCQ. Answer labels are A–D. You can export the draft package for academic review.</p>
+    <form id="studio-editor-form">
+      <div class="studio-editor-grid">
+        <div class="studio-field"><label for="studio-bank">Question Bank</label><select id="studio-bank"><option value="SJN Question Bank">SJN Question Bank</option><option value="Past Papers Question Bank">Past Papers Question Bank</option></select></div>
+        <div class="studio-field"><label for="studio-subject">Subject</label><select id="studio-subject"><option>Biology</option><option>Chemistry</option><option>Physics</option><option>English</option><option>Logical Reasoning</option></select></div>
+        <div class="studio-field"><label for="studio-chapter">Chapter</label><input id="studio-chapter" maxlength="160" required></div>
+        <div class="studio-field"><label for="studio-topic">Topic</label><input id="studio-topic" maxlength="160" required></div>
+        <div class="studio-field studio-field--wide"><label for="studio-question">Question statement</label><textarea id="studio-question" maxlength="6000" rows="3" required></textarea></div>
+        <div class="studio-field"><label for="studio-option_a">Option A</label><textarea id="studio-option_a" maxlength="6000" rows="2" required></textarea></div>
+        <div class="studio-field"><label for="studio-option_b">Option B</label><textarea id="studio-option_b" maxlength="6000" rows="2" required></textarea></div>
+        <div class="studio-field"><label for="studio-option_c">Option C</label><textarea id="studio-option_c" maxlength="6000" rows="2" required></textarea></div>
+        <div class="studio-field"><label for="studio-option_d">Option D</label><textarea id="studio-option_d" maxlength="6000" rows="2" required></textarea></div>
+        <div class="studio-field"><label for="studio-correct_option">Correct answer</label><select id="studio-correct_option"><option value="">Select the correct option</option><option>A</option><option>B</option><option>C</option><option>D</option></select></div>
+        <div class="studio-field"><label for="studio-source">Question source</label><input id="studio-source" maxlength="200" placeholder="UHS 2025 / SJN author"></div>
+        <div class="studio-field studio-field--wide"><label for="studio-explanation">Concise textbook-aligned explanation</label><textarea id="studio-explanation" rows="3"></textarea></div>
+        <div class="studio-field studio-field--wide"><label for="studio-mnemonic">Mnemonic (optional)</label><textarea id="studio-mnemonic" rows="2"></textarea></div>
+        <div class="studio-field"><label for="studio-region">Region</label><select id="studio-region"><option value="">Not applicable</option><option value="sindh">Sindh</option><option value="punjab">Punjab</option><option value="kpk">KP</option><option value="balochistan">Balochistan</option><option value="federal">Federal</option><option value="nums">NUMS</option></select></div>
+        <div class="studio-field"><label for="studio-year">Past paper year</label><input id="studio-year" maxlength="4" inputmode="numeric" placeholder="2025"></div>
+        <div class="studio-field"><label for="studio-paper_code">Original paper code (optional)</label><input id="studio-paper_code" maxlength="100" placeholder="Blue / Code 2"></div>
+      </div>
+      <div class="studio-editor-actions">
+        <button id="studio-save" class="primary-btn" type="submit">Add to Draft</button>
+        <button id="studio-cancel" class="secondary-btn" type="button">Cancel</button>
+      </div>
+    </form>
+  </section>
+</section>
+        <section id="team-preview" class="team-preview is-hidden" aria-label="Management Team and permissions">
+          <div id="team-notice" class="profile-preview-banner"><p>Team membership is available only to the Chief Admin. No member can grant or change their own access.</p></div>
+          <div class="team-stat-grid">
+            <article class="metric-card"><span>Total Management Members</span><strong id="team-total">—</strong><small>Includes the Chief Administrator and all team members</small></article>
+            <article class="metric-card"><span>Active Management Members</span><strong id="team-active">—</strong><small>Includes the active Chief Administrator</small></article>
+            <article class="metric-card"><span>Pending Invitations</span><strong id="team-invited">—</strong><small>Pending email invitations</small></article>
+          </div>
+          <section id="chief-administrator-card" class="chief-administrator-card is-hidden" aria-label="Protected Chief Administrator account">
+            <div class="chief-card-icon" aria-hidden="true">✦</div>
+            <div class="chief-card-copy">
+              <span class="chief-card-eyebrow">PROTECTED ACCOUNT · UNIQUE ROLE</span>
+              <h2>Chief Administrator</h2>
+              <p id="chief-administrator-identity">Verified management identity</p>
+              <p class="chief-card-note">Full management control. Changes to staff access require an emailed security code.</p>
+            </div>
+            <button type="button" id="chief-profile-open" class="chief-card-action">View My Profile</button>
+          </section>
+          <div class="team-preview-grid">
+            <section class="panel-card">
+              <div class="panel-title"><span>Management Team</span><span class="subtle-tag">CHIEF ADMIN CONTROL</span></div>
+              <div class="staff-invite-notice" id="staff-invite-sender-notice">To send invitations to new team members, configure a verified academy email sending domain. Normal Chief Admin sign-in is already available.</div>
+              <div class="panel-title"><span>Team Members</span><span class="subtle-tag">INVITATION-BASED</span></div>
+              <div id="team-directory-list" class="staff-list"><p class="secondary-note">Authorized Management Team Members appear here after their invitations are accepted.</p></div>
+              <div class="panel-title"><span>Pending Invitations</span></div>
+              <div id="pending-invitations-list" class="staff-list"><p class="secondary-note">Pending invitations are visible only to Chief Admin.</p></div>
+              <button id="team-invite-show" class="secondary-btn is-hidden" disabled type="button">Invite Management Team Member <span aria-hidden="true">+</span></button>
+              <form id="team-invite-form" class="staff-form is-hidden" aria-hidden="true">
+                <div class="field"><label for="invite-email">Team member email</label><input id="invite-email" type="email" required maxlength="254" autocomplete="off" placeholder="staff@example.com"></div>
+                <div class="field"><label for="invite-name">Display name (optional)</label><input id="invite-name" type="text" maxlength="100" placeholder="Name or nickname"></div>
+                <div class="field"><label for="invite-title">Organizational title (optional)</label><input id="invite-title" type="text" maxlength="100" placeholder="Academic Director"></div>
+                <div class="field"><label>Assigned technical permissions</label><p class="permission-selector-help">Select the areas this member may access. Titles never grant permissions.</p><div id="invite-permissions" class="permission-choices"></div></div>
+                <button class="primary-btn" type="submit">Send Staff Invitation <span aria-hidden="true">→</span></button>
+                <button class="return-btn" type="button" id="invite-cancel">Cancel</button>
+              </form>
+              <form id="team-edit-form" class="staff-form is-hidden" aria-hidden="true">
+                <h3 id="edit-member-heading">Edit Management Team Member</h3>
+                <div class="field"><label for="edit-member-status">Account status</label><select id="edit-member-status"><option value="active">Active</option><option value="suspended">Suspended</option></select></div>
+                <div class="field"><label for="edit-member-name">Display name (optional)</label><input id="edit-member-name" maxlength="100"></div>
+                <div class="field"><label for="edit-member-title">Organizational title (optional)</label><input id="edit-member-title" maxlength="100"></div>
+                <div class="field"><label>Authorized capabilities</label><p class="permission-selector-help">Permission changes are verified by email and recorded in the audit log.</p><div id="edit-member-permissions" class="permission-choices"></div></div>
+                <button class="primary-btn" type="submit">Save Member Changes <span aria-hidden="true">→</span></button>
+                <button class="return-btn" type="button" id="edit-member-cancel">Cancel</button>
+              </form>
+              <p id="team-feedback" role="status" aria-live="polite" class="auth-feedback"></p>
+            </section>
+            <section class="panel-card panel-card--quiet team-guidance">
+              <div class="panel-title"><span>Access Management</span><span class="subtle-tag">SECURE BY DEFAULT</span></div>
+              <div class="team-guidance-step"><span>01</span><div><strong>Invite a member</strong><p>Send an individual, private invitation to an approved email address.</p></div></div>
+              <div class="team-guidance-step"><span>02</span><div><strong>Assign permissions</strong><p>Select only the academic and operational capabilities they need.</p></div></div>
+              <div class="team-guidance-step"><span>03</span><div><strong>Maintain control</strong><p>Review access, suspend accounts and revoke invitations. Changes are audited.</p></div></div>
+              <p class="team-guidance-footnote">New member invitations remain unavailable until staff authentication is isolated from student registration.</p>
+            </section>
+          </div>
+        </section>
+        <section id="profile-preview" class="profile-preview is-hidden" aria-label="My authenticated management profile" aria-live="polite">
+  <div class="profile-preview-banner"><span class="subtle-tag">MY VERIFIED ACCOUNT</span><p>This page always shows the current signed-in member. Your technical role is protected independently of your display name or title.</p></div>
+  <div class="profile-main-grid">
+    <section class="panel-card">
+      <div class="panel-title"><span>My Identity</span><span class="subtle-tag">ACCOUNT DETAILS</span></div>
+      <div class="member-identity">
+        <div class="member-profile-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 22v-2a8 8 0 0 1 16 0v2"/></svg></div>
+        <div><h2 id="member-profile-name">Signed-in Member</h2><p id="member-profile-title">Optional organizational title</p><span class="sample-badge" id="member-profile-status">VERIFIED ACCOUNT</span></div>
+      </div>
+      <dl class="profile-detail-list">
+        <div><dt>Verified account</dt><dd id="member-profile-email">—</dd></div>
+        <div><dt>Technical role</dt><dd id="member-profile-role">—</dd></div>
+        <div><dt>Member status</dt><dd id="member-profile-account-status">—</dd></div>
+        <div><dt>Access</dt><dd id="member-profile-activity">Authenticated management account</dd></div>
+      </dl>
+      <p class="member-privacy-note">Only your Chief Administrator account can update its own display name and title. Team member names and titles are assigned by the Chief Administrator.</p>
+      <form id="chief-profile-form" class="staff-form is-hidden" aria-label="Edit Chief Administrator profile">
+        <h3>Personalize Your Profile</h3>
+        <div class="field"><label for="chief-profile-display-name">Display name or nickname</label><input id="chief-profile-display-name" type="text" maxlength="100" autocomplete="name" placeholder="Optional display name"></div>
+        <div class="field"><label for="chief-profile-title">Organizational title (optional)</label><input id="chief-profile-title" type="text" maxlength="100" placeholder="e.g. Founder, Academic Director"></div>
+        <button id="chief-profile-save" type="submit" class="primary-btn">Save Profile Details <span aria-hidden="true">→</span></button>
+        </form>
+      <p id="chief-profile-feedback" role="status" aria-live="polite" class="auth-feedback"></p>
+      <button id="chief-profile-edit" class="secondary-btn is-hidden chief-profile-edit" type="button">Edit My Profile <span aria-hidden="true">✎</span></button>
+    </section>
+    <section class="panel-card">
+      <div class="panel-title"><span>My Role &amp; Permissions</span><span class="subtle-tag">EFFECTIVE ACCESS</span></div>
+      <p class="permission-intro">Your effective permissions come from your verified staff account. This screen is informational and cannot grant additional access.</p>
+      <div id="member-permissions-list" class="permission-preview-list"><p>Permissions are loaded from verified staff membership.</p></div>
+      <p class="member-privacy-note">Technical permissions are assigned and enforced by the management server. Organizational titles never change access.</p>
+    </section>
+  </div>
+</section>
+<section id="audit-preview" class="team-preview is-hidden" aria-label="Staff audit log"><div class="panel-card"><div class="panel-title"><span>Management Activity Log</span><span class="subtle-tag">LAST 50 EVENTS</span></div><div id="audit-event-list" class="staff-list"><p>Loading authorized activity…</p></div></div></section>
+        <section id="module-placeholder" class="module-placeholder is-hidden" aria-live="polite">
+          <div class="placeholder-symbol" aria-hidden="true">◇</div>
+          <span class="eyebrow eyebrow--red">PLANNED MANAGEMENT MODULE</span>
+          <h2 id="module-placeholder-title">Module preview</h2>
+          <p id="module-placeholder-copy">This area will be implemented in an approved phase with secure authorization and real data.</p>
+          <span class="disabled-feature-tag">NO LIVE CONTROLS IN THIS PREVIEW</span>
+        </section>
+        <footer class="workspace-footer"><span>SJN MedNest Management Panel</span><span>Phase 1A • Secured staff foundation</span></footer>
+      </main>
+    </div>
+  </div>
+  <div id="staff-stepup-backdrop" class="staff-stepup-backdrop is-hidden">
+        <section id="staff-stepup-panel" class="security-flow staff-stepup-modal" role="dialog" aria-modal="true" aria-label="Confirm sensitive staff management action">
+          <h3>Confirm Staff Access Change</h3>
+          <p>To invite a staff member or change staff access, enter one email security code. Approval remains valid for 30 minutes in this signed-in session. Routine academy work and profile edits need no code.</p>
+          <p id="staff-stepup-status" class="auth-feedback" role="status" aria-live="polite"></p>
+          <button id="staff-stepup-send" type="button" class="secondary-btn">Send Email Security Code</button>
+          <form id="staff-stepup-form">
+            <div class="field"><label for="staff-stepup-code">8-digit email security code</label><input id="staff-stepup-code" type="text" inputmode="numeric" maxlength="8" pattern="[0-9]{8}" autocomplete="one-time-code" required placeholder="00000000"></div>
+            <button id="staff-stepup-confirm" type="submit" class="primary-btn">Verify &amp; Continue <span aria-hidden="true">→</span></button>
+          </form>
+          <button id="staff-stepup-cancel" type="button" class="return-btn">← Cancel</button>
+        </section>
+  </div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="robots" content="noindex,nofollow,noarchive">
+ <meta name="referrer" content="no-referrer">
+ <title>SJN MedNest | Private Staff Invitation</title>
+ <link rel="stylesheet" href="/styles.css">
+ <link rel="stylesheet" href="/isolated-staff-invite.css">
+ <script type="module" src="/isolated-staff-invite.js"></script>
+</head>
+<body class="invite-page">
+ <main class="invite-card">
+  <div class="brand brand--large">
+   <span class="brand-symbol" aria-hidden="true">SJN</span>
+   <span><strong>SJN <span class="brand-accent">MedNest</span></strong><small>MANAGEMENT PANEL</small></span>
+  </div>
+  <p class="section-kicker">PRIVATE MANAGEMENT ACCESS</p>
+  <h1>Management Team Invitation</h1>
+  <p class="invite-explainer">Invitations are individual, expire after 72 hours and never grant access to the Student LMS. Your email must be independently verified before any invitation can be accepted.</p>
+  <p class="invite-alert" role="status" id="invite-status">Checking your invitation…</p>
+  <section id="invite-signin" hidden>
+   <h2>Sign in to your management account</h2>
+   <p>Use the exact email address that received the invitation. If you need a new account, use the separate registration form below.</p>
+   <form id="staff-signin-form">
+    <div class="field"><label for="staff-signin-email">Email address</label><input id="staff-signin-email" type="email" autocomplete="username" maxlength="254" required></div>
+    <div class="field"><label for="staff-signin-password">Password</label><input id="staff-signin-password" type="password" autocomplete="current-password" required></div>
+    <button class="primary-btn" type="submit">Sign In <span aria-hidden="true">→</span></button>
+   </form>
+   <details class="invite-register">
+    <summary>New management account? Create one</summary>
+    <p>This creates only a management authentication identity. Access is granted only if the invitation is valid and your email is verified.</p>
+    <form id="staff-signup-form">
+     <div class="field"><label for="staff-signup-email">Invited email address</label><input id="staff-signup-email" type="email" autocomplete="email" maxlength="254" required></div>
+     <div class="field"><label for="staff-signup-password">Create password (at least 12 characters)</label><input id="staff-signup-password" type="password" autocomplete="new-password" minlength="12" required></div>
+     <div class="field"><label for="staff-signup-confirm">Confirm password</label><input id="staff-signup-confirm" type="password" autocomplete="new-password" minlength="12" required></div>
+     <button class="secondary-btn" type="submit">Create Management Account</button>
+    </form>
+   </details>
+  </section>
+  <section id="invite-review" hidden>
+   <h2>Review Your Invitation</h2>
+   <dl class="invite-details">
+    <div><dt>Invited email</dt><dd id="invite-recipient"></dd></div>
+    <div><dt>Display name</dt><dd id="invite-display-name">—</dd></div>
+    <div><dt>Organizational title</dt><dd id="invite-title">—</dd></div>
+    <div><dt>Expires</dt><dd id="invite-expires">—</dd></div>
+   </dl>
+   <p id="invite-gate-message" class="invite-note">Invitation acceptance is not yet enabled.</p>
+   <button id="accept-invitation" type="button" class="primary-btn" disabled>Accept Management Invitation <span aria-hidden="true">→</span></button>
+   <button id="invite-signout" type="button" class="return-btn">Sign out of this management account</button>
+  </section>
+  <p class="invite-footer">Protected management staff authentication · No student account access</p>
+ </main>
+</body>
+</html>

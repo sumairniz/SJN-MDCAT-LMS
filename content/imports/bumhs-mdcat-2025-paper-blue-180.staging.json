@@ -1,0 +1,3437 @@
+{
+  "metadata": {
+    "title": "BUMHS MDCAT 2025 — Paper Blue",
+    "year": "2025",
+    "region": "balochistan",
+    "description": "Paper Blue · 180 original MCQs · provisional chapter and topic classifications",
+    "version": "BLUE",
+    "questionCount": 180,
+    "sourcePdf": "BUMHS_MDCAT_2025_Paper_Blue.pdf",
+    "sourceDigestSHA256": "c18a675c6f41f881fa4836e026032c53a255776cc820b68eac0c47f7d3ad0df8",
+    "provisional": true,
+    "scope": "limited staging testing, not production",
+    "sourceKeysPreserved": true
+  },
+  "questions": [
+    {
+      "originalNumber": 1,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Human Reproductive System",
+      "question": "Implantation of the embryo occurs in which part of the female reproductive system?",
+      "options": [
+        "Ovary",
+        "Uterus",
+        "Cervix",
+        "Fallopian tube"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Uterus”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 2,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "The structure that is directly continuous with the cell body transmits nerve impulses away from it, is:",
+      "options": [
+        "Axon",
+        "Synapse",
+        "Dendrites",
+        "Myelin sheath"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Axon”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 3,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Mendel's Laws of Inheritance",
+      "question": "A pea plant which upon self fertilization produces all the offspring of its own phenotype is called:",
+      "options": [
+        "Plant with homogenous genotype",
+        "Plant with homozygous genotype",
+        "Plant with homologous genotype",
+        "Plant with hemizygous genotype"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Plant with homozygous genotype”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 4,
+      "subject": "Biology",
+      "chapter": "Gaseous Exchange",
+      "topic": "Human Respiratory System",
+      "question": "What happens to the pressure and volume of the thoracic cavity during inhalation?",
+      "options": [
+        "Pressure and volume both increase",
+        "Pressure increases and volume decreases",
+        "Pressure decreases and volume increases",
+        "Pressure and volume both decrease"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Pressure decreases and volume increases”. This tests respiration & gas transport.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 5,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Human Reproductive System",
+      "question": "Which of the following is NOT a function of testes?",
+      "options": [
+        "Spermatogenesis",
+        "Production of FSH",
+        "Secretion of inhibin",
+        "Secretion of testosterone"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Production of FSH”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 6,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Gene Linkage and Crossing Over",
+      "question": "Crossing over is:",
+      "options": [
+        "Exchange of segments between sister chromatids of homologous chromosomes during meiosis.",
+        "Exchange of segments between non-sister chromatids of homologous chromosomes during meiosis.",
+        "Exchange of segments between non-sister chromatids of heterologous chromosomes during meiosis.",
+        "Exchange of segments between non-sister chromatids of homologous chromosomes during mitosis."
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Exchange of segments between non-sister chromatids of homologous chromosomes during meiosis”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 7,
+      "subject": "Biology",
+      "chapter": "Digestion",
+      "topic": "Human Digestive System",
+      "question": "Nasal opening is closed by which of the following to prevent food from entering into food pipe?",
+      "options": [
+        "Hard palate",
+        "Epiglottis",
+        "Soft palate",
+        "Larynx"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Epiglottis”. This tests human digestion & absorption.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 8,
+      "subject": "Biology",
+      "chapter": "Immunity",
+      "topic": "Specific Defense Mechanism",
+      "question": "Which cells are involved in humoral immunity?",
+      "options": [
+        "T cells",
+        "B cells",
+        "T or B cells",
+        "T and B cells"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “B cells”. This tests immune responses.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 9,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Which of the following travels along a neuron during nerve impulse conduction?",
+      "options": [
+        "Waves of electrochemical changes",
+        "Waves of thermal changes",
+        "Waves of magnetic changes",
+        "Waves of hormonal changes"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Waves of electrochemical changes”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 10,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "Dialyzing fluid has same osmotic pressure as the blood has, except that it lacks:",
+      "options": [
+        "Glucose",
+        "Water",
+        "Sodium and Potassium",
+        "Nitrogenous waste"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Nitrogenous waste”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 11,
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Respiration",
+      "question": "When fat molecule is hydrolyzed for energy, the end products will be:",
+      "options": [
+        "Amino acids and glycerol",
+        "Glycerol and fatty acids",
+        "Fatty acids and amino acids",
+        "Glycerol and nitrogenous bases"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Glycerol and fatty acids”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 12,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "AIDS and HIV Infection",
+      "question": "The less common cause of HIV mode of transmission is:",
+      "options": [
+        "Blood Transfusion",
+        "Placenta of mother to baby",
+        "Mosquito bite",
+        "Lactation from HIV positive mother to baby"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Mosquito bite”. This tests classification of viruses & transmission.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 13,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Brain",
+      "question": "The cerebellum is mainly responsible for:",
+      "options": [
+        "Vision, hearing and reflexes",
+        "Regulating heart beat only",
+        "Conscious, thoughts and reasoning",
+        "Balance, posture and coordination"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Balance, posture and coordination”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 14,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "AIDS and HIV Infection",
+      "question": "Which of the following method is used to prevent HIV transmission during blood transfusion?",
+      "options": [
+        "By freezing blood before transfusion",
+        "By using blood from young donors only",
+        "By boiling blood before transfusion",
+        "By screening blood for HIV before its transfusion"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “By screening blood for HIV before its transfusion”. This tests classification of viruses & transmission.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 15,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Human Reproductive System",
+      "question": "The part of male reproductive system involved in the storage and maturation of sperms:",
+      "options": [
+        "Scrotum",
+        "Vas deferens",
+        "Epididymis",
+        "Testes"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Epididymis”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 16,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Biological Importance of Water",
+      "question": "The correct function of H⁺ and OH⁻ ions in cells is:",
+      "options": [
+        "Transporting proteins",
+        "Breaking down fats",
+        "Maintaining or changing pH",
+        "Producing light energy"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Maintaining or changing pH”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 17,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "One of the best preventive measure for kidney stones formation is:",
+      "options": [
+        "Taking antibiotic daily",
+        "Avoiding all dairy food",
+        "Drinking plenty of water",
+        "Reducing physical activity"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Drinking plenty of water”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 18,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Human Heart",
+      "question": "Which of the following layer is mainly composed of cardiac muscles?",
+      "options": [
+        "Endocardium",
+        "Epicardium",
+        "Pericardium",
+        "Myocardium"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Myocardium”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 19,
+      "subject": "Biology",
+      "chapter": "Gaseous Exchange",
+      "topic": "Human Respiratory System",
+      "question": "During the process of gaseous exchange, all of the following are the functions of hemoglobin EXCEPT:",
+      "options": [
+        "It acts as a buffer to stabilize the blood pH",
+        "It transports oxygen from lungs to other body tissues",
+        "It transports carbon dioxide from body tissues to lungs",
+        "It regulates the blood pressure when body is in stress"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “It regulates the blood pressure when body is in stress”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 20,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Ribonucleic Acid (RNA)",
+      "question": "If a polypeptide of 20 amino acids is made up of all different amino acids, at least how many types of tRNA must take part in its synthesis?",
+      "options": [
+        "20",
+        "45",
+        "61",
+        "64"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “20”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 21,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Conjugated Molecules",
+      "question": "Which of the following is NOT considered a conjugated molecule?",
+      "options": [
+        "A molecule containing linked sugar units",
+        "A molecule made up only of carbon and hydrogen",
+        "A protein attached to a non-protein group",
+        "A lipid combined with another chemical component"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “A molecule made up only of carbon and hydrogen”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 22,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Sexually Transmitted Diseases",
+      "question": "Which of the following is the causative agent of Gonorrhea?",
+      "options": [
+        "Herpes simplex virus",
+        "Treponema pallidum",
+        "Mycobacterium tuberculosis",
+        "Neisseria gonorrhaeae"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Neisseria gonorrhaeae”. This tests classification of viruses & transmission.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 23,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Ribonucleic Acid (RNA)",
+      "question": "Which of the following is a correct structural feature of RNA?",
+      "options": [
+        "It contains deoxyribose sugar",
+        "It has a double-stranded helical structure",
+        "It contains base uracil instead of base thymine",
+        "It is confined to the nucleus only"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “It contains base uracil instead of base thymine”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 24,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Blood Vessels",
+      "question": "A drug that relaxes smooth muscles in blood vessels is useful for:",
+      "options": [
+        "Increasing skeletal muscles strength",
+        "Reducing blood pressure (vasodilation)",
+        "Increase heart rate",
+        "Causing voluntary contraction"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Reducing blood pressure (vasodilation)”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 25,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "A person quickly withdraw their hand touching a hot iron. This type of reflex is best classified as:",
+      "options": [
+        "Cranial reflex",
+        "Spinal reflex",
+        "Hormonal reflex",
+        "Conditional reflex"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Spinal reflex”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 26,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Brain",
+      "question": "Which of the following function is under control of medulla oblongata?",
+      "options": [
+        "Memory",
+        "Vision",
+        "Breathing",
+        "Dreaming"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Breathing”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 27,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "The outer surface of the axon membrane in a resting neuron is:",
+      "options": [
+        "Negative due to sodium ions",
+        "Positive due to sodium ions",
+        "Positive due to potassium ions",
+        "Neutral due to balanced ions"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Positive due to sodium ions”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 28,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "The primary function of the sensory neuron in a reflex arc is to:",
+      "options": [
+        "Contract muscles",
+        "Detect environmental changes",
+        "Transmit impulses to the brain",
+        "Carry impulses to the spinal cord"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Carry impulses to the spinal cord”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 29,
+      "subject": "Biology",
+      "chapter": "Digestion",
+      "topic": "Human Digestive System",
+      "question": "Which of the following is NOT related to large intestine?",
+      "options": [
+        "Villi",
+        "Sigmoid colon",
+        "Appendix",
+        "Rectum"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Villi”. This tests human digestion & absorption.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 30,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Factors that Affect the Rate of Enzyme Reactions",
+      "question": "Which change occurs in enzyme activity when temperature increases beyond the optimum level?",
+      "options": [
+        "Activity remains same",
+        "Activity increases",
+        "Enzymes denatures",
+        "Enzymes specificity increases"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Enzymes denatures”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 31,
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Darwinism",
+      "question": "According to Darwin theory, the main reason of evolution is:",
+      "options": [
+        "Natural calamity",
+        "Natural selection",
+        "Use and disuse of an organ",
+        "Inheritance of acquired character"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Natural selection”. This tests evolutionary theories.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 32,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscle Contraction",
+      "question": "Which structure conducts the action potential deep into the muscle fiber?",
+      "options": [
+        "Z-line",
+        "Sarcomere",
+        "T-tubules",
+        "Sarcoplasmic reticulum"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “T-tubules”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 33,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Chromosomes",
+      "question": "What is the chemical composition of chromosomes?",
+      "options": [
+        "RNA and lipids",
+        "DNA and proteins",
+        "Proteins and carbohydrates",
+        "Carbohydrates and nucleic acids"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “DNA and proteins”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 34,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Mendel's Laws of Inheritance",
+      "question": "In the second step of his experiment, what did Mendel do after selecting pure breeding tall and dwarf pea plants?",
+      "options": [
+        "Allowed them to self pollinate",
+        "Crossed them to produced hybrid offspring",
+        "Collected seeds from random plants",
+        "Grew them in different soil types"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Crossed them to produced hybrid offspring”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 35,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Brain",
+      "question": "Which one is NOT the part of fore brain?",
+      "options": [
+        "Cerebellum",
+        "Hypothalamus",
+        "Hippocampus",
+        "Amygdala"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Cerebellum”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 36,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "During saltatory conduction, a nerve impulse jumps from one to another:",
+      "options": [
+        "Synapse",
+        "Axon",
+        "Node of Ranvier",
+        "Dendrite"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Node of Ranvier”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 37,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Structure of DNA",
+      "question": "Each DNA nucleotide differs from the others based on its:",
+      "options": [
+        "Nitrogenous bases",
+        "Phosphate group",
+        "Sugar molecule",
+        "Number of phosphorus atoms"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Nitrogenous bases”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 38,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Human Skeleton",
+      "question": "Maintenance of healthy bone tissues by secreting enzymes and influencing bone mineral content is the duty of:",
+      "options": [
+        "Osteocytes",
+        "Osteoblasts",
+        "Osteoclasts",
+        "Osteogenic cells"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Osteocytes”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 39,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Conjugated Molecules",
+      "question": "Glycolipid is a combination of:",
+      "options": [
+        "Lipid and carbohydrate",
+        "Lipid and protein",
+        "Nucleic acid and lipid",
+        "Protein and carbohydrate"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Lipid and carbohydrate”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 40,
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Concept of Evolution",
+      "question": "Which idea suggests that life was created by a supernatural force?",
+      "options": [
+        "Special creation",
+        "Biogenesis",
+        "Spontaneous generation",
+        "Natural selection"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Special creation”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 41,
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Concept of Evolution",
+      "question": "Catastrophism explains that changes in life on earth are due to:",
+      "options": [
+        "Gradual evolution",
+        "Natural selection",
+        "Mutation",
+        "Sudden natural disasters"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Sudden natural disasters”. This tests evolutionary theories.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 42,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscle Contraction",
+      "question": "Which of the following does not occur during muscle contraction?",
+      "options": [
+        "Release of calcium from sarcoplasmic reticulum",
+        "Formation of cross-bridge",
+        "Sliding of actin over myosin",
+        "Increase in sarcomere length"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Increase in sarcomere length”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 43,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Human Skeleton",
+      "question": "Cartilage receives its nutrition through the process of:",
+      "options": [
+        "Active transport",
+        "Diffusion",
+        "Phagocytosis",
+        "Osmosis"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Diffusion”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 44,
+      "subject": "Biology",
+      "chapter": "Biotechnology",
+      "topic": "Biotechnology and Health Care",
+      "question": "Key benefit of using biotechnology in development of vaccine for malaria is:",
+      "options": [
+        "Its ability to develop endosymbiotic relationship with host",
+        "Its ability to work as antimalarial drugs",
+        "Its ability to directly kills the malaria parasite in mosquitoes",
+        "To create a targeted immune response against the parasite"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “To create a targeted immune response against the parasite”. This tests immune responses.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 45,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Ribonucleic Acid (RNA)",
+      "question": "During lab analysis, a student extracted a molecule that contained a sugar, a phosphate group and a nitrogenous base. Which of the following molecules likely identified?",
+      "options": [
+        "Nucleotide",
+        "Amino acid",
+        "Monosaccharides",
+        "Polysaccharides"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Nucleotide”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 46,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Proteins",
+      "question": "During sample analysis, students finds that it contains Carbon, Hydrogen, Oxygen and Nitrogen, but no phosphorous. Based on this information, which biological molecule is most likely to be in the sample?",
+      "options": [
+        "DNA",
+        "Protein",
+        "Phospholipid",
+        "RNA"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Protein”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 47,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Human Heart",
+      "question": "Which tissue layer of heart wall is involved in the formation of heart valves?",
+      "options": [
+        "Epicardium",
+        "Pericardium",
+        "Endocardium",
+        "Myocardium"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Endocardium”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 48,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cytoplasmic Organelles",
+      "question": "During vesicle formation, endoplasmic reticulum membrane:",
+      "options": [
+        "Dissolve into the cytosol",
+        "Breakdown into its chemical components",
+        "Expands and contributes to vesicle formation",
+        "Moves directly into Golgi apparatus"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Expands and contributes to vesicle formation”. This tests cell organelles & membranes.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 49,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Excretion",
+      "question": "All of the following have excretory role EXCEPT:",
+      "options": [
+        "Kidney",
+        "Skin",
+        "Appendix",
+        "Lungs"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Appendix”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 50,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "Which one of the following hormone increases the reabsorption of Na ions in the nephron?",
+      "options": [
+        "ADH",
+        "LH",
+        "Insulin",
+        "Aldosteron"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Aldosteron”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 51,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Lymphatic System",
+      "question": "The key difference between lymph nodes and lymph vessels is:",
+      "options": [
+        "Vessels move lymph; nodes filter it",
+        "Vessels carry oxygen; nodes produce bile",
+        "Vessels digest toxins; nodes transport lymph",
+        "Vessels store lymphocytes; nodes make plasma"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Vessels move lymph; nodes filter it”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 52,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "A typical value of resting membrane potential in a neuron is:",
+      "options": [
+        "-50 millivolts",
+        "+50 millivolts",
+        "-70 millivolts",
+        "+70 millivolts"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “-70 millivolts”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 53,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Ribonucleic Acid (RNA)",
+      "question": "In humans, how many kinds of tRNA are present for the synthesis of proteins?",
+      "options": [
+        "40",
+        "45",
+        "43",
+        "50"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “45”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 54,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cell Structure",
+      "question": "A cell shows green structures and a large fluid- filled area under the microscope. What does this indicate?",
+      "options": [
+        "Plant cell with chloroplasts and vacuole",
+        "Fungal cell without chloroplasts",
+        "Algal cells with chloroplasts but lacking large vacuole",
+        "Animal cell with small vacuoles"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Plant cell with chloroplasts and vacuole”. This tests immune responses.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 55,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Carbohydrates",
+      "question": "Lactose sugar is found in milk and is composed of _____________.",
+      "options": [
+        "Glucose + Glucose",
+        "Glucose + Fructose",
+        "Glucose + Galactose",
+        "Fructose + Galactose"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Glucose + Galactose”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 56,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Chromosomes",
+      "question": "Which option best reflects species specific chromosome number?",
+      "options": [
+        "Same in all animals",
+        "Varies by tissue type",
+        "Fixed for each species",
+        "More in larger organisms"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Fixed for each species”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 57,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Ribonucleic Acid (RNA)",
+      "question": "Anticodon that consist of complementary basis of three nucleotides is located on:",
+      "options": [
+        "rRNA",
+        "mRNA",
+        "tRNA",
+        "DNA"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “tRNA”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 58,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "Which part of kidney is responsible for collecting urine before it enters the ureter?",
+      "options": [
+        "Renal pelvis",
+        "Renal medulla",
+        "Renal cortex",
+        "Renal pyramids"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Renal pelvis”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 59,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Cardiac Cycle and Phases of Heartbeat",
+      "question": "Ventricular systole causes:",
+      "options": [
+        "Atrial relaxation",
+        "Atrial contraction",
+        "Closing of semilunar valve",
+        "Closing of atrioventricular valves"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Closing of atrioventricular valves”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 60,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Menstrual Cycle",
+      "question": "After ovulation, the ruptured follicle in ovary transformed into:",
+      "options": [
+        "Corpus luteum",
+        "Corpus callosum",
+        "Secondary follicle",
+        "Tertiary follicle"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Corpus luteum”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 61,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Human Skeleton",
+      "question": "Which one are bone destroying cells?",
+      "options": [
+        "Osteoclasts",
+        "Osteocytes",
+        "Osteogenic",
+        "Osteoblasts"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Osteoclasts”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 62,
+      "subject": "Biology",
+      "chapter": "Immunity",
+      "topic": "Specific Defense Mechanism",
+      "question": "Spleen contributes towards:",
+      "options": [
+        "Producing insulin and glucagon",
+        "Producing antibodies against fats",
+        "Increasing oxygen binding to hemoglobin",
+        "Filtering blood and removing old red blood cells"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Filtering blood and removing old red blood cells”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 63,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "X-linked Recessive Inheritance",
+      "question": "Hemophilia is a sex linked recessive trait. A hemophiliac man marries to a normal woman (whose father is hemophiliac). If they have daughter, what is the probability that she will be hemophiliac?",
+      "options": [
+        "0%",
+        "25%",
+        "50%",
+        "75%"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “50%”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 64,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Gene Linkage and Crossing Over",
+      "question": "Morgan's experiment showed deviation from the law of independent assortment due to:",
+      "options": [
+        "Crossing over",
+        "Gene linkage",
+        "Random mutation",
+        "Natural selection"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Gene linkage”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 65,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Mode of Enzyme Action",
+      "question": "The active site is important in enzyme action because:",
+      "options": [
+        "It binds to the substrate",
+        "It maintains the pH of reaction",
+        "It provide energy for reaction",
+        "It changes the shape of the enzyme"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “It binds to the substrate”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 66,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Receptors",
+      "question": "The main function of Pacinian corpuscles is to detect:",
+      "options": [
+        "Chemical composition of food",
+        "Changes in temperature",
+        "Stimuli of pressure",
+        "Sharp pain signals"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Stimuli of pressure”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 67,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Human Skeleton",
+      "question": "The connective tissue which connects skeletal muscle to bone is:",
+      "options": [
+        "Tendon",
+        "Ligament",
+        "Cartilage",
+        "Synovial membrane"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Tendon”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 68,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cytoplasmic Organelles",
+      "question": "Cholesterol and phospholipids are mainly synthesized in liver cells by:",
+      "options": [
+        "Golgi complex",
+        "Mitochondria",
+        "Rough endoplasmic reticulum (RER)",
+        "Smooth endoplasmic reticulum (SER)"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Smooth endoplasmic reticulum (SER)”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 69,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscle Contraction",
+      "question": "The nerve impulse for the contraction of skeletal muscle fiber is carried from sarcolemma to every myofibril of a muscle cell via:",
+      "options": [
+        "T-tubules",
+        "H-zone",
+        "Thin myofilaments",
+        "Thick myofilaments"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “T-tubules”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 70,
+      "subject": "Biology",
+      "chapter": "Gaseous Exchange",
+      "topic": "Human Respiratory System",
+      "question": "Which of the following is the most appropriate concept of oxygen carrying capacity of blood?",
+      "options": [
+        "Ability of blood to carry oxygen",
+        "Ability of hemoglobin to bind with oxygen",
+        "Amount of oxygen present in the plasma",
+        "Rate of binding of fibrinogen with proteins"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Ability of hemoglobin to bind with oxygen”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 71,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Structure of DNA",
+      "question": "The central dogma of molecular biology describes the flow of genetic information as:",
+      "options": [
+        "DNA → mRNA → Protein",
+        "mRNA → DNA → Protein",
+        "Protein → DNA → mRNA",
+        "DNA → Protein → mRNA"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “DNA → mRNA → Protein”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 72,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Lipids",
+      "question": "Acylglycerols like fats and oils are esters formed by condensation reaction between:",
+      "options": [
+        "Fatty acid and water",
+        "Fatty acid and phosphates",
+        "Fatty acid and glucose",
+        "Fatty acid and alcohol"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Fatty acid and alcohol”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 73,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Reflex action is considered as the simplest form of response in:",
+      "options": [
+        "Simple animals",
+        "Higher animals",
+        "Lowest animals",
+        "Smaller animals"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Higher animals”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 74,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cytoplasmic Organelles",
+      "question": "A platform for protein synthesis in the cell is provided by:",
+      "options": [
+        "mRNA",
+        "rRNA",
+        "tRNA",
+        "Protein encoding DNA"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “rRNA”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 75,
+      "subject": "Biology",
+      "chapter": "Biotechnology",
+      "topic": "Biotechnology and Health Care",
+      "question": "In disease diagnosis, the main function of monoclonal antibodies is:",
+      "options": [
+        "To stimulate white blood cell production",
+        "To detect specific antigens in clinical samples",
+        "To bind to toxins produced by pathogens",
+        "To label abnormal cells for immune destruction"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “To detect specific antigens in clinical samples”. This tests immune responses.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 76,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Carbohydrates",
+      "question": "Pick the smallest form of carbohydrates from the following, which cannot be further hydrolyzed into simpler form.",
+      "options": [
+        "Sucrose",
+        "Lactose",
+        "Glucose",
+        "Starch"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Glucose”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 77,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Inhibitors",
+      "question": "Which type of inhibitor binds to a site other than the active site and changes the shape of active site?",
+      "options": [
+        "Competitive inhibitor",
+        "Un-competitive inhibitor",
+        "Allosteric activator",
+        "Non-competitive inhibitor"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Non-competitive inhibitor”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 78,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Saltatory conduction of nerve impulse occurs in:",
+      "options": [
+        "Myelinated axons",
+        "Cell bodies",
+        "Unmyelinated axons",
+        "Dendrites"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Myelinated axons”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 79,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Chromosomes",
+      "question": "Thread-like single strand of a chromosome that is made of DNA and protein is known as:",
+      "options": [
+        "Chromosome arm",
+        "Nucleosome",
+        "Chromosome",
+        "Chromatid"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Chromatid”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 80,
+      "subject": "Biology",
+      "chapter": "Digestion",
+      "topic": "Human Digestive System",
+      "question": "Which of the following is NOT included in the composition of bile?",
+      "options": [
+        "Bile salt",
+        "Bile pigment",
+        "Cholesterol",
+        "Lipase"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Lipase”. This tests human digestion & absorption.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 81,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Factors that Affect the Rate of Enzyme Reactions",
+      "question": "Which factor affects the ionization state of an enzyme's active site?",
+      "options": [
+        "Temperature",
+        "Enzyme concentration",
+        "Substrate concentration",
+        "pH"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “pH”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 82,
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Common Ion Effect",
+      "question": "When hydrochloric acid is added to brine, solubility of sodium chloride ___________.",
+      "options": [
+        "Decreases",
+        "Increases",
+        "Remains same",
+        "Become equal to HCl"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Decreases”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 83,
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Reactivity of Aldehydes and Ketones",
+      "question": "Zn-Hg/conc. HCl reduces acetaldehyde to:",
+      "options": [
+        "Ethane",
+        "Ethene",
+        "Acetic acid",
+        "Para aldehyde"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Ethane”. This tests carbonyl chemistry.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 84,
+      "subject": "Chemistry",
+      "chapter": "Industrial Chemistry",
+      "topic": "Dyes",
+      "question": "Which of the following group acts as chromophore?",
+      "options": [
+        "Amino group",
+        "Azo group",
+        "Hydroxyl group",
+        "Sulfonic acid group"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Azo group”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 85,
+      "subject": "Chemistry",
+      "chapter": "Industrial Chemistry",
+      "topic": "Adhesive",
+      "question": "Which of the following is natural adhesive?",
+      "options": [
+        "Silicones",
+        "Polyvinylacetate",
+        "Casein glue",
+        "Polyamide"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Casein glue”. This tests industrial products & processes.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 86,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Dipole Movement",
+      "question": "NH₃ has net dipole moment but BF₃ has zero net dipole moment because of?",
+      "options": [
+        "B is less E.N than N",
+        "F is more E.N than N",
+        "BF₃ is pyramidal",
+        "NH₃ is pyramidal"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “NH₃ is pyramidal”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 87,
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "Evaporation, Boiling point and Vapor Pressure",
+      "question": "Which of the following has lower vapour pressure?",
+      "options": [
+        "CHCl₃",
+        "CCl₄",
+        "H₂O",
+        "CH₃COCH₃"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “H₂O”. This tests intermolecular forces & properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 88,
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Electronic Configuration",
+      "question": "The electrons will enter which of these orbitals after filling the 3d orbital.",
+      "options": [
+        "4d",
+        "4f",
+        "4s",
+        "4p"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “4p”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 89,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Preparation of Alkanes",
+      "question": "Dehydration of alcohol to form ethene is an example of:",
+      "options": [
+        "Substitution reaction",
+        "Addition reaction",
+        "Elimination reaction",
+        "Redox reaction"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Elimination reaction”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 90,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "VSEPR Theory",
+      "question": "A triatomic molecule must be either linear with bond angle of 180° or else?",
+      "options": [
+        "T-shape",
+        "Bent",
+        "Pyramidal",
+        "Tetrahedral"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Bent”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 91,
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "Evaporation, Boiling point and Vapor Pressure",
+      "question": "If molecules have strong dipole dipole force, then they have high?",
+      "options": [
+        "Heat of neutralization",
+        "Heat of combustion",
+        "Heat of vaporization",
+        "Heat atomization"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Heat of vaporization”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 92,
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "Evaporation, Boiling point and Vapor Pressure",
+      "question": "Which one is the most volatile liquid?",
+      "options": [
+        "Water",
+        "Methanol",
+        "Benzene",
+        "Diethylether"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Diethylether”. This tests intermolecular forces & properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 93,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Dipole Movement",
+      "question": "The molecules that has non zero dipole moment is?",
+      "options": [
+        "CO₂",
+        "CO",
+        "BF₃",
+        "AlCl₃"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “CO”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 94,
+      "subject": "Chemistry",
+      "chapter": "S- and P- Block Elements",
+      "topic": "Properties and their Trends",
+      "question": "Which element has smallest ionic radius?",
+      "options": [
+        "Li⁺¹",
+        "Na⁺¹",
+        "K⁺¹",
+        "Rb⁺¹"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Li⁺¹”. This tests periodic trends & properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 95,
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "Properties of Liquids based on Kinetic Molecular Theory",
+      "question": "When liquids are heated, volume __________.",
+      "options": [
+        "Decreases",
+        "Increases",
+        "Remains same",
+        "Cannot be measured"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Increases”. This tests intermolecular forces & properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 96,
+      "subject": "Chemistry",
+      "chapter": "S- and P- Block Elements",
+      "topic": "Reaction of Group II elements",
+      "question": "Which metal hydroxide is stable to heat?",
+      "options": [
+        "Li",
+        "Na",
+        "Mg",
+        "Ca"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Na”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 97,
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Redox Reaction",
+      "question": "Which one of the following reactions involve either oxidation or reduction EXCEPT:",
+      "options": [
+        "CH₄ + 2O₂ → CO₂ + 2H₂O",
+        "Cu²⁺ + Zn → Zn²⁺ + Cu",
+        "CuO + H₂SO₄ → CuSO₄ + H₂O",
+        "Zn + H₂SO₄ → ZnSO₄ + H₂"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “CuO + H₂SO₄ → CuSO₄ + H₂O”. This tests redox & electrochemical cells.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 98,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Real and Ideal Gas",
+      "question": "If intermolecular forces between gas molecules disappear suddenly, which of the following would happen?",
+      "options": [
+        "Pressure decreases",
+        "Pressure increases",
+        "Gas collapses",
+        "Pressure remain unchanged"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Pressure increases”. This tests gas laws & kinetic theory.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 99,
+      "subject": "Chemistry",
+      "chapter": "S- and P- Block Elements",
+      "topic": "Properties and their Trends",
+      "question": "Which one has strongest metallic bond?",
+      "options": [
+        "Na",
+        "Mg",
+        "Al",
+        "P"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Al”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 100,
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Rate Constant",
+      "question": "Rate constant depends upon:",
+      "options": [
+        "Volume",
+        "Temperature",
+        "Concentration",
+        "Pressure"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Temperature”. This tests rates & activation energy.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 101,
+      "subject": "Chemistry",
+      "chapter": "Industrial Chemistry",
+      "topic": "Polymers",
+      "question": "Which monomer is used for synthesis of nylon 6,6?",
+      "options": [
+        "Sobacoyl chloride",
+        "Methylene diamine",
+        "Heptane-1,7-dioic acid",
+        "Hexamethylene diamine"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Hexamethylene diamine”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 102,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Effect of Substituents",
+      "question": "Aromatic compound that is more likely to undergo Friedel-Craft alkylation is _____________.",
+      "options": [
+        "Benzene",
+        "Toluene",
+        "Nitrobenzene",
+        "Benzaldehyde"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Toluene”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 103,
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Nomenclature and structure of Aldehydes and Ketones",
+      "question": "The IUPAC name for CH₃-CH₂-CO-CH₂-CHO is:",
+      "options": [
+        "3-one pentanal",
+        "3-oxo pentanal",
+        "3-one pentanol",
+        "3-oxo pentanol"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “3-oxo pentanal”. This tests nomenclature & isomerism.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 104,
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Quantum Number",
+      "question": "n + l value for 4d orbital is:",
+      "options": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “6”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 105,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Boyle’s Law",
+      "question": "At constant temperature, when the pressure of gas is increased three times then its volume becomes:",
+      "options": [
+        "2V/3",
+        "3V",
+        "V/3",
+        "5V"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “V/3”. This tests gas laws & kinetic theory.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 106,
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Reactivity of Aldehydes and Ketones",
+      "question": "Ketones when treated with LiAlH₄ in the presence of dry ether, they are converted to:",
+      "options": [
+        "Primary Alcohol",
+        "Monohyderic alcohol",
+        "Secondary alcohol",
+        "Dihyderic alcohol"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Secondary alcohol”. This tests carbonyl chemistry.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 107,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Reactions of Alkynes",
+      "question": "A terminal alkyne is treated with lindler catalyst and Hydrogen. The major product is:",
+      "options": [
+        "Trans-alkene",
+        "Cis-alkene",
+        "Alkane",
+        "Vinyl chloride"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Cis-alkene”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 108,
+      "subject": "Chemistry",
+      "chapter": "Introduction of Fundamentals Concept of Chemistry",
+      "topic": "Yield",
+      "question": "A student starts a reaction expecting to get 28g of product. After isolating and drying the product she obtains 18g. Later it was found that 4g was lost due to spillage. What is the actual and percentage yield?",
+      "options": [
+        "14g and 50%",
+        "18g and 75%",
+        "28g and 85%",
+        "24g and 90%"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “14g and 50%”. This tests moles, yield & limiting reagents.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 109,
+      "subject": "Chemistry",
+      "chapter": "Carboxylic Acids",
+      "topic": "Nomenclature, Structure and Preparation of Carboxylic Acid",
+      "question": "Common name of pentanoic acid is",
+      "options": [
+        "Valeric acid",
+        "Caproic acid",
+        "Stearic acid",
+        "Oxalic acid"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Valeric acid”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 110,
+      "subject": "Chemistry",
+      "chapter": "Thermo Chemistry and Energetics of Chemical Reaction",
+      "topic": "Exothermic and Endothermic Reaction",
+      "question": "Which one of the following is an exothermic process?",
+      "options": [
+        "Melting of ice",
+        "Evaporation of water",
+        "Oxidation of Sulphur",
+        "Photosynthesis"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Oxidation of Sulphur”. This tests redox & electrochemical cells.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 111,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Chemical Reactions of Benzenes",
+      "question": "If an electrophile is the attacking reagent, which one is the most reactive?",
+      "options": [
+        "R-I",
+        "R-F",
+        "R-Br",
+        "R-Cl"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “R-F”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 112,
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Order of Reaction",
+      "question": "The activation energy of a reaction is usually:",
+      "options": [
+        "Unaffected by the process of a catalyst.",
+        "Low for the reaction that takes place slowly.",
+        "Different for the forward and backward reaction.",
+        "Increases with rise in temperature."
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Different for the forward and backward reaction”. This tests rates & activation energy.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 113,
+      "subject": "Chemistry",
+      "chapter": "Alkyl Halides",
+      "topic": "Substitution vs Elimination",
+      "question": "Which of the following mechanism involves a carbocation intermediate?",
+      "options": [
+        "E₁ mechanism",
+        "E₂ mechanism",
+        "SN₁ mechanism",
+        "SN₂ mechanism"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “SN₁ mechanism”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 114,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Free Radical Mechanism",
+      "question": "What is formed by homolysis of covalent bond?",
+      "options": [
+        "Free radical",
+        "Molecule",
+        "Ion",
+        "Atom"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Free radical”. This tests substitution & elimination.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 115,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Structure and Reactivity of Alkenes",
+      "question": "Which of the following reaction is the characteristic of alkene?",
+      "options": [
+        "Electrophilic addition",
+        "Nucleophilic substitution",
+        "Free radical substitution",
+        "Elimination"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Electrophilic addition”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 116,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Free Radical Mechanism",
+      "question": "Toluene reacts with bromine in the presence of UV light to produce:",
+      "options": [
+        "m-bromotoluene",
+        "Benzylbromide",
+        "o-bromotoluene",
+        "Bromobenzene"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Benzylbromide”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 117,
+      "subject": "Chemistry",
+      "chapter": "Alcohols and Phenols",
+      "topic": "Nomenclature, structure and reactivity of Phenols",
+      "question": "Reaction of Phenol with Acetyl chloride will yield:",
+      "options": [
+        "Alcohol",
+        "Ester",
+        "Carboxylic acid",
+        "Ether"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Ester”. This tests carboxylic acid & ester reactions.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 118,
+      "subject": "Chemistry",
+      "chapter": "Introduction of Fundamentals Concept of Chemistry",
+      "topic": "Limiting and Excess Reactants",
+      "question": "Consider the reaction: 2Na + Cl₂ → 2NaCl. If 4 moles of Na and 2 moles of Cl₂ are reacted, how much Cl₂ will remain unreacted?",
+      "options": [
+        "0 mol",
+        "0.5 mol",
+        "1 mol",
+        "1.5 mol"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “0 mol”. This tests moles, yield & limiting reagents.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 119,
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Rate Constant",
+      "question": "Unit of rate constant for a particular reaction depends upon the:",
+      "options": [
+        "Temperature of reaction",
+        "Activation energy of reaction",
+        "Molecularity of reaction",
+        "Order of reaction"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Order of reaction”. This tests rates & activation energy.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 120,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Boyle’s Law",
+      "question": "Expression for Boyle's law is:",
+      "options": [
+        "V ∝ n",
+        "V ∝ P⁻¹",
+        "T ∝ P",
+        "P ∝ n"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “V ∝ P⁻¹”. This tests gas laws & kinetic theory.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 121,
+      "subject": "Chemistry",
+      "chapter": "Fundamental Principles of Organic Chemistry",
+      "topic": "Isomerism",
+      "question": "A molecule will be chiral, if it has:",
+      "options": [
+        "Three different group",
+        "No element of symmetry",
+        "Superimposed",
+        "Mirror image"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “No element of symmetry”. This tests nomenclature & isomerism.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 122,
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "Hydrogen Bonding",
+      "question": "Which hydride of group VIIA has lowest boiling point?",
+      "options": [
+        "HF",
+        "HCl",
+        "HBr",
+        "HI"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “HI”. This tests periodic trends & properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 123,
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Chemical Equilibrium",
+      "question": "Kc value will change, if we change:",
+      "options": [
+        "Pressure",
+        "Temperature",
+        "Concentration",
+        "Any one"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Temperature”. This tests equilibrium & le chatelier.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 124,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "VSEPR Theory",
+      "question": "The N-F-N bond in NF₃ is 101.9°-102.4°, much lesser than in ammonia due to:",
+      "options": [
+        "Presence of lone pair on F",
+        "High electronegativity of F",
+        "Large size of F",
+        "Its drawback of VSEPR"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “High electronegativity of F”. This tests periodic trends & properties.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 125,
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Balancing Chemical Reaction",
+      "question": "NO₂⁻ → NO₃⁻ + ne⁻. Value of \"n\" by the oxidation number method is:",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "6"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “2”. This tests redox & electrochemical cells.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 126,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Chemical Reactions of Benzenes",
+      "question": "Reaction of toluene with chlorine in presence of Lewis catalyst, the major product will be:",
+      "options": [
+        "o-chlorotoluene",
+        "m-chlorotoluene",
+        "p-chlorotoluene",
+        "Equal mixture of o and p toluene"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “p-chlorotoluene”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 127,
+      "subject": "Physics",
+      "chapter": "Dawn of Modern Physics (Quantum Physics)",
+      "topic": "Particle Nature of Electromagnetic Radiation",
+      "question": "If a photon of gamma ray and one of x-ray are compared, then:",
+      "options": [
+        "x-ray photon has more energy",
+        "Both have same energy",
+        "Gamma-ray photon has more energy",
+        "Both have same wavelength"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Gamma-ray photon has more energy”. This tests nuclear & quantum physics.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 128,
+      "subject": "Physics",
+      "chapter": "Vectors",
+      "topic": "Scalar Product",
+      "question": "The dot product of two vectors is negative. If one vector lies along the positive x-axis, then the projection of second vector is along:",
+      "options": [
+        "x-axis",
+        "-x-axis",
+        "y-axis",
+        "-y-axis"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “-x-axis”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 129,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Electric Potential & Electric Potential Difference",
+      "question": "If two points are at the same potential in an electric field, then the work done in moving a unit positive charge from one point to another is equal to:",
+      "options": [
+        "-0.5 J",
+        "0 J",
+        "1 J",
+        "2 J"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “0 J”. This tests electric field, potential & force.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 130,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Stationary Waves",
+      "question": "A string vibrates in the first, second and third harmonics. The ratio of their wavelength is:",
+      "options": [
+        "1 : 2 : 3",
+        "3 : 2 : 1",
+        "1 : 4 : 9",
+        "3 : 6 : 9"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “3 : 2 : 1”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 131,
+      "subject": "Physics",
+      "chapter": "Circular Motion",
+      "topic": "Angular Displacement",
+      "question": "The angle that a body covers at the center of the circle in three turns in radian is:",
+      "options": [
+        "0",
+        "3",
+        "10.8",
+        "18.8"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “18.8”. This tests angular & circular motion.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 132,
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "EMF & Electric Potential Difference",
+      "question": "The efficiency of an emf source becomes 50% when the load resistance is equal to:",
+      "options": [
+        "Internal resistance",
+        "Double the internal resistance",
+        "Half the internal resistance",
+        "Zero"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Internal resistance”. This tests resistance & electrical circuits.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 133,
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "Resistance, Conductance, Resistivity & Conductivity",
+      "question": "If the length of a copper wire connected in a circuit is doubled, its resistivity:",
+      "options": [
+        "Becomes half",
+        "Becomes double",
+        "Becomes four times",
+        "Remains same"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Remains same”. This tests resistance & electrical circuits.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 134,
+      "subject": "Physics",
+      "chapter": "Work & Energy",
+      "topic": "Power",
+      "question": "If the angle between force and velocity is 90°, the power delivered by the force is:",
+      "options": [
+        "Zero",
+        "Maximum",
+        "Minimum but not zero",
+        "Infinite"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Zero”. This tests work, power & energy.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 135,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "question": "A ball is thrown vertically upward with a certain velocity making an angle with the horizontal (neglecting air resistance). With the passage of time horizontal component of velocity __________.",
+      "options": [
+        "Increases",
+        "Decreases",
+        "Remains same",
+        "First decreases then increases"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Remains same”. This tests resistance & electrical circuits.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 136,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Charging & Discharging of a Capacitor",
+      "question": "A capacitor of capacitance 2 μF is connected in series with 1 MΩ resistance and 12 volts battery. The time taken by this capacitor take to 63% of its equilibrium charge will be:",
+      "options": [
+        "1 second",
+        "2 seconds",
+        "10 seconds",
+        "Infinite"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “2 seconds”. This tests capacitors & electronic devices.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 137,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Elastic & Inelastic Collision",
+      "question": "A rolling cart collides with a stationary cart of equal mass. After the collision, both move together, momentum is still conserved because:",
+      "options": [
+        "Masses are equal",
+        "No external force acts on the system",
+        "Both move with the same speed",
+        "Internal forces are very small"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “No external force acts on the system”. This tests kinematics & dynamics.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 138,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Electric Field",
+      "question": "An electric field exists in a region if:",
+      "options": [
+        "A test charge experiences a force",
+        "Voltage is zero",
+        "Charge density is uniform",
+        "The medium is vacuum"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “A test charge experiences a force”. This tests electric field, potential & force.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 139,
+      "subject": "Physics",
+      "chapter": "Vectors",
+      "topic": "Scalar Product",
+      "question": "Dot product of two unit vectors is:",
+      "options": [
+        "1",
+        "0",
+        "cosθ",
+        "AB cosθ"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “cosθ”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 140,
+      "subject": "Physics",
+      "chapter": "Electromagnetic Induction",
+      "topic": "Faraday's Law of Electromagnetic Induction",
+      "question": "According to the Faraday's law of electromagnetic induction, emf induced in a coil placed in changing magnetic field, depends upon:",
+      "options": [
+        "The magnetic field",
+        "Amount of current",
+        "Resistance of a coil",
+        "The rate of change of magnetic flux"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “The rate of change of magnetic flux”. This tests faraday & lenz laws.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 141,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Equations of Motion",
+      "question": "A 4kg box initially at rest is pulled along a frictionless surface by a constant horizontal force of 8N. After 15 seconds, its kinetic energy is:",
+      "options": [
+        "120 J",
+        "600 J",
+        "960 J",
+        "1800 J"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “1800 J”. This tests work, power & energy.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 142,
+      "subject": "Physics",
+      "chapter": "Atomic Spectra",
+      "topic": "Hydrogen Spectrum / Spectral Series",
+      "question": "The ratio of longest to shortest wave lengths in Bracket series of hydrogen spectrum is:",
+      "options": [
+        "25/9",
+        "17/6",
+        "9/5",
+        "4/3"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “25/9”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 143,
+      "subject": "Physics",
+      "chapter": "Electronics",
+      "topic": "PN Junction",
+      "question": "For a diode, the depletion region of a PN junction has:",
+      "options": [
+        "Free positive charges",
+        "Free negative charges",
+        "Positive and negative ions",
+        "No free charges"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “No free charges”. This tests capacitors & electronic devices.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 144,
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "EMF & Electric Potential Difference",
+      "question": "When a battery is being charged, the direction of current inside the battery:",
+      "options": [
+        "Is from positive to negative terminal",
+        "Is the same as the direction of emf",
+        "Is opposite to the direction of emf",
+        "Depends on the load resistance"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Is opposite to the direction of emf”. This tests electric field, potential & force.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 145,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Stationary Waves",
+      "question": "Two standing waves vibrate in fundamental mode in two organ pipes A (open) and B (closed) each of length 60cm. The ratio of frequency of A to B is:",
+      "options": [
+        "1 : 2",
+        "1 : 1",
+        "2 : 1",
+        "2 : 3"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “2 : 1”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 146,
+      "subject": "Physics",
+      "chapter": "Vectors",
+      "topic": "Vector Product",
+      "question": "The result of vector product of two vectors:",
+      "options": [
+        "Number",
+        "Unit",
+        "Number and unit",
+        "Magnitude and a unit vector"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Magnitude and a unit vector”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 147,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Speed & Velocity",
+      "question": "The average speed of a body in a given interval of time is equal to the average velocity, if:",
+      "options": [
+        "The speed of the body remains uniform.",
+        "The body moves with constant acceleration.",
+        "The body moves along a straight path.",
+        "The body returns to its starting point."
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “The body moves along a straight path”. This tests kinematics & dynamics.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 148,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Coulomb's Law",
+      "question": "A proton and an electron are held stationary at a distance r in a uniform electric field. If released, how does their potential energy change?",
+      "options": [
+        "Increases",
+        "Decreases",
+        "Remains constant",
+        "First increases, then decreases"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Decreases”. This tests electric field, potential & force.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 149,
+      "subject": "Physics",
+      "chapter": "Vectors",
+      "topic": "Scalar Product",
+      "question": "If vector A = 2î + ĵ + 3k̂ is perpendicular to B = î + ĵ + xk̂ then x =",
+      "options": [
+        "3",
+        "-3",
+        "1",
+        "-1"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “-1”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 150,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Electric Field Intensity",
+      "question": "The magnitude of electric field intensity due to a point charge q at a distance r in vacuum is given by:",
+      "options": [
+        "E = q/r²",
+        "E = kq/r",
+        "E = kq/r²",
+        "E = k/r²"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “E = kq/r²”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 151,
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "Electric Power",
+      "question": "The power transmission lines delivering same amount of power. An increase in current will increase:",
+      "options": [
+        "Heat produced in the wires",
+        "Voltage output",
+        "Frequency of AC",
+        "Mechanical stress on the wires"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Heat produced in the wires”. This tests resistance & electrical circuits.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 152,
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Bernoulli's Equation",
+      "question": "When the diameter of a blood vessel narrows, the velocity and pressure of blood will: Option Velocity Pressure",
+      "options": [
+        "increase increase",
+        "increase decrease",
+        "decrease increase",
+        "decrease decrease"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “increase decrease”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 153,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Waves & Their Classification",
+      "question": "A progressive wave differs from a stationary wave because in progressive wave:",
+      "options": [
+        "Particles remain at fixed nodes",
+        "Particles oscillate and transfer energy",
+        "Particles stay at anti-nodes",
+        "Particles move forward with the wave"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Particles oscillate and transfer energy”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 154,
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Relation Between Molar Specific Heat at Constant Volume & Constant Pressure",
+      "question": "For an ideal gas, the relation between molar specific heats Cp and Cv is:",
+      "options": [
+        "Cp = Cv + R",
+        "Cp = Cv – R",
+        "Cv = Cp + R",
+        "Cp = R - Cv"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Cp = Cv + R”. This tests heat & first law.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 155,
+      "subject": "Physics",
+      "chapter": "Alternating Current (AC)",
+      "topic": "AC Through Resistor, Capacitor & Inductor",
+      "question": "If the capacitance in a purely capacitive AC circuit is doubled, the current will be:",
+      "options": [
+        "Double",
+        "Become half",
+        "Remain same",
+        "Decrease to the fourth"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Double”. This tests capacitors & electronic devices.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 156,
+      "subject": "Physics",
+      "chapter": "Nuclear Physics",
+      "topic": "Nucleus",
+      "question": "The coulomb repulsive force between two protons inside a nucleus is much higher than the gravitational attractive force by a factor of approximately ____.",
+      "options": [
+        "10³⁶",
+        "10⁻³⁶",
+        "10⁻¹⁵",
+        "10¹²"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “10³⁶”. This tests electric field, potential & force.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 157,
+      "subject": "Physics",
+      "chapter": "Oscillations",
+      "topic": "Uniform Circular Motion & SHM",
+      "question": "A particle is moving in a uniform circular path of radius 4cm with velocity 4cm/s. The maximum acceleration of its projection executing simple harmonic motion on horizontal diameter is:",
+      "options": [
+        "4 cm/s²",
+        "8 cm/s²",
+        "12 cm/s²",
+        "16 cm/s²"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “4 cm/s²”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 158,
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "Resistance, Conductance, Resistivity & Conductivity",
+      "question": "On increasing the length of a wire, the specific resistance (resistivity) of the wire:",
+      "options": [
+        "Increases",
+        "Decreases",
+        "Remains unchanged",
+        "First increases, then decreases"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Remains unchanged”. This tests resistance & electrical circuits.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 159,
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Equation of Continuity",
+      "question": "Water flows through a horizontal pipe with area of 0.02 m² at 3m/s. The pipe narrows to 0.01 m². The velocity in the narrow section is:",
+      "options": [
+        "0.5 m/s",
+        "1.5 m/s",
+        "3 m/s",
+        "6 m/s"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “6 m/s”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 160,
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Bernoulli's Equation",
+      "question": "Bernoulli's principle helps explain why blood pressure drops when blood velocity:",
+      "options": [
+        "Increases in narrow vessel",
+        "Decreases in narrow vessel",
+        "Increases in wide vessel",
+        "Decreases in wide vessel"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Increases in narrow vessel”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 161,
+      "subject": "Physics",
+      "chapter": "Work & Energy",
+      "topic": "Work & Types of Work",
+      "question": "A man pushes a wall with a force of 100 N for 10 seconds. The work done by the man on the wall is:",
+      "options": [
+        "1000 J",
+        "100 J",
+        "10 J",
+        "Zero"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Zero”. This tests work, power & energy.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 162,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Coulomb's Law",
+      "question": "F is the force between two identical charges each with a charge (e) separated by a distance (r). If the separation is made quarter of the initial separation (r), then the new force in terms F can be written as:",
+      "options": [
+        "F/4",
+        "16F",
+        "32F",
+        "F"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “16F”. This tests electric field, potential & force.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 163,
+      "subject": "English",
+      "chapter": "Spellings",
+      "topic": null,
+      "question": "Choose the word with incorrect spelling:",
+      "options": [
+        "Sagacious",
+        "Foremost",
+        "Berister",
+        "Pneumonia"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Berister”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 164,
+      "subject": "English",
+      "chapter": "Narration",
+      "topic": null,
+      "question": "What is the correct reported speech for the given sentence? He said, \"I am going to the store.\"",
+      "options": [
+        "He said that he was going to the store.",
+        "He said that he is going to the store.",
+        "He said that he has been going to the store.",
+        "He said that he had been going to the store."
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “He said that he was going to the store”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 165,
+      "subject": "English",
+      "chapter": "Conjunction",
+      "topic": null,
+      "question": "Pick out the sentence with appropriate use of transitional device.",
+      "options": [
+        "She likes to read books but watch movies.",
+        "She is a talented musician likewise a gifted painter.",
+        "She is not only intelligent but also very kind.",
+        "Second; gather your material. First, begin your project."
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “She is not only intelligent but also very kind”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 166,
+      "subject": "English",
+      "chapter": "Verb",
+      "topic": null,
+      "question": "The students decided to meet the teacher and request him for a favour. The main verb in this sentence is:",
+      "options": [
+        "Meet",
+        "Request",
+        "Meet & request",
+        "Decided"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Decided”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 167,
+      "subject": "English",
+      "chapter": "Adverb",
+      "topic": null,
+      "question": "Which sentence implies that it was unexpected that she took the test.",
+      "options": [
+        "She even took the test.",
+        "She took even the test.",
+        "Even she took the test.",
+        "She took the test even."
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Even she took the test”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 168,
+      "subject": "English",
+      "chapter": "Misc Errors",
+      "topic": null,
+      "question": "Which version improves tone and formality in the sentence: \"You boys need to submit the paper ASAP.\"",
+      "options": [
+        "You should submit the paper as soon as you can.",
+        "Everyone needs to get the paper in quickly.",
+        "The paper should be submitted as soon as possible.",
+        "Y'all better hand it in now."
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “The paper should be submitted as soon as possible”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 169,
+      "subject": "English",
+      "chapter": "Vocab",
+      "topic": null,
+      "question": "\"She remained stoic during the crisis, refusing to show fear or distress.\" Deduce the meaning of underlined word from the given sentence.",
+      "options": [
+        "Anxious",
+        "Resilient",
+        "Angry",
+        "Confused"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Resilient”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 170,
+      "subject": "English",
+      "chapter": "Spellings",
+      "topic": null,
+      "question": "Many follow exactly what is written in the ____________.",
+      "options": [
+        "Scripturies",
+        "Screptures",
+        "Scriptures",
+        "Scripttures"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Scriptures”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 171,
+      "subject": "English",
+      "chapter": "Phrase, Clause, Sentence, and Conditional Sentences",
+      "topic": null,
+      "question": "Identify the sentence that uses inversion correctly:",
+      "options": [
+        "Rarely I have seen such a beautiful scene.",
+        "Rarely have I seen such a beautiful scene.",
+        "Rarely seen I have such a beautiful scene.",
+        "Rarely I seen have such a beautiful scene."
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Rarely have I seen such a beautiful scene”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 172,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": null,
+      "question": "CAT is to DOG, as MOUSE is to:",
+      "options": [
+        "RAT",
+        "CAT",
+        "DOG",
+        "CHEESE"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “CAT”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 173,
+      "subject": "Logical Reasoning",
+      "chapter": "Critical Thinking",
+      "topic": null,
+      "question": "Prohibiting smoking in public areas will reduce the occurrence of lung disease. What assumption is present here?",
+      "options": [
+        "Banning smoking has no impact on lung disease rates.",
+        "Hence all people live in public areas therefore, banning smoking will eliminate lung disease.",
+        "Smoking is the sole cause of lung disease.",
+        "Smoking in public places plays a major role in causing lung disease."
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Smoking in public places plays a major role in causing lung disease”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 174,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": null,
+      "question": "What would be the result of: 10 - 3 × 2 ?",
+      "options": [
+        "4",
+        "6",
+        "14",
+        "17"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “4”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 175,
+      "subject": "Logical Reasoning",
+      "chapter": "Number, Alphabet & Symbol Series",
+      "topic": null,
+      "question": "Consider the pattern in the given picture. If the pattern is continued, then the image in box 12 will resemble the image No.?\n\nText-only figure approximation (private testing; not to scale):\n  1. (▲)  Upright triangle, level horizontal base\n  2. (◀)  Left-pointing / clockwise-tilted triangle\n  3. (▶)  Right-pointing triangle, vertical left base\n  4. (▲)  Upward triangle, tilted/sloping base",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “4”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 176,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": null,
+      "question": "In a certain university, 25% candidates failed university admission test. Of those who passed the test, 80% got the admission in the university. If 1800 got admission, how many candidates appear in the test?",
+      "options": [
+        "9000",
+        "6000",
+        "5000",
+        "3000"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “3000”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 177,
+      "subject": "Logical Reasoning",
+      "chapter": "Number, Alphabet & Symbol Series",
+      "topic": null,
+      "question": "If a person earns Rs. 1000 in the first week and their income doubles each week, how much will they earn in the 4th week?",
+      "options": [
+        "Rs. 4000",
+        "Rs. 3000",
+        "Rs. 8000",
+        "Rs. 16000"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Rs. 8000”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 178,
+      "subject": "Logical Reasoning",
+      "chapter": "Cause & Effect",
+      "topic": null,
+      "question": "Which of the following represents an environmental factor that could lead to incidents?",
+      "options": [
+        "Lack of experience",
+        "Machine malfunctioning",
+        "A storm leading to power disruptions",
+        "A design flaw"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “A storm leading to power disruptions”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 179,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": null,
+      "question": "The age of a man is twice that of his daughter. If the man is 36 years old, what was the daughter's age 4 years ago?",
+      "options": [
+        "14 years",
+        "18 years",
+        "20 years",
+        "10 years"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “14 years”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 180,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Deductions",
+      "topic": null,
+      "question": "A man walks 12 meters north, then turns right and walks 8 meters, then turns right again and walks 12 meters. He finally turns left and walks 5 meters. What is the distance between his starting and ending point?",
+      "options": [
+        "5m",
+        "8m",
+        "13m",
+        "17m"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “13m”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "BUMHS MDCAT 2025 — Code BLUE",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    }
+  ]
+}

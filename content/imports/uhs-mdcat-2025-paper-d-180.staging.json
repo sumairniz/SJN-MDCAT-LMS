@@ -1,0 +1,3437 @@
+{
+  "metadata": {
+    "title": "UHS MDCAT 2025 — Paper D",
+    "year": "2025",
+    "region": "punjab",
+    "description": "Paper D · 180 original MCQs · provisional chapter and topic classifications",
+    "version": "D",
+    "questionCount": 180,
+    "sourcePdf": "UHS ORIGINAL QUESTION PAPER 2025.pdf",
+    "sourceDigestSHA256": "54df765fb187963091839aba40cc64b5199f5ec30e61c428e4d2f0c747527a4e",
+    "provisional": true,
+    "scope": "limited staging testing, not production",
+    "sourceKeysPreserved": true
+  },
+  "questions": [
+    {
+      "originalNumber": 1,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "Kidneys perform their osmoregulatory role under the effect of Antidiuretic Hormone, which type of urine is produced in this situation?",
+      "options": [
+        "Hypotonic urine with decreased volume",
+        "Hypotonic urine with increased volume",
+        "Hypertonic urine with decreased volume",
+        "Hypertonic urine with increased volume"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Hypertonic urine with decreased volume”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 2,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Brain",
+      "question": "Which part of brain controls transition between sleeping and wakefulness?",
+      "options": [
+        "Medulla oblongata",
+        "Cerebellum",
+        "Cerebrum",
+        "Pons"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Pons”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 3,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Brain",
+      "question": "Which part of the brain contains central chemoreceptors that monitor CO2 levels in blood?",
+      "options": [
+        "Pons",
+        "Midbrain",
+        "Hypothalamus",
+        "Medulla oblongata"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Medulla oblongata”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 4,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Which component of a reflex arc connects the sensory neuron to the motor neuron within the spinal cord?",
+      "options": [
+        "Receptor",
+        "Effector",
+        "Muscle fiber",
+        "Associative neuron"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Associative neuron”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 5,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Mendel's Laws of Inheritance",
+      "question": "The 9:3:3:1 ratio of law of independent assortment can be affected by",
+      "options": [
+        "Genetic drift",
+        "Small population",
+        "Gene linkage",
+        "Gene duplication"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Gene linkage”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 6,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Gene Linkage and Crossing Over",
+      "question": "Best description of the process of crossing over during meiosis:",
+      "options": [
+        "Duplication of chromosome",
+        "Exchange of genes between non-sister chromatids",
+        "Movement of chromosome to opposite poles",
+        "Separation of sister chromatids"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Exchange of genes between non-sister chromatids”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 7,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Gene Linkage and Crossing Over",
+      "question": "Total number of linkage groups in a normal human is:",
+      "options": [
+        "02",
+        "23",
+        "46",
+        "92"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “23”. This tests cell organelles & membranes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 8,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Nissl's granule is a specialized structure in neuron formed by modification of:",
+      "options": [
+        "Golgi bodies & Smooth ER",
+        "Peroxisome & Mitochondria",
+        "Lysosome & Vacuole",
+        "Ribosome & Rough ER"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Ribosome & Rough ER”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 9,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cell Organelles & Membranes",
+      "question": "What is the function of a centromere?",
+      "options": [
+        "To protect the ends of chromosomes",
+        "To hold sister chromatids together",
+        "To carry genetic information",
+        "To initiate DNA replication"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “To hold sister chromatids together”. This tests cell organelles & membranes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 10,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cytoplasmic Organelles",
+      "question": "All are the functions of lysosome EXCEPT:",
+      "options": [
+        "Intra cellular digestion",
+        "Removal of the waste",
+        "Autophagy",
+        "Lipid synthesis"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Lipid synthesis”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 11,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Lymphatic System",
+      "question": "The first consequence of lymphatic blockage in tissues is:",
+      "options": [
+        "Deficiency of oxygen",
+        "Loss of nerve signals",
+        "Drop in blood pressure",
+        "Excess fluid accumulation in tissue"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Excess fluid accumulation in tissue”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 12,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Brain",
+      "question": "Which of the following is the auditory relay Centre and Centre that controls reflex movement of eyes?",
+      "options": [
+        "Forebrain",
+        "Cerebellum",
+        "Midbrain",
+        "Cerebrum"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Midbrain”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 13,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Which of the following is the correct pathway of nerve impulse?",
+      "options": [
+        "Receptors → CNS → Effectors",
+        "Effectors → Receptors → CNS",
+        "CNS → Effectors → Receptors",
+        "Effectors → CNS → Receptors"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Receptors → CNS → Effectors”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 14,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "The neurotransmitters are secreted by the neuron from:",
+      "options": [
+        "Axon ends",
+        "Dendrite end",
+        "Nissl's granules",
+        "Cell body"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Axon ends”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 15,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Brain",
+      "question": "Hippocampus plays an important role in the:",
+      "options": [
+        "Formation of short-term memory",
+        "Formation of image on retina",
+        "Formation of long-term memory",
+        "Formation of emotions"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Formation of long-term memory”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 16,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Factors that Affect the Rate of Enzyme Reactions",
+      "question": "Enzymes activity decreases at very low or high pH because:",
+      "options": [
+        "Substrate concentration increases",
+        "Enzymes become denatured",
+        "Product formation increases",
+        "Temperature becomes constant"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Enzymes become denatured”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 17,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Structure of DNA",
+      "question": "The complementary base pairing in DNA is important because it:",
+      "options": [
+        "Maintains the tertiary structure of enzymes",
+        "Provides energy for all cell metabolism",
+        "Enables protein to fold properly",
+        "Allows DNA act as a genetic blueprint during replication"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Allows DNA act as a genetic blueprint during replication”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 18,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Chromosomes",
+      "question": "A mature duplicated chromosome consists of:",
+      "options": [
+        "Two identical double helical DNA molecules",
+        "Two different double helical DNA molecules",
+        "A double helical DNA molecule distributed in both chromatids",
+        "Histone chains wrapped around DNA core"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Two identical double helical DNA molecules”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 19,
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Respiration",
+      "question": "The most primitive respiratory process occurring in a living cell is:",
+      "options": [
+        "Lactic acid fermentation",
+        "Alcoholic fermentation",
+        "Glycolysis",
+        "Krebs's cycle"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Glycolysis”. This tests respiration & gas transport.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 20,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Human Reproductive System",
+      "question": "Receive, retain and nourish a fertilized ovum is the main function of:",
+      "options": [
+        "Cervix",
+        "Uterus",
+        "Ovary",
+        "Oviduct"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Uterus”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 21,
+      "subject": "Biology",
+      "chapter": "Gaseous Exchange",
+      "topic": "Human Respiratory System",
+      "question": "The primary function of larynx is:",
+      "options": [
+        "Humidifying air",
+        "Filtering dust",
+        "Gaseous exchange",
+        "Voice production"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Voice production”. This tests respiration & gas transport.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 22,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Menstrual Cycle",
+      "question": "During menstrual cycle, luteinizing hormone (LH) is secreted due to:",
+      "options": [
+        "Decrease in Estrogen",
+        "Decrease in FSH",
+        "Increase in FSH",
+        "Environmental effect"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Decrease in FSH”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 23,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Brain",
+      "question": "Left and right cerebral hemispheres are connected with each other by:",
+      "options": [
+        "Corpus luteum",
+        "Corpus callosum",
+        "A band of dendrites",
+        "Dorsal and ventral nerve roots"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Corpus callosum”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 24,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscles",
+      "question": "Which is the common feature between cardiac and smooth muscles?",
+      "options": [
+        "Voluntary",
+        "Involuntary",
+        "Branched",
+        "Unbranched"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Involuntary”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 25,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Joints",
+      "question": "The joints which cause rotational movements are",
+      "options": [
+        "Hinge",
+        "Ball and Socket",
+        "Cartilage",
+        "Sutures"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Ball and Socket”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 26,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Mendel's Laws of Inheritance",
+      "question": "Self-fertilization in plants through successive generations can lead to the development of:",
+      "options": [
+        "Hybrid breeds of plants",
+        "Variations in coming generation",
+        "True breeding plants",
+        "Adaptation with their environment"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “True breeding plants”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 27,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Which part of the neuron typically receives incoming signals from other neurons?",
+      "options": [
+        "Axon",
+        "Dendrites",
+        "Myelin sheath",
+        "Synaptic knob"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Dendrites”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 28,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscle Contraction",
+      "question": "Why thick filaments are unable to bind with thin filament in a relaxed muscle fiber?",
+      "options": [
+        "Actin blocks the myosin binding site",
+        "Tropomyosin blocks the myosin binding site",
+        "Troponin blocks the myosin binding site",
+        "Tropomyosin blocks the troponin binding site"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Tropomyosin blocks the myosin binding site”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 29,
+      "subject": "Biology",
+      "chapter": "Immunity",
+      "topic": "Specific Defense Mechanism",
+      "question": "Which of the following best highlights the importance of proteins in immunity?",
+      "options": [
+        "They act as receptors of pathogens",
+        "They are long term energy reserves",
+        "They act as antibodies",
+        "They act as mechanical barrier for pathogens"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “They act as antibodies”. This tests immune responses.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 30,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Proteins",
+      "question": "The secondary structure of proteins is stabilized by",
+      "options": [
+        "Ionic bonds",
+        "Hydrogen bonds",
+        "Disulfide bridges",
+        "Hydrophobic exclusion"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Hydrogen bonds”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 31,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Proteins",
+      "question": "The following is an example of a globular protein.",
+      "options": [
+        "Keratin",
+        "Collagen",
+        "Hemoglobin",
+        "Histone"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Hemoglobin”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 32,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "The process of osmoregulation refers to:",
+      "options": [
+        "The filtration of blood to remove metabolic waste",
+        "The regulation of solute and water movement between an organism and its environment",
+        "The creation of an osmotic gradient in the kidney medulla",
+        "The secretion of hormones that control blood plasma"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “The regulation of solute and water movement between an organism and its environment”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 33,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "X-linked Recessive Inheritance",
+      "question": "A baby girl is born with hemophilia, which is an X- linked recessive disorder. What are the most likely genotypes of her parents?",
+      "options": [
+        "The mother is a carrier and the father is normal.",
+        "The mother is hemophiliac and the father is normal.",
+        "The mother is carrier and the father is hemophiliac",
+        "Both are normal."
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “The mother is carrier and the father is hemophiliac”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 34,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Chromosomes",
+      "question": "Identify the most appropriate function of chromosomes",
+      "options": [
+        "Energy production and storage",
+        "Protein synthesis and regulation",
+        "Storage of genetic information",
+        "Lipid metabolism and transport"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Storage of genetic information”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 35,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Proteins",
+      "question": "Enzymes belong to which class of biomolecules?",
+      "options": [
+        "Carbohydrates",
+        "Lipids",
+        "Proteins",
+        "Nucleic acids"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Proteins”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 36,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Chromosomes",
+      "question": "_____ arranges the DNA into the chromosomes in a eukaryotic cell.",
+      "options": [
+        "Hormones",
+        "Elastin",
+        "Histone",
+        "Nucleosome"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Histone”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 37,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cytoplasmic Organelles",
+      "question": "The function of nucleolus is to make:",
+      "options": [
+        "rDNA",
+        "Lysosomes",
+        "Ribosomes",
+        "Chromosomes"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Ribosomes”. This tests cell organelles & membranes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 38,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Blood Vessels",
+      "question": "Which of the following blood vessels have lowest blood velocity with correct reason for low blood velocity?",
+      "options": [
+        "Arteries: Due to thick walls",
+        "Capillaries: due to highest overall cross- sectional area",
+        "Veins: due to blood flow against the gravity",
+        "Capillaries: Due to two-way blood flow in capillaries"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Capillaries: due to highest overall cross- sectional area”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 39,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cytoplasmic Organelles",
+      "question": "An active athlete has more stamina of running compared to an officer of same age with physically inactive lifestyle. Which of the following organelles has greatly increased in the muscle cells of athlete?",
+      "options": [
+        "Nucleus",
+        "Mitochondria",
+        "Golgi bodies",
+        "Smooth endoplasmic reticulum (SER)"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Mitochondria”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 40,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscle Contraction",
+      "question": "Once an action potential reaches the membrane of a skeletal muscle fiber, what is the first event that occurs in the contraction process?",
+      "options": [
+        "Actin and myosin form a cross-bridge",
+        "Calcium is pumped back into the sarcoplasmic reticulum",
+        "Calcium is released from the sarcoplasmic reticulum",
+        "ATP is hydrolyzed by troponin"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Calcium is released from the sarcoplasmic reticulum”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 41,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Joints",
+      "question": "The pubic symphysis is a slightly moveable joint joined by which of the following tissue?",
+      "options": [
+        "Elastic cartilage",
+        "Fibrocartilage",
+        "Costal cartilage",
+        "Articular cartilage"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Fibrocartilage”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 42,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Mendel's Laws of Inheritance",
+      "question": "In a pea plant seed color is determined by two alleles: Y (Yellow, dominant) and y (green recessive). Which parental cross would most likely result in offspring showing a 1:1 ratio of yellow to green seeds?",
+      "options": [
+        "Yy × YY",
+        "Yy × yy",
+        "Yy × Yy",
+        "YY × yy"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Yy × yy”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 43,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Mendel's Laws of Inheritance",
+      "question": "Mendel crossed a plant with round yellow seeds (RRYY) and a plant with wrinkled green seeds (rryy), what was the phenotype of all F1 offspring?",
+      "options": [
+        "All round green",
+        "All round yellow",
+        "All wrinkled yellow",
+        "All wrinkled green"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “All round yellow”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 44,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Menstrual Cycle",
+      "question": "In a normal 28 days menstrual cycle when would you expect the LH surge to occur?",
+      "options": [
+        "Days 7-10",
+        "Days 11-14",
+        "Days 15-18",
+        "Days 19-22"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Days 11-14”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 45,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Biological Importance of Water",
+      "question": "Which property of water helps in moderating Earth's climate and maintaining stable temperature in aquatic environment?",
+      "options": [
+        "Low viscosity",
+        "High specific heat capacity",
+        "High surface tension",
+        "High polarity"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “High specific heat capacity”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 46,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Factors that Affect the Rate of Enzyme Reactions",
+      "question": "Effect of increased substrate concentration on enzyme activity:",
+      "options": [
+        "Decrease the rate of reaction",
+        "Increase the reaction rate until all active sites are saturated",
+        "Have no effect on the reaction rate",
+        "Increase the rate of reaction in a straight diagonal line"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Increase the reaction rate until all active sites are saturated”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 47,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Carbohydrates",
+      "question": "An oligosaccharide is made up of at least:",
+      "options": [
+        "two saccharide units",
+        "ten saccharide units",
+        "three to ten saccharide units",
+        "more than ten saccharide units"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “two saccharide units”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 48,
+      "subject": "Biology",
+      "chapter": "Immunity",
+      "topic": "Specific Defense Mechanism",
+      "question": "Which statement best explains the difference between humoral and cell mediated immune response?",
+      "options": [
+        "Humoral immunity involves B-Lymphocytes and cell mediated immunity involves T-Lymphocytes",
+        "Humoral immunity destroys viruses and cell mediated immunity destroys bacteria",
+        "Humoral immunity is specific and cell mediated immunity is nonspecific",
+        "Humoral immunity uses antibodies and cell mediated immunity does not involve immune cells"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Humoral immunity involves B-Lymphocytes and cell mediated immunity involves T-Lymphocytes”. This tests immune responses.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 49,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Biological Molecules",
+      "question": "Which of the following is the correct higher (left) to lower (right) sequence of molecules with respect to their amount in the cell?",
+      "options": [
+        "DNA → rRNA → tRNA → mRNA",
+        "rRNA → tRNA → mRNA → DNA",
+        "mRNA → tRNA → rRNA → DNA",
+        "DNA → mRNA → tRNA → rRNA"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “DNA → rRNA → tRNA → mRNA”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 50,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Thermoregulation",
+      "question": "A person in hot weather is unable to maintain body temperature. Which physiological process has failed?",
+      "options": [
+        "Vasodilation & sweating",
+        "Vasoconstriction",
+        "Shivering",
+        "Renin secretion"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Vasodilation & sweating”. This tests cell organelles & membranes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 51,
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Darwinism",
+      "question": "The main idea in Darwin's Theory of \"Origin of species by natural selection\" is:",
+      "options": [
+        "Inheritance of acquired traits",
+        "Use and disuse of organs",
+        "Species never change",
+        "Evolution occurs through gradual accumulation of adaptation through successive generations"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Evolution occurs through gradual accumulation of adaptation through successive generations”. This tests evolutionary theories.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 52,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Ribonucleic Acid (RNA)",
+      "question": "Which of the following is a key feature of RNA?",
+      "options": [
+        "Deoxyribose and thymine",
+        "Double stranded and thymine",
+        "Ribose and uracil",
+        "Ribose and thymine"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Ribose and uracil”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 53,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Ribonucleic Acid (RNA)",
+      "question": "Which of the following types of RNA makeup the largest proportion of total cellular RNA?",
+      "options": [
+        "Messenger RNA",
+        "Ribosomal RNA",
+        "Transfer RNA",
+        "Catalytic RNA (ribozyme)"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Ribosomal RNA”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 54,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Sexually Transmitted Diseases",
+      "question": "The bacterium Treponema Pallidum is responsible for which sexually transmitted disease?",
+      "options": [
+        "Syphilis",
+        "Chlamydia",
+        "Gonorrhea",
+        "Genital herpes"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Syphilis”. This tests classification of viruses & transmission.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 55,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Lymphatic System",
+      "question": "Tissue fluid in a lymphatic system is called as:",
+      "options": [
+        "Plasma",
+        "Matrix",
+        "Lymph",
+        "Blood"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Lymph”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 56,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Carbohydrates",
+      "question": "Which one of the following biomolecules is a polymer/polysaccharide?",
+      "options": [
+        "Sucrose",
+        "Pentose",
+        "Lactose",
+        "Glycogen"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Glycogen”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 57,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Receptors",
+      "question": "Olfactory receptors are the type of:",
+      "options": [
+        "photoreceptors",
+        "mechanoreceptors",
+        "thermoreceptors",
+        "chemoreceptors"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “chemoreceptors”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 58,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Excretion",
+      "question": "Which of the following organisms eliminate nitrogenous waste mainly in the form of uric acid?",
+      "options": [
+        "Freshwater Fish",
+        "Amphibians",
+        "Birds",
+        "Mammals"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Birds”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 59,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Which of the following cells possess Nissl's granules?",
+      "options": [
+        "Nerve cells",
+        "WBC",
+        "RBC",
+        "Platelets"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Nerve cells”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 60,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Brain",
+      "question": "Which part of human brain is involved in maintaining the posture and balance of the body?",
+      "options": [
+        "Cerebrum",
+        "Cerebellum",
+        "Hypothalamus",
+        "Medulla oblongata"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Cerebellum”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 61,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Arthritis",
+      "question": "Arthritis is:",
+      "options": [
+        "Inflammation of joints",
+        "Herniation of intervertebral disc",
+        "Fusion of vertebral joint",
+        "tingling along the length of legs"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Inflammation of joints”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 62,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Joints",
+      "question": "Which type of joint is present in pubis?",
+      "options": [
+        "Fibrous joints",
+        "Immoveable joints",
+        "Cartilaginous joints",
+        "Freely moveable joints"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Cartilaginous joints”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 63,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Which type of neurons stimulate muscles to contract in a reflex arc?",
+      "options": [
+        "Motor neurons",
+        "Sensory neurons",
+        "Interneurons",
+        "Afferent neurons"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Motor neurons”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 64,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Prokaryotic and Eukaryotic Cell",
+      "question": "Which of the following statements best compares cell division in prokaryotic and Eukaryotic cells?",
+      "options": [
+        "Eukaryotes divide by budding; prokaryotes by mitosis",
+        "Eukaryotes use binary fission; prokaryotes by meiosis",
+        "Eukaryotes divide by mitosis; prokaryotes by binary fission",
+        "Both use mitosis by cell division"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Eukaryotes divide by mitosis; prokaryotes by binary fission”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 65,
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Lamarckism",
+      "question": "Which of the following best describes \"acquired characteristics\" according to Lamarckism?",
+      "options": [
+        "Traits caused by mutation",
+        "Traits inherited from parents",
+        "Traits developed by use or disuse",
+        "Traits selected by nature"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Traits developed by use or disuse”. This tests evolutionary theories.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 66,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Mode of Enzyme Action",
+      "question": "According to Lock and Key model, the active site is regarded as:",
+      "options": [
+        "Rigid and specific",
+        "Flexible and specific",
+        "Rigid and non specific",
+        "Flexible and non specific"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Rigid and specific”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 67,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Proteins",
+      "question": "Peptide bonds are important in protein because they:",
+      "options": [
+        "Affect solubility",
+        "Hold R-groups",
+        "Link amino acid",
+        "help in releasing oxygen"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Link amino acid”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 68,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "Viruses",
+      "question": "Why are retroviruses placed in a separate class of RNA viruses?",
+      "options": [
+        "They always infect animal cells only",
+        "Their RNA acts directly as mRNA",
+        "They lack protein coats",
+        "They use reverse transcriptase to make DNA from RNA"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “They use reverse transcriptase to make DNA from RNA”. This tests classification of viruses & transmission.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 69,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Inhibitors",
+      "question": "Reversible inhibitors differ from irreversible inhibitors because they:",
+      "options": [
+        "Binds permanently and cannot be removed",
+        "Bind temporarily and can be removed",
+        "Permanently inactivate the enzyme",
+        "Change enzyme structure permanently"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Bind temporarily and can be removed”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 70,
+      "subject": "Biology",
+      "chapter": "Digestion",
+      "topic": "Human Digestive System",
+      "question": "Which is an enzyme activator secreted by the intestinal glands:",
+      "options": [
+        "Amylase",
+        "Pepsinogens",
+        "Enterokinase",
+        "Lipase"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Enterokinase”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 71,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Human Skeleton",
+      "question": "In which of the following combination, both components have Hyaline cartilage?",
+      "options": [
+        "Epiglottis & intervertebral disc",
+        "Trachea & intervertebral disc",
+        "Nose & pinna",
+        "Nose & trachea"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Nose & trachea”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 72,
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Lamarckism",
+      "question": "According to Lamarck, the evolution of long necks in giraffes is explained by:",
+      "options": [
+        "Natural selection",
+        "Genetic mutation",
+        "Survival of the fittest",
+        "Stretching of necks over generations"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Stretching of necks over generations”. This tests evolutionary theories.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 73,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Human Reproductive System",
+      "question": "The process of spermatogenesis occurs in which part of the male reproductive system?",
+      "options": [
+        "Seminiferous tubules",
+        "Vas deferens",
+        "Scrotum",
+        "Epididymis"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Seminiferous tubules”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 74,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Human Reproductive System",
+      "question": "Which layer of uterus nourishes the embryo after implantation?",
+      "options": [
+        "Cervical epithelium",
+        "Myometrium",
+        "Endometrium",
+        "Perimetrium"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Endometrium”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 75,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Ribonucleic Acid (RNA)",
+      "question": "The main role of mRNA during protein synthesis is to:",
+      "options": [
+        "Carry genetic information for protein synthesis",
+        "stabilize ribosome",
+        "deliver amino acids",
+        "provide platform for proteins synthesis"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Carry genetic information for protein synthesis”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 76,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Conjugated Molecules",
+      "question": "Glycoproteins are formed as a result of the combination of:",
+      "options": [
+        "Lipids and proteins",
+        "Carbohydrates and proteins",
+        "Nucleic acid and proteins",
+        "Fatty acids and carbohydrates"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Carbohydrates and proteins”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 77,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cell Structure",
+      "question": "A student observed a boundary in both plant and animal cells that controls entry and exit of substances. Which of the following structures is likely being observed?",
+      "options": [
+        "Mitochondria",
+        "Golgi apparatus",
+        "Plasma membrane",
+        "Cell wall"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Plasma membrane”. This tests cell organelles & membranes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 78,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "X-linked Recessive Inheritance",
+      "question": "If a normal person marries with colour blind female what will be the possibility of normal male child:",
+      "options": [
+        "0%",
+        "25%",
+        "50%",
+        "75%"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “0%”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 79,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscles",
+      "question": "Which of the following characters is shared by both skeletal and cardiac muscles?",
+      "options": [
+        "Presence of Striation",
+        "Involuntary control",
+        "Multinucleated fibers",
+        "Intercalated discs"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Presence of Striation”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 80,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscles",
+      "question": "Which of the following muscle types are involuntary in action?",
+      "options": [
+        "Skeletal and smooth",
+        "Skeletal and cardiac",
+        "Cardiac and smooth",
+        "Smooth muscle only"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Cardiac and smooth”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 81,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscles",
+      "question": "In which of the following combinations, both components have non-striated muscle fibers?",
+      "options": [
+        "Intestine & biceps",
+        "Intestine & blood vessels",
+        "Heart & lungs",
+        "Stomach & heart"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Intestine & blood vessels”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 82,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Unit of “R”",
+      "question": "Value of R gas constant in J mol⁻¹ K⁻¹ is",
+      "options": [
+        "8.314",
+        "62.4",
+        "0.821",
+        "62400"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “8.314”. This tests gas laws & kinetic theory.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 83,
+      "subject": "Chemistry",
+      "chapter": "Alcohols and Phenols",
+      "topic": "Nomenclature, structure and reactivity of Phenols",
+      "question": "Which of the following best explains why phenol reacts with aqueous NaOH, but alcohols do not?",
+      "options": [
+        "Phenol has a lower boiling point than alcohol.",
+        "Alcohols contain a strong O-H bond that cannot be broken by weak bases.",
+        "Phenol form hydrogen bonding that facilitates ionization.",
+        "Phenol is weakly acidic due to resonance stabilization of phenoxide ion."
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Phenol is weakly acidic due to resonance stabilization of phenoxide ion”. This tests alcohol & phenol reactions.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 84,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Sigma and Pi Bond",
+      "question": "In propene pi-bond is formed by sideway overlap of:",
+      "options": [
+        "s-orbitals",
+        "p-orbitals",
+        "sp³ hybrid orbitals",
+        "sp² hybrid orbitals"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “p-orbitals”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 85,
+      "subject": "Chemistry",
+      "chapter": "Macro Molecules",
+      "topic": "Enzymes as Biocatalyst",
+      "question": "An enzyme used to decompose the lipids into fatty acids in our alimentary canal is",
+      "options": [
+        "Amylase",
+        "Protease",
+        "Lipase",
+        "Urease"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Lipase”. This tests proteins & enzymes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 86,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "VSEPR Theory",
+      "question": "Molecules having one lone pair and three bond pairs have geometrical shape",
+      "options": [
+        "Bent or angular",
+        "Trigonal",
+        "Trigonal pyramidal",
+        "Trigonal planner"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Trigonal pyramidal”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 87,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Preparation of Alkynes",
+      "question": "Conversion of dihaloalkane into alkyne does not involve",
+      "options": [
+        "Addition",
+        "Elimination",
+        "Base",
+        "Heat"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Addition”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 88,
+      "subject": "Chemistry",
+      "chapter": "Thermo Chemistry and Energetics of Chemical Reaction",
+      "topic": "Exothermic and Endothermic Reaction",
+      "question": "Majority of reactions taking place at ordinary temperatures with -ΔH are",
+      "options": [
+        "Endothermic",
+        "Exothermic",
+        "Thermally unstable",
+        "Reversible"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Exothermic”. This tests enthalpy & energy changes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 89,
+      "subject": "Chemistry",
+      "chapter": "Transition Elements",
+      "topic": "Electronic Structure",
+      "question": "Which one of the following is a coinage metal",
+      "options": [
+        "Pd",
+        "Cu",
+        "Cd",
+        "Hg"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Cu”. This tests periodic trends & properties.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 90,
+      "subject": "Chemistry",
+      "chapter": "Introduction of Fundamentals Concept of Chemistry",
+      "topic": "Moles and Avogadro’s Numbers",
+      "question": "Consider the given balanced chemical equation: 2H₂ + O₂ → 2H₂O. If 4 g of H₂ reacts with 32 g of O₂ to produce 28 g of H₂O, what is the percentage yield of the reaction? (Molar mass of H₂ = 2 g/mol, O₂ = 32 g/mol and H₂O = 18 g/mol)",
+      "options": [
+        "63.6%",
+        "77.8%",
+        "87.5%",
+        "92.5%"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “77.8%”. This tests moles, yield & limiting reagents.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 91,
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Order of Reaction",
+      "question": "Amount of energy needed to weaken the existing bonds to an extent that can be broken through collision is called:",
+      "options": [
+        "Bond energy",
+        "Activation energy",
+        "Average energy",
+        "Enthalpy"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Activation energy”. This tests rates & activation energy.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 92,
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Redox Reaction",
+      "question": "Oxidation numbers of X,Y,Z are +6, -2, & -1 respectively, possible molecular formula when atoms combine:",
+      "options": [
+        "X₂YZ",
+        "XY₂Z₂",
+        "XYZ₂",
+        "XY₂Z"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “XY₂Z₂”. This tests redox & electrochemical cells.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 93,
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Quantum Number",
+      "question": "Which set of quantum numbers is not allowed for an electron.",
+      "options": [
+        "n=2, l=1, m=0, s=+1/2",
+        "n=3, l=0, m=0, s=-1/2",
+        "n=2, l=2, m=1, s=+1/2",
+        "n=1, l=0, m=0, s=+1/2"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “n=2, l=2, m=1, s=+1/2”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 94,
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Chemical Kinetics",
+      "question": "2A + B → 3C + D which of the following does not express the reaction rate?",
+      "options": [
+        "-d[B]/dt",
+        "d[D]/dt",
+        "-1/2 d[A]/dt",
+        "-1/3 d[C]/dt"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “-1/3 d[C]/dt”. This tests rates & activation energy.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 95,
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Standard Hydrogen Electrode (SHE)",
+      "question": "The order of ease of reduction of H⁺¹, Cu⁺² and Ag⁺¹:",
+      "options": [
+        "H⁺¹ > Cu⁺² > Ag⁺¹",
+        "H⁺¹ > Ag⁺¹ > Cu⁺²",
+        "Ag⁺¹ > Cu⁺² > H⁺¹",
+        "H⁺¹ > Cu⁺² = Ag⁺¹"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Ag⁺¹ > Cu⁺² > H⁺¹”. This tests redox & electrochemical cells.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 96,
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Reactivity of Aldehydes and Ketones",
+      "question": "Acetaldehyde undergoes oxidation to produce acetic acid, in this reaction oxidizing agent used is:",
+      "options": [
+        "HI",
+        "LiAlH₄",
+        "K₂Cr₂O₇",
+        "NaBH₄"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “K₂Cr₂O₇”. This tests carbonyl chemistry.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 97,
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "Evaporation, Boiling point and Vapor Pressure",
+      "question": "Which one of the following has higher vapour pressure?",
+      "options": [
+        "acetone",
+        "acetaldehyde",
+        "Isopentane",
+        "Benzene"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Isopentane”. This tests intermolecular forces & properties.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 98,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Acidity of Alkynes",
+      "question": "Terminal alkynes show acidic character due to:",
+      "options": [
+        "Terminal carbon atoms are sp hybridized.",
+        "Terminal carbon atoms are sp² hybridized.",
+        "Terminal carbon atoms are sp³ hybridized.",
+        "Terminal carbon atoms show hydrogen bonding."
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Terminal carbon atoms are sp hybridized”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 99,
+      "subject": "Chemistry",
+      "chapter": "Carboxylic Acids",
+      "topic": "Chemical Reactions/Reactivity",
+      "question": "Fischer ESTERIFICATION is which type of reaction:",
+      "options": [
+        "Condensation",
+        "Substitution",
+        "Elimination",
+        "Dehydrogenation"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Condensation”. This tests carboxylic acid & ester reactions.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 100,
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Quantum Number",
+      "question": "Shape of orbital is determined by quantum number:",
+      "options": [
+        "n",
+        "l",
+        "m",
+        "s"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “l”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 101,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Sigma and Pi Bond",
+      "question": "The theories which explain the formation of sigma and pi bond are EXCEPT:",
+      "options": [
+        "MOT",
+        "VBT",
+        "VSEPR",
+        "CFT"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “CFT”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 102,
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Planck’s Quantum Theory",
+      "question": "The value of Planck's constant is:",
+      "options": [
+        "6.6262×10⁻³⁰ J·sec",
+        "6.6262×10⁻³² J·sec",
+        "6.6262×10⁺³⁴ J·sec",
+        "6.6262×10⁻³⁴ J·sec"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “6.6262×10⁻³⁴ J·sec”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 103,
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Order of Reaction",
+      "question": "Final equation for the representation of rate of reaction in term of concentration is called",
+      "options": [
+        "Rate law",
+        "Rate constant",
+        "Reaction rate",
+        "Reaction order"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Rate law”. This tests rates & activation energy.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 104,
+      "subject": "Chemistry",
+      "chapter": "Industrial Chemistry",
+      "topic": "Polymers",
+      "question": "Poly vinyl chloride (PVC) is the type of?",
+      "options": [
+        "Homopolymer",
+        "Thermosetting polymer",
+        "Thermoplastic polymer",
+        "Copolymer"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Thermoplastic polymer”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 105,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Absolute Zero",
+      "question": "Which of the following is true about pressure for an ideal gas at -273°C?",
+      "options": [
+        "P=1atm",
+        "P=2atm",
+        "P=3atm",
+        "P=0 atm"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “P=0 atm”. This tests gas laws & kinetic theory.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 106,
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Buffer Solution",
+      "question": "Which of the following is basic buffer?",
+      "options": [
+        "NH₄OH/NH₄Cl",
+        "NaOH/NaCl",
+        "NaOH/HCl",
+        "H₂CO₃/NaHCO₃"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “NH₄OH/NH₄Cl”. This tests equilibrium & le chatelier.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 107,
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Buffer Solution",
+      "question": "What happens when H⁺ is added to ammonium hydroxide and ammonium chloride buffer?",
+      "options": [
+        "more ammonium hydroxide is formed",
+        "reaction will move reverse",
+        "reaction will move forward",
+        "no effect on equilibrium"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “reaction will move forward”. This tests equilibrium & le chatelier.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 108,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Free Radical Mechanism",
+      "question": "What is general requirement for free radical substitution reaction of ethane and halogen?",
+      "options": [
+        "low pressure",
+        "low temperature",
+        "high pressure",
+        "heat and UV light"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “heat and UV light”. This tests substitution & elimination.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 109,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Reactivity of Benzene",
+      "question": "Which one of the following is not a characteristic of benzene?",
+      "options": [
+        "Aromaticity",
+        "Stability",
+        "to follow Huckle rule",
+        "High reactivity"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “High reactivity”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 110,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Hybridization",
+      "question": "Correct arrangement of orbital according to size of hybridized orbitals?",
+      "options": [
+        "sp > sp² > sp³",
+        "sp³ > sp > sp²",
+        "sp² > sp > sp³",
+        "sp³ > sp² > sp"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “sp³ > sp² > sp”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 111,
+      "subject": "Chemistry",
+      "chapter": "Introduction of Fundamentals Concept of Chemistry",
+      "topic": "Moles and Avogadro’s Numbers",
+      "question": "Consider the equation H₂ + O₂ → H₂O, what volume of hydrogen gas is required to produce 1 mol of water at standard temperature & pressure?",
+      "options": [
+        "11.2 dm³",
+        "22.4 dm³",
+        "10 dm³",
+        "58 dm³"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “22.4 dm³”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 112,
+      "subject": "Chemistry",
+      "chapter": "Introduction of Fundamentals Concept of Chemistry",
+      "topic": "Yield",
+      "question": "A chemical reaction has a theoretical yield of 25 g, but only 20 g of product was obtained. What is the percentage yield of the reaction?",
+      "options": [
+        "20%",
+        "25%",
+        "45%",
+        "80%"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “80%”. This tests moles, yield & limiting reagents.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 113,
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Redox Reaction",
+      "question": "Which of the following situations most clearly demonstrates a key characteristic of a Redox reaction?",
+      "options": [
+        "Water boiling to steam",
+        "Hydrogen gas reacting with chlorine to form hydrogen chloride gas",
+        "Sodium chloride dissolving in water",
+        "Ethanol evaporating at room temperature"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Hydrogen gas reacting with chlorine to form hydrogen chloride gas”. This tests redox & electrochemical cells.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 114,
+      "subject": "Chemistry",
+      "chapter": "Thermo Chemistry and Energetics of Chemical Reaction",
+      "topic": "Internal Energies",
+      "question": "If 100 KJ of heat is absorbed by the system and 40 KJ of work is done on the system what is the change of internal energy?",
+      "options": [
+        "-60 KJ",
+        "+60 KJ",
+        "-140 KJ",
+        "+140 KJ"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “+140 KJ”. This tests enthalpy & energy changes.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 115,
+      "subject": "Chemistry",
+      "chapter": "Transition Elements",
+      "topic": "Electronic Structure",
+      "question": "Number of unpaired electrons present in the ground state of Fe³⁺ are (Atomic number of Fe=26).",
+      "options": [
+        "Three",
+        "Four",
+        "Five",
+        "Six"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Five”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 116,
+      "subject": "Chemistry",
+      "chapter": "Introduction of Fundamentals Concept of Chemistry",
+      "topic": "Yield",
+      "question": "If % yield and actual yield is 80 and 20g respectively, what will be theoretical yield?",
+      "options": [
+        "20g",
+        "25g",
+        "30g",
+        "40g"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “25g”. This tests moles, yield & limiting reagents.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 117,
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Redox Reaction",
+      "question": "Which of the following best identifies the redox reaction:",
+      "options": [
+        "transfer of proton",
+        "transfer of electron",
+        "absorption of light",
+        "exchange of ions"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “transfer of electron”. This tests redox & electrochemical cells.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 118,
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Reactivity of Aldehydes and Ketones",
+      "question": "Methanol is produced by reduction of",
+      "options": [
+        "Formaldehyde",
+        "Acetaldehyde",
+        "Propanal",
+        "Propanone"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Formaldehyde”. This tests carbonyl chemistry.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 119,
+      "subject": "Chemistry",
+      "chapter": "Alkyl Halides",
+      "topic": "Nomenclature",
+      "question": "IUPAC name of (CH₃)₃CCH₂Br is",
+      "options": [
+        "1-bromopentane",
+        "1-bromo-2,2,2-trimethylethane",
+        "1-bromo-2,2-dimethylpropane",
+        "2-bromopentane"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “1-bromo-2,2-dimethylpropane”. This tests nomenclature & isomerism.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 120,
+      "subject": "Chemistry",
+      "chapter": "Solid",
+      "topic": "Crystalline Solids",
+      "question": "Which one shows anisotropic behavior?",
+      "options": [
+        "Wood",
+        "Gemstone",
+        "Coke",
+        "Graphite"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Graphite”. This tests crystalline & amorphous solids.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 121,
+      "subject": "Chemistry",
+      "chapter": "Solid",
+      "topic": "Crystal lattice",
+      "question": "In a unit cell of a crystal lattice the angle β is between faces:",
+      "options": [
+        "a and b",
+        "b and c",
+        "c and a",
+        "not specified"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “c and a”. This tests crystalline & amorphous solids.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 122,
+      "subject": "Chemistry",
+      "chapter": "Solid",
+      "topic": "Crystalline Solids",
+      "question": "Pick the crystalline solid:",
+      "options": [
+        "Cement",
+        "Ceramics",
+        "Concrete",
+        "Copper"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Copper”. This tests crystalline & amorphous solids.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 123,
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Electronic Configuration",
+      "question": "Number of unpaired electrons in Boron in ground state is/are:",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “1”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 124,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Chemical Reactions of Benzenes",
+      "question": "Chlorination of benzene in the presence of iron (III) chloride involves mechanism of:",
+      "options": [
+        "Electrophilic addition",
+        "Electrophilic Substitution",
+        "Free radical Substitution",
+        "Free radical halogenation"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Electrophilic Substitution”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 125,
+      "subject": "Chemistry",
+      "chapter": "S- and P- Block Elements",
+      "topic": "Properties and their Trends",
+      "question": "The element with smallest value of ionization energy is",
+      "options": [
+        "Li",
+        "Al",
+        "Ca",
+        "Ba"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Ba”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 126,
+      "subject": "Chemistry",
+      "chapter": "Carboxylic Acids",
+      "topic": "Conversion of Carboxylic Acid",
+      "question": "Carboxylic acid reacts with ammonia to form ammonium salts which on heating produces",
+      "options": [
+        "Carbonates",
+        "Alkane",
+        "Ester",
+        "Amide"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Amide”. This tests carboxylic acid & ester reactions.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 127,
+      "subject": "Physics",
+      "chapter": "Work & Energy",
+      "topic": "Energy & Its Types (K.E. & P.E.)",
+      "question": "If P is the momentum of an object and m is its mass, then its kinetic energy is:",
+      "options": [
+        "P/2m",
+        "P²/2m",
+        "1/2 Pm",
+        "1/2 P²m"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “P²/2m”. This tests work, power & energy.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 128,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Electric Field Intensity",
+      "question": "The electric field at a point due to two equal and opposite charges is 100 N/C. If the magnitude of each charge is doubled then the electric field at that point becomes:",
+      "options": [
+        "50 N/C",
+        "100 N/C",
+        "200 N/C",
+        "400 N/C"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “400 N/C”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 129,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Coulomb's Law",
+      "question": "If a plastic sheet of relative permittivity 2.5 is inserted between two-point charges placed in vacuum, then the electrostatic force between them",
+      "options": [
+        "Increases by a factor of 2.5",
+        "Decreases by a factor of 2.5",
+        "Increases by a factor of 5",
+        "Decreases by a factor of 5"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Decreases by a factor of 2.5”. This tests electric field, potential & force.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 130,
+      "subject": "Physics",
+      "chapter": "Nuclear Physics",
+      "topic": "Half-Life",
+      "question": "After 3 half-lives, the remaining fraction of a radioactive sample is:",
+      "options": [
+        "1/2",
+        "1/4",
+        "1/8",
+        "1/16"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “1/8”. This tests nuclear & quantum physics.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 131,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "question": "If the horizontal range of a projectile becomes half of its maximum possible horizontal range, the probable angle of projection is:",
+      "options": [
+        "15°",
+        "30°",
+        "45°",
+        "60°"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “15°”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 132,
+      "subject": "Physics",
+      "chapter": "Electromagnetic Induction",
+      "topic": "Transformer",
+      "question": "In an ideal transformer, if the primary voltage is doubled and the turns ratio remains the same, what happens to the secondary current?",
+      "options": [
+        "Doubles",
+        "Halves",
+        "Remains the same",
+        "Becomes four times"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Doubles”. This tests faraday & lenz laws.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 133,
+      "subject": "Physics",
+      "chapter": "Circular Motion",
+      "topic": "Angular Displacement",
+      "question": "An angular displacement of 90° is equal to:",
+      "options": [
+        "One-fourth revolution",
+        "One-third revolution",
+        "One half revolution",
+        "One complete revolution"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “One-fourth revolution”. This tests angular & circular motion.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 134,
+      "subject": "Physics",
+      "chapter": "Nuclear Physics",
+      "topic": "Half-Life",
+      "question": "The time in which half of the given number of radioactive nuclei decay is known as",
+      "options": [
+        "1/2 life of radioactive element.",
+        "2/3 life of radioactive element.",
+        "1/4 life of radioactive element.",
+        "2/5 life of radioactive element."
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “1/2 life of radioactive element”. This tests nuclear & quantum physics.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 135,
+      "subject": "Physics",
+      "chapter": "Dawn of Modern Physics (Quantum Physics)",
+      "topic": "Particle Nature of Electromagnetic Radiation",
+      "question": "Earth receives large amount of energy directly from:",
+      "options": [
+        "Wind",
+        "Water",
+        "Sun",
+        "Moon"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Sun”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 136,
+      "subject": "Physics",
+      "chapter": "Alternating Current (AC)",
+      "topic": "Phase & Phase Difference",
+      "question": "A phase difference of 90° is equal to:",
+      "options": [
+        "π radians",
+        "π/2 radians",
+        "2π radians",
+        "π/4 radians"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “π/2 radians”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 137,
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "Resistance, Conductance, Resistivity & Conductivity",
+      "question": "The reciprocal of the resistivity of a material is called its:",
+      "options": [
+        "impedance",
+        "conductivity",
+        "admittance",
+        "reactance"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “conductivity”. This tests resistance & electrical circuits.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 138,
+      "subject": "Physics",
+      "chapter": "Atomic Spectra",
+      "topic": "Hydrogen Spectrum / Spectral Series",
+      "question": "The Balmer series of hydrogen spectrum appears in the",
+      "options": [
+        "Infrared region",
+        "Ultraviolet region",
+        "X-ray region",
+        "Visible region"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Visible region”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 139,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "question": "A ball is thrown into the air with certain velocity v making an angle θ with horizontal. If air resistance is neglected, then at maximum height its velocity is:",
+      "options": [
+        "Equal to initial velocity",
+        "Half of initial velocity",
+        "Equal to zero",
+        "Minimum but not zero"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Minimum but not zero”. This tests resistance & electrical circuits.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 140,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Law of Conservation of Momentum",
+      "question": "A canon is placed on a smooth surface. When it fires a shell, the canon moves backward, this recoil occurs due to:",
+      "options": [
+        "Law of conservation of energy",
+        "Backward thrust of the gases",
+        "Newton's third law of motion",
+        "Newton's first law of motion"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Newton's third law of motion”. This tests faraday & lenz laws.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 141,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Electric Field Intensity",
+      "question": "If the surface charge density of an infinite sheet increases by 25%, the electric field intensity:",
+      "options": [
+        "Increases by 25%",
+        "Increases by 50%",
+        "Decreases by 25%",
+        "Remains the same"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Increases by 25%”. This tests electric field, potential & force.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 142,
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Equation of Continuity",
+      "question": "An incompressible fluid flows through a pipe that becomes narrower in one section. The fluid speed increases in that region to maintain:",
+      "options": [
+        "Constant pressure",
+        "constant energy",
+        "constant mass flow rate",
+        "constant volume"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “constant mass flow rate”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 143,
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Bernoulli's Equation",
+      "question": "In a pipe of varying cross-section as fluid enters the narrower region, it exhibits:",
+      "options": [
+        "high velocity, high pressure",
+        "high velocity, low pressure",
+        "low velocity, high pressure",
+        "low velocity, low pressure"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “high velocity, low pressure”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 144,
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Bernoulli's Equation",
+      "question": "The curved shape of an airplane wing causes air to move faster over the top surface. This leads to:",
+      "options": [
+        "greater pressure on the top",
+        "lower pressure on the top",
+        "equal pressure on both sides",
+        "zero pressure above the wing"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “lower pressure on the top”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 145,
+      "subject": "Physics",
+      "chapter": "Nuclear Physics",
+      "topic": "Nucleus",
+      "question": "The protons in the nucleus of an atom DO NOT exit due to",
+      "options": [
+        "Electromagnetic force",
+        "Gravitational Force",
+        "Weak Nuclear Force",
+        "Strong Nuclear Force"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Strong Nuclear Force”. This tests kinematics & dynamics.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 146,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Waves & Their Classification",
+      "question": "Mechanical waves cannot travel through outer space because they:",
+      "options": [
+        "have low speed in vacuum",
+        "disperse in space due to long wavelength",
+        "lose frequency in the absence of air",
+        "lose transmission without interacting particles"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “lose transmission without interacting particles”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 147,
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "EMF & Electric Potential Difference",
+      "question": "Terminal voltage of a cell equals its EMF only when:",
+      "options": [
+        "No current flows",
+        "Current is maximum",
+        "Internal resistance is infinite",
+        "Load resistance is zero"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “No current flows”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 148,
+      "subject": "Physics",
+      "chapter": "Electromagnetic Induction",
+      "topic": "Lenz's Law",
+      "question": "A loop moves toward a stationary magnet. The induced current will:",
+      "options": [
+        "enhance the motion",
+        "try to stop the approach",
+        "become zero",
+        "become alternating"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “try to stop the approach”. This tests faraday & lenz laws.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 149,
+      "subject": "Physics",
+      "chapter": "Oscillations",
+      "topic": "Simple Harmonic Motion (SHM) & Its Characteristics",
+      "question": "The energy of a Simple Harmonic oscillation depends upon the",
+      "options": [
+        "frequency",
+        "time period",
+        "wavelength",
+        "amplitude"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “amplitude”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 150,
+      "subject": "Physics",
+      "chapter": "Alternating Current (AC)",
+      "topic": "Electromagnetic Waves",
+      "question": "The wave that has the highest frequency & penetrating power is",
+      "options": [
+        "X-rays",
+        "Ultraviolet rays",
+        "Gamma rays",
+        "Microwaves"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Gamma rays”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 151,
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "First Law of Thermodynamics",
+      "question": "According to First law of thermodynamics when heat flows into a system and no work is done the internal energy of the system must",
+      "options": [
+        "Increase",
+        "Decrease",
+        "Remains constant",
+        "Becomes zero"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Increase”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 152,
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "Resistance, Conductance, Resistivity & Conductivity",
+      "question": "If the length of the conductor is made 4 times its original length, its resistance becomes",
+      "options": [
+        "quarter",
+        "half",
+        "zero",
+        "4 times"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “4 times”. This tests resistance & electrical circuits.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 153,
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "Temperature Coefficient of Resistance",
+      "question": "The unit of temperature coefficient of resistivity is",
+      "options": [
+        "1/C",
+        "1/K",
+        "1/A",
+        "1/Ω"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “1/K”. This tests resistance & electrical circuits.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 154,
+      "subject": "Physics",
+      "chapter": "Work & Energy",
+      "topic": "Gravitational Potential Energy & Escape Energy",
+      "question": "The work done by the gravitational force on an object as it moves from a reference level to a higher point is:",
+      "options": [
+        "Always positive",
+        "Always negative",
+        "Zero",
+        "Depends on the path taken"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Always negative”. This tests work, power & energy.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 155,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Interference of Waves",
+      "question": "If two speakers emit sound at same frequency and phase, maximum loudness occurs when:",
+      "options": [
+        "Path difference = λ/2",
+        "Path difference = λ",
+        "Path difference = λ/4",
+        "Path difference = 3λ/43"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Path difference = λ”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 156,
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Drag Force & Stokes' Law",
+      "question": "When an object attains terminal velocity, its acceleration is:",
+      "options": [
+        "9.8 m/s²",
+        "Zero",
+        "1 m/s²",
+        "9.8 m/s²"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Zero”. This tests kinematics & dynamics.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 157,
+      "subject": "Physics",
+      "chapter": "Work & Energy",
+      "topic": "Energy & Its Types (K.E. & P.E.)",
+      "question": "A 0.5 kg ball moving at 6 m/s has kinetic energy",
+      "options": [
+        "9 J",
+        "18 J",
+        "6 J",
+        "3 J"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “9 J”. This tests work, power & energy.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 158,
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Fluid & Its Types",
+      "question": "A fluid is flowing through a tube, to undergo transition from laminar to turbulent flow it's velocity must be:",
+      "options": [
+        "Slightly less than critical velocity",
+        "equal to critical velocity",
+        "greater than critical velocity",
+        "increasing gradually but less than critical velocity"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “greater than critical velocity”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 159,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Electric Field Intensity",
+      "question": "For two equal positive charges, the electric field weakest?",
+      "options": [
+        "Midway between them",
+        "Along the perpendicular bisector",
+        "Close to either charge",
+        "At infinity"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Midway between them”. This tests electric field, potential & force.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 160,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "question": "A projectile is launched in air with certain angle; its velocity is maximum at:",
+      "options": [
+        "Point of projection",
+        "Highest point",
+        "Between launching and highest point",
+        "At all points"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Point of projection”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 161,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Coulomb's Law",
+      "question": "If the distance between two charges is halved and magnitude of charges are also doubled, then the force between these charges becomes:",
+      "options": [
+        "two times",
+        "four times",
+        "eight times",
+        "sixteen times"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “sixteen times”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 162,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Elastic & Inelastic Collision",
+      "question": "If a body having mass m1 (2 kg), moving with 5 m/s approaches another mass, m2 (3 kg) with speed of 1 m/s in same direction, relative speed of approach is 4 m/s. Relative speed of separation after collision will be:",
+      "options": [
+        "4 m/s",
+        "2 m/s",
+        "6 m/s",
+        "depends on masses"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “4 m/s”. This tests kinematics & dynamics.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 163,
+      "subject": "English",
+      "chapter": "Subject-Verb Agreement",
+      "topic": null,
+      "question": "Which of the following sentences has correct subject verb agreement?",
+      "options": [
+        "The teacher give the students homework.",
+        "The teacher gives the students homework.",
+        "The teachers gives the student homework.",
+        "The teachers given the student homework."
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “The teacher gives the students homework”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 164,
+      "subject": "English",
+      "chapter": "Preposition",
+      "topic": null,
+      "question": "The keys were found _____ the drawer where you left them last week.",
+      "options": [
+        "under",
+        "in",
+        "on",
+        "beside"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “in”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 165,
+      "subject": "English",
+      "chapter": "Punctuation",
+      "topic": null,
+      "question": "Identify the sentence among of the following, which is punctuated correctly?",
+      "options": [
+        "The teaching staff asked the principal what time the meeting would start.",
+        "The teaching staff asked the principal: \"What time would the meeting start\"?",
+        "The teaching staff asked the principal, \"What time would the meeting start?\"",
+        "The teaching staff asked the principal; \"What time would the meeting start?\""
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “The teaching staff asked the principal, \"What time would the meeting start?\"”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 166,
+      "subject": "English",
+      "chapter": "Vocab",
+      "topic": null,
+      "question": "\"She was elated when she got first position in exams.\" What is the meaning of \"elated\" in this sentence?",
+      "options": [
+        "Disappointed",
+        "Worried",
+        "Excited",
+        "Mad"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Excited”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 167,
+      "subject": "English",
+      "chapter": "Pronoun",
+      "topic": null,
+      "question": "The board of directors expressed _____ disappointment with the financial results.",
+      "options": [
+        "their",
+        "its",
+        "his or her",
+        "one's"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “its”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 168,
+      "subject": "English",
+      "chapter": "Conjunction",
+      "topic": null,
+      "question": "It rained all night; _____, the roads were flooded in the morning.",
+      "options": [
+        "similarly",
+        "instead",
+        "as a result",
+        "in contrast"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “as a result”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 169,
+      "subject": "English",
+      "chapter": "Spellings",
+      "topic": null,
+      "question": "The manager accepted the cashier's _____ for coming late.",
+      "options": [
+        "expalanation",
+        "explaination",
+        "explnasion",
+        "explanation"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “explanation”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 170,
+      "subject": "English",
+      "chapter": "Vocab",
+      "topic": null,
+      "question": "The writer has unearthed serious irregularities in the entire project. The word 'unearthed' in this sentence means",
+      "options": [
+        "written",
+        "mentioned",
+        "exposed",
+        "stated"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “exposed”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 171,
+      "subject": "English",
+      "chapter": "Spellings",
+      "topic": null,
+      "question": "Identify the sentence with no spelling error:",
+      "options": [
+        "Imtiaz invited me on a dinner party at restaurant.",
+        "Imtiaz invited me on a diner party at restaurant.",
+        "Imtiaz invited me on a dinner party at resturant.",
+        "Imtiaz invited me on a dinnar party at restaurent."
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Imtiaz invited me on a dinner party at restaurant”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 172,
+      "subject": "Logical Reasoning",
+      "chapter": "Number, Alphabet & Symbol Series",
+      "topic": null,
+      "question": "What will come next? 1, 4, 2, 5, 3, 6, 4, 7, ?",
+      "options": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “5”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 173,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Deductions",
+      "topic": null,
+      "question": "All daffodils are plants. All plants are living things. Some living things are real. Conclusions: I. All daffodils are living things. II. Some living things are flowers. III. All daffodils are real. Which conclusions follow?",
+      "options": [
+        "Only I",
+        "Only I and II",
+        "Only II and III",
+        "All follow"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Only I”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 174,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": null,
+      "question": "One apple pie has 10 slices, and each apple pie feeds five people. Henry is having a party with 200 people. How many slices of pie does he need?",
+      "options": [
+        "200",
+        "50",
+        "400",
+        "100"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “400”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 175,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Deductions",
+      "topic": null,
+      "question": "How many trees are in the orchard? Which of the statements below are needed to sufficiently answer this question? i. Ibrahim is a farmer and looks after half of the trees in the orchard. ii. 300 trees in the orchard are under Ibrahim's care.",
+      "options": [
+        "i is enough",
+        "ii is enough",
+        "both i and ii are needed",
+        "neither i or ii are sufficient"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “both i and ii are needed”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 176,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": null,
+      "question": "P and Q are M's parents. M and N are siblings. Q is N's mother. What is P to M?",
+      "options": [
+        "Mother",
+        "Father",
+        "Sister",
+        "Brother"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Father”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 177,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": null,
+      "question": "Asad bought 50 packets of biscuits for the price of Rs. 500; whereas Anum bought 25 packets of chips for the price of Rs.1000. While comparing the prices of packets of biscuits and packet of chips, which of the following statements is correct?",
+      "options": [
+        "Price of 4 packets of biscuits is equal to the price of 1 packet of chips",
+        "Price of 1 packet of biscuits is equal to the price of 4 packets of chips",
+        "Price of 2 packets of biscuits is equal to the price of 1 packet of chips",
+        "Price of 1 packet of biscuits is equal to the price of 2 packets of chips"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Price of 4 packets of biscuits is equal to the price of 1 packet of chips”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 178,
+      "subject": "Logical Reasoning",
+      "chapter": "Number, Alphabet & Symbol Series",
+      "topic": null,
+      "question": "The virus spreads rapidly in the town. It infected the people – First day: 8, Second day: 16, Third day: 32. What will be the number of people infected on the next day?",
+      "options": [
+        "44 people",
+        "56 people",
+        "64 people",
+        "74 people"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “64 people”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 179,
+      "subject": "Logical Reasoning",
+      "chapter": "Cause & Effect",
+      "topic": null,
+      "question": "Which of the following is a result of poor design that could cause an accident in the workplace?",
+      "options": [
+        "Equipment failure",
+        "Slippery surfaces",
+        "Insufficient lighting",
+        "Unplanned workspace layout"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Unplanned workspace layout”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 180,
+      "subject": "Logical Reasoning",
+      "chapter": "Cause & Effect",
+      "topic": null,
+      "question": "Which of the following is the main cause of accidents involving equipment?",
+      "options": [
+        "Overconfidence",
+        "Insufficient maintenance",
+        "Fatigue",
+        "Poor training"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Insufficient maintenance”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "UHS MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    }
+  ]
+}

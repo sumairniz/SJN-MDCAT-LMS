@@ -1,0 +1,265 @@
+{
+  "session": "genome",
+  "testNo": 1,
+  "title": "Acellular Life — Chapter Test",
+  "sourceFile": "acellular life.docx",
+  "notes": "Transcribed and condensed explanations; Q12 AIDS definition corrected and Q13 latency description scientifically qualified.",
+  "questions": [
+    {
+      "number": 1,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": null,
+      "source": "TEST 01",
+      "question": "Based on nucleic acid type, viruses can be classified as:",
+      "options": [
+        "DNA or RNA viruses",
+        "Circular or linear only",
+        "Enveloped or naked only",
+        "Prokaryotic or eukaryotic"
+      ],
+      "correctIndex": 0,
+      "explanation": "Nucleic acid type separates DNA and RNA viruses; strand number and envelope are separate classifications."
+    },
+    {
+      "number": 2,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": null,
+      "source": "TEST 01",
+      "question": "A virus with icosahedral (polyhedral) symmetry is:",
+      "options": [
+        "TMV",
+        "Adenovirus",
+        "Rabies virus",
+        "Ebola virus"
+      ],
+      "correctIndex": 1,
+      "explanation": "Adenovirus has an icosahedral capsid; TMV and rabies viruses are helical."
+    },
+    {
+      "number": 3,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": null,
+      "source": "TEST 01",
+      "question": "Which of the following is a double-stranded DNA virus?",
+      "options": [
+        "HIV",
+        "Influenza virus",
+        "Herpes virus",
+        "Poliovirus"
+      ],
+      "correctIndex": 2,
+      "explanation": "Herpesviruses carry double-stranded DNA, unlike the RNA viruses listed."
+    },
+    {
+      "number": 4,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": null,
+      "source": "TEST 01",
+      "question": "On the basis of the presence or absence of an outer lipid layer, viruses are classified as:",
+      "options": [
+        "Simple or complex",
+        "Enveloped or naked (non-enveloped)",
+        "DNA or RNA",
+        "Lytic or lysogenic"
+      ],
+      "correctIndex": 1,
+      "explanation": "The lipid envelope distinguishes enveloped from naked viruses."
+    },
+    {
+      "number": 5,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": null,
+      "source": "TEST 01",
+      "question": "Which virus classification criterion considers the number of nucleic acid strands?",
+      "options": [
+        "Enveloped/non-enveloped",
+        "Single-stranded/double-stranded",
+        "Host range",
+        "Shape"
+      ],
+      "correctIndex": 1,
+      "explanation": "Strand number defines single- versus double-stranded genomes."
+    },
+    {
+      "number": 6,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": null,
+      "source": "TEST 01",
+      "question": "Hepatitis B virus contains:",
+      "options": [
+        "Single-stranded RNA",
+        "Double-stranded DNA",
+        "Single-stranded DNA",
+        "Double-stranded RNA"
+      ],
+      "correctIndex": 1,
+      "explanation": "HBV has a partially double-stranded DNA genome and uses reverse transcriptase."
+    },
+    {
+      "number": 7,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": null,
+      "source": "TEST 01",
+      "question": "The lytic cycle of a bacteriophage ends with:",
+      "options": [
+        "Integration into host genome",
+        "Lysis of host cell releasing new virions",
+        "Formation of a prophage",
+        "Latency"
+      ],
+      "correctIndex": 1,
+      "explanation": "The host cell bursts and releases newly formed phages at the end of the lytic cycle."
+    },
+    {
+      "number": 8,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": null,
+      "source": "TEST 01",
+      "question": "Which is NOT a criterion used for virus classification?",
+      "options": [
+        "Type of nucleic acid",
+        "Presence of envelope",
+        "Chlorophyll content",
+        "Host range"
+      ],
+      "correctIndex": 2,
+      "explanation": "Viruses are not classified by chlorophyll because they do not photosynthesize."
+    },
+    {
+      "number": 9,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": null,
+      "source": "TEST 01",
+      "question": "HIV belongs to which virus family?",
+      "options": [
+        "Retroviridae",
+        "Herpesviridae",
+        "Orthomyxoviridae",
+        "Picornaviridae"
+      ],
+      "correctIndex": 0,
+      "explanation": "HIV is a retrovirus in the family Retroviridae."
+    },
+    {
+      "number": 10,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": null,
+      "source": "TEST 01",
+      "question": "Which is NOT a common mode of HIV transmission?",
+      "options": [
+        "Unprotected sexual contact",
+        "Sharing contaminated needles",
+        "Mosquito bite",
+        "Mother-to-child transmission"
+      ],
+      "correctIndex": 2,
+      "explanation": "Mosquitoes do not transmit HIV; the other listed routes can transmit infection."
+    },
+    {
+      "number": 11,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": null,
+      "source": "TEST 01",
+      "question": "HIV can be transmitted through all of the following EXCEPT:",
+      "options": [
+        "Blood transfusion with infected blood",
+        "Casual contact such as handshakes",
+        "Infected needles",
+        "Vertical transmission"
+      ],
+      "correctIndex": 1,
+      "explanation": "Ordinary handshakes do not exchange the body fluids needed to transmit HIV."
+    },
+    {
+      "number": 12,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": null,
+      "source": "TEST 01",
+      "question": "An HIV-infected person is diagnosed with AIDS when:",
+      "options": [
+        "HIV first enters bloodstream",
+        "CD4+ T-cell count is critically low and/or an AIDS-defining illness occurs",
+        "HIV antibodies first appear",
+        "Only flu-like symptoms appear"
+      ],
+      "correctIndex": 1,
+      "explanation": "AIDS is diagnosed at a CD4 count below 200 cells/mm³ or with an AIDS-defining illness; both are not required."
+    },
+    {
+      "number": 13,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": null,
+      "source": "TEST 01",
+      "question": "The clinical latency stage of HIV infection is characterized by:",
+      "options": [
+        "Rapid progression to death",
+        "Persistent infection with few or no symptoms",
+        "Complete elimination of the virus",
+        "A vaccine response"
+      ],
+      "correctIndex": 1,
+      "explanation": "HIV persists and continues replicating during clinical latency, often with few symptoms."
+    },
+    {
+      "number": 14,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": null,
+      "source": "TEST 01",
+      "question": "A hallmark of progression to AIDS is:",
+      "options": [
+        "Increased CD4+ T-cell count",
+        "Opportunistic infections due to weakened immunity",
+        "Improved immune response",
+        "Normal white blood cell function"
+      ],
+      "correctIndex": 1,
+      "explanation": "Loss of immune function permits infections that healthy immunity usually controls."
+    },
+    {
+      "number": 15,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": null,
+      "source": "TEST 01",
+      "question": "Which practice reduces the risk of HIV transmission?",
+      "options": [
+        "Using unsterilized syringes",
+        "Using condoms and sterilized needles",
+        "Sharing razors",
+        "Unscreened blood transfusion"
+      ],
+      "correctIndex": 1,
+      "explanation": "Condoms and sterile injection equipment reduce routes of HIV transmission."
+    },
+    {
+      "number": 16,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": null,
+      "source": "TEST 01",
+      "question": "Which HIV vaccine is approved for widespread global clinical use?",
+      "options": [
+        "No fully approved HIV vaccine exists",
+        "BCG vaccine",
+        "MMR vaccine",
+        "Hepatitis B vaccine"
+      ],
+      "correctIndex": 0,
+      "explanation": "No licensed HIV vaccine is currently available for routine widespread use; the other vaccines target different diseases."
+    }
+  ]
+}

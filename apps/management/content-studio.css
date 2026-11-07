@@ -1,0 +1,49 @@
+/* SJN MedNest content studio — uses existing management theme tokens. */
+.studio-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin:0 0 20px}
+.studio-summary article{border-radius:13px;background:var(--panel);border:1px solid var(--line);padding:16px 17px;min-width:0}
+.studio-summary span{display:block;font-size:11px;color:var(--muted);margin-bottom:8px}
+.studio-summary strong{font-size:31px;font-weight:800;letter-spacing:-1px}
+.studio-panels{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(290px,.85fr);gap:18px;margin-bottom:20px}
+.studio-panel{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:22px;min-width:0}
+.studio-panel h2{font-size:17px;letter-spacing:-.35px;margin:0 0 10px}
+.studio-panel p{font-size:12px;line-height:1.7;color:var(--muted)}
+.studio-actions{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0}
+.studio-actions button,.studio-actions label,.studio-toolbar button,.studio-edit{border:1px solid var(--line);background:var(--panel-alt);color:var(--text);padding:10px 14px;border-radius:9px;font-size:12px;font-weight:750;cursor:pointer}
+.studio-actions button:hover,.studio-edit:hover{border-color:var(--red)}
+.studio-actions button:disabled,.studio-toolbar button:disabled{opacity:.4;cursor:not-allowed}
+.studio-file{display:block;max-width:100%;font-size:12px;color:var(--muted);margin:14px 0}
+.studio-file::file-selector-button{border:1px solid var(--line);background:var(--panel-alt);color:var(--text);border-radius:8px;padding:10px 12px;font:inherit;margin-right:12px;cursor:pointer}
+.studio-banner{border:1px solid rgba(215,85,100,.28);background:var(--red-bg);padding:14px 16px;border-radius:11px;margin-bottom:19px;font-size:12px;line-height:1.7;color:var(--text)}
+.studio-feedback{font-size:12px;line-height:1.7;color:var(--muted);padding:12px 0;min-height:30px;overflow-wrap:anywhere}
+.studio-feedback[data-error="true"]{color:var(--red)}
+.studio-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0}
+.studio-toolbar select,.studio-field input,.studio-field textarea,.studio-field select{width:100%;border-radius:9px;border:1px solid var(--line);background:var(--panel-alt);color:var(--text);font:inherit;font-size:13px;padding:11px 12px;min-height:42px}
+.studio-toolbar select{width:auto}
+.studio-table-scroll{overflow:auto;max-height:640px;border:1px solid var(--line);border-radius:11px}
+.studio-table{width:100%;border-collapse:collapse;min-width:760px;font-size:12px}
+.studio-table th{text-align:left;background:var(--panel-alt);font-weight:750;color:var(--muted);position:sticky;top:0;padding:14px}
+.studio-table td{border-top:1px solid var(--line);padding:12px 14px;vertical-align:top;overflow-wrap:anywhere}
+.studio-question-cell{max-width:420px;min-width:200px}
+.studio-feedback-cell{font-size:11px;color:var(--muted);background:var(--panel-alt)}
+.studio-status{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;border:1px solid var(--line);padding:5px 7px;border-radius:6px}
+.studio-status--ready{color:#78c9a0}.studio-status--review{color:#d3ab66}.studio-status--invalid{color:#ed8991}
+.studio-pagination{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:13px}
+.studio-pagination button{font-size:12px;padding:9px 12px}
+.studio-editor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.studio-field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.studio-field label{font-size:11px;font-weight:750;color:var(--muted)}
+.studio-field textarea{resize:vertical;min-height:100px}
+.studio-field--wide{grid-column:1/-1}
+.studio-editor-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.studio-editor-actions button{width:auto}
+@media(max-width:920px){.studio-panels{grid-template-columns:1fr}.studio-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.studio-editor-grid{grid-template-columns:1fr}.studio-summary article{padding:13px}.studio-panel{padding:16px}.studio-summary strong{font-size:25px}}
+
+/* Chief-only direct MCQ Library: same responsive shell, separate publish-disabled editing. */
+#mcq-library .studio-panel{margin-bottom:18px}
+#mcq-lib-search{min-width:160px;flex:1;border:1px solid var(--line);border-radius:9px;background:var(--panel-alt);color:var(--text);padding:10px 12px;font-size:12px}
+#mcq-lib-results td:nth-child(4){max-width:380px;min-width:180px}
+#mcq-lib-edit-bank[readonly]{opacity:.8;cursor:not-allowed}
+#mcq-lib-paging{color:var(--muted);font-size:12px}
+#mcq-lib-syllabus-topic{width:100%}
+#mcq-lib-editor .studio-editor-actions{align-items:center}

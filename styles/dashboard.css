@@ -1,0 +1,4 @@
+/* Source CSS; Tailwind v3 CLI generates public/dashboard.css at install time. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

@@ -1,0 +1,3437 @@
+{
+  "metadata": {
+    "title": "SZABMU MDCAT 2025 — Code 2",
+    "year": "2025",
+    "region": "federal",
+    "description": "Code 2 · 180 original MCQs · provisional chapter and topic classifications",
+    "version": "2",
+    "questionCount": 180,
+    "sourcePdf": "SZABMU_MDCAT_2025_Paper_Code2.pdf",
+    "sourceDigestSHA256": "4495b484ae7c4dbfe175afb1ad3a3d30eb1d89044a74553a08424c283c3d42a9",
+    "provisional": true,
+    "scope": "limited staging testing, not production",
+    "sourceKeysPreserved": true
+  },
+  "questions": [
+    {
+      "originalNumber": 1,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Lipids",
+      "question": "Which of the following hormones in the body of animal is lipid-based in nature?",
+      "options": [
+        "Insulin",
+        "FSH",
+        "Oxytocin",
+        "Aldosterone"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Aldosterone”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 2,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Structure of DNA",
+      "question": "Which of the following base pairing maintains the constant diameter of the DNA double helix as per Watson and Crick's model?",
+      "options": [
+        "Purine – Purine",
+        "Pyrimidine – Pyrimidine",
+        "Purine – Pyrimidine",
+        "Sugar-Phosphate"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Purine – Pyrimidine”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 3,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscles",
+      "question": "Which muscle type is under conscious control and is multinucleated?",
+      "options": [
+        "Smooth muscle",
+        "Skeletal muscle",
+        "Cardiac muscle",
+        "Visceral muscle"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Skeletal muscle”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 4,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Human Skeleton",
+      "question": "Which of the following connective tissue is completely avascular and heals slowly?",
+      "options": [
+        "Bone",
+        "Cartilage",
+        "Adipose tissue",
+        "Areolar tissue"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Cartilage”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 5,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscles",
+      "question": "Cardiac muscles are different from skeletal muscles because they:",
+      "options": [
+        "Lack striations",
+        "Are voluntary and multinucleated",
+        "Are involuntary and multinucleated",
+        "Are striated but involuntary"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Are striated but involuntary”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 6,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cytoplasmic Organelles",
+      "question": "Which organelle give rise to primary lysosomes through budding in eukaryotic cells?",
+      "options": [
+        "Smooth endoplasmic reticulum (SER)",
+        "Rough endoplasmic reticulum (RER)",
+        "Plasma membrane",
+        "Golgi cisternae"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Golgi cisternae”. This tests cell organelles & membranes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 7,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Proteins",
+      "question": "A mutation prevents proper disulphide bond formation in a fibrous protein, causing brittle nails and slow hair growth. Which of the following proteinaceous substance would be affected?",
+      "options": [
+        "Elastin",
+        "Actin",
+        "Keratin",
+        "Collagen"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Keratin”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 8,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscle Contraction",
+      "question": "In muscle fibers, T-tubules are extension of the sarcolemma that penetrate into the cell's interior. What is their main function during muscle contraction?",
+      "options": [
+        "Unblock actin's binding sites.",
+        "Conduct nerve impulses deep into the muscle cell.",
+        "Synthesize glycogen in the sarcoplasm.",
+        "Store calcium ions with in the sarcoplasmic reticulum."
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Conduct nerve impulses deep into the muscle cell”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 9,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Carbohydrates",
+      "question": "Polysaccharides such as starch and glycogen are mainly used for:",
+      "options": [
+        "Structural framework only",
+        "Short-term and long-term energy storage",
+        "Enzyme catalysis",
+        "Ready source of energy"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Short-term and long-term energy storage”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 10,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Chromosomes",
+      "question": "In chromosome, positively charged histone proteins are organized with negatively charged DNA. The positive charges of histone are due to an abundance of basic amino acids:",
+      "options": [
+        "arginine and alanine",
+        "arginine and lysine",
+        "lysine and alanine",
+        "phenylalanine and arginine"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “arginine and lysine”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 11,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "Viruses",
+      "question": "The envelop in a virus is derived from",
+      "options": [
+        "Host cell ribosomes",
+        "Host cell membrane",
+        "Viral capsid proteins",
+        "Viral genome replication"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Host cell membrane”. This tests classification of viruses & transmission.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 12,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Myelin sheath acts as;",
+      "options": [
+        "Protector",
+        "Insulator",
+        "Sensor",
+        "Supporter"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Insulator”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 13,
+      "subject": "Biology",
+      "chapter": "Biotechnology",
+      "topic": "Biotechnology and Health Care",
+      "question": "DNA/RNA probes are most commonly used as:",
+      "options": [
+        "diagnostic tools of infectious diseases",
+        "carrier in gene cloning experiments",
+        "cementing material in somatic cell hybridization",
+        "carrier or vector in gene therapy"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “diagnostic tools of infectious diseases”. This tests dna technology & medical applications.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 14,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscle Contraction",
+      "question": "The event that occurs first during skeletal muscle contraction?",
+      "options": [
+        "Cross-bridge formation",
+        "Release of calcium from sarcoplasmic reticulum",
+        "Power stroke",
+        "Myosin head binds to ATP"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Release of calcium from sarcoplasmic reticulum”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 15,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Gene Linkage and Crossing Over",
+      "question": "When genes are linked, they tend to:",
+      "options": [
+        "Segregate randomly",
+        "Cross over every time",
+        "Stay together during inheritance",
+        "Be inherited separately"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Stay together during inheritance”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 16,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Gene Linkage and Crossing Over",
+      "question": "According to Morgan's experiment, which of the following is essential for detecting gene linkage accurately?",
+      "options": [
+        "Large number of progeny",
+        "Small sample size",
+        "Use of male flies only",
+        "Mutation induction"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Large number of progeny”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 17,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Human Skeleton",
+      "question": "The end of skeletal muscle attached with moveable bone is:",
+      "options": [
+        "Insertion",
+        "Origin",
+        "Tendons",
+        "Belly"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Insertion”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 18,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Lipids",
+      "question": "Which of the following is common between aldosterone, sex hormone and cortisone?",
+      "options": [
+        "They are peptides",
+        "They are Phospholipids",
+        "They are steroids",
+        "They are glycoproteins"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “They are steroids”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 19,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Excretion",
+      "question": "Which one of the following organism is uricotelic with reference to excretion of nitrogenous compound?",
+      "options": [
+        "Human",
+        "freshwater Fish",
+        "Snake",
+        "Frog"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Snake”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 20,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Excretion",
+      "question": "Ureotelism (removal of nitrogenous waste in the form of urea) is an adaptation to the:",
+      "options": [
+        "cold weather",
+        "less availability of water",
+        "flooded environmental conditions",
+        "food shortage"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “less availability of water”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 21,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Brain",
+      "question": "All of the following are the characteristics of limbic system EXCEPT:",
+      "options": [
+        "Produce most basic and primitive emotions and drives",
+        "formation of memories",
+        "Consists of hypothalamus, amygdala and hippocampus",
+        "controls reflex movement of eyes"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “controls reflex movement of eyes”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 22,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Brain",
+      "question": "Sensory input from auditory and visual pathways, skin and within the body is received by _____ and distributed to_____:",
+      "options": [
+        "Hypothalamus: Cerebellum",
+        "Thalamus: cerebrum",
+        "Cerebrum: rest of the brain",
+        "Cerebellum: rest of the brain"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Thalamus: cerebrum”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 23,
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Lamarckism",
+      "question": "According to the Lamarck theory of evolution, the organ that has not been used in several generations will:",
+      "options": [
+        "Become strong",
+        "Get amputated",
+        "Disappear",
+        "Become developed"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Disappear”. This tests evolutionary theories.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 24,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Mode of Enzyme Action",
+      "question": "Which of the following statement is incorrect with reference to the enzyme action?",
+      "options": [
+        "Substrate binds with the enzyme at its active site",
+        "Non-competitive inhibitor binds the enzyme at a site distinct from that of active site",
+        "Addition of a lot of succinate do not reverse the inhibition of succinic dehydrogenase by malonate",
+        "malonate is a competitive inhibitor of succinic dehydrogenase"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Addition of a lot of succinate do not reverse the inhibition of succinic dehydrogenase by malonate”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 25,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Biological Importance of Water",
+      "question": "The temperature of underground water remains constant due to;",
+      "options": [
+        "Heat capacity",
+        "Polarity of water",
+        "Heat of vaporization",
+        "Specific heat of vaporization"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Heat capacity”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 26,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "Viruses",
+      "question": "The shape of Adenovirus is;",
+      "options": [
+        "Helical shape",
+        "Tadpole shape",
+        "Polyhedron shape",
+        "Circular shape"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Polyhedron shape”. This tests classification of viruses & transmission.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 27,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Menstrual Cycle",
+      "question": "In human female normally ovulation occurs at day _____ of menstrual cycle.",
+      "options": [
+        "9",
+        "11",
+        "14",
+        "15"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “14”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 28,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "Viruses",
+      "question": "HIV belongs to which class of virus with respect to genome type?",
+      "options": [
+        "Single stranded DNA viruses",
+        "Double stranded RNA viruses",
+        "ssRNA; template for DNA synthesis",
+        "ssRNA; template for mRNA synthesis"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “ssRNA; template for DNA synthesis”. This tests classification of viruses & transmission.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 29,
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Respiration",
+      "question": "How many ATPs are produced during oxidative phase of glycolysis?",
+      "options": [
+        "2",
+        "4",
+        "34",
+        "36"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “34”. This tests cellular respiration & atp.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 30,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cytoplasmic Organelles",
+      "question": "Which of the following best describes the relationship between endoplasmic reticulum (ER) and Golgi apparatus?",
+      "options": [
+        "Both ER and Golgi apparatus are completely separate organelles with no interaction",
+        "ER is precursor organelle to Golgi apparatus because material is transported from ER to Golgi",
+        "Golgi apparatus is precursor organelle to ER because material is transported from Golgi to ER",
+        "ER and Golgi apparatus have similar roles"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “ER is precursor organelle to Golgi apparatus because material is transported from ER to Golgi”. This tests cell organelles & membranes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 31,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "Osmotic gradient of inner medulla of kidney is increased by:",
+      "options": [
+        "Urea",
+        "Water",
+        "Phosphate",
+        "Potassium"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Urea”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 32,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Menstrual Cycle",
+      "question": "Decreased level of FSH hormone during menstrual cycle triggers the release of:",
+      "options": [
+        "hcg",
+        "LH",
+        "Oxytocin",
+        "progesterone"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “LH”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 33,
+      "subject": "Biology",
+      "chapter": "Digestion",
+      "topic": "Human Digestive System",
+      "question": "The digestive secretions from different parts of GIT have the ability to kill microbe present in the food. Which of the following best describe this role?",
+      "options": [
+        "Antiseptics",
+        "Disinfectants",
+        "Chemotherapeutics",
+        "Immunosuppressant"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Antiseptics”. This tests human digestion & absorption.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 34,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "X-linked Recessive Inheritance",
+      "question": "A carrier mother for hemophilia and a normal father can produce:",
+      "options": [
+        "All hemophilic sons",
+        "25 % Hemophilic among sons",
+        "50 % hemophilic among sons",
+        "All normal sons and daughter"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “50 % hemophilic among sons”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 35,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Cardiac Cycle and Phases of Heartbeat",
+      "question": "During ventricular systole, which pressure changes occur?",
+      "options": [
+        "Ventricular pressure rises above atrial and arterial pressure",
+        "Atrial pressure rises above Ventricular pressure",
+        "Ventricular pressure falls below arterial pressures",
+        "Ventricular pressure falls below Atrial pressure"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Ventricular pressure rises above atrial and arterial pressure”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 36,
+      "subject": "Biology",
+      "chapter": "Immunity",
+      "topic": "Specific Defense Mechanism",
+      "question": "Which cell type is essential for stimulating cell division of both B-cells and T-cells?",
+      "options": [
+        "Plasma cells",
+        "Memory cells",
+        "Helper T-cells",
+        "Neutrophils"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Helper T-cells”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 37,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "The hormone, when overproduced can lead to hypercalcemia and stone formation is:",
+      "options": [
+        "Insulin",
+        "Thyroxine",
+        "Parathyroid hormone",
+        "Antidiuretic hormone"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Parathyroid hormone”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 38,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Human Skeleton",
+      "question": "Fibrocartilage is found in:",
+      "options": [
+        "Trachea",
+        "Nose",
+        "Knee joint",
+        "Ear flaps"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Knee joint”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 39,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "Additional capillaries present in the juxtamedullary nephrons to form a loop of vessels are:",
+      "options": [
+        "Efferent arterioles",
+        "Peritubular capillaries",
+        "Vasa recta",
+        "Afferent arterioles"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Vasa recta”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 40,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Y-linked Inheritance",
+      "question": "Y-linked inheritance refers to which mode of the inheritance?",
+      "options": [
+        "Crisscross",
+        "Straight",
+        "Loop",
+        "Jumping"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Straight”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 41,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "X-linked Recessive Inheritance",
+      "question": "If a colorblind lady marries a normal man, their children will be:",
+      "options": [
+        "Normal daughters and normal sons",
+        "Normal sons and carrier daughters",
+        "Colorblind sons and carrier daughters",
+        "Colorblind sons and colorblind daughters"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Colorblind sons and carrier daughters”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 42,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Biological Importance of Water",
+      "question": "All of the following properties of water are associated with its capillary action, EXCEPT:",
+      "options": [
+        "Adhesion",
+        "Density",
+        "Cohesion",
+        "Surface tension"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Density”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 43,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cytoplasmic Organelles",
+      "question": "Which organelle serves as a packaging and a distribution center for molecules within the cells?",
+      "options": [
+        "Golgi apparatus",
+        "Mitochondria",
+        "Ribosome",
+        "Vacuole"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Golgi apparatus”. This tests cell organelles & membranes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 44,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Menstrual Cycle",
+      "question": "Which of the following hormone is not produced in older women?",
+      "options": [
+        "Estrogen",
+        "Gastrin",
+        "Secretin",
+        "Renin"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Estrogen”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 45,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Lymphatic System",
+      "question": "Which lymphatic structure absorbs dietary fats in the intestine?",
+      "options": [
+        "Peyer's patches",
+        "Lacteals in villi",
+        "Pancreatic duct",
+        "Lymph nodes"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Lacteals in villi”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 46,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Brain",
+      "question": "Thinking, memory and voluntary actions are mainly controlled by:",
+      "options": [
+        "Cerebrum",
+        "Cerebellum",
+        "Pons",
+        "Hippocampus"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Cerebrum”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 47,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Cardiac Cycle and Phases of Heartbeat",
+      "question": "Ventricular diastole causes:",
+      "options": [
+        "ventricular contraction",
+        "Closure of Atrioventricular valve",
+        "Opening of semilunar valve",
+        "Closure of of semilunar valve"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Closure of of semilunar valve”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 48,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cytoplasmic Organelles",
+      "question": "Which of the following statement correctly describes the organelle that is not membrane bound?",
+      "options": [
+        "Presence of cristae",
+        "Modification and packaging of proteins",
+        "Presence of digestive enzymes",
+        "Made of rRNA and protein"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Made of rRNA and protein”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 49,
+      "subject": "Biology",
+      "chapter": "Biotechnology",
+      "topic": "Biotechnology and Health Care",
+      "question": "A biological laboratory is developing gene therapy with a modified virus that infects the birds only. Which of the following category does this virus belong to?",
+      "options": [
+        "Algal virus",
+        "Fungal virus",
+        "Animal virus",
+        "Bacterial virus"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Animal virus”. This tests classification of viruses & transmission.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 50,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cell Structure",
+      "question": "CFTR gene that encode a protein which regulate:",
+      "options": [
+        "Protein and salt",
+        "Salt and Water",
+        "Sugar and Water",
+        "Liquid and Protein"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Salt and Water”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 51,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cytoplasmic Organelles",
+      "question": "Which organelle is usually referred as post office of the cell and why?",
+      "options": [
+        "Golgi apparatus, because it receives, sorts and packages material for transport to other parts of cell",
+        "Rough endoplasmic reticulum because it synthesizes protein used by the cell",
+        "Mitochondria, because it synthesizes and provides energy to other parts of the cells",
+        "Nucleus, because it controls other organelles of the cell"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Golgi apparatus, because it receives, sorts and packages material for transport to other parts of cell”. This tests cell organelles & membranes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 52,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Components of reflex arc must contain neurons from:",
+      "options": [
+        "Motor nerve and Mixed nerve",
+        "Sensory nerve and intermediate nerve",
+        "Motor nerve and Sensory Nerve",
+        "Mixed nerve and intermediate nerve"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Motor nerve and Sensory Nerve”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 53,
+      "subject": "Biology",
+      "chapter": "Immunity",
+      "topic": "Specific Defense Mechanism",
+      "question": "A confirmed COVID patient shows weak specific immunity. Which component is most likely deficient in this patient?",
+      "options": [
+        "Red Blood Cells",
+        "Helper T-Lymphocytes",
+        "Thrombocytes",
+        "Suppressor T-Lymphocytes"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Helper T-Lymphocytes”. This tests immune responses.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 54,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Lymphatic System",
+      "question": "Which of the following organ takes part in the T- cell maturation for both the lymphatic and endocrine systems?",
+      "options": [
+        "Spleen",
+        "Thymus",
+        "Liver",
+        "Kidney"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Thymus”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 55,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Human Reproductive System",
+      "question": "The part of male reproductive system that maintains the temperature for sperm production is:",
+      "options": [
+        "Testes",
+        "Scrotum",
+        "Vas deferens",
+        "Epididymis"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Scrotum”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 56,
+      "subject": "Biology",
+      "chapter": "Immunity",
+      "topic": "Specific Defense Mechanism",
+      "question": "After Liver transplant, doctors suppress the T- lymphocyte activity in patient. Why?",
+      "options": [
+        "To increase the rate of antibody production",
+        "To prevent infections",
+        "To avoid graft rejection immune system",
+        "To produce memory cells faster"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “To prevent infections”. This tests immune responses.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 57,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "How do the kidneys contribute to maintain normal blood calcium level?",
+      "options": [
+        "By storing excess calcium",
+        "By reabsorbing calcium and activating vitamin D",
+        "By secreting calcium directly into the blood",
+        "By converting calcium into urea for excretion"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “By reabsorbing calcium and activating vitamin D”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 58,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Nodes of Ranvier along the length of axon fibers allow:",
+      "options": [
+        "More diffusion of neurotransmitters",
+        "saltatory conduction of nerve impulse",
+        "Formation of new synaptic connections",
+        "Synthesis of new neurons"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “saltatory conduction of nerve impulse”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 59,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Lipids",
+      "question": "Arachidonic acid, which is the precursor molecule for prostaglandins is:",
+      "options": [
+        "A saturated fatty acid with 18 carbons",
+        "An unsaturated fatty acid with 18 carbons",
+        "A tri-unsaturated fatty acid with 20 carbons",
+        "A tetra-unsaturated fatty acid with 20 carbons"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “A tetra-unsaturated fatty acid with 20 carbons”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 60,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Human Heart",
+      "question": "Atrial walls are thinner as compared to ventricles because:",
+      "options": [
+        "Atria are small in size",
+        "Atria are present above the ventricles",
+        "Atria has to force blood into the ventricles which lie very close to them",
+        "Blood enters into the atria by osmosis"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Atria has to force blood into the ventricles which lie very close to them”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 61,
+      "subject": "Biology",
+      "chapter": "Biotechnology",
+      "topic": "Biotechnology and Health Care",
+      "question": "A patient with a genetic disorder undergoes treatment where a normal gene is inserted into their cells. This is called",
+      "options": [
+        "Gene therapy",
+        "Genetic testing",
+        "Protein engineering",
+        "DNA fingerprinting"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Gene therapy”. This tests dna technology & medical applications.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 62,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "Which of the following is a potential symptom of chronic renal failure?",
+      "options": [
+        "Nephritis and bacterial infection",
+        "Bone pain and fractures",
+        "Impaired concentration and confusion",
+        "Muscle cramps due to electrolyte imbalance"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Nephritis and bacterial infection”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 63,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Arthritis",
+      "question": "Arthritis is a disease that primarily affects the",
+      "options": [
+        "Kidneys",
+        "Lungs",
+        "Joints",
+        "Muscles"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Joints”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 64,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Brain",
+      "question": "Osmoreceptors that detect the osmotic pressure of blood are primarily located in the:",
+      "options": [
+        "Cerebellum",
+        "Medulla oblongata",
+        "Hypothalamus",
+        "Cerebral cortex"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Hypothalamus”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 65,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Chromosomes",
+      "question": "A chromosome which contain centromere at the center is called:",
+      "options": [
+        "mesocentric chromosome",
+        "metacentric chromosome",
+        "acrocentric chromosome",
+        "telocentric chromosome"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “metacentric chromosome”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 66,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Mode of Enzyme Action",
+      "question": "Binding site for a substrate on enzyme is:",
+      "options": [
+        "Allosteric site",
+        "Passive site",
+        "Active site",
+        "Regulatory site"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Active site”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 67,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Carbohydrates",
+      "question": "The most abundant polysaccharide in plants, widely used in paper and as a source of dietary fibre for human is:",
+      "options": [
+        "Chitin",
+        "Glycogen",
+        "Starch",
+        "Cellulose"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Cellulose”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 68,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cytoplasmic Organelles",
+      "question": "This given organelle is involved in the synthesis of oil, phospholipids and steroids:",
+      "options": [
+        "Mitochondria",
+        "Golgi complex",
+        "Endoplasmic reticulum",
+        "Ribosomes"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Mitochondria”. This tests cellular respiration & atp.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 69,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Which type of neurons stimulate the muscles to contract in a reflex arc?",
+      "options": [
+        "Efferent neurons",
+        "Sensory neurons",
+        "Interneurons",
+        "Afferent neurons"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Efferent neurons”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 70,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Receptors",
+      "question": "Receptors that are located in the retina of eye are called:",
+      "options": [
+        "Merkel disc",
+        "Ruffini endings",
+        "Pacinian corpuscles",
+        "Rod and Cone cells"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Rod and Cone cells”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 71,
+      "subject": "Biology",
+      "chapter": "Digestion",
+      "topic": "Human Digestive System",
+      "question": "The bony roof of the oral cavity, which separates it from the nasal cavity, is formed by the:",
+      "options": [
+        "soft palate",
+        "Mandible",
+        "Hard palate",
+        "Maxilla"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Hard palate”. This tests human digestion & absorption.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 72,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Which structure in neuron is responsible for receiving information from other neurons?",
+      "options": [
+        "Axon",
+        "Soma",
+        "Dendrite",
+        "Axon terminal"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Dendrite”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 73,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Receptors",
+      "question": "Chemicals that stimulate the olfactory receptors enter the nasal cavity in the form of _____.",
+      "options": [
+        "solid",
+        "liquid",
+        "gas",
+        "plasma"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “gas”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 74,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Neurosecretory cells are:",
+      "options": [
+        "endocrine cells",
+        "exocrine cells",
+        "neuroglial cells",
+        "neurons that have been adapted to secrete hormones"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “neurons that have been adapted to secrete hormones”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 75,
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Lamarckism",
+      "question": "Lamarck theory of evolution was rejected experimentally by:",
+      "options": [
+        "Earnest Hackle",
+        "Charles Darwin",
+        "August Wiseman",
+        "Thomas R Malthas"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “August Wiseman”. This tests evolutionary theories.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 76,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Carbohydrates",
+      "question": "Which of the following characteristics is common among sucrose, lactose and maltose?",
+      "options": [
+        "molecular formula",
+        "occurrence in living beings",
+        "chemical nature of their monosaccharide units",
+        "to act as reducing sugar"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “molecular formula”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 77,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Ribonucleic Acid (RNA)",
+      "question": "Ribozymes are the only biocatalysts that are made up of:",
+      "options": [
+        "DNA",
+        "RNA",
+        "Protein",
+        "Fatty acid"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “RNA”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 78,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Mode of Enzyme Action",
+      "question": "The induced fit model differs from the Lock and Key model because the enzyme in this model:",
+      "options": [
+        "Has a rigid and fixed active site",
+        "Changes shape to fit the substrate",
+        "Is non-specific in its action",
+        "Is denatured during reaction"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Changes shape to fit the substrate”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 79,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Inhibitors",
+      "question": "Which competitive inhibitor blocks the enzyme responsible for bacterial cell wall synthesis?",
+      "options": [
+        "Sulphonamide",
+        "Streptomycin",
+        "Tetracycline",
+        "Penicillin"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Penicillin”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 80,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Biological Importance of Water",
+      "question": "Water commonly known as a universal solvent because:",
+      "options": [
+        "It dissolves polar and ionic substances effectively",
+        "It supports chemical reactions without reacting itself",
+        "It has a high specific heat capacity",
+        "It dissolves many substances due to its small molecule size"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “It dissolves polar and ionic substances effectively”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 81,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Biological Importance of Water",
+      "question": "Which of the following structural change in water molecule leads to the low density of ice?",
+      "options": [
+        "Formation of ionic bonds",
+        "Expansion due to hydrogen bonding",
+        "Increased kinetic energy",
+        "Loss of polarity in molecules"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Expansion due to hydrogen bonding”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 82,
+      "subject": "Chemistry",
+      "chapter": "Carboxylic Acids",
+      "topic": "Nomenclature, Structure and Preparation of Carboxylic Acid",
+      "question": "Reduction of carboxylic acid by using lithium aluminohydride produce",
+      "options": [
+        "Alcohol",
+        "acid halide",
+        "ester",
+        "alkane"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Alcohol”. This tests carboxylic acid & ester reactions.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 83,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Ideal Gas Equation",
+      "question": "In separate vessel of volume 2000 cm³ and 1500cm³, 6g of hydrogen and 28g of nitrogen are mixed in each vessel at 25°C, ammonia formed is? N₂ + 3H₂ ⇌ 2NH₃",
+      "options": [
+        "More in 2 L vessel",
+        "More in 1500 cm³ vessel",
+        "Equal in both vessel",
+        "Cannot be predicted"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “More in 1500 cm³ vessel”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 84,
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "Properties of Liquids based on Kinetic Molecular Theory",
+      "question": "The weakest intermolecular force present in liquid is?",
+      "options": [
+        "dipole dipole forces",
+        "induce dipole force",
+        "Instantaneous dipole induced dipole force",
+        "hydrogen bonding"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Instantaneous dipole induced dipole force”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 85,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Sigma and Pi Bond",
+      "question": "Number of sigma bond in acetylene and ethylene are?",
+      "options": [
+        "3 & 5",
+        "5 & 3",
+        "6 & 5",
+        "5 & 6"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “3 & 5”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 86,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "VSEPR Theory",
+      "question": "Which of the following has smallest bond angle?",
+      "options": [
+        "C₂H₂",
+        "NH₃",
+        "H₂S",
+        "BeCl₂"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “H₂S”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 87,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Application of Dipole Movement",
+      "question": "Which one of the following has highest ionic character?",
+      "options": [
+        "AlCl₃",
+        "BCl₃",
+        "PCl₃",
+        "NaH"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “NaH”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 88,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Bond Energy",
+      "question": "Which one has highest bond energy?",
+      "options": [
+        "sp-s",
+        "sp³-s",
+        "sp²-s",
+        "sp³-p"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “sp-s”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 89,
+      "subject": "Chemistry",
+      "chapter": "Fundamental Principles of Organic Chemistry",
+      "topic": "Isomerism",
+      "question": "The relationship of (+) tartaric acid and (-) Tartaric acid are:",
+      "options": [
+        "geometric isomers",
+        "enantiomers",
+        "diastereomers",
+        "plannar"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “geometric isomers”. This tests nomenclature & isomerism.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 90,
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Nomenclature and structure of Aldehydes and Ketones",
+      "question": "IUPAC name of compound C₆H₅COCH₃ is?",
+      "options": [
+        "methylphenylketone",
+        "phenylethanone",
+        "octan-2-one",
+        "benzylethanone"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “phenylethanone”. This tests nomenclature & isomerism.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 91,
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Reaction of Aldehydes and Ketones",
+      "question": "During reaction of aldehyde with HCN, the hybridization of carbon atom of carbonyl group changes to:",
+      "options": [
+        "sp → sp²",
+        "sp³ → sp²",
+        "sp² → sp³",
+        "dsp² → sp³"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “sp² → sp³”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 92,
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Reactivity of Aldehydes and Ketones",
+      "question": "Acetone reacts with water in presence of catalyst produces:",
+      "options": [
+        "propan-2-ol",
+        "propan-1,2-diol",
+        "propan-2,2-diol",
+        "propanol"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “propan-2,2-diol”. This tests carbonyl chemistry.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 93,
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Reactivity of Aldehydes and Ketones",
+      "question": "Which one show positive test with Fehling solution:",
+      "options": [
+        "acetophenone",
+        "metaformaldehyde",
+        "acetaldehyde",
+        "benzaldehyde"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “acetaldehyde”. This tests carbonyl chemistry.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 94,
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Oxidation and Reduction",
+      "question": "Oxidation state of Tungsten in Na₂W₄O₁₃.H₂O is:",
+      "options": [
+        "+5",
+        "+6",
+        "+8",
+        "Zero"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “+6”. This tests redox & electrochemical cells.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 95,
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Factors affecting rate of reaction",
+      "question": "Orientation of molecule is more important in following cases except:",
+      "options": [
+        "high Pressure",
+        "complex molecules",
+        "poly atomic molecules",
+        "low pressure"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “high Pressure”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 96,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Boyle’s Law",
+      "question": "Keeping temperature constant, if pressure is increased, density of gas will:",
+      "options": [
+        "Increases",
+        "decreases",
+        "gets doubled",
+        "remains same"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “gets doubled”. This tests gas laws & kinetic theory.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 97,
+      "subject": "Chemistry",
+      "chapter": "Alkyl Halides",
+      "topic": "Nomenclature",
+      "question": "IUPAC name of chloroform is:",
+      "options": [
+        "methylchloride",
+        "methyltrichloride",
+        "trichloromethane",
+        "chloromethane"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “chloromethane”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 98,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "IUPAC System of Alkynes",
+      "question": "Which among the following will react with ammonical cuprous chloride;",
+      "options": [
+        "1-butene",
+        "1-butyne",
+        "2-butene",
+        "2-butyne"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “1-butene”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 99,
+      "subject": "Chemistry",
+      "chapter": "Solid",
+      "topic": "Crystalline Solids",
+      "question": "Which of the following is not a crystalline solid?",
+      "options": [
+        "KCl",
+        "Fe metal",
+        "Glass",
+        "rhombic S"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Glass”. This tests crystalline & amorphous solids.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 100,
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Electronic Configuration",
+      "question": "Number of electron with l=2 in an atom having atomic number 23 is:",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “3”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 101,
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Order of Reaction",
+      "question": "Reaction having high activation energy are:",
+      "options": [
+        "spontaneous",
+        "fast",
+        "slow",
+        "always exothermic"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “slow”. This tests rates & activation energy.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 102,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Chemical Reactions of Benzenes",
+      "question": "Which of the following reagents is used to convert benzene to 2-chloro methyl benzene?",
+      "options": [
+        "CH₃Cl/AlCl₃ followed by Cl₂ in the presence of anhydrous FeCl₃",
+        "CH₃Cl/AlCl₃ followed by Cl₂ in the presence of diffused sunlight",
+        "Cl₂/FeCl₃ followed by CH₃Cl in the presence of diffused sunlight",
+        "Cl₂/UV followed by CH₃Cl in the presence of anhydrous FeCl₃"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “CH₃Cl/AlCl₃ followed by Cl₂ in the presence of anhydrous FeCl₃”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 103,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Kinetic Molecular Theory",
+      "question": "According to the Kinetic molecular theory, the kinetic energy of gas molecules increases when they are:",
+      "options": [
+        "melted from solid to liquid state",
+        "mixed with other molecules at lower temperature",
+        "frozen into solids",
+        "condensed into liquids"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “melted from solid to liquid state”. This tests gas laws & kinetic theory.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 104,
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Chemical Equilibrium",
+      "question": "If the equilibrium expression of a reversible reaction is [C]²/[A][B], the balanced chemical equation should be:",
+      "options": [
+        "C ⇌ A+B",
+        "2C ⇌ A+B",
+        "A+B ⇌ C",
+        "A+B ⇌ 2C"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “A+B ⇌ 2C”. This tests equilibrium & le chatelier.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 105,
+      "subject": "Chemistry",
+      "chapter": "Alcohols and Phenols",
+      "topic": "Nomenclature, structure and reactivity of Phenols",
+      "question": "Common name of 1,3 benzene diol is:",
+      "options": [
+        "Pyrogallol",
+        "Cresol",
+        "Resorcinol",
+        "Catechol"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Resorcinol”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 106,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Sigma and Pi Bond",
+      "question": "How many sigma and pi bonds are present in maleic anhydride?",
+      "options": [
+        "5 sigma 3 pi",
+        "6 sigma 3 pi",
+        "7 sigma 3 pi",
+        "9 sigma 3 pi"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “9 sigma 3 pi”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 107,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Reactivity of Benzene",
+      "question": "Addition of three molecules of chlorine into benzene prove that benzene has:",
+      "options": [
+        "3 double bonds",
+        "non polar",
+        "polar",
+        "non planner"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “3 double bonds”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 108,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Reactions of Alkynes",
+      "question": "Propyne is allowed to react with hydrochloric acid two times then final product is:",
+      "options": [
+        "1,1-dichoropropane",
+        "1,2-dichloropropane",
+        "2,2-dichloropropane",
+        "1,2-dichloropropene"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “2,2-dichloropropane”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 109,
+      "subject": "Chemistry",
+      "chapter": "Fundamental Principles of Organic Chemistry",
+      "topic": "Isomerism",
+      "question": "Diethyl ether and Methyl n-propyl ether are:",
+      "options": [
+        "position isomers",
+        "functional group isomers",
+        "metamers",
+        "tautomer"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “metamers”. This tests nomenclature & isomerism.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 110,
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Oxidation and Reduction",
+      "question": "In the given reaction CH₃OH → HCOOH, oxidation state of carbon changes from:",
+      "options": [
+        "-2 to 0",
+        "-2 to +2",
+        "-3 to +2",
+        "0 to +2"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “-2 to +2”. This tests redox & electrochemical cells.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 111,
+      "subject": "Chemistry",
+      "chapter": "Thermo Chemistry and Energetics of Chemical Reaction",
+      "topic": "Exothermic and Endothermic Reaction",
+      "question": "For endothermic reaction, enthalpy change is:",
+      "options": [
+        "ΔHreactant > ΔHproduct",
+        "ΔHreactant < ΔHproduct",
+        "ΔHreactant = ΔHproduct",
+        "ΔHreactant = ΔHproduct = 0"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “ΔHreactant < ΔHproduct”. This tests enthalpy & energy changes.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 112,
+      "subject": "Chemistry",
+      "chapter": "Alkyl Halides",
+      "topic": "Substitution vs Elimination",
+      "question": "The structure of four Chloroalkanes W, X, Y and Z are shown: W: (CH₃)₂CHCH(Cl)CH₃; X: CH₂(Cl)CH₃; Y: (CH₃)₃CHCH₂Cl; Z: (CH₃)₃CHC(CH₃)₂Cl. Select the Chloroalkane classified as tertiary:",
+      "options": [
+        "W only",
+        "X only",
+        "Y only",
+        "Z only"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Z only”. This tests substitution & elimination.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 113,
+      "subject": "Chemistry",
+      "chapter": "Solid",
+      "topic": "Crystal lattice",
+      "question": "The smallest repeating pattern from which the lattice is built of in a crystalline solid is called:",
+      "options": [
+        "Crystallite",
+        "Amorphous region",
+        "Unit cell",
+        "Crystal lattice"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Unit cell”. This tests crystalline & amorphous solids.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 114,
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Le Chatelier’s principle",
+      "question": "Which of following reaction will move backward by decreasing pressure?",
+      "options": [
+        "4Q ⇌ T + S",
+        "2A ⇌ 3C",
+        "K ⇌ L",
+        "H + 2M ⇌ 2B + 2D"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “4Q ⇌ T + S”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 115,
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Haber’s Process",
+      "question": "According to Le Chatelier's principle, in Haber's process yield of ammonia can be increased by:",
+      "options": [
+        "decreasing pressure and increasing temperature",
+        "increasing pressure and decreasing temperature",
+        "increasing volume and decreasing temperature",
+        "decreasing concentration of H₂"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “increasing pressure and decreasing temperature”. This tests equilibrium & le chatelier.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 116,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Boyle’s Law",
+      "question": "Hyperbola isotherm is obtained when graph is plotted between:",
+      "options": [
+        "P and 1/V",
+        "PV and V",
+        "P and V",
+        "V and 1/P"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “P and V”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 117,
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Planck’s Quantum Theory",
+      "question": "Highest energy for one quantum among radiation is:",
+      "options": [
+        "microwave",
+        "infrared",
+        "ultra violet",
+        "visible"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “ultra violet”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 118,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Preparation of Alkynes",
+      "question": "Which of the following reagent is commonly used to prepare alkyne form vicinal dihalide?",
+      "options": [
+        "H₂ and catalyst",
+        "KOH/NaNH₂",
+        "KMnO₄",
+        "LiAlH₄"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “KOH/NaNH₂”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 119,
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Standard Hydrogen Electrode (SHE)",
+      "question": "In a standard hydrogen electrode, the platinum electrode:",
+      "options": [
+        "Reacts with hydrogen",
+        "Provide a surface for oxidation and reduction.",
+        "Acts as a salt bridge.",
+        "Provide voltage to the circuit."
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Provide a surface for oxidation and reduction”. This tests redox & electrochemical cells.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 120,
+      "subject": "Chemistry",
+      "chapter": "Solid",
+      "topic": "Lattice Energy",
+      "question": "Which of the following compound has lower Lattice Energy?",
+      "options": [
+        "LiCl",
+        "KCl",
+        "CaCl₂",
+        "C₆H₁₂O₆"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “KCl”. This tests crystalline & amorphous solids.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 121,
+      "subject": "Chemistry",
+      "chapter": "Alkyl Halides",
+      "topic": "Substitution vs Elimination",
+      "question": "Reaction of 2-Bromobutane with alcoholic KOH yields:",
+      "options": [
+        "2-Butanol",
+        "2-Butene",
+        "2-Butyne",
+        "1-Butanol"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “2-Butene”. This tests alcohol & phenol reactions.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 122,
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Oxidation and Reduction",
+      "question": "Which species contain an element with an oxidation number of +4?",
+      "options": [
+        "CrO₄²⁻",
+        "MnO₄²⁻",
+        "H₂SO₄",
+        "Na₂CO₃"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “CrO₄²⁻”. This tests redox & electrochemical cells.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 123,
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Chemical Kinetics",
+      "question": "The rate of reaction:",
+      "options": [
+        "Increases as the reaction proceeds",
+        "Decreases as the reaction proceeds",
+        "Remains the same as the reaction proceeds",
+        "May decrease or increase as the reaction proceeds"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Decreases as the reaction proceeds”. This tests rates & activation energy.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 124,
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Order of Reaction",
+      "question": "The order of chemical reaction is defined as:",
+      "options": [
+        "The number of reactants involved in balanced equation",
+        "The number of products formed in balanced equation",
+        "The power to which the concentration of a reactant is raised in the rate equation",
+        "The rate constant of the reaction"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “The number of products formed in balanced equation”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 125,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Real and Ideal Gas",
+      "question": "Real gases show more positive deviation as pressure increases because of:",
+      "options": [
+        "ionic nature",
+        "repulsive forces",
+        "attractive forces",
+        "non polar nature"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “attractive forces”. This tests gas laws & kinetic theory.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 126,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Real and Ideal Gas",
+      "question": "Which statement applies to both ideal and real gases:",
+      "options": [
+        "collision between molecules are elastic",
+        "molecules are in constant random motion",
+        "molecules attract each other",
+        "molecules have zero size"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “molecules are in constant random motion”. This tests gas laws & kinetic theory.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 127,
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "Resistance, Conductance, Resistivity & Conductivity",
+      "question": "If voltage across a resistor is doubled then its resistance will become: (temperature and physical state of the conductor remains constant).",
+      "options": [
+        "Doubled",
+        "Half",
+        "Four times",
+        "Remains constant"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Remains constant”. This tests resistance & electrical circuits.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 128,
+      "subject": "Physics",
+      "chapter": "Oscillations",
+      "topic": "Uniform Circular Motion & SHM",
+      "question": "A particle is moving in a uniform circular path whose projection is executing simple harmonic motion on horizontal diameter. The ratio of instantaneous velocity to the maximum velocity of the projection while passing through the center is:",
+      "options": [
+        "1:1",
+        "1:2",
+        "2:1",
+        "1:4"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “1:1”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 129,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Speed of Sound in Air",
+      "question": "The option that shows the conditions used by Laplace for connecting the velocity of sound is options medium used thermodynamics process. 1 solid adiabatic, 2 liquids isobaric, 3 gas adiabatic, 4 gas isothermal",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “3”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 130,
+      "subject": "Physics",
+      "chapter": "Dawn of Modern Physics (Quantum Physics)",
+      "topic": "Particle Nature of Electromagnetic Radiation",
+      "question": "If different colored light beams have same total energy, which color beam will contain the smallest number of photons?",
+      "options": [
+        "Violet",
+        "Blue",
+        "Green",
+        "Red"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Violet”. This tests nuclear & quantum physics.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 131,
+      "subject": "Physics",
+      "chapter": "Nuclear Physics",
+      "topic": "Medical Uses of Radiation",
+      "question": "A patient is injected with a radioactive isotope to trace blood flow and detect circulation issues. The isotope used is more likely to be:",
+      "options": [
+        "Iodine-131",
+        "Phosphorus-32",
+        "Cobalt-60",
+        "Sodium-24"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Sodium-24”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 132,
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Equation of Continuity",
+      "question": "Water flows through a pipe of 0.02 m² with a speed of 3 m/s. The pipe narrows to 0.01 m². The speed in narrower section is:",
+      "options": [
+        "1.5 m/s",
+        "3 m/s",
+        "6 m/s",
+        "9 m/s"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “6 m/s”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 133,
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Fluid & Its Types",
+      "question": "In the human circulatory system, turbulent blood flow is most likely to occur when the:",
+      "options": [
+        "Vessel diameter is very small",
+        "Velocity of blood is very low",
+        "Blood flows through a clogged vessel",
+        "Blood viscosity increases"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Blood flows through a clogged vessel”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 134,
+      "subject": "Physics",
+      "chapter": "Electromagnetic Induction",
+      "topic": "Induced EMF & Induced Current",
+      "question": "A conducting ring is placed near a current-carrying coil. As the current in the coil increases, the induced current in the ring flows:",
+      "options": [
+        "In the direction of magnetic field",
+        "To increases the magnetic flux",
+        "To oppose increasing magnetic flux",
+        "Randomly without a definite direction"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “To oppose increasing magnetic flux”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 135,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Waves & Their Classification",
+      "question": "In progressive waves, energy is transferred from one point to another through:",
+      "options": [
+        "Circular motion of particles",
+        "Oscillatory motion of particles",
+        "Rotation of particles",
+        "Translation of particles"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Oscillatory motion of particles”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 136,
+      "subject": "Physics",
+      "chapter": "Alternating Current (AC)",
+      "topic": "AC Through Resistor, Capacitor & Inductor",
+      "question": "A capacitor is connected to an ac source. If the frequency of the AC source is doubled the current in a purely capacitive circuit:",
+      "options": [
+        "Be doubled",
+        "Remains Unchanged",
+        "Become Half",
+        "Becomes zero"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Becomes zero”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 137,
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Heat",
+      "question": "When thermal energy is transferred from a hot object to a cold one, the change occurs in the hot object as:",
+      "options": [
+        "Increases in internal energy",
+        "Decrease in internal energy",
+        "Increase in temperature",
+        "Increase in heat content"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Decrease in internal energy”. This tests heat & first law.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 138,
+      "subject": "Physics",
+      "chapter": "Atomic Spectra",
+      "topic": "Hydrogen Spectrum / Spectral Series",
+      "question": "Two spectral lines in the Hydrogen atom spectrum are close together. This likely means:",
+      "options": [
+        "The energy difference is zero",
+        "The energy difference is small",
+        "The light intensity is low",
+        "The atom become unstable"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “The energy difference is small”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 139,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Principle of Superposition of Waves",
+      "question": "When two identical waves arrive in phase at same point a region at the same time the resultant displacement is equal to:",
+      "options": [
+        "Displacement of a single wave",
+        "Difference of their displacements",
+        "Sum of their displacements",
+        "Product of their displacements"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Sum of their displacements”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 140,
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "Ohm's Law",
+      "question": "High slope of Ohm's law graph means:",
+      "options": [
+        "Low resistance",
+        "High resistance",
+        "Open circuit",
+        "Low current"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Low resistance”. This tests resistance & electrical circuits.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 141,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Electric Potential & Electric Potential Difference",
+      "question": "The electric potential at a point due to a point charge is 100J/C. If a test charge of magnitude 1C placed at that point is replaced with a 2C charge, then the physical quantity that will change is:",
+      "options": [
+        "Electric Field at that point",
+        "Electric potential at that point",
+        "Electric Potential Energy of the system",
+        "Temperature"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Electric Potential Energy of the system”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 142,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Waves & Their Classification",
+      "question": "The waves among the following which require a material medium for their propagation are:",
+      "options": [
+        "Gamma rays",
+        "X-rays",
+        "Infrared waves",
+        "Infrasonic waves"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Infrared waves”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 143,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Acceleration",
+      "question": "Unequal changes occurring in velocity of a body is called:",
+      "options": [
+        "Uniform acceleration",
+        "Uniform velocity",
+        "Instantaneous acceleration",
+        "Variable acceleration"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Variable acceleration”. This tests kinematics & dynamics.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 144,
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "Ohm's Law",
+      "question": "What will potential difference, if a wire has resistance of 10Ω and current 2A flow through it:",
+      "options": [
+        "5V",
+        "10V",
+        "20V",
+        "40V"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “20V”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 145,
+      "subject": "Physics",
+      "chapter": "Dawn of Modern Physics (Quantum Physics)",
+      "topic": "Particle Nature of Electromagnetic Radiation",
+      "question": "According to the particle model of light, a photon is:",
+      "options": [
+        "A Particle with mass and charge",
+        "A quantum of energy with zero rest mass and zero charge",
+        "A continuous energy wave",
+        "A particle that travels slower than light"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “A quantum of energy with zero rest mass and zero charge”. This tests electric field, potential & force.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 146,
+      "subject": "Physics",
+      "chapter": "Electronics",
+      "topic": "Biasing",
+      "question": "The current in forward biased PN junction is mainly due to:",
+      "options": [
+        "Majority carriers",
+        "Minority carriers",
+        "leakage carrier",
+        "Thermionic emission"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Majority carriers”. This tests capacitors & electronic devices.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 147,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Stationary Waves",
+      "question": "Stationary waves are formed in a stretched string of 2m length, such that two vibrating loops are formed. The distance between consecutive nodes formed is:",
+      "options": [
+        "0.5 m",
+        "1 m",
+        "2 m",
+        "3 m"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “1 m”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 148,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "question": "A football is kicked with a speed of 20 m/s at an angle of 30° with the horizontal, the maximum height it attains is:",
+      "options": [
+        "5 m",
+        "10 m",
+        "15 m",
+        "20 m"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “5 m”. This tests kinematics & dynamics.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 149,
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "EMF & Electric Potential Difference",
+      "question": "A high internal resistance battery is not suitable for heavy loads due to:",
+      "options": [
+        "Excess voltage drop",
+        "High terminal voltage",
+        "Infinite emf",
+        "Constant current"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Excess voltage drop”. This tests resistance & electrical circuits.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 150,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Coulomb's Law",
+      "question": "Two equal charges experience a certain force when placed in vacuum. When the charges are placed in a medium, the force becomes 1/4 th. The dielectric constant of the medium is:",
+      "options": [
+        "0.25",
+        "2",
+        "4",
+        "16"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “4”. This tests electric field, potential & force.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 151,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Electric Field Intensity",
+      "question": "If a test charge of magnitude 2C experience forces of 100N and 200N at two points A and B in an electric field respectively. The ratio of electric fields at A to that of B is:",
+      "options": [
+        "1:1",
+        "1:2",
+        "1:4",
+        "4:1"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “1:1”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 152,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Elastic & Inelastic Collision",
+      "question": "A body of mass 2 kg moving with velocity 3 m/s collides with a body of mass 1 kg at rest. If they stick together, their common velocity after collision is:",
+      "options": [
+        "1 m/s",
+        "2 m/s",
+        "3 m/s",
+        "4 m/s"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “4 m/s”. This tests kinematics & dynamics.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 153,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "question": "Two balls thrown with equal speeds but at different angles cover equal horizontal distance. If one is thrown at an angle of 40°, then the angle of projection of the other is:",
+      "options": [
+        "20°",
+        "30°",
+        "45°",
+        "50°"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “50°”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 154,
+      "subject": "Physics",
+      "chapter": "Work & Energy",
+      "topic": "Energy & Its Types (K.E. & P.E.)",
+      "question": "The work done on a body is stored in it in the form of:",
+      "options": [
+        "Power",
+        "Energy",
+        "Momentum",
+        "Impulse"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Energy”. This tests work, power & energy.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 155,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Wave Speed",
+      "question": "If 20 waves pass a point in 2 seconds and with a speed of 5m/s, then the wavelength of wave is:",
+      "options": [
+        "0.5 m",
+        "1 m",
+        "1.5 m",
+        "2 m"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “0.5 m”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 156,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Charging & Discharging of a Capacitor",
+      "question": "The unit of RC in case of charging a capacitor is:",
+      "options": [
+        "Farad",
+        "Seconds",
+        "Ohm",
+        "Volt"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Seconds”. This tests capacitors & electronic devices.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 157,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Wave Speed",
+      "question": "A longitudinal wave has a frequency of 500 Hz and wavelength of 0.6 m, its speed is:",
+      "options": [
+        "30 m/s",
+        "83 m/s",
+        "300 m/s",
+        "1200 m/s"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “300 m/s”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 158,
+      "subject": "Physics",
+      "chapter": "Circular Motion",
+      "topic": "Angular Displacement",
+      "question": "The true statement about angular displacement is:",
+      "options": [
+        "It always increases with time",
+        "It is treated as vector for small rotations",
+        "It is always a scalar quantity",
+        "It is measured in meters"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “It is treated as vector for small rotations”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 159,
+      "subject": "Physics",
+      "chapter": "Circular Motion",
+      "topic": "Angular Displacement",
+      "question": "π radians are equivalent to:",
+      "options": [
+        "30°",
+        "270°",
+        "90°",
+        "180°"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “180°”. This tests angular & circular motion.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 160,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Distance & Displacement",
+      "question": "A person moves 600 m towards north then 300 m towards south. Its displacement to distance ratio is:",
+      "options": [
+        "1:2",
+        "1:3",
+        "2:1",
+        "3:1"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “1:3”. This tests kinematics & dynamics.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 161,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Stationary Waves",
+      "question": "In a stationary wave the point that undergoes zero acceleration is:",
+      "options": [
+        "Node",
+        "Antinode",
+        "Midpoint between node and antinode",
+        "Every point along the wave"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Node”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 162,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Factors Affecting the Speed of Sound",
+      "question": "If the speed of sound is measured at sea level and at the top of a mountain, both at the same temperature. It will be:",
+      "options": [
+        "Greater at sea level",
+        "Greater at the mountain top",
+        "The same at both places",
+        "Greater where the air is denser"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Greater at sea level”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 163,
+      "subject": "English",
+      "chapter": "Voices",
+      "topic": null,
+      "question": "The book was written by Rashid Khan. Identify the correct usage of voice.",
+      "options": [
+        "Rashid Khan writes the book.",
+        "Rashid Khan wrote the book.",
+        "Rashid Khan written the book.",
+        "Rashid Khan has write the book."
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Rashid Khan wrote the book”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 164,
+      "subject": "English",
+      "chapter": "Phrase, Clause, Sentence, and Conditional Sentences",
+      "topic": null,
+      "question": "Identify the example of complex sentence.",
+      "options": [
+        "I both thanked him and rewarded him.",
+        "Life is what we make it.",
+        "He owed his success to his father.",
+        "Jumping up, he ran away."
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Life is what we make it”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 165,
+      "subject": "English",
+      "chapter": "Infinitive",
+      "topic": null,
+      "question": "Pick out the sentence which illustrates the use of infinitive.",
+      "options": [
+        "He refused to obey the orders.",
+        "He refused obeying the orders.",
+        "He refused obey the orders.",
+        "He refused obeyed the orders."
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “He refused to obey the orders”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 166,
+      "subject": "English",
+      "chapter": "Vocab",
+      "topic": null,
+      "question": "What is the effect of using synonyms with different shades of meaning in satire?",
+      "options": [
+        "To create a serious tone",
+        "To highlight the absurdity or irony of a situation",
+        "To confuse the reader",
+        "To add complexity to the language"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “To highlight the absurdity or irony of a situation”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 167,
+      "subject": "English",
+      "chapter": "Vocab",
+      "topic": null,
+      "question": "People approach the situation differently depending on who they are. The word 'approach' in this sentence means ____.",
+      "options": [
+        "relate",
+        "coordinate",
+        "comprehend",
+        "verify"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “relate”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 168,
+      "subject": "English",
+      "chapter": "Conjunction",
+      "topic": null,
+      "question": "The team won the match. ____, they broke the school record.",
+      "options": [
+        "Similarly",
+        "Nevertheless",
+        "Furthermore",
+        "Instead"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Nevertheless”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 169,
+      "subject": "English",
+      "chapter": "Spellings",
+      "topic": null,
+      "question": "Identify the sentence with no spelling error:",
+      "options": [
+        "Rabia completes homework assignments well in time.",
+        "Rabia complete homwork assignments well in time.",
+        "Rabia completes homework asignments well in time.",
+        "Rabia completes homework assigments well in time."
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Rabia completes homework assignments well in time”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 170,
+      "subject": "English",
+      "chapter": "Phrase, Clause, Sentence, and Conditional Sentences",
+      "topic": null,
+      "question": "Travelling in a hot dusty train gives me no pleasure. The underlined part of the sentence is:",
+      "options": [
+        "Adverb phrase",
+        "Adjective phrase",
+        "Noun phrase",
+        "Infinitive phrase"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Adjective phrase”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 171,
+      "subject": "English",
+      "chapter": "Reading & Thinking Skills",
+      "topic": null,
+      "question": "What does \"I've told you a million times\" means?",
+      "options": [
+        "To provide an exact count",
+        "To emphasize frustration or impatience",
+        "To confuse the listener",
+        "To make the character sound foolish"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “To emphasize frustration or impatience”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 172,
+      "subject": "Logical Reasoning",
+      "chapter": "Course of Action",
+      "topic": null,
+      "question": "An outbreak of a corona disease is reported in the city. What should be the first course of action?",
+      "options": [
+        "Develop a vaccination plan.",
+        "Conduct research on the disease.",
+        "Implement quarantine measures.",
+        "Inform the public by using all means."
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Inform the public by using all means”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 173,
+      "subject": "Logical Reasoning",
+      "chapter": "Number, Alphabet & Symbol Series",
+      "topic": null,
+      "question": "Find the next number: 5,11,23,47,95,____?",
+      "options": [
+        "190",
+        "191",
+        "192",
+        "193"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “192”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 174,
+      "subject": "Logical Reasoning",
+      "chapter": "Number, Alphabet & Symbol Series",
+      "topic": null,
+      "question": "Which number comes in the missing place? 1, 3, 7, 15, 31, ____",
+      "options": [
+        "61",
+        "63",
+        "65",
+        "67"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “63”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 175,
+      "subject": "Logical Reasoning",
+      "chapter": "Number, Alphabet & Symbol Series",
+      "topic": null,
+      "question": "Every alphabet in the word \"SURGEON\" represent a fixed numerical value and the numbers when added, sum up to 99. Based on this, what will be the sum of the word \"EORGNSU\".",
+      "options": [
+        "102",
+        "78",
+        "99",
+        "56"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “78”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 176,
+      "subject": "Logical Reasoning",
+      "chapter": "Critical Thinking",
+      "topic": null,
+      "question": "What is the primary difference between hypothesis and a theory?",
+      "options": [
+        "A hypothesis is a proven fact, while a theory is an unproven data",
+        "A hypothesis is a specific prediction, while a theory is a broad explaination",
+        "A hypothesis is a qualitative statement, while a theory is quantitative statement",
+        "A hypothesis is a tentative explanation, while a theory is a well-substantiated explanation"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “A hypothesis is a tentative explanation, while a theory is a well-substantiated explanation”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 177,
+      "subject": "Logical Reasoning",
+      "chapter": "Number, Alphabet & Symbol Series",
+      "topic": null,
+      "question": "What comes next? ZX, WU, TR, QO, ____",
+      "options": [
+        "NL",
+        "LN",
+        "NM",
+        "KH"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “NL”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 178,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": null,
+      "question": "In a row of students, a student is at 13th position from the left end and at 20th position from the right end. How many students are there in the row?",
+      "options": [
+        "30",
+        "31",
+        "32",
+        "33"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “32”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 179,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Deductions",
+      "topic": null,
+      "question": "A is older than B but younger than F. C is younger than B but older than D. Who is the youngest of them?",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “D”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 180,
+      "subject": "Logical Reasoning",
+      "chapter": "Cause & Effect",
+      "topic": null,
+      "question": "A hiker climbed to a higher altitude, where he felt the air pressure was lower as compared to the lower altitude. What is the likely effect?",
+      "options": [
+        "The hiker felt more energetic.",
+        "The hiker felt no difficulty in breathing.",
+        "The hiker might experience altitude sickness.",
+        "The hiker felt healthier and fresh."
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “The hiker might experience altitude sickness”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "SZABMU MDCAT 2025 — Code 2",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    }
+  ]
+}

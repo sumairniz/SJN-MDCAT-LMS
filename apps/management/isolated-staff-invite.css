@@ -1,0 +1,14 @@
+.invite-page{min-height:100dvh;display:grid;place-items:center;padding:26px;background:radial-gradient(ellipse at 50% 0%,rgba(200,63,80,.12),transparent 60%),var(--bg)}
+.invite-card{width:min(100%,660px);border:1px solid var(--line);border-radius:21px;background:var(--panel);padding:clamp(24px,5vw,48px)}
+.invite-card h1{font-size:clamp(28px,5vw,39px);line-height:1.2;margin:22px 0 12px;letter-spacing:-1px}
+.invite-card h2{font-size:19px;margin:25px 0 10px}
+.invite-explainer,.invite-card p{line-height:1.75;color:var(--muted)}
+.invite-alert{padding:14px 16px;border:1px solid #4e4050;background:rgba(212,66,81,.08);border-radius:9px;font-size:13px}
+.invite-alert[data-error="true"]{border-color:#cc5a65;color:#ed9ba3}
+.invite-alert[data-success="true"]{border-color:#498e76;color:#90d4b5}
+.invite-register{margin:24px 0;border-top:1px solid var(--line);padding-top:16px}
+.invite-register summary{cursor:pointer;color:var(--text);font-weight:700}
+.invite-details div{display:grid;grid-template-columns:140px minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.invite-details dt{color:var(--muted);font-size:12px}.invite-details dd{margin:0;overflow-wrap:anywhere}
+.invite-note{font-size:13px}.invite-footer{margin-top:32px;padding-top:20px;border-top:1px solid var(--line);font-size:11px}
+@media(max-width:500px){.invite-details div{grid-template-columns:1fr;gap:4px}}
