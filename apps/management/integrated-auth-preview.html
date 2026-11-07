@@ -173,6 +173,19 @@
       </div>
     </section>
   </div>
+  <section class="studio-panel" aria-label="Taxonomy correction review">
+    <h2>Bulk Topic Spelling Corrections — Review Only</h2>
+    <p>For existing LMS topics with incorrect spelling, prepare a correction proposal without changing student records. Up to 1,000 proposed topic renames per CSV, with exact Subject/Chapter scope and duplicate/collision checks. This is a separate operation from importing new MCQs.</p>
+    <div class="studio-actions"><button id="studio-rename-template" type="button">Download Topic Correction Template</button>
+      <button id="studio-rename-export" type="button" disabled>Export Reviewed Correction Plan</button></div>
+    <label for="studio-rename-file">Choose topic corrections CSV</label>
+    <input type="file" id="studio-rename-file" class="studio-file" accept=".csv,text/csv">
+    <p id="studio-rename-status" class="studio-feedback" role="status" aria-live="polite">Original LMS topics are not modified. Correction proposals must be reviewed and separately approved before a database rename operation is developed.</p>
+    <div class="studio-table-scroll"><table class="studio-table">
+      <thead><tr><th>Status</th><th>Subject / Chapter</th><th>Existing Topic</th><th>Proposed Topic</th><th>Usage / Review</th></tr></thead>
+      <tbody id="studio-rename-list"><tr><td colspan="5">No correction proposals imported.</td></tr></tbody>
+    </table></div>
+  </section>
   <section class="studio-panel" aria-label="Draft question review table">
     <h2>Import Review Queue</h2>
     <p id="studio-taxonomy-source" class="tiny-text">Loading the existing LMS taxonomy reference…</p>
