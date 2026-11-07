@@ -3,3 +3,10 @@
 .stepup-preview h2{font-size:20px;letter-spacing:-.3px;margin:0}
 #stepup-status{color:#b5c8d6;background:#1c2935;border:1px solid #334454;padding:13px;border-radius:9px;line-height:1.6;font-size:13px}
 #stepup-form button{margin-top:12px}
+
+.team-preview{border-top:1px solid #333b4b;margin-top:28px;padding-top:24px}
+.team-preview h2{font-size:20px;margin:0 0 12px}
+.team-preview button{margin:8px 0 10px}
+#team-status{font-size:13px;color:#b7ccda;line-height:1.6}
+.staff-preview-member{padding:12px;border:1px solid #354054;border-radius:9px;margin:8px 0}
+.staff-preview-member .hint{margin:5px 0 0}
