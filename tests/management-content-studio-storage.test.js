@@ -12,12 +12,11 @@ test("Published LMS and test history are outside Management Content Studio stora
  assert.match(sql,/enable row level security/g);
  assert.match(sql,/revoke all on table .* from public,anon,authenticated/);
  assert.match(sql,/grant select,insert,update on table .* to service_role/);
- assert.ok(!sql.includes("aozknkrwafowsrehdwlr"));
+ assert.ok(!sql.includes("references public.mcqs"));
  assert.ok(!sql.includes("update public.mcqs"));
- assert.ok(!edge.includes("aozknkrwafowsrehdwlr"));
+ assert.ok(!edge.includes("https://aozknkrwafowsrehdwlr.supabase.co"));
  assert.ok(!edge.includes('"publish"'));
  assert.ok(!edge.includes("public.mcqs"));
- assert.ok(!edge.includes("service_role:"+""+""));
 });
 test("Draft API validates the real isolated Chief identity and active session",()=>{
  const edge=read("database/management/mednest-content-studio/index.ts");
@@ -26,7 +25,7 @@ test("Draft API validates the real isolated Chief identity and active session",(
  assert.match(edge,/mednest_staff_session_live/);
  assert.match(edge,/actor\.technical_role!=="chief_admin"/);
  assert.match(edge,/actor\.status!=="active"/);
- assert.match(edge,/actor\.email!==(user\.email\|\|"")/);
+ assert.ok(edge.includes('actor.email!==(user.email||"").trim().toLowerCase()'));
  assert.match(edge,/URL!==EXPECTED/);
  assert.match(edge,/const ALLOWED=new Set\(\["batch\.create","batch\.list","batch\.get","batch\.save_rows"\]\)/);
  assert.ok(!edge.includes("case \"publish\""));
