@@ -45,6 +45,6 @@ test("New invitation page is invitation-scoped and does not create accounts or c
  assert.match(s,/call\("invite\.preview"/);
  assert.match(s,/call\("invite\.accept"/);
  assert.doesNotMatch(s,/client\.auth\.signUp\(/);
- assert.doesNotMatch(s,/window\\.localStorage\\.|localStorage\\.setItem\\(/);
+ assert.ok(!s.includes("window.localStorage.")&&!s.includes("localStorage.setItem("));
  assert.doesNotMatch(s,/aozknkrwafowsrehdwlr/);
 });
