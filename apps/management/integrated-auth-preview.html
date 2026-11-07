@@ -74,7 +74,7 @@
         </section>
         <p id="auth-feedback" class="auth-feedback" role="status" aria-live="polite"></p>
         <div class="notice"><span class="notice-icon" aria-hidden="true">i</span><span><strong>Authorized management staff only.</strong> This protected preview uses the independent Management Auth project. It does not access Student LMS authentication. Staff invitations and sensitive changes are not yet enabled.</span></div>
-        <p class="secondary-note">Read-only Chief Administrator integration preview. The existing Management Panel login is preserved separately as a rollback.</p>
+        <p class="secondary-note">Protected Chief Administrator development preview. Authorized changes save only to the independent Management Auth database; student publishing is disabled. The earlier Management Panel login remains available as rollback.</p>
       </div>
       <footer class="auth-bottom"><span>SECURE WORKSPACE FOUNDATION</span><span>© SJN MedNest</span></footer>
     </main>
@@ -140,7 +140,7 @@
             <section class="panel-card panel-card--quiet"><div class="panel-title"><span>Security First</span><span class="security-badge">PLANNED</span></div>
               <div class="shield-art" aria-hidden="true">◇</div>
               <h3>Protected by design</h3><p>The Management Panel will use its own staff authentication, Chief Admin-controlled permissions and audit records.</p>
-              <div class="divider-soft"></div><p class="tiny-text">This preview does not read, write or display any student or academy records.</p>
+              <div class="divider-soft"></div><p class="tiny-text">The Question Content Studio can read existing ordinary student MCQ content through its protected backend. Management draft and syllabus changes remain isolated; publication to student MCQs is disabled.</p>
             </section>
           </div>
         </section>
@@ -282,7 +282,7 @@
     </section>
   </section>
 
-  <div class="studio-banner"><strong>Safe draft workspace</strong> — Create and validate MCQs without modifying the student Question Bank. Original past-paper text and source keys remain unchanged. Drafts remain in this browser session until exported. Live publishing and XLSX import require the separately authorized content service.</div>
+  <div class="studio-banner"><strong>Safe draft workspace</strong> — Create and validate MCQs without modifying the student Question Bank. Original past-paper text and source keys remain unchanged. Drafts remain in this browser session until exported. Live publishing is disabled pending the separate authorized student-content service.</div>
   <div class="studio-summary" aria-label="Draft import quality">
     <article><span>Draft questions</span><strong id="studio-total">0</strong></article>
     <article><span>Ready</span><strong id="studio-ready">0</strong></article>
@@ -296,7 +296,7 @@
       <div class="studio-actions"><button type="button" id="studio-template">Download CSV Template</button><button type="button" id="studio-new">Create Single MCQ</button></div>
       <label for="studio-file">Choose a CSV or XLSX file (maximum 10,000 review rows)</label>
       <input class="studio-file" id="studio-file" type="file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-      <p>CSV and Excel (.xlsx) first-worksheet imports are supported in this development version. Existing LMS chapter/topic labels are matched by subject and spelling; uncertain matches require manual review. Direct student publishing remains disabled.</p>
+      <p>CSV and Excel (.xlsx) first-worksheet imports are supported in this development version. Academy-approved master syllabus labels are matched by subject/chapter/topic; temporary legacy MCQ labels are not treated as approved syllabus. Direct student publishing remains disabled.</p>
     </section>
     <section class="studio-panel">
       <h2>Quality &amp; Source Protection</h2>
