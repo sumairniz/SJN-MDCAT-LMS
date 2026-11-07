@@ -36,13 +36,13 @@
    const inspected=core.inspectDrafts(drafts).map(item=>{
      if(item.errors.length)return item;
      if(!catalog){
-       item.warnings.push("Existing LMS taxonomy is not loaded; chapter/topic need confirmation.");
+       item.warnings.push("Approved Academy syllabus is not ready; chapter/topic need confirmation.");
        item.status="review";return item;
      }
      const match=taxonomy.resolve(item.entry,catalog);
      item.taxonomy=match;
      if(match.status!=="matched"){
-       item.warnings.push("Chapter/topic requires matching against existing LMS.");
+       item.warnings.push("Chapter/topic requires matching against your approved Academy syllabus.");
        item.status="review";
      }
      return item;
@@ -80,7 +80,7 @@
      button.addEventListener("click",()=>openEditor(item.line));
      td5.append(button);
      if(item.taxonomy?.status==="blocked"){
-       const choose=cell("button","Match Existing Topic","studio-edit");choose.type="button";
+       const choose=cell("button","Match Syllabus Topic","studio-edit");choose.type="button";
        choose.addEventListener("click",()=>openTaxonomy(item.line));
        td5.append(choose);
      }
@@ -147,7 +147,7 @@
    if(matched)$("studio-taxonomy-topic").value=matched.label;
  }
  function openTaxonomy(line){
-   if(!catalog){feedback("LMS taxonomy snapshot unavailable. Try again later.",true);return}
+   if(!catalog){feedback("Master syllabus unavailable. Add or approve syllabus entries in Syllabus & Taxonomy.",true);return}
    const item=drafts.find(x=>x.line===line);if(!item)return;
    const subject=catalog.subjects().find(x=>canon(x)===canon(item.entry.subject));
    if(!subject){feedback("Edit this draft and select an approved subject first.",true);return}
@@ -180,7 +180,7 @@
    }
    drafts[index].entry={...entry,chapter,topic};
    taxonomyReviewLine=null;show("studio-taxonomy-editor",false);render();
-   feedback("Existing LMS taxonomy label selected for unpublished draft; published MCQs unchanged.");
+   feedback("Approved Academy syllabus label applied to unpublished draft; student MCQs unchanged.");
  });
  $("studio-taxonomy-cancel").addEventListener("click",()=>{
    taxonomyReviewLine=null;show("studio-taxonomy-editor",false);
@@ -211,7 +211,7 @@
  $("studio-rename-file").addEventListener("change",async event=>{
    const file=event.target.files?.[0];if(!file)return;
    try{
-     if(!catalog)throw Error("LMS taxonomy reference must load before reviewing corrections.");
+     if(!catalog)throw Error("Approved Academy syllabus must load before reviewing corrections.");
      if(!/\.csv$/i.test(file.name)||file.size>400_000)
        throw Error("Choose a corrections CSV under 400 KB.");
      const plan=taxonomy.reviewRenamePlan(await file.text(),catalog,core.parseCSV);
@@ -228,24 +228,22 @@
      JSON.stringify(out,null,2),"application/json");
    renameStatus("Correction proposal exported for independent approval. No database changes.");
  });
- async function loadTaxonomy(){
-   try{
-     if(!taxonomy)throw Error("Taxonomy matcher missing");
-     const r=await fetch("/content-studio-taxonomy-snapshot.json",{cache:"no-store"});
-     if(!r.ok)throw Error("Reference unavailable");
-     const data=await r.json();
-     if(data.format!=="SJN-MEDNEST-TAXONOMY-SNAPSHOT-v1"||!Array.isArray(data.entries)||data.entries.length<100)
-       throw Error("Taxonomy metadata invalid");
-     catalog=taxonomy.catalogue(data.entries);
-     drafts=drafts.map(row=>({...row,entry:canonicalizeExact(row.entry)}));
-     $("studio-taxonomy-source").textContent="Existing LMS taxonomy reference: "+data.entries.length+
-       " classified labels (snapshot "+data.as_of+"). Spelling suggestions need manual approval.";
-   }catch{
+ function loadTaxonomy(){
+   const entries=window.MedNestSyllabus?.getActiveEntries?.()||[];
+   if(!entries.length){
      catalog=null;
-     $("studio-taxonomy-source").textContent="LMS taxonomy unavailable. Drafts remain review-only.";
+     $("studio-taxonomy-source").textContent=
+       "No approved Academy syllabus topics yet. Open Syllabus & Taxonomy to upload and approve the master syllabus. Existing MCQ labels are provisional and will NOT be used as the reference.";
+     render();return;
    }
+   catalog=taxonomy.catalogue(entries);
+   drafts=drafts.map(row=>({...row,entry:canonicalizeExact(row.entry)}));
+   $("studio-taxonomy-source").textContent=
+     "Academy-approved master syllabus: "+entries.length+
+     " active subject/chapter/topic paths. Case and spacing differences match automatically. Unapproved names require review.";
    render();
  }
+ window.addEventListener("mednest:syllabus-updated",loadTaxonomy);
  loadTaxonomy();
  $("studio-new").addEventListener("click",()=>{
    selected=-1;writeEditor({bank:"SJN Question Bank",subject:"Biology"});
