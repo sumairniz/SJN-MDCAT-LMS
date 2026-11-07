@@ -254,6 +254,13 @@ $("syllabus-preview").addEventListener("click",async()=>{
   preview=inspect(rows);renderPreview();
  }catch(e){preview=[];$("syllabus-import").disabled=true;importStatus(e.message,true)}
 });
+// Any change to the source invalidates a previously validated preview.
+for(const id of ["syllabus-file","syllabus-paste"]){
+ $(id).addEventListener(id==="syllabus-file"?"change":"input",()=>{
+  preview=[];$("syllabus-import").disabled=true;
+  importStatus("Syllabus input changed. Preview the new contents before saving.");
+ });
+}
 $("syllabus-import").addEventListener("click",async()=>{
  if(busy||!preview.length||preview.some(x=>x.errors.length))return;
  if(!window.confirm("Stage "+preview.length+" syllabus paths as DRAFT? Student MCQs will not be altered."))return;
