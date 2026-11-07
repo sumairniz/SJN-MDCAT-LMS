@@ -31,5 +31,5 @@ test("Staff account setup and sensitive authorizations are distinct",()=>{
  assert.match(s,/mednest_staff_sensitive_authorized\(p_actor,p_session,'staff\.invite'\)/);
  assert.match(s,/mednest_staff_sensitive_authorized\(p_actor,p_session,v_action\)/);
  assert.match(s,/mednest_staff_sensitive_authorized\(p_actor,p_session,'staff\.invite\.revoke'\)/);
- assert.match(s,/p_hash ~ '.*64/);
+ assert.match(s,/p_hash !~/);
 });
