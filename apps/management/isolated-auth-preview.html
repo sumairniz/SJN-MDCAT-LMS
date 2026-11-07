@@ -24,6 +24,14 @@
 <form id="profile-form"><label for="display-name">Display name (optional)</label><input id="display-name" maxlength="100">
 <label for="organization-title">Organizational title (optional)</label><input id="organization-title" maxlength="100">
 <div class="actions"><button type="submit">Save My Profile</button><button type="button" id="signout-btn" class="secondary">Sign Out</button></div></form>
+<section class="team-preview" aria-label="Isolated team directory">
+  <h2>Team &amp; Permissions</h2>
+  <p class="hint">Chief Administrator-only directory. Staff invitations and access changes remain disabled until the email-security and migration release gates are verified.</p>
+  <button id="team-reload" type="button" class="secondary">Refresh team directory</button>
+  <p id="team-status" role="status" aria-live="polite"></p>
+  <div id="team-summary"></div>
+  <div id="team-members"></div>
+</section>
 <section class="stepup-preview" aria-label="Sensitive action email approval test">
   <h2>Sensitive-action email security</h2>
   <p class="hint">Normal account and profile work never requires a security code. This optional test verifies sensitive-action authorization only; it does not execute staff changes or modify student data.</p>
