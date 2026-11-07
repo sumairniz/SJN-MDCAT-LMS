@@ -108,5 +108,54 @@
      requires_review:matched.status!=="matched"};
    });
  }
- return Object.freeze({normalize,fold,distance,catalogue,choose,resolve,applySelection,auditEntries});
+ const RENAME_HEADERS=["subject","chapter","existing_topic","proposed_topic","reason"];
+ function renameCSVTemplate(){
+   const quote=x=>'"'+String(x||"").replace(/"/g,'""')+'"';
+   return RENAME_HEADERS.map(quote).join(",")+"\r\n"+
+    ["Biology","Biological Molecules","Carbohydratess","Carbohydrates","Correct spelling only"].map(quote).join(",")+"\r\n";
+ }
+ function reviewRenamePlan(csvText,cat,parseCSV){
+   if(typeof parseCSV!=="function")throw Error("Trusted CSV parser required.");
+   const all=parseCSV(csvText);
+   if(!all.length)throw Error("Correction CSV is empty.");
+   const headers=all[0].map(x=>normalize(x));
+   if(headers.join(",")!==RENAME_HEADERS.join(","))
+     throw Error("Correction columns must be exactly: "+RENAME_HEADERS.join(", "));
+   if(all.length-1>1000)throw Error("Split taxonomy correction plans into 1,000 rows.");
+   const seen=new Set();
+   return all.slice(1).map((values,i)=>{
+     const [subject,chapter,oldTopic,newTopic,reason]=values;
+     const problems=[],warnings=[];
+     if(values.length!==RENAME_HEADERS.length)problems.push("Column count mismatch.");
+     const matchedSubject=cat.subjects().find(x=>normalize(x)===normalize(subject));
+     if(!matchedSubject)problems.push("Unknown subject.");
+     const matchedChapter=matchedSubject?
+       cat.chapters(matchedSubject).find(x=>normalize(x.label)===normalize(chapter)):null;
+     if(!matchedChapter)problems.push("Unknown chapter in this subject.");
+     const scoped=matchedChapter?cat.topics(matchedSubject,matchedChapter.label):[];
+     const original=scoped.find(x=>normalize(x.label)===normalize(oldTopic));
+     if(!original)problems.push("Existing topic not found in the selected chapter.");
+     if(!String(newTopic||"").trim()||String(newTopic||"").length>160)
+       problems.push("Proposed topic must be 1–160 characters.");
+     if(normalize(oldTopic)===normalize(newTopic))
+       problems.push("No rename required: capitalization and spaces already match.");
+     if(scoped.some(x=>normalize(x.label)===normalize(newTopic)))
+       problems.push("Target already exists in the same chapter; merging requires a separate reviewed operation.");
+     if(!String(reason||"").trim())warnings.push("Provide an academic reason for the correction.");
+     const key=[matchedSubject||subject,matchedChapter?.label||chapter,oldTopic].map(normalize).join("\u001f");
+     if(seen.has(key))problems.push("Repeated proposal for the same existing topic.");
+     seen.add(key);
+     return {line:i+2,subject:matchedSubject||subject,chapter:matchedChapter?.label||chapter,
+       original:original?.label||oldTopic,proposed:String(newTopic||"").trim(),
+       usage_count:original?.count||0,reason:String(reason||"").trim(),problems,warnings,
+       status:problems.length?"invalid":"proposed"};
+   });
+ }
+ function exportRenamePlan(rows){
+   return {format:"SJN-MEDNEST-TAXONOMY-CORRECTIONS-PROPOSAL-v1",
+    purpose:"review_only_no_database_changes",created_at:new Date().toISOString(),
+    rows:rows.map(x=>({...x}))};
+ }
+ return Object.freeze({normalize,fold,distance,catalogue,choose,resolve,applySelection,auditEntries,
+   RENAME_HEADERS,renameCSVTemplate,reviewRenamePlan,exportRenamePlan});
 });
