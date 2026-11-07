@@ -6,6 +6,9 @@
  if(!core||!$("content-studio-preview"))return;
  let drafts=[],selected=-1,filter="all",page=0;
  let savedBatchId=null,clientBatchKey=null;
+ const taxonomy=window.MedNestTaxonomy;
+ let catalog=null,taxonomyReviewLine=null;
+ const canon=s=>String(s||"").trim().replace(/\s+/g," ").toLocaleLowerCase("en");
  const PAGE_SIZE=40;
  const feedback=(message,error=false)=>{const el=$("studio-feedback");el.textContent=message;el.dataset.error=String(error)};
  const show=(id,on)=>$(id).classList.toggle("is-hidden",!on);
@@ -30,7 +33,20 @@
    URL.revokeObjectURL(url);
  }
  function summary(){
-   const inspected=core.inspectDrafts(drafts);
+   const inspected=core.inspectDrafts(drafts).map(item=>{
+     if(item.errors.length)return item;
+     if(!catalog){
+       item.warnings.push("Existing LMS taxonomy is not loaded; chapter/topic need confirmation.");
+       item.status="review";return item;
+     }
+     const match=taxonomy.resolve(item.entry,catalog);
+     item.taxonomy=match;
+     if(match.status!=="matched"){
+       item.warnings.push("Chapter/topic requires matching against existing LMS.");
+       item.status="review";
+     }
+     return item;
+   });
    $("studio-total").textContent=String(inspected.length);
    $("studio-ready").textContent=String(inspected.filter(x=>x.status==="ready").length);
    $("studio-review").textContent=String(inspected.filter(x=>x.status==="review").length);
@@ -49,7 +65,7 @@
    $("studio-prev").disabled=page===0;$("studio-next").disabled=page>=pages-1;
    const tbody=$("studio-draft-list");tbody.replaceChildren();
    if(!shown.length){
-     const tr=document.createElement("tr"),td=cell("td","No drafts yet. Add a question or import a CSV template.");
+     const tr=document.createElement("tr"),td=cell("td","No drafts yet. Add an MCQ or import a CSV/XLSX file.");
      td.colSpan=5;tr.append(td);tbody.append(tr);return;
    }
    for(const item of shown.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE)){
@@ -62,7 +78,13 @@
      const td5=document.createElement("td");
      const button=cell("button","Review / Edit","studio-edit");button.type="button";
      button.addEventListener("click",()=>openEditor(item.line));
-     td5.append(button);tr.append(td1,td2,td3,td4,td5);
+     td5.append(button);
+     if(item.taxonomy?.status==="blocked"){
+       const choose=cell("button","Match Existing Topic","studio-edit");choose.type="button";
+       choose.addEventListener("click",()=>openTaxonomy(item.line));
+       td5.append(choose);
+     }
+     tr.append(td1,td2,td3,td4,td5);
      tbody.append(tr);
      if(item.errors.length||item.warnings.length){
        const detail=document.createElement("tr"),td=document.createElement("td");
@@ -88,19 +110,86 @@
    const file=event.target.files?.[0];
    if(!file)return;
    try{
-     if(!/\.csv$/i.test(file.name))throw Error("This batch supports CSV files. XLSX import is not enabled yet.");
-     if(file.size>core.MAX_FILE_CHARS*4)throw Error("File is too large for a draft preview.");
-     const text=await file.text();
-     const entries=core.importCSV(text);
+     if(!/\.(csv|xlsx)$/i.test(file.name))throw Error("Choose a CSV or XLSX file.");
+     if(file.size>20_000_000)throw Error("File exceeds the safe 20 MB limit.");
+     let entries;
+     if(/\.xlsx$/i.test(file.name)){
+       if(!window.MedNestXLSX)throw Error("Excel reader is not loaded.");
+       const workbook=await window.MedNestXLSX.readXLSX(await file.arrayBuffer());
+       entries=core.importCSV(window.MedNestXLSX.toCSV(workbook.rows));
+     }else entries=core.importCSV(await file.text());
      if(!entries.length)throw Error("This CSV has no question rows.");
      if(entries.length+drafts.length>core.MAX_ROWS)throw Error("Draft preview can hold up to 10,000 rows.");
      const nextLine=drafts.length?Math.max(...drafts.map(x=>x.line))+1:1;
      drafts.push(...entries.map((x,i)=>({line:nextLine+i,entry:x.entry})));
      page=0;filter="all";$("studio-filter").value="all";render();
-     feedback("Imported "+entries.length+" rows into this browser-only draft. Nothing was published or saved to the LMS.");
+     feedback("Imported "+entries.length+" rows into draft review. Match uncertain topics before publishing. No LMS content changed.");
    }catch(e){feedback(e.message,true)}
    finally{event.target.value=""}
  });
+ function selector(id,options,placeholder){
+   const el=$(id);el.replaceChildren(new Option(placeholder,""));
+   for(const item of options){const label=typeof item==="string"?item:item.label;el.append(new Option(label,label))}
+ }
+ function updateTopics(){
+   if(!catalog)return;
+   const item=drafts.find(x=>x.line===taxonomyReviewLine);if(!item)return;
+   const choices=catalog.topics(item.entry.subject,$("studio-taxonomy-chapter").value);
+   selector("studio-taxonomy-topic",choices,"Choose existing topic");
+   const matched=choices.find(x=>canon(x.label)===canon(item.entry.topic));
+   if(matched)$("studio-taxonomy-topic").value=matched.label;
+ }
+ function openTaxonomy(line){
+   if(!catalog){feedback("LMS taxonomy snapshot unavailable. Try again later.",true);return}
+   const item=drafts.find(x=>x.line===line);if(!item)return;
+   const subject=catalog.subjects().find(x=>canon(x)===canon(item.entry.subject));
+   if(!subject){feedback("Edit this draft and select an approved subject first.",true);return}
+   taxonomyReviewLine=line;
+   $("studio-taxonomy-original").textContent="Imported: "+item.entry.subject+" → "+item.entry.chapter+" → "+item.entry.topic;
+   const chapters=catalog.chapters(subject);
+   selector("studio-taxonomy-chapter",chapters,"Choose existing chapter");
+   const match=chapters.find(x=>canon(x.label)===canon(item.entry.chapter));
+   if(match)$("studio-taxonomy-chapter").value=match.label;
+   updateTopics();
+   show("studio-taxonomy-editor",true);
+   $("studio-taxonomy-editor").scrollIntoView({behavior:"smooth",block:"nearest"});
+ }
+ $("studio-taxonomy-chapter").addEventListener("change",updateTopics);
+ $("studio-taxonomy-apply").addEventListener("click",()=>{
+   const index=drafts.findIndex(x=>x.line===taxonomyReviewLine);
+   if(index<0||!catalog)return;
+   const entry=drafts[index].entry;
+   const chapter=$("studio-taxonomy-chapter").value,topic=$("studio-taxonomy-topic").value;
+   if(!catalog.chapters(entry.subject).some(x=>x.label===chapter)||
+      !catalog.topics(entry.subject,chapter).some(x=>x.label===topic)){
+     feedback("Select an existing chapter and topic. New topic names require separate approval.",true);
+     return;
+   }
+   drafts[index].entry={...entry,chapter,topic};
+   taxonomyReviewLine=null;show("studio-taxonomy-editor",false);render();
+   feedback("Existing LMS taxonomy label selected for unpublished draft; published MCQs unchanged.");
+ });
+ $("studio-taxonomy-cancel").addEventListener("click",()=>{
+   taxonomyReviewLine=null;show("studio-taxonomy-editor",false);
+ });
+ async function loadTaxonomy(){
+   try{
+     if(!taxonomy)throw Error("Taxonomy matcher missing");
+     const r=await fetch("/content-studio-taxonomy-snapshot.json",{cache:"no-store"});
+     if(!r.ok)throw Error("Reference unavailable");
+     const data=await r.json();
+     if(data.format!=="SJN-MEDNEST-TAXONOMY-SNAPSHOT-v1"||!Array.isArray(data.entries)||data.entries.length<100)
+       throw Error("Taxonomy metadata invalid");
+     catalog=taxonomy.catalogue(data.entries);
+     $("studio-taxonomy-source").textContent="Existing LMS taxonomy reference: "+data.entries.length+
+       " classified labels (snapshot "+data.as_of+"). Spelling suggestions need manual approval.";
+   }catch{
+     catalog=null;
+     $("studio-taxonomy-source").textContent="LMS taxonomy unavailable. Drafts remain review-only.";
+   }
+   render();
+ }
+ loadTaxonomy();
  $("studio-new").addEventListener("click",()=>{
    selected=-1;writeEditor({bank:"SJN Question Bank",subject:"Biology"});
    $("studio-editor-heading").textContent="Create a new draft MCQ";
@@ -213,7 +302,7 @@
    savedBatchId=null;clientBatchKey=null;
    $("studio-saved-batches").replaceChildren(new Option("Select a saved draft batch",""));
    writeEditor({});$("studio-batch-name").value="Unpublished MCQ Review Batch";
-   $("studio-file").value="";show("studio-editor",false);render();
+   $("studio-file").value="";show("studio-editor",false);show("studio-taxonomy-editor",false);render();
    storageStatus("Signed out. Browser draft data cleared; saved Management Auth batches remain protected.");
  });
  $("studio-editor").classList.add("is-hidden");
