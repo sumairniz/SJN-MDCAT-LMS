@@ -89,7 +89,7 @@
       errors.push("Original past-paper source is required and must remain traceable.");
     if(["English","Logical Reasoning"].includes(text("subject"))&&
        hasValue(text("chapter"))&&hasValue(text("topic"))&&
-       text("chapter").trim()!==text("topic").trim())
+       text("chapter").trim().toLocaleLowerCase("en")!==text("topic").trim().toLocaleLowerCase("en"))
       warnings.push("For English/LR, chapter and topic should match the approved taxonomy.");
     const region=text("region").trim().toLowerCase();
     if(region&&!["sindh","punjab","kpk","balochistan","federal","nums"].includes(region))
