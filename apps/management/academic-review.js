@@ -8,15 +8,20 @@ const client=createClient(URL,KEY,{auth:{
 }});
 const ENDPOINT=URL+"/functions/v1/mednest-academic-review";
 const $=id=>document.getElementById(id);
-let policy=null,drafts=[],queue=[],selected=null,loading=false;
+let policy=null,drafts=[],queue=[],selected=null,loading=false,actorId=null;
 function status(message,error=false){
  const el=$("review-status");el.textContent=message;el.dataset.error=String(error);
 }
 function busy(flag){
  loading=flag;
  for(const id of ["review-submit","review-save-policy","review-refresh-queue",
-  "review-refresh-drafts","review-refresh-policy","review-approve","review-request-changes","review-withdraw"])
+  "review-refresh-drafts","review-refresh-policy"])
   $(id).disabled=flag;
+ const pending=selected?.state==="pending";
+ const own=!!selected&&!!actorId&&selected.author_user_id===actorId;
+ $("review-approve").disabled=flag||!pending||own;
+ $("review-request-changes").disabled=flag||!pending||own;
+ $("review-withdraw").disabled=flag||!pending||!own;
 }
 async function request(action,data={}){
  const {data:{session},error}=await client.auth.getSession();
@@ -99,21 +104,11 @@ async function openDetail(id){
   }
   $("review-detail-pane").classList.remove("is-hidden");
   $("review-detail-pane").scrollIntoView({behavior:"smooth",block:"nearest"});
-  const pending=selected.state==="pending";
-  const own=selected.author_user_id===(await client.auth.getUser()).data.user?.id;
+  const identity=await client.auth.getUser();
+  actorId=identity.data.user?.id||null;
   status("Submission loaded. Self-approval is blocked; source MCQs are unchanged.");
  }catch(e){selected=null;status(e.message,true)}
- finally{
-  busy(false);
-  // busy(false) must not unintentionally re-enable actions prohibited by role or state.
-  if(selected){
-   const own=selected.author_user_id===(await client.auth.getUser()).data.user?.id;
-   const pending=selected.state==="pending";
-   $("review-approve").disabled=!pending||own;
-   $("review-request-changes").disabled=!pending||own;
-   $("review-withdraw").disabled=!pending||!own;
-  }
- }
+ finally{busy(false)}
 }
 async function run(fn){
  if(loading)return;
@@ -182,12 +177,14 @@ window.addEventListener("mednest:module",event=>{
  });
 });
 window.addEventListener("mednest:signed-out",()=>{
- policy=null;drafts=[];queue=[];selected=null;
+ policy=null;drafts=[];queue=[];selected=null;actorId=null;
  $("review-draft-picker").replaceChildren(new Option("Select a saved unpublished correction draft",""));
  $("review-queue-list").replaceChildren();
  $("review-detail-fields").replaceChildren();
  $("review-detail-pane").classList.add("is-hidden");
  for(const key of ["draft","pending","approved"])$("review-"+key+"-count").textContent="0";
  $("review-reason").value="";
+ busy(false);
  status("Signed out. Academic review details cleared from this browser.");
 });
+busy(false);
