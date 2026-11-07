@@ -13,6 +13,8 @@
   <script src="/app.js" defer></script>
   <script type="module" src="/auth-client-isolated.js"></script>
   <script defer src="/content-studio-core.js"></script>
+  <script defer src="/content-studio-taxonomy.js"></script>
+  <script defer src="/content-studio-xlsx.js"></script>
   <script defer src="/content-studio.js"></script>
   <script type="module" src="/content-studio-storage.js"></script>
 </head>
@@ -150,9 +152,9 @@
       <h2>Import &amp; Validate MCQs</h2>
       <p>Upload a UTF-8 CSV with one question per row. Include each row's Question Bank, Subject, Chapter, Topic, source and all four options. Mixed subjects/chapters are supported. Questions are checked for missing fields, invalid answers and duplicate rows before review.</p>
       <div class="studio-actions"><button type="button" id="studio-template">Download CSV Template</button><button type="button" id="studio-new">Create Single MCQ</button></div>
-      <label for="studio-file">Choose a CSV batch (maximum 10,000 draft questions)</label>
-      <input class="studio-file" id="studio-file" type="file" accept=".csv,text/csv">
-      <p>CSV is available. Excel (.xlsx) import and publication remain disabled. Save batches explicitly to protected Management Auth draft storage; unsaved browser drafts disappear after reload.</p>
+      <label for="studio-file">Choose a CSV or XLSX file (maximum 10,000 review rows)</label>
+      <input class="studio-file" id="studio-file" type="file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+      <p>CSV and Excel (.xlsx) first-worksheet imports are supported in this development version. Existing LMS chapter/topic labels are matched by subject and spelling; uncertain matches require manual review. Direct student publishing remains disabled.</p>
     </section>
     <section class="studio-panel">
       <h2>Quality &amp; Source Protection</h2>
@@ -173,6 +175,7 @@
   </div>
   <section class="studio-panel" aria-label="Draft question review table">
     <h2>Import Review Queue</h2>
+    <p id="studio-taxonomy-source" class="tiny-text">Loading the existing LMS taxonomy reference…</p>
     <div class="studio-toolbar">
       <label for="studio-filter">Filter by validation</label>
       <select id="studio-filter"><option value="all">All drafts</option><option value="ready">Ready</option><option value="review">Needs review</option><option value="invalid">Invalid</option></select>
@@ -186,6 +189,17 @@
       <div class="studio-toolbar"><button id="studio-prev" type="button">Previous</button><button id="studio-next" type="button">Next</button></div>
     </div>
     <p id="studio-feedback" class="studio-feedback" role="status" aria-live="polite"></p>
+  </section>
+  <section id="studio-taxonomy-editor" class="studio-panel is-hidden" aria-label="Review taxonomy matches">
+    <h2>Match Existing LMS Chapter and Topic</h2>
+    <p id="studio-taxonomy-original"></p>
+    <p>Choose labels from the actual student LMS catalogue. This only changes your unpublished draft classification, not previously uploaded LMS questions. If the correct label is missing, it must be separately approved as a new taxonomy entry.</p>
+    <div class="studio-editor-grid">
+      <div class="studio-field"><label for="studio-taxonomy-chapter">Existing chapter</label><select id="studio-taxonomy-chapter"></select></div>
+      <div class="studio-field"><label for="studio-taxonomy-topic">Existing topic in selected chapter</label><select id="studio-taxonomy-topic"></select></div>
+    </div>
+    <div class="studio-editor-actions"><button id="studio-taxonomy-apply" type="button" class="primary-btn">Apply Existing Topic Match</button>
+      <button id="studio-taxonomy-cancel" type="button" class="secondary-btn">Cancel</button></div>
   </section>
   <section class="studio-panel is-hidden" id="studio-editor" aria-label="Question draft editor">
     <h2 id="studio-editor-heading">Create a new MCQ draft</h2>
