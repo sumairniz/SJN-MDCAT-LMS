@@ -121,12 +121,19 @@
      if(!entries.length)throw Error("This CSV has no question rows.");
      if(entries.length+drafts.length>core.MAX_ROWS)throw Error("Draft preview can hold up to 10,000 rows.");
      const nextLine=drafts.length?Math.max(...drafts.map(x=>x.line))+1:1;
-     drafts.push(...entries.map((x,i)=>({line:nextLine+i,entry:x.entry})));
+     drafts.push(...entries.map((x,i)=>({line:nextLine+i,entry:canonicalizeExact(x.entry)})));
      page=0;filter="all";$("studio-filter").value="all";render();
      feedback("Imported "+entries.length+" rows into draft review. Match uncertain topics before publishing. No LMS content changed.");
    }catch(e){feedback(e.message,true)}
    finally{event.target.value=""}
  });
+ function canonicalizeExact(entry){
+   if(!catalog)return entry;
+   const result=taxonomy.resolve(entry,catalog);
+   if(result.status!=="matched")return entry;
+   return {...entry,subject:result.subject.canonical,
+     chapter:result.chapter.canonical,topic:result.topic.canonical};
+ }
  function selector(id,options,placeholder){
    const el=$(id);el.replaceChildren(new Option(placeholder,""));
    for(const item of options){const label=typeof item==="string"?item:item.label;el.append(new Option(label,label))}
@@ -145,7 +152,13 @@
    const subject=catalog.subjects().find(x=>canon(x)===canon(item.entry.subject));
    if(!subject){feedback("Edit this draft and select an approved subject first.",true);return}
    taxonomyReviewLine=line;
-   $("studio-taxonomy-original").textContent="Imported: "+item.entry.subject+" → "+item.entry.chapter+" → "+item.entry.topic;
+   const review=taxonomy.resolve(item.entry,catalog);
+   const hints=[
+     ...(review.chapter?.candidates||[]).slice(0,3).map(x=>"Chapter suggestion: "+x.label),
+     ...(review.topic?.candidates||[]).slice(0,3).map(x=>"Topic suggestion: "+x.label)
+   ];
+   $("studio-taxonomy-original").textContent="Imported: "+item.entry.subject+" → "+
+     item.entry.chapter+" → "+item.entry.topic+(hints.length?" | "+hints.join("; "):"");
    const chapters=catalog.chapters(subject);
    selector("studio-taxonomy-chapter",chapters,"Choose existing chapter");
    const match=chapters.find(x=>canon(x.label)===canon(item.entry.chapter));
@@ -181,6 +194,7 @@
      if(data.format!=="SJN-MEDNEST-TAXONOMY-SNAPSHOT-v1"||!Array.isArray(data.entries)||data.entries.length<100)
        throw Error("Taxonomy metadata invalid");
      catalog=taxonomy.catalogue(data.entries);
+     drafts=drafts.map(row=>({...row,entry:canonicalizeExact(row.entry)}));
      $("studio-taxonomy-source").textContent="Existing LMS taxonomy reference: "+data.entries.length+
        " classified labels (snapshot "+data.as_of+"). Spelling suggestions need manual approval.";
    }catch{
@@ -200,7 +214,7 @@
  $("studio-cancel").addEventListener("click",()=>{selected=-1;show("studio-editor",false)});
  $("studio-editor-form").addEventListener("submit",event=>{
    event.preventDefault();
-   const entry=readEditor(),result=core.validate(entry);
+   const entry=canonicalizeExact(readEditor()),result=core.validate(entry);
    if(result.errors.length){
      feedback("Draft validation: "+result.errors.join(" "),true);
      return;
@@ -287,7 +301,7 @@
      const result=await storage().load(id);
      if(!result.batch?.id||result.batch.id!==id)throw Error("Saved batch could not be verified.");
      // Apply only after every page has loaded successfully.
-     drafts=result.rows;
+     drafts=result.rows.map(row=>({...row,entry:canonicalizeExact(row.entry)}));
      selected=-1;page=0;filter="all";$("studio-filter").value="all";
      savedBatchId=id;clientBatchKey=result.batch.client_key;
      $("studio-batch-name").value=result.batch.title;
