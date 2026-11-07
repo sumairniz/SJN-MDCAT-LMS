@@ -112,6 +112,15 @@ function extractActiveEntries(){
 }
 window.MedNestSyllabus=Object.freeze({
  getActiveEntries:()=>extractActiveEntries(),
+ getActiveTopics:()=>{
+  const active=new Map(nodes.filter(n=>n.state==="active").map(n=>[n.id,n]));
+  return [...active.values()].filter(n=>n.kind==="topic").flatMap(topic=>{
+   const chapter=active.get(topic.parent_id);
+   const subject=chapter&&active.get(chapter.parent_id);
+   if(!subject||!chapter)return [];
+   return [{id:topic.id,subject:subject.name,chapter:chapter.name,topic:topic.name}];
+  });
+ },
  refresh:()=>loadAll()
 });
 function dispatch(){
