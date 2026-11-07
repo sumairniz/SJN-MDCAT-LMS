@@ -72,7 +72,7 @@ test("XLSX and taxonomy scripts contain no arbitrary remote code or direct DB wr
  assert.ok(html.includes('src="/content-studio-xlsx.js"'));
  assert.ok(html.includes('src="/content-studio-taxonomy.js"'));
  assert.ok(html.includes('id="studio-taxonomy-editor"'));
- assert.ok(ui.includes('Match Existing Topic'));
+ assert.ok(ui.includes('Match Syllabus Topic'));
  assert.ok(ui.includes('canonicalizeExact('));
  assert.ok(ui.includes('loadTaxonomy()'));
 });
