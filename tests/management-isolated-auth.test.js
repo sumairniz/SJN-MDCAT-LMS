@@ -60,10 +60,10 @@ test("Isolated preview route and management origin are protected",()=>{
  assert.match(csp,/https:\/\/tdqbjhrmfluiinntmjfh\.supabase\.co/);
  assert.match(csp,/https:\/\/aozknkrwafowsrehdwlr\.supabase\.co/);
  assert.match(c,/auth\.signInWithPassword/);
- assert.match(c,/auth\.signUp/);
+ assert.doesNotMatch(c,/auth\.signUp/);
  assert.match(c,/auth\.signOut/);
  assert.match(c,/detectSessionInUrl:true/);
- assert.match(c,/emailRedirectTo:EMAIL_CONFIRM_REDIRECT/);
+ assert.doesNotMatch(h,/One-time new-project account setup/);
  assert.ok(c.includes("sjn-mednest-management-git-sjn-phase1a-foundation-sjn1.vercel.app"));
  assert.match(h,/isolated-auth-preview\.js/);
  assert.match(a,/sjn-mednest-management/);
@@ -71,4 +71,32 @@ test("Isolated preview route and management origin are protected",()=>{
  assert.match(a,/git-sjn-phase1a-foundation/);
  assert.doesNotMatch(a,/access-control-allow-origin": "\*"/);
  assert.doesNotMatch(c,/service_role|sb_secret_|innerHTML\s*=/);
+});
+
+test("Isolated sensitive actions require a valid 10-minute code and 30-minute session, not daily sign-in",()=>{
+ const s=read("database/management/isolated-staff-stepup-policy.sql");
+ const e=read("database/management/mednest-isolated-stepup/index.ts");
+ const h=html(),c=client();
+ for(const t of ["mednest_staff_stepup","mednest_staff_stepup_daily_quota"]) {
+  assert.match(s,new RegExp("alter table public\\."+t+" enable row level security"));
+ }
+ assert.match(s,/interval '10 minutes'/);
+ assert.match(s,/interval '30 minutes'/);
+ assert.match(s,/interval '90 seconds'/);
+ assert.match(s,/attempt_count>=5/);
+ assert.match(s,/sent_count between 0 and 5/);
+ assert.match(s,/mednest_staff_session_live/);
+ assert.match(s,/revoke all on function public.mednest_staff_sensitive_authorized/);
+ assert.match(s,/revoke all on public.mednest_staff_stepup, public.mednest_staff_stepup_daily_quota/);
+ assert.match(e,/db\.auth\.getUser\(jwt\)/);
+ assert.match(e,/c\.iss!==URL\+"\/auth\/v1"/);
+ assert.match(e,/HMAC/);
+ assert.match(e,/mednest_staff_stepup_reserve/);
+ assert.match(e,/mednest_staff_stepup_verify/);
+ assert.match(e,/if\(!configured\(\)\)/);
+ assert.doesNotMatch(e,/service_role.*to.*frontend|student_attempt|practice_submissions|students\.records\.delete.*execute/i);
+ assert.match(h,/id="stepup-form"/);
+ assert.match(c,/mednest-isolated-stepup/);
+ assert.match(c,/refreshStepup/);
+ assert.doesNotMatch(h,/id="setup-btn"/);
 });
