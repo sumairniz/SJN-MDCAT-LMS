@@ -231,9 +231,9 @@ function renderPreview(){
 }
 $("syllabus-template").addEventListener("click",()=>{
  const template='"subject","chapter","topic"\r\n"Biology","Biological Molecules","Carbohydrates"\r\n"Biology","Biological Molecules","Proteins"\r\n"Physics","Waves","Sound"\r\n';
- const url=URL.createObjectURL(new Blob([template],{type:"text/csv"}));
+ const url=window.URL.createObjectURL(new Blob([template],{type:"text/csv"}));
  const a=document.createElement("a");a.href=url;a.download="sjn-mednest-master-syllabus-template.csv";
- document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);
+ document.body.append(a);a.click();a.remove();window.URL.revokeObjectURL(url);
 });
 $("syllabus-preview").addEventListener("click",async()=>{
  try{
