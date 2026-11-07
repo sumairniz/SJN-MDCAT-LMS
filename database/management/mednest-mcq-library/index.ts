@@ -103,10 +103,11 @@ Deno.serve(async req=>{
   return reply(origin,403,{error:"Chief Administrator only"});
  if(body.action==="mcqs.list"){
   const page=body.page??0;
-  const bank=body.bank||"";
-  const subject=body.subject||"";
-  const q=String(body.q||"").trim();
-  if(!Number.isInteger(page)||page<0||page>500||
+  const bank=body.bank??"";
+  const subject=body.subject??"";
+  const q=body.q??"";
+  if(typeof bank!=="string"||typeof subject!=="string"||typeof q!=="string"||
+    !Number.isInteger(page)||page<0||page>500||
     (bank&&!ALLOWED.has(bank))||
     subject.length>100||q.length>120)
    return reply(origin,400,{error:"Invalid MCQ search"});
@@ -114,9 +115,10 @@ Deno.serve(async req=>{
    .select("id,bank,subject,chapter,topic,question,source,current_revision_id",{count:"exact"})
    .in("bank",bank?[bank]:BANKS);
   if(subject)query=query.eq("subject",subject);
-  if(q){
-   if(/^\d+$/.test(q))query=query.eq("id",Number(q));
-   else query=query.ilike("question","%"+q.replace(/[%_\\]/g,"\\$&")+"%");
+  if(q.trim()){
+   const search=q.trim();
+   if(/^\d+$/.test(search))query=query.eq("id",Number(search));
+   else query=query.ilike("question","%"+search.replace(/[%_\\]/g,"\\else query=query.ilike("question","%"+q.replace(/[%_\\]/g,"\\$&")+"%");")+"%");
   }
   const {data,count,error}=await query.order("id",{ascending:true})
    .range(page*25,page*25+24);
@@ -158,6 +160,25 @@ Deno.serve(async req=>{
  if(!validateEdited(body.fields,source.bank))
   return reply(origin,400,{error:"Invalid MCQ edit fields"});
  const topic=body.syllabus_topic_id||null;
+ // A selected canonical topic must match its approved live Subject/Chapter names.
+ // No topic selection is allowed for provisional older MCQ labels, which remain review-only.
+ if(topic!==null){
+  const {data:t,error:te}=await staff.from("mednest_syllabus_nodes")
+   .select("id,parent_id,kind,name,state").eq("id",topic).maybeSingle();
+  if(te||!t||t.kind!=="topic"||t.state!=="active")
+   return reply(origin,400,{error:"Select an approved active syllabus topic"});
+  const {data:c,error:ce}=await staff.from("mednest_syllabus_nodes")
+   .select("id,parent_id,kind,name,state").eq("id",t.parent_id).maybeSingle();
+  const {data:sub,error:se}=c
+   ?await staff.from("mednest_syllabus_nodes").select("id,kind,name,state").eq("id",c.parent_id).maybeSingle()
+   :{data:null,error:true};
+  const key=x=>String(x||"").normalize("NFKC").trim().replace(/\s+/g," ").toLowerCase();
+  if(ce||se||!c||!sub||c.kind!=="chapter"||sub.kind!=="subject"||
+   c.state!=="active"||sub.state!=="active"||
+   key(body.fields.subject)!==key(sub.name)||key(body.fields.chapter)!==key(c.name)||
+   key(body.fields.topic)!==key(t.name))
+   return reply(origin,400,{error:"Edited Subject, Chapter and Topic must match the chosen approved syllabus path"});
+ }
  if(topic!==null&&!uuid(topic))
   return reply(origin,400,{error:"Approved syllabus topic ID invalid"});
  const expected=body.expected_version;
