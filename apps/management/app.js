@@ -13,6 +13,7 @@
   const placeholder = document.getElementById("module-placeholder");
   const teamPreview = document.getElementById("team-preview");
   const contentStudioPreview = document.getElementById("content-studio-preview");
+  const syllabusManager = document.getElementById("syllabus-manager");
   const profilePreview = document.getElementById("profile-preview");
   const heading = document.getElementById("module-heading");
   const description = document.getElementById("module-description");
@@ -23,7 +24,8 @@
 
   const modules = Object.freeze({
     overview: ["Academy Overview", "A centralized overview of academy activity, academic content, student engagement, and management operations.", "FOUNDATION PREVIEW"],
-    questions: ["Question Content Studio", "Create and validate academic MCQ drafts, import CSV batches and review taxonomy before publishing.", "DRAFT CONTENT STUDIO"],
+    questions: ["Question Content Studio", "Create and review question drafts against your Academy-approved syllabus, with CSV/Excel imports and direct editing.", "DRAFT CONTENT STUDIO"],
+    syllabus: ["Syllabus & Taxonomy", "Build your Academy master syllabus independently of existing MCQs. Create, rename, move and archive chapters/topics.", "SYLLABUS MANAGER"],
     papers: ["Full-Length Past Papers", "Manage paper years, regions, codes, question sets and source-preserving academic corrections.", "FUTURE CONTENT PHASE"],
     courses: ["Courses & Sessions", "Configure course sessions, tests, schedules and content availability without changing the student exam engine.", "FUTURE COURSE PHASE"],
     resources: ["Academy Resources", "Organize protected folders, PDFs and supporting learning resources with authorized staff workflows.", "FUTURE RESOURCE PHASE"],
@@ -69,9 +71,10 @@
     overviewOnly.classList.toggle("is-hidden", key !== "overview");
     teamPreview.classList.toggle("is-hidden", key !== "team");
     if (contentStudioPreview) contentStudioPreview.classList.toggle("is-hidden", key !== "questions");
+    if (syllabusManager) syllabusManager.classList.toggle("is-hidden", key !== "syllabus");
     profilePreview.classList.toggle("is-hidden", key !== "profile");
     auditPreview.classList.toggle("is-hidden", key !== "reports");
-    placeholder.classList.toggle("is-hidden", key === "overview" || key === "questions" || key === "team" || key === "profile" || key === "reports");
+    placeholder.classList.toggle("is-hidden", key === "overview" || key === "questions" || key === "syllabus" || key === "team" || key === "profile" || key === "reports");
     placeholderTitle.textContent = data[0];
     placeholderCopy.textContent = data[1];
     document.querySelectorAll("[data-module]").forEach(function (button) {
