@@ -10,6 +10,7 @@
   <script src="/theme.js"></script>
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/content-studio.css">
+  <link rel="stylesheet" href="/syllabus-manager.css">
   <script src="/app.js" defer></script>
   <script type="module" src="/auth-client-isolated.js"></script>
   <script defer src="/content-studio-core.js"></script>
@@ -17,6 +18,7 @@
   <script defer src="/content-studio-xlsx.js"></script>
   <script defer src="/content-studio.js"></script>
   <script type="module" src="/content-studio-storage.js"></script>
+  <script type="module" src="/syllabus-manager.js"></script>
 </head>
 <body>
   <div id="signin" class="auth-screen">
@@ -86,6 +88,7 @@
       <nav id="modules" aria-label="Management modules">
         <button class="nav-item active" type="button" data-module="overview"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>Overview</button>
         <button class="nav-item" type="button" data-module="questions"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/><path d="M9 7h7M9 11h7"/></svg></span>Question Content Studio</button>
+        <button class="nav-item" type="button" data-module="syllabus"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5h16M4 12h16M4 19h16M6 3v4M12 10v4M18 17v4"/></svg></span>Syllabus &amp; Taxonomy</button>
         <button class="nav-item" type="button" data-module="papers"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span>Full-Length Past Papers</button>
         <button class="nav-item" type="button" data-module="courses"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></svg></span>Courses &amp; Sessions</button>
         <button class="nav-item" type="button" data-module="resources"><span class="nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10H3V7Z"/><path d="M3 11h18"/></svg></span>Academy Resources</button>
@@ -138,6 +141,48 @@
               <div class="divider-soft"></div><p class="tiny-text">This preview does not read, write or display any student or academy records.</p>
             </section>
           </div>
+        </section>
+        <section id="syllabus-manager" class="is-hidden" aria-label="Syllabus & Taxonomy Manager">
+          <div class="studio-banner"><strong>Your academy syllabus starts independently.</strong> Existing student MCQ chapter/topic labels are provisional and are not imported or approved automatically. Changes here do not alter student questions, courses or test history.</div>
+          <div class="studio-summary">
+            <article><span>Subjects</span><strong id="syllabus-subject-count">0</strong></article>
+            <article><span>Chapters</span><strong id="syllabus-chapter-count">0</strong></article>
+            <article><span>Topics</span><strong id="syllabus-topic-count">0</strong></article>
+            <article><span>Approved topics</span><strong id="syllabus-approved-count">0</strong></article>
+          </div>
+          <div class="syllabus-layout">
+            <section class="studio-panel">
+              <div class="syllabus-heading"><h2>Master Syllabus</h2><button type="button" id="syllabus-refresh" class="studio-edit">Refresh</button></div>
+              <p>Choose a subject, chapter or topic to edit it. Draft syllabus content is not shown in the Student LMS until separately integrated and approved.</p>
+              <div class="studio-toolbar"><label for="syllabus-search">Find chapter/topic</label>
+                <input type="search" id="syllabus-search" placeholder="Search approved or draft syllabus" autocomplete="off">
+                <label for="syllabus-filter">Show</label><select id="syllabus-filter"><option value="current">Draft + active</option><option value="all">Include archived</option></select></div>
+              <div id="syllabus-tree" class="syllabus-tree" role="group" aria-label="Syllabus hierarchy"><p>No syllabus has been uploaded yet.</p></div>
+            </section>
+            <section class="studio-panel">
+              <h2>Manage Subject, Chapter &amp; Topic</h2>
+              <p>Edit names directly, add missing topics or move a topic to a different chapter. Every entry has a stable internal ID; changing its name never deletes student attempts.</p>
+              <div class="studio-field"><label for="syllabus-kind">Type</label><select id="syllabus-kind"><option value="subject">Subject</option><option value="chapter">Chapter</option><option value="topic">Topic</option></select></div>
+              <div class="studio-field"><label for="syllabus-parent">Parent subject/chapter</label><select id="syllabus-parent"><option value="">No parent — Subject</option></select></div>
+              <div class="studio-field"><label for="syllabus-name">Name</label><input id="syllabus-name" maxlength="160" placeholder="Enter approved academic name"></div>
+              <div class="studio-actions"><button type="button" id="syllabus-create">Add to Draft Syllabus</button><button type="button" id="syllabus-rename">Rename Selected</button><button type="button" id="syllabus-move">Move Selected</button></div>
+              <div class="studio-actions"><button type="button" id="syllabus-activate">Approve Selected Subject &amp; Descendants</button><button type="button" id="syllabus-archive">Archive Selected</button><button type="button" id="syllabus-restore">Restore as Draft</button></div>
+              <p id="syllabus-selection" class="tiny-text">No existing node selected. Create subjects first, then chapters and topics.</p>
+              <p class="studio-feedback" id="syllabus-feedback" role="status" aria-live="polite"></p>
+            </section>
+          </div>
+          <section class="studio-panel">
+            <h2>Upload or Paste Your Full Syllabus</h2>
+            <p>Upload a syllabus-only CSV or Excel worksheet, or paste <code>Subject &gt; Chapter &gt; Topic</code> lines. This does not require MCQs. Review before importing; duplicate names are reused rather than silently recreated.</p>
+            <div class="studio-actions"><button type="button" id="syllabus-template">Download Syllabus CSV Template</button></div>
+            <input type="file" class="studio-file" id="syllabus-file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+            <div class="studio-field"><label for="syllabus-paste">Paste syllabus outline (one path per line)</label>
+              <textarea id="syllabus-paste" rows="7" placeholder="Biology &gt; Biological Molecules &gt; Carbohydrates&#10;Biology &gt; Biological Molecules &gt; Proteins&#10;Physics &gt; Waves &gt; Sound"></textarea></div>
+            <div class="studio-actions"><button type="button" id="syllabus-preview">Preview Syllabus Import</button><button type="button" id="syllabus-import" disabled>Save Valid Rows as Draft</button></div>
+            <p id="syllabus-import-feedback" class="studio-feedback" role="status" aria-live="polite"></p>
+            <div class="studio-table-scroll"><table class="studio-table"><thead><tr><th>Status</th><th>Subject</th><th>Chapter</th><th>Topic</th></tr></thead><tbody id="syllabus-preview-rows"><tr><td colspan="4">No import preview yet.</td></tr></tbody></table></div>
+          </section>
+          <p class="studio-feedback">Deletion uses reversible archive. New syllabus topics cannot change existing student Question Banks until legacy mapping and publication controls pass separate review.</p>
         </section>
         <section id="content-studio-preview" class="is-hidden" aria-label="Question Content Studio">
   <div class="studio-banner"><strong>Safe draft workspace</strong> — Create and validate MCQs without modifying the student Question Bank. Original past-paper text and source keys remain unchanged. Drafts remain in this browser session until exported. Live publishing and XLSX import require the separately authorized content service.</div>
