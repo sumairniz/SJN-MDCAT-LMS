@@ -14,9 +14,9 @@
 <form id="identity-form">
 <label for="staff-email">Verified Chief Administrator email</label><input id="staff-email" type="email" autocomplete="username" required maxlength="254" placeholder="Your existing verified email">
 <label for="staff-password">Management Auth password</label><input id="staff-password" type="password" autocomplete="current-password" required minlength="12">
-<div class="actions"><button type="submit" id="signin-btn">Sign In</button><button type="button" id="setup-btn" class="secondary">One-time new-project account setup</button></div>
+<div class="actions"><button type="submit" id="signin-btn">Sign In</button></div>
 </form>
-<p class="hint">First-time setup uses the same approved email, but creates a separate staff authentication identity. Choose a private password. You may need to confirm email ownership again because this is an independent Supabase Auth project. Never share the password, verification email or code in chat.</p>
+<p class="hint">The Chief Administrator account has already been created and verified. Sign in normally. Do not share your password or verification codes.</p>
 </div>
 <section id="signed-in" hidden>
 <div class="verified">Independent Chief Administrator account verified</div>
@@ -24,6 +24,17 @@
 <form id="profile-form"><label for="display-name">Display name (optional)</label><input id="display-name" maxlength="100">
 <label for="organization-title">Organizational title (optional)</label><input id="organization-title" maxlength="100">
 <div class="actions"><button type="submit">Save My Profile</button><button type="button" id="signout-btn" class="secondary">Sign Out</button></div></form>
+<section class="stepup-preview" aria-label="Sensitive action email approval test">
+  <h2>Sensitive-action email security</h2>
+  <p class="hint">Normal account and profile work never requires a security code. This optional test verifies sensitive-action authorization only; it does not execute staff changes or modify student data.</p>
+  <p id="stepup-status" role="status" aria-live="polite">Checking security status…</p>
+  <div class="actions"><button type="button" class="secondary" id="stepup-send">Send email security code</button><button type="button" class="secondary" id="stepup-refresh">Refresh security status</button></div>
+  <form id="stepup-form" hidden>
+    <label for="stepup-code">Eight-digit code sent to your verified email</label>
+    <input id="stepup-code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{8}" maxlength="8" minlength="8" required placeholder="Enter eight digits">
+    <button type="submit">Verify code</button>
+  </form>
+</section>
 </section>
 <p id="auth-status" role="status" aria-live="polite"></p>
 <div class="footnote">No staff invitation, student-data access, or production promotion is enabled by this test.</div>
