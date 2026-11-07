@@ -118,7 +118,7 @@ Deno.serve(async req=>{
   if(q.trim()){
    const search=q.trim();
    if(/^\d+$/.test(search))query=query.eq("id",Number(search));
-   else query=query.ilike("question","%"+search.replace(/[%_\\]/g,"\\else query=query.ilike("question","%"+q.replace(/[%_\\]/g,"\\$&")+"%");")+"%");
+    else query=query.ilike("question","%"+search.replace(/[%_]/g,"\\$&")+"%");
   }
   const {data,count,error}=await query.order("id",{ascending:true})
    .range(page*25,page*25+24);
