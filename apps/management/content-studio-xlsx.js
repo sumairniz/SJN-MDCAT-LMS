@@ -136,7 +136,8 @@
  }
  function toCSV(rows){
    const quote=x=>'"'+String(x??"").replace(/"/g,'""')+'"';
-   return rows.map(r=>r.map(quote).join(",")).join("\r\n");
+   const columns=Math.max(0,...rows.map(r=>r.length));
+   return rows.map(r=>Array.from({length:columns},(_,i)=>quote(r[i]??"")).join(",")).join("\r\n");
  }
  return Object.freeze({readXLSX,toCSV});
 });
