@@ -1,0 +1,38 @@
+# SJN MedNest Academy — Canonical Syllabus & Taxonomy Manager Implementation
+**Recorded:** 2026-11-07, Asia/Karachi · **Branch:** \`sjn-phase1a-foundation\`
+**Status:** Management-only database + Edge API deployed; Management Panel source UI implemented; GitHub CI PASS; Vercel deployment and owner browser UAT remain PENDING.
+
+## Owner request (supersedes the provisional MCQ taxonomy snapshot design)
+The original chapter/topic names attached to existing imported past-paper MCQs were assistant-assigned temporary labels, **not the Owner-approved syllabus**. The Chief Administrator must be able to upload/paste a **complete independent syllabus**, and create, rename, reorganize, move, archive and restore subjects/chapters/topics without CSV for each change. Only this independent approved syllabus will be used to classify future MCQ drafts/imports. Existing questions/course-only papers retain historical source classifications until separately authorized mapping. Ordinary question editing within the Management Panel without files is a *separate, next module*.
+
+## Safely deployed Management Auth backend
+- **Only** independent Management Auth Supabase \`tdqbjhrmfluiinntmjfh\`.
+- \`database/management/isolated-syllabus-first-manager-20261107.sql\` successfully applied via migration \`mednest_syllabus_first_registry_20261107\`.
+- New \`public.mednest_syllabus_nodes\`: stable UUID, parent UUID, immutable node type \`subject/chapter/topic\`, editable label, case/whitespace-normalized generated uniqueness key, reversible \`draft/active/archived\` status, display order, revision counter, author IDs and timestamps.
+- Hierarchy guard and unique live sibling constraint prevent cross-level invalid parents and duplicate active labels. \`archive\` recursively archives descendants without deleting rows; restoring is a reversible draft operation. \`activate\` is only for a subject root, activating its draft chapters/topics parent-first; archived descendants are not silently reactivated.
+- Service-role-only \`mednest_syllabus_change\` and \`mednest_syllabus_stage_outline\` functions revalidate active Chief membership and exact live management Auth session within the database transaction, and audit successful changes.
+- Bulk-stage function processes 1–100 structured subject/chapter/topic rows **atomically per chunk**, with idempotent same-scope matching and drafts only. A large upload consists of sequential committed chunks, so partial progress is explicit.
+- Direct \`anon\`/\`authenticated\` table grants revoked and RLS enabled. Verified via read-only SQL: anonymous read=false, authenticated direct read/update=false, authenticated direct change RPC=false, anonymous bulk RPC=false. One active Chief, zero stored syllabus nodes, zero staff invitations, zero saved draft batches at inspection. No synthetic sample syllabus inserted.
+- New \`database/management/mednest-syllabus/index.ts\` **ACTIVE v1** in management Supabase, \`verify_jwt=true\`. Strict separate Management Auth issuer/audience, email confirmation, active Chief identity, live signed-in session, allowlisted Management Panel origin and bounded \`syllabus.list/change/stage\` operations. No student project URL/service key, no question publish endpoint.
+
+## Professional Management Panel source, not yet in the Vercel browser
+- \`apps/management/integrated-auth-preview.html\`: added Syllabus & Taxonomy navigation module; direct add/rename/move/archive/restore/approve controls, searchable hierarchy and stats, CSV/XLSX file input and pasted \`Subject > Chapter > Topic\` outline, validation/preview, safe staged upload.
+- \`apps/management/syllabus-manager.js\`, \`.css\`: own Chief management staff Auth session; paging list, normalized duplicate validation, explicit confirmation for archive/approve/move/import, chunked drafts, browser-memory scrub on management sign-out. Preview is invalidated if a user changes a source file or pasted text.
+- \`apps/management/app.js\`: integrated independent module without touching Student LMS JS.
+- **Important corrective patch:** \`apps/management/content-studio.js\` no longer fetches \`/content-studio-taxonomy-snapshot.json\` for matching. It listens for approved active syllabus entries via \`window.MedNestSyllabus.getActiveEntries()\`. Before an approved syllabus exists, imported MCQ drafts are flagged for review and never matched against temporary old MCQ labels. The old metadata snapshot remains historical only; it is not canonical.
+- This source UI requires a fresh Management Panel Vercel preview deployment after Hobby deploy quota becomes available. The previously deployed URL does NOT yet contain this module.
+
+## Test verification and known limits
+- \`tests/management-syllabus-first.test.js\` added to test DB scope, Chief/session enforcement, audit, hierarchy, safe archive and bulk drafts, source wiring and prevention of static provisional snapshot matching. Previous Content Studio tests updated to reflect owner correction. GitHub Foundation workflows for source commit \`2b2a87540525ed24b6b1247e6cfbd3749cbb7ad3\`: **2 SUCCESS**, and later source checks succeeded.
+- Management Auth Supabase Security Advisor reports RLS enabled/no policies as INFORMATION for nine intentionally service-role-only private tables; direct client grants remain revoked. It also reports a **pre-existing Auth leaked-password protection disabled warning**, which must be considered for staff onboarding and should not be ignored before launch. Remediation: https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection
+- No actual Chief browser interaction yet; no end-to-end syllabus upload, rename or rollback UAT claimed. No student performance/regression benchmark for syllabus integration yet.
+
+## Next safe implementation and release gates
+1. After Vercel quota resets, batch-deploy tested Management Panel source, Chief sign-in UAT (manual create → nested chapters/topics → upload CSV/XLSX/paste → preview → stage → archive → restore → approve), mobile checks, and Auth session enforcement.
+2. **Next engineering batch:** direct in-panel searchable MCQ library/editor: authorized read & revisioned edit forms (question, A–D options, key, explanation, mnemonic, source, syllabus classification), not CSV requirement; separate secure student content bridge and immutable past-paper original source and test result semantics.
+3. Map existing temporary MCQ names to owner-approved syllabus IDs with explicit manual review; no automatic bulk rewrite. For original past papers and courses, allow context mapping without exposing course-only questions.
+4. Extend Academic Review & Publishing and scoped student DB write service, enforce permissions server-side, protect immutable exam attempt references, test negative cases and performance. Student account, test engine/history and analytics must not regress.
+5. Public release to \`sjnmednest.com\` + \`admin.sjnmednest.com\` requires separate owner approval and production/backups/auth/domain QA. No Vercel paid upgrade or production/main/DNS changes in this batch.
+
+## Postmortem on failed migration attempt
+Initial SQL function conditional used inline SQL \`CASE\` within a PL/pgSQL \`IF\` and Supabase rejected its parser near \`end\`. Simplifying the conditional allowed the migration to apply successfully. Verified absence of partial schema after failed attempt, followed by successful retry and independent security checks. No student data affected.
