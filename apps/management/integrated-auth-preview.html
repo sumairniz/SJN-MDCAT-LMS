@@ -18,6 +18,7 @@
   <script defer src="/content-studio-xlsx.js"></script>
   <script defer src="/content-studio.js"></script>
   <script type="module" src="/content-studio-storage.js"></script>
+  <script type="module" src="/mcq-library.js"></script>
   <script type="module" src="/syllabus-manager.js"></script>
 </head>
 <body>
@@ -185,6 +186,50 @@
           <p class="studio-feedback">Deletion uses reversible archive. New syllabus topics cannot change existing student Question Banks until legacy mapping and publication controls pass separate review.</p>
         </section>
         <section id="content-studio-preview" class="is-hidden" aria-label="Question Content Studio">
+  <section id="mcq-library" aria-label="Existing MCQ Library">
+    <div class="studio-banner"><strong>Existing MCQ Library &amp; Direct Editor.</strong> Search original Question Bank and regional past-paper MCQs. Edit individually without Excel. Every Save creates an unpublished Chief-only correction draft; it does not modify student questions. Restricted Course Test MCQs are excluded from this library.</div>
+    <div class="studio-panel">
+      <div class="syllabus-heading"><h2>Browse Existing MCQs</h2><button type="button" class="studio-edit" id="mcq-lib-refresh">Refresh Questions</button></div>
+      <p>Search by exact question ID or part of the question statement. Open an MCQ to prepare a revised answer, explanation or syllabus classification without changing its original revision.</p>
+      <div class="studio-toolbar">
+        <label for="mcq-lib-search">Question ID / text</label><input type="search" id="mcq-lib-search" maxlength="120" placeholder="Enter MCQ number or question text" autocomplete="off">
+        <label for="mcq-lib-bank">Question bank / paper</label>
+        <select id="mcq-lib-bank"><option value="">All ordinary / regional papers</option><option>Past Papers Question Bank</option><option>BUMHS MDCAT Past Papers</option><option>KMU MDCAT Past Papers</option><option>NUMS MDCAT Past Papers</option><option>SIBA MDCAT Past Papers</option><option>SZABMU MDCAT Past Papers</option><option>UHS MDCAT Past Papers</option></select>
+        <label for="mcq-lib-subject">Subject</label>
+        <select id="mcq-lib-subject"><option value="">All subjects</option><option>Biology</option><option>Chemistry</option><option>Physics</option><option>English</option><option>Logical Reasoning</option></select>
+        <button type="button" id="mcq-lib-search-button" class="studio-edit">Search</button>
+      </div>
+      <p class="studio-feedback" id="mcq-lib-status" role="status" aria-live="polite">Sign in as Chief Administrator to view the protected MCQ Library.</p>
+      <div class="studio-table-scroll"><table class="studio-table"><thead><tr><th>MCQ ID</th><th>Bank / Paper</th><th>Subject / Chapter</th><th>Question</th><th>Action</th></tr></thead>
+        <tbody id="mcq-lib-results"><tr><td colspan="5">MCQ Library is not loaded yet.</td></tr></tbody></table></div>
+      <div class="studio-pagination"><span id="mcq-lib-paging">—</span><div class="studio-toolbar"><button id="mcq-lib-prev" type="button">Previous</button><button id="mcq-lib-next" type="button">Next</button></div></div>
+    </div>
+    <section id="mcq-lib-editor" class="studio-panel is-hidden" aria-label="Direct MCQ correction draft editor">
+      <div class="syllabus-heading"><h2 id="mcq-lib-editor-title">Edit Existing MCQ</h2><button type="button" class="studio-edit" id="mcq-lib-close">Close Editor</button></div>
+      <p id="mcq-lib-source" class="studio-feedback">Original source and revision will be preserved in the edit draft.</p>
+      <form id="mcq-lib-edit-form">
+        <div class="studio-editor-grid">
+          <div class="studio-field"><label for="mcq-lib-edit-bank">Existing bank (read-only)</label><input id="mcq-lib-edit-bank" readonly></div>
+          <div class="studio-field"><label for="mcq-lib-edit-subject">Subject</label><input id="mcq-lib-edit-subject" maxlength="80" required></div>
+          <div class="studio-field"><label for="mcq-lib-edit-chapter">Chapter (provisional until syllabus tagged)</label><input id="mcq-lib-edit-chapter" maxlength="160"></div>
+          <div class="studio-field"><label for="mcq-lib-edit-topic">Topic (provisional until syllabus tagged)</label><input id="mcq-lib-edit-topic" maxlength="160"></div>
+          <div class="studio-field studio-field--wide"><label for="mcq-lib-edit-question">Question statement</label><textarea id="mcq-lib-edit-question" rows="3" maxlength="6000" required></textarea></div>
+          <div class="studio-field"><label for="mcq-lib-edit-option_a">Option A</label><textarea id="mcq-lib-edit-option_a" rows="2" maxlength="6000" required></textarea></div>
+          <div class="studio-field"><label for="mcq-lib-edit-option_b">Option B</label><textarea id="mcq-lib-edit-option_b" rows="2" maxlength="6000" required></textarea></div>
+          <div class="studio-field"><label for="mcq-lib-edit-option_c">Option C</label><textarea id="mcq-lib-edit-option_c" rows="2" maxlength="6000" required></textarea></div>
+          <div class="studio-field"><label for="mcq-lib-edit-option_d">Option D</label><textarea id="mcq-lib-edit-option_d" rows="2" maxlength="6000" required></textarea></div>
+          <div class="studio-field"><label for="mcq-lib-edit-correct_option">Correct option (A–D)</label><select id="mcq-lib-edit-correct_option"><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select></div>
+          <div class="studio-field"><label for="mcq-lib-edit-source">Source / paper</label><input id="mcq-lib-edit-source" maxlength="250"></div>
+          <div class="studio-field studio-field--wide"><label for="mcq-lib-edit-explanation">Textbook-aligned explanation</label><textarea id="mcq-lib-edit-explanation" rows="3" maxlength="6000"></textarea></div>
+          <div class="studio-field studio-field--wide"><label for="mcq-lib-edit-mnemonic">Mnemonic (optional)</label><textarea id="mcq-lib-edit-mnemonic" rows="2" maxlength="2000"></textarea></div>
+          <div class="studio-field studio-field--wide"><label for="mcq-lib-syllabus-topic">Approved master syllabus classification (optional until syllabus approved)</label><select id="mcq-lib-syllabus-topic"><option value="">Not yet mapped — preserve existing classification for now</option></select></div>
+        </div>
+        <div class="studio-editor-actions"><button id="mcq-lib-save" type="submit" class="primary-btn">Save Unpublished Correction Draft</button><button id="mcq-lib-reset" type="button" class="secondary-btn">Reset to Published Source</button></div>
+      </form>
+      <p class="studio-feedback" id="mcq-lib-editor-status" role="status" aria-live="polite">No MCQ editing session opened.</p>
+    </section>
+  </section>
+
   <div class="studio-banner"><strong>Safe draft workspace</strong> — Create and validate MCQs without modifying the student Question Bank. Original past-paper text and source keys remain unchanged. Drafts remain in this browser session until exported. Live publishing and XLSX import require the separately authorized content service.</div>
   <div class="studio-summary" aria-label="Draft import quality">
     <article><span>Draft questions</span><strong id="studio-total">0</strong></article>
