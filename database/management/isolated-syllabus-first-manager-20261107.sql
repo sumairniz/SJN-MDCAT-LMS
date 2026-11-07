@@ -42,8 +42,9 @@ begin
   if new.parent_id=new.id then raise exception 'syllabus_parent_cycle'; end if;
   select kind,state into v_kind,v_state from public.mednest_syllabus_nodes
    where id=new.parent_id for share;
-  if v_kind is null or v_kind <> case when new.kind='chapter' then 'subject' else 'chapter' end
-   then raise exception 'syllabus_parent_kind_mismatch'; end if;
+  if v_kind is null or (new.kind='chapter' and v_kind<>'subject')
+    or (new.kind='topic' and v_kind<>'chapter') then
+    raise exception 'syllabus_parent_kind_mismatch'; end if;
   if new.state='active' and v_state<>'active' then
    raise exception 'cannot_activate_under_inactive_parent'; end if;
  end if;
