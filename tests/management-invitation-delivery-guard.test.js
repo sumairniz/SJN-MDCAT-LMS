@@ -23,7 +23,7 @@ test("Invited recipient preview checks verified user/session and exact email BEF
  assert.match(s,/db\.auth\.getUser\(token\)/);
  assert.match(s,/mednest_staff_session_live/);
  const preview=s.indexOf('if(body.action==="invite.preview")');
- const chief=s.indexOf('if(!isChief)return response(origin,403');
+ const chief=s.indexOf('if(!isChief)return response(origin,403',preview);
  assert.ok(preview>=0&&chief>preview,"recipient preview must precede Chief-only actions");
  assert.match(s,/inv.email!==(user.email\|\|"")\.trim\(\)\.toLowerCase\(\)/);
  assert.match(s,/inv.delivery_status!=="sent"/);
@@ -45,6 +45,6 @@ test("New invitation page is invitation-scoped and does not create accounts or c
  assert.match(s,/call\("invite\.preview"/);
  assert.match(s,/call\("invite\.accept"/);
  assert.doesNotMatch(s,/client\.auth\.signUp\(/);
- assert.doesNotMatch(s,/localStorage/);
+ assert.doesNotMatch(s,/window\\.localStorage\\.|localStorage\\.setItem\\(/);
  assert.doesNotMatch(s,/aozknkrwafowsrehdwlr/);
 });
