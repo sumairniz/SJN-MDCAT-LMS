@@ -120,6 +120,17 @@ async function openQuestion(mcqId){
   setStatus(e.message,true);
  }finally{busy(false)}
 }
+$("mcq-lib-syllabus-topic").addEventListener("change",event=>{
+ const id=event.target.value;
+ if(!id)return;
+ const match=(window.MedNestSyllabus?.getActiveTopics?.()||[]).find(t=>t.id===id);
+ if(!match){event.target.value="";return;}
+ $("mcq-lib-edit-subject").value=match.subject;
+ $("mcq-lib-edit-chapter").value=match.chapter;
+ $("mcq-lib-edit-topic").value=match.topic;
+ setStatus("Approved syllabus path selected. Original question and historical results remain unchanged.",
+  false,"mcq-lib-editor-status");
+});
 $("mcq-lib-edit-form").addEventListener("submit",async event=>{
  event.preventDefault();
  if(!selection||pending)return;
