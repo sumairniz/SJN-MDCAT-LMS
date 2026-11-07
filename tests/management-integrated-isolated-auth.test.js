@@ -53,3 +53,16 @@ test("Chief email stays out of the team identity card and audit response",()=>{
  assert.ok(s.includes('renderMembers([...(response.chief||[]),...(response.members||[])])'));
  assert.ok(s.includes('renderInvitations(response.invitations||[])'));
 });
+
+test("Total and active management counters include Chief while directory remains separate",()=>{
+ const html=read("apps/management/integrated-auth-preview.html");
+ const js=read("apps/management/auth-client-isolated.js");
+ assert.ok(html.includes("Total Management Members"));
+ assert.ok(html.includes("Includes the Chief Administrator and all team members"));
+ assert.ok(html.includes("Active Management Members"));
+ assert.ok(!html.includes("Excludes the protected Chief Administrator"));
+ assert.ok(js.includes('$("team-total").textContent=members.length;'));
+ assert.ok(js.includes('$("team-active").textContent=members.filter(x=>x.status==="active").length;'));
+ assert.ok(js.includes('const team=members.filter(m=>m.role!=="chief_admin")'));
+ assert.ok(js.includes('visible("chief-administrator-card",Boolean(chief))'));
+});
