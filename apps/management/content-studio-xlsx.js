@@ -44,7 +44,8 @@
      const namelen=u16(b,pos+28),extra=u16(b,pos+30),comment=u16(b,pos+32),offset=u32(b,pos+42);
      const name=decoder.decode(b.slice(pos+46,pos+46+namelen));
      pos+=46+namelen+extra+comment;
-     if(!name.startsWith("xl/")||name.endsWith("/"))continue;
+     if(!["xl/workbook.xml","xl/_rels/workbook.xml.rels","xl/sharedStrings.xml"].includes(name)&&
+       !/^xl\/worksheets\/[^/]+\.xml$/.test(name))continue;
      if(flags&1)throw Error("Encrypted Excel files are not supported.");
      if(method!==0&&method!==8)throw Error("Unsupported Excel compression method.");
      if(unpacked>entryMax||packed>compressedMax||total+unpacked>totalMax)
