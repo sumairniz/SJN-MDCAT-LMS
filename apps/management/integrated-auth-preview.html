@@ -14,6 +14,7 @@
   <script type="module" src="/auth-client-isolated.js"></script>
   <script defer src="/content-studio-core.js"></script>
   <script defer src="/content-studio.js"></script>
+  <script type="module" src="/content-studio-storage.js"></script>
 </head>
 <body>
   <div id="signin" class="auth-screen">
@@ -151,14 +152,23 @@
       <div class="studio-actions"><button type="button" id="studio-template">Download CSV Template</button><button type="button" id="studio-new">Create Single MCQ</button></div>
       <label for="studio-file">Choose a CSV batch (maximum 10,000 draft questions)</label>
       <input class="studio-file" id="studio-file" type="file" accept=".csv,text/csv">
-      <p>CSV is available in this foundation. Excel (.xlsx) file import and direct publication are not yet enabled.</p>
+      <p>CSV is available. Excel (.xlsx) import and publication remain disabled. Save batches explicitly to protected Management Auth draft storage; unsaved browser drafts disappear after reload.</p>
     </section>
     <section class="studio-panel">
       <h2>Quality &amp; Source Protection</h2>
       <p>Questions in the original Past Papers Question Bank require a traceable source. No AI-generated answer-key corrections are applied. Warnings call for manual academic review.</p>
       <p><strong>Approved ordinary banks:</strong> SJN Question Bank (new academy-authored drafts) and Past Papers Question Bank (original exam-source content).</p>
       <p><strong>Course Tests:</strong> remain a separate protected question pool, not imported here. The original source-paper records and immutable student attempt revisions are untouched.</p>
-      <div class="studio-actions"><button type="button" id="studio-export" disabled>Export Unpublished Drafts</button><button type="button" id="studio-clear">Clear Drafts</button></div>
+      <div class="studio-actions"><button type="button" id="studio-export" disabled>Export Unpublished Drafts</button><button type="button" id="studio-clear">Clear Browser Drafts</button></div>
+      <div class="studio-storage">
+        <h3>Protected Draft Storage</h3>
+        <p>Store or retrieve unpublished drafts in the separate Management Authentication database. Chief Administrator only. Saving never publishes MCQs to students.</p>
+        <div class="studio-field"><label for="studio-batch-name">Draft batch name</label><input id="studio-batch-name" type="text" maxlength="120" placeholder="November academic review batch" value="Unpublished MCQ Review Batch"></div>
+        <div class="studio-actions"><button type="button" id="studio-save-batch">Save Draft Batch</button><button type="button" id="studio-refresh-batches">Refresh Saved Batches</button></div>
+        <div class="studio-field"><label for="studio-saved-batches">Saved Management Draft Batches</label><select id="studio-saved-batches"><option value="">Select a saved draft batch</option></select></div>
+        <div class="studio-actions"><button type="button" id="studio-load-batch">Load Selected Batch</button></div>
+        <p id="studio-storage-status" class="studio-feedback" role="status" aria-live="polite">Protected draft storage is available after Management Auth sign-in.</p>
+      </div>
     </section>
   </div>
   <section class="studio-panel" aria-label="Draft question review table">
