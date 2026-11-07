@@ -185,6 +185,49 @@
  $("studio-taxonomy-cancel").addEventListener("click",()=>{
    taxonomyReviewLine=null;show("studio-taxonomy-editor",false);
  });
+ let renameProposals=[];
+ const renameStatus=(text,error=false)=>{
+   const node=$("studio-rename-status");node.textContent=text;node.dataset.error=String(error);
+ };
+ function renderRenamePlan(){
+   const body=$("studio-rename-list");body.replaceChildren();
+   $("studio-rename-export").disabled=!renameProposals.length;
+   if(!renameProposals.length){
+     const row=document.createElement("tr"),td=cell("td","No correction proposals imported.");
+     td.colSpan=5;row.append(td);body.append(row);return;
+   }
+   for(const x of renameProposals.slice(0,1000)){
+     const row=document.createElement("tr");
+     for(const value of [x.status.toUpperCase(),x.subject+" / "+x.chapter,x.original,x.proposed,
+       "Used by "+x.usage_count+" MCQs. "+[...x.problems,...x.warnings].join(" ")])
+       row.append(cell("td",value));
+     body.append(row);
+   }
+ }
+ $("studio-rename-template").addEventListener("click",()=>download(
+   "sjn-mednest-topic-corrections-template.csv",
+   taxonomy.renameCSVTemplate(),"text/csv;charset=utf-8"
+ ));
+ $("studio-rename-file").addEventListener("change",async event=>{
+   const file=event.target.files?.[0];if(!file)return;
+   try{
+     if(!catalog)throw Error("LMS taxonomy reference must load before reviewing corrections.");
+     if(!/\.csv$/i.test(file.name)||file.size>400_000)
+       throw Error("Choose a corrections CSV under 400 KB.");
+     const plan=taxonomy.reviewRenamePlan(await file.text(),catalog,core.parseCSV);
+     renameProposals=plan;renderRenamePlan();
+     const invalid=plan.filter(x=>x.problems.length).length;
+     renameStatus("Reviewed "+plan.length+" correction proposals; "+invalid+
+       " invalid. This is a review-only plan: no LMS topic was renamed.");
+   }catch(e){renameStatus(e.message,true)}
+   finally{event.target.value=""}
+ });
+ $("studio-rename-export").addEventListener("click",()=>{
+   const out=taxonomy.exportRenamePlan(renameProposals);
+   download("sjn-mednest-proposed-topic-corrections.json",
+     JSON.stringify(out,null,2),"application/json");
+   renameStatus("Correction proposal exported for independent approval. No database changes.");
+ });
  async function loadTaxonomy(){
    try{
      if(!taxonomy)throw Error("Taxonomy matcher missing");
@@ -316,7 +359,8 @@
    savedBatchId=null;clientBatchKey=null;
    $("studio-saved-batches").replaceChildren(new Option("Select a saved draft batch",""));
    writeEditor({});$("studio-batch-name").value="Unpublished MCQ Review Batch";
-   $("studio-file").value="";show("studio-editor",false);show("studio-taxonomy-editor",false);render();
+   $("studio-file").value="";renameProposals=[];renderRenamePlan();
+   show("studio-editor",false);show("studio-taxonomy-editor",false);render();
    storageStatus("Signed out. Browser draft data cleared; saved Management Auth batches remain protected.");
  });
  $("studio-editor").classList.add("is-hidden");
