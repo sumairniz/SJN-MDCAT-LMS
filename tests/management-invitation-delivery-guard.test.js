@@ -25,7 +25,7 @@ test("Invited recipient preview checks verified user/session and exact email BEF
  const preview=s.indexOf('if(body.action==="invite.preview")');
  const chief=s.indexOf('if(!isChief)return response(origin,403',preview);
  assert.ok(preview>=0&&chief>preview,"recipient preview must precede Chief-only actions");
- assert.match(s,/inv.email!==(user.email\|\|"")\.trim\(\)\.toLowerCase\(\)/);
+ assert.ok(s.includes('inv.email!==(user.email||"").trim().toLowerCase()'));
  assert.match(s,/inv.delivery_status!=="sent"/);
  assert.match(s,/inv.state!=="pending"/);
  assert.match(s,/!WRITES_ENABLED\)return response/);
