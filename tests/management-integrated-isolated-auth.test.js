@@ -38,7 +38,9 @@ test("Invitations, permission changes, student access and sensitive writes stay 
  assert.ok(s.includes('visible("team-invite-show",false)'));
  assert.ok(s.includes('visible("team-invite-form",false)'));
  assert.ok(s.includes('visible("team-edit-form",false)'));
- assert.ok(s.includes('return null;\n}\nfunction disabledLegacyInviteParser()'));
+ assert.ok(s.includes('Invitations are unavailable until secure staff onboarding is approved.'));
+ assert.ok(!s.includes('disabledLegacyInviteParser'));
+ assert.ok(!s.includes('client.auth.signUp('));
  assert.ok(html.includes('id="team-invite-show" class="secondary-btn is-hidden" disabled'));
  assert.ok(!s.includes('const URL="https://aozknkrwafowsrehdwlr.supabase.co"'));
  assert.ok(!s.includes('"student_access_update"'));
