@@ -67,3 +67,25 @@
 #mcq-lib-edit-form .studio-field--wide > h3{margin:10px 0}
 #mcq-lib-editor textarea,#studio-editor textarea{white-space:pre-wrap}
 @media(max-width:560px){.studio-workflow{font-size:11px;gap:5px}.studio-format-bar button{padding:9px}.studio-mcq-preview{padding:11px}}
+
+/* Teacher-first Management workflow (2026-11-09). */
+.studio-draft-hub{margin:0 0 18px;padding:22px;background:var(--panel)}
+.studio-draft-hub .studio-editor-actions{margin:13px 0 16px}
+.studio-draft-hub .studio-editor-actions .primary-btn{font-weight:800}
+.studio-draft-hub #studio-batch-name{max-width:580px;font-size:14px}
+.studio-draft-hub .studio-toolbar{padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--panel-alt)}
+.studio-draft-hub #studio-saved-batches{min-width:230px;max-width:100%;flex:1}
+.studio-review-actions{display:flex;flex-wrap:wrap;gap:9px;margin:13px 0}
+.studio-review-actions button{min-height:40px}
+.studio-review-actions button:disabled{opacity:.4;cursor:not-allowed}
+#studio-batch-state{white-space:normal;text-align:center}
+.studio-advanced>summary{cursor:pointer;font-size:13px;font-weight:800;list-style-position:inside;padding:5px 0}
+.studio-advanced>summary:hover{color:var(--red)}
+.studio-advanced[open]>summary{margin-bottom:12px}
+#studio-draft-list td:nth-child(3){min-width:240px;max-width:390px}
+#review-new-batch-list td:nth-child(1){min-width:220px}
+#review-new-batch-list td:nth-child(2){text-transform:capitalize}
+#audit-event-list .staff-row{border-top:1px solid var(--line);padding:13px 3px}
+#audit-event-list .staff-row strong{font-size:13px}
+#audit-event-list .staff-row p{font-size:12px;overflow-wrap:anywhere}
+@media(max-width:700px){.studio-draft-hub{padding:15px}.studio-draft-hub .studio-toolbar>*{width:100%}.studio-draft-hub .studio-editor-actions button{flex:1 1 170px}}
