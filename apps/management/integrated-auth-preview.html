@@ -498,7 +498,21 @@
     </section>
   </div>
 </section>
-<section id="audit-preview" class="team-preview is-hidden" aria-label="Staff audit log"><div class="panel-card"><div class="panel-title"><span>Management Activity Log</span><span class="subtle-tag">LAST 50 EVENTS</span></div><div id="audit-event-list" class="staff-list"><p>Loading authorized activity…</p></div></div></section>
+<section id="audit-preview" class="team-preview is-hidden" aria-label="Management activity center">
+  <div class="panel-card">
+    <div class="panel-title"><span>Academy Activity Center</span><span class="subtle-tag">SERVER-VERIFIED EVENTS</span></div>
+    <p class="tiny-text">See actions recorded by the Management service, including draft creation, saves and academic review routing. An audit event is not the same as a unique MCQ or a student publication.</p>
+    <div class="studio-toolbar">
+      <label for="audit-period">Period</label>
+      <select id="audit-period"><option value="1d">Last 24 hours</option><option value="7d" selected>Last 7 days</option><option value="30d">Last 30 days</option><option value="all">All recorded events (latest 200)</option></select>
+      <label for="audit-action-filter">Activity type</label>
+      <select id="audit-action-filter"><option value="all">All activities</option><option value="content">Academic content &amp; drafts</option><option value="staff">Staff &amp; permissions</option><option value="other">Other events</option></select>
+      <button type="button" id="audit-refresh" class="studio-edit">Refresh Activity</button>
+    </div>
+    <p id="audit-summary" class="studio-feedback" role="status" aria-live="polite">Open this page to see recorded academy activity.</p>
+    <div id="audit-event-list" class="staff-list"><p>Loading authorized activity…</p></div>
+  </div>
+</section>
         <section id="module-placeholder" class="module-placeholder is-hidden" aria-live="polite">
           <div class="placeholder-symbol" aria-hidden="true">◇</div>
           <span class="eyebrow eyebrow--red">PLANNED MANAGEMENT MODULE</span>
