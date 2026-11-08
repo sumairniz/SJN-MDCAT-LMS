@@ -65,11 +65,41 @@ Deno.serve(async req=>{
  }
  if(!chief&&!(actor.permissions||[]).includes("audit.view"))
   return reply(origin,403,{error:"Missing activity-log permission"});
- const {data:events,error:eventsError}=await db.from("mednest_staff_audit")
-  .select("id,action,created_at").order("created_at",{ascending:false}).limit(50);
+ const period=body.period||"7d";
+ if(!["1d","7d","30d","all"].includes(period))
+  return reply(origin,400,{error:"Choose a valid activity period"});
+ let q=db.from("mednest_staff_audit")
+  .select("id,actor_user_id,action,details,created_at")
+  .order("created_at",{ascending:false}).limit(200);
+ if(period!=="all"){
+  const dayCount=period==="1d"?1:period==="7d"?7:30;
+  q=q.gte("created_at",new Date(Date.now()-dayCount*86400000).toISOString());
+ }
+ const {data:events,error:eventsError}=await q;
  if(eventsError)return reply(origin,503,{error:"Activity log unavailable"});
- // Strict shared allowlist: no event details, email, actor UUID, target UUID or PII.
- return reply(origin,200,{events:(events||[]).map(e=>({
+ const list=events||[];
+ // Staff with audit.view have only the existing minimal feed. Chief can see
+ // attributed, allowlisted summaries; never expose raw payloads or emails.
+ if(!chief)return reply(origin,200,{events:list.map(e=>({
   action:e.action,created_at:e.created_at
- }))});
+ })),limited:true});
+ const ids=[...new Set(list.map(e=>e.actor_user_id).filter(Boolean))];
+ const names=ids.length?await db.from("mednest_staff_members")
+  .select("user_id,display_name,technical_role").in("user_id",ids.slice(0,200)):{data:[],error:null};
+ if(names.error)return reply(origin,503,{error:"Staff attribution unavailable"});
+ const people=new Map((names.data||[]).map(m=>[m.user_id,
+  m.display_name?.trim()||(m.technical_role==="chief_admin"?"Chief Administrator":"Team Member")]));
+ const safeKeys=["batch_id","name","count","min","max","mcq_id",
+   "revision_id","draft_version","status","from","to","route","source_bank"];
+ return reply(origin,200,{events:list.map(e=>{
+   const details={};
+   if(e.details&&typeof e.details==="object"&&!Array.isArray(e.details))
+    for(const key of safeKeys){
+     const value=e.details[key];
+     if(typeof value==="string"||typeof value==="number")
+      details[key]=typeof value==="string"?value.slice(0,120):value;
+    }
+   return {id:e.id,action:e.action,created_at:e.created_at,
+     actor:people.get(e.actor_user_id)||"Former Team Member",details};
+ }),limited:false,limit:200});
 });
