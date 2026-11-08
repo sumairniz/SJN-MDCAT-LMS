@@ -18,13 +18,14 @@
    if(content!==undefined)el.textContent=String(content);
    return el;
  };
- const fields=["bank","subject","chapter","topic","question","option_a","option_b","option_c","option_d","correct_option","explanation","mnemonic","source","region","year","paper_code"];
+ const fields=["bank","subject","chapter","topic","question","option_a","option_b","option_c","option_d","option_e","correct_option","explanation","mnemonic","source","region","year","paper_code"];
  function readEditor(){
    return Object.fromEntries(fields.map(name=>[name,$("studio-"+name).value]));
  }
  function writeEditor(item){
    const data=item||{};
    for(const name of fields)$("studio-"+name).value=data[name]||"";
+  window.MedNestMCQAssist?.previewNew();
  }
  function download(filename,contents,type){
    const blob=new Blob([contents],{type});
@@ -101,11 +102,24 @@
    $("studio-editor-heading").textContent="Review draft row "+line;
    $("studio-save").textContent="Update Draft";
    show("studio-editor",true);
+   window.MedNestMCQAssist?.previewNew();
    $("studio-editor").scrollIntoView({behavior:"smooth",block:"nearest"});
  }
  $("studio-template").addEventListener("click",()=>download(
-   "sjn-mednest-mcq-import-template.csv",core.csvTemplate(),"text/csv;charset=utf-8"
+   "sjn-mednest-mcq-import-template.csv",core.csvTemplate($("studio-bank").value||"SJN Question Bank"),"text/csv;charset=utf-8"
  ));
+ $("studio-template-xlsx").addEventListener("click",()=>{
+   try{
+     if(!window.MedNestXLSXTemplate)throw Error("Excel template generator unavailable.");
+     const bank=$("studio-bank").value||"SJN Question Bank";
+     const rows=core.parseCSV(core.csvTemplate(bank));
+     const blob=window.MedNestXLSXTemplate.create(rows);
+     const url=URL.createObjectURL(blob),link=document.createElement("a");
+     link.href=url;link.download="sjn-mednest-"+(bank==="Past Papers Question Bank"?"past-paper":"question-bank")+"-mcq-template.xlsx";
+     document.body.append(link);link.click();link.remove();URL.revokeObjectURL(url);
+     feedback("Excel template downloaded. One row per MCQ; Option E is optional. Save as .xlsx and upload to preview.");
+   }catch(e){feedback(e.message,true)}
+ });
  $("studio-file").addEventListener("change",async event=>{
    const file=event.target.files?.[0];
    if(!file)return;
@@ -250,6 +264,7 @@
    $("studio-editor-heading").textContent="Create a new draft MCQ";
    $("studio-save").textContent="Add to Draft";
    show("studio-editor",true);
+   window.MedNestMCQAssist?.previewNew();
    $("studio-question").focus();
  });
  $("studio-cancel").addEventListener("click",()=>{selected=-1;show("studio-editor",false)});
@@ -266,7 +281,7 @@
      drafts.push({line:nextLine,entry});
    }
    selected=-1;show("studio-editor",false);render();
-   feedback("Draft updated in this browser session. "+(result.warnings.length?result.warnings.join(" "):"Ready for academic review.")+" Nothing published.");
+   feedback("New MCQ draft updated in this browser session only. "+(result.warnings.length?result.warnings.join(" "):"Ready for validation.")+" Save Draft Batch to retain it securely. This is NOT yet an Academic Reviews submission or student publication.");
  });
  $("studio-filter").addEventListener("change",event=>{filter=event.target.value;page=0;render()});
  $("studio-prev").addEventListener("click",()=>{page=Math.max(0,page-1);render()});
