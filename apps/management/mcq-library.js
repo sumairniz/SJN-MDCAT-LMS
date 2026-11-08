@@ -141,6 +141,7 @@ $("mcq-lib-edit-form").addEventListener("submit",async event=>{
  const fieldsData=proposedFields();
  if(fieldsData.bank!==selection.original.bank||!["A","B","C","D"].includes(fieldsData.correct_option)||
     (fieldsData.bank!=="SJN Question Bank"&&!fieldsData.source.trim())){
+  $("mcq-lib-classification-details").open=true;
   setStatus("Invalid bank, answer key, or missing past-paper source. Use answer A–D and preserve the source.",true,"mcq-lib-editor-status");return;
  }
  if(!window.confirm("Save an UNPUBLISHED correction draft for MCQ #"+selection.mcqId+
