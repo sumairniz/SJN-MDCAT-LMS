@@ -127,6 +127,7 @@
    const readOnly=inspectMode||locked();
    $("studio-focus-add").disabled=readOnly||saveInFlight||drafts.length>=3000;
    $("studio-focus-save").disabled=readOnly||saveInFlight;
+   $("studio-focus-save").disabled=readOnly||saveInFlight;
    $("studio-focus-submit-review").disabled=readOnly||dirty||!savedBatchId;
    $("studio-focus-direct-prepare").disabled=readOnly||dirty||!savedBatchId;
    show("studio-focus-withdraw",savedStatus==="pending_review"&&!!savedBatchId);
@@ -686,7 +687,7 @@
    await openSavedBatch(id);
  });
  async function changeRoute(action){
-   if(!savedBatchId||dirty){storageStatus("Save all question changes before selecting an academic route.",true);return}
+   if(!savedBatchId||dirty||formChanged()){storageStatus("Save all question edits securely before selecting an academic route.",true);focusStateMessage("Save the currently open question before requesting review or release preparation.",true);return}
    if(action==="direct"&&!window.confirm("Confirm direct release preparation without another teacher's review? This will NOT publish questions to students."))return;
    if(action==="withdraw"&&!window.confirm("Withdraw this pending academic review and return to draft editing?"))return;
    busy(true);
