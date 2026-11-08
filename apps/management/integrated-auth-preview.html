@@ -161,7 +161,7 @@
     <article><span>Approved for release</span><strong id="review-approved-count">0</strong></article>
     <article><span>Student publications</span><strong>0</strong><small>Disabled</small></article>
   </div>
-  <div class="studio-panels studio-content-panels">
+  <div class="studio-panels studio-content-panels" data-studio-page="import">
     <section class="studio-panel">
       <h2>Submit an MCQ Correction for Review</h2>
       <p>Revisions made through Question Content Studio can be submitted here. A submission freezes the exact draft version, original MCQ ID and source revision for reviewers. Direct mode bypasses additional review only when Chief authorizes that policy; it still cannot publish to students.</p>
@@ -247,7 +247,68 @@
           <p class="studio-feedback">Deletion uses reversible archive. New syllabus topics cannot change existing student Question Banks until legacy mapping and publication controls pass separate review.</p>
         </section>
         <section id="content-studio-preview" class="is-hidden" aria-label="Question Content Studio">
-  <section id="mcq-library" aria-label="Existing MCQ Library">
+  <div id="studio-view-nav" class="studio-view-nav" role="group" aria-label="Question management areas">
+    <button id="studio-nav-drafts" type="button" class="studio-view-tab is-current" data-studio-target="drafts" aria-pressed="true"><span aria-hidden="true">▣</span> My Drafts</button>
+    <button id="studio-nav-browse" type="button" class="studio-view-tab" data-studio-target="browse" aria-pressed="false"><span aria-hidden="true">⌕</span> Browse &amp; Edit</button>
+    <button id="studio-nav-import" type="button" class="studio-view-tab" data-studio-target="import" aria-pressed="false"><span aria-hidden="true">⇧</span> Bulk Upload</button>
+  </div>
+  <section id="studio-focus-workspace" class="studio-focus-workspace is-hidden" aria-label="Focused MCQ draft workspace">
+    <div class="studio-focus-top">
+      <button type="button" id="studio-focus-back" class="studio-focus-back">← My Drafts</button>
+      <div class="studio-focus-heading">
+        <h2 id="studio-focus-title">Question Workspace</h2>
+        <p id="studio-focus-subtitle" class="tiny-text">Create or edit the questions in this draft.</p>
+      </div>
+      <span id="studio-focus-status" class="studio-status studio-status--ready">Working Draft</span>
+    </div>
+    <div class="studio-focus-toolbar">
+      <button id="studio-focus-add" type="button" class="primary-btn">+ Add Question</button>
+      <button id="studio-focus-save" type="button" class="secondary-btn">Save Draft</button>
+      <button id="studio-focus-upload" type="button" class="secondary-btn">Import Excel</button>
+      <span id="studio-focus-save-status" class="tiny-text" role="status" aria-live="polite">No changes pending.</span>
+    </div>
+    <div class="studio-focus-layout">
+      <aside class="studio-focus-sidebar" aria-label="Questions in current draft">
+        <div class="studio-focus-sidebar-head">
+          <strong>Questions <span id="studio-focus-count">0</span></strong>
+          <span id="studio-focus-validation" class="tiny-text"></span>
+        </div>
+        <label for="studio-focus-search" class="tiny-text">Find a question</label>
+        <input id="studio-focus-search" type="search" placeholder="Question number, topic, or text" maxlength="120" autocomplete="off">
+        <div id="studio-focus-questions" class="studio-focus-questions" role="list"><p class="tiny-text">Add your first question.</p></div>
+        <div class="studio-focus-pages">
+          <button id="studio-focus-prev" type="button" class="studio-edit">Previous</button>
+          <span id="studio-focus-page" class="tiny-text">0 questions</span>
+          <button id="studio-focus-next" type="button" class="studio-edit">Next</button>
+        </div>
+      </aside>
+      <div class="studio-focus-main">
+        <div id="studio-focus-empty" class="studio-focus-empty">
+          <div class="studio-focus-empty-icon" aria-hidden="true">✎</div>
+          <h3>Your question workspace</h3>
+          <p>Select a question from the list, or choose <strong>Add Question</strong> to create one. Add as many questions as required without using Excel.</p>
+        </div>
+        <section id="studio-focus-readonly" class="studio-focus-readonly is-hidden" aria-label="Read-only question inspection">
+          <h3 id="studio-focus-inspect-heading">Inspect question</h3>
+          <p class="tiny-text">Read-only inspection. Review decisions and publication are separate authorized actions.</p>
+          <div id="studio-focus-inspect-body" class="studio-mcq-preview"></div>
+        </section>
+        <div id="studio-focus-editor-stage"></div>
+        <p id="studio-focus-feedback" class="studio-feedback" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+    <details id="studio-focus-review-options" class="studio-focus-review-options studio-advanced">
+      <summary>Review &amp; release options</summary>
+      <p class="tiny-text">Academic review is optional for authorized staff. Technical validation is required. None of these actions publishes questions to the Student LMS.</p>
+      <div class="studio-actions">
+        <button id="studio-focus-submit-review" type="button" class="studio-edit">Submit for Academic Review</button>
+        <button id="studio-focus-direct-prepare" type="button" class="studio-edit">Prepare Without Review</button>
+        <button id="studio-focus-withdraw" type="button" class="studio-edit is-hidden">Withdraw Review Request</button>
+      </div>
+    </details>
+  </section>
+
+  <section id="mcq-library" data-studio-page="browse" aria-label="Existing MCQ Library">
     <div class="studio-banner"><strong>Existing MCQ Library &amp; Direct Editor.</strong> Search original Question Bank and regional past-paper MCQs. Edit individually without Excel. Every Save creates an unpublished Chief-only correction draft; it does not modify student questions. Restricted Course Test MCQs are excluded from this library.</div>
     <div class="studio-panel">
       <div class="syllabus-heading"><h2>Browse Existing MCQs</h2><button type="button" class="studio-edit" id="mcq-lib-refresh">Refresh Questions</button></div>
@@ -309,12 +370,13 @@
     </section>
   </section>
 
-  <div class="studio-banner"><strong>Question Workspace</strong> — Create one question or an entire set manually, import from Excel, and save your work securely. Review is optional according to academic permissions. Nothing here publishes directly to students.</div>
-  <section class="studio-panel studio-draft-hub" aria-label="My current MCQ working draft">
+  <div class="studio-banner" data-studio-page="drafts"><strong>Question Workspace</strong> — Create one question or an entire set manually, import from Excel, and save your work securely. Review is optional according to academic permissions. Nothing here publishes directly to students.</div>
+  <section class="studio-panel studio-draft-hub" data-studio-page="drafts" aria-label="My current MCQ working draft">
     <div class="syllabus-heading"><h2>My Working Draft</h2><span class="studio-status studio-status--ready" id="studio-batch-state">New · Unsaved</span></div>
     <div class="studio-field"><label for="studio-batch-name">Draft name</label><input id="studio-batch-name" type="text" maxlength="120" placeholder="e.g. Biology — Biomolecules — 50 MCQs" value="New MCQ Draft"></div>
     <div class="studio-editor-actions">
       <button type="button" id="studio-new" class="primary-btn">+ Add Question</button>
+      <button type="button" id="studio-open-workspace" class="secondary-btn">Open Question Workspace</button>
       <button type="button" id="studio-new-set" class="secondary-btn">Start Another Draft</button>
       <button type="button" id="studio-save-batch" class="secondary-btn">Save Draft</button>
     </div>
@@ -332,7 +394,7 @@
     </div>
     <p class="tiny-text" id="studio-route-status">Both routes require a saved, technically valid batch. Preparing for release does not publish questions; publishing remains disabled until the separate Student LMS release service is approved.</p>
   </section>
-  <div class="studio-summary" aria-label="Draft import quality">
+  <div class="studio-summary" data-studio-page="drafts" aria-label="Draft import quality">
     <article><span>Draft questions</span><strong id="studio-total">0</strong></article>
     <article><span>Ready</span><strong id="studio-ready">0</strong></article>
     <article><span>Check Needed</span><strong id="studio-review">0</strong></article>
@@ -347,7 +409,7 @@
         <select id="studio-template-bank"><option value="SJN Question Bank">SJN Question Bank — source optional</option><option value="Past Papers Question Bank">Past Papers Question Bank — source required</option></select></div>
       <div class="studio-actions"><button type="button" id="studio-template-xlsx">Download Excel Template (.xlsx)</button><button type="button" id="studio-template">Download CSV Template</button></div>
       <p class="tiny-text">Only ordinary chapter/topic Question Banks use this importer. Full-Length Past Papers and restricted Course Tests need their own separate managers and secure publication paths. The downloaded template includes Option E as an optional draft-only field.</p>
-      <label for="studio-file">Choose a CSV or XLSX file (maximum 10,000 review rows)</label>
+      <label for="studio-file">Choose a CSV or XLSX file (up to 3,000 questions per saved draft)</label>
       <input class="studio-file" id="studio-file" type="file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
       <p>CSV and Excel (.xlsx) first-worksheet imports are supported in this development version. Academy-approved master syllabus labels are matched by subject/chapter/topic; temporary legacy MCQ labels are not treated as approved syllabus. Direct student publishing remains disabled.</p>
     </section>
@@ -359,7 +421,7 @@
       <div class="studio-actions"><button type="button" id="studio-export" disabled>Export Unpublished Drafts</button><button type="button" id="studio-clear">Clear Browser Drafts</button></div>
     </details>
   </div>
-  <details class="studio-panel studio-advanced" aria-label="Advanced taxonomy correction tools"><summary>Advanced: Bulk Topic Spelling Corrections</summary>
+  <details class="studio-panel studio-advanced" data-studio-page="import" aria-label="Advanced taxonomy correction tools"><summary>Advanced: Bulk Topic Spelling Corrections</summary>
     <h2>Bulk Topic Spelling Corrections — Review Only</h2>
     <p>For existing LMS topics with incorrect spelling, prepare a correction proposal without changing student records. Up to 1,000 proposed topic renames per CSV, with exact Subject/Chapter scope and duplicate/collision checks. This is a separate operation from importing new MCQs.</p>
     <div class="studio-actions"><button id="studio-rename-template" type="button">Download Topic Correction Template</button>
@@ -372,8 +434,9 @@
       <tbody id="studio-rename-list"><tr><td colspan="5">No correction proposals imported.</td></tr></tbody>
     </table></div>
   </details>
+  <details id="studio-draft-validation-details" data-studio-page="drafts" class="studio-advanced studio-draft-validation-details"><summary>Detailed question validation &amp; corrections</summary>
   <section class="studio-panel" aria-label="Draft question review table">
-    <h2>Questions in This Draft</h2><p class="tiny-text">Ready / Needs Review / Invalid describe validation, not Academic Review approval. Save Draft Batch stores these drafts; they are not yet eligible for the existing-MCQ correction review queue.</p>
+    <h2>Questions in This Draft</h2><p class="tiny-text">This optional detailed table provides validation and syllabus matching; academic approval is separate.</p>
     <p id="studio-taxonomy-source" class="tiny-text">Loading the existing LMS taxonomy reference…</p>
     <div class="studio-toolbar">
       <label for="studio-filter">Filter by validation</label>
@@ -389,6 +452,7 @@
     </div>
     <p id="studio-feedback" class="studio-feedback" role="status" aria-live="polite"></p>
   </section>
+  </details>
   <section id="studio-taxonomy-editor" class="studio-panel is-hidden" aria-label="Review taxonomy matches">
     <h2>Match Existing LMS Chapter and Topic</h2>
     <p id="studio-taxonomy-original"></p>
@@ -402,7 +466,7 @@
   </section>
   <section class="studio-panel is-hidden" id="studio-editor" aria-label="Question draft editor">
     <h2 id="studio-editor-heading">Create a new MCQ draft</h2>
-    <p>Editing here never changes a published student MCQ. Answer choices A–D are standard; Option E is optional for unpublished drafts only. Save Draft Batch before leaving the page. New-question approval is not yet connected to Academic Reviews.</p>
+    <p>Create each question here, then save it securely to the working draft. Option E is unpublished-draft only.</p>
     <form id="studio-editor-form">
       <div class="studio-editor-grid">
         <div class="studio-field studio-field--wide"><h3>Question &amp; answers</h3><p class="tiny-text">Edit each option separately. Format multi-statement questions with line breaks and symbols.</p></div>
@@ -426,7 +490,7 @@
       <div class="studio-field studio-field--wide"><h3>Draft question preview</h3><div id="studio-live-preview" class="studio-mcq-preview" aria-live="polite"></div></div>
       <div class="studio-editor-actions">
         <button id="studio-save" class="primary-btn" type="submit">Save Question</button>
-        <button id="studio-save-next" class="secondary-btn" type="button">Save &amp; Add Next</button>
+        <button id="studio-save-next" class="secondary-btn" type="button">Save &amp; Next</button>
         <button id="studio-cancel" class="secondary-btn" type="button">Cancel</button>
       </div>
     </form>
