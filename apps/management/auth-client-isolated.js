@@ -248,18 +248,48 @@ async function loadTeam(){
   visible("team-edit-form",false);
  }catch(e){notice("team-feedback",e.message,true)}
 }
+const auditType=action=>{
+ const name=String(action||"");
+ if(name.startsWith("content.")||name.includes("mcq")||name.startsWith("academic."))return "content";
+ if(name.startsWith("staff.")||name.startsWith("team.")||name.startsWith("profile.")||name.includes("invitation"))return "staff";
+ return "other";
+};
+const auditDescription=action=>({
+ "content.batch_created":"Draft created",
+ "content.draft_chunk_saved":"Questions saved to draft",
+ "content.batch_state_changed":"Draft status changed",
+ "content.mcq_edit_draft_saved":"Existing MCQ correction saved"
+})[action]||String(action||"Management activity").replaceAll("."," · ").replaceAll("_"," ");
 async function loadAudit(){
- const box=$("audit-event-list");box.replaceChildren(element("p","secondary-note","Loading activity…"));
+ const box=$("audit-event-list"),summary=$("audit-summary");
+ box.replaceChildren(element("p","secondary-note","Loading verified activity…"));
  try{
-  const result=await manage("audit.list");box.replaceChildren();
-  if(!result.events?.length){box.append(element("p","secondary-note","No management activity recorded"));return}
-  for(const event of result.events){
+  const result=await manage("audit.list",{period:$("audit-period").value});
+  const type=$("audit-action-filter").value;
+  const events=(result.events||[]).filter(e=>type==="all"||auditType(e.action)===type);
+  box.replaceChildren();
+  summary.textContent=events.length+" matching recorded events, most recent first"+
+   (result.limit?" (up to "+result.limit+" retrieved).":".")+
+   " Counts represent audit events, not unique MCQs uploaded or published.";
+  if(!events.length){box.append(element("p","secondary-note","No recorded activity matches these filters."));return}
+  for(const event of events){
    const row=element("div","staff-row"),info=element("div");
-   info.append(element("strong","",event.action),element("p","",new Date(event.created_at).toLocaleString()));
+   info.append(element("strong","",auditDescription(event.action)));
+   info.append(element("p","",(event.actor?event.actor+" · ":"")+new Date(event.created_at).toLocaleString()));
+   const d=event.details||{},parts=[];
+   if(d.name)parts.push("Draft: "+d.name);
+   if(d.mcq_id)parts.push("MCQ #"+d.mcq_id);
+   if(d.count)parts.push(d.count+" rows saved in this operation");
+   if(d.from&&d.to)parts.push(d.from.replaceAll("_"," ")+" → "+d.to.replaceAll("_"," "));
+   if(d.route)parts.push("Route: "+d.route);
+   if(parts.length)info.append(element("p","",parts.join(" · ")));
    row.append(info);box.append(row);
   }
- }catch(e){box.replaceChildren(element("p","auth-feedback",e.message))}
+ }catch(e){box.replaceChildren(element("p","auth-feedback",e.message));summary.textContent="Activity unavailable: "+e.message}
 }
+$("audit-refresh").addEventListener("click",loadAudit);
+$("audit-period").addEventListener("change",loadAudit);
+$("audit-action-filter").addEventListener("change",loadAudit);
 async function refreshModule(){
  const m=document.querySelector('.nav-item[aria-current="page"]')?.dataset.module;
  if(m==="team")await loadTeam();if(m==="reports")await loadAudit();
