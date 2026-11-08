@@ -13,6 +13,7 @@
  const PAGE_SIZE=40;
  function routeControls(){
    const state=savedStatus;
+   $("studio-batch-name").readOnly=!!savedBatchId;
    const title=state==="unsaved"?"New · Unsaved":
      state==="draft"?"Working Draft":state==="pending_review"?"Pending Academic Review":
      state==="needs_changes"?"Changes Requested":state==="approved_for_release"?"Approved for Release":state;
@@ -477,6 +478,7 @@
    if(dirty&&drafts.length&&!window.confirm("This working draft has unsaved changes. Start a new draft without saving them?"))return;
    drafts=[];selected=-1;page=0;filter="all";savedBatchId=null;clientBatchKey=null;
    savedStatus="unsaved";dirty=false;editorSnapshot=null;focusLine=null;inspectMode=false;
+   $("studio-batch-name").readOnly=false;
    $("studio-filter").value="all";$("studio-batch-name").value="New MCQ Draft";
    $("studio-saved-batches").value="";show("studio-editor",false);setStudioView("drafts");render();
    storageStatus("New blank draft ready. Add questions manually or import an Excel file.");
@@ -548,8 +550,7 @@
      feedback("Question "+position+" saved securely to Management. "+(result.warnings.length?"Checks: "+result.warnings.join(" "):"")+" Nothing published.");
      if(next)$("studio-new").click();
    }catch(e){
-     editorSnapshot=JSON.stringify(entry); // Keep editable content in place for retry.
-     focusFormSnapshot();
+     dirty=true;editorSnapshot=JSON.stringify({failedSave:true});routeControls(); // Keep the unsaved form protected on exit.
      focusStateMessage("Save failed. Your question is still in the editor. Try again: "+e.message,true);
      feedback("Save failed; question has not been confirmed in protected storage. "+e.message,true);
    }
@@ -568,6 +569,7 @@
    if(!drafts.length)return;
    if(!window.confirm("Clear all unpublished drafts from this browser session? Export first if you want to keep them."))return;
    drafts=[];selected=-1;page=0;savedBatchId=null;clientBatchKey=null;savedStatus="unsaved";dirty=false;
+   $("studio-batch-name").readOnly=false;
    $("studio-saved-batches").value="";show("studio-editor",false);render();
    feedback("Browser draft cleared. Existing LMS MCQs were not affected.");
  });
@@ -606,14 +608,13 @@
        const tr=document.createElement("tr");
        const name=cell("td",batch.title),state=cell("td",batch.status.replaceAll("_"," ")),
          when=cell("td",new Date(batch.updated_at).toLocaleString()),action=document.createElement("td");
-       const open=cell("button","Open Draft","studio-edit");open.type="button";
+       const open=cell("button","Inspect Questions","studio-edit");open.type="button";
        open.addEventListener("click",async()=>{
          try{
-           await reloadBatchList();
-           $("studio-saved-batches").value=batch.id;
+           if(!await openSavedBatch(batch.id,{inspect:true}))return;
            const link=document.querySelector('[data-module="questions"]');
            if(link)link.click();
-           $("studio-load-batch").click();
+           setStudioView("focus");
          }catch(e){status.textContent=e.message}
        });
        action.append(open);tr.append(name,state,when,action);tbody.append(tr);
@@ -650,26 +651,40 @@
      focusStateMessage("Batch not fully saved: "+e.message,true);
    }
  });
- $("studio-load-batch").addEventListener("click",async()=>{
-   const id=$("studio-saved-batches").value;
-   if(!id){storageStatus("Choose a saved draft batch first.",true);return;}
-   if(drafts.length&&!window.confirm("Replace current browser drafts with the selected saved batch? Export unsaved changes first."))return;
+
+ async function openSavedBatch(id,{inspect=false}={}){
+   if(saveInFlight)return false;
+   if(!id){storageStatus("Choose a saved draft first.",true);return false}
+   // Warn only about true unsaved work, not the presence of already-saved rows.
+   if((dirty||formChanged())&&!window.confirm("Your current draft has unsaved changes. Open another saved draft without saving those changes?"))
+     return false;
    busy(true);
    try{
      const result=await storage().load(id);
-     if(!result.batch?.id||result.batch.id!==id)throw Error("Saved batch could not be verified.");
-     // Apply only after every page has loaded successfully.
-     drafts=result.rows.map(row=>({...row,entry:canonicalizeExact(row.entry)}));
-     selected=-1;page=0;filter="all";$("studio-filter").value="all";
+     if(!result.batch?.id||result.batch.id!==id)throw Error("Saved draft could not be verified.");
+     const loaded=result.rows.map(row=>({...row,entry:canonicalizeExact(row.entry)}));
+     // Apply atomically only after the complete saved batch is available.
+     drafts=loaded;selected=-1;page=0;filter="all";focusPage=0;focusLine=null;focusQuery="";
+     $("studio-filter").value="all";$("studio-focus-search").value="";
      savedBatchId=id;clientBatchKey=result.batch.client_key;
-     savedStatus=result.batch.status||"draft";dirty=false;routeControls();
+     savedStatus=result.batch.status||"draft";dirty=false;
+     inspectMode=Boolean(inspect);
+     editorSnapshot=null;advanceOnSave=false;
      $("studio-batch-name").value=result.batch.title;
-     show("studio-editor",false);render();
-     storageStatus("Opened "+drafts.length+" saved questions. Status: "+savedStatus.replaceAll("_"," ")+". Nothing published.");
-   }catch(e){storageStatus(e.message,true)}
-   finally{busy(false)}
+     $("studio-batch-name").readOnly=true;
+     $("studio-saved-batches").value=id;
+     show("studio-editor",false);show("studio-focus-readonly",false);
+     render();openWorkspace({inspect});
+     storageStatus("Opened "+drafts.length+" saved questions · "+savedStatus.replaceAll("_"," ")+". Nothing published.");
+     return true;
+   }catch(e){
+     storageStatus(e.message,true);focusStateMessage("Unable to open draft: "+e.message,true);return false;
+   }finally{busy(false)}
+ }
+ $("studio-load-batch").addEventListener("click",async()=>{
+   const id=$("studio-saved-batches").value;
+   await openSavedBatch(id);
  });
-
  async function changeRoute(action){
    if(!savedBatchId||dirty){storageStatus("Save all question changes before selecting an academic route.",true);return}
    if(action==="direct"&&!window.confirm("Confirm direct release preparation without another teacher's review? This will NOT publish questions to students."))return;
@@ -692,6 +707,7 @@
    // Browser memory must not retain sensitive staff draft content after sign-out.
    drafts=[];selected=-1;filter="all";page=0;
    savedBatchId=null;clientBatchKey=null;savedStatus="unsaved";dirty=false;
+   $("studio-batch-name").readOnly=false;
    $("studio-saved-batches").replaceChildren(new Option("Select a saved draft batch",""));
    writeEditor({});$("studio-batch-name").value="Unpublished MCQ Review Batch";
    $("studio-file").value="";renameProposals=[];renderRenamePlan();
