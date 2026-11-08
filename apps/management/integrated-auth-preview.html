@@ -147,6 +147,13 @@
           </div>
         </section>
         <section id="academic-review-preview" class="is-hidden" aria-label="Academic Review & Approval Workflow">
+  <section class="studio-panel" aria-label="New question batch statuses">
+    <div class="syllabus-heading"><h2>New MCQ Batches — My Review Status</h2><button type="button" class="studio-edit" id="review-refresh-new-batches">Refresh Batches</button></div>
+    <p class="tiny-text">See the status of newly created question batches here. Independent academic review and student publishing are separate steps; approved for release does not mean published. Existing-MCQ correction reviews continue below.</p>
+    <div class="studio-table-scroll"><table class="studio-table"><thead><tr><th>Draft name</th><th>Current status</th><th>Last updated</th><th>Open</th></tr></thead>
+      <tbody id="review-new-batch-list"><tr><td colspan="4">Sign in to view saved new-question batches.</td></tr></tbody></table></div>
+    <p id="review-new-batch-status" class="studio-feedback" aria-live="polite"></p>
+  </section>
   <div class="studio-banner"><strong>Academic Review is separate from publishing.</strong> A reviewed MCQ becomes <strong>Approved for Release</strong> only; it does not change any student question until a separate secure, authorized publication service passes its safety review.</div>
   <div class="studio-summary">
     <article><span>My correction drafts</span><strong id="review-draft-count">0</strong></article>
@@ -314,7 +321,7 @@
   <div class="studio-summary" aria-label="Draft import quality">
     <article><span>Draft questions</span><strong id="studio-total">0</strong></article>
     <article><span>Ready</span><strong id="studio-ready">0</strong></article>
-    <article><span>Needs review</span><strong id="studio-review">0</strong></article>
+    <article><span>Check Needed</span><strong id="studio-review">0</strong></article>
     <article><span>Invalid</span><strong id="studio-invalid">0</strong></article>
   </div>
   <div class="studio-panels">
@@ -352,11 +359,11 @@
     </table></div>
   </details>
   <section class="studio-panel" aria-label="Draft question review table">
-    <h2>New MCQ Drafts — Validation Queue</h2><p class="tiny-text">Ready / Needs Review / Invalid describe validation, not Academic Review approval. Save Draft Batch stores these drafts; they are not yet eligible for the existing-MCQ correction review queue.</p>
+    <h2>Questions in This Draft</h2><p class="tiny-text">Ready / Needs Review / Invalid describe validation, not Academic Review approval. Save Draft Batch stores these drafts; they are not yet eligible for the existing-MCQ correction review queue.</p>
     <p id="studio-taxonomy-source" class="tiny-text">Loading the existing LMS taxonomy reference…</p>
     <div class="studio-toolbar">
       <label for="studio-filter">Filter by validation</label>
-      <select id="studio-filter"><option value="all">All drafts</option><option value="ready">Ready</option><option value="review">Needs review</option><option value="invalid">Invalid</option></select>
+      <select id="studio-filter"><option value="all">All drafts</option><option value="ready">Ready</option><option value="review">Check Needed</option><option value="invalid">Invalid</option></select>
       <span id="studio-range" class="tiny-text">No drafts</span>
     </div>
     <div class="studio-table-scroll"><table class="studio-table">
