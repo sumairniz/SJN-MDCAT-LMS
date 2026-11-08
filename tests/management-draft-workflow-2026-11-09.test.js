@@ -35,7 +35,7 @@ test("review routing only prepares unpublished release and prevents editing subm
  assert.ok(!storage.includes("student.supabase"));
  assert.ok(!storage.includes("mcqs.insert"));
  assert.ok(!storage.includes("publishMCQ"));
- assert.match(ui,/Prepared/);
+ assert.match(ui,/changeRoute\("direct"\)/);
 });
 test("topic is visible in existing question result and draft classification",()=>{
  assert.match(mcq,/mcq\.topic/);
