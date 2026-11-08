@@ -106,12 +106,12 @@
    $("studio-editor").scrollIntoView({behavior:"smooth",block:"nearest"});
  }
  $("studio-template").addEventListener("click",()=>download(
-   "sjn-mednest-mcq-import-template.csv",core.csvTemplate($("studio-bank").value||"SJN Question Bank"),"text/csv;charset=utf-8"
+   "sjn-mednest-mcq-import-template.csv",core.csvTemplate($("studio-template-bank").value),"text/csv;charset=utf-8"
  ));
  $("studio-template-xlsx").addEventListener("click",()=>{
    try{
      if(!window.MedNestXLSXTemplate)throw Error("Excel template generator unavailable.");
-     const bank=$("studio-bank").value||"SJN Question Bank";
+     const bank=$("studio-template-bank").value;
      const rows=core.parseCSV(core.csvTemplate(bank));
      const blob=window.MedNestXLSXTemplate.create(rows);
      const url=URL.createObjectURL(blob),link=document.createElement("a");
