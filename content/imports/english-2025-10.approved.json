@@ -1,0 +1,194 @@
+{
+  "metadata": {
+    "status": "OWNER_APPROVED_FOR_STAGING_ONLY",
+    "examYear": 2025,
+    "approvedOn": "2026-10-25",
+    "count": 10,
+    "subject": "English",
+    "classification": "Single-level Chapter = Topic; no nested topics. Both chapter and topic store exactly the same category. Display only once.",
+    "contentRule": "Original past-paper questions/options/exam source/answer keys preserved. reviewNumber is not a permanent DB ID nor quiz number.",
+    "productionPromotion": "Separate production approval required. Git merge does not copy Supabase data."
+  },
+  "questions": [
+    {
+      "reviewNumber": 1,
+      "bank": "Past Papers Question Bank",
+      "subject": "English",
+      "chapter": "Spellings",
+      "topic": "Spellings",
+      "source": "UHS 2025",
+      "question": "Identify the sentence with no spelling error:",
+      "options": [
+        "Imtiaz invited me on a dinner party at restaurant.",
+        "Imtiaz invited me on a diner party at restaurant.",
+        "Imtiaz invited me on a dinner party at resturant.",
+        "Imtiaz invited me on a dinnar party at restaurent."
+      ],
+      "correctIndex": 0,
+      "explanation": "Option A contains the correctly spelled words \"dinner\" and \"restaurant.\" The other options contain spelling errors.",
+      "mnemonic": "Dinner = meal; Diner = a person or a type of restaurant."
+    },
+    {
+      "reviewNumber": 2,
+      "bank": "Past Papers Question Bank",
+      "subject": "English",
+      "chapter": "Spellings",
+      "topic": "Spellings",
+      "source": "UHS 2025",
+      "question": "The manager accepted the cashier's ________ for coming late.",
+      "options": [
+        "expalanation",
+        "explaination",
+        "explnasion",
+        "explanation"
+      ],
+      "correctIndex": 3,
+      "explanation": "\"Explanation\" is the correct spelling of the noun formed from the verb \"explain.\"",
+      "mnemonic": "Explain → Explanation (not explaination)."
+    },
+    {
+      "reviewNumber": 3,
+      "bank": "Past Papers Question Bank",
+      "subject": "English",
+      "chapter": "Spellings",
+      "topic": "Spellings",
+      "source": "SZABMU 2025",
+      "question": "Identify the sentence with no spelling error:",
+      "options": [
+        "Rabia completes homework assignments well in time.",
+        "Rabia complete homwork assignments well in time.",
+        "Rabia completes homework asignments well in time.",
+        "Rabia completes homework assigments well in time."
+      ],
+      "correctIndex": 0,
+      "explanation": "Option A correctly spells both \"homework\" and \"assignments.\" The other options contain misspellings.",
+      "mnemonic": "Assignment has double \"s\" after \"a\": a-ss-ignment."
+    },
+    {
+      "reviewNumber": 4,
+      "bank": "Past Papers Question Bank",
+      "subject": "English",
+      "chapter": "Spellings",
+      "topic": "Spellings",
+      "source": "BUMHS 2025",
+      "question": "Choose the word with incorrect spelling:",
+      "options": [
+        "sagacious",
+        "foremost",
+        "berister",
+        "pneumonia"
+      ],
+      "correctIndex": 2,
+      "explanation": "\"Berister\" is incorrectly spelled. The correct spelling is \"barrister,\" meaning a lawyer who represents clients in court.",
+      "mnemonic": "Barrister = B-A-R-R-I-S-T-E-R."
+    },
+    {
+      "reviewNumber": 5,
+      "bank": "Past Papers Question Bank",
+      "subject": "English",
+      "chapter": "Spellings",
+      "topic": "Spellings",
+      "source": "BUMHS 2025",
+      "question": "Many follow exactly what is written in the ____________.",
+      "options": [
+        "scripturies",
+        "screptures",
+        "scriptures",
+        "scripttures"
+      ],
+      "correctIndex": 2,
+      "explanation": "\"Scriptures\" is the correctly spelled word, referring to sacred or religious writings.",
+      "mnemonic": "Scripture + s = Scriptures."
+    },
+    {
+      "reviewNumber": 6,
+      "bank": "Past Papers Question Bank",
+      "subject": "English",
+      "chapter": "Spellings",
+      "topic": "Spellings",
+      "source": "Sindh 2025",
+      "question": "Choose the word with incorrect spelling:",
+      "options": [
+        "Immigrant",
+        "Ancestors",
+        "Montessori",
+        "Pregmetic"
+      ],
+      "correctIndex": 3,
+      "explanation": "\"Pregmetic\" is incorrectly spelled. The correct spelling is \"pragmatic,\" meaning practical and realistic.",
+      "mnemonic": "Pragmatic = P-R-A-G-M-A-T-I-C."
+    },
+    {
+      "reviewNumber": 1,
+      "bank": "Past Papers Question Bank",
+      "subject": "English",
+      "chapter": "Subject-Verb Agreement",
+      "topic": "Subject-Verb Agreement",
+      "source": "UHS 2025",
+      "question": "Which of the following sentences has correct subject verb agreement?",
+      "options": [
+        "The teacher give the students homework.",
+        "The teacher gives the students homework.",
+        "The teachers gives the student homework.",
+        "The teachers given the student homework."
+      ],
+      "correctIndex": 1,
+      "explanation": "\"The teacher\" is a singular subject, so the simple present tense requires the verb \"gives.\"",
+      "mnemonic": "He/She/It or singular subject → Verb + s/es."
+    },
+    {
+      "reviewNumber": 2,
+      "bank": "Past Papers Question Bank",
+      "subject": "English",
+      "chapter": "Subject-Verb Agreement",
+      "topic": "Subject-Verb Agreement",
+      "source": "KPK 2025",
+      "question": "Each of the boys _______ ambitious to lead the team.",
+      "options": [
+        "have",
+        "has",
+        "is",
+        "are"
+      ],
+      "correctIndex": 2,
+      "explanation": "\"Each\" is singular and requires a singular verb. Since \"ambitious\" is an adjective, the correct linking verb is \"is.\"",
+      "mnemonic": "Each / Every / Everyone → Singular verb."
+    },
+    {
+      "reviewNumber": 1,
+      "bank": "Past Papers Question Bank",
+      "subject": "English",
+      "chapter": "Verb",
+      "topic": "Verb",
+      "source": "BUMHS 2025",
+      "question": "The students decided to meet the teacher and request him for a favour. The main verb in this sentence is:",
+      "options": [
+        "meet",
+        "request",
+        "meet & request",
+        "decided"
+      ],
+      "correctIndex": 3,
+      "explanation": "\"Decided\" is the main finite verb of the sentence. \"To meet\" and \"request\" express the actions the students decided to perform.",
+      "mnemonic": "Main finite verb carries tense. Here, \"decided\" is in the past tense."
+    },
+    {
+      "reviewNumber": 2,
+      "bank": "Past Papers Question Bank",
+      "subject": "English",
+      "chapter": "Verb",
+      "topic": "Verb",
+      "source": "NUMS 2025",
+      "question": "I suggest that you ___ visit the doctor.",
+      "options": [
+        "should",
+        "must",
+        "can",
+        "ought to"
+      ],
+      "correctIndex": 0,
+      "explanation": "\"Should\" is a modal verb used to express advice or recommendation. It appropriately follows \"suggest\" in this sentence.",
+      "mnemonic": "Suggest / Recommend → Should (advice)."
+    }
+  ]
+}

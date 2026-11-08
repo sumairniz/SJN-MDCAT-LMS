@@ -1,0 +1,160 @@
+/* SJN MedNest content studio — uses existing management theme tokens. */
+.studio-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin:0 0 20px}
+.studio-summary article{border-radius:13px;background:var(--panel);border:1px solid var(--line);padding:16px 17px;min-width:0}
+.studio-summary span{display:block;font-size:11px;color:var(--muted);margin-bottom:8px}
+.studio-summary strong{font-size:31px;font-weight:800;letter-spacing:-1px}
+.studio-panels{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(290px,.85fr);gap:18px;margin-bottom:20px}
+.studio-panel{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:22px;min-width:0}
+.studio-panel h2{font-size:17px;letter-spacing:-.35px;margin:0 0 10px}
+.studio-panel p{font-size:12px;line-height:1.7;color:var(--muted)}
+.studio-actions{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0}
+.studio-actions button,.studio-actions label,.studio-toolbar button,.studio-edit{border:1px solid var(--line);background:var(--panel-alt);color:var(--text);padding:10px 14px;border-radius:9px;font-size:12px;font-weight:750;cursor:pointer}
+.studio-actions button:hover,.studio-edit:hover{border-color:var(--red)}
+.studio-actions button:disabled,.studio-toolbar button:disabled{opacity:.4;cursor:not-allowed}
+.studio-file{display:block;max-width:100%;font-size:12px;color:var(--muted);margin:14px 0}
+.studio-file::file-selector-button{border:1px solid var(--line);background:var(--panel-alt);color:var(--text);border-radius:8px;padding:10px 12px;font:inherit;margin-right:12px;cursor:pointer}
+.studio-banner{border:1px solid rgba(215,85,100,.28);background:var(--red-bg);padding:14px 16px;border-radius:11px;margin-bottom:19px;font-size:12px;line-height:1.7;color:var(--text)}
+.studio-feedback{font-size:12px;line-height:1.7;color:var(--muted);padding:12px 0;min-height:30px;overflow-wrap:anywhere}
+.studio-feedback[data-error="true"]{color:var(--red)}
+.studio-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0}
+.studio-toolbar select,.studio-field input,.studio-field textarea,.studio-field select{width:100%;border-radius:9px;border:1px solid var(--line);background:var(--panel-alt);color:var(--text);font:inherit;font-size:13px;padding:11px 12px;min-height:42px}
+.studio-toolbar select{width:auto}
+.studio-table-scroll{overflow:auto;max-height:640px;border:1px solid var(--line);border-radius:11px}
+.studio-table{width:100%;border-collapse:collapse;min-width:760px;font-size:12px}
+.studio-table th{text-align:left;background:var(--panel-alt);font-weight:750;color:var(--muted);position:sticky;top:0;padding:14px}
+.studio-table td{border-top:1px solid var(--line);padding:12px 14px;vertical-align:top;overflow-wrap:anywhere}
+.studio-question-cell{max-width:420px;min-width:200px}
+.studio-feedback-cell{font-size:11px;color:var(--muted);background:var(--panel-alt)}
+.studio-status{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;border:1px solid var(--line);padding:5px 7px;border-radius:6px}
+.studio-status--ready{color:#78c9a0}.studio-status--review{color:#d3ab66}.studio-status--invalid{color:#ed8991}
+.studio-pagination{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:13px}
+.studio-pagination button{font-size:12px;padding:9px 12px}
+.studio-editor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.studio-field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.studio-field label{font-size:11px;font-weight:750;color:var(--muted)}
+.studio-field textarea{resize:vertical;min-height:100px}
+.studio-field--wide{grid-column:1/-1}
+.studio-editor-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.studio-editor-actions button{width:auto}
+@media(max-width:920px){.studio-panels{grid-template-columns:1fr}.studio-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.studio-editor-grid{grid-template-columns:1fr}.studio-summary article{padding:13px}.studio-panel{padding:16px}.studio-summary strong{font-size:25px}}
+
+/* Chief-only direct MCQ Library: same responsive shell, separate publish-disabled editing. */
+#mcq-library .studio-panel{margin-bottom:18px}
+#mcq-lib-search{min-width:160px;flex:1;border:1px solid var(--line);border-radius:9px;background:var(--panel-alt);color:var(--text);padding:10px 12px;font-size:12px}
+#mcq-lib-results td:nth-child(4){max-width:380px;min-width:180px}
+#mcq-lib-edit-bank[readonly]{opacity:.8;cursor:not-allowed}
+#mcq-lib-paging{color:var(--muted);font-size:12px}
+#mcq-lib-syllabus-topic{width:100%}
+#mcq-lib-editor .studio-editor-actions{align-items:center}
+
+/* November 8 staff workflow refinement: safe text previews, responsive editor. */
+.studio-workflow{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:12px 14px;margin:12px 0;border:1px solid var(--line);border-radius:11px;background:var(--panel-alt);font-size:12px;font-weight:700;color:var(--text)}
+.studio-workflow span:nth-child(even){color:var(--muted)}
+.studio-format-bar{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+.studio-format-bar button{border:1px solid var(--line);border-radius:8px;background:var(--panel-alt);color:var(--text);padding:7px 10px;font:inherit;font-size:12px;cursor:pointer}
+.studio-format-bar button:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.studio-section{border:1px solid var(--line);border-radius:11px;margin:14px 0;padding:14px;min-width:0}
+.studio-section h3,.studio-editor-grid h3{margin:0 0 8px;font-size:14px;color:var(--text)}
+.studio-mcq-preview{padding:15px;border:1px solid var(--line);border-radius:11px;background:var(--panel-alt);color:var(--text);font-size:13px;line-height:1.6}
+.studio-mcq-statement{white-space:pre-wrap;overflow-wrap:anywhere;font-weight:650;margin-bottom:12px}
+.studio-mcq-choice{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;margin-bottom:6px;border:1px solid var(--line);border-radius:9px;white-space:pre-wrap;overflow-wrap:anywhere}
+.studio-mcq-choice strong{flex:none;color:var(--muted)}
+.studio-mcq-choice span{min-width:0}
+.studio-mcq-note{white-space:pre-wrap;overflow-wrap:anywhere;padding:9px 0;border-top:1px solid var(--line);margin-top:8px}
+.studio-preview-answer{font-weight:700;margin:12px 0 0!important}
+#mcq-lib-edit-form .studio-editor-grid{align-items:start}
+#mcq-lib-edit-form .studio-field--wide > h3{margin:10px 0}
+#mcq-lib-editor textarea,#studio-editor textarea{white-space:pre-wrap}
+@media(max-width:560px){.studio-workflow{font-size:11px;gap:5px}.studio-format-bar button{padding:9px}.studio-mcq-preview{padding:11px}}
+
+/* Teacher-first Management workflow (2026-11-09). */
+.studio-draft-hub{margin:0 0 18px;padding:22px;background:var(--panel)}
+.studio-draft-hub .studio-editor-actions{margin:13px 0 16px}
+.studio-draft-hub .studio-editor-actions .primary-btn{font-weight:800}
+.studio-draft-hub #studio-batch-name{max-width:580px;font-size:14px}
+.studio-draft-hub .studio-toolbar{padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--panel-alt)}
+.studio-draft-hub #studio-saved-batches{min-width:230px;max-width:100%;flex:1}
+.studio-review-actions{display:flex;flex-wrap:wrap;gap:9px;margin:13px 0}
+.studio-review-actions button{min-height:40px}
+.studio-review-actions button:disabled{opacity:.4;cursor:not-allowed}
+#studio-batch-state{white-space:normal;text-align:center}
+.studio-advanced>summary{cursor:pointer;font-size:13px;font-weight:800;list-style-position:inside;padding:5px 0}
+.studio-advanced>summary:hover{color:var(--red)}
+.studio-advanced[open]>summary{margin-bottom:12px}
+#studio-draft-list td:nth-child(3){min-width:240px;max-width:390px}
+#review-new-batch-list td:nth-child(1){min-width:220px}
+#review-new-batch-list td:nth-child(2){text-transform:capitalize}
+#audit-event-list .staff-row{border-top:1px solid var(--line);padding:13px 3px}
+#audit-event-list .staff-row strong{font-size:13px}
+#audit-event-list .staff-row p{font-size:12px;overflow-wrap:anywhere}
+@media(max-width:700px){.studio-draft-hub{padding:15px}.studio-draft-hub .studio-toolbar>*{width:100%}.studio-draft-hub .studio-editor-actions button{flex:1 1 170px}}
+
+/* Student-facing question content is prominent; complex settings are opt-in. */
+.studio-content-panels{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.studio-content-panels>.studio-panel{margin:0}
+#mcq-lib-editor fieldset.studio-section{padding:16px;margin:14px 0}
+#mcq-lib-editor fieldset.studio-section legend{font-weight:800;font-size:14px;padding:0 7px}
+#mcq-lib-editor fieldset.studio-section>.studio-field{margin-bottom:14px}
+#mcq-lib-editor .studio-editor-grid{margin-top:8px}
+#mcq-lib-editor details.studio-section>summary{font-size:13px;font-weight:750;cursor:pointer}
+#mcq-lib-editor details.studio-section[open]>summary{margin-bottom:12px}
+#mcq-lib-editor .studio-section textarea{width:100%;border-radius:9px}
+
+/* Teacher-first focused workspace: keep all existing functions, show only one task. */
+#content-studio-preview[data-studio-view="drafts"] [data-studio-page]:not([data-studio-page="drafts"]),
+#content-studio-preview[data-studio-view="browse"] [data-studio-page]:not([data-studio-page="browse"]),
+#content-studio-preview[data-studio-view="import"] [data-studio-page]:not([data-studio-page="import"]),
+#content-studio-preview[data-studio-view="focus"] [data-studio-page],
+#content-studio-preview[data-studio-view="focus"] #studio-view-nav,
+#content-studio-preview[data-studio-view="focus"] #studio-taxonomy-editor,
+#content-studio-preview[data-studio-view="focus"] #studio-draft-validation-details {display:none!important}
+#content-studio-preview[data-studio-view="focus"] #studio-focus-workspace{display:block}
+.studio-view-nav{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px;margin-bottom:15px;background:var(--panel-alt);border:1px solid var(--line);border-radius:14px}
+.studio-view-tab{font:inherit;font-size:13px;font-weight:750;color:var(--muted);background:transparent;border:1px solid transparent;border-radius:9px;padding:12px 18px;min-height:45px;cursor:pointer}
+.studio-view-tab:hover{color:var(--text);background:var(--panel)}
+.studio-view-tab.is-current{color:var(--text);border-color:var(--line);background:var(--panel);box-shadow:0 1px 4px #0000000c}
+.studio-view-tab:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.studio-focus-workspace{border:1px solid var(--line);border-radius:16px;background:var(--panel);overflow:hidden;margin-bottom:16px}
+.studio-focus-top{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:18px 23px;border-bottom:1px solid var(--line);background:var(--panel-alt)}
+.studio-focus-back{background:transparent;border:1px solid var(--line);border-radius:9px;padding:10px 13px;font:inherit;font-weight:750;color:var(--text);cursor:pointer}
+.studio-focus-heading{flex:1 1 230px;min-width:0}
+.studio-focus-heading h2{margin:0 0 4px;font-size:18px;color:var(--text);overflow-wrap:anywhere}
+.studio-focus-heading p{margin:0}
+.studio-focus-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:14px 20px;border-bottom:1px solid var(--line)}
+.studio-focus-toolbar button{min-height:39px}
+.studio-focus-toolbar .tiny-text{flex:1 1 220px;text-align:right}
+.studio-focus-layout{display:grid;grid-template-columns:minmax(220px,310px) minmax(0,1fr);min-height:510px}
+.studio-focus-sidebar{padding:17px 13px;border-right:1px solid var(--line);background:var(--panel-alt);min-width:0}
+.studio-focus-sidebar-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.studio-focus-sidebar label{display:block;margin-bottom:6px}
+.studio-focus-sidebar input[type=search]{width:100%;font:inherit;padding:9px 11px;margin-bottom:13px;min-width:0;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--text)}
+.studio-focus-questions{display:flex;flex-direction:column;gap:5px;max-height:min(680px,75vh);overflow-y:auto;scrollbar-gutter:stable}
+.studio-focus-question{display:flex;flex-direction:column;gap:5px;width:100%;text-align:left;font:inherit;border:1px solid transparent;border-radius:9px;background:transparent;color:var(--text);padding:12px;cursor:pointer}
+.studio-focus-question:hover,.studio-focus-question:focus-visible{background:var(--panel);border-color:var(--line)}
+.studio-focus-question.is-active{background:var(--panel);border-color:var(--red)}
+.studio-focus-question-head{font-size:12px;font-weight:800;overflow-wrap:anywhere}
+.studio-focus-question-text{font-size:12px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+.studio-focus-pages{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:13px}
+.studio-focus-pages button{min-width:75px}
+.studio-focus-main{min-width:0;padding:19px 20px}
+.studio-focus-empty{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:410px;margin:75px auto;gap:10px}
+.studio-focus-empty h3{margin:5px 0;font-size:16px}
+.studio-focus-empty p{color:var(--muted);line-height:1.55;font-size:13px}
+.studio-focus-empty-icon{display:grid;place-items:center;width:54px;height:54px;border-radius:16px;border:1px solid var(--line);background:var(--panel-alt);font-size:25px}
+#studio-focus-editor-stage #studio-editor{padding:0;border:0;margin:0;box-shadow:none}
+#studio-focus-editor-stage #studio-editor>h2{font-size:17px;margin:0 0 7px}
+#studio-focus-editor-stage #studio-editor>.studio-editor-grid{min-width:0}
+#studio-focus-editor-stage .studio-editor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+#studio-focus-editor-stage .studio-field--wide{grid-column:1/-1}
+#studio-focus-editor-stage textarea,#studio-focus-editor-stage input,#studio-focus-editor-stage select{max-width:100%;min-width:0}
+.studio-focus-readonly{max-width:780px;margin:auto}
+.studio-focus-readonly h3{margin:0 0 9px;font-size:17px}
+.studio-focus-review-options{padding:14px 21px;border-top:1px solid var(--line);background:var(--panel-alt)}
+.studio-focus-review-options>summary{font-size:13px;font-weight:750}
+.studio-draft-validation-details{border:1px solid var(--line);border-radius:12px;padding:10px 13px;margin:13px 0}
+.studio-draft-validation-details>summary{font-size:13px;font-weight:800;cursor:pointer;color:var(--text);padding:9px 6px}
+.studio-draft-validation-details>.studio-panel{margin-top:10px}
+#studio-focus-feedback:empty{display:none}
+@media(max-width:860px){.studio-focus-layout{grid-template-columns:minmax(175px,230px) minmax(0,1fr)}.studio-focus-main{padding:14px}.studio-focus-toolbar .tiny-text{text-align:left}}
+@media(max-width:650px){.studio-view-tab{flex:1 1 120px;padding:11px}.studio-focus-top{padding:12px}.studio-focus-layout{grid-template-columns:1fr}.studio-focus-sidebar{border-right:none;border-bottom:1px solid var(--line)}.studio-focus-questions{flex-direction:row;max-height:150px;overflow:auto}.studio-focus-question{min-width:145px;max-width:190px}.studio-focus-main{padding:14px}.studio-focus-toolbar{padding:12px}.studio-focus-toolbar button{flex:1 1 100px}.studio-focus-toolbar .tiny-text{flex-basis:100%}#studio-focus-editor-stage .studio-editor-grid{grid-template-columns:1fr}}

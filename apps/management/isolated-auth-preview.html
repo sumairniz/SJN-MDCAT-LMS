@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SJN MedNest — Isolated Staff Auth Verification</title>
+<link rel="stylesheet" href="./isolated-auth-preview.css"></head>
+<body>
+<main class="page">
+<header><div class="brand"><span class="brand-symbol">SJN</span><div><strong>SJN MedNest</strong><small>MANAGEMENT · ISOLATED STAFF AUTH</small></div></div>
+<a href="./index.html">Return to existing Management Panel</a></header>
+<section class="panel">
+<div class="meta">SECURE FOUNDATION TEST · DEVELOPMENT ONLY</div>
+<h1>Chief Administrator authentication</h1>
+<p class="intro">This protected preview tests independent Management Auth. It does not change the existing Management Panel login, student LMS, or student accounts.</p>
+<div id="signed-out">
+<form id="identity-form">
+<label for="staff-email">Verified Chief Administrator email</label><input id="staff-email" type="email" autocomplete="username" required maxlength="254" placeholder="Your existing verified email">
+<label for="staff-password">Management Auth password</label><input id="staff-password" type="password" autocomplete="current-password" required minlength="12">
+<div class="actions"><button type="submit" id="signin-btn">Sign In</button></div>
+</form>
+<p class="hint">The Chief Administrator account has already been created and verified. Sign in normally. Do not share your password or verification codes.</p>
+</div>
+<section id="signed-in" hidden>
+<div class="verified">Independent Chief Administrator account verified</div>
+<dl><dt>Role</dt><dd>Chief Administrator</dd><dt>Verified email (only shown to you)</dt><dd id="profile-email"></dd><dt>Account state</dt><dd id="profile-state"></dd></dl>
+<form id="profile-form"><label for="display-name">Display name (optional)</label><input id="display-name" maxlength="100">
+<label for="organization-title">Organizational title (optional)</label><input id="organization-title" maxlength="100">
+<div class="actions"><button type="submit">Save My Profile</button><button type="button" id="signout-btn" class="secondary">Sign Out</button></div></form>
+<section class="team-preview" aria-label="Isolated team directory">
+  <h2>Team &amp; Permissions</h2>
+  <p class="hint">Chief Administrator-only directory. Staff invitations and access changes remain disabled until the email-security and migration release gates are verified.</p>
+  <button id="team-reload" type="button" class="secondary">Refresh team directory</button>
+  <p id="team-status" role="status" aria-live="polite"></p>
+  <div id="team-summary"></div>
+  <div id="team-members"></div>
+</section>
+<section class="stepup-preview" aria-label="Sensitive action email approval test">
+  <h2>Sensitive-action email security</h2>
+  <p class="hint">Normal account and profile work never requires a security code. This optional test verifies sensitive-action authorization only; it does not execute staff changes or modify student data.</p>
+  <p id="stepup-status" role="status" aria-live="polite">Checking security status…</p>
+  <div class="actions"><button type="button" class="secondary" id="stepup-send">Send email security code</button><button type="button" class="secondary" id="stepup-refresh">Refresh security status</button></div>
+  <form id="stepup-form" hidden>
+    <label for="stepup-code">Eight-digit code sent to your verified email</label>
+    <input id="stepup-code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{8}" maxlength="8" minlength="8" required placeholder="Enter eight digits">
+    <button type="submit">Verify code</button>
+  </form>
+</section>
+</section>
+<p id="auth-status" role="status" aria-live="polite"></p>
+<div class="footnote">No staff invitation, student-data access, or production promotion is enabled by this test.</div>
+</section></main>
+<script type="module" src="./isolated-auth-preview.js"></script>
+</body></html>

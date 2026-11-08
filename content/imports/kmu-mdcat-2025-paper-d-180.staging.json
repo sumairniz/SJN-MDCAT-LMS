@@ -1,0 +1,3437 @@
+{
+  "metadata": {
+    "title": "KMU MDCAT 2025 — Paper D",
+    "year": "2025",
+    "region": "kpk",
+    "description": "Paper D · 180 original MCQs · provisional chapter and topic classifications",
+    "version": "D",
+    "questionCount": 180,
+    "sourcePdf": "KMU MDCAT 2025 Paper D.pdf",
+    "sourceDigestSHA256": "03951371ddf92800d969ddbdbd45c2a424f8a1f78f1c27531b8b0b4b82c2c8f8",
+    "provisional": true,
+    "scope": "limited staging testing, not production",
+    "sourceKeysPreserved": true
+  },
+  "questions": [
+    {
+      "originalNumber": 1,
+      "subject": "Biology",
+      "chapter": "Digestion",
+      "topic": "Human Digestive System",
+      "question": "Intrinsic factor secreted by parietal cells is essential for:",
+      "options": [
+        "Activation of pepsinogen to pepsin",
+        "Absorption of vitamin B12 in the intestine",
+        "Emulsification of dietary fats",
+        "Neutralization of stomach acid in the duodenum"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Absorption of vitamin B12 in the intestine”. This tests human digestion & absorption.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 2,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Pancreatic Hormones",
+      "question": "The Delta D cells in the islets of Langerhans secrete:",
+      "options": [
+        "Insulin",
+        "Somatostatin",
+        "Glucagon",
+        "Pancreatic polypeptide"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Somatostatin”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 3,
+      "subject": "Biology",
+      "chapter": "Digestion",
+      "topic": "Human Digestive System",
+      "question": "Identify the main function of duodenum:",
+      "options": [
+        "Bile storage",
+        "Absorption of water",
+        "Digestion of food",
+        "Waste storage"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Digestion of food”. This tests human digestion & absorption.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 4,
+      "subject": "Biology",
+      "chapter": "Digestion",
+      "topic": "Human Digestive System",
+      "question": "Which stage of the swallowing process prevents food or liquid from being aspirated to the lungs?",
+      "options": [
+        "Oral",
+        "Pharyngeal",
+        "Oesophageal",
+        "Peristalsis"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Pharyngeal”. This tests respiration & gas transport.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 5,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "Which type of nephron is responsible for the development of osmotic gradients in the renal medulla?",
+      "options": [
+        "Glomerular",
+        "Cortical",
+        "Juxtamedullary",
+        "Medullary"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Juxtamedullary”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 6,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "Which of the following best describes how the distal convoluted tubule contributes to regulation of blood pH in the body?",
+      "options": [
+        "Selective reabsorption of Glucose",
+        "Active secretion of hydrogen ions into the filtrate",
+        "Active secretion of sodium from the glomerular filtrate",
+        "Tubular reabsorption of potassium ions"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Active secretion of hydrogen ions into the filtrate”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 7,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "The sodium potassium pumps in the distal convoluted tubule are activated by:",
+      "options": [
+        "Aldosterone",
+        "Antidiuretic hormone",
+        "Anti-natriuretic peptide",
+        "Renin"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Aldosterone”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 8,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "If a person drinks excessive amount of water, how does the kidney respond to maintaining osmoregulation?",
+      "options": [
+        "Increase ADH release and water reabsorption",
+        "Increase aldosterone release and reabsorb more sodium",
+        "Decrease ADH release and increase water excretion",
+        "Decrease renin secretion and retain more water"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Decrease ADH release and increase water excretion”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 9,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "The primary function of glomerular capillaries is:",
+      "options": [
+        "Reabsorption of water and solutes from the renal tubules",
+        "Secretion of waste products from the blood into the tubules",
+        "Filtration of blood from glomerular filtrate",
+        "Supply of nutrients and oxygen to the kidney tissue"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Filtration of blood from glomerular filtrate”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 10,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Thermoregulation",
+      "question": "In a heat stroke the hypothalamus will detect an increase in core body temperature, which of the following response is triggered?",
+      "options": [
+        "Vasoconstriction and shivering",
+        "Vasodilation and sweating",
+        "Increased metabolic rate",
+        "Release of thyroxin"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Vasodilation and sweating”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 11,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Excretion",
+      "question": "Which nitrogenous waste has the lowest solubility in water?",
+      "options": [
+        "Urea",
+        "Ammonia",
+        "Uric acid",
+        "Nitrite"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Uric acid”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 12,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Excretion",
+      "question": "By nature, human excretory system is:",
+      "options": [
+        "Ammonotelic",
+        "Uricotelic",
+        "Ureotelic",
+        "Aminotelic"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Ureotelic”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 13,
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "question": "Hyperparathyroidism may lead to the formation of:",
+      "options": [
+        "Calcium phosphate stones",
+        "Uric acid stones",
+        "Cystine stones",
+        "Struvite stones"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Calcium phosphate stones”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 1,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 14,
+      "subject": "Biology",
+      "chapter": "Biotechnology",
+      "topic": "Biotechnology and Health Care",
+      "question": "In somatic cell hybridization, which two cells are fused to produce monoclonal antibodies?",
+      "options": [
+        "T-cells and nerve cells",
+        "B-lymphocytes and spleen cells",
+        "T-cells and liver cells",
+        "B-lymphocytes and macrophages"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “B-lymphocytes and spleen cells”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 15,
+      "subject": "Biology",
+      "chapter": "Biotechnology",
+      "topic": "Biotechnology and Health Care",
+      "question": "In molecular diagnostics, the primary function of DNA/RNA probes is to:",
+      "options": [
+        "Replace malfunctioning genes in effected cells",
+        "Bind to specific DNA or RNA sequences for identification",
+        "Cut genetic material at precise locations",
+        "Stimulate immune responses against disease- causing organisms"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Bind to specific DNA or RNA sequences for identification”. This tests dna technology & medical applications.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 16,
+      "subject": "Biology",
+      "chapter": "Biotechnology",
+      "topic": "Biotechnology and Health Care",
+      "question": "A set of uniform proteins generated by genetically identical immune cells are:",
+      "options": [
+        "Therapeutic proteins",
+        "Immunoglobulins",
+        "Monoclonal antibodies",
+        "Recombinant proteins"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Monoclonal antibodies”. This tests immune responses.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 17,
+      "subject": "Biology",
+      "chapter": "Biotechnology",
+      "topic": "Biotechnology and Health Care",
+      "question": "Which biotechnological product is used to replace an abnormal gene in a patient's cells?",
+      "options": [
+        "Antibiotic",
+        "Vaccine",
+        "Vector",
+        "Interferon"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Vector”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 18,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Structure of DNA",
+      "question": "In Watson and Crick's DNA model, which of the following pairs with Cytosine?",
+      "options": [
+        "Adenine",
+        "Guanine",
+        "Thymine",
+        "Uracil"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Guanine”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 19,
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Respiration",
+      "question": "Fats are considered as a very efficient source of energy because they:",
+      "options": [
+        "Produce ATP directly and without requiring respiration",
+        "Enter into glycolysis without any modification",
+        "Are highly oxidized compounds",
+        "Generate multiple acetyl groups that produce more ATP"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Generate multiple acetyl groups that produce more ATP”. This tests cellular respiration & atp.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 20,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "The junction between two consecutive neurons where information is transmitted from one neuron to the next is called:",
+      "options": [
+        "Node of Ranvier",
+        "Synapse",
+        "Axon terminal",
+        "Dendrite cleft"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Synapse”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 21,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cytoplasmic Organelles",
+      "question": "All of the following are the functions of Golgi bodies EXCEPT:",
+      "options": [
+        "Processing of protein",
+        "Plasma membrane formation",
+        "Cellular respiration",
+        "Lysosome formation"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Cellular respiration”. This tests respiration & gas transport.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 22,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Which ion is tenfold higher in concentration outside the membrane of neuron during resting potential?",
+      "options": [
+        "Potassium",
+        "Sodium",
+        "Calcium",
+        "Hydrogen"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Sodium”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 23,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "AIDS and HIV Infection",
+      "question": "All of the following are the modes of transmission of AIDS, EXCEPT:",
+      "options": [
+        "Transfusion of infected blood",
+        "Sharing infected needles",
+        "Shaking hands with infected person",
+        "Sexual contact with infected person"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Shaking hands with infected person”. This tests classification of viruses & transmission.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 24,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cytoplasmic Organelles",
+      "question": "Which organelle of the cell is involved in the detoxification of toxins and poisonous compounds?",
+      "options": [
+        "Lysosomes",
+        "Smooth Endoplasmic Reticulum",
+        "Ribosomes",
+        "Mitochondria"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Smooth Endoplasmic Reticulum”. This tests cell organelles & membranes.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 25,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Mode of Enzyme Action",
+      "question": "The active site is important in enzyme action because:",
+      "options": [
+        "It binds to the substrate",
+        "It maintains the pH of reaction",
+        "It provides energy for reaction",
+        "It changes the shape of the enzyme"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “It binds to the substrate”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 26,
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Lamarckism",
+      "question": "The idea that acquired characters are inherited is part of:",
+      "options": [
+        "Darwinism",
+        "Neo Darwinism",
+        "Lamarckism",
+        "Biogenesis"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Lamarckism”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 27,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "Viruses",
+      "question": "Which disease is caused by enveloped virus?",
+      "options": [
+        "Leaf curl disease of cotton",
+        "Flu",
+        "Polio",
+        "Hepatitis A"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Flu”. This tests classification of viruses & transmission.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 28,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Conjugated Molecules",
+      "question": "The glycoproteins are commonly found in:",
+      "options": [
+        "Mitochondria",
+        "Chloroplasts",
+        "Ribosomes",
+        "Plasma membrane"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Plasma membrane”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 2,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 29,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cytoplasmic Organelles",
+      "question": "Which structure enables the exchange of material between nucleus and cytoplasm?",
+      "options": [
+        "Plasma membrane",
+        "Nuclear pores",
+        "Lysosomes",
+        "Mitochondria"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Nuclear pores”. This tests cell organelles & membranes.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 30,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Biological Importance of Water",
+      "question": "The high specific heat capacity of water is due to:",
+      "options": [
+        "Ionic bonding",
+        "Hydrogen bonding",
+        "Covalent bonding",
+        "Hydrophilic bonding"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Hydrogen bonding”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 31,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Chromosomes",
+      "question": "The contracted region of a chromosome that attaches to spindle fiber is called:",
+      "options": [
+        "Telomere",
+        "Chromatin",
+        "Centromere",
+        "Nucleosomes"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Centromere”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 32,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Touching a sharp object stimulates pain receptors. This information is carried to the central nervous system by the?",
+      "options": [
+        "Motor neuron",
+        "Sensory neuron",
+        "Associative neuron",
+        "Effector neuron"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Sensory neuron”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 33,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Chromosomes",
+      "question": "The number of chromosomes in a haploid cell are:",
+      "options": [
+        "Half the chromosomes in a normal body cell",
+        "Double the chromosomes in a normal body cell",
+        "Quarter the chromosomes in a normal body cell",
+        "Equal to the chromosomes in a normal body cell"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Half the chromosomes in a normal body cell”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 34,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Carbohydrates",
+      "question": "Which of the following is a branched polysaccharide found in animals:",
+      "options": [
+        "Cellulose",
+        "Glycogen",
+        "Amylose",
+        "Chitin"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Glycogen”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 35,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Inhibitors",
+      "question": "A substance that binds to an enzyme, but NOT at the active site and reduces the enzyme activity is called a:",
+      "options": [
+        "Competitive inhibitor",
+        "Substrate",
+        "Non-Competitive inhibitor",
+        "Cofactor"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Non-Competitive inhibitor”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 36,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "Viruses",
+      "question": "On the basis of morphological classification, influenza virus is an example of:",
+      "options": [
+        "Helical capsid virus",
+        "Polyhedral capsid virus",
+        "Enveloped capsid virus",
+        "Non-enveloped capsid virus"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Enveloped capsid virus”. This tests classification of viruses & transmission.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 37,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Proteins",
+      "question": "Which of the following is NOT a globular protein?",
+      "options": [
+        "Enzyme",
+        "Albumen",
+        "Hemoglobin",
+        "Collagen"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Collagen”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 38,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "The state, when a neuron is NOT conducting an impulse during resting membrane potential is called:",
+      "options": [
+        "Polarized",
+        "Depolarized",
+        "Repolarized",
+        "Hyperpolarized"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Polarized”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 39,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "Which of the following waves travel along a neuron during nerve impulse conduction?",
+      "options": [
+        "Thermal waves",
+        "Magnetic waves",
+        "Electromagnetic waves",
+        "Electrochemical waves"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Electrochemical waves”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 40,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Brain",
+      "question": "The reticular formation in the brain runs through which specific regions?",
+      "options": [
+        "Forebrain and Midbrain",
+        "Hindbrain and Midbrain",
+        "Cerebellum and Forebrain",
+        "Telencephalon and Cerebellum"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Hindbrain and Midbrain”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 41,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Mode of Enzyme Action",
+      "question": "Enzymes increase the rate of reaction by:",
+      "options": [
+        "Increasing activation energy",
+        "Lowering activation energy",
+        "Increasing pH",
+        "Decreasing pH"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Lowering activation energy”. This tests enzyme action & regulation.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 42,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Carbohydrates",
+      "question": "A diabetic patient is advised to avoid both sucrose and lactose, because they both:",
+      "options": [
+        "Are structural carbohydrates",
+        "Increase blood glucose after hydrolysis",
+        "Cannot be digested in human",
+        "Act as non-caloric sweeteners"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Increase blood glucose after hydrolysis”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 43,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Brain",
+      "question": "Match the CORRECT structure of the brain with its function:",
+      "options": [
+        "Medulla: Breathing",
+        "Pons: Memory",
+        "Cerebellum: Dreaming",
+        "Midbrain: Balance"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Medulla: Breathing”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 3,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 44,
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Respiration",
+      "question": "Living cells Do NOT directly acquire energy released from the breakdown of food molecules inside the cells because:",
+      "options": [
+        "Glucose cannot be broken down by the cells",
+        "Energy released is too small to be used by the cells",
+        "Glucose molecules do not store any energy",
+        "The energy released is too large, leading to heating and wastage"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “The energy released is too large, leading to heating and wastage”. This tests human digestion & absorption.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 45,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Biological Importance of Water",
+      "question": "Which properties of water enable it to circulate in living bodies and act as transport medium?",
+      "options": [
+        "Ionization and low density",
+        "Cohesion and Ionization",
+        "Ionization and adhesion",
+        "Adhesion and cohesion"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Adhesion and cohesion”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 46,
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Lamarckism",
+      "question": "A scientist cuts the tails of mice for several generations, but their offspring are always born with tails. This rejects:",
+      "options": [
+        "Darwinism",
+        "Neo Darwinism",
+        "Lamarckism",
+        "Mutation theory"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Lamarckism”. This tests evolutionary theories.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 47,
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cell Structure",
+      "question": "How are the phospholipid molecules arranged in the plasma membrane?",
+      "options": [
+        "Hydrophilic heads face inwards and hydrophobic tails face outwards",
+        "Both Hydrophilic heads face each other in the membrane",
+        "Hydrophilic heads face outwards and hydrophobic tails face inwards",
+        "Hydrophilic heads and hydrophobic tails are randomly distributed"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Hydrophilic heads face outwards and hydrophobic tails face inwards”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 48,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Ribonucleic Acid (RNA)",
+      "question": "The structure of RNA consists of:",
+      "options": [
+        "Double polynucleotide strand",
+        "Deoxyribose sugar",
+        "Five different types of nucleotides",
+        "Base uracil instead of thymine"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Base uracil instead of thymine”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 49,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Structure of DNA",
+      "question": "The constant diameter of DNA is maintained by pairing:",
+      "options": [
+        "Purine towards Pyrimidine",
+        "Pyrimidine towards Pyrimidine",
+        "Purine towards Purine",
+        "Sugar towards Phosphate"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Purine towards Pyrimidine”. This tests kidney & osmoregulation.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 50,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Carbohydrates",
+      "question": "Identify the CORRECT option that matches the sugar with its carbon number and functional group:",
+      "options": [
+        "Glyceraldehyde - Triose, Ketone group",
+        "Ribose - Pentose, Aldehyde group",
+        "Ribulose - Pentose, Aldehyde Group",
+        "Galactose - Hexose, Ketone Group"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Ribose - Pentose, Aldehyde group”. This tests macromolecules & their properties.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 51,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "question": "The CORRECT sequence of events in a reflex arc is:",
+      "options": [
+        "Receptor, associative neuron, sensory neuron, motor neuron, effector",
+        "Receptor, motor neuron, associative neuron, sensory neuron, effector",
+        "Receptor, sensory neuron, associative neuron, motor neuron, effector",
+        "Receptor, sensory neuron, motor neuron, associative neuron, effector"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Receptor, sensory neuron, associative neuron, motor neuron, effector”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 52,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Human Reproductive System",
+      "question": "Fertilisation normally occurs in the:",
+      "options": [
+        "Uterus",
+        "Ovary",
+        "Vagina",
+        "Fallopian tubes"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Fallopian tubes”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 53,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Human Reproductive System",
+      "question": "Which cells of the fallopian tube moisten and nourish the ovum?",
+      "options": [
+        "Ciliated epithelial cells",
+        "Non Ciliated epithelial cells",
+        "Germ cells",
+        "Endometrial cells"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Non Ciliated epithelial cells”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 54,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Human Reproductive System",
+      "question": "Which of the following is NOT the accessory gland of human male reproductive system?",
+      "options": [
+        "Bulbourethral gland",
+        "Seminal vesicle",
+        "Prostate gland",
+        "Testes"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Testes”. This tests human reproductive system.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 55,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Sexually Transmitted Diseases",
+      "question": "Syphilis is caused by what kind of bacteria:",
+      "options": [
+        "Spirochaete",
+        "Cocci",
+        "Bacillus",
+        "Vibrio"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Spirochaete”. This tests classification of viruses & transmission.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 56,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Human Skeleton",
+      "question": "What is FALSE about cartilages?",
+      "options": [
+        "Cells are called chondrocytes",
+        "Consist of Type II collagen",
+        "Heal very slowly",
+        "Have an extensive blood supply"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Have an extensive blood supply”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 57,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Human Skeleton",
+      "question": "Bones provide a rigid framework with an inorganic matrix of:",
+      "options": [
+        "35%",
+        "45%",
+        "55%",
+        "65%"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “65%”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 4,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 58,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Human Skeleton",
+      "question": "An important feature of bone remodeling is bone breakdown. Which cell carries out this function?",
+      "options": [
+        "Chondrocyte",
+        "Osteocyte",
+        "Osteoclast",
+        "Osteoblast"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Osteoclast”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 59,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Skeletal Muscles",
+      "question": "Myofibrils consist of small contractile units called _____",
+      "options": [
+        "Sarcoplasm",
+        "Sarcolemma",
+        "Sarcomere",
+        "Sarcoplasmic reticulum"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Sarcomere”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 60,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscles",
+      "question": "Which muscle type is under conscious control and is multinucleated?",
+      "options": [
+        "Smooth muscle",
+        "Skeletal muscle",
+        "Cardiac muscle",
+        "Ciliary muscle"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Skeletal muscle”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 61,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Skeletal Muscles",
+      "question": "Which part of the sarcomere contain both actin and myosin filament?",
+      "options": [
+        "I-band",
+        "Z-line",
+        "A-band",
+        "H-zone"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “A-band”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 62,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscle Contraction",
+      "question": "The primary role of calcium ions in muscle contraction is to:",
+      "options": [
+        "Produce energy",
+        "Bind with troponin",
+        "Carry nerve impulses",
+        "Breakdown ATP"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Bind with troponin”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 63,
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Joints",
+      "question": "Which of the following is an example of a fibrous joint?",
+      "options": [
+        "Shoulder joint",
+        "Elbow joint",
+        "Intervertebral discs",
+        "Skull sutures"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Skull sutures”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 64,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Mendel's Laws of Inheritance",
+      "question": "Which of Mendel's laws can best explain why a child may inherit brown eyes even if one parent has blue eyes?",
+      "options": [
+        "Law of Dominance",
+        "Law of Segregation",
+        "Law of Independent Assortment",
+        "Law of Recombination"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Law of Dominance”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 65,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Mendel's Laws of Inheritance",
+      "question": "What is the significance of the 9:3:3:1 ratio in a dihybrid cross?",
+      "options": [
+        "It proves that all genes are linked",
+        "It demonstrates that traits assort independently",
+        "It indicates co-dominance between alleles",
+        "It confirms that mutations have occurred"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “It demonstrates that traits assort independently”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 66,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Gene Linkage and Crossing Over",
+      "question": "In crossing over, an exchange of maternal and paternal chromatid parts occurs while homologous chromosomes are paired during _____ stage of meiosis.",
+      "options": [
+        "Metaphase I",
+        "Prophase I",
+        "Anaphase II",
+        "Telophase I"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Prophase I”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 67,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Gene Linkage and Crossing Over",
+      "question": "Linked genes DO NOT follow Mendel's Law of Independent Assortment because _____.",
+      "options": [
+        "They are located on different chromosomes",
+        "They always undergo crossing over",
+        "They are physically close together on the same chromosome",
+        "They rarely separate during meiosis"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “They are physically close together on the same chromosome”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 68,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "X-linked Recessive Inheritance",
+      "question": "A carrier female for an X-linked recessive disorder:",
+      "options": [
+        "Expresses the disorder fully",
+        "Cannot pass the disorder to offspring",
+        "Can pass the disorder to her sons",
+        "Only passes the disorder to daughters"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Can pass the disorder to her sons”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 69,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "X-linked Recessive Inheritance",
+      "question": "Which of the following is an X-Linked recessive disorder in humans?",
+      "options": [
+        "Cystic fibrosis",
+        "Thalassemia",
+        "Hemophilia",
+        "Sickle cell anemia"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Hemophilia”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 70,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "X-linked Recessive Inheritance",
+      "question": "Which of the following CORRECTLY describes the expected outcome of children from a carrier mother for haemophilia (XʰX) and a normal father (XY)?",
+      "options": [
+        "All sons will have hemophilia",
+        "All daughters will be carriers",
+        "50% of sons will be hemophilic, and 50% of daughters will be carriers",
+        "All offspring will be unaffected"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “50% of sons will be hemophilic, and 50% of daughters will be carriers”. This tests chromosomes & mendelian genetics.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 71,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Human Heart",
+      "question": "The heart is surrounded by a tough, inelastic double membranous covering called:",
+      "options": [
+        "Pleura",
+        "Peritoneum",
+        "Pericardium",
+        "Meninges"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Pericardium”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 5,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 72,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Cardiac Cycle and Phases of Heartbeat",
+      "question": "Which phase of the cardiac cycle is characterized by the opening of semilunar valves?",
+      "options": [
+        "Atrial systole",
+        "Atrial diastole",
+        "Ventricular systole",
+        "Ventricular diastole"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Ventricular systole”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 73,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Cardiac Cycle and Phases of Heartbeat",
+      "question": "Which part of the heart's conducting system delays the impulse from atria to the ventricles?",
+      "options": [
+        "Sino-atrial node",
+        "Atrio-ventricular node",
+        "Purkinje fibers",
+        "Atrio-ventricular valves"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Atrio-ventricular node”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 74,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Cardiac Cycle and Phases of Heartbeat",
+      "question": "The heartbeat sound \"LUB\" is produced on closure of:",
+      "options": [
+        "Aortic valve",
+        "Atrio-ventricular valves",
+        "Pulmonary valves",
+        "Semilunar valves"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Atrio-ventricular valves”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 75,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Lymphatic System",
+      "question": "What is the primary function of lymphatic vessels?",
+      "options": [
+        "Transport oxygenated blood",
+        "Drain excess interstitial fluid",
+        "Produce antibodies",
+        "Store metabolic waste"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Drain excess interstitial fluid”. This tests heart, blood & lymphatic system.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 76,
+      "subject": "Biology",
+      "chapter": "Immunity",
+      "topic": "Specific Defense Mechanism",
+      "question": "The primary role of helper T-cells in immune response is:",
+      "options": [
+        "Secreting perforins to destroy target cells",
+        "Assisting B-cells and other T-cells in their function",
+        "Inhibiting over activity of the immune system",
+        "Engulfing and digesting pathogens"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Assisting B-cells and other T-cells in their function”. This tests immune responses.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 77,
+      "subject": "Biology",
+      "chapter": "Immunity",
+      "topic": "Specific Defense Mechanism",
+      "question": "Identify the primary characteristic of 3rd line of defense.",
+      "options": [
+        "Complement system and interferons",
+        "Physical component of skin defense",
+        "Specific recognition and memory of pathogens",
+        "General inflammation at the site of infection"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Specific recognition and memory of pathogens”. This tests nervous system & reflexes.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 78,
+      "subject": "Biology",
+      "chapter": "Gaseous Exchange",
+      "topic": "Human Respiratory System",
+      "question": "Which of the following best describes Inspiratory Reserve Volume (IRV)?",
+      "options": [
+        "The volume of air forcibly exhaled after normal tidal volume",
+        "The volume of air remaining in the lungs after forcible expiration",
+        "The volume of air exchanged during normal breathing",
+        "The volume of air forcibly inhaled after normal tidal volume"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “The volume of air forcibly inhaled after normal tidal volume”. This tests respiration & gas transport.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 79,
+      "subject": "Biology",
+      "chapter": "Gaseous Exchange",
+      "topic": "Human Respiratory System",
+      "question": "During gaseous exchange in human respiration, enzyme carbonic anhydrase is directly involved in the:",
+      "options": [
+        "Release of oxygen from hemoglobin",
+        "Combination of water with carbon dioxide",
+        "Breakdown of oxyhemoglobin",
+        "Binding of oxygen to myoglobin"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Combination of water with carbon dioxide”. This tests respiration & gas transport.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 80,
+      "subject": "Biology",
+      "chapter": "Gaseous Exchange",
+      "topic": "Human Respiratory System",
+      "question": "What happens when the external intercostal muscles contract during inhalation in humans?",
+      "options": [
+        "The rib cage compresses",
+        "The ribs move outward",
+        "The sternum moves inwards",
+        "The diaphragm muscles relax"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “The ribs move outward”. This tests muscles, bones & joints.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 81,
+      "subject": "Biology",
+      "chapter": "Gaseous Exchange",
+      "topic": "Human Respiratory System",
+      "question": "The primary effect of smoking on the respiratory system:",
+      "options": [
+        "Increased lung function due to presence of nicotine",
+        "Reduced risk of lung cancer due to tolerance",
+        "Damage to alveoli reducing gaseous exchange",
+        "Improves oxygenation of the blood by activating hemoglobin"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Damage to alveoli reducing gaseous exchange”. This tests respiration & gas transport.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 82,
+      "subject": "Physics",
+      "chapter": "Electromagnetic Induction",
+      "topic": "Lenz's Law",
+      "question": "According to Lenz's Law, the direction of induced current in a conductor is such that it:",
+      "options": [
+        "Opposes the change in magnetic flux",
+        "Enhances the change in magnetic flux",
+        "Is perpendicular to the magnetic field",
+        "Is parallel to the magnetic field"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Opposes the change in magnetic flux”. This tests faraday & lenz laws.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 83,
+      "subject": "Physics",
+      "chapter": "Alternating Current (AC)",
+      "topic": "AC Through Resistor, Capacitor & Inductor",
+      "question": "In a pure capacitance AC circuit, the current:",
+      "options": [
+        "Lags behind voltage by 90°",
+        "Leads the voltage by 90°",
+        "Is in phase with the voltage",
+        "Leads the voltage by 45°"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Leads the voltage by 90°”. This tests capacitors & electronic devices.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 84,
+      "subject": "Physics",
+      "chapter": "Electronics",
+      "topic": "Rectification & Its Types",
+      "question": "In a full-wave rectifier using two diodes, the diodes D₁ and D₂ operate:",
+      "options": [
+        "Simultaneously during both half-cycles",
+        "In alternate switching mode",
+        "Only when both ends of transformer are positive",
+        "Only in reverse bias condition"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “In alternate switching mode”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 85,
+      "subject": "Physics",
+      "chapter": "Dawn of Modern Physics (Quantum Physics)",
+      "topic": "Particle Nature of Electromagnetic Radiation",
+      "question": "The energy (E) of a quantum is given by which equation?",
+      "options": [
+        "E = mc²",
+        "E = hf",
+        "E = 1/2 mv²",
+        "E = qV"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “E = hf”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 6,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 86,
+      "subject": "Physics",
+      "chapter": "Atomic Spectra",
+      "topic": "Hydrogen Spectrum / Spectral Series",
+      "question": "In the hydrogen spectrum, the Brackett series lies in:",
+      "options": [
+        "Ultraviolet region",
+        "Visible region",
+        "Infrared region",
+        "X-ray region"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Infrared region”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 87,
+      "subject": "Physics",
+      "chapter": "Nuclear Physics",
+      "topic": "Radioactivity",
+      "question": "Which of the following statement best describes the nature of nuclear decay?",
+      "options": [
+        "It occurs both spontaneously and randomly",
+        "It occurs only when external energy is supplied",
+        "It can be controlled by temperature and pressure",
+        "It occurs at regular time intervals for each atom"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “It occurs both spontaneously and randomly”. This tests nuclear & quantum physics.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 88,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Distance & Displacement",
+      "question": "A boat moves 4 km east and then 3 km north. Another boat moves 3 km north first and then 4 km east. Which statement is CORRECT about their final displacements?",
+      "options": [
+        "Both boats have the same displacement vector",
+        "The first boat's displacement is greater because it traveled east first",
+        "The second boat's displacement is greater because it travelled north first",
+        "Both boats end at different positions but cover the same distance"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Both boats have the same displacement vector”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 89,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Displacement-Time & Velocity-Time Graphs",
+      "question": "The area under the line on a displacement-time graph of a car moving with uniform velocity would be a:",
+      "options": [
+        "Rectangle",
+        "Triangle",
+        "Trapezium",
+        "Parallelogram"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Triangle”. This tests kinematics & dynamics.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 90,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Equations of Motion",
+      "question": "A car starts from rest and moves with a uniform acceleration of 3 m/s². What will be its velocity after 5 seconds?",
+      "options": [
+        "8 m/s",
+        "12 m/s",
+        "15 m/s",
+        "18 m/s"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “15 m/s”. This tests kinematics & dynamics.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 91,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Laws of Motion",
+      "question": "A passenger is standing in a stationary bus. When the bus suddenly starts moving forward, the passenger falls backward. Which phenomenon best explains this observation?",
+      "options": [
+        "Friction",
+        "Gravity",
+        "Inertia",
+        "Deceleration"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Inertia”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 92,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "question": "A ball is projected at an angle 45° with an initial speed of 20 m/s on earth. How does Rᵥᵥ (Range with air resistance) compare to Rₐ (Range without air resistance)?",
+      "options": [
+        "Rₐ will be greater than Rᵥᵥ because air resistance reduces horizontal speed",
+        "Rᵥᵥ will be equal to Rₐ because gravity is unchanged",
+        "Rₐ will be lesser than Rᵥᵥ because air resistance reduces horizontal speed",
+        "Rᵥᵥ will be lesser than Rₐ because air resistance random"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Rₐ will be lesser than Rᵥᵥ because air resistance reduces horizontal speed”. This tests resistance & electrical circuits.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 93,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Elastic & Inelastic Collision",
+      "question": "A 0.02 kg bullet moving at 300 m/s embeds itself in a 2 kg block at rest on a smooth surface. What is velocity of the block-bullet system just after impact?",
+      "options": [
+        "2 m/s",
+        "3 m/s",
+        "4 m/s",
+        "5 m/s"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “3 m/s”. This tests kinematics & dynamics.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 94,
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "question": "Which of the following statement about projectile motion is CORRECT?",
+      "options": [
+        "The horizontal velocity of a projectile changes constantly due to gravity",
+        "The vertical velocity of a projectile remains constant throughout the flight",
+        "At the highest point, the vertical velocity of the projectile is zero, but the horizontal velocity remains unchanged",
+        "The acceleration of the projectile is zero at the peak of its trajectory"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “At the highest point, the vertical velocity of the projectile is zero, but the horizontal velocity remains unchanged”. This tests kinematics & dynamics.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 95,
+      "subject": "Physics",
+      "chapter": "Work & Energy",
+      "topic": "Power",
+      "question": "The rate of doing work at any instant of time is called:",
+      "options": [
+        "Work done",
+        "Instantaneous power",
+        "Average power",
+        "Mechanical energy"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Instantaneous power”. This tests work, power & energy.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 96,
+      "subject": "Physics",
+      "chapter": "Work & Energy",
+      "topic": "Implications of Energy Losses",
+      "question": "A 5 kg body falls from the height of 30 m towards the ground. All its potential energy is converted into heat on impact. What is the heat energy produced?",
+      "options": [
+        "1270 J",
+        "1370 J",
+        "1470 J",
+        "1570 J"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “1470 J”. This tests work, power & energy.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 97,
+      "subject": "Physics",
+      "chapter": "Work & Energy",
+      "topic": "Power",
+      "question": "Two students, A and B, each carry a 20kg load to the top of a 10m high staircase. Student A takes 10sec, while student B takes 20sec. Which statement is CORRECT?",
+      "options": [
+        "Student A does more work than student B",
+        "Student B uses more power than student A",
+        "Both students do the same amount of work, but student A uses more power",
+        "Student A and B use the same power since they lifted the same weight"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Both students do the same amount of work, but student A uses more power”. This tests work, power & energy.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 7,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 98,
+      "subject": "Physics",
+      "chapter": "Circular Motion",
+      "topic": "Relationship Between Linear & Angular Quantities",
+      "question": "A wheel of radius 0.4m has an angular acceleration of 6 rad/s². The linear acceleration is:",
+      "options": [
+        "1.2 m/s²",
+        "1.2 m/s",
+        "2.4 m/s²",
+        "2.4 m/s"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “2.4 m/s”. This tests angular & circular motion.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 99,
+      "subject": "Physics",
+      "chapter": "Circular Motion",
+      "topic": "Angular Acceleration",
+      "question": "If an object is moving anticlockwise along a circular path, in a horizontal plane on a page then the direction of its angular velocity is:",
+      "options": [
+        "Tangential to any point on the circle",
+        "Towards centre of the circle",
+        "Perpendicular to the plane and pointing out of the page",
+        "Perpendicular to the plane and pointing into the page"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Perpendicular to the plane and pointing out of the page”. This tests angular & circular motion.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 100,
+      "subject": "Physics",
+      "chapter": "Circular Motion",
+      "topic": "Angular Displacement",
+      "question": "If a particle moves along a circular path of radius r with angular displacement θ (in radians), then the arc length s is given by:",
+      "options": [
+        "r × θ",
+        "θ/r",
+        "r² × θ",
+        "θ/r²"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “r × θ”. This tests angular & circular motion.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 101,
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Drag Force & Stokes' Law",
+      "question": "A ball of weight Fᵍ is falling vertically downward through air. If the drag force acting on it at some instant is Fᴅ, what is the Fₙₑₜ (net force) on the ball?",
+      "options": [
+        "Fᵍ+Fᴅ",
+        "Fᵍ-Fᴅ",
+        "Fᴅ-Fᵍ",
+        "Fᴅ/Fᵍ"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Fᵍ-Fᴅ”. This tests kinematics & dynamics.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 102,
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Fluid & Its Types",
+      "question": "Most kinds of fluid flow are turbulent rather than laminar because of:",
+      "options": [
+        "Zero viscosity",
+        "Very low velocities",
+        "High velocities",
+        "No resistance"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “High velocities”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 103,
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Equation of Continuity",
+      "question": "According to the equation of continuity, when the cross-sectional area of a pipe decreases, the fluid velocity:",
+      "options": [
+        "Increases",
+        "Decreases",
+        "Remains the same",
+        "Becomes zero"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Increases”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 104,
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Equation of Continuity",
+      "question": "Water flows steadily through a pipe that gradually narrows. At the wider end, the velocity of water is 1m/s. At the narrower end, the velocity is 3m/s. Which statement is CORRECT about the pressure in the narrower end compared to the wider end?",
+      "options": [
+        "Pressure is lower at the narrow end because velocity is higher",
+        "Pressure is higher at the narrow end because velocity is higher",
+        "Pressure is the same at both ends since flow is continuous",
+        "Pressure is independent of velocity of water"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Pressure is lower at the narrow end because velocity is higher”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 105,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Waves & Their Classification",
+      "question": "What is the necessary condition of a wave motion?",
+      "options": [
+        "The medium must be elastic",
+        "The medium must be inelastic",
+        "The particles of the medium must be independent of each other",
+        "The particles of the medium must not be dependent on each other"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “The medium must be elastic”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 106,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Waves & Their Classification",
+      "question": "A progressive wave is one which:",
+      "options": [
+        "Does not vibrate the medium",
+        "Carries energy across the medium",
+        "Propagates only through air",
+        "Requires a denser medium for propagation"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Carries energy across the medium”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 107,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Factors Affecting the Speed of Sound",
+      "question": "Speed of sound in air increases with:",
+      "options": [
+        "Higher temperature, higher humidity",
+        "Lower temperature, lower humidity",
+        "Higher pressure at constant temperature",
+        "Higher density at constant elasticity"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Higher temperature, higher humidity”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 108,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Wave Speed",
+      "question": "A wave has velocity 300 m/s and frequency 100 Hz. If the medium is changed so that velocity doubles but frequency remains constant, the new wavelength will be:",
+      "options": [
+        "Halved",
+        "Doubled",
+        "Same",
+        "Zero"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Doubled”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 8,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 109,
+      "subject": "Physics",
+      "chapter": "Oscillations",
+      "topic": "Simple Harmonic Motion (SHM) & Its Characteristics",
+      "question": "When a particle executing simple harmonic motion moves from the mean position to the extreme position, its kinetic energy:",
+      "options": [
+        "Increases continuously",
+        "Decreases continuously and becomes zero at the extreme position",
+        "Remains constant throughout the motion",
+        "Becomes maximum at the extreme position"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Decreases continuously and becomes zero at the extreme position”. This tests wave motion & interference.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 110,
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Heat",
+      "question": "Heat will spontaneously flow from:",
+      "options": [
+        "Lower to higher internal energy only",
+        "High pressure to low pressure",
+        "Cold to hot",
+        "Hot to cold"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Hot to cold”. This tests continuity & bernoulli.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 111,
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Specific Heat & Molar Specific Heat",
+      "question": "The SI unit of molar specific heat is:",
+      "options": [
+        "J mol⁻¹ K⁻¹",
+        "J mole K",
+        "J mole K⁻¹",
+        "J mol⁻¹ K"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “J mol⁻¹ K⁻¹”. This tests heat & first law.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 112,
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Relation Between Molar Specific Heat at Constant Volume & Constant Pressure",
+      "question": "At a constant Pressure (Cₚ) and Volume (Cᵥ), an ideal gas has Cᵥ=3/2R. Then Cₚ will be?",
+      "options": [
+        "R",
+        "3/2R",
+        "5/2R",
+        "7/2R"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “5/2R”. This tests heat & first law.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 113,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Electric Field",
+      "question": "The electric field at a point is defined as:",
+      "options": [
+        "Potential per unit charge",
+        "Work done per unit time",
+        "Charge per unit area",
+        "Force per unit positive test charge"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Force per unit positive test charge”. This tests electric field, potential & force.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 114,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Coulomb's Law",
+      "question": "Coulomb's law fits well into:",
+      "options": [
+        "Newton's 1st law",
+        "Newton's 2nd law",
+        "Newton's 3rd law",
+        "Gauss's Law"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Newton's 3rd law”. This tests electric field, potential & force.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 115,
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Electric Potential & Electric Potential Difference",
+      "question": "The work done in moving a unit positive charge from one point to another while keeping the charge in electrostatic equilibrium is called:",
+      "options": [
+        "Kinetic energy",
+        "Potential energy",
+        "Elastic potential energy",
+        "Potential difference"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Potential difference”. This tests electric field, potential & force.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 116,
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "Electric Power",
+      "question": "If the potential difference (V) across a conductor is doubled, keeping resistance (R) constant, the power dissipated (P) becomes:",
+      "options": [
+        "Doubled",
+        "Halved",
+        "Four times",
+        "Remains unchanged"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Four times”. This tests resistance & electrical circuits.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 117,
+      "subject": "Physics",
+      "chapter": "Electromagnetism / Magnetic Field",
+      "topic": "Magnetic Flux",
+      "question": "When the area vector A is parallel to the magnetic field B, what is the value of magnetic flux (Φᵦ)?",
+      "options": [
+        "0",
+        "BA cos 0°",
+        "BA cos 90°",
+        "B/A"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “BA cos 0°”. This tests vector operations.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 118,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Free Radical Mechanism",
+      "question": "Consider the chlorination of methane to methyl chloride, the attack of chlorine free radical on methane, occurs in which phase?",
+      "options": [
+        "Before initiation",
+        "Initiation",
+        "Propagation",
+        "Termination"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Propagation”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 119,
+      "subject": "Chemistry",
+      "chapter": "Macro Molecules",
+      "topic": "Enzymes as Biocatalyst",
+      "question": "A patient with pancreatic insufficiency shows reduced activity of an enzyme that hydrolyzes the first peptide bond at the carboxyl end of proteins and peptides. Which enzyme is deficient?",
+      "options": [
+        "Elastase",
+        "Pepsin",
+        "Carboxypeptidase",
+        "Collagenase"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Carboxypeptidase”. This tests carboxylic acid & ester reactions.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 120,
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "Properties of Liquids based on Kinetic Molecular Theory",
+      "question": "The force of attraction due to temporary dipoles is:",
+      "options": [
+        "Dipole-dipole",
+        "Dispersion force",
+        "Debye force",
+        "Ion dipole force"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Dispersion force”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 121,
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Chemical Equilibrium",
+      "question": "In which reaction does a chemical reaction proceed nearly to completion?",
+      "options": [
+        "When Kc is small but positive",
+        "When Kc is large but positive",
+        "When Kc is negative",
+        "When Kc is approximately equal to 1"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “When Kc is large but positive”. This tests equilibrium & le chatelier.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 122,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Structure and Reactivity of Alkenes",
+      "question": "A student adds bromine water to ethene and observes rapid decolourisation. What makes ethene more reactive than ethane in this reaction?",
+      "options": [
+        "Ethene has a higher molecular mass",
+        "Ethene contains a weak and exposed pi bond",
+        "Ethane contains fewer sigma bonds",
+        "Ethene undergoes substitution more readily"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Ethene contains a weak and exposed pi bond”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 9,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 123,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Chemical Reactions of Benzenes",
+      "question": "What best describes the overall reaction in electrophilic aromatic substitution in benzene?",
+      "options": [
+        "Addition of an electrophile across a double bond",
+        "Substitution of a halogen by an nucleophile",
+        "Substitution of a proton (H⁺) by an electrophile on the aromatic ring",
+        "Substitution of a methyl group by a nucleophile"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Substitution of a proton (H⁺) by an electrophile on the aromatic ring”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 124,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Real and Ideal Gas",
+      "question": "Real gases DO NOT reach absolute zero in practice because:",
+      "options": [
+        "Molecular collisions become inelastic due to increased kinetic energy",
+        "Intermolecular forces become negligible and molecules disperse",
+        "Kinetic energy of molecules increases due to compression",
+        "Intermolecular forces exceed kinetic energy of molecules"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Intermolecular forces exceed kinetic energy of molecules”. This tests gas laws & kinetic theory.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 125,
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Quantum Number",
+      "question": "The energy of an orbital is determined by:",
+      "options": [
+        "Hund's Rule",
+        "Pauli exclusion principle",
+        "n+l rule",
+        "Boyles principle"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “n+l rule”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 126,
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Solubility Products",
+      "question": "The Ksp value of salt AB ⇌ A⁺ + B⁻ is 9 × 10⁻⁶. Its molar solubility will be:",
+      "options": [
+        "3 × 10⁻⁶",
+        "9 × 10⁻³",
+        "3 × 10⁻³",
+        "9 × 10⁻⁶"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “3 × 10⁻³”. This tests equilibrium & le chatelier.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 127,
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "Anomalous behavior of Water",
+      "question": "Water changes from a liquid at 4°C to ice at 0°C. What is the change in volume?",
+      "options": [
+        "9% increase",
+        "9% decrease",
+        "19% increase",
+        "19% decrease"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “9% increase”. This tests intermolecular forces & properties.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 128,
+      "subject": "Chemistry",
+      "chapter": "Thermo Chemistry and Energetics of Chemical Reaction",
+      "topic": "Exothermic and Endothermic Reaction",
+      "question": "For an exothermic reaction, the energy level of reactant is:",
+      "options": [
+        "Less than the product",
+        "More than the product",
+        "Equal to the product",
+        "Zero"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “More than the product”. This tests enthalpy & energy changes.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 129,
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Redox Reaction",
+      "question": "In an electrolytic cell when the current passes through a solution, the anode is:",
+      "options": [
+        "A positive electrode where oxidation occurs",
+        "A negative electrode where oxidation occurs",
+        "A positive electrode where reduction occurs",
+        "A negative electrode where reduction occurs"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “A positive electrode where oxidation occurs”. This tests redox & electrochemical cells.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 130,
+      "subject": "Chemistry",
+      "chapter": "Thermo Chemistry and Energetics of Chemical Reaction",
+      "topic": "Internal Energies",
+      "question": "An increase in the internal energy of a chemical system can lead to all EXCEPT:",
+      "options": [
+        "An increase in temperature due to rise in kinetic energy of molecules",
+        "A phase change such as melting or evaporation",
+        "A chemical reaction if energy supplied is sufficient to break bonds",
+        "An increase in temperature due to drop in kinetic energy of molecules"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “An increase in temperature due to drop in kinetic energy of molecules”. This tests rates & activation energy.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 131,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Hybridization",
+      "question": "In ethene molecule, each carbon atom has three hybridized sp² orbitals which are:",
+      "options": [
+        "Coplanar",
+        "Tetrahedral",
+        "Linear",
+        "Pyramidal"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Coplanar”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 132,
+      "subject": "Chemistry",
+      "chapter": "S- and P- Block Elements",
+      "topic": "Reaction of Group II elements",
+      "question": "Which of the following best explains the reaction between Beryllium (Be) and Oxygen (O₂)?",
+      "options": [
+        "Be burns vigorously with oxygen forming a layer of BeO, which accelerates the oxidation of remaining metal",
+        "Be reacts with oxygen forming a layer of BeO, which protects the metal from further oxidation",
+        "Be reacts slowly with oxygen to form a volatile oxide BeO, which evaporates quickly",
+        "Be is the only alkaline earth metal that doesn't react with oxygen"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Be reacts with oxygen forming a layer of BeO, which protects the metal from further oxidation”. This tests redox & electrochemical cells.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 133,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Unit of “R”",
+      "question": "The value of R in atm.dm³.mol⁻¹.K⁻¹ is:",
+      "options": [
+        "0.0821",
+        "0.821",
+        "62.4",
+        "8.314"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “0.0821”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 134,
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Chemical Kinetics",
+      "question": "The rate of a chemical reaction changes with:",
+      "options": [
+        "Concentration of reactant molecules",
+        "Concentration of product molecules",
+        "Concentration of both reactant and product",
+        "Rate constant"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Concentration of reactant molecules”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 135,
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Planck’s Quantum Theory",
+      "question": "According to Planck's quantum theory, if the frequency of photon is doubled, the value of \"h\" will be:",
+      "options": [
+        "Doubled",
+        "Increased 3 times",
+        "Increased 4 times",
+        "Unchanged"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Unchanged”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 136,
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Rate Constant",
+      "question": "The specific rate constant (k) of a reaction is related to the concentration of reactants:",
+      "options": [
+        "Directly",
+        "Inversely",
+        "Exponentially",
+        "Independently"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Independently”. This tests rates & activation energy.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 10,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 137,
+      "subject": "Chemistry",
+      "chapter": "Macro Molecules",
+      "topic": "Classification of Proteins",
+      "question": "An experiment shows that heating a 'protein' disrupts the alpha helix structure. Which protein structure is mainly affected?",
+      "options": [
+        "Primary",
+        "Secondary",
+        "Tertiary",
+        "Quaternary"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Secondary”. This tests proteins & enzymes.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 138,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Kinetic Molecular Theory",
+      "question": "Which of the following is NOT a postulate of kinetic molecular theory of gases?",
+      "options": [
+        "Gas molecules undergo elastic collision",
+        "Gas molecules are in continuous random motion",
+        "Gas molecules do not exert pressure when molecules collide with wall of container",
+        "Gas molecules are far away from each other"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Gas molecules do not exert pressure when molecules collide with wall of container”. This tests gas laws & kinetic theory.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 139,
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Spectrum of Hydrogen",
+      "question": "Spectral series for hydrogen spectrum are:",
+      "options": [
+        "2",
+        "3",
+        "5",
+        "7"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “5”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 140,
+      "subject": "Chemistry",
+      "chapter": "S- and P- Block Elements",
+      "topic": "Properties and their Trends",
+      "question": "The most electronegative element in periodic table is:",
+      "options": [
+        "F",
+        "Cl",
+        "O",
+        "N"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “F”. This tests periodic trends & properties.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 141,
+      "subject": "Chemistry",
+      "chapter": "Thermo Chemistry and Energetics of Chemical Reaction",
+      "topic": "Exothermic and Endothermic Reaction",
+      "question": "If ΔH for a reaction is positive, then by decreasing temperature, the reaction will:",
+      "options": [
+        "Move forward",
+        "Move in reverse",
+        "Have no effect",
+        "Be both forward and reverse"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Move in reverse”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 142,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Structure and Reactivity of Alkenes",
+      "question": "The addition of water to propene in the presence of sulfuric acid produces:",
+      "options": [
+        "Propanol",
+        "Propan-2-ol",
+        "Butanol",
+        "Ethanol"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Propan-2-ol”. This tests hydrocarbon reactions.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 143,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Hybridization",
+      "question": "In which of the following molecules does the central atom use sp³ hybridization?",
+      "options": [
+        "PH₃",
+        "NH₃",
+        "CH₄",
+        "SbH₃"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “CH₄”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 144,
+      "subject": "Chemistry",
+      "chapter": "Alcohols and Phenols",
+      "topic": "Nomenclature, structure and reactivity of Phenols",
+      "question": "In a molecule of phenol, the carbon atom which is attached to -OH group is:",
+      "options": [
+        "sp hybridized",
+        "sp² hybridized",
+        "sp³ hybridized",
+        "unhybridized"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “sp² hybridized”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 145,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "VSEPR Theory",
+      "question": "Which one of the following is a planar molecule?",
+      "options": [
+        "NH₃",
+        "H₂O",
+        "BF₃",
+        "CH₄"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “BF₃”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 146,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Bond Energy",
+      "question": "Which of the following has highest bond energy?",
+      "options": [
+        "HCl",
+        "HI",
+        "HF",
+        "HBr"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “HF”. This tests hybridization & molecular geometry.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 147,
+      "subject": "Chemistry",
+      "chapter": "Transition Elements",
+      "topic": "Electronic Structure",
+      "question": "Identify the CORRECT electronic configuration for an element with atomic number 24?",
+      "options": [
+        "1s²2s²2p⁶3s²3p⁶3d⁴",
+        "1s²2s²2p⁶3s²3p⁶4s²3d⁴",
+        "1s²2s²2p⁶3s²3p⁶4s¹3d⁵",
+        "1s²2s²3s²2p⁶3p⁶4s²3d²"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “1s²2s²2p⁶3s²3p⁶4s¹3d⁵”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 148,
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Balancing Chemical Reaction",
+      "question": "Balance the equation, using the oxidation number method for: Cu + H₂SO₄ → CuSO₄ + SO₂ + H₂O",
+      "options": [
+        "Cu + H₂SO₄ → CuSO₄ + SO₂ + H₂O",
+        "Cu + H₂SO₄ → CuSO₄ + SO₂ + 2H₂O",
+        "Cu + 2H₂SO₄ → CuSO₄ + SO₂ + 2H₂O",
+        "2Cu + 2H₂SO₄ → 2CuSO₄ + SO₂ + 2H₂O"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Cu + 2H₂SO₄ → CuSO₄ + SO₂ + 2H₂O”. This tests redox & electrochemical cells.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 149,
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Reactivity of Aldehydes and Ketones",
+      "question": "The compound that reacts with phenyl hydrazine to form a crystalline phenyl hydrazone derivative is:",
+      "options": [
+        "Butanal",
+        "1,3-butadiene",
+        "Ethyl acetate",
+        "Ethanol"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Butanal”. This tests crystalline & amorphous solids.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 150,
+      "subject": "Chemistry",
+      "chapter": "Introduction of Fundamentals Concept of Chemistry",
+      "topic": "Limiting and Excess Reactants",
+      "question": "If 4g of H₂ reacts with 2 moles of O₂ to form water, which one is the excess reagent?",
+      "options": [
+        "H₂ only",
+        "O₂ only",
+        "H₂O only",
+        "Both O₂ and H₂"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “O₂ only”. This tests moles, yield & limiting reagents.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 151,
+      "subject": "Chemistry",
+      "chapter": "Introduction of Fundamentals Concept of Chemistry",
+      "topic": "Yield",
+      "question": "If 10 moles of magnesium react with excess of oxygen. Calculate the theoretical yield of magnesium oxide (MgO). (Molar mass of Magnesium=24g/mol, Oxygen=16g/mol)",
+      "options": [
+        "160g",
+        "240g",
+        "320g",
+        "400g"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “400g”. This tests moles, yield & limiting reagents.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 11,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 152,
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Reactivity of Aldehydes and Ketones",
+      "question": "Acetaldehyde reacts with ethanol in presence of acid and initially produces:",
+      "options": [
+        "Acetal",
+        "Hemiacetal",
+        "Diol",
+        "Diethoxyethane"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Hemiacetal”. This tests carbonyl chemistry.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 153,
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Nomenclature and structure of Aldehydes and Ketones",
+      "question": "IUPAC name of given compound Br - CH₂ - CH₂ - CO - CH₃ is?",
+      "options": [
+        "1-bromobutan-1-one",
+        "1-bromobutan-2-one",
+        "1-bromobutan-3-one",
+        "1-bromobutan-4-one"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “1-bromobutan-2-one”. This tests nomenclature & isomerism.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 154,
+      "subject": "Chemistry",
+      "chapter": "Introduction of Fundamentals Concept of Chemistry",
+      "topic": "Limiting and Excess Reactants",
+      "question": "Consider the given reaction: 2Na + Cl₂ → 2NaCl. If 4 moles of Na and 2 moles of Cl₂ are reacted, how much Cl₂ will remain unreacted?",
+      "options": [
+        "0 mol",
+        "0.5 mol",
+        "1 mol",
+        "1.5 mol"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “0 mol”. This tests moles, yield & limiting reagents.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 155,
+      "subject": "Chemistry",
+      "chapter": "Transition Elements",
+      "topic": "Electronic Structure",
+      "question": "The electronic configuration of Fe³⁺ (Z=26) is:",
+      "options": [
+        "[Ar]4s², 3d³",
+        "[Ar]4s¹, 3d⁴",
+        "[Ar]4s⁰, 3d⁵",
+        "[Ar]4s⁰, 3d⁶"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “[Ar]4s⁰, 3d⁵”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 156,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Ideal Gas Equation",
+      "question": "If pressure and temperature of a gas are doubled, the new volume will be:",
+      "options": [
+        "Doubled",
+        "Halved",
+        "Tripled",
+        "Same"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Same”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 157,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "IUPAC System of Alkynes",
+      "question": "IUPAC name of CH₃-CH=CH-C≡CH is:",
+      "options": [
+        "hex-1-yne",
+        "pent-2-yne",
+        "pent-4-yne",
+        "pent-1-yne"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “pent-1-yne”. This tests nomenclature & isomerism.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 158,
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Le Chatelier’s principle",
+      "question": "According to Le Chatelier's Principle, when the pressure of a gaseous equilibrium system is increased, the equilibrium shifts towards:",
+      "options": [
+        "No change in equilibrium position",
+        "The side with greater volume",
+        "The side with lower volume",
+        "The side with more moles of gas"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “The side with lower volume”. This tests equilibrium & le chatelier.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 159,
+      "subject": "Chemistry",
+      "chapter": "Introduction of Fundamentals Concept of Chemistry",
+      "topic": "Limiting and Excess Reactants",
+      "question": "Consider a reaction 2A + B₂ → 2AB. Which of the following mixtures would make A the limiting reagent?",
+      "options": [
+        "300 atoms of A and 400 molecules of B₂",
+        "100 atoms of A and 50 molecules of B₂",
+        "2 mol of A and 1 mol of B₂",
+        "5 mol of A and 2.5 mol of B₂"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “300 atoms of A and 400 molecules of B₂”. This tests general concepts.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 160,
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Factors affecting rate of reaction",
+      "question": "On increasing the temperature, the rate of reaction increases mainly because:",
+      "options": [
+        "The activation energy of the reaction increases",
+        "The concentration of the reacting molecules increases",
+        "The collisions frequency increases",
+        "The energy of molecules decreases"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “The collisions frequency increases”. This tests rates & activation energy.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 161,
+      "subject": "Chemistry",
+      "chapter": "Solid",
+      "topic": "Lattice Energy",
+      "question": "Heat of sublimation of Na = 108 kJ/mol, Ionization energy of Na = 496 kJ/mol, Bond dissociation energy of Cl₂ = 121 kJ/mol, Electron affinity of Cl = -349 kJ/mol and Enthalpy of formation of NaCl = - 411 kJ/mol. Calculate the lattice energy of NaCl:",
+      "options": [
+        "-678 kJ/mol",
+        "-727 kJ/mol",
+        "-819 kJ/mol",
+        "-832 kJ/mol"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “-727 kJ/mol”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 162,
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "MOT of Benzene",
+      "question": "The molecular orbitals in benzene are:",
+      "options": [
+        "Localized",
+        "Delocalized",
+        "Hybridized",
+        "Polarized"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Delocalized”. This tests orbitals & electronic configuration.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 163,
+      "subject": "English",
+      "chapter": "Gerund",
+      "topic": null,
+      "question": "In the sentence \"Jogging every morning improves my mood,\" what role does the gerund phrase play?",
+      "options": [
+        "Object of a verb",
+        "Direct object",
+        "Predicate noun",
+        "Subject"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “Subject”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 164,
+      "subject": "English",
+      "chapter": "Preposition",
+      "topic": null,
+      "question": "The meeting has been scheduled _____ 3 p.m. sharp.",
+      "options": [
+        "on",
+        "at",
+        "in",
+        "to"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “at”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 12,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 165,
+      "subject": "English",
+      "chapter": "Conjunction",
+      "topic": null,
+      "question": "\"She studied hard; _____, she passed the exam with distinction.\" Choose the CORRECT transitional device:",
+      "options": [
+        "however",
+        "for instance",
+        "consequently",
+        "in contrast"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “consequently”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 166,
+      "subject": "English",
+      "chapter": "Voices",
+      "topic": null,
+      "question": "She completed the task with great difficulty. Identify the CORRECT usage of passive voice.",
+      "options": [
+        "The task was completed with great difficulty by her.",
+        "The task has been completed with great difficulty by her.",
+        "The task was been completed with great difficulty by her.",
+        "The task was being completed with great difficulty by her."
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “The task was completed with great difficulty by her”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 167,
+      "subject": "English",
+      "chapter": "Subject-Verb Agreement",
+      "topic": null,
+      "question": "Each of the boys _____ ambitious to lead the team.",
+      "options": [
+        "have",
+        "has",
+        "is",
+        "are"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “is”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 168,
+      "subject": "English",
+      "chapter": "Reading & Thinking Skills",
+      "topic": null,
+      "question": "\"Revenge is a kind of wild justice.\" The sentence illustrates the use of:",
+      "options": [
+        "Personification",
+        "Pun",
+        "Metaphor",
+        "Hyperbole"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “Metaphor”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 169,
+      "subject": "English",
+      "chapter": "Vocab",
+      "topic": null,
+      "question": "The old man was feeble, barely able to walk. The word \"feeble\" means:",
+      "options": [
+        "Healthy",
+        "Weak",
+        "Strong",
+        "Fat"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “Weak”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 170,
+      "subject": "English",
+      "chapter": "Reading & Thinking Skills",
+      "topic": null,
+      "question": "Which literary device involves using words or phrases that convey the opposite of their literal meaning?",
+      "options": [
+        "Irony",
+        "Parody",
+        "Satire",
+        "Sarcasm"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Irony”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 171,
+      "subject": "English",
+      "chapter": "Pronoun",
+      "topic": null,
+      "question": "All of the players forgot _____ jerseys.",
+      "options": [
+        "his",
+        "her",
+        "there",
+        "their"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “their”. Check the grammar, spelling or meaning in the sentence.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 172,
+      "subject": "Logical Reasoning",
+      "chapter": "Number, Alphabet & Symbol Series",
+      "topic": null,
+      "question": "A medication dose starts at 100mg and halves each day. What will be the dose on day 4?",
+      "options": [
+        "12.5mg",
+        "25mg",
+        "30mg",
+        "50mg"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “12.5mg”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 173,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": null,
+      "question": "A library has 4 books on Shelf A, and 8 books on Shelf B. Some books are removed from Shelf B such that both shelves now have exactly the same number of books. How many books were removed from Shelf B?",
+      "options": [
+        "2 books",
+        "3 books",
+        "4 books",
+        "6 books"
+      ],
+      "correctIndex": 2,
+      "explanation": "The supplied answer key selects “4 books”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 174,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": null,
+      "question": "Ahmed ranks 10th in the class of 46 students. There are only 7 students below Bilal rank wise. How many students are there between Ahmed and Bilal?",
+      "options": [
+        "27",
+        "28",
+        "30",
+        "32"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “28”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 175,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Deductions",
+      "topic": null,
+      "question": "How is Ali related to Mustafa? If Ali says, \"Mustafa's mother is the only child of my grandmother.\"",
+      "options": [
+        "Brother",
+        "Cousin",
+        "Uncle",
+        "Father"
+      ],
+      "correctIndex": 0,
+      "explanation": "The supplied answer key selects “Brother”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 176,
+      "subject": "Logical Reasoning",
+      "chapter": "Critical Thinking",
+      "topic": null,
+      "question": "A mobile company is deciding whether to collect personal user data for improving advertisement. Which of the following is a moral argument against collecting the data?",
+      "options": [
+        "Users may lose trust in the company, which could hurt profits.",
+        "It is wrong to collect data without users' clear and informed consent.",
+        "Competitors already collect more data, and we need to stay competitive.",
+        "More data means more accurate advertising, which boosts sales."
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “It is wrong to collect data without users' clear and informed consent”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 177,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": null,
+      "question": "A father is 5 years older than twice his son's age. If the son is 12, what is the father's age?",
+      "options": [
+        "28 years",
+        "29 years",
+        "30 years",
+        "32 years"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “29 years”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 13,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 178,
+      "subject": "Logical Reasoning",
+      "chapter": "Number, Alphabet & Symbol Series",
+      "topic": null,
+      "question": "Which number comes in the missing place? 200, 180, 162, 146, 132, _____",
+      "options": [
+        "118",
+        "120",
+        "122",
+        "126"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied answer key selects “120”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 14,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 179,
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": null,
+      "question": "If 5 boxes of soap weigh 75 kilos and each box when empty weighs 3 kilos. What is total weight of the soaps?",
+      "options": [
+        "15",
+        "30",
+        "45",
+        "60"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “60”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 14,
+      "classificationStatus": "PROVISIONAL TESTING"
+    },
+    {
+      "originalNumber": 180,
+      "subject": "Logical Reasoning",
+      "chapter": "Number, Alphabet & Symbol Series",
+      "topic": null,
+      "question": "Consider the sequence: 64, 32, 16, 8, ___. What is the 10th term of this sequence?",
+      "options": [
+        "2",
+        "4",
+        "1/4",
+        "1/8"
+      ],
+      "correctIndex": 3,
+      "explanation": "The supplied answer key selects “1/8”. Apply the stated facts or pattern to verify the conclusion.",
+      "mnemonic": "",
+      "source": "KMU MDCAT 2025 — Code D",
+      "sourcePdfPage": 14,
+      "classificationStatus": "PROVISIONAL TESTING"
+    }
+  ]
+}

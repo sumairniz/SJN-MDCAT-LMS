@@ -1,0 +1,303 @@
+{
+  "metadata": {
+    "status": "OWNER_APPROVED_FOR_STAGING_ONLY",
+    "examYear": 2025,
+    "approvedOn": "2026-10-25",
+    "count": 16,
+    "subject": "Logical Reasoning",
+    "classification": "Single-level Chapter = Topic: Logical Problems (both columns intentionally identical)",
+    "contentRule": "Original user-provided past-paper question wording, options, source labels, and keys preserved. Explanations and SJN Tips are separate. reviewNumber is not a permanent question ID.",
+    "note": "Q7 refers to six family members but lists only five; original text and D key retained, accepted in content review.",
+    "productionPromotion": "A later GitHub merge does not transfer Supabase data; separate owner-approved production publishing is required."
+  },
+  "questions": [
+    {
+      "reviewNumber": 1,
+      "bank": "Past Papers Question Bank",
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "source": "UHS 2025",
+      "question": "P and Q are M's parents. M and N are siblings. Q is N's mother. What is P to M?",
+      "options": [
+        "Mother",
+        "Father",
+        "Sister",
+        "Brother"
+      ],
+      "correctIndex": 1,
+      "explanation": "Q is the mother, and P and Q are M's parents. Therefore, P is M's father.",
+      "mnemonic": "Identify the mother first; the other parent is the father."
+    },
+    {
+      "reviewNumber": 2,
+      "bank": "Past Papers Question Bank",
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "source": "UHS 2025",
+      "question": "Asad bought 50 packets of biscuits for the price of Rs. 500; whereas Anum bought 25 packets of chips for the price of Rs. 1000. While comparing the prices of packets of biscuits and packet of chips, which of the following statements is correct?",
+      "options": [
+        "Price of 4 packets of biscuits is equal to the price of 1 packet of chips",
+        "Price of 1 packet of biscuits is equal to the price of 4 packets of chips",
+        "Price of 2 packets of biscuits is equal to the price of 1 packet of chips",
+        "Price of 1 packet of biscuits is equal to the price of 2 packets of chips"
+      ],
+      "correctIndex": 0,
+      "explanation": "One biscuit packet costs Rs. 500 ÷ 50 = Rs. 10. One chips packet costs Rs. 1000 ÷ 25 = Rs. 40. So, 4 biscuit packets cost the same as 1 chips packet.",
+      "mnemonic": "First find the price of ONE item, then compare."
+    },
+    {
+      "reviewNumber": 3,
+      "bank": "Past Papers Question Bank",
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "source": "UHS 2025",
+      "question": "One apple pie has 10 slices, and each apple pie feeds five people. Henry is having a party with 200 people. How many slices of pie does he need?",
+      "options": [
+        "200",
+        "50",
+        "400",
+        "100"
+      ],
+      "correctIndex": 2,
+      "explanation": "One pie has 10 slices for 5 people, so each person gets 2 slices. For 200 people: 200 × 2 = 400 slices.",
+      "mnemonic": "Find slices per person first, then multiply."
+    },
+    {
+      "reviewNumber": 4,
+      "bank": "Past Papers Question Bank",
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "source": "UHS 2025",
+      "question": "How many trees are in the orchard? Which of the statements below are needed to sufficiently answer this question? i. Ibrahim is a farmer and looks after half of the trees in the orchard ii. 300 trees in the orchard are under Ibrahim's care",
+      "options": [
+        "i is enough",
+        "ii is enough",
+        "both i and ii are needed",
+        "neither i nor ii are sufficient"
+      ],
+      "correctIndex": 2,
+      "explanation": "Statement i tells us Ibrahim looks after half the trees. Statement ii tells us this half contains 300 trees. Together, total trees = 300 × 2 = 600.",
+      "mnemonic": "Half = 300 → Total = 600. Both statements are needed."
+    },
+    {
+      "reviewNumber": 5,
+      "bank": "Past Papers Question Bank",
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "source": "Sindh 2025",
+      "question": "If A is mother of B and C is child of B, then what is the relationship between A and C?",
+      "options": [
+        "Aunt",
+        "Grandmother",
+        "Sister",
+        "Cousin"
+      ],
+      "correctIndex": 1,
+      "explanation": "A is B's mother, and B is C's parent. Therefore, A is C's grandmother.",
+      "mnemonic": "Parent's mother = Grandmother."
+    },
+    {
+      "reviewNumber": 6,
+      "bank": "Past Papers Question Bank",
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "source": "Sindh 2025",
+      "question": "A tank can hold 240 liters of water. Currently, water is filled to one third of its capacity. How much more water can it hold?",
+      "options": [
+        "60 liters",
+        "80 liters",
+        "100 liters",
+        "160 liters"
+      ],
+      "correctIndex": 3,
+      "explanation": "Filled water = 240 ÷ 3 = 80 liters. Remaining capacity = 240 − 80 = 160 liters.",
+      "mnemonic": "Remaining Capacity = Total − Filled."
+    },
+    {
+      "reviewNumber": 7,
+      "bank": "Past Papers Question Bank",
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "source": "Sindh 2025",
+      "question": "In a family of six members:\n\n* P is the father of Q\n* R is the mother of Q\n* S is the sister of Q\n* T is the brother of P.\nWho is the Uncle of Q?",
+      "options": [
+        "P",
+        "R",
+        "S",
+        "T"
+      ],
+      "correctIndex": 3,
+      "explanation": "P is Q's father, and T is P's brother. Therefore, T is Q's uncle.",
+      "mnemonic": "Father's brother = Paternal Uncle."
+    },
+    {
+      "reviewNumber": 8,
+      "bank": "Past Papers Question Bank",
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "source": "SZABMU 2025",
+      "question": "Every alphabet in the word \"SURGEON\" represents a fixed numerical value and the numbers when added, sum up to 99. Based on this, what will be the sum of the word \"EORGNSU\".",
+      "options": [
+        "102",
+        "78",
+        "99",
+        "56"
+      ],
+      "correctIndex": 2,
+      "explanation": "EORGNSU contains exactly the same letters as SURGEON, only rearranged. Since the values of the letters remain unchanged, their total is still 99.",
+      "mnemonic": "Same letters + Different order = Same sum."
+    },
+    {
+      "reviewNumber": 9,
+      "bank": "Past Papers Question Bank",
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "source": "SZABMU 2025",
+      "question": "In a row of students, a student is at 13th position from the left end and at 20th position from the right end. How many students are there in the row?",
+      "options": [
+        "30",
+        "31",
+        "32",
+        "33"
+      ],
+      "correctIndex": 2,
+      "explanation": "Total students = Left position + Right position − 1 = 13 + 20 − 1 = 32. We subtract 1 because the same student is counted twice.",
+      "mnemonic": "Total = Left + Right − 1."
+    },
+    {
+      "reviewNumber": 10,
+      "bank": "Past Papers Question Bank",
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "source": "SZABMU 2025",
+      "question": "A is older than B but younger than F. C is younger than B but older than D. Who is the youngest of them?",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "correctIndex": 3,
+      "explanation": "Arrange the ages from oldest to youngest: F → A → B → C → D. Therefore, D is the youngest.",
+      "mnemonic": "Make one age chain; the last person is the youngest."
+    },
+    {
+      "reviewNumber": 11,
+      "bank": "Past Papers Question Bank",
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "source": "KPK 2025",
+      "question": "A medication dose starts at 100mg and halves each day. What will be the dose on day 4?",
+      "options": [
+        "12.5mg",
+        "25mg",
+        "30mg",
+        "50mg"
+      ],
+      "correctIndex": 0,
+      "explanation": "The dose is halved each day: Day 1 = 100 mg; Day 2 = 50 mg; Day 3 = 25 mg; Day 4 = 12.5 mg.",
+      "mnemonic": "Halving sequence: 100 → 50 → 25 → 12.5."
+    },
+    {
+      "reviewNumber": 12,
+      "bank": "Past Papers Question Bank",
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "source": "KPK 2025",
+      "question": "A library has 4 books on Shelf A, and 8 books on Shelf B. Some books are removed from Shelf B such that both shelves now have exactly the same number of books, How many books were removed from Shelf B?",
+      "options": [
+        "2 books",
+        "3 books",
+        "4 books",
+        "6 books"
+      ],
+      "correctIndex": 2,
+      "explanation": "Shelf B has 8 books and must be reduced to 4 books to match Shelf A. Therefore, 8 − 4 = 4 books are removed.",
+      "mnemonic": "To make quantities equal, subtract the difference."
+    },
+    {
+      "reviewNumber": 13,
+      "bank": "Past Papers Question Bank",
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "source": "KPK 2025",
+      "question": "Ahmed ranks 10th in the class of 46 students. There are only 7 students below Bilal rank wise. How many students are there between Ahmed and Bilal?",
+      "options": [
+        "27",
+        "28",
+        "30",
+        "32"
+      ],
+      "correctIndex": 1,
+      "explanation": "Bilal's rank = 46 − 7 = 39th. Ahmed is 10th. Students between them = 39 − 10 − 1 = 28.",
+      "mnemonic": "Students Between = Difference of Ranks − 1."
+    },
+    {
+      "reviewNumber": 14,
+      "bank": "Past Papers Question Bank",
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "source": "KPK 2025",
+      "question": "How is Ali related to Mustafa? If Ali says, \"Mustafa's mother is the only child of my grandmother.\":",
+      "options": [
+        "Brother",
+        "Cousin",
+        "Uncle",
+        "Father"
+      ],
+      "correctIndex": 0,
+      "explanation": "The only child of Ali's grandmother is Ali's parent, who is identified here as Mustafa's mother. Therefore, Ali and Mustafa have the same mother and are brothers.",
+      "mnemonic": "Same mother → Brothers (when both are male)."
+    },
+    {
+      "reviewNumber": 15,
+      "bank": "Past Papers Question Bank",
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "source": "KPK 2025",
+      "question": "A father is 5 years older than twice his son's age. If the son is 12, what is the father's age?",
+      "options": [
+        "28 years",
+        "29 years",
+        "30 years",
+        "32 years"
+      ],
+      "correctIndex": 1,
+      "explanation": "Twice the son's age = 2 × 12 = 24 years. The father is 5 years older than this, so 24 + 5 = 29 years.",
+      "mnemonic": "Father's Age = 2 × Son's Age + 5."
+    },
+    {
+      "reviewNumber": 16,
+      "bank": "Past Papers Question Bank",
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "source": "KPK 2025",
+      "question": "If 5 boxes of soap weigh 75 kilos and each box when empty weighs 3 kilos. What is total weight of the soaps?",
+      "options": [
+        "15",
+        "30",
+        "45",
+        "60"
+      ],
+      "correctIndex": 3,
+      "explanation": "Total weight of 5 empty boxes = 5 × 3 = 15 kg. Weight of soaps alone = 75 − 15 = 60 kg.",
+      "mnemonic": "Net Weight = Total Weight − Packaging Weight."
+    }
+  ]
+}

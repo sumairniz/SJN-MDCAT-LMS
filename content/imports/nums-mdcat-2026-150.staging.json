@@ -1,0 +1,2866 @@
+{
+  "metadata": {
+    "title": "NUMS MDCAT 2026",
+    "year": "2026",
+    "region": "nums",
+    "description": "2026 marked paper · 150 original MCQs · provisional chapter and topic classifications",
+    "questions": 150,
+    "keySource": "third-party yellow-highlighted marked PDF; not official NUMS key",
+    "review": "Owner approved unchanged third-party keys, Q68 sign correction and Q91 text-based ortho structure",
+    "sourcePdf": "NUMS_2026_Marked_Answer_Key.pdf",
+    "sourceSHA256": "04345a75e16aed10f6052c43976052a25be13e5c76053b70c5d255054e771268",
+    "stagingOnly": true
+  },
+  "questions": [
+    {
+      "originalNumber": 1,
+      "sourcePdfPage": 1,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "HIV Glycoproteins",
+      "question": "Identify the type of glycoprotein, responsible for cell fusion process in HIV cycle:",
+      "options": [
+        "gp 40",
+        "gp 41",
+        "gp 120",
+        "gp 121"
+      ],
+      "correctIndex": 1,
+      "explanation": "HIV envelope gp41 mediates fusion of the viral and host-cell membranes; gp120 mainly binds host receptors.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 2,
+      "sourcePdfPage": 1,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "Reverse Transcriptase",
+      "question": "Which of the following enzymes converts mRNA to complementary DNA (cDNA)?",
+      "options": [
+        "Integrase",
+        "Reverse transcriptase",
+        "Protease",
+        "DNAase"
+      ],
+      "correctIndex": 1,
+      "explanation": "Reverse transcriptase uses viral RNA as a template to synthesize complementary DNA.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 3,
+      "sourcePdfPage": 1,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "Vaccination",
+      "question": "Edward Jenner used material removed from the lesion on the hand of milkmaid and vaccinated a boy suffering from which of the following disease?",
+      "options": [
+        "Small pox",
+        "Chicken pox",
+        "Cow pox",
+        "Measles"
+      ],
+      "correctIndex": 0,
+      "explanation": "Jenner inoculated a boy with cowpox material to protect him against smallpox; the intended disease is smallpox.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 4,
+      "sourcePdfPage": 1,
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "Viral Capsids",
+      "question": "Adenovirus are classified as:",
+      "options": [
+        "Helical capsid",
+        "Polyhedral capsid",
+        "Enveloped virus",
+        "Coupler capsid"
+      ],
+      "correctIndex": 1,
+      "explanation": "Adenovirus has an icosahedral capsid, a polyhedral arrangement of protein subunits.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 5,
+      "sourcePdfPage": 1,
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Anaerobic Respiration",
+      "question": "If a person is doing strenuous exercise, how many ATPs are produced by cellular respiration?",
+      "options": [
+        "2 ATPs",
+        "3 ATPs",
+        "4 ATPs",
+        "6 ATPs"
+      ],
+      "correctIndex": 0,
+      "explanation": "During strenuous activity, anaerobic glycolysis can yield a net 2 ATP per glucose without oxidative phosphorylation.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 6,
+      "sourcePdfPage": 1,
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Noncyclic Electron Flow",
+      "question": "The end product of non-cyclic electron pathway is:",
+      "options": [
+        "ATP and NADPH",
+        "ATP",
+        "FADH₂",
+        "NAOPH₂"
+      ],
+      "correctIndex": 0,
+      "explanation": "Noncyclic photophosphorylation generates both ATP and NADPH while releasing oxygen from water.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 7,
+      "sourcePdfPage": 1,
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Alcoholic Fermentation",
+      "question": "Pyruvic acid is converted into acetaldehyde through which step?",
+      "options": [
+        "Decarboxylation",
+        "Oxidation",
+        "Addition of coenzyme A",
+        "Reduction"
+      ],
+      "correctIndex": 0,
+      "explanation": "Pyruvate loses carbon dioxide during alcoholic fermentation to form acetaldehyde, which is then reduced to ethanol.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 8,
+      "sourcePdfPage": 1,
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Electron Transport Chain",
+      "question": "Choose the correct sequence of electron carrier in respiratory ETC:",
+      "options": [
+        "Coenzyme Q → cytochrome a → cytochrome a₃ → cytochrome b → cytochrome c",
+        "Coenzyme Q → cytochrome b → cytochrome c → cytochrome a → cytochrome a₃",
+        "cytochrome a → cytochrome a₃ → cytochrome b → cytochrome c → coenzyme Q",
+        "Cytochrome b → cytochrome c → coenzyme Q → cytochrome a → cytochrome a₃"
+      ],
+      "correctIndex": 1,
+      "explanation": "In the electron transport chain, electrons pass from ubiquinone to cytochrome b, c, a and a₃ before reaching oxygen.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 9,
+      "sourcePdfPage": 1,
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Proton Gradient",
+      "question": "Pumping movement of protons occur from:",
+      "options": [
+        "Outer membrane and inner membrane",
+        "Matrix of mitochondria and mitochondrial intermembrane space",
+        "Inner membrane and cisternae",
+        "Inner membrane and intermembrane space"
+      ],
+      "correctIndex": 1,
+      "explanation": "Respiratory chain complexes pump H⁺ from the mitochondrial matrix into the intermembrane space.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 10,
+      "sourcePdfPage": 2,
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Krebs Cycle",
+      "question": "Net product of Krebs cycle is:",
+      "options": [
+        "2CO₂, 3ATP, 6NADH, 2FADH",
+        "4CO₂, 3NADH, 6ATP, 2FADH",
+        "4CO₂, 2ATP, 6NADH, 2FADH₂",
+        "CO₂, NADH, FADH"
+      ],
+      "correctIndex": 2,
+      "explanation": "Per glucose, two turns of the Krebs cycle yield 4 CO₂, 6 NADH, 2 FADH₂ and 2 GTP/ATP.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 11,
+      "sourcePdfPage": 2,
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Inner Mitochondrial Membrane",
+      "question": "The electron carrier of mitochondria are found in:",
+      "options": [
+        "Outer mitochondrial membrane",
+        "Stroma",
+        "Intermembrane space",
+        "Inner mitochondrial membrane"
+      ],
+      "correctIndex": 3,
+      "explanation": "The inner mitochondrial membrane contains respiratory electron carriers and ATP synthase.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 12,
+      "sourcePdfPage": 2,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Monosaccharides",
+      "question": "Which one of the following is a monosaccharide?",
+      "options": [
+        "Sucrose",
+        "Maltose",
+        "Lactose",
+        "Fructose"
+      ],
+      "correctIndex": 3,
+      "explanation": "Fructose is a single sugar unit, whereas sucrose, maltose and lactose are disaccharides.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 13,
+      "sourcePdfPage": 2,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Water in Living Cells",
+      "question": "What is percentage of water in brain cells?",
+      "options": [
+        "20%",
+        "70%",
+        "85%",
+        "30%"
+      ],
+      "correctIndex": 2,
+      "explanation": "Brain tissue has a high water content; 85% is the value intended by this question's supplied key.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 14,
+      "sourcePdfPage": 2,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Cell Composition",
+      "question": "Proportion of carbohydrate in bacterial and mammalian cell is:",
+      "options": [
+        "2%, 4%",
+        "3%, 4%",
+        "4%, 2%",
+        "3%, 2%"
+      ],
+      "correctIndex": 1,
+      "explanation": "The supplied percentages compare carbohydrate composition in bacterial and mammalian cells; exact proportions vary by cell type.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 15,
+      "sourcePdfPage": 2,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Properties of Water",
+      "question": "Water has very high heat capacity due to its:",
+      "options": [
+        "High polarity",
+        "Hydrogen bonding",
+        "High heat of vaporization",
+        "Ionization"
+      ],
+      "correctIndex": 1,
+      "explanation": "Hydrogen bonds between water molecules absorb substantial energy, giving water a high specific heat capacity.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 16,
+      "sourcePdfPage": 2,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Proteins",
+      "question": "Which one of the following biomolecule is involved in the transport of oxygen?",
+      "options": [
+        "Protein",
+        "Fats",
+        "Carbohydrate",
+        "Nucleic acid"
+      ],
+      "correctIndex": 0,
+      "explanation": "Hemoglobin is a protein that binds and transports oxygen in the blood.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 17,
+      "sourcePdfPage": 2,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Polysaccharides",
+      "question": "Which is the second most abundant organic molecule on earth?",
+      "options": [
+        "Starch",
+        "Glycogen",
+        "Cellulose",
+        "Chitin"
+      ],
+      "correctIndex": 3,
+      "explanation": "Chitin is a highly abundant polysaccharide found in arthropod exoskeletons and fungal walls, second to cellulose in many textbook accounts.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 18,
+      "sourcePdfPage": 2,
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Lipids",
+      "question": "Glycerol reacts with fatty acids to produce:",
+      "options": [
+        "Phospholipids",
+        "Terpenes",
+        "Acyl glycerol",
+        "Steroids"
+      ],
+      "correctIndex": 2,
+      "explanation": "Glycerol forms ester bonds with fatty acids to produce acylglycerols such as triglycerides.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 19,
+      "sourcePdfPage": 3,
+      "subject": "Biology",
+      "chapter": "Cell Structure and Function",
+      "topic": "Cell Wall",
+      "question": "During cell wall formation absence of magnesium results in:",
+      "options": [
+        "Lack of primary cell wall",
+        "Lack of secondary cell wall",
+        "Lack of middle lamella",
+        "No effect on cell wall formation"
+      ],
+      "correctIndex": 2,
+      "explanation": "Magnesium contributes to plant cell-wall formation and stability; this key associates its deficiency with impaired middle-lamella development.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 20,
+      "sourcePdfPage": 3,
+      "subject": "Biology",
+      "chapter": "Cell Structure and Function",
+      "topic": "Cell Organelles",
+      "question": "Identify the mismatch in the following:",
+      "options": [
+        "Mitochondria – cellular respiration",
+        "Endoplasmic reticulum – detoxification",
+        "Mitochondria – deamination",
+        "Lysosome – autophagy"
+      ],
+      "correctIndex": 2,
+      "explanation": "Mitochondria are major sites of respiration; importantly, mitochondrial glutamate dehydrogenase can also catalyze deamination. The supplied mismatch relies on a simplified organelle-function pairing.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 21,
+      "sourcePdfPage": 3,
+      "subject": "Biology",
+      "chapter": "Cell Structure and Function",
+      "topic": "Mitochondria",
+      "question": "Which organelle will increase in number, in muscles of athlete?",
+      "options": [
+        "Mitochondria",
+        "Ribosome",
+        "Golgi apparatus",
+        "Lysosome"
+      ],
+      "correctIndex": 0,
+      "explanation": "Trained skeletal muscle may increase mitochondrial abundance to support sustained aerobic ATP production.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 22,
+      "sourcePdfPage": 3,
+      "subject": "Biology",
+      "chapter": "Cell Structure and Function",
+      "topic": "Secretory Pathway",
+      "question": "In secretary cells which pathway is followed for the transport of material?",
+      "options": [
+        "Golgi complex → RER → SER",
+        "RER → golgi complex → SER",
+        "RER → SER → golgi complex",
+        "SER → golgi complex → RER"
+      ],
+      "correctIndex": 1,
+      "explanation": "Secretory proteins are made on rough ER and processed in the Golgi. The supplied route includes SER after Golgi, which is not the usual final step for protein secretion.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 23,
+      "sourcePdfPage": 3,
+      "subject": "Biology",
+      "chapter": "Cell Structure and Function",
+      "topic": "Chromosomes",
+      "question": "How many number of chromosomes are present in onion?",
+      "options": [
+        "16",
+        "8",
+        "14",
+        "26"
+      ],
+      "correctIndex": 0,
+      "explanation": "The diploid chromosome number of the common onion, Allium cepa, is 2n = 16.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 24,
+      "sourcePdfPage": 3,
+      "subject": "Biology",
+      "chapter": "Cell Structure and Function",
+      "topic": "Golgi Apparatus",
+      "question": "A cell is treated with a toxin that disrupts Golgi apparatus. Which function is affected?",
+      "options": [
+        "Lipid metabolism",
+        "Protein modification",
+        "Chromosome separation during cell division",
+        "ATP production"
+      ],
+      "correctIndex": 1,
+      "explanation": "Golgi apparatus modifies, sorts and packages proteins; disruption impairs their post-translational processing.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 25,
+      "sourcePdfPage": 3,
+      "subject": "Biology",
+      "chapter": "Cell Structure and Function",
+      "topic": "Golgi Apparatus",
+      "question": "Where modification and packaging occur in secretary cells?",
+      "options": [
+        "Golgi apparatus",
+        "Mitochondria",
+        "Endoplasmic reticulum",
+        "Nucleus"
+      ],
+      "correctIndex": 0,
+      "explanation": "The Golgi apparatus modifies proteins and packages secretory products into vesicles.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 26,
+      "sourcePdfPage": 3,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Osmoregulation and Hypothalamus",
+      "question": "A person continuously faces water imbalance in body due to damage of which part of the brain?",
+      "options": [
+        "Amygdala",
+        "Thalamus",
+        "Medulla",
+        "Hypothalamus"
+      ],
+      "correctIndex": 3,
+      "explanation": "The hypothalamus coordinates thirst and ADH release, helping regulate body-water balance.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 27,
+      "sourcePdfPage": 3,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Respiratory Centers",
+      "question": "Which part of brain is activated to release excess CO₂ from body produced during strenuous exercise?",
+      "options": [
+        "Pons",
+        "Medulla",
+        "Cerebellum",
+        "Cerebrum"
+      ],
+      "correctIndex": 1,
+      "explanation": "Respiratory centers in the medulla adjust breathing rate in response to rising blood CO₂.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 28,
+      "sourcePdfPage": 4,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Meninges and Cerebrospinal Fluid",
+      "question": "The cerebrospinal fluid (CSF) is present between:",
+      "options": [
+        "Dura matter & arachnoid matter",
+        "Arachnoid matter & Pia matter",
+        "Dura matter & Pia matter",
+        "Arachnoid matter & Dura matter"
+      ],
+      "correctIndex": 1,
+      "explanation": "Cerebrospinal fluid occupies the subarachnoid space between arachnoid mater and pia mater.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 29,
+      "sourcePdfPage": 4,
+      "subject": "Biology",
+      "chapter": "Chemical Coordination",
+      "topic": "Growth Hormone",
+      "question": "What is the role of growth hormone after adolescence?",
+      "options": [
+        "Promotes protein synthesis",
+        "Inhibits protein synthesis",
+        "Decreases amino acid uptake",
+        "Inhibits cell division"
+      ],
+      "correctIndex": 0,
+      "explanation": "Growth hormone continues to promote amino-acid uptake and protein synthesis after adolescence.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 30,
+      "sourcePdfPage": 4,
+      "subject": "Biology",
+      "chapter": "Chemical Coordination",
+      "topic": "Calcitonin",
+      "question": "Which of the following is correct function of calcitonin?",
+      "options": [
+        "Resorption of calcium in bone matrix",
+        "Inhibits Ca⁺² absorption by intestine",
+        "Increase reabsorption by kidneys",
+        "Increase blood calcium level"
+      ],
+      "correctIndex": 1,
+      "explanation": "Calcitonin helps lower blood Ca²⁺, primarily by reducing bone resorption; reduced intestinal absorption is the keyed choice here.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 31,
+      "sourcePdfPage": 4,
+      "subject": "Biology",
+      "chapter": "Chemical Coordination",
+      "topic": "Pancreatic Hormones",
+      "question": "What is secreted when the levels of blood glucose get too low?",
+      "options": [
+        "Calcitonin",
+        "Glucagon",
+        "Insulin",
+        "Corticoid hormones"
+      ],
+      "correctIndex": 1,
+      "explanation": "Glucagon is released from pancreatic alpha cells when blood glucose falls and promotes glycogen breakdown.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 32,
+      "sourcePdfPage": 4,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Reflex Arc",
+      "question": "Pathway followed by nerve impulse during reflex action is:",
+      "options": [
+        "Interneuron → synapse → dendrites → cell body of motor neuron",
+        "Interneuron → dendrites → synapse → cell body of motor neuron",
+        "Interneuron → synapse → cell body of neuron",
+        "Interneuron → dendrites → cell body of neuron"
+      ],
+      "correctIndex": 0,
+      "explanation": "In a reflex arc, a spinal interneuron signals a motor neuron across a synapse, stimulating its dendrites/cell body.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 33,
+      "sourcePdfPage": 4,
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Monotremes",
+      "question": "Identify the animals having both mammalian and reptilian features:",
+      "options": [
+        "Mice",
+        "Spiny ant eater",
+        "Opossum",
+        "Bat"
+      ],
+      "correctIndex": 1,
+      "explanation": "The spiny anteater (echidna) is a monotreme: it has mammalian traits but lays eggs like reptiles.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 34,
+      "sourcePdfPage": 4,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Enzyme Cofactors",
+      "question": "An enzyme which requires a cofactor to become active is called:",
+      "options": [
+        "Apoenzyme",
+        "Holoenzyme",
+        "Prosthetic group",
+        "Co-enzyme"
+      ],
+      "correctIndex": 0,
+      "explanation": "An apoenzyme is the protein portion of an enzyme that needs its cofactor to form an active holoenzyme.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 35,
+      "sourcePdfPage": 4,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Enzyme Inhibition",
+      "question": "Which statement best describes competitive inhibitors?",
+      "options": [
+        "Denature enzyme permanently",
+        "Used as drugs",
+        "Prevent enzyme product complex",
+        "Alter the shape of enzymes"
+      ],
+      "correctIndex": 1,
+      "explanation": "Competitive inhibitors occupy an enzyme's active site; some drugs work this way. The keyed option describes a use rather than the defining mechanism.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 36,
+      "sourcePdfPage": 4,
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurotoxins",
+      "question": "Due to snake bite a person’s heart stops working. Which type of venom will be found in his body?",
+      "options": [
+        "Hemotoxic",
+        "Hepatotoxic",
+        "Neurotoxic",
+        "Cytotoxic"
+      ],
+      "correctIndex": 2,
+      "explanation": "Neurotoxins can paralyze nerves controlling breathing and circulation, resulting in life-threatening failure.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 37,
+      "sourcePdfPage": 5,
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Enzyme Specificity",
+      "question": "Identify the enzyme which shows absolute specificity:",
+      "options": [
+        "Carbonic anhydrase",
+        "Hexokinase",
+        "Urease",
+        "Isomerase"
+      ],
+      "correctIndex": 2,
+      "explanation": "Urease is highly substrate-specific because it catalyzes the hydrolysis of urea.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 38,
+      "sourcePdfPage": 5,
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Environmental pH",
+      "question": "Some industries are continuously polluting aquatic bodies. This can affect metabolic pathway of plants by changing their pH.",
+      "options": [
+        "More alkaline",
+        "More acidic",
+        "Less acidic",
+        "Less alkaline"
+      ],
+      "correctIndex": 1,
+      "explanation": "Industrial pollutants can acidify water, changing pH and affecting enzyme-controlled metabolism in plants.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 39,
+      "sourcePdfPage": 5,
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Homologous Structures",
+      "question": "All flowering plants are thought to be evolved from a common ancestor on the basis of which homologous structures?",
+      "options": [
+        "Stamen, carpel, sepals, petals",
+        "Stamen, carpel, thalamus, sepals",
+        "Stamen, carpel, thalamus, sepals, petals, stalk",
+        "Stamen, carpel, sepals, thalamus"
+      ],
+      "correctIndex": 0,
+      "explanation": "Flower organs such as stamens, carpels, sepals and petals are homologous structures supporting common ancestry.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 40,
+      "sourcePdfPage": 5,
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Biogeography",
+      "question": "Barriers which effect geographical distribution of life are:",
+      "options": [
+        "Physical and chemical",
+        "Environmental & Physical",
+        "Ecological & chemical",
+        "Physical, Ecological or Environmental"
+      ],
+      "correctIndex": 3,
+      "explanation": "Geographical distribution can be limited by physical barriers and ecological or environmental conditions.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 41,
+      "sourcePdfPage": 5,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Pseudoautosomal Genes",
+      "question": "Why are some genes called pseudoautosomal, even though they are present on sex chromosome?",
+      "options": [
+        "They are present on X chromosomes only",
+        "They are present on Y chromosomes only",
+        "They are present on both X and Y chromosomes",
+        "They are absent from both X and Y chromosomes"
+      ],
+      "correctIndex": 2,
+      "explanation": "Pseudoautosomal genes occur in homologous regions shared by both X and Y chromosomes and can recombine.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 42,
+      "sourcePdfPage": 5,
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Natural Selection",
+      "question": "As a result of natural disaster, few species continue to survive due to their characteristics. This results in:",
+      "options": [
+        "Increase in favorable alleles",
+        "Decrease in favorable alleles",
+        "Increase in unfavorable alleles",
+        "Decrease in unfavorable alleles"
+      ],
+      "correctIndex": 0,
+      "explanation": "Natural selection can increase the frequency of favorable alleles among organisms surviving environmental disasters.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 43,
+      "sourcePdfPage": 5,
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Arterial Wall Structure",
+      "question": "Which of these correctly order the structure of arteries?",
+      "options": [
+        "Connective tissues → Smooth muscle → Elastic tissue → Endothelium",
+        "Connective tissues → Smooth muscle → Endothelium → Elastic tissue",
+        "Elastic tissue → Smooth muscle → Connective tissue → Endothelium",
+        "Smooth muscle → Connective tissues → Elastic tissue → Endothelium"
+      ],
+      "correctIndex": 0,
+      "explanation": "An artery has outer connective tissue, a smooth-muscle layer and elastic tissue surrounding its endothelial lining.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 44,
+      "sourcePdfPage": 5,
+      "subject": "Biology",
+      "chapter": "Support and Movement",
+      "topic": "Epidermis",
+      "question": "Epidermis is outer most layer of the skin, which is composed of:",
+      "options": [
+        "Loosely packed cells",
+        "Tightly packed cells",
+        "Scattered cells",
+        "Ciliated cells"
+      ],
+      "correctIndex": 1,
+      "explanation": "The epidermis forms a protective barrier of closely packed epithelial cells.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 45,
+      "sourcePdfPage": 5,
+      "subject": "Biology",
+      "chapter": "Support and Movement",
+      "topic": "Smooth Muscles",
+      "question": "Which type of muscle controls the movement of substance through hollow organs?",
+      "options": [
+        "Cardiac muscle",
+        "Smooth muscles",
+        "Sphincter muscles",
+        "Skeleton muscle"
+      ],
+      "correctIndex": 1,
+      "explanation": "Smooth muscles contract involuntarily to propel contents through hollow organs such as the intestine.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 46,
+      "sourcePdfPage": 6,
+      "subject": "Biology",
+      "chapter": "Support and Movement",
+      "topic": "Sarcomere",
+      "question": "Smallest contractile unit of muscle fibers present between two lines is known as:",
+      "options": [
+        "Sarcoplasm",
+        "Sarcolemma",
+        "Sarcomere",
+        "Sarcodina"
+      ],
+      "correctIndex": 2,
+      "explanation": "A sarcomere is the functional contractile unit between two adjacent Z lines in a muscle fiber.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 47,
+      "sourcePdfPage": 6,
+      "subject": "Biology",
+      "chapter": "Support and Movement",
+      "topic": "Muscle Contraction",
+      "question": "Which ion is responsible for the attachment of tropomyosin with the head of myosin during cross bridge?",
+      "options": [
+        "K⁺ ions",
+        "Ca⁺⁺ ions",
+        "Na⁺ ions",
+        "Mg⁺⁺"
+      ],
+      "correctIndex": 1,
+      "explanation": "Ca²⁺ binds troponin, shifting tropomyosin away from myosin-binding sites on actin so cross-bridges can form.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 48,
+      "sourcePdfPage": 6,
+      "subject": "Biology",
+      "chapter": "Support and Movement",
+      "topic": "Sliding Filament Theory",
+      "question": "During muscle contraction which type of events occurs respectively?",
+      "options": [
+        "I band shorten → H-zone appears",
+        "I band strengthen → H-zone disappears",
+        "I band shorten → H-zone disappears",
+        "I band strengthen → H-zone appears"
+      ],
+      "correctIndex": 2,
+      "explanation": "During contraction, thin filaments slide inward: the I band shortens and the H zone narrows or disappears.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 49,
+      "sourcePdfPage": 6,
+      "subject": "Biology",
+      "chapter": "Biotechnology",
+      "topic": "Nitrogen Fixation",
+      "question": "Which one of the following organism is responsible for transforming nitrogen gas into ammonium?",
+      "options": [
+        "Cyanobacterium",
+        "Nitrobacteria",
+        "Rhizobium",
+        "Nitrosomonas"
+      ],
+      "correctIndex": 2,
+      "explanation": "Rhizobium bacteria in root nodules fix atmospheric nitrogen into ammonia/ammonium usable by plants.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 50,
+      "sourcePdfPage": 6,
+      "subject": "Biology",
+      "chapter": "Immunity",
+      "topic": "Antibacterial Agents",
+      "question": "Identify one of the following chemo-therapeutic agent used to control bacterial infections:",
+      "options": [
+        "Nitrofurans",
+        "Hydrogen peroxide",
+        "Sodium hypochlorite",
+        "Potassium sorbate"
+      ],
+      "correctIndex": 0,
+      "explanation": "Nitrofurans are antimicrobial compounds used against certain bacterial infections.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 51,
+      "sourcePdfPage": 6,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Testes and Spermatogenesis",
+      "question": "Why male gonads are present outside the body?",
+      "options": [
+        "They need temperature equal to human body",
+        "They need 2°C temperature higher than human body",
+        "They need 2°C temperature less than human body",
+        "They need environmental condition for sperm production"
+      ],
+      "correctIndex": 2,
+      "explanation": "The testes remain in the scrotum because sperm formation requires a temperature roughly 2–3°C below core body temperature.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 52,
+      "sourcePdfPage": 6,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Menstrual Cycle",
+      "question": "Which set of events will occur if fusion of gametes does NOT take place?",
+      "options": [
+        "Corpus luteum degenerate, LH increase, progesterone increase",
+        "Corpus luteum degenerate, LH decline, progesterone increase",
+        "Corpus luteum degenerate, LH increase, progesterone decline",
+        "Corpus luteum degenerate, LH decline, progesterone decline"
+      ],
+      "correctIndex": 3,
+      "explanation": "Without fertilization, the corpus luteum degenerates and progesterone levels fall as luteal support declines.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 53,
+      "sourcePdfPage": 6,
+      "subject": "Biology",
+      "chapter": "Gaseous Exchange",
+      "topic": "Carbon Dioxide Transport",
+      "question": "Which of the following is correct order of the transport of bicarbonate from blood to lungs?",
+      "options": [
+        "Capillaries → Alveoli → Red blood cells",
+        "Red blood cells → Alveoli → Capillaries",
+        "Alveoli → Capillaries → Red blood cells",
+        "Red blood cells → Capillaries → Alveoli"
+      ],
+      "correctIndex": 3,
+      "explanation": "Bicarbonate carried in blood is converted back to CO₂ in red cells, crosses pulmonary capillaries and diffuses into alveoli.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 54,
+      "sourcePdfPage": 6,
+      "subject": "Biology",
+      "chapter": "Holozoic Nutrition",
+      "topic": "Protein Digestion",
+      "question": "Which set of digestive enzymes play a vital role in breakdown of protein?",
+      "options": [
+        "Pepsin, maltase, erepsin",
+        "Pepsin, trypsin, amylase",
+        "Pepsin, trypsin, erepsin",
+        "Pepsin, amylase, lipase"
+      ],
+      "correctIndex": 2,
+      "explanation": "Pepsin starts protein digestion in the stomach; trypsin and intestinal peptidases such as erepsin complete it.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 55,
+      "sourcePdfPage": 7,
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Epistasis",
+      "question": "Gene of one allele which inhibits the effect of other allele at different locus is called as:",
+      "options": [
+        "Hypostatic gene",
+        "Holostatic gene",
+        "Polystatic gene",
+        "Epistatic gene"
+      ],
+      "correctIndex": 3,
+      "explanation": "An epistatic gene masks or modifies expression of another gene at a different locus.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 56,
+      "sourcePdfPage": 7,
+      "subject": "Chemistry",
+      "chapter": "Stoichiometry",
+      "topic": "Mole and Avogadro Constant",
+      "question": "Which of the following is equal to 1 mole of Na⁺?",
+      "options": [
+        "6.02 × 10²³ atoms",
+        "6.02 × 10²³ ions",
+        "6.02 × 10⁻²³ atoms",
+        "6.02 × 10⁻²³ ions"
+      ],
+      "correctIndex": 1,
+      "explanation": "One mole of Na⁺ contains Avogadro's number, approximately 6.02 × 10²³, of sodium ions.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 57,
+      "sourcePdfPage": 7,
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Positive Rays",
+      "question": "The e/m value for positive rays depends upon nature of gas used because:",
+      "options": [
+        "Number of electrons",
+        "Number of neutrons",
+        "Number of protons",
+        "Number of electrons and protons"
+      ],
+      "correctIndex": 2,
+      "explanation": "The charge-to-mass ratio of canal rays changes with the gaseous ions formed; their proton count and mass depend on the gas.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 58,
+      "sourcePdfPage": 7,
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Orbital Energies",
+      "question": "Select the correct increasing energy order of orbitals?",
+      "options": [
+        "4s < 3d < 4p < 5s",
+        "3d > 4s < 4p < 5s",
+        "3d > 4s > 5s > 4p",
+        "4s > 3d > 4p > 5s"
+      ],
+      "correctIndex": 0,
+      "explanation": "The usual Aufbau filling order based on n + l is 4s, then 3d, 4p and 5s.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 59,
+      "sourcePdfPage": 7,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Boyle Law",
+      "question": "Which of the following expressions represent Boyle’s law?",
+      "options": [
+        "P₁/V₁ = P₂/V₂",
+        "P₁/V₁ ≠ P₂/V₂",
+        "P₁V₁ ≠ P₂V₂",
+        "P₁V₁ = P₂V₂"
+      ],
+      "correctIndex": 3,
+      "explanation": "At constant temperature, Boyle's law gives PV = constant, so P₁V₁ = P₂V₂.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 60,
+      "sourcePdfPage": 7,
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Absolute Zero",
+      "question": "Which Celsius temperature represents zero kelvin or absolute zero?",
+      "options": [
+        "0°C",
+        "+273.16°C",
+        "-273.16°C",
+        "25°C"
+      ],
+      "correctIndex": 2,
+      "explanation": "Absolute zero is 0 K, approximately −273.15°C; the given option −273.16°C is the closest.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 61,
+      "sourcePdfPage": 7,
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "Boiling Point and Pressure",
+      "question": "An egg takes 5 minutes to boil at sea level while 10 minutes at Murree hills because of:",
+      "options": [
+        "Low vapour pressure",
+        "High vapour pressure",
+        "High external pressure",
+        "Low external pressure"
+      ],
+      "correctIndex": 3,
+      "explanation": "At high altitude atmospheric pressure is lower, so water boils at a lower temperature and cooking takes longer.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 62,
+      "sourcePdfPage": 7,
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "London Dispersion Forces",
+      "question": "Fluorine is a gas and Iodine is a solid at room temperature due to:",
+      "options": [
+        "High electronegativity",
+        "Low electronegativity",
+        "High polarizability",
+        "Low polarizability"
+      ],
+      "correctIndex": 2,
+      "explanation": "Iodine has a more polarizable electron cloud than fluorine, giving stronger London dispersion forces and a higher boiling point.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 63,
+      "sourcePdfPage": 8,
+      "subject": "Chemistry",
+      "chapter": "Solids",
+      "topic": "Ionic Crystal Properties",
+      "question": "Ionic solids are bad conductors of heat and electricity because:",
+      "options": [
+        "They have strong covalent bonds",
+        "They have strong intermolecular forces",
+        "Ions can only vibrate about their fixed position",
+        "Ions are free to move"
+      ],
+      "correctIndex": 2,
+      "explanation": "In solid ionic crystals, ions are fixed at lattice sites and cannot move freely to carry electric current.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 64,
+      "sourcePdfPage": 8,
+      "subject": "Chemistry",
+      "chapter": "Solids",
+      "topic": "Crystal Habits",
+      "question": "If 10% urea is present in aqueous solution of sodium chloride, what will be the shape of crystals obtained?",
+      "options": [
+        "Octahedral",
+        "Triclinic",
+        "Cubic",
+        "Hexagonal"
+      ],
+      "correctIndex": 0,
+      "explanation": "Urea impurities can change the crystal habit of NaCl; the supplied key selects octahedral crystals.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 65,
+      "sourcePdfPage": 8,
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Kp and Kc",
+      "question": "Kc = Kp when Δn is equal to:",
+      "options": [
+        "Zero",
+        "+1",
+        "-1",
+        "-2"
+      ],
+      "correctIndex": 0,
+      "explanation": "Kp = Kc(RT)^Δn, so the two equilibrium constants are equal when Δn = 0.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 66,
+      "sourcePdfPage": 8,
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "pH and Buffers",
+      "question": "The pH of human blood is maintained at:",
+      "options": [
+        "5.37",
+        "5.73",
+        "7.53",
+        "7.35"
+      ],
+      "correctIndex": 3,
+      "explanation": "Blood is buffered near pH 7.35–7.45; 7.35 is the supplied normal-range option.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 67,
+      "sourcePdfPage": 8,
+      "subject": "Chemistry",
+      "chapter": "Chemical Kinetics",
+      "topic": "Order of Reaction",
+      "question": "The unit of rate constant is same as the rate of reaction in:",
+      "options": [
+        "Third order reaction",
+        "Second order reaction",
+        "First order reaction",
+        "Zero order reaction"
+      ],
+      "correctIndex": 3,
+      "explanation": "For a zero-order reaction, rate = k, so k has the same units as reaction rate: concentration per time.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 68,
+      "sourcePdfPage": 8,
+      "subject": "Chemistry",
+      "chapter": "Chemical Kinetics",
+      "topic": "Arrhenius Equation",
+      "question": "Which of the following represents Arrhenius constant expression?",
+      "options": [
+        "K = Ae⁺Ea/RT",
+        "K = Ae⁻Ea/RT",
+        "K = AeRT/Ea",
+        "K = eEa/RT"
+      ],
+      "correctIndex": 1,
+      "explanation": "Arrhenius equation is k = A e^(−Ea/RT). The negative activation-energy exponent is essential; a positive exponent is incorrect.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 69,
+      "sourcePdfPage": 8,
+      "subject": "Chemistry",
+      "chapter": "Thermochemistry",
+      "topic": "Hess Law",
+      "question": "Which expression is according to the Hess’s law?",
+      "options": [
+        "Σ ΔH (cycle) = 0",
+        "Σ ΔH = 2",
+        "Σ ΔH (cycle) = 3",
+        "Σ ΔH (Cycle) = -1"
+      ],
+      "correctIndex": 0,
+      "explanation": "Because enthalpy is a state function, the sum of enthalpy changes around any closed Hess-law cycle is zero.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 70,
+      "sourcePdfPage": 8,
+      "subject": "Chemistry",
+      "chapter": "Thermochemistry",
+      "topic": "First Law of Thermodynamics",
+      "question": "Which of the following represents the expression of internal energy?",
+      "options": [
+        "ΔE = q + t",
+        "ΔE = q + w",
+        "ΔE = q + v",
+        "ΔE = q + p"
+      ],
+      "correctIndex": 1,
+      "explanation": "The first law of thermodynamics states ΔE = q + w when work done on the system is positive.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 71,
+      "sourcePdfPage": 8,
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Balancing Redox Reactions",
+      "question": "Which is added in the product side to balance equation? H₂SO₃ + H₂O → HSO₄⁻",
+      "options": [
+        "1e⁻, H⁺",
+        "2e⁻, 3H⁺",
+        "5e⁻",
+        "3e⁻"
+      ],
+      "correctIndex": 1,
+      "explanation": "Sulfur is oxidized from +4 in H₂SO₃ to +6 in HSO₄⁻; balancing gives H₂SO₃ + H₂O → HSO₄⁻ + 3H⁺ + 2e⁻.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 72,
+      "sourcePdfPage": 9,
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Oxidation States",
+      "question": "The oxidation state of Mn in KMnO₄ is:",
+      "options": [
+        "+6",
+        "+3",
+        "+7",
+        "+4"
+      ],
+      "correctIndex": 2,
+      "explanation": "In KMnO₄, K contributes +1 and four O atoms −8, so Mn must be +7.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 73,
+      "sourcePdfPage": 9,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Bond Formation and Energy",
+      "question": "When atoms approaches each other for chemical bond formation, it leads to:",
+      "options": [
+        "Decrease in energy",
+        "Increase in energy",
+        "Energy remains same",
+        "Increase in bond length"
+      ],
+      "correctIndex": 0,
+      "explanation": "A stable chemical bond forms as attractive interactions lower the potential energy of the system.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 74,
+      "sourcePdfPage": 9,
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Sigma and Pi Bonds",
+      "question": "The number of bonds in oxygen molecules are:",
+      "options": [
+        "Two σ bond",
+        "Two σ one π bond",
+        "One σ one π bond",
+        "Two π one σ"
+      ],
+      "correctIndex": 2,
+      "explanation": "The O=O double bond contains one sigma bond and one pi bond.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 75,
+      "sourcePdfPage": 9,
+      "subject": "Chemistry",
+      "chapter": "S and P Block Elements",
+      "topic": "Ionization Energy Trends",
+      "question": "The decreasing order of ionization energy is:",
+      "options": [
+        "O < S < N",
+        "F > Cl > Br",
+        "Br < Cl < F",
+        "C < N < B"
+      ],
+      "correctIndex": 1,
+      "explanation": "Ionization energy generally decreases down Group 17 as atomic radius and shielding increase: F > Cl > Br.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 76,
+      "sourcePdfPage": 9,
+      "subject": "Chemistry",
+      "chapter": "S and P Block Elements",
+      "topic": "Atomic and Ionic Size",
+      "question": "The size of Ar is larger than Cl due to:",
+      "options": [
+        "Stearic hindrance",
+        "Inter-electronic repulsion",
+        "High ionization energy",
+        "High shielding effect"
+      ],
+      "correctIndex": 1,
+      "explanation": "Argon has an extra electron and greater interelectronic repulsion; van der Waals radii also differ from chlorine's covalent radius.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 77,
+      "sourcePdfPage": 9,
+      "subject": "Chemistry",
+      "chapter": "S and P Block Elements",
+      "topic": "Group IA Density",
+      "question": "Which element is lighter than water?",
+      "options": [
+        "Cs",
+        "Rb",
+        "Fe",
+        "K"
+      ],
+      "correctIndex": 3,
+      "explanation": "Potassium has a density below 1 g/cm³, so it can float on water before reacting.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 78,
+      "sourcePdfPage": 9,
+      "subject": "Chemistry",
+      "chapter": "S and P Block Elements",
+      "topic": "Metallic Bonding",
+      "question": "Which of the following decreases as we move from top to bottom in Group IA or IIA?",
+      "options": [
+        "Metallic bond strength",
+        "Electro-positivity",
+        "Reactivity",
+        "Ionic radii"
+      ],
+      "correctIndex": 0,
+      "explanation": "Down Groups 1 and 2, larger metal atoms generally form weaker metallic bonds due to increased atomic size.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 79,
+      "sourcePdfPage": 9,
+      "subject": "Chemistry",
+      "chapter": "S and P Block Elements",
+      "topic": "Electronegativity Trends",
+      "question": "Which one of the following is the correct order of electronegativity of group II A elements?",
+      "options": [
+        "Be < Mg < Ca < Sr < Ba",
+        "Be < Ca < Mg < Ba < Sr",
+        "Ba < Sr < Ca < Mg < Be",
+        "Be < Sr > Mg < Ca < Ba"
+      ],
+      "correctIndex": 2,
+      "explanation": "Electronegativity increases up Group 2: Ba < Sr < Ca < Mg < Be.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 80,
+      "sourcePdfPage": 9,
+      "subject": "Chemistry",
+      "chapter": "Hydrocarbons",
+      "topic": "Heterocyclic Compounds",
+      "question": "Which one of the following is heteroatom?",
+      "options": [
+        "Pyrrole",
+        "Naphthalene",
+        "Anthracene",
+        "Cyclohexene"
+      ],
+      "correctIndex": 0,
+      "explanation": "Pyrrole is a nitrogen-containing heterocyclic compound; the heteroatom within the ring is nitrogen.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 81,
+      "sourcePdfPage": 10,
+      "subject": "Chemistry",
+      "chapter": "Carboxylic Acids",
+      "topic": "Amide Functional Group",
+      "question": "The function group of acid amide is:",
+      "options": [
+        "-C(=OH)-N",
+        "-C(=OH)-NH",
+        "-C(=O)-NH₂",
+        "-C(=OH)-NH₂"
+      ],
+      "correctIndex": 2,
+      "explanation": "The amide functional group is −C(=O)−NH₂, derived from a carboxylic acid by replacing −OH with −NH₂.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 82,
+      "sourcePdfPage": 10,
+      "subject": "Chemistry",
+      "chapter": "Alcohols and Phenols",
+      "topic": "Dehydration of Alcohols",
+      "question": "When an alcohol is heated at 170°C in the presence of sulphuric acid, a water molecule eliminated resulting in the formation of:",
+      "options": [
+        "Alkyl halide",
+        "Alkane",
+        "Alkene",
+        "Alkyne"
+      ],
+      "correctIndex": 2,
+      "explanation": "Concentrated sulfuric acid at about 170°C dehydrates many alcohols to form alkenes.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 83,
+      "sourcePdfPage": 10,
+      "subject": "Chemistry",
+      "chapter": "Hydrocarbons",
+      "topic": "IUPAC Nomenclature of Alkenes",
+      "question": "The IUPAC name of following compound is:\nCH₃ – CH = CH – (CH₂)₂ – CH₃",
+      "options": [
+        "Hex-2-ene",
+        "Hept-2-ene",
+        "Hex-4-ene",
+        "Hept-4-ene"
+      ],
+      "correctIndex": 0,
+      "explanation": "The chain has six carbon atoms and the double bond begins at carbon 2: hex-2-ene.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 84,
+      "sourcePdfPage": 10,
+      "subject": "Chemistry",
+      "chapter": "Hydrocarbons",
+      "topic": "Addition Reactions",
+      "question": "Most of the reactions shown by alkenes are:",
+      "options": [
+        "Nucleophilic substitution",
+        "Nucleophilic addition",
+        "Electrophilic substitution",
+        "Addition reactions"
+      ],
+      "correctIndex": 3,
+      "explanation": "The carbon–carbon double bond of an alkene usually reacts by addition across the π bond.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 85,
+      "sourcePdfPage": 10,
+      "subject": "Chemistry",
+      "chapter": "Hydrocarbons",
+      "topic": "Polymerization of Ethene",
+      "question": "What are the conditions required for polymerization of ethene to polyethene?",
+      "options": [
+        "400°C and 1000 atm",
+        "100°C and 400 atm",
+        "450°C and 1000 atm",
+        "450°C and 200 atm"
+      ],
+      "correctIndex": 0,
+      "explanation": "Ethene undergoes high-pressure, high-temperature free-radical polymerization to form polyethylene; the supplied key uses 400°C and 1000 atm.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 86,
+      "sourcePdfPage": 10,
+      "subject": "Chemistry",
+      "chapter": "Alkyl Halides",
+      "topic": "Reactivity of Alkyl Halides",
+      "question": "The reactivity order of alkyl halide is:",
+      "options": [
+        "R – F > R – Cl > R – Br > R – I",
+        "R – Cl > R – Br > R – I > R – F",
+        "R – Br > R – I > R – F > R – Cl",
+        "R – I > R – Br > R – Cl > R – F"
+      ],
+      "correctIndex": 3,
+      "explanation": "For many nucleophilic substitutions, better leaving-group ability gives RI > RBr > RCl > RF.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 87,
+      "sourcePdfPage": 10,
+      "subject": "Chemistry",
+      "chapter": "Alcohols and Phenols",
+      "topic": "Classification of Alcohols",
+      "question": "(CH₃)₃C-OH is an example of:",
+      "options": [
+        "Primary alcohol",
+        "Secondary alcohol",
+        "Tertiary alcohol",
+        "Iso butyl alcohol"
+      ],
+      "correctIndex": 2,
+      "explanation": "In (CH₃)₃C−OH the carbon bearing −OH is attached to three carbon groups, so it is tertiary.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 88,
+      "sourcePdfPage": 10,
+      "subject": "Chemistry",
+      "chapter": "Alcohols and Phenols",
+      "topic": "Phenolic Resins",
+      "question": "Which one of the following is used in the manufacturing of plastics?",
+      "options": [
+        "Methanol",
+        "Ethanol",
+        "Propanol",
+        "Phenol"
+      ],
+      "correctIndex": 3,
+      "explanation": "Phenol reacts with formaldehyde to produce phenol-formaldehyde resins used in plastics.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 89,
+      "sourcePdfPage": 11,
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Oxidation of Ketones",
+      "question": "Which of the following will give formic acid as one of the product of oxidation?",
+      "options": [
+        "Butanone",
+        "Propanone",
+        "Pentanone",
+        "Hexanone"
+      ],
+      "correctIndex": 1,
+      "explanation": "Strong oxidation of ketones can cleave C−C bonds, yielding smaller carboxylic acids; the supplied key identifies propanone.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 90,
+      "sourcePdfPage": 11,
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "IUPAC Nomenclature of Aldehydes",
+      "question": "What will be the IUPAC name of the given compound? CH₃ – CH₂ – CH(CH₃) – CH(CH₂CH₃) – CHO",
+      "options": [
+        "1 – Ethyl – 2 – methyl pentanal",
+        "2 – Ethyl – 3 – methyl pentanal",
+        "3 – Methyl – 4 – ethyl pentanal",
+        "3 – Methyl pentanal"
+      ],
+      "correctIndex": 1,
+      "explanation": "Count the aldehyde carbon as C1 of a five-carbon chain; substituents are ethyl at C2 and methyl at C3.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 91,
+      "sourcePdfPage": 11,
+      "subject": "Chemistry",
+      "chapter": "Carboxylic Acids",
+      "topic": "Aromatic Dicarboxylic Acids",
+      "question": "What is the common name of following compound?\nStructure: benzene ring with two –COOH groups at adjacent carbon atoms (positions 1 and 2).",
+      "options": [
+        "Benzoic acid",
+        "Malonic acid",
+        "Phthalic acid",
+        "Picric acid"
+      ],
+      "correctIndex": 2,
+      "explanation": "The two −COOH groups occupy adjacent (ortho, 1,2-) positions on the benzene ring: benzene-1,2-dicarboxylic acid, called phthalic acid.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 92,
+      "sourcePdfPage": 11,
+      "subject": "Chemistry",
+      "chapter": "Carboxylic Acids",
+      "topic": "Acid Anhydride Preparation",
+      "question": "Acetic anhydride can be prepared when two molecules of carboxylic acids are dehydrated on heating strongly in the presence of:",
+      "options": [
+        "V₂O₅",
+        "P₂O₅",
+        "H₂SO₄",
+        "HgSO₄"
+      ],
+      "correctIndex": 1,
+      "explanation": "Phosphorus pentoxide (P₂O₅) is a powerful dehydrating agent and promotes formation of acid anhydrides.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 93,
+      "sourcePdfPage": 11,
+      "subject": "Chemistry",
+      "chapter": "Carboxylic Acids",
+      "topic": "Reactions of Carboxylic Acids",
+      "question": "Carboxylic acid react with metals to form salt with the evolution of which gas?",
+      "options": [
+        "CO₂",
+        "CO",
+        "H₂",
+        "CH₄"
+      ],
+      "correctIndex": 2,
+      "explanation": "An active metal displaces the acidic hydrogen of a carboxylic acid, liberating H₂ gas and forming a carboxylate salt.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 94,
+      "sourcePdfPage": 11,
+      "subject": "Chemistry",
+      "chapter": "Biochemistry",
+      "topic": "Proteins and Muscle Contraction",
+      "question": "Which protein helps in muscles contractions and relaxation in our body?",
+      "options": [
+        "Myosin",
+        "Albumin",
+        "Globulin",
+        "Collagen"
+      ],
+      "correctIndex": 0,
+      "explanation": "Myosin interacts with actin to generate force during muscle contraction.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 95,
+      "sourcePdfPage": 11,
+      "subject": "Chemistry",
+      "chapter": "Biochemistry",
+      "topic": "Protein Structure",
+      "question": "Various polypeptide chains in haemoglobin remain intact due to:",
+      "options": [
+        "Chemical bonds",
+        "London dispersion forces",
+        "Salt bridges",
+        "Peptide bonds"
+      ],
+      "correctIndex": 2,
+      "explanation": "Salt bridges between oppositely charged amino-acid side chains help stabilize hemoglobin's quaternary structure.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 96,
+      "sourcePdfPage": 12,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Projectile Motion",
+      "question": "The vertical height and horizontal range of projectiles are equal at angle:",
+      "options": [
+        "30°",
+        "45°",
+        "75°",
+        "90°"
+      ],
+      "correctIndex": 2,
+      "explanation": "For a projectile, H = u²sin²θ/(2g) and R = u²sin2θ/g; H = R gives tanθ = 4, about 76°, nearest to 75°.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 97,
+      "sourcePdfPage": 12,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Projectile Range",
+      "question": "Range of projectile is maximum at:",
+      "options": [
+        "30°",
+        "45°",
+        "60°",
+        "90°"
+      ],
+      "correctIndex": 1,
+      "explanation": "Range R = u²sin2θ/g is maximum when sin2θ = 1, giving θ = 45°.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 98,
+      "sourcePdfPage": 12,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Gravity and Projectiles",
+      "question": "A ball is thrown vertically upward, the ball descends towards earth after achieving a certain height because:",
+      "options": [
+        "Earth is exerting more gravitational force than ball",
+        "The ball is exerting more gravitational force than earth",
+        "The earth possesses more inertia",
+        "The ball possesses more inertia"
+      ],
+      "correctIndex": 0,
+      "explanation": "Earth's gravity accelerates the ball downward after it reaches maximum height. Earth and ball exert equal and opposite gravitational forces, despite the source key's wording.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 99,
+      "sourcePdfPage": 12,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Conservation of Momentum",
+      "question": "A bomb is exploded into two fragments A and B moving in opposite direction. They conserve:",
+      "options": [
+        "Kinetic Energy",
+        "Potential Energy",
+        "Momentum",
+        "Both kinetic energy and potential energy"
+      ],
+      "correctIndex": 2,
+      "explanation": "In an explosion, internal forces redistribute momentum; total momentum is conserved when external impulse is negligible.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 100,
+      "sourcePdfPage": 12,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Work and Angle",
+      "question": "Work done is negative, when the angle between F⃗ and S⃗ is:",
+      "options": [
+        "0°",
+        "60°",
+        "90°",
+        "180°"
+      ],
+      "correctIndex": 3,
+      "explanation": "Work W = Fs cosθ is negative when force and displacement point opposite ways, θ = 180°.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 101,
+      "sourcePdfPage": 12,
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Kinetic Energy",
+      "question": "When the speed of the car is doubled, what will be its kinetic energy?",
+      "options": [
+        "Remains same",
+        "Doubled",
+        "Three times",
+        "Four times"
+      ],
+      "correctIndex": 3,
+      "explanation": "Kinetic energy K = ½mv²; doubling speed makes the energy four times greater.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 102,
+      "sourcePdfPage": 12,
+      "subject": "Physics",
+      "chapter": "Work and Energy",
+      "topic": "Energy Efficiency",
+      "question": "The work efficiency of a dry cell battery is:",
+      "options": [
+        "30%",
+        "40%",
+        "50%",
+        "90%"
+      ],
+      "correctIndex": 3,
+      "explanation": "The marked value is 90%; dry-cell efficiency depends on discharge conditions and how much stored chemical energy becomes useful electrical work.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 103,
+      "sourcePdfPage": 12,
+      "subject": "Physics",
+      "chapter": "Work and Energy",
+      "topic": "Gravitational Potential Energy",
+      "question": "When distance r increases than gravitational P.E becomes:",
+      "options": [
+        "Less positive",
+        "More negative",
+        "Less negative",
+        "More positive"
+      ],
+      "correctIndex": 2,
+      "explanation": "Gravitational potential energy U = −GMm/r increases toward zero (becomes less negative) as separation r increases.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 104,
+      "sourcePdfPage": 12,
+      "subject": "Physics",
+      "chapter": "Work and Energy",
+      "topic": "Electrical Energy Units",
+      "question": "How many Joules are there in 3KWh?",
+      "options": [
+        "108MJ",
+        "10.8MJ",
+        "1.08MJ",
+        "0.108MJ"
+      ],
+      "correctIndex": 1,
+      "explanation": "One kWh = 3.6 × 10⁶ J, so 3 kWh = 10.8 × 10⁶ J = 10.8 MJ.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 105,
+      "sourcePdfPage": 13,
+      "subject": "Physics",
+      "chapter": "Rotational and Circular Motion",
+      "topic": "Banked Curves",
+      "question": "A car moving on a more steeply banked curves will require:",
+      "options": [
+        "Large speed and large radii",
+        "Large speed and small radii",
+        "Small speed and large radii",
+        "Small speed and small radii"
+      ],
+      "correctIndex": 1,
+      "explanation": "For ideal banking, tanθ = v²/(rg); a steeper angle is associated with larger speed relative to the curve radius.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 106,
+      "sourcePdfPage": 13,
+      "subject": "Physics",
+      "chapter": "Rotational and Circular Motion",
+      "topic": "Torque and Angular Acceleration",
+      "question": "In a body angular acceleration is produced by:",
+      "options": [
+        "Net force",
+        "Power",
+        "Pressure",
+        "Net torque"
+      ],
+      "correctIndex": 3,
+      "explanation": "Net torque causes angular acceleration: τnet = Iα for a rigid body about a fixed axis.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 107,
+      "sourcePdfPage": 13,
+      "subject": "Physics",
+      "chapter": "Rotational and Circular Motion",
+      "topic": "Rotational Analogues",
+      "question": "The analogue of force in circular / angular motion is:",
+      "options": [
+        "Momentum",
+        "Torque",
+        "Angular acceleration",
+        "Angular velocity"
+      ],
+      "correctIndex": 1,
+      "explanation": "Torque plays the rotational role of force because it changes angular momentum.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 108,
+      "sourcePdfPage": 13,
+      "subject": "Physics",
+      "chapter": "Rotational and Circular Motion",
+      "topic": "Angular Units",
+      "question": "1° is equals to:",
+      "options": [
+        "π/90 radians",
+        "π/180 radians",
+        "π radians",
+        "2π radians"
+      ],
+      "correctIndex": 1,
+      "explanation": "One full revolution is 360° = 2π radians, so 1° = π/180 radians.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 109,
+      "sourcePdfPage": 13,
+      "subject": "Physics",
+      "chapter": "Rotational and Circular Motion",
+      "topic": "Uniform Circular Motion",
+      "question": "In uniform circular motion, the angle between centripetal acceleration and linear velocity of a particle is:",
+      "options": [
+        "π/2",
+        "π",
+        "2π",
+        "Zero"
+      ],
+      "correctIndex": 0,
+      "explanation": "Centripetal acceleration points radially inward while velocity is tangential; the angle is 90° = π/2.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 110,
+      "sourcePdfPage": 13,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Standing Waves",
+      "question": "The distance between two consecutive nodes are:",
+      "options": [
+        "λ",
+        "λ/2",
+        "2λ",
+        "λ/4"
+      ],
+      "correctIndex": 1,
+      "explanation": "In a stationary wave, consecutive nodes are separated by half a wavelength, λ/2.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 111,
+      "sourcePdfPage": 13,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Waves Between Media",
+      "question": "If a sound waves moves from air to water, there is NO change in:",
+      "options": [
+        "Velocity",
+        "Frequency",
+        "Wavelength",
+        "Temperature"
+      ],
+      "correctIndex": 1,
+      "explanation": "Wave frequency is fixed by the sound source and does not change when sound enters another medium.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 112,
+      "sourcePdfPage": 13,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Doppler Effect",
+      "question": "The star moving closer to earth will experience:",
+      "options": [
+        "Blue shift",
+        "Red shift",
+        "Orange shift",
+        "Yellow shift"
+      ],
+      "correctIndex": 0,
+      "explanation": "Approaching sources show a Doppler shift toward higher observed frequencies and shorter, bluer wavelengths.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 113,
+      "sourcePdfPage": 13,
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Wave Intensity",
+      "question": "If the amplitude of a wave is doubled, its intensity is:",
+      "options": [
+        "Doubled",
+        "Halved",
+        "Quadrupled",
+        "One quarter"
+      ],
+      "correctIndex": 2,
+      "explanation": "Wave intensity is proportional to amplitude squared, so doubling amplitude makes intensity four times greater.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 114,
+      "sourcePdfPage": 14,
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "First Law of Thermodynamics",
+      "question": "Which of the following is an example of first law of thermodynamics?",
+      "options": [
+        "Thunderstorm",
+        "Metabolism",
+        "Rusting",
+        "Earthquake"
+      ],
+      "correctIndex": 1,
+      "explanation": "Metabolism obeys energy conservation, transforming chemical energy into heat, work and stored energy.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 115,
+      "sourcePdfPage": 14,
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Work and Internal Energy",
+      "question": "Thermos flask containing tea as a system is shaken vigorously then there will be:",
+      "options": [
+        "Increase in temperature only",
+        "Increase in kinetic energy only",
+        "Increase in temperature & kinetic energy",
+        "No change in temperature & kinetic energy"
+      ],
+      "correctIndex": 2,
+      "explanation": "Shaking transfers mechanical work into motion and internal energy; dissipated motion can slightly increase the tea's temperature.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 116,
+      "sourcePdfPage": 14,
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Molar Specific Heat",
+      "question": "Difference between molar specific heat at constant pressure and molar specific heat at constant volume is equal to:",
+      "options": [
+        "Boltzmann constant",
+        "Universal gas constant",
+        "Plank’s constant",
+        "Rydberg constant"
+      ],
+      "correctIndex": 1,
+      "explanation": "For an ideal gas, Mayer's relation gives Cp − Cv = R, the universal gas constant.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 117,
+      "sourcePdfPage": 14,
+      "subject": "Physics",
+      "chapter": "Electrostatics",
+      "topic": "Coulomb Law",
+      "question": "Coulomb’s law of electrostatic induction is valid for:",
+      "options": [
+        "Point charges",
+        "Stationary charges",
+        "Stationary & point charges",
+        "Accelerated point charges"
+      ],
+      "correctIndex": 2,
+      "explanation": "The familiar electrostatic Coulomb law F = kq₁q₂/r² applies to stationary point charges.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 118,
+      "sourcePdfPage": 14,
+      "subject": "Physics",
+      "chapter": "Electrostatics",
+      "topic": "Electric Force",
+      "question": "If the positive charge is placed in a uniform electric field, the charge will move in the:",
+      "options": [
+        "Opposite direction of electric field",
+        "Direction of electric field",
+        "Perpendicular to the direction of electric field",
+        "Remains at rest"
+      ],
+      "correctIndex": 1,
+      "explanation": "An unrestrained positive charge experiences force F = qE along the electric-field direction.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 119,
+      "sourcePdfPage": 14,
+      "subject": "Physics",
+      "chapter": "Nuclear Physics",
+      "topic": "Half-life",
+      "question": "For each element, value of half-life is:",
+      "options": [
+        "Variable",
+        "Constant",
+        "Decrease",
+        "Increase"
+      ],
+      "correctIndex": 1,
+      "explanation": "For a fixed radioactive isotope, half-life is characteristic and independent of its initial amount.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 120,
+      "sourcePdfPage": 14,
+      "subject": "Physics",
+      "chapter": "Current Electricity",
+      "topic": "RC Time Constant",
+      "question": "The unit of RC is:",
+      "options": [
+        "Ohm",
+        "Farad",
+        "Second",
+        "Ohm/Farad"
+      ],
+      "correctIndex": 2,
+      "explanation": "Resistance times capacitance has units of seconds: Ω·F = s, the RC time constant.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 121,
+      "sourcePdfPage": 14,
+      "subject": "Physics",
+      "chapter": "Current Electricity",
+      "topic": "Temperature Coefficient",
+      "question": "The fractional change in resistance per kelvin is known as the temperature coefficient of:",
+      "options": [
+        "Conductance",
+        "Resistance",
+        "Inductance",
+        "Conductivity"
+      ],
+      "correctIndex": 1,
+      "explanation": "Temperature coefficient of resistance is the fractional resistance change per degree, α = ΔR/(R₀ΔT).",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 122,
+      "sourcePdfPage": 14,
+      "subject": "Physics",
+      "chapter": "Current Electricity",
+      "topic": "Ohmic Conductors",
+      "question": "Which of the following is an example of Ohmic in nature?",
+      "options": [
+        "Thermistor",
+        "Filament lamp",
+        "Semiconductor",
+        "Conductor"
+      ],
+      "correctIndex": 3,
+      "explanation": "An ohmic conductor follows V ∝ I at constant temperature, producing a straight-line V–I graph.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 123,
+      "sourcePdfPage": 15,
+      "subject": "Physics",
+      "chapter": "Current Electricity",
+      "topic": "Negative Temperature Coefficient",
+      "question": "The material whose resistance decreases with increase in temperature have:",
+      "options": [
+        "Positive temperature coefficient",
+        "Negative temperature coefficient",
+        "Thermal coefficient",
+        "Coefficient of friction"
+      ],
+      "correctIndex": 1,
+      "explanation": "A negative temperature coefficient means resistance decreases as temperature rises, as in many semiconductors.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 124,
+      "sourcePdfPage": 15,
+      "subject": "Physics",
+      "chapter": "Electromagnetism",
+      "topic": "Magnetic Flux Density",
+      "question": "The number of magnetic field lines passing through unit area is called:",
+      "options": [
+        "Magnetic field",
+        "Magnetic flux",
+        "Magnetic flux density",
+        "Magnetization"
+      ],
+      "correctIndex": 1,
+      "explanation": "Magnetic flux Φ measures magnetic field through a surface; flux per unit area is magnetic flux density B = Φ/A. The supplied key labels it flux.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 125,
+      "sourcePdfPage": 15,
+      "subject": "Physics",
+      "chapter": "Electromagnetism",
+      "topic": "Magnetic Force",
+      "question": "The magnetic force of a charged particle moving in a uniform magnetic fields depends on:",
+      "options": [
+        "Velocity, area & magnetic field",
+        "Charge, current & velocity",
+        "Magnetic field, voltage & charge",
+        "Velocity, magnetic field & charge"
+      ],
+      "correctIndex": 3,
+      "explanation": "The magnetic force on a moving charge has magnitude F = |q|vBsinθ; it depends on charge, velocity and magnetic field.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 126,
+      "sourcePdfPage": 15,
+      "subject": "Physics",
+      "chapter": "Electromagnetism",
+      "topic": "Magnetic Force and Angle",
+      "question": "The magnetic force acting on a charged particle is maximum when the angle between v⃗ and B⃗ is:",
+      "options": [
+        "0°",
+        "45°",
+        "90°",
+        "180°"
+      ],
+      "correctIndex": 2,
+      "explanation": "F = |q|vBsinθ is maximum when velocity is perpendicular to the magnetic field, θ = 90°.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 127,
+      "sourcePdfPage": 15,
+      "subject": "Physics",
+      "chapter": "Electromagnetic Induction",
+      "topic": "Generator Effect",
+      "question": "Generator effect is practical application of:",
+      "options": [
+        "Static e.m.f",
+        "Dynamic e.m.f",
+        "Mutual induction",
+        "Back emf"
+      ],
+      "correctIndex": 1,
+      "explanation": "A generator uses electromagnetic induction caused by relative motion between a conductor and magnetic field, producing dynamic emf.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 128,
+      "sourcePdfPage": 15,
+      "subject": "Physics",
+      "chapter": "Electromagnetic Induction",
+      "topic": "Faraday Law",
+      "question": "If number of turns of coil becomes double, the induced emf will be:",
+      "options": [
+        "Double",
+        "Reduced to half",
+        "Remain same",
+        "Quadruple"
+      ],
+      "correctIndex": 0,
+      "explanation": "Faraday's law gives induced emf proportional to the coil's turns N when the flux-change rate per turn stays fixed.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 129,
+      "sourcePdfPage": 15,
+      "subject": "Physics",
+      "chapter": "Electromagnetic Induction",
+      "topic": "Electromagnetic Sensors",
+      "question": "Electromagnetic sensor in seismograph converts ground movement into:",
+      "options": [
+        "Magnetic signals",
+        "Electric signals",
+        "Audio signals",
+        "Vibratory signals"
+      ],
+      "correctIndex": 1,
+      "explanation": "Electromagnetic sensors convert motion-induced magnetic flux changes into electrical signals for recording seismic activity.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 130,
+      "sourcePdfPage": 15,
+      "subject": "Physics",
+      "chapter": "Electronics",
+      "topic": "Bridge Rectifier",
+      "question": "A full wave bridge rectifier consists of:",
+      "options": [
+        "No diode",
+        "Four diodes",
+        "Two diodes",
+        "One diode"
+      ],
+      "correctIndex": 1,
+      "explanation": "A full-wave bridge rectifier uses four diodes to direct both AC half-cycles through the load in the same direction.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 131,
+      "sourcePdfPage": 15,
+      "subject": "Physics",
+      "chapter": "Electronics",
+      "topic": "Rectification",
+      "question": "An electrical component used to convert AC into DC is:",
+      "options": [
+        "Transistor",
+        "Capacitor",
+        "Diode",
+        "Resistor"
+      ],
+      "correctIndex": 2,
+      "explanation": "A diode conducts preferentially in one direction and can rectify alternating current into pulsating DC.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 132,
+      "sourcePdfPage": 16,
+      "subject": "Physics",
+      "chapter": "Quantum Physics",
+      "topic": "Photon Momentum",
+      "question": "A photon has:",
+      "options": [
+        "Zero mass, zero momentum",
+        "Finite mass, finite momentum",
+        "Zero mass, finite momentum",
+        "Finite mass, zero momentum"
+      ],
+      "correctIndex": 2,
+      "explanation": "A photon has zero rest mass but momentum p = E/c = h/λ.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 133,
+      "sourcePdfPage": 16,
+      "subject": "Physics",
+      "chapter": "Quantum Physics",
+      "topic": "Photoelectric Effect",
+      "question": "Photo-conductive devices like photo cells and solar cells are application of:",
+      "options": [
+        "Photo electric effect",
+        "Compton’s effect",
+        "Pair production",
+        "Interference of light"
+      ],
+      "correctIndex": 0,
+      "explanation": "Photoelectric and photovoltaic effects convert incident light into electrical responses in photocells and solar cells.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 134,
+      "sourcePdfPage": 16,
+      "subject": "Physics",
+      "chapter": "Quantum Physics",
+      "topic": "de Broglie Wavelength",
+      "question": "Which of the following particle has smaller De Broglie wave length?",
+      "options": [
+        "Gamma particle",
+        "Beta particle",
+        "Proton",
+        "Alpha particle"
+      ],
+      "correctIndex": 0,
+      "explanation": "Wavelength is λ = h/p, so a particle or photon with greater momentum has shorter wavelength; the supplied choice 'gamma particle' does not specify a fair momentum comparison.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 135,
+      "sourcePdfPage": 16,
+      "subject": "Physics",
+      "chapter": "Atomic Spectra",
+      "topic": "Hydrogen Spectral Series",
+      "question": "In the spectrum of hydrogen atom which of the following series has smallest wavelength?",
+      "options": [
+        "Paschen series",
+        "Balmer series",
+        "Lyman series",
+        "Brackett series"
+      ],
+      "correctIndex": 2,
+      "explanation": "Lyman-series transitions end at n = 1 and emit higher-energy, shorter-wavelength photons than the other listed hydrogen series.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 136,
+      "sourcePdfPage": 16,
+      "subject": "English",
+      "chapter": "Vocab",
+      "topic": null,
+      "question": "The antonym for the word clarity is:",
+      "options": [
+        "Upright",
+        "Understanding",
+        "Vagueness",
+        "Clear"
+      ],
+      "correctIndex": 2,
+      "explanation": "Clarity means clearness or intelligibility; vagueness means lack of clarity.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 137,
+      "sourcePdfPage": 16,
+      "subject": "English",
+      "chapter": "Vocab",
+      "topic": null,
+      "question": "Yasir Ameen could not pay the rent; accordingly, he was evicted. Meaning of the underlined word is:",
+      "options": [
+        "Expelled from the house",
+        "Investigated",
+        "Threatened",
+        "Rewarded"
+      ],
+      "correctIndex": 0,
+      "explanation": "To evict someone means to legally or forcibly remove them from a property, such as for unpaid rent.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 138,
+      "sourcePdfPage": 16,
+      "subject": "English",
+      "chapter": "Verb",
+      "topic": null,
+      "question": "Fill in the blank with the correct verb.\nThe baby ______ all morning.",
+      "options": [
+        "Is crying",
+        "Has been crying",
+        "Cry",
+        "Have been crying"
+      ],
+      "correctIndex": 1,
+      "explanation": "Has been crying is present perfect continuous, describing an action continuing over a period up to the present.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 139,
+      "sourcePdfPage": 16,
+      "subject": "English",
+      "chapter": "Verb",
+      "topic": null,
+      "question": "By 2040, robots ______ many of the jobs that people do today.",
+      "options": [
+        "Will be taking over",
+        "Will take over",
+        "Will have taken over",
+        "Has taken over"
+      ],
+      "correctIndex": 2,
+      "explanation": "Will have taken over is future perfect, expressing an action completed by a specified future time, 2040.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 140,
+      "sourcePdfPage": 17,
+      "subject": "English",
+      "chapter": "Phrase, Clause, Sentence, and Conditional Sentences",
+      "topic": null,
+      "question": "“Each time one of us touches the soil, we feel a sense of personal renewal”. The type of sentence is:",
+      "options": [
+        "Compound",
+        "Complex",
+        "Compound Complex",
+        "Simple"
+      ],
+      "correctIndex": 1,
+      "explanation": "The dependent clause beginning 'Each time' and the independent clause form a complex sentence.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 141,
+      "sourcePdfPage": 17,
+      "subject": "English",
+      "chapter": "Punctuation",
+      "topic": null,
+      "question": "Identify the correctly punctuated sentence.",
+      "options": [
+        "Milton the great English Poet, was blind",
+        "Milton, the great English poet, was blind",
+        "Milton the great English poet was, blind",
+        "Milton the great, English poet was blind."
+      ],
+      "correctIndex": 1,
+      "explanation": "The appositive phrase 'the great English poet' is set off with commas; 'poet' is not a proper noun here.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 142,
+      "sourcePdfPage": 17,
+      "subject": "English",
+      "chapter": "Misc Errors",
+      "topic": null,
+      "question": "Identify the correct sentence.",
+      "options": [
+        "A Sindhi woman is going through a bazaar with bear feet.",
+        "A Sindhi women are going through a bazaar with bare feet.",
+        "A Sindhi woman is going through a bazaar with bare feet.",
+        "A Sindhi woman is going through a bazaar with bare foot."
+      ],
+      "correctIndex": 2,
+      "explanation": "A singular subject takes 'woman is'; 'bare feet' correctly means feet without shoes.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 143,
+      "sourcePdfPage": 17,
+      "subject": "English",
+      "chapter": "Preposition",
+      "topic": null,
+      "question": "Complete the sentence using correct preposition.\nThe public are cautioned ______ pick pockets.",
+      "options": [
+        "Against",
+        "Of",
+        "For",
+        "With"
+      ],
+      "correctIndex": 0,
+      "explanation": "The standard collocation is 'cautioned against' a danger or a particular risk.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 144,
+      "sourcePdfPage": 17,
+      "subject": "English",
+      "chapter": "Vocab",
+      "topic": null,
+      "question": "Select the correct pair.\nLack of sleep can ______ your health and have a bad ______ on your grades.",
+      "options": [
+        "Affect / affect",
+        "Effect / effect",
+        "Effect / affect",
+        "Affect / effect"
+      ],
+      "correctIndex": 3,
+      "explanation": "Affect is usually a verb meaning influence; effect is a noun meaning result.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 145,
+      "sourcePdfPage": 17,
+      "subject": "English",
+      "chapter": "Misc Errors",
+      "topic": null,
+      "question": "Select the correct sentence in style.",
+      "options": [
+        "Having finished his exercise, the books were put away.",
+        "Having finishing his exercise, the books were put away.",
+        "Having finishing his exercise, he put his books away.",
+        "Having finished his exercise, he put away his books."
+      ],
+      "correctIndex": 3,
+      "explanation": "The introductory participial phrase must refer to the subject 'he', the person who finished exercising.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 146,
+      "sourcePdfPage": 17,
+      "subject": "English",
+      "chapter": "Phrase, Clause, Sentence, and Conditional Sentences",
+      "topic": null,
+      "question": "Select the statement that best describes the given sentence. “He is anything but a liar.”",
+      "options": [
+        "He is a liar.",
+        "He can be anything but not a liar.",
+        "He is not a good character and liar as well.",
+        "He is good character but a liar to some extent."
+      ],
+      "correctIndex": 1,
+      "explanation": "The idiom 'anything but a liar' emphatically means that he is not a liar.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 147,
+      "sourcePdfPage": 17,
+      "subject": "English",
+      "chapter": "Phrase, Clause, Sentence, and Conditional Sentences",
+      "topic": null,
+      "question": "Select the best option to describe the given sentence. “Unless you apologise I shall punish you.”",
+      "options": [
+        "Without apology, you will be forgiven.",
+        "With apology, you will be punished.",
+        "There is no need of apology.",
+        "Without apology you will be punished."
+      ],
+      "correctIndex": 3,
+      "explanation": "Unless means 'if not'; the punishment follows if the person does not apologise.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 148,
+      "sourcePdfPage": 18,
+      "subject": "English",
+      "chapter": "Vocab",
+      "topic": null,
+      "question": "“From the attitude it is clear that he wants to pay off his old scores.” The sentence means that he wants to:",
+      "options": [
+        "Improve his marks.",
+        "Pay off his debt.",
+        "Help needy people.",
+        "Have his revenge."
+      ],
+      "correctIndex": 3,
+      "explanation": "To 'pay off old scores' means to take revenge for earlier wrongs.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 149,
+      "sourcePdfPage": 18,
+      "subject": "English",
+      "chapter": "Vocab",
+      "topic": null,
+      "question": "A person needs to reflect profoundly on his/her life. The underlined word means:",
+      "options": [
+        "Deeply",
+        "Superficially",
+        "Shallow",
+        "Mirroring"
+      ],
+      "correctIndex": 0,
+      "explanation": "Profoundly means deeply, especially when thinking or feeling seriously.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    },
+    {
+      "originalNumber": 150,
+      "sourcePdfPage": 18,
+      "subject": "English",
+      "chapter": "Vocab",
+      "topic": null,
+      "question": "Due to his non-serious attitude, Ali took the advice with a pinch of salt. It means:",
+      "options": [
+        "Took it seriously.",
+        "Did not take it seriously.",
+        "Accept it candidly.",
+        "Implemented it happily."
+      ],
+      "correctIndex": 1,
+      "explanation": "To take advice 'with a pinch of salt' means to treat it skeptically, not fully seriously.",
+      "mnemonic": "",
+      "source": "NUMS MDCAT 2026 — third-party marked paper",
+      "reviewStatus": "OWNER APPROVED: supplied highlighted key retained; provisional academic explanations"
+    }
+  ]
+}

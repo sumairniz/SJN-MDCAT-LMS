@@ -1,0 +1,31 @@
+# SJN MedNest — Academic Review & Release Gate Checkpoint
+**Date:** November 8, 2026 (Asia/Karachi). **Branch:** `sjn-phase1a-foundation`.
+**Status:** isolated Management Auth academic review **backend deployed**, protected Management Panel **GitHub-only UI**, student publishing **OFF**, Vercel **402 quota block confirmed**.
+
+## Owner instruction
+Proceed with next protected Management Panel feature while checking whether Vercel 24-hour deployment quota has reset. Prior confirmed requirements: configurable Direct / one reviewer / two reviewers, server-side permissions, immutable existing revision history, preserve course-only content, no unapproved production/student changes, Owner must test in browser before final sign-off.
+
+## Implemented in dedicated Management Auth project
+- Migration `database/management/isolated-academic-review-workflow-20261108.sql` successfully applied **only** to `tdqbjhrmfluiinntmjfh`.
+- Policy table `mednest_academic_review_policies`: `mcq_correction` default `one`, configurable `direct/one/two` with optimistic version and required Chief email step-up when changing mode. **Default is a developer starter setting, not the Owner's final policy decision.**
+- `mednest_academic_review_submissions`: frozen proposed answer/question/option/taxonomy fields, immutable source MCQ/revision ID and proposed edit version; states `pending`, `needs_changes`, `approved_for_release`, `withdrawn`; captures unique reviewer identities and author; RLS enabled, no anonymous/authenticated table privileges, service-role-only RPCs.
+- DB RPCs `mednest_academic_review_submit`, `mednest_academic_review_decide`, `mednest_academic_review_withdraw`, `mednest_academic_review_set_policy`: every mutation verifies active staff Chief/editor/reviewer privileges and live Auth session inside the transaction, logs metadata to staff audit; forbids self-approval and duplicate reviewer identity, handles optimistic policy/author draft conflict, allows author withdrawal of pending review. For `direct`, submitting the draft makes it **approved_for_release, not published to students**.
+- Supabase Edge `mednest-academic-review` **ACTIVE v1** on separate Management Auth; JWT verified. Actions `review.policy`, `review.set_policy`, `review.drafts`, `review.submit`, `review.queue`, `review.detail`, `review.decide`, `review.withdraw`. Independent staff login required, backend capability gates for authorized editors and reviewers; no student database URL, publish action or credentials.
+- UI integrated with existing `Academic Reviews` sidebar in source-only protected `apps/management/integrated-auth-preview.html`, `apps/management/app.js`, `apps/management/academic-review.js`: Chief can view saved correction drafts, submit frozen version, browse queue, inspect detailed MCQ proposal, approve/request changes/withdraw if authorized, and change review policy only with existing step-up. No student publishing buttons or source table writes.
+- Existing Staff invitation/create/mutate actions remain `WRITES_ENABLED=false`; thus at present there is **only one Chief staff account**. If Chief authors a correction, one/two independent reviewer policy **cannot be fulfilled** until separately approved staff onboarding, which is correct fail-closed design. The Chief could change to Direct policy with 30-minute email security, but publishing would still be blocked. Do not pretend independent reviewers are available today.
+
+## Verification
+- Real rolled-back management-only SQL test: Chief creates synthetic proposal, submits under default `one` policy, self-approval rejected, author withdrawal permitted; **ROLLBACK** leaves 0 draft/review rows, no student content changes. First QA attempt failed due to ambiguous local test variable `state`; corrected QA query passed.
+- Read-only SQL: **review_submissions=0; edit_drafts=0; review_policy=one; authenticated direct decision RPC=false; anon review table select=false.**
+- `tests/management-academic-review.test.js` validates DB hierarchy/security/self-review, policy step-up, UI isolation. GitHub Foundation workflows passed at `4e004fbe6ecb3be73c3c75d14aaef1c1523c99a2` (2 SUCCESS).
+- Further copy correction in `integrated-auth-preview.html` removes stale claim that the Management Panel never reads existing MCQs; only protected read is used, while draft/review writes stay in isolated Management Auth.
+- **Vercel check:** latest protected Management Panel deployment `sjn-mednest-management-lpdcv3zeg-sjn1.vercel.app` remains **READY** at OLD commit `3da37a9631dbf3657285684aff2d5be502bf034b`.
+- Exactly ONE combined deployment attempt at full reviewed source commit `4e004fbe6ecb3be73c3c75d14aaef1c1523c99a2` (project `sjn-mednest-management`, team `team_AOaL10r6OwIXpIy4XlO8DmSH`, protected branch) was rejected HTTP **402 `api-deployments-free-per-day`**, `retryAfter=86400` seconds. This confirms **quota NOT reset**, not browser-ready. No paid upgrade, DNS/public/prod deployment, repeated attempts or quota-bypass performed.
+
+## Next work and release gates
+1. Once Vercel resets, issue one combined protected preview deployment and Chief browser/mobile UAT of Syllabus Manager, Content Studio, Direct MCQ Editor, Academic Review policies/queues; record exact source SHA, server logs, login, table states and Owner findings.
+2. Resolve staff invitations and acceptance using independently verified email and permissions (still disabled). The Chief is sole member, and one/two independent reviewers cannot approve Chief-authored changes yet.
+3. Build separate permissioned **student-side versioned publication bridge** only after review of published historical revision references, preservation of actual past-paper original source and course-only question entitlements; restrict to source-revision match, approved policy state, authorized publisher, audit, rollback and negative-security tests. No privileged student keys in browser; no public-domain or staging-to-production switch yet.
+4. Complete course/paper/resources/student feature controls and high-priority deferred LMS items as separate staged tasks; owner acceptance and security/performance regression checks before release.
+
+**Do not claim entire Management Panel complete, MCQs published, or latest Vercel browser preview deployed.**

@@ -1,0 +1,729 @@
+{
+  "paper": "UHS",
+  "count": 180,
+  "version": "2",
+  "questionKeyPreserved": true,
+  "status": "provisional private testing",
+  "questions": [
+    {
+      "originalNumber": 1,
+      "explanation": "ADH increases water reabsorption in the collecting ducts, producing a smaller volume of concentrated (hypertonic) urine."
+    },
+    {
+      "originalNumber": 2,
+      "explanation": "The pons contains brainstem circuits involved in regulating sleep stages and transitions between sleep and wakefulness."
+    },
+    {
+      "originalNumber": 3,
+      "explanation": "Central chemoreceptors in the medulla respond mainly to changes in cerebrospinal-fluid pH caused by carbon dioxide."
+    },
+    {
+      "originalNumber": 4,
+      "explanation": "An interneuron (association neuron) within the spinal cord relays signals between sensory and motor neurons."
+    },
+    {
+      "originalNumber": 5,
+      "explanation": "Linked genes on the same chromosome may be inherited together, altering the 9:3:3:1 ratio expected from independent assortment."
+    },
+    {
+      "originalNumber": 6,
+      "explanation": "Crossing over exchanges genetic segments between nonsister chromatids of homologous chromosomes during prophase I."
+    },
+    {
+      "originalNumber": 7,
+      "explanation": "Humans have 23 chromosome types in a haploid set, corresponding to 23 linkage groups."
+    },
+    {
+      "originalNumber": 8,
+      "explanation": "Nissl bodies consist of rough endoplasmic reticulum and ribosomes, which synthesize proteins needed by neurons."
+    },
+    {
+      "originalNumber": 9,
+      "explanation": "The centromere connects sister chromatids and provides the kinetochore attachment site for spindle fibers."
+    },
+    {
+      "originalNumber": 10,
+      "explanation": "Lysosomes contain digestive enzymes; lipid synthesis mainly takes place in the smooth endoplasmic reticulum."
+    },
+    {
+      "originalNumber": 11,
+      "explanation": "Blocked lymph drainage prevents return of excess interstitial fluid, leading to tissue swelling (edema)."
+    },
+    {
+      "originalNumber": 12,
+      "explanation": "The midbrain participates in auditory processing and reflex movements of the eyes through its tectal centers."
+    },
+    {
+      "originalNumber": 13,
+      "explanation": "A stimulus is detected by a receptor, processed in the CNS, and followed by a response from an effector."
+    },
+    {
+      "originalNumber": 14,
+      "explanation": "Neurotransmitter-containing vesicles release their contents from presynaptic axon terminals into the synaptic cleft."
+    },
+    {
+      "originalNumber": 15,
+      "explanation": "The hippocampus is essential for forming and consolidating new long-term declarative memories."
+    },
+    {
+      "originalNumber": 16,
+      "explanation": "Extreme pH changes alter enzyme ionization and shape, impairing the active site; strong extremes can denature proteins."
+    },
+    {
+      "originalNumber": 17,
+      "explanation": "Complementary A–T and G–C pairing lets each DNA strand serve as a template for accurate replication."
+    },
+    {
+      "originalNumber": 18,
+      "explanation": "A duplicated chromosome has two sister chromatids, each containing one double-stranded DNA molecule."
+    },
+    {
+      "originalNumber": 19,
+      "explanation": "Glycolysis is an ancient cytoplasmic pathway that produces ATP without requiring oxygen."
+    },
+    {
+      "originalNumber": 20,
+      "explanation": "The uterus receives the implanted embryo and provides the protected, nourishing environment for fetal development."
+    },
+    {
+      "originalNumber": 21,
+      "explanation": "The larynx houses the vocal cords, whose vibrations produce sound during speech."
+    },
+    {
+      "originalNumber": 22,
+      "explanation": "Examiner perspective: LH rises around ovulation, while FSH may decline relative to its earlier peak. Official key doubtful: sustained high estrogen, not a decrease in FSH, triggers the LH surge."
+    },
+    {
+      "originalNumber": 23,
+      "explanation": "The corpus callosum is the major bundle of nerve fibers connecting the two cerebral hemispheres."
+    },
+    {
+      "originalNumber": 24,
+      "explanation": "Cardiac and smooth muscles contract involuntarily under autonomic and local regulation."
+    },
+    {
+      "originalNumber": 25,
+      "explanation": "Ball-and-socket joints permit rotation along with movement in several planes, as at the shoulder or hip."
+    },
+    {
+      "originalNumber": 26,
+      "explanation": "Repeated self-fertilization increases homozygosity, producing stable true-breeding lines."
+    },
+    {
+      "originalNumber": 27,
+      "explanation": "Dendrites receive most incoming synaptic signals and conduct graded potentials toward the cell body."
+    },
+    {
+      "originalNumber": 28,
+      "explanation": "At rest, tropomyosin covers the myosin-binding sites on actin; calcium binding to troponin moves it away."
+    },
+    {
+      "originalNumber": 29,
+      "explanation": "Antibodies are immunoglobulin proteins produced by B-cell-derived plasma cells to recognize specific antigens."
+    },
+    {
+      "originalNumber": 30,
+      "explanation": "Hydrogen bonds between peptide backbone groups stabilize alpha helices and beta-pleated sheets."
+    },
+    {
+      "originalNumber": 31,
+      "explanation": "Hemoglobin is a compact, soluble globular protein that transports oxygen in blood."
+    },
+    {
+      "originalNumber": 32,
+      "explanation": "Osmoregulation maintains suitable water and dissolved-solute concentrations in body fluids."
+    },
+    {
+      "originalNumber": 33,
+      "explanation": "A daughter with X-linked recessive hemophilia needs an affected X from her father and another affected X from her carrier mother."
+    },
+    {
+      "originalNumber": 34,
+      "explanation": "Chromosomes package and transmit DNA, which contains inherited genetic instructions."
+    },
+    {
+      "originalNumber": 35,
+      "explanation": "Most enzymes are proteins whose folded active sites accelerate biochemical reactions."
+    },
+    {
+      "originalNumber": 36,
+      "explanation": "Histone proteins bind and package eukaryotic DNA into nucleosomes and higher-order chromatin."
+    },
+    {
+      "originalNumber": 37,
+      "explanation": "The nucleolus produces ribosomal RNA and assembles ribosomal subunits."
+    },
+    {
+      "originalNumber": 38,
+      "explanation": "Capillaries have the greatest combined cross-sectional area, so the average blood-flow speed is lowest there."
+    },
+    {
+      "originalNumber": 39,
+      "explanation": "Endurance training increases the number and capacity of mitochondria used for aerobic ATP production."
+    },
+    {
+      "originalNumber": 40,
+      "explanation": "Membrane excitation travels through T-tubules and triggers calcium release from the sarcoplasmic reticulum to initiate contraction."
+    },
+    {
+      "originalNumber": 41,
+      "explanation": "The pubic symphysis is a secondary cartilaginous joint joined by fibrocartilage."
+    },
+    {
+      "originalNumber": 42,
+      "explanation": "A heterozygote crossed with a recessive homozygote (Yy × yy) yields half yellow and half green seeds."
+    },
+    {
+      "originalNumber": 43,
+      "explanation": "RRYY produces only RY gametes and rryy only ry; every F1 is RrYy and shows both dominant traits."
+    },
+    {
+      "originalNumber": 44,
+      "explanation": "The preovulatory LH surge typically occurs near day 14 in a 28-day menstrual cycle."
+    },
+    {
+      "originalNumber": 45,
+      "explanation": "Water's high specific heat means it absorbs or releases substantial heat with only a small temperature change."
+    },
+    {
+      "originalNumber": 46,
+      "explanation": "Increasing substrate concentration raises reaction rate until enzyme active sites are saturated at maximum velocity."
+    },
+    {
+      "originalNumber": 47,
+      "explanation": "Oligosaccharides consist of a small number of monosaccharides joined together, beginning with two units."
+    },
+    {
+      "originalNumber": 48,
+      "explanation": "B cells produce antibodies for humoral immunity, whereas T cells mediate cellular immune responses."
+    },
+    {
+      "originalNumber": 49,
+      "explanation": "Examiner perspective: the intended choice orders nucleic-acid categories as DNA, rRNA, tRNA, mRNA. Their actual quantities depend on whether mass, molecule number or cell type is meant; the wording is imprecise."
+    },
+    {
+      "originalNumber": 50,
+      "explanation": "Vasodilation increases heat loss from skin and sweating cools by evaporation, preventing overheating."
+    },
+    {
+      "originalNumber": 51,
+      "explanation": "Natural selection favors heritable traits that improve survival or reproduction, accumulating adaptations across generations."
+    },
+    {
+      "originalNumber": 52,
+      "explanation": "RNA has ribose sugar and usually contains uracil instead of thymine."
+    },
+    {
+      "originalNumber": 53,
+      "explanation": "Ribosomal RNA makes up most cellular RNA because ribosomes are abundant in protein-synthesizing cells."
+    },
+    {
+      "originalNumber": 54,
+      "explanation": "Treponema pallidum is the bacterium that causes syphilis."
+    },
+    {
+      "originalNumber": 55,
+      "explanation": "Interstitial fluid that enters lymphatic capillaries is called lymph."
+    },
+    {
+      "originalNumber": 56,
+      "explanation": "Glycogen is a branched polysaccharide made of many glucose monomers."
+    },
+    {
+      "originalNumber": 57,
+      "explanation": "Olfactory receptors detect airborne chemicals dissolved in nasal mucus, so they are chemoreceptors."
+    },
+    {
+      "originalNumber": 58,
+      "explanation": "Birds excrete nitrogen mainly as poorly soluble uric acid, conserving water."
+    },
+    {
+      "originalNumber": 59,
+      "explanation": "Nissl bodies are clumps of rough ER and ribosomes characteristic of neuron cell bodies and dendrites."
+    },
+    {
+      "originalNumber": 60,
+      "explanation": "The cerebellum coordinates posture, equilibrium and smooth voluntary movement."
+    },
+    {
+      "originalNumber": 61,
+      "explanation": "Arthritis means inflammation of one or more joints, commonly causing pain and stiffness."
+    },
+    {
+      "originalNumber": 62,
+      "explanation": "The pubic symphysis is a fibrocartilaginous, slightly movable cartilaginous joint."
+    },
+    {
+      "originalNumber": 63,
+      "explanation": "Motor neurons carry outgoing signals from the spinal cord to muscles, producing contraction."
+    },
+    {
+      "originalNumber": 64,
+      "explanation": "Most prokaryotes reproduce by binary fission; eukaryotic somatic cells use mitosis."
+    },
+    {
+      "originalNumber": 65,
+      "explanation": "Lamarck proposed that traits developed through use or disuse during life could be inherited by offspring."
+    },
+    {
+      "originalNumber": 66,
+      "explanation": "In the lock-and-key model, the active site is rigid and complementary in shape to its specific substrate."
+    },
+    {
+      "originalNumber": 67,
+      "explanation": "A peptide bond joins the carboxyl group of one amino acid to the amino group of another."
+    },
+    {
+      "originalNumber": 68,
+      "explanation": "Retroviruses carry RNA but use reverse transcriptase to synthesize DNA, which can integrate into host DNA."
+    },
+    {
+      "originalNumber": 69,
+      "explanation": "Reversible inhibitors bind nonpermanently, allowing enzyme activity to return when the inhibitor dissociates."
+    },
+    {
+      "originalNumber": 70,
+      "explanation": "Enterokinase (enteropeptidase) activates pancreatic trypsinogen into active trypsin in the intestine."
+    },
+    {
+      "originalNumber": 71,
+      "explanation": "Hyaline cartilage supports the nose and reinforces the tracheal rings while allowing flexibility."
+    },
+    {
+      "originalNumber": 72,
+      "explanation": "Lamarck attributed giraffes' long necks to inherited effects of repeated neck stretching; this is a historical, not modern genetic, explanation."
+    },
+    {
+      "originalNumber": 73,
+      "explanation": "Sperm are formed in the seminiferous tubules of the testes."
+    },
+    {
+      "originalNumber": 74,
+      "explanation": "The uterine endometrium thickens and supplies the environment for implantation and early embryo nourishment."
+    },
+    {
+      "originalNumber": 75,
+      "explanation": "Messenger RNA carries a coded sequence from DNA to ribosomes, specifying amino-acid order."
+    },
+    {
+      "originalNumber": 76,
+      "explanation": "Glycoproteins consist of proteins with covalently attached carbohydrate chains."
+    },
+    {
+      "originalNumber": 77,
+      "explanation": "The plasma membrane controls selective movement of substances into and out of both plant and animal cells."
+    },
+    {
+      "originalNumber": 78,
+      "explanation": "A color-blind mother passes an affected X chromosome to every son; sons of a normal father are therefore color-blind."
+    },
+    {
+      "originalNumber": 79,
+      "explanation": "Skeletal and cardiac muscle both contain organized sarcomeres that produce visible striations."
+    },
+    {
+      "originalNumber": 80,
+      "explanation": "Cardiac and smooth muscles function without conscious control and are therefore involuntary."
+    },
+    {
+      "originalNumber": 81,
+      "explanation": "Ice has an open hydrogen-bonded lattice, so its molecules are farther apart than in liquid water."
+    },
+    {
+      "originalNumber": 82,
+      "explanation": "The molar gas constant has the SI value approximately 8.314 J mol⁻¹ K⁻¹."
+    },
+    {
+      "originalNumber": 83,
+      "explanation": "The phenoxide ion is resonance-stabilized, making phenol acidic enough to react with NaOH; ordinary alcohols are much weaker acids."
+    },
+    {
+      "originalNumber": 84,
+      "explanation": "A pi bond forms by sideways overlap of parallel unhybridized p orbitals."
+    },
+    {
+      "originalNumber": 85,
+      "explanation": "Lipase hydrolyzes dietary triglycerides into fatty acids and glycerol-related products."
+    },
+    {
+      "originalNumber": 86,
+      "explanation": "Three bonding pairs and one lone pair give tetrahedral electron geometry but trigonal-pyramidal molecular shape."
+    },
+    {
+      "originalNumber": 87,
+      "explanation": "Vicinal or geminal dihalides form alkynes by successive elimination of hydrogen halide, not by addition."
+    },
+    {
+      "originalNumber": 88,
+      "explanation": "A negative enthalpy change means heat is released, so the reaction is exothermic."
+    },
+    {
+      "originalNumber": 89,
+      "explanation": "Copper is a Group 11 coinage metal, along with silver and gold."
+    },
+    {
+      "originalNumber": 90,
+      "explanation": "Theoretical water yield is 36 g from 4 g H₂ and 32 g O₂; (28/36) × 100 = 77.8%."
+    },
+    {
+      "originalNumber": 91,
+      "explanation": "Activation energy is the minimum energy reactant particles need to reach the activated complex."
+    },
+    {
+      "originalNumber": 92,
+      "explanation": "In XY₂Z₂, charges balance: +6 + 2(−2) + 2(−1) = 0."
+    },
+    {
+      "originalNumber": 93,
+      "explanation": "For n = 2, the azimuthal quantum number l can only be 0 or 1; l = 2 is forbidden."
+    },
+    {
+      "originalNumber": 94,
+      "explanation": "For 2A + B → 3C + D, rate = −½d[A]/dt = −d[B]/dt = +⅓d[C]/dt = +d[D]/dt."
+    },
+    {
+      "originalNumber": 95,
+      "explanation": "Standard reduction potentials increase in the sequence H⁺/H₂, Cu²⁺/Cu, Ag⁺/Ag, making Ag⁺ easiest to reduce."
+    },
+    {
+      "originalNumber": 96,
+      "explanation": "Acidified potassium dichromate oxidizes ethanal (acetaldehyde) to ethanoic (acetic) acid."
+    },
+    {
+      "originalNumber": 97,
+      "explanation": "Branched isopentane has weaker overall dispersion interactions than comparable straight-chain molecules, giving relatively high vapor pressure."
+    },
+    {
+      "originalNumber": 98,
+      "explanation": "An sp-hybridized terminal carbon has 50% s-character and stabilizes its acetylide conjugate base."
+    },
+    {
+      "originalNumber": 99,
+      "explanation": "Fischer esterification joins a carboxylic acid and alcohol to form an ester with elimination of water."
+    },
+    {
+      "originalNumber": 100,
+      "explanation": "The azimuthal (angular-momentum) quantum number l determines orbital subshell shape."
+    },
+    {
+      "originalNumber": 101,
+      "explanation": "Crystal field theory explains d-orbital splitting in coordination complexes, not basic sigma/pi covalent-bond formation."
+    },
+    {
+      "originalNumber": 102,
+      "explanation": "Planck's constant is about 6.626 × 10⁻³⁴ J·s and relates photon energy to frequency by E = hν."
+    },
+    {
+      "originalNumber": 103,
+      "explanation": "A rate law relates reaction rate to reactant concentrations raised to experimentally determined orders."
+    },
+    {
+      "originalNumber": 104,
+      "explanation": "PVC softens on heating and can be reshaped, so it is a thermoplastic polymer."
+    },
+    {
+      "originalNumber": 105,
+      "explanation": "Extrapolating ideal-gas behavior to absolute zero (0 K or approximately −273°C) gives zero pressure at fixed volume; real gases liquefy first."
+    },
+    {
+      "originalNumber": 106,
+      "explanation": "A weak base and its conjugate-acid salt, NH₄OH/NH₄Cl, resist changes in pH and form a basic buffer."
+    },
+    {
+      "originalNumber": 107,
+      "explanation": "Added H⁺ is consumed by the weak-base component: NH₃ + H⁺ → NH₄⁺, shifting the acid-base balance toward ammonium."
+    },
+    {
+      "originalNumber": 108,
+      "explanation": "UV radiation or heat initiates halogen substitution by breaking halogen molecules into free radicals."
+    },
+    {
+      "originalNumber": 109,
+      "explanation": "Benzene is unusually stabilized by delocalized aromatic electrons and favors substitution over rapid addition."
+    },
+    {
+      "originalNumber": 110,
+      "explanation": "Higher p-character makes hybrid orbitals more spatially extended: sp³ is generally larger than sp², which is larger than sp."
+    },
+    {
+      "originalNumber": 111,
+      "explanation": "Balanced equation: 2H₂ + O₂ → 2H₂O. One mole H₂ produces one mole H₂O, requiring 22.4 dm³ H₂ at STP."
+    },
+    {
+      "originalNumber": 112,
+      "explanation": "Percentage yield = actual/theoretical × 100 = 20/25 × 100 = 80%."
+    },
+    {
+      "originalNumber": 113,
+      "explanation": "H₂ + Cl₂ → 2HCl is redox because hydrogen is oxidized (0 to +1) and chlorine reduced (0 to −1)."
+    },
+    {
+      "originalNumber": 114,
+      "explanation": "By the first law, ΔU = q + w = 100 kJ + 40 kJ = +140 kJ when work is done on the system."
+    },
+    {
+      "originalNumber": 115,
+      "explanation": "Fe³⁺ has electron configuration [Ar]3d⁵; Hund's rule places its five d electrons unpaired."
+    },
+    {
+      "originalNumber": 116,
+      "explanation": "Theoretical yield = actual yield / fractional yield = 20/0.80 = 25 g."
+    },
+    {
+      "originalNumber": 117,
+      "explanation": "A redox reaction transfers electrons: oxidation loses electrons while reduction gains electrons."
+    },
+    {
+      "originalNumber": 118,
+      "explanation": "Reducing formaldehyde (methanal) converts its carbonyl group into methanol, a primary alcohol."
+    },
+    {
+      "originalNumber": 119,
+      "explanation": "The longest carbon chain is propane, with bromo at C1 and two methyl substituents at C2: 1-bromo-2,2-dimethylpropane."
+    },
+    {
+      "originalNumber": 120,
+      "explanation": "Graphite is anisotropic: its properties differ parallel and perpendicular to its layered crystal planes."
+    },
+    {
+      "originalNumber": 121,
+      "explanation": "By crystallographic convention, beta (β) is the angle between lattice vectors a and c."
+    },
+    {
+      "originalNumber": 122,
+      "explanation": "Copper atoms form a regular repeating metallic crystal lattice, making copper a crystalline solid."
+    },
+    {
+      "originalNumber": 123,
+      "explanation": "Ground-state boron has configuration 1s²2s²2p¹, leaving one unpaired p electron."
+    },
+    {
+      "originalNumber": 124,
+      "explanation": "FeCl₃ generates an electrophile from Cl₂; benzene undergoes electrophilic aromatic substitution to form chlorobenzene."
+    },
+    {
+      "originalNumber": 125,
+      "explanation": "Barium is far down Group 2, where increased shielding and atomic radius reduce first ionization energy."
+    },
+    {
+      "originalNumber": 126,
+      "explanation": "Ammonia and carboxylic acid first form an ammonium carboxylate; heating dehydrates it to an amide."
+    },
+    {
+      "originalNumber": 127,
+      "explanation": "Using p = mv in KE = ½mv² gives KE = p²/(2m)."
+    },
+    {
+      "originalNumber": 128,
+      "explanation": "Official key doubtful: electric fields scale linearly with charge; doubling both source charges doubles the net field from 100 to 200 N/C, not 400 N/C."
+    },
+    {
+      "originalNumber": 129,
+      "explanation": "Coulomb force in a dielectric is reduced by the relative permittivity: F = F₀/εᵣ = F₀/2.5."
+    },
+    {
+      "originalNumber": 130,
+      "explanation": "After three half-lives, the remaining fraction is (½)³ = 1/8."
+    },
+    {
+      "originalNumber": 131,
+      "explanation": "Projectile range is R = (u²/g) sin 2θ; half the maximum range requires sin 2θ = ½, allowing θ = 15° or 75°."
+    },
+    {
+      "originalNumber": 132,
+      "explanation": "For an ideal transformer, Vₛ/Vₚ = Nₛ/Nₚ; at unchanged resistive secondary load, doubling Vₛ doubles Iₛ."
+    },
+    {
+      "originalNumber": 133,
+      "explanation": "90° is one quarter of a full 360° revolution."
+    },
+    {
+      "originalNumber": 134,
+      "explanation": "Half-life is the time required for half the radioactive nuclei in a sample to decay."
+    },
+    {
+      "originalNumber": 135,
+      "explanation": "The Sun supplies most of Earth's incoming radiant energy."
+    },
+    {
+      "originalNumber": 136,
+      "explanation": "A right-angle phase difference is π/2 radians because 180° equals π radians."
+    },
+    {
+      "originalNumber": 137,
+      "explanation": "Electrical conductivity is the reciprocal of resistivity: σ = 1/ρ."
+    },
+    {
+      "originalNumber": 138,
+      "explanation": "Balmer-series transitions terminate at hydrogen's n = 2 level and produce mainly visible spectral lines."
+    },
+    {
+      "originalNumber": 139,
+      "explanation": "At the highest point, vertical velocity is zero but horizontal velocity remains u cosθ, so speed is smallest but nonzero."
+    },
+    {
+      "originalNumber": 140,
+      "explanation": "The forward momentum of the shell is balanced by backward recoil of the cannon, consistent with Newton's third law and momentum conservation."
+    },
+    {
+      "originalNumber": 141,
+      "explanation": "For an infinite charged sheet, E is proportional to surface charge density σ, so a 25% rise in σ raises E by 25%."
+    },
+    {
+      "originalNumber": 142,
+      "explanation": "Continuity gives A₁v₁ = A₂v₂ for incompressible steady flow; speed rises as pipe area narrows."
+    },
+    {
+      "originalNumber": 143,
+      "explanation": "For steady ideal flow, a narrower pipe produces higher fluid speed and lower static pressure by Bernoulli's principle."
+    },
+    {
+      "originalNumber": 144,
+      "explanation": "Faster airflow over the upper wing corresponds to lower static pressure, contributing to upward lift in the simplified Bernoulli model."
+    },
+    {
+      "originalNumber": 145,
+      "explanation": "The attractive strong nuclear force binds nucleons over short distances and overcomes electric repulsion between protons."
+    },
+    {
+      "originalNumber": 146,
+      "explanation": "Mechanical waves need particles in a medium to transmit vibrations; a vacuum has no such particles."
+    },
+    {
+      "originalNumber": 147,
+      "explanation": "Terminal voltage is V = ε − Ir during discharge; with zero current, there is no internal drop and V = ε."
+    },
+    {
+      "originalNumber": 148,
+      "explanation": "Lenz's law says induced current produces a magnetic effect opposing the increase in flux caused by the approaching magnet."
+    },
+    {
+      "originalNumber": 149,
+      "explanation": "Total energy of an SHM oscillator is E = ½kA², proportional to the square of amplitude."
+    },
+    {
+      "originalNumber": 150,
+      "explanation": "Gamma rays are at the high-frequency, high-photon-energy end of the electromagnetic spectrum and are highly penetrating."
+    },
+    {
+      "originalNumber": 151,
+      "explanation": "With no work done, the first law gives ΔU = Q; added heat increases internal energy."
+    },
+    {
+      "originalNumber": 152,
+      "explanation": "For unchanged area, material and temperature, R = ρL/A, so quadrupling length quadruples resistance."
+    },
+    {
+      "originalNumber": 153,
+      "explanation": "Since α describes fractional resistivity change per degree, its unit is K⁻¹."
+    },
+    {
+      "originalNumber": 154,
+      "explanation": "Lifting an object raises gravitational potential energy, so gravity does negative work (−mgΔh)."
+    },
+    {
+      "originalNumber": 155,
+      "explanation": "Coherent waves in phase reinforce when their path difference is an integer multiple of wavelength, including λ."
+    },
+    {
+      "originalNumber": 156,
+      "explanation": "At terminal velocity, drag balances effective weight, net force is zero and acceleration is zero."
+    },
+    {
+      "originalNumber": 157,
+      "explanation": "KE = ½mv² = ½ × 0.5 × 6² = 9 J."
+    },
+    {
+      "originalNumber": 158,
+      "explanation": "Turbulence begins when fluid velocity exceeds the critical value for the flow conditions (critical Reynolds number)."
+    },
+    {
+      "originalNumber": 159,
+      "explanation": "Electric fields from two equal positive charges point oppositely at their midpoint and cancel there."
+    },
+    {
+      "originalNumber": 160,
+      "explanation": "Without air resistance and for equal launch and landing height, a projectile's speed is greatest at launch and again on landing."
+    },
+    {
+      "originalNumber": 161,
+      "explanation": "Coulomb force F ∝ q₁q₂/r²; doubling both charges multiplies force by 4 and halving distance adds another factor of 4."
+    },
+    {
+      "originalNumber": 162,
+      "explanation": "For a perfectly elastic one-dimensional collision, relative speed of separation equals relative speed of approach: 4 m/s. The question assumes elasticity."
+    },
+    {
+      "originalNumber": 163,
+      "explanation": "Singular subject 'teacher' takes the singular present-tense verb 'gives'."
+    },
+    {
+      "originalNumber": 164,
+      "explanation": "The preposition 'in' indicates that the keys are inside the drawer."
+    },
+    {
+      "originalNumber": 165,
+      "explanation": "The comma introduces the quotation and the question mark correctly belongs inside the closing quotation mark."
+    },
+    {
+      "originalNumber": 166,
+      "explanation": "Elated means extremely happy or excited, especially after receiving good news."
+    },
+    {
+      "originalNumber": 167,
+      "explanation": "The collective noun 'board' is treated as singular here, so its possessive pronoun is 'its'."
+    },
+    {
+      "originalNumber": 168,
+      "explanation": "'As a result' introduces the consequence of overnight rainfall: flooded roads."
+    },
+    {
+      "originalNumber": 169,
+      "explanation": "'Explanation' is the correctly spelled noun meaning a reason or account given for being late."
+    },
+    {
+      "originalNumber": 170,
+      "explanation": "To 'unearth' irregularities is to discover or expose problems that were previously hidden."
+    },
+    {
+      "originalNumber": 171,
+      "explanation": "Examiner perspective: option A contains no spelling mistake; its phrasing ('invited me on a dinner party') is awkward but spelling is the tested skill."
+    },
+    {
+      "originalNumber": 172,
+      "explanation": "The sequence alternates two increasing series: odd positions 1,2,3,4,5 and even positions 4,5,6,7."
+    },
+    {
+      "originalNumber": 173,
+      "explanation": "If every daffodil is a plant and every plant is living, every daffodil is living; the other conclusions do not follow."
+    },
+    {
+      "originalNumber": 174,
+      "explanation": "Five people consume one 10-slice pie, or two slices each; 200 people require 400 slices."
+    },
+    {
+      "originalNumber": 175,
+      "explanation": "Statement i gives the fraction of trees cared for (half), and ii gives the number (300); together total = 300 ÷ ½ = 600."
+    },
+    {
+      "originalNumber": 176,
+      "explanation": "Q is N's mother and M and N share parents; P, their other parent, is therefore the father."
+    },
+    {
+      "originalNumber": 177,
+      "explanation": "Biscuits cost Rs 500/50 = Rs 10 each; chips cost Rs 1000/25 = Rs 40, so four biscuits equal one chip in price."
+    },
+    {
+      "originalNumber": 178,
+      "explanation": "The number doubles daily: 8, 16, 32, so the fourth-day count is 64."
+    },
+    {
+      "originalNumber": 179,
+      "explanation": "An unplanned workspace layout is a design defect that can increase the risk of accidents."
+    },
+    {
+      "originalNumber": 180,
+      "explanation": "Poor maintenance makes equipment more likely to malfunction and cause accidents."
+    }
+  ]
+}
