@@ -35,7 +35,9 @@ test("manual MCQ save persists to protected Management service before showing co
  assert.match(ui,/async function saveDraftItems\(/);
  assert.match(ui,/await saveDraftItems\(items/);
  assert.match(ui,/drafts=updatedRows;selected=-1/);
- assert.match(ui,/if\(next\)\$\("studio-new"\)\.click\(\)/);
+ assert.match(ui,/if\(next\)\{/);
+ assert.match(ui,/if\(following\)openFocusedLine\(following\.line\)/);
+ assert.match(ui,/else \$\("studio-new"\)\.click\(\)/);
  assert.match(ui,/saveInFlight/);
  assert.match(ui,/try\{await reloadBatchList\(\)/);
  assert.match(bridge,/await call\("batch\.save_rows"/);
