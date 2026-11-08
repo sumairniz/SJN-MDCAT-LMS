@@ -231,6 +231,7 @@
    $("studio-invalid").textContent=String(inspected.filter(x=>x.status==="invalid").length);
    $("studio-export").disabled=!inspected.length;
    routeControls();
+   if(studioView==="focus")renderFocus();
    return inspected;
  }
  function render(){
@@ -255,8 +256,11 @@
      const td3=cell("td",[item.entry.subject||"Unclassified",item.entry.chapter||"No chapter",item.entry.topic||"Unmapped topic"].join(" → "));
      const td4=cell("td",item.entry.question||"(missing statement)","studio-question-cell");
      const td5=document.createElement("td");
-     const button=cell("button","Review / Edit","studio-edit");button.type="button";
-     button.addEventListener("click",()=>openEditor(item.line));
+     const button=cell("button",locked()?"Inspect Question":"Edit Question","studio-edit");button.type="button";
+     button.addEventListener("click",()=>{
+       if(studioView!=="focus")openWorkspace({inspect:locked(),line:item.line});
+       else openFocusedLine(item.line);
+     });
      td5.append(button);
      if(item.taxonomy?.status==="blocked"){
        const choose=cell("button","Match Syllabus Topic","studio-edit");choose.type="button";
@@ -274,15 +278,14 @@
    }
  }
  function openEditor(line){
-   if(savedStatus==="pending_review"||savedStatus==="approved_for_release"){
-     feedback("This batch is locked while awaiting review or release. Withdraw a pending review to edit it.",true);return;
-   }
+   if(locked()||inspectMode){const row=drafts.find(x=>x.line===line);if(row)focusReadOnlyQuestion(row);return;}
    const index=drafts.findIndex(x=>x.line===line);
    if(index<0)return;
-   selected=index;writeEditor(drafts[index].entry);
-   $("studio-editor-heading").textContent="Review draft row "+line;
-   $("studio-save").textContent="Update Draft";
-   show("studio-editor",true);
+   focusLine=line;selected=index;writeEditor(drafts[index].entry);
+   $("studio-editor-heading").textContent="Edit Question "+line;
+   $("studio-save").textContent="Save Question";
+   show("studio-focus-readonly",false);show("studio-focus-empty",false);
+   show("studio-editor",true);focusFormSnapshot();setStudioView("focus");
    window.MedNestMCQAssist?.previewNew();
    $("studio-editor").scrollIntoView({behavior:"smooth",block:"nearest"});
  }
@@ -314,11 +317,14 @@
        entries=core.importCSV(window.MedNestXLSX.toCSV(workbook.rows));
      }else entries=core.importCSV(await file.text());
      if(!entries.length)throw Error("This CSV has no question rows.");
-     if(entries.length+drafts.length>core.MAX_ROWS)throw Error("Draft preview can hold up to 10,000 rows.");
+     if(entries.length+drafts.length>3000)throw Error("One protected draft supports up to 3,000 questions. Start another draft for additional rows.");
+     if(locked())throw Error("Submitted drafts are locked. Start another draft.");
      const nextLine=drafts.length?Math.max(...drafts.map(x=>x.line))+1:1;
      drafts.push(...entries.map((x,i)=>({line:nextLine+i,entry:canonicalizeExact(x.entry)})));
      modified();page=0;filter="all";$("studio-filter").value="all";render();
-     feedback("Imported "+entries.length+" rows into draft review. Match uncertain topics before publishing. No LMS content changed.");
+     focusLine=null;inspectMode=false;setStudioView("focus");
+     feedback("Imported "+entries.length+" questions. Save Draft to retain them securely. Nothing published.");
+     focusStateMessage("Imported "+entries.length+" questions. Click Save Draft to store this batch.");
    }catch(e){feedback(e.message,true)}
    finally{event.target.value=""}
  });
@@ -441,30 +447,38 @@
  window.addEventListener("mednest:syllabus-updated",loadTaxonomy);
  loadTaxonomy();
  $("studio-new").addEventListener("click",()=>{
-   if(savedStatus==="pending_review"||savedStatus==="approved_for_release"){
+   if(saveInFlight||!askAbandonForm())return;
+   if(locked()){
      feedback("This draft is locked after submission. Start Another Draft or withdraw a pending request first.",true);return;
    }
    const last=drafts[drafts.length-1]?.entry||{};
+   focusLine=null;inspectMode=false;
    selected=-1;writeEditor({bank:last.bank||"SJN Question Bank",subject:last.subject||"Biology",
      chapter:last.chapter||"",topic:last.topic||"",source:last.source||"",
      region:last.region||"",year:last.year||"",paper_code:last.paper_code||""});
    $("studio-editor-heading").textContent="Add question "+(drafts.length+1)+" to this draft";
    $("studio-save").textContent="Save Question";
-   show("studio-editor",true);
+   show("studio-focus-readonly",false);show("studio-focus-empty",false);
+   show("studio-editor",true);focusFormSnapshot();setStudioView("focus");
    window.MedNestMCQAssist?.previewNew();
    $("studio-question").focus();
  });
- $("studio-cancel").addEventListener("click",()=>{selected=-1;advanceOnSave=false;show("studio-editor",false)});
+ $("studio-cancel").addEventListener("click",()=>{
+   if(saveInFlight||!askAbandonForm())return;
+   selected=-1;advanceOnSave=false;editorSnapshot=null;
+   show("studio-editor",false);show("studio-focus-empty",true);renderFocus();
+ });
  $("studio-save-next").addEventListener("click",()=>{
    advanceOnSave=true;
    $("studio-editor-form").requestSubmit();
  });
  $("studio-new-set").addEventListener("click",()=>{
+   if(saveInFlight||!askAbandonForm())return;
    if(dirty&&drafts.length&&!window.confirm("This working draft has unsaved changes. Start a new draft without saving them?"))return;
    drafts=[];selected=-1;page=0;filter="all";savedBatchId=null;clientBatchKey=null;
-   savedStatus="unsaved";dirty=false;
+   savedStatus="unsaved";dirty=false;editorSnapshot=null;focusLine=null;inspectMode=false;
    $("studio-filter").value="all";$("studio-batch-name").value="New MCQ Draft";
-   $("studio-saved-batches").value="";show("studio-editor",false);render();
+   $("studio-saved-batches").value="";show("studio-editor",false);setStudioView("drafts");render();
    storageStatus("New blank draft ready. Add questions manually or import an Excel file.");
  });
  $("studio-editor-form").addEventListener("submit",event=>{
@@ -635,6 +649,8 @@
    storageStatus("Signed out. Browser draft data cleared; saved Management Auth batches remain protected.");
  });
  $("studio-editor").classList.add("is-hidden");
+ $("studio-focus-editor-stage").append($("studio-editor"));
+ setStudioView("drafts");
  window.addEventListener("mednest:authorized",()=>reloadBatchList().catch(e=>storageStatus(e.message,true)));
  render();
 })();
