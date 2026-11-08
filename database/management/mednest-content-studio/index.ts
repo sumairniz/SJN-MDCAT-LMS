@@ -115,7 +115,7 @@ Deno.serve(async req=>{
  }
 
  // All lifecycle actions are Management-only. None publishes content to students.
- async function validateStoredRows(){
+ async function validateStoredRows(requireReleaseReady=false){
   let start=0,count=0;const errors=[];
   while(start<3000){
    const {data,error}=await db.from("mednest_content_draft_rows")
@@ -138,6 +138,8 @@ Deno.serve(async req=>{
     const correct=f.correct_option.trim().toUpperCase();
     if(!["A","B","C","D"].includes(correct) && !(correct==="E"&&f.option_e?.trim()))
      errors.push("Question "+row.position+": invalid correct answer");
+    if(requireReleaseReady&&f.option_e?.trim())
+     errors.push("Question "+row.position+": five-option questions cannot be marked ready for release until Student LMS supports Option E");
     if(!["Biology","Chemistry","Physics","English","Logical Reasoning"].includes(f.subject))
      errors.push("Question "+row.position+": unsupported subject");
     if(["English","Logical Reasoning"].includes(f.subject)&&
@@ -158,7 +160,7 @@ Deno.serve(async req=>{
   if(direct&&actor.technical_role!=="chief_admin")
    return reply(origin,403,{error:"Direct release preparation requires Chief Administrator authorization"});
   let validation;
-  try{validation=await validateStoredRows()}
+  try{validation=await validateStoredRows(direct)}
   catch{return reply(origin,503,{error:"Server validation unavailable"})}
   if(validation.errors.length)return reply(origin,422,{error:"Correct draft questions before submission",issues:validation.errors});
   const state=direct?"approved_for_release":"pending_review";
@@ -193,6 +195,13 @@ Deno.serve(async req=>{
   if(!["approve","needs_changes"].includes(decision)||
      reason.length>1000||(decision==="needs_changes"&&reason.length<5))
    return reply(origin,400,{error:"Select a valid decision and supply a correction reason when needed"});
+  if(decision==="approve"){
+   let validation;
+   try{validation=await validateStoredRows(true)}
+   catch{return reply(origin,503,{error:"Review validation unavailable"})}
+   if(validation.errors.length)
+    return reply(origin,422,{error:"Batch is not yet eligible for release approval",issues:validation.errors});
+  }
   const next=decision==="approve"?"approved_for_release":"needs_changes";
   const {data:changed,error}=await db.from("mednest_content_draft_batches")
    .update({status:next,review_actor_user_id:user.id,review_action_at:new Date().toISOString(),
