@@ -49,6 +49,12 @@
       for(const x of document.querySelectorAll('#mcq-lib-edit-form input[id^="mcq-lib-edit-"],#mcq-lib-edit-form textarea,#mcq-lib-edit-form select'))originals.set(x.id,x.value);
       changes();preview("mcq-lib-edit-","mcq-lib-live-preview",false);
     },
+    hasUnsavedCorrection(){
+      const editor=$("mcq-lib-editor");
+      if(!editor||editor.classList.contains("is-hidden")||!originals.size)return false;
+      for(const [id,value] of originals){if($(id)?.value!==value)return true}
+      return false;
+    },
     previewExisting(){preview("mcq-lib-edit-","mcq-lib-live-preview",false)},
     previewNew(){preview("studio-","studio-live-preview",true)}
   });
