@@ -51,7 +51,9 @@ test("Browser controls explicitly save/load drafts and clear sensitive memory on
  assert.ok(ui.includes('storage().load(id)'));
  assert.ok(ui.includes('window.addEventListener("mednest:signed-out"'));
  assert.ok(ui.includes("savedBatchId=null;clientBatchKey=null;"));
- assert.ok(ui.includes("Replace current browser drafts"));
+ assert.ok(ui.includes("Your current draft has unsaved changes."));
+ assert.ok(ui.includes("dirty||formChanged()"));
+ assert.ok(ui.includes("openSavedBatch(id)"));
  assert.ok(bridge.includes('storageKey:"sjn-mednest-isolated-staff-v1"'));
  assert.ok(bridge.includes('const API=URL+"/functions/v1/mednest-content-studio"'));
  assert.ok(bridge.includes('for(let i=0;i<items.length;i+=40)'));
