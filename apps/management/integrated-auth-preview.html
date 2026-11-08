@@ -161,7 +161,7 @@
     <article><span>Approved for release</span><strong id="review-approved-count">0</strong></article>
     <article><span>Student publications</span><strong>0</strong><small>Disabled</small></article>
   </div>
-  <div class="studio-panels">
+  <div class="studio-panels studio-content-panels">
     <section class="studio-panel">
       <h2>Submit an MCQ Correction for Review</h2>
       <p>Revisions made through Question Content Studio can be submitted here. A submission freezes the exact draft version, original MCQ ID and source revision for reviewers. Direct mode bypasses additional review only when Chief authorizes that policy; it still cannot publish to students.</p>
@@ -272,23 +272,37 @@
       <div class="studio-workflow"><span>Find MCQ</span><span>→</span><span>Edit individual fields</span><span>→</span><span>Save Draft</span><span>→</span><span>Academic Review</span></div>
       <p class="studio-feedback" id="mcq-lib-change-summary" role="status" aria-live="polite">No fields changed yet.</p>
       <form id="mcq-lib-edit-form">
-        <div class="studio-editor-grid">
-          <div class="studio-field studio-field--wide"><h3>Classification &amp; source</h3><p class="tiny-text">Original source and bank are preserved. Chapter/topic labels remain provisional until approved in the Master Syllabus.</p></div>
-          <div class="studio-field"><label for="mcq-lib-edit-bank">Existing bank (read-only)</label><input id="mcq-lib-edit-bank" readonly></div>
-          <div class="studio-field"><label for="mcq-lib-edit-subject">Subject</label><input id="mcq-lib-edit-subject" maxlength="80" required></div>
-          <div class="studio-field"><label for="mcq-lib-edit-chapter">Chapter (provisional until syllabus tagged)</label><input id="mcq-lib-edit-chapter" maxlength="160"></div>
-          <div class="studio-field"><label for="mcq-lib-edit-topic">Topic (provisional until syllabus tagged)</label><input id="mcq-lib-edit-topic" maxlength="160"></div>
-          <div class="studio-field studio-field--wide"><h3>Question &amp; answers</h3><label for="mcq-lib-edit-question">Question statement</label><div class="studio-format-bar" data-editor-target="mcq-lib-edit-question"><button type="button" data-insert="• ">• Bullet</button><button type="button" data-insert="I. ">I. Statement</button><button type="button" data-insert="→">→</button><button type="button" data-insert="⇒">⇒</button><button type="button" data-insert="⇌">⇌</button><button type="button" data-insert="↑">↑</button></div><textarea id="mcq-lib-edit-question" rows="5" maxlength="6000" required placeholder="Use line breaks for numbered statements or logical reasoning passages"></textarea></div>
-          <div class="studio-field"><label for="mcq-lib-edit-option_a">Option A</label><textarea id="mcq-lib-edit-option_a" rows="2" maxlength="6000" required></textarea></div>
-          <div class="studio-field"><label for="mcq-lib-edit-option_b">Option B</label><textarea id="mcq-lib-edit-option_b" rows="2" maxlength="6000" required></textarea></div>
-          <div class="studio-field"><label for="mcq-lib-edit-option_c">Option C</label><textarea id="mcq-lib-edit-option_c" rows="2" maxlength="6000" required></textarea></div>
-          <div class="studio-field"><label for="mcq-lib-edit-option_d">Option D</label><textarea id="mcq-lib-edit-option_d" rows="2" maxlength="6000" required></textarea></div>
-          <div class="studio-field"><label for="mcq-lib-edit-correct_option">Correct option (A–D for existing published MCQs)</label><select id="mcq-lib-edit-correct_option"><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select></div>
-          <div class="studio-field"><label for="mcq-lib-edit-source">Source / paper (required for past-paper questions)</label><input id="mcq-lib-edit-source" maxlength="250"></div>
-          <div class="studio-field studio-field--wide"><h3>Explanation &amp; optional mnemonic</h3><label for="mcq-lib-edit-explanation">Textbook-aligned explanation</label><textarea id="mcq-lib-edit-explanation" rows="3" maxlength="6000"></textarea></div>
-          <div class="studio-field studio-field--wide"><label for="mcq-lib-edit-mnemonic">Mnemonic (optional)</label><textarea id="mcq-lib-edit-mnemonic" rows="2" maxlength="2000"></textarea></div>
-          <div class="studio-field studio-field--wide"><label for="mcq-lib-syllabus-topic">Approved master syllabus classification (optional until syllabus approved)</label><select id="mcq-lib-syllabus-topic"><option value="">Not yet mapped — preserve existing classification for now</option></select></div>
-        </div>
+        <fieldset class="studio-section">
+          <legend>Question &amp; Answers</legend>
+          <div class="studio-field">
+            <label for="mcq-lib-edit-question">Question statement</label>
+            <div class="studio-format-bar" data-editor-target="mcq-lib-edit-question"><button type="button" data-insert="• ">• Bullet</button><button type="button" data-insert="I. ">I. Statement</button><button type="button" data-insert="→">→</button><button type="button" data-insert="⇒">⇒</button><button type="button" data-insert="⇌">⇌</button><button type="button" data-insert="↑">↑</button></div>
+            <textarea id="mcq-lib-edit-question" rows="5" maxlength="6000" required placeholder="Question text, numbered statements or formulas"></textarea>
+          </div>
+          <div class="studio-editor-grid">
+            <div class="studio-field"><label for="mcq-lib-edit-option_a">Option A</label><textarea id="mcq-lib-edit-option_a" rows="2" maxlength="6000" required></textarea></div>
+            <div class="studio-field"><label for="mcq-lib-edit-option_b">Option B</label><textarea id="mcq-lib-edit-option_b" rows="2" maxlength="6000" required></textarea></div>
+            <div class="studio-field"><label for="mcq-lib-edit-option_c">Option C</label><textarea id="mcq-lib-edit-option_c" rows="2" maxlength="6000" required></textarea></div>
+            <div class="studio-field"><label for="mcq-lib-edit-option_d">Option D</label><textarea id="mcq-lib-edit-option_d" rows="2" maxlength="6000" required></textarea></div>
+            <div class="studio-field"><label for="mcq-lib-edit-correct_option">Correct answer</label><select id="mcq-lib-edit-correct_option"><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select></div>
+          </div>
+        </fieldset>
+        <fieldset class="studio-section">
+          <legend>Explanation &amp; Mnemonic</legend>
+          <div class="studio-field"><label for="mcq-lib-edit-explanation">Explanation (why the answer is correct)</label><textarea id="mcq-lib-edit-explanation" rows="3" maxlength="6000"></textarea></div>
+          <div class="studio-field"><label for="mcq-lib-edit-mnemonic">Mnemonic (optional memory aid)</label><textarea id="mcq-lib-edit-mnemonic" rows="2" maxlength="2000"></textarea></div>
+        </fieldset>
+        <details class="studio-section studio-advanced" id="mcq-lib-classification-details">
+          <summary>Classification &amp; Source</summary>
+          <div class="studio-editor-grid">
+            <div class="studio-field"><label for="mcq-lib-edit-bank">Existing Question Bank (read-only)</label><input id="mcq-lib-edit-bank" readonly></div>
+            <div class="studio-field"><label for="mcq-lib-edit-subject">Subject</label><input id="mcq-lib-edit-subject" maxlength="80" required></div>
+            <div class="studio-field"><label for="mcq-lib-edit-chapter">Chapter</label><input id="mcq-lib-edit-chapter" maxlength="160"></div>
+            <div class="studio-field"><label for="mcq-lib-edit-topic">Topic</label><input id="mcq-lib-edit-topic" maxlength="160"></div>
+            <div class="studio-field studio-field--wide"><label for="mcq-lib-edit-source">Original source / paper (required for past-paper questions)</label><input id="mcq-lib-edit-source" maxlength="250"></div>
+            <div class="studio-field studio-field--wide"><label for="mcq-lib-syllabus-topic">Approved Academy syllabus topic (optional until master syllabus approved)</label><select id="mcq-lib-syllabus-topic"><option value="">Not yet mapped — preserve original classification</option></select></div>
+          </div>
+        </details>
         <div class="studio-section"><h3>Student-style preview</h3><p class="tiny-text">Safe, unpublished preview of what students would read. Not a student publication.</p><div id="mcq-lib-live-preview" class="studio-mcq-preview" aria-live="polite"></div></div><div class="studio-editor-actions"><button id="mcq-lib-save" type="submit" class="primary-btn">Save Unpublished Correction Draft</button><button id="mcq-lib-reset" type="button" class="secondary-btn">Reset to Published Source</button></div>
       </form>
       <p class="studio-feedback" id="mcq-lib-editor-status" role="status" aria-live="polite">No MCQ editing session opened.</p>
@@ -337,13 +351,13 @@
       <input class="studio-file" id="studio-file" type="file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
       <p>CSV and Excel (.xlsx) first-worksheet imports are supported in this development version. Academy-approved master syllabus labels are matched by subject/chapter/topic; temporary legacy MCQ labels are not treated as approved syllabus. Direct student publishing remains disabled.</p>
     </section>
-    <section class="studio-panel">
-      <h2>Quality &amp; Source Protection</h2>
+    <details class="studio-panel studio-advanced">
+      <summary>Advanced: Academic Source Rules &amp; Export</summary>
       <p>Questions in the original Past Papers Question Bank require a traceable source. No AI-generated answer-key corrections are applied. Warnings call for manual academic review.</p>
       <p><strong>Approved ordinary banks:</strong> SJN Question Bank (new academy-authored drafts) and Past Papers Question Bank (original exam-source content).</p>
       <p><strong>Course Tests:</strong> remain a separate protected question pool, not imported here. The original source-paper records and immutable student attempt revisions are untouched.</p>
       <div class="studio-actions"><button type="button" id="studio-export" disabled>Export Unpublished Drafts</button><button type="button" id="studio-clear">Clear Browser Drafts</button></div>
-    </section>
+    </details>
   </div>
   <details class="studio-panel studio-advanced" aria-label="Advanced taxonomy correction tools"><summary>Advanced: Bulk Topic Spelling Corrections</summary>
     <h2>Bulk Topic Spelling Corrections — Review Only</h2>
