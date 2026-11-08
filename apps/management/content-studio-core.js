@@ -10,7 +10,7 @@
   "use strict";
   const BANKS=Object.freeze(["SJN Question Bank","Past Papers Question Bank"]);
   const SUBJECTS=Object.freeze(["Biology","Chemistry","Physics","English","Logical Reasoning"]);
-  const HEADERS=Object.freeze(["bank","subject","chapter","topic","question","option_a","option_b","option_c","option_d","correct_option","explanation","mnemonic","source","region","year","paper_code"]);
+  const HEADERS=Object.freeze(["bank","subject","chapter","topic","question","option_a","option_b","option_c","option_d","option_e","correct_option","explanation","mnemonic","source","region","year","paper_code"]);
   const MAX_FILE_CHARS=7_500_000;
   const MAX_ROWS=10_000;
   const required=Object.freeze(["bank","subject","chapter","topic","question","option_a","option_b","option_c","option_d","correct_option"]);
@@ -75,16 +75,16 @@
     for(const field of ["chapter","topic","question","option_a","option_b","option_c","option_d"]){
       if(!hasValue(text(field)))errors.push(field.replace(/_/g," ")+" is required.");
     }
-    for(const field of ["question","option_a","option_b","option_c","option_d"]){
+    for(const field of ["question","option_a","option_b","option_c","option_d","option_e"]){
       if(text(field).length>6000)errors.push(field.replace(/_/g," ")+" exceeds 6,000 characters.");
     }
     if(entry.__csv_error)errors.push(entry.__csv_error);
-    const opts=["option_a","option_b","option_c","option_d"].map(text);
-    if(opts.every(hasValue)&&new Set(opts.map(x=>x.trim().toLowerCase())).size<4)
+    const opts=["option_a","option_b","option_c","option_d","option_e"].map(text).filter(hasValue);
+    if(opts.length>=4&&new Set(opts.map(x=>x.trim().toLowerCase())).size<opts.length)
       warnings.push("Repeated answer options: review before submitting.");
     const answer=text("correct_option").trim().toUpperCase();
-    if(!["A","B","C","D"].includes(answer))
-      errors.push("Correct option must be A, B, C or D.");
+    if(!["A","B","C","D",...(hasValue(text("option_e"))?["E"]:[])].includes(answer))
+      errors.push("Correct option must be A, B, C or D"+(hasValue(text("option_e"))?" or E.":". Add Option E before selecting E."));
     if(text("bank")==="Past Papers Question Bank"&&!hasValue(text("source")))
       errors.push("Original past-paper source is required and must remain traceable.");
     if(["English","Logical Reasoning"].includes(text("subject"))&&
@@ -98,11 +98,14 @@
       warnings.push("Paper year should use a four-digit year like 2025.");
     if(text("bank")==="SJN Question Bank"&&hasValue(text("paper_code")))
       warnings.push("Paper code was supplied for an academy-curated question.");
-    return {errors,warnings,correct_index:["A","B","C","D"].indexOf(answer)};
+    // A fifth option is valid in Management-only unpublished drafts. The Student LMS
+    // is still four-choice: never treat this validation as publication approval.
+    if(hasValue(text("option_e")))warnings.push("Five-option MCQ: student publishing remains disabled until examination compatibility is verified.");
+    return {errors,warnings,correct_index:["A","B","C","D","E"].indexOf(answer)};
   }
   function fingerprint(row){
     const f=key=>String(row[key]||"").trim().replace(/\s+/g," ").toLowerCase();
-    return ["bank","question","option_a","option_b","option_c","option_d"].map(f).join("\u001f");
+    return ["bank","question","option_a","option_b","option_c","option_d","option_e"].map(f).join("\u001f");
   }
   function inspectDrafts(input){
     if(!Array.isArray(input)||input.length>MAX_ROWS)throw Error("Draft must contain no more than 10,000 rows.");
@@ -132,12 +135,13 @@
       }))
     };
   }
-  function csvTemplate(){
+  function csvTemplate(bank="SJN Question Bank"){
+    if(!BANKS.includes(bank))throw Error("Unsupported bank template.");
     const example=[
-      "Past Papers Question Bank","Biology","Biological Molecules",
+      bank,"Biology","Biological Molecules",
       "Introduction to Biological Molecules","Insert original question exactly",
-      "Option A","Option B","Option C","Option D","B",
-      "Brief textbook-aligned explanation","","UHS 2025","punjab","2025",""
+      "Option A","Option B","Option C","Option D","","B",
+      "Brief textbook-aligned explanation","",bank==="Past Papers Question Bank"?"UHS MDCAT 2025":"","","",""
     ];
     const quote=s=>'"'+String(s).replace(/"/g,'""')+'"';
     return HEADERS.map(quote).join(",")+"\r\n"+example.map(quote).join(",")+"\r\n";
