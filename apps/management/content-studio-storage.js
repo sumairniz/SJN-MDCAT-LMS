@@ -18,7 +18,11 @@ async function call(action,props={}){
   body:JSON.stringify({action,...props})
  });
  const data=await reply.json().catch(()=>({}));
- if(!reply.ok)throw Error(data.error||"Protected draft storage temporarily unavailable.");
+ if(!reply.ok){
+  const issues=Array.isArray(data.issues)?data.issues.slice(0,8).map(x=>String(x).slice(0,200)):[];
+  throw Error((data.error||"Protected draft storage temporarily unavailable.")+
+   (issues.length?" — "+issues.join(" | "):""));
+ }
  return data;
 }
 async function save({batchId,clientKey,title,items,onProgress}){
