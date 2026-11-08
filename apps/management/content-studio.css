@@ -47,3 +47,23 @@
 #mcq-lib-paging{color:var(--muted);font-size:12px}
 #mcq-lib-syllabus-topic{width:100%}
 #mcq-lib-editor .studio-editor-actions{align-items:center}
+
+/* November 8 staff workflow refinement: safe text previews, responsive editor. */
+.studio-workflow{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:12px 14px;margin:12px 0;border:1px solid var(--line);border-radius:11px;background:var(--panel-alt);font-size:12px;font-weight:700;color:var(--text)}
+.studio-workflow span:nth-child(even){color:var(--muted)}
+.studio-format-bar{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+.studio-format-bar button{border:1px solid var(--line);border-radius:8px;background:var(--panel-alt);color:var(--text);padding:7px 10px;font:inherit;font-size:12px;cursor:pointer}
+.studio-format-bar button:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.studio-section{border:1px solid var(--line);border-radius:11px;margin:14px 0;padding:14px;min-width:0}
+.studio-section h3,.studio-editor-grid h3{margin:0 0 8px;font-size:14px;color:var(--text)}
+.studio-mcq-preview{padding:15px;border:1px solid var(--line);border-radius:11px;background:var(--panel-alt);color:var(--text);font-size:13px;line-height:1.6}
+.studio-mcq-statement{white-space:pre-wrap;overflow-wrap:anywhere;font-weight:650;margin-bottom:12px}
+.studio-mcq-choice{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;margin-bottom:6px;border:1px solid var(--line);border-radius:9px;white-space:pre-wrap;overflow-wrap:anywhere}
+.studio-mcq-choice strong{flex:none;color:var(--muted)}
+.studio-mcq-choice span{min-width:0}
+.studio-mcq-note{white-space:pre-wrap;overflow-wrap:anywhere;padding:9px 0;border-top:1px solid var(--line);margin-top:8px}
+.studio-preview-answer{font-weight:700;margin:12px 0 0!important}
+#mcq-lib-edit-form .studio-editor-grid{align-items:start}
+#mcq-lib-edit-form .studio-field--wide > h3{margin:10px 0}
+#mcq-lib-editor textarea,#studio-editor textarea{white-space:pre-wrap}
+@media(max-width:560px){.studio-workflow{font-size:11px;gap:5px}.studio-format-bar button{padding:9px}.studio-mcq-preview{padding:11px}}
