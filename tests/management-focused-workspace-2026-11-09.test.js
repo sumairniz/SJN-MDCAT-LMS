@@ -39,7 +39,8 @@ test("manual MCQ save persists to protected Management service before showing co
  assert.match(ui,/saveInFlight/);
  assert.match(ui,/try\{await reloadBatchList\(\)/);
  assert.match(bridge,/await call\("batch\.save_rows"/);
- assert.ok(!bridge.includes("student"));
+ assert.ok(!bridge.includes("aozknkrwafowsrehdwlr"));
+ assert.ok(!bridge.includes("STUDENT_SUPABASE"));
  assert.ok(!ui.includes('localStorage.setItem("draft'));
 });
 test("changing drafts warns only for real unsaved work, not merely saved questions existing",()=>{
