@@ -481,23 +481,78 @@
    $("studio-saved-batches").value="";show("studio-editor",false);setStudioView("drafts");render();
    storageStatus("New blank draft ready. Add questions manually or import an Excel file.");
  });
- $("studio-editor-form").addEventListener("submit",event=>{
+
+ async function saveDraftItems(items,{updateAll=false,onProgress}={}){
+   if(saveInFlight)throw Error("A save is already in progress.");
+   if(locked())throw Error("Submitted and approved batches are read-only.");
+   if(!items.length||items.length>3000)throw Error("Draft must contain 1–3,000 questions.");
+   const title=$("studio-batch-name").value.trim();
+   if(!title)throw Error("Please give your draft a name before saving questions.");
+   if(savedBatchId&&!updateAll&&items.length!==1)
+     throw Error("Save one changed question or the whole batch.");
+   if(!clientBatchKey)clientBatchKey=window.crypto.randomUUID();
+   saveInFlight=true;
+   busy(true);
+   for(const id of ["studio-save","studio-save-next","studio-cancel","studio-focus-save","studio-focus-add"])
+     $(id).disabled=true;
+   try{
+     const result=await storage().save({
+       batchId:savedBatchId,clientKey:clientBatchKey,title,items,
+       onProgress:onProgress||((done,total)=>focusStateMessage("Securely saving "+done+" of "+total+" question"+(total===1?"":"s")+"…"))
+     });
+     savedBatchId=result.batchId;clientBatchKey=result.clientKey;
+     savedStatus="draft";dirty=false;
+     $("studio-batch-name").readOnly=true;
+     focusStateMessage("Saved securely · "+new Date().toLocaleTimeString()+". Nothing published.");
+     routeControls();
+     return result;
+   }finally{
+     saveInFlight=false;
+     busy(false);
+     for(const id of ["studio-save","studio-save-next","studio-cancel","studio-focus-add"])
+       $(id).disabled=false;
+     routeControls();renderFocus();
+   }
+ }
+ $("studio-editor-form").addEventListener("submit",async event=>{
    event.preventDefault();
+   if(saveInFlight||locked()||inspectMode)return;
    const entry=canonicalizeExact(readEditor()),result=core.validate(entry);
    if(result.errors.length){
      advanceOnSave=false;
-     feedback("Draft validation: "+result.errors.join(" "),true);
+     feedback("Please correct: "+result.errors.join(" "),true);
+     focusStateMessage("Please correct: "+result.errors.join(" "),true);
      return;
    }
-   if(selected>=0)drafts[selected].entry=entry;
-   else {
-     const nextLine=drafts.length?Math.max(...drafts.map(x=>x.line))+1:1;
-     drafts.push({line:nextLine,entry});
-   }
    const next=advanceOnSave;advanceOnSave=false;
-   modified();selected=-1;show("studio-editor",false);render();
-   if(next)$("studio-new").click();
-   feedback("New MCQ draft updated in this browser session only. "+(result.warnings.length?result.warnings.join(" "):"Ready for validation.")+" Save Draft Batch to retain it securely. This is NOT yet an Academic Reviews submission or student publication.");
+   const index=selected;
+   const position=index>=0?drafts[index].line:
+     (drafts.length?Math.max(...drafts.map(x=>x.line))+1:1);
+   if(position>3000){
+     focusStateMessage("One protected draft supports 3,000 questions. Create another draft.",true);return;
+   }
+   const candidate={line:position,entry};
+   const updatedRows=index>=0?drafts.map((x,i)=>i===index?candidate:x):[...drafts,candidate];
+   // When previous imported/edited rows were not yet saved, persist all of
+   // them on the first question save; otherwise send only this one row.
+   const items=dirty||!savedBatchId?updatedRows:[candidate];
+   try{
+     await saveDraftItems(items,{updateAll:items.length>1});
+     drafts=updatedRows;selected=-1;editorSnapshot=null;focusLine=position;
+     show("studio-editor",false);show("studio-focus-readonly",false);
+     show("studio-focus-empty",!next);
+     render();
+     try{await reloadBatchList();$("studio-saved-batches").value=savedBatchId}
+     catch(e){storageStatus("Question saved. Refresh the draft list to see the latest label.");}
+     focusStateMessage("Question "+position+" saved to your protected draft.");
+     feedback("Question "+position+" saved securely to Management. "+(result.warnings.length?"Checks: "+result.warnings.join(" "):"")+" Nothing published.");
+     if(next)$("studio-new").click();
+   }catch(e){
+     editorSnapshot=JSON.stringify(entry); // Keep editable content in place for retry.
+     focusFormSnapshot();
+     focusStateMessage("Save failed. Your question is still in the editor. Try again: "+e.message,true);
+     feedback("Save failed; question has not been confirmed in protected storage. "+e.message,true);
+   }
  });
  $("studio-filter").addEventListener("change",event=>{filter=event.target.value;page=0;render()});
  $("studio-prev").addEventListener("click",()=>{page=Math.max(0,page-1);render()});
@@ -576,29 +631,24 @@
    catch(e){storageStatus(e.message,true)}
    finally{busy(false)}
  });
+
  $("studio-save-batch").addEventListener("click",async()=>{
-   busy(true);
-   const currentBatchId=savedBatchId;
    try{
-     if(!drafts.length)throw Error("Add or import MCQ drafts first.");
-     if(savedStatus==="pending_review"||savedStatus==="approved_for_release")throw Error("Submitted or approved drafts cannot be edited.");
-     const title=$("studio-batch-name").value.trim();
-     if(!title)throw Error("Enter a name for this draft batch.");
-     if(drafts.length>3000)throw Error("Protected storage supports 3,000 rows per batch. Split larger imports.");
-     // Keep idempotency token in memory to safely resume failed chunk uploads.
-     if(!clientBatchKey)clientBatchKey=window.crypto.randomUUID();
-     const result=await storage().save({
-       batchId:currentBatchId,clientKey:clientBatchKey,title,items:drafts,
-       onProgress:(done,total)=>storageStatus("Securely saved "+done+" of "+total+" draft rows…")
+     if(saveInFlight)return;
+     if(formChanged())throw Error("Save the currently open question before saving the batch.");
+     if(!drafts.length)throw Error("Add or import a question first.");
+     const result=await saveDraftItems(drafts,{
+       updateAll:true,
+       onProgress:(done,total)=>storageStatus("Securely saved "+done+" of "+total+" questions…")
      });
-     savedBatchId=result.batchId;
-     clientBatchKey=result.clientKey;
-     savedStatus="draft";dirty=false;routeControls();
-     storageStatus("Saved "+result.saved+" draft rows to Management Auth. This did NOT publish or alter student MCQs.");
-     await reloadBatchList();
-     $("studio-saved-batches").value=savedBatchId;
-   }catch(e){storageStatus(e.message,true)}
-   finally{busy(false)}
+     storageStatus("Protected draft saved · "+result.saved+" questions. Student publication remains disabled.");
+     focusStateMessage("All "+result.saved+" questions saved to your protected draft.");
+     try{await reloadBatchList();$("studio-saved-batches").value=savedBatchId}
+     catch{storageStatus("Draft saved. Refresh the list if its label is not updated.")}
+   }catch(e){
+     storageStatus(e.message,true);
+     focusStateMessage("Batch not fully saved: "+e.message,true);
+   }
  });
  $("studio-load-batch").addEventListener("click",async()=>{
    const id=$("studio-saved-batches").value;
