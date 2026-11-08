@@ -89,3 +89,14 @@
 #audit-event-list .staff-row strong{font-size:13px}
 #audit-event-list .staff-row p{font-size:12px;overflow-wrap:anywhere}
 @media(max-width:700px){.studio-draft-hub{padding:15px}.studio-draft-hub .studio-toolbar>*{width:100%}.studio-draft-hub .studio-editor-actions button{flex:1 1 170px}}
+
+/* Student-facing question content is prominent; complex settings are opt-in. */
+.studio-content-panels{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.studio-content-panels>.studio-panel{margin:0}
+#mcq-lib-editor fieldset.studio-section{padding:16px;margin:14px 0}
+#mcq-lib-editor fieldset.studio-section legend{font-weight:800;font-size:14px;padding:0 7px}
+#mcq-lib-editor fieldset.studio-section>.studio-field{margin-bottom:14px}
+#mcq-lib-editor .studio-editor-grid{margin-top:8px}
+#mcq-lib-editor details.studio-section>summary{font-size:13px;font-weight:750;cursor:pointer}
+#mcq-lib-editor details.studio-section[open]>summary{margin-bottom:12px}
+#mcq-lib-editor .studio-section textarea{width:100%;border-radius:9px}
