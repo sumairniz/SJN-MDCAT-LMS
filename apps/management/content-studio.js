@@ -92,7 +92,7 @@
    }
    for(const item of shown.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE)){
      const tr=document.createElement("tr");
-     const status=cell("span",item.status.toUpperCase(),"studio-status studio-status--"+item.status);
+     const status=cell("span",item.status==="review"?"CHECK NEEDED":item.status.toUpperCase(),"studio-status studio-status--"+item.status);
      const td1=document.createElement("td");td1.append(status);
      const td2=cell("td",item.entry.bank||"—");
      const td3=cell("td",[item.entry.subject||"Unclassified",item.entry.chapter||"No chapter",item.entry.topic||"Unmapped topic"].join(" → "));
@@ -117,6 +117,9 @@
    }
  }
  function openEditor(line){
+   if(savedStatus==="pending_review"||savedStatus==="approved_for_release"){
+     feedback("This batch is locked while awaiting review or release. Withdraw a pending review to edit it.",true);return;
+   }
    const index=drafts.findIndex(x=>x.line===line);
    if(index<0)return;
    selected=index;writeEditor(drafts[index].entry);
@@ -362,6 +365,40 @@
    }
    if([...list.options].some(x=>x.value===previous))list.value=previous;
  }
+
+ async function showNewBatchReviewStatuses(){
+   const tbody=$("review-new-batch-list"),status=$("review-new-batch-status");
+   tbody.replaceChildren();
+   try{
+     const response=await storage().list();
+     const batches=response.batches||[];
+     if(!batches.length){
+       const tr=document.createElement("tr"),td=cell("td","No new-question draft batches saved yet.");
+       td.colSpan=4;tr.append(td);tbody.append(tr);status.textContent="Create questions and Save Draft in Question Content Studio first.";return;
+     }
+     for(const batch of batches){
+       const tr=document.createElement("tr");
+       const name=cell("td",batch.title),state=cell("td",batch.status.replaceAll("_"," ")),
+         when=cell("td",new Date(batch.updated_at).toLocaleString()),action=document.createElement("td");
+       const open=cell("button","Open Draft","studio-edit");open.type="button";
+       open.addEventListener("click",async()=>{
+         try{
+           await reloadBatchList();
+           $("studio-saved-batches").value=batch.id;
+           const link=document.querySelector('[data-module="questions"]');
+           if(link)link.click();
+           $("studio-load-batch").click();
+         }catch(e){status.textContent=e.message}
+       });
+       action.append(open);tr.append(name,state,when,action);tbody.append(tr);
+     }
+     status.textContent="These are new-question batch statuses. Independent reviewers are not onboarded yet; a pending request is not a completed review.";
+   }catch(e){const tr=document.createElement("tr"),td=cell("td","Unable to load batch statuses.");td.colSpan=4;tr.append(td);tbody.append(tr);status.textContent=e.message}
+ }
+ $("review-refresh-new-batches").addEventListener("click",showNewBatchReviewStatuses);
+ window.addEventListener("mednest:module",event=>{
+   if(event.detail?.key==="reviews")showNewBatchReviewStatuses();
+ });
  $("studio-refresh-batches").addEventListener("click",async()=>{
    busy(true);
    try{await reloadBatchList();storageStatus("Protected draft batches refreshed.");}
