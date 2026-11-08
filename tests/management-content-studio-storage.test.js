@@ -27,7 +27,12 @@ test("Draft API validates the real isolated Chief identity and active session",(
  assert.match(edge,/actor\.status!=="active"/);
  assert.ok(edge.includes('actor.email!==(user.email||"").trim().toLowerCase()'));
  assert.match(edge,/URL!==EXPECTED/);
- assert.match(edge,/const ALLOWED=new Set\(\["batch\.create","batch\.list","batch\.get","batch\.save_rows"\]\)/);
+ for(const action of ["batch.create","batch.list","batch.get","batch.save_rows",
+   "batch.submit_review","batch.prepare_direct","batch.withdraw_review","batch.review_decide"]){
+   assert.ok(edge.includes('"'+action+'"'),"Missing "+action);
+ }
+ assert.ok(edge.includes("published:false"));
+ assert.ok(!edge.includes('db.from("mcqs")'));
  assert.ok(!edge.includes("case \"publish\""));
  assert.match(edge,/return reply\("",403,\{error:"Management origin denied"\}\)/);
 });
