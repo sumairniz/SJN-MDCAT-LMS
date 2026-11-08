@@ -6,6 +6,7 @@
  if(!core||!$("content-studio-preview"))return;
  let drafts=[],selected=-1,filter="all",page=0;
  let savedBatchId=null,clientBatchKey=null,savedStatus="unsaved",dirty=false,advanceOnSave=false;
+ let studioView="drafts",inspectMode=false,focusLine=null,focusPage=0,focusQuery="",editorSnapshot=null,saveInFlight=false;
  const taxonomy=window.MedNestTaxonomy;
  let catalog=null,taxonomyReviewLine=null;
  const canon=s=>String(s||"").trim().replace(/\s+/g," ").toLocaleLowerCase("en");
@@ -39,6 +40,162 @@
    return el;
  };
  const fields=["bank","subject","chapter","topic","question","option_a","option_b","option_c","option_d","option_e","correct_option","explanation","mnemonic","source","region","year","paper_code"];
+
+ const FOCUS_PAGE_SIZE=24;
+ const locked=()=>savedStatus==="pending_review"||savedStatus==="approved_for_release";
+ function formChanged(){
+   if($("studio-editor").classList.contains("is-hidden")||editorSnapshot===null)return false;
+   return JSON.stringify(readEditor())!==editorSnapshot;
+ }
+ function askAbandonForm(){
+   return !formChanged()||window.confirm("This question has unsaved edits. Leave it without saving?");
+ }
+ function setStudioView(view){
+   if(!["drafts","browse","import","focus"].includes(view))throw Error("Invalid workspace view");
+   studioView=view;
+   $("content-studio-preview").dataset.studioView=view;
+   for(const key of ["drafts","browse","import"]){
+     const button=$("studio-nav-"+key);
+     button.classList.toggle("is-current",key===view);
+     button.setAttribute("aria-pressed",String(key===view));
+   }
+   show("studio-focus-workspace",view==="focus");
+   if(view==="focus")renderFocus();
+ }
+ function focusStateMessage(msg,error=false){
+   $("studio-focus-save-status").textContent=msg;
+   $("studio-focus-feedback").textContent=msg;
+   $("studio-focus-feedback").dataset.error=String(error);
+ }
+ function focusReadOnlyQuestion(item){
+   if(!item)return;
+   focusLine=item.line;
+   show("studio-focus-empty",false);
+   show("studio-editor",false);
+   show("studio-focus-readonly",true);
+   const f=item.entry,body=$("studio-focus-inspect-body");body.replaceChildren();
+   $("studio-focus-inspect-heading").textContent="Question "+item.line+" · Read-only inspection";
+   const statement=cell("div",f.question||"No question statement","studio-mcq-statement");body.append(statement);
+   for(const key of ["a","b","c","d","e"]){
+     if(key==="e"&&!f.option_e?.trim())continue;
+     const choice=document.createElement("div");choice.className="studio-mcq-choice";
+     choice.append(cell("strong",key.toUpperCase()+"."),cell("span",f["option_"+key]||"—"));
+     body.append(choice);
+   }
+   body.append(cell("p","Proposed answer: "+(f.correct_option||"Not selected"),"studio-preview-answer"));
+   for(const [field,label] of [["explanation","Explanation"],["mnemonic","Mnemonic"]]){
+     if(f[field]?.trim())body.append(cell("div",label+": "+f[field],"studio-mcq-note"));
+   }
+   body.append(cell("p","Classification: "+[f.subject||"—",f.chapter||"—",f.topic||"—"].join(" → "),"tiny-text"));
+   if(f.source?.trim())body.append(cell("p","Original source: "+f.source,"tiny-text"));
+ }
+ function renderFocus(){
+   const active=studioView==="focus";
+   if(!active)return;
+   const name=$("studio-batch-name").value.trim()||"New MCQ Draft";
+   $("studio-focus-title").textContent=name;
+   $("studio-focus-subtitle").textContent=
+     drafts.length+" question"+(drafts.length===1?"":"s")+" · "+(savedBatchId?"Saved batch":"New working set");
+   $("studio-focus-status").textContent=savedStatus.replaceAll("_"," ")+(dirty?" · unsaved edits":"");
+   $("studio-focus-count").textContent=String(drafts.length);
+   const issues=core.inspectDrafts(drafts);
+   const invalid=issues.filter(x=>x.errors.length).length;
+   $("studio-focus-validation").textContent=invalid?invalid+" require correction":"Question list";
+   const term=focusQuery.trim().toLocaleLowerCase("en");
+   const matching=drafts.filter(x=>!term||[String(x.line),x.entry.question,x.entry.chapter,x.entry.topic]
+       .some(y=>String(y||"").toLocaleLowerCase("en").includes(term)));
+   const pages=Math.max(1,Math.ceil(matching.length/FOCUS_PAGE_SIZE));
+   focusPage=Math.min(focusPage,pages-1);
+   const chunk=matching.slice(focusPage*FOCUS_PAGE_SIZE,(focusPage+1)*FOCUS_PAGE_SIZE);
+   $("studio-focus-page").textContent=matching.length?
+     (focusPage+1)+" / "+pages+" · "+matching.length+" found":"No matching questions";
+   $("studio-focus-prev").disabled=focusPage===0;
+   $("studio-focus-next").disabled=focusPage>=pages-1;
+   const list=$("studio-focus-questions");list.replaceChildren();
+   if(!matching.length)list.append(cell("p",drafts.length?"No questions match your search.":"Add your first question to this draft.","tiny-text"));
+   for(const item of chunk){
+     const button=cell("button",undefined,"studio-focus-question"+(focusLine===item.line?" is-active":""));
+     button.type="button";button.setAttribute("role","listitem");
+     button.setAttribute("aria-current",String(focusLine===item.line));
+     const heading=cell("span","Q"+item.line+" · "+(item.entry.topic||item.entry.chapter||item.entry.subject||"Unclassified"),"studio-focus-question-head");
+     const question=cell("span",(item.entry.question||"Empty question").slice(0,94),"studio-focus-question-text");
+     button.append(heading,question);
+     button.addEventListener("click",()=>openFocusedLine(item.line));
+     list.append(button);
+   }
+   const readOnly=inspectMode||locked();
+   $("studio-focus-add").disabled=readOnly||saveInFlight||drafts.length>=3000;
+   $("studio-focus-save").disabled=readOnly||saveInFlight;
+   $("studio-focus-submit-review").disabled=readOnly||dirty||!savedBatchId;
+   $("studio-focus-direct-prepare").disabled=readOnly||dirty||!savedBatchId;
+   show("studio-focus-withdraw",savedStatus==="pending_review"&&!!savedBatchId);
+   $("studio-focus-review-options").classList.toggle("is-hidden",inspectMode);
+   if(readOnly&&focusLine!=null){
+     const row=drafts.find(x=>x.line===focusLine);
+     if(row)focusReadOnlyQuestion(row);
+   }
+   if(!readOnly&&!drafts.length&&$("studio-editor").classList.contains("is-hidden")){
+     show("studio-focus-empty",true);show("studio-focus-readonly",false);
+   }
+ }
+ function openFocusedLine(line){
+   if(saveInFlight||!askAbandonForm())return;
+   const item=drafts.find(x=>x.line===line);if(!item)return;
+   focusLine=line;setStudioView("focus");
+   if(inspectMode||locked())focusReadOnlyQuestion(item);
+   else openEditor(line);
+   renderFocus();
+ }
+ function exitFocus(){
+   if(saveInFlight||!askAbandonForm())return;
+   editorSnapshot=null;inspectMode=false;focusLine=null;
+   show("studio-editor",false);show("studio-focus-readonly",false);
+   setStudioView("drafts");
+   $("studio-open-workspace").focus();
+ }
+ function openWorkspace({inspect=false,line=null}={}){
+   if(saveInFlight||!askAbandonForm())return;
+   inspectMode=Boolean(inspect);editorSnapshot=null;
+   show("studio-editor",false);show("studio-focus-readonly",false);
+   show("studio-focus-empty",true);
+   focusLine=null;
+   setStudioView("focus");
+   if(drafts.length){
+     const selectedLine=line??drafts[0].line;
+     openFocusedLine(selectedLine);
+   }else renderFocus();
+   window.scrollTo({top:0,behavior:"instant"});
+ }
+ function focusFormSnapshot(){editorSnapshot=JSON.stringify(readEditor())}
+ $("studio-focus-back").addEventListener("click",exitFocus);
+ $("studio-open-workspace").addEventListener("click",()=>openWorkspace());
+ $("studio-focus-add").addEventListener("click",()=>$("studio-new").click());
+ $("studio-focus-save").addEventListener("click",()=>{
+   if(formChanged()){focusStateMessage("Save the open question first (Save Question / Save & Next).",true);return}
+   $("studio-save-batch").click();
+ });
+ $("studio-focus-upload").addEventListener("click",()=>{
+   if(!askAbandonForm())return;
+   setStudioView("import");window.scrollTo({top:0,behavior:"instant"});
+ });
+ $("studio-focus-submit-review").addEventListener("click",()=>$("studio-review-submit").click());
+ $("studio-focus-direct-prepare").addEventListener("click",()=>$("studio-direct-prepare").click());
+ $("studio-focus-withdraw").addEventListener("click",()=>$("studio-withdraw-review").click());
+ $("studio-focus-search").addEventListener("input",event=>{
+   focusQuery=event.target.value;focusPage=0;renderFocus();
+ });
+ $("studio-focus-prev").addEventListener("click",()=>{focusPage--;renderFocus()});
+ $("studio-focus-next").addEventListener("click",()=>{focusPage++;renderFocus()});
+ for(const key of ["drafts","browse","import"]){
+   $("studio-nav-"+key).addEventListener("click",()=>{
+     if(saveInFlight||!askAbandonForm())return;
+     if(studioView==="focus"){inspectMode=false;focusLine=null;show("studio-editor",false)}
+     setStudioView(key);
+   });
+ }
+ window.addEventListener("beforeunload",event=>{
+   if(dirty||formChanged()){event.preventDefault();event.returnValue=""}
+ });
  function readEditor(){
    return Object.fromEntries(fields.map(name=>[name,$("studio-"+name).value]));
  }
