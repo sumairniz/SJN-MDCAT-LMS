@@ -54,7 +54,7 @@ function drawRows(rows){
  }
  for(const mcq of rows){
   const tr=document.createElement("tr");
-  tr.append(cell("#"+mcq.id),cell(mcq.bank),cell(mcq.subject+" / "+(mcq.chapter||"Unclassified")),
+  tr.append(cell("#"+mcq.id),cell(mcq.bank),cell([mcq.subject||"Unclassified",mcq.chapter||"No chapter",mcq.topic||"Unmapped topic"].join(" → ")),
    cell(mcq.question.slice(0,180)+(mcq.question.length>180?"…":"")));
   const td=document.createElement("td"),open=document.createElement("button");
   open.type="button";open.className="studio-edit";open.textContent="Open & Edit";
