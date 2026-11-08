@@ -24,11 +24,14 @@ test("No staff mutations are callable in live Team API before sender and step-up
  assert.match(a,/mednest_staff_session_live/);
  assert.match(a,/chief\)return reply\(origin,403/);
 });
-test("Audit log deliberately never contains email, identifiers or event details",()=>{
+test("Chief audit has allowlisted attribution while ordinary staff audit remains sanitized",()=>{
  const a=api();
- assert.match(a,/select\("id,action,created_at"\)/);
- assert.match(a,/action:e\.action,created_at:e\.created_at/);
- assert.doesNotMatch(a,/select\("actor_user_id|select\("details|details:e\.details/);
+ assert.match(a,/select\("id,actor_user_id,action,details,created_at"\)/);
+ assert.match(a,/if\(!chief\)return reply\(origin,200,\{events:list\.map/);
+ assert.match(a,/const safeKeys=/);
+ assert.match(a,/people\.get\(e\.actor_user_id\)/);
+ assert.doesNotMatch(a,/details:e\.details|email:e\.email|target_user_id:e\.target_user_id/);
+ assert.doesNotMatch(a,/aozknkrwafowsrehdwlr/);
 });
 test("Staff mutations require live same-session sensitive authorization inside SQL transaction",()=>{
  const s=sql();
