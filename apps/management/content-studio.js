@@ -5,11 +5,31 @@
  const $=id=>document.getElementById(id);
  if(!core||!$("content-studio-preview"))return;
  let drafts=[],selected=-1,filter="all",page=0;
- let savedBatchId=null,clientBatchKey=null;
+ let savedBatchId=null,clientBatchKey=null,savedStatus="unsaved",dirty=false,advanceOnSave=false;
  const taxonomy=window.MedNestTaxonomy;
  let catalog=null,taxonomyReviewLine=null;
  const canon=s=>String(s||"").trim().replace(/\s+/g," ").toLocaleLowerCase("en");
  const PAGE_SIZE=40;
+ function routeControls(){
+   const state=savedStatus;
+   const title=state==="unsaved"?"New · Unsaved":
+     state==="draft"?"Working Draft":state==="pending_review"?"Pending Academic Review":
+     state==="needs_changes"?"Changes Requested":state==="approved_for_release"?"Approved for Release":state;
+   $("studio-batch-state").textContent=title+(dirty?" · Unsaved Changes":"");
+   const canRoute=!!savedBatchId&&!dirty&&(state==="draft"||state==="needs_changes");
+   $("studio-review-submit").disabled=!canRoute;
+   $("studio-direct-prepare").disabled=!canRoute;
+   $("studio-save-batch").disabled=state==="pending_review"||state==="approved_for_release";
+   show("studio-withdraw-review",state==="pending_review"&&!!savedBatchId);
+   $("studio-route-status").textContent=state==="approved_for_release"
+    ?"Approved for release — NOT published to students. A separate secure publishing service is still required."
+    :state==="pending_review"
+     ?"Awaiting independent academic review. The author cannot approve their own batch. Publication remains disabled."
+     :dirty?"Unsaved changes. Save Draft before requesting review or release preparation."
+     :"Academic review is optional for authorized staff. Both routes require technical validation; neither publishes to the Student LMS.";
+ }
+ function modified(){dirty=true;routeControls()}
+
  const feedback=(message,error=false)=>{const el=$("studio-feedback");el.textContent=message;el.dataset.error=String(error)};
  const show=(id,on)=>$(id).classList.toggle("is-hidden",!on);
  const cell=(tag,content,cls)=>{
@@ -53,6 +73,7 @@
    $("studio-review").textContent=String(inspected.filter(x=>x.status==="review").length);
    $("studio-invalid").textContent=String(inspected.filter(x=>x.status==="invalid").length);
    $("studio-export").disabled=!inspected.length;
+   routeControls();
    return inspected;
  }
  function render(){
@@ -74,7 +95,7 @@
      const status=cell("span",item.status.toUpperCase(),"studio-status studio-status--"+item.status);
      const td1=document.createElement("td");td1.append(status);
      const td2=cell("td",item.entry.bank||"—");
-     const td3=cell("td",(item.entry.subject||"—")+" / "+(item.entry.chapter||"—"));
+     const td3=cell("td",[item.entry.subject||"Unclassified",item.entry.chapter||"No chapter",item.entry.topic||"Unmapped topic"].join(" → "));
      const td4=cell("td",item.entry.question||"(missing statement)","studio-question-cell");
      const td5=document.createElement("td");
      const button=cell("button","Review / Edit","studio-edit");button.type="button";
@@ -136,7 +157,7 @@
      if(entries.length+drafts.length>core.MAX_ROWS)throw Error("Draft preview can hold up to 10,000 rows.");
      const nextLine=drafts.length?Math.max(...drafts.map(x=>x.line))+1:1;
      drafts.push(...entries.map((x,i)=>({line:nextLine+i,entry:canonicalizeExact(x.entry)})));
-     page=0;filter="all";$("studio-filter").value="all";render();
+     modified();page=0;filter="all";$("studio-filter").value="all";render();
      feedback("Imported "+entries.length+" rows into draft review. Match uncertain topics before publishing. No LMS content changed.");
    }catch(e){feedback(e.message,true)}
    finally{event.target.value=""}
@@ -193,7 +214,7 @@
      return;
    }
    drafts[index].entry={...entry,chapter,topic};
-   taxonomyReviewLine=null;show("studio-taxonomy-editor",false);render();
+   modified();taxonomyReviewLine=null;show("studio-taxonomy-editor",false);render();
    feedback("Approved Academy syllabus label applied to unpublished draft; student MCQs unchanged.");
  });
  $("studio-taxonomy-cancel").addEventListener("click",()=>{
@@ -260,18 +281,37 @@
  window.addEventListener("mednest:syllabus-updated",loadTaxonomy);
  loadTaxonomy();
  $("studio-new").addEventListener("click",()=>{
-   selected=-1;writeEditor({bank:"SJN Question Bank",subject:"Biology"});
-   $("studio-editor-heading").textContent="Create a new draft MCQ";
-   $("studio-save").textContent="Add to Draft";
+   if(savedStatus==="pending_review"||savedStatus==="approved_for_release"){
+     feedback("This draft is locked after submission. Start Another Draft or withdraw a pending request first.",true);return;
+   }
+   const last=drafts[drafts.length-1]?.entry||{};
+   selected=-1;writeEditor({bank:last.bank||"SJN Question Bank",subject:last.subject||"Biology",
+     chapter:last.chapter||"",topic:last.topic||"",source:last.source||"",
+     region:last.region||"",year:last.year||"",paper_code:last.paper_code||""});
+   $("studio-editor-heading").textContent="Add question "+(drafts.length+1)+" to this draft";
+   $("studio-save").textContent="Save Question";
    show("studio-editor",true);
    window.MedNestMCQAssist?.previewNew();
    $("studio-question").focus();
  });
- $("studio-cancel").addEventListener("click",()=>{selected=-1;show("studio-editor",false)});
+ $("studio-cancel").addEventListener("click",()=>{selected=-1;advanceOnSave=false;show("studio-editor",false)});
+ $("studio-save-next").addEventListener("click",()=>{
+   advanceOnSave=true;
+   $("studio-editor-form").requestSubmit();
+ });
+ $("studio-new-set").addEventListener("click",()=>{
+   if(dirty&&drafts.length&&!window.confirm("This working draft has unsaved changes. Start a new draft without saving them?"))return;
+   drafts=[];selected=-1;page=0;filter="all";savedBatchId=null;clientBatchKey=null;
+   savedStatus="unsaved";dirty=false;
+   $("studio-filter").value="all";$("studio-batch-name").value="New MCQ Draft";
+   $("studio-saved-batches").value="";show("studio-editor",false);render();
+   storageStatus("New blank draft ready. Add questions manually or import an Excel file.");
+ });
  $("studio-editor-form").addEventListener("submit",event=>{
    event.preventDefault();
    const entry=canonicalizeExact(readEditor()),result=core.validate(entry);
    if(result.errors.length){
+     advanceOnSave=false;
      feedback("Draft validation: "+result.errors.join(" "),true);
      return;
    }
@@ -280,7 +320,9 @@
      const nextLine=drafts.length?Math.max(...drafts.map(x=>x.line))+1:1;
      drafts.push({line:nextLine,entry});
    }
-   selected=-1;show("studio-editor",false);render();
+   const next=advanceOnSave;advanceOnSave=false;
+   modified();selected=-1;show("studio-editor",false);render();
+   if(next)$("studio-new").click();
    feedback("New MCQ draft updated in this browser session only. "+(result.warnings.length?result.warnings.join(" "):"Ready for validation.")+" Save Draft Batch to retain it securely. This is NOT yet an Academic Reviews submission or student publication.");
  });
  $("studio-filter").addEventListener("change",event=>{filter=event.target.value;page=0;render()});
@@ -296,7 +338,7 @@
  $("studio-clear").addEventListener("click",()=>{
    if(!drafts.length)return;
    if(!window.confirm("Clear all unpublished drafts from this browser session? Export first if you want to keep them."))return;
-   drafts=[];selected=-1;page=0;savedBatchId=null;clientBatchKey=null;
+   drafts=[];selected=-1;page=0;savedBatchId=null;clientBatchKey=null;savedStatus="unsaved";dirty=false;
    $("studio-saved-batches").value="";show("studio-editor",false);render();
    feedback("Browser draft cleared. Existing LMS MCQs were not affected.");
  });
@@ -315,7 +357,7 @@
    const list=$("studio-saved-batches");const previous=list.value;
    list.replaceChildren(new Option("Select a saved draft batch",""));
    for(const batch of response.batches||[]){
-     const label=batch.title+" — "+new Date(batch.updated_at).toLocaleString();
+     const label=batch.title+" · "+batch.status.replaceAll("_"," ")+" · "+new Date(batch.updated_at).toLocaleString();
      list.append(new Option(label,batch.id));
    }
    if([...list.options].some(x=>x.value===previous))list.value=previous;
@@ -331,6 +373,7 @@
    const currentBatchId=savedBatchId;
    try{
      if(!drafts.length)throw Error("Add or import MCQ drafts first.");
+     if(savedStatus==="pending_review"||savedStatus==="approved_for_release")throw Error("Submitted or approved drafts cannot be edited.");
      const title=$("studio-batch-name").value.trim();
      if(!title)throw Error("Enter a name for this draft batch.");
      if(drafts.length>3000)throw Error("Protected storage supports 3,000 rows per batch. Split larger imports.");
@@ -342,6 +385,7 @@
      });
      savedBatchId=result.batchId;
      clientBatchKey=result.clientKey;
+     savedStatus="draft";dirty=false;routeControls();
      storageStatus("Saved "+result.saved+" draft rows to Management Auth. This did NOT publish or alter student MCQs.");
      await reloadBatchList();
      $("studio-saved-batches").value=savedBatchId;
@@ -360,16 +404,36 @@
      drafts=result.rows.map(row=>({...row,entry:canonicalizeExact(row.entry)}));
      selected=-1;page=0;filter="all";$("studio-filter").value="all";
      savedBatchId=id;clientBatchKey=result.batch.client_key;
+     savedStatus=result.batch.status||"draft";dirty=false;routeControls();
      $("studio-batch-name").value=result.batch.title;
      show("studio-editor",false);render();
-     storageStatus("Loaded "+drafts.length+" unpublished rows from protected Management Auth storage.");
+     storageStatus("Opened "+drafts.length+" saved questions. Status: "+savedStatus.replaceAll("_"," ")+". Nothing published.");
    }catch(e){storageStatus(e.message,true)}
    finally{busy(false)}
  });
+
+ async function changeRoute(action){
+   if(!savedBatchId||dirty){storageStatus("Save all question changes before selecting an academic route.",true);return}
+   if(action==="direct"&&!window.confirm("Confirm direct release preparation without another teacher's review? This will NOT publish questions to students."))return;
+   if(action==="withdraw"&&!window.confirm("Withdraw this pending academic review and return to draft editing?"))return;
+   busy(true);
+   try{
+     const result=action==="direct"?await storage().prepareDirect(savedBatchId):
+       action==="submit"?await storage().submitReview(savedBatchId):
+         await storage().withdrawReview(savedBatchId);
+     savedStatus=result.batch.status;dirty=false;routeControls();
+     storageStatus(result.message||("Draft status: "+savedStatus.replaceAll("_"," ")+". No student publication."));
+     await reloadBatchList();$("studio-saved-batches").value=savedBatchId;
+   }catch(e){storageStatus(e.message,true)}
+   finally{busy(false)}
+ }
+ $("studio-review-submit").addEventListener("click",()=>changeRoute("submit"));
+ $("studio-direct-prepare").addEventListener("click",()=>changeRoute("direct"));
+ $("studio-withdraw-review").addEventListener("click",()=>changeRoute("withdraw"));
  window.addEventListener("mednest:signed-out",()=>{
    // Browser memory must not retain sensitive staff draft content after sign-out.
    drafts=[];selected=-1;filter="all";page=0;
-   savedBatchId=null;clientBatchKey=null;
+   savedBatchId=null;clientBatchKey=null;savedStatus="unsaved";dirty=false;
    $("studio-saved-batches").replaceChildren(new Option("Select a saved draft batch",""));
    writeEditor({});$("studio-batch-name").value="Unpublished MCQ Review Batch";
    $("studio-file").value="";renameProposals=[];renderRenamePlan();
@@ -377,5 +441,6 @@
    storageStatus("Signed out. Browser draft data cleared; saved Management Auth batches remain protected.");
  });
  $("studio-editor").classList.add("is-hidden");
+ window.addEventListener("mednest:authorized",()=>reloadBatchList().catch(e=>storageStatus(e.message,true)));
  render();
 })();
