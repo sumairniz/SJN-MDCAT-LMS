@@ -105,6 +105,7 @@ async function openQuestion(mcqId){
   activeSyllabus();
   showFields(draft?.state==="draft"?draft.edited_fields:source.fields);
   if(draft?.syllabus_topic_id)$("mcq-lib-syllabus-topic").value=draft.syllabus_topic_id;
+  window.MedNestMCQAssist?.captureOriginal();
   $("mcq-lib-editor-title").textContent="Edit MCQ #"+mcqId;
   $("mcq-lib-source").textContent="Published source: "+source.bank+
    " · Current revision ID: "+source.revision_id+
@@ -138,8 +139,9 @@ $("mcq-lib-edit-form").addEventListener("submit",async event=>{
   setStatus("Source revision conflict: do not overwrite. Refresh the MCQ before editing again.",true,"mcq-lib-editor-status");return;
  }
  const fieldsData=proposedFields();
- if(fieldsData.bank!==selection.original.bank||!["A","B","C","D"].includes(fieldsData.correct_option)){
-  setStatus("Invalid bank or answer key. Choose the original bank and one answer A–D.",true,"mcq-lib-editor-status");return;
+ if(fieldsData.bank!==selection.original.bank||!["A","B","C","D"].includes(fieldsData.correct_option)||
+    (fieldsData.bank!=="SJN Question Bank"&&!fieldsData.source.trim())){
+  setStatus("Invalid bank, answer key, or missing past-paper source. Use answer A–D and preserve the source.",true,"mcq-lib-editor-status");return;
  }
  if(!window.confirm("Save an UNPUBLISHED correction draft for MCQ #"+selection.mcqId+
    "? The current student question and historical results will not change."))return;
@@ -161,6 +163,7 @@ $("mcq-lib-reset").addEventListener("click",()=>{
  if(!selection)return;
  if(!window.confirm("Reset the form to the currently published question? Existing server-side draft remains unchanged until saved."))return;
  showFields(selection.original);$("mcq-lib-syllabus-topic").value="";
+ window.MedNestMCQAssist?.captureOriginal();
  setStatus("Form restored to the published source. No server-side draft has been overwritten.",false,"mcq-lib-editor-status");
 });
 $("mcq-lib-search-button").addEventListener("click",()=>{page=0;search()});
