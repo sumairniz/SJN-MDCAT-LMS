@@ -19,7 +19,7 @@ test("CSV parser handles RFC-style quoting, embedded newlines, CRLF and BOM",()=
  const csv=core.HEADERS.join(",")+"\r\n"+
   ['"Past Papers Question Bank"','"Biology"','"Biological Molecules"',
    '"Importance of Water"','"Which property is \"\"important\"\"?\nThink again."',
-   '"Adhesion"','"Cohesion"','"Surface tension"','"Polarity"','"B"',
+   '"Adhesion"','"Cohesion"','"Surface tension"','"Polarity"','""','"B"',
    '"Because water has high polarity."','""','"UHS 2025"','"punjab"','"2025"','""'].join(",")+"\r\n";
  const result=core.importCSV("\ufeff"+csv);
  assert.equal(result.length,1);
