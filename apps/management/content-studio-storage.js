@@ -57,5 +57,9 @@ async function load(batchId){
  throw Error("Draft batch could not be fully loaded; no local changes applied.");
 }
 window.MedNestStudioStorage=Object.freeze({
- list:()=>call("batch.list"),save,load
+ list:()=>call("batch.list"),save,load,
+ submitReview:batchId=>call("batch.submit_review",{batch_id:batchId}),
+ prepareDirect:batchId=>call("batch.prepare_direct",{batch_id:batchId}),
+ withdrawReview:batchId=>call("batch.withdraw_review",{batch_id:batchId}),
+ reviewDecision:(batchId,decision,reason)=>call("batch.review_decide",{batch_id:batchId,decision,reason})
 });
