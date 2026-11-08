@@ -49,6 +49,8 @@
    return JSON.stringify(readEditor())!==editorSnapshot;
  }
  function askAbandonForm(){
+   if(studioView==="browse"&&window.MedNestMCQAssist?.hasUnsavedCorrection?.())
+     return window.confirm("You have unsaved changes in the existing MCQ editor. Leave this view without saving them?");
    return !formChanged()||window.confirm("This question has unsaved edits. Leave it without saving?");
  }
  function setStudioView(view){
@@ -153,6 +155,7 @@
    editorSnapshot=null;inspectMode=false;focusLine=null;
    show("studio-editor",false);show("studio-focus-readonly",false);
    setStudioView("drafts");
+   window.scrollTo({top:0,behavior:"instant"});
    $("studio-open-workspace").focus();
  }
  function openWorkspace({inspect=false,line=null}={}){
@@ -480,6 +483,7 @@
    drafts=[];selected=-1;page=0;filter="all";savedBatchId=null;clientBatchKey=null;
    savedStatus="unsaved";dirty=false;editorSnapshot=null;focusLine=null;inspectMode=false;
    $("studio-batch-name").readOnly=false;
+   focusStateMessage("New working draft. Add your first question.");
    $("studio-filter").value="all";$("studio-batch-name").value="New MCQ Draft";
    $("studio-saved-batches").value="";show("studio-editor",false);setStudioView("drafts");render();
    storageStatus("New blank draft ready. Add questions manually or import an Excel file.");
@@ -489,7 +493,13 @@
    if(saveInFlight)throw Error("A save is already in progress.");
    if(locked())throw Error("Submitted and approved batches are read-only.");
    if(!items.length||items.length>3000)throw Error("Draft must contain 1–3,000 questions.");
-   const title=$("studio-batch-name").value.trim();
+   const nameControl=$("studio-batch-name");
+   if(!savedBatchId&&["New MCQ Draft","Unpublished MCQ Review Batch"].includes(nameControl.value.trim())){
+     const first=items[0]?.entry||{},subject=first.subject||"Academy",chapter=first.chapter||"Questions";
+     const stamp=new Date().toLocaleString(undefined,{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"});
+     nameControl.value=(subject+" — "+chapter+" · "+stamp).slice(0,120);
+   }
+   const title=nameControl.value.trim();
    if(!title)throw Error("Please give your draft a name before saving questions.");
    if(savedBatchId&&!updateAll&&items.length!==1)
      throw Error("Save one changed question or the whole batch.");
@@ -657,7 +667,8 @@
    if(saveInFlight)return false;
    if(!id){storageStatus("Choose a saved draft first.",true);return false}
    // Warn only about true unsaved work, not the presence of already-saved rows.
-   if((dirty||formChanged())&&!window.confirm("Your current draft has unsaved changes. Open another saved draft without saving those changes?"))
+   if((dirty||formChanged()||(studioView==="browse"&&window.MedNestMCQAssist?.hasUnsavedCorrection?.()))&&
+      !window.confirm("Your current draft has unsaved changes. Open another saved draft without saving those changes?"))
      return false;
    busy(true);
    try{
