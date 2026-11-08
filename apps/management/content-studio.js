@@ -129,7 +129,6 @@
    const readOnly=inspectMode||locked();
    $("studio-focus-add").disabled=readOnly||saveInFlight||drafts.length>=3000;
    $("studio-focus-save").disabled=readOnly||saveInFlight;
-   $("studio-focus-save").disabled=readOnly||saveInFlight;
    $("studio-focus-submit-review").disabled=readOnly||dirty||!savedBatchId;
    $("studio-focus-direct-prepare").disabled=readOnly||dirty||!savedBatchId;
    show("studio-focus-withdraw",savedStatus==="pending_review"&&!!savedBatchId);
@@ -158,8 +157,8 @@
    window.scrollTo({top:0,behavior:"instant"});
    $("studio-open-workspace").focus();
  }
- function openWorkspace({inspect=false,line=null}={}){
-   if(saveInFlight||!askAbandonForm())return;
+ function openWorkspace({inspect=false,line=null,skipGuard=false}={}){
+   if(saveInFlight||(!skipGuard&&!askAbandonForm()))return;
    inspectMode=Boolean(inspect);editorSnapshot=null;
    show("studio-editor",false);show("studio-focus-readonly",false);
    show("studio-focus-empty",true);
@@ -559,7 +558,11 @@
      catch(e){storageStatus("Question saved. Refresh the draft list to see the latest label.");}
      focusStateMessage("Question "+position+" saved to your protected draft.");
      feedback("Question "+position+" saved securely to Management. "+(result.warnings.length?"Checks: "+result.warnings.join(" "):"")+" Nothing published.");
-     if(next)$("studio-new").click();
+     if(next){
+       const following=index>=0?drafts.find(x=>x.line>position):null;
+       if(following)openFocusedLine(following.line);
+       else $("studio-new").click();
+     }
    }catch(e){
      dirty=true;editorSnapshot=JSON.stringify({failedSave:true});routeControls(); // Keep the unsaved form protected on exit.
      focusStateMessage("Save failed. Your question is still in the editor. Try again: "+e.message,true);
@@ -686,7 +689,7 @@
      $("studio-batch-name").readOnly=true;
      $("studio-saved-batches").value=id;
      show("studio-editor",false);show("studio-focus-readonly",false);
-     render();openWorkspace({inspect});
+     render();openWorkspace({inspect,skipGuard:true});
      storageStatus("Opened "+drafts.length+" saved questions · "+savedStatus.replaceAll("_"," ")+". Nothing published.");
      return true;
    }catch(e){
