@@ -24,7 +24,7 @@ test("multiquiz draft editor carries course-independent subject and chapter cont
  assert.match(ui,/studio-save-next/);
  assert.match(ui,/requestSubmit\(\)/);
  assert.match(ui,/dirty=false/);
- assert.match(ui,/Save all question changes before selecting/);
+ assert.match(ui,/Save all question edits securely before selecting/);
  assert.match(ui,/pending_review/);
  assert.match(ui,/approved_for_release/);
 });
