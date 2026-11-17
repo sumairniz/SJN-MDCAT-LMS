@@ -91,3 +91,21 @@ Counts are snapshots and must not be treated as test fixtures. No records were d
 ## 9. Explicit non-changes
 No Student LMS DB/schema/RLS/MCQ/attempt/history/analytics/Mistake Diary changes; no old production restoration; no Chief account reset; no staff invitations; no student publishing; no DNS/domain/alias changes; no Vercel quota/protection changes; no paid service/plan; no PR merge.
 
+
+## 10. Root deployment correction completed after the first audit
+A follow-up inspection of the deployed root page found that it was still loading legacy `apps/management/auth-client.js`, which points to Student LMS Auth and old function endpoints. The isolated implementation was present as `integrated-auth-preview.html` + `auth-client-isolated.js`, but was not the default root entry.
+
+Correction:
+- Replaced `apps/management/index.html` with the integrated isolated-auth workspace, preserving the original design and existing module content.
+- Removed misleading copy suggesting the Student-linked shell remained an available rollback.
+- Kept invitation controls disabled until sender configuration and Chief UAT are complete.
+- Kept the agreed team counters inclusive of the Chief Administrator.
+- Added explicit text that no Student LMS registration is required.
+- Updated `tests/management-integrated-isolated-auth.test.js` to assert that the root entry loads isolated auth and never loads the legacy Student Auth client.
+- GitHub commits: root switch `bd94faba527bd2f748e152304bb484a1fcc58b9e`; final copy/test commits `98064a63f32767424155eb55a6084e37e1a60147`, `a6ca1d98ce17bf856078d79c468657ed2fcc8cb8`, `065f39820c6dadbc2e67a12b9896174dc6086cfc`.
+- An initial CI run correctly failed because two tests still encoded the old entrypoint. Updated tests/copy; final Foundation CI run `44079546124` completed SUCCESS: 317 tests, 317 passing, no failures; CSS build, CSS verification/reproducibility and release hygiene also passed.
+- Created a new protected Vercel preview from exact commit `065f39820c6dadbc2e67a12b9896174dc6086cfc`: deployment `dpl_681fp6QLjUkotvaa4v4LkEAHuKhj`, state READY, URL `https://sjn-mednest-management-hubnpth3l-sjn1.vercel.app`.
+- Fetched deployed root and required JS assets: all returned HTTP 200. Verified root references `auth-client-isolated.js`, not legacy `auth-client.js`; isolated client points to Management Auth `tdqbjhrmfluiinntmjfh`, not Student LMS Auth; Chief-inclusive count labels are present; CSP headers and noindex headers are present.
+- This is still a protected development preview, not a public or production deployment. No login/OTP was attempted by the assistant. Owner browser UAT remains pending.
+
+**Do not use the old preview URL for login.** The old deployment `sjn-mednest-management-eehnduq5q-sjn1.vercel.app` serves the legacy Student-linked shell. Use the new URL above for owner testing.
