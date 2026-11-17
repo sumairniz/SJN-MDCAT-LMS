@@ -7,6 +7,7 @@
  let drafts=[],selected=-1,filter="all",page=0;
  let savedBatchId=null,clientBatchKey=null,savedStatus="unsaved",dirty=false,advanceOnSave=false;
  let studioView="drafts",inspectMode=false,focusLine=null,focusPage=0,focusQuery="",editorSnapshot=null,saveInFlight=false;
+ let editHistory=[],historyIndex=-1,historyTimer=null,historyApplying=false;
  const taxonomy=window.MedNestTaxonomy;
  let catalog=null,taxonomyReviewLine=null;
  const canon=s=>String(s||"").trim().replace(/\s+/g," ").toLocaleLowerCase("en");
@@ -206,8 +207,46 @@
  function writeEditor(item){
    const data=item||{};
    for(const name of fields)$("studio-"+name).value=data[name]||"";
+   resetEditHistory();
   window.MedNestMCQAssist?.previewNew();
  }
+ function updateHistoryControls(){
+   $("studio-undo").disabled=historyIndex<=0;
+   $("studio-redo").disabled=historyIndex<0||historyIndex>=editHistory.length-1;
+ }
+ function resetEditHistory(){editHistory=[readEditor()];historyIndex=0;historyApplying=false;updateHistoryControls()}
+ function recordEdit(){
+   if(historyApplying||$("studio-editor").classList.contains("is-hidden"))return;
+   const next=readEditor();clearTimeout(historyTimer);
+   historyTimer=setTimeout(()=>{
+     if(JSON.stringify(editHistory[historyIndex])===JSON.stringify(next))return;
+     editHistory=editHistory.slice(0,historyIndex+1);editHistory.push(next);
+     if(editHistory.length>100)editHistory.shift();
+     historyIndex=editHistory.length-1;updateHistoryControls();
+     $("studio-autosave-status").textContent="Unsaved edits · Save Question to keep changes.";
+     modified();
+   },180);
+ }
+ function applyHistory(index){
+   if(index<0||index>=editHistory.length||index===historyIndex)return;
+   historyApplying=true;
+   for(const name of fields)$("studio-"+name).value=editHistory[index][name]||"";
+   historyIndex=index;historyApplying=false;updateHistoryControls();
+   window.MedNestMCQAssist?.previewNew();
+   $("studio-autosave-status").textContent="Change restored · Save Question to keep this version.";
+   modified();
+ }
+ $("studio-undo").addEventListener("click",()=>applyHistory(historyIndex-1));
+ $("studio-redo").addEventListener("click",()=>applyHistory(historyIndex+1));
+ $("studio-editor-form").addEventListener("input",recordEdit);
+ $("studio-editor-form").addEventListener("change",recordEdit);
+ $("studio-editor-form").addEventListener("keydown",event=>{
+   if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==="z"){
+     event.preventDefault();applyHistory(historyIndex+(event.shiftKey?1:-1));
+   }else if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==="y"){
+     event.preventDefault();applyHistory(historyIndex+1);
+   }
+ });
  function download(filename,contents,type){
    const blob=new Blob([contents],{type});
    const url=URL.createObjectURL(blob),a=document.createElement("a");
@@ -556,6 +595,8 @@
      render();
      try{await reloadBatchList();$("studio-saved-batches").value=savedBatchId}
      catch(e){storageStatus("Question saved. Refresh the draft list to see the latest label.");}
+     $("studio-autosave-status").textContent="Saved securely · "+new Date().toLocaleTimeString();
+     resetEditHistory();
      focusStateMessage("Question "+position+" saved to your protected draft.");
      feedback("Question "+position+" saved securely to Management. "+(result.warnings.length?"Checks: "+result.warnings.join(" "):"")+" Nothing published.");
      if(next){
