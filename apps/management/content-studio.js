@@ -221,6 +221,7 @@
      $("studio-autosave-status").textContent="Saving draft securely…";
      await saveDraftItems(items,{updateAll:items.length>1});
      drafts=updatedRows;
+     selected=updatedRows.findIndex(row=>row.line===position);
      if(revision===autosaveRevision&&JSON.stringify(readEditor())===JSON.stringify(snapshot)){
        editorSnapshot=JSON.stringify(snapshot);dirty=false;
        $("studio-autosave-status").textContent="Saved automatically · "+new Date().toLocaleTimeString();
