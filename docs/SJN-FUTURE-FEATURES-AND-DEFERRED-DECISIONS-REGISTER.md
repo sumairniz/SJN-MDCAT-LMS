@@ -166,3 +166,9 @@ The following are real incomplete obligations but **must not** be confused with 
 - **OPEN — Staff onboarding:** invites remain disabled pending sender setup and security acceptance tests.
 - **OPEN — FF-008:** Student course-only MCQ public-read exposure remains a release blocker; no Student RLS changes were made.
 - Evidence and exact deployment/commit details: `docs/SJN-MEDNEST-MANAGEMENT-AUTH-RESTORATION-SECURITY-VERIFICATION-2026-11-17.md`.
+
+
+## 2026-11-17 — FF-008 confirmed public API exposure (implementation gated by owner policy)
+- **CRITICAL RELEASE BLOCKER — confirmed in current source:** unauthenticated `GET /api/content` returns all `mcqs` with correct answers and revision IDs; frontend fetches it before login. Course MCQs are filtered only client-side. Authenticated `/api/course-tests` has no server-side entitlement check in the inspected handler. See detailed source-path audit in `docs/SJN-MEDNEST-MANAGEMENT-AUTH-RESTORATION-SECURITY-VERIFICATION-2026-11-17.md`.
+- **OPEN — live DB recheck:** Student Supabase reports ACTIVE_HEALTHY but SQL/table tools timed out; historical Nov 8 direct anon RLS policy needs revalidation. No Student DB change made.
+- **OWNER POLICY DECISION NEEDED:** Is the current Genome pilot intentionally free/public to all signed-in students, or should it require a whole-course/session entitlement? Implementation of the secure course content endpoint and enrollment model depends on this decision. No per-question premium flags.
