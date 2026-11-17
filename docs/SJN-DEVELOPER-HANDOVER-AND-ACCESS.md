@@ -165,3 +165,32 @@ Use **CONFIRMED, OBSERVED IN CODE, VERIFIED, PROPOSED** consistently; record fai
 **Current authorized work:** read-only review and documentation of Phase 4 MCQ Database Foundation; design future Supabase structure for two named question banks and question-level history; explain options and obtain scoped approval **before** applying SQL/importing the 74 records. No official students yet; owner allows discussing potential cleanup of test attempt history, but no deletion without separately specified approval.
 
 **Handover test:** A new developer must be able to identify current branch, hosting, DB scope, verified baseline, approved product behavior, unfinished temporary flags, test commands, pending migration decisions, access-request process and production restrictions *without reading private chat transcripts*. If not, improve this file.
+
+## 2026-11-17 — Owner clarification: preserve existing Student LMS; access locks must not create silos
+
+**This entry supersedes any wording in older handover notes that could be read as a proposal to rebuild student authentication, create new LMS navigation, or introduce a separate identity/navigation system.**
+
+The Owner's requirement is specifically about the **new Management Panel-controlled feature access restrictions**. The existing Student LMS already has its sign-in, navigation, dashboard, module routing and exam system. These are to be preserved, not replaced or redesigned as part of entitlement work.
+
+- A student uses the existing sign-in and navigates through the existing Student LMS. The same existing authenticated identity/session continues across its modules under the already-established 24-hour session policy.
+- If the Management Panel locks one complete feature, only that feature is restricted. The student's existing login, dashboard, navigation, other unlocked features and unrelated modules must continue to work normally.
+- Unlocking a feature restores it through the existing LMS. Do not create a separate login, duplicate account, separate student app, feature-specific session, or new navigation architecture.
+- A lock/unlock operation must not silo, corrupt or interrupt the existing exam system: Create Test, Practice Test, question-bank launch, active attempts, submission, Results, Test History, Review, Retake and saved records must remain intact.
+- Direct links, refresh, multiple tabs, mobile navigation, session expiry, sign-out and account switching must continue to follow the current system's behaviour. This is a regression/compatibility requirement for access-control implementation, not a request to build those capabilities from scratch.
+- The access system must enforce the approved whole-feature/whole-bank/whole-course-session policy server-side without per-subject, per-chapter, per-topic, per-category, per-paper or per-question commercial locks.
+- **Correct feature name: My Analytics.** Do not invent or infer a feature called “Medalytics” from speech-to-text. When voice transcription produces a name, brand, feature or requirement that conflicts with existing project documentation or product structure, inspect the source-of-truth documents and ask the Owner one concise clarification before making changes. Do not silently normalize uncertain words into a new product/feature.
+- The Owner speaks Urdu; speech-to-text may render it as Hindi or distort proper nouns. Respond in English for this project, preserve confirmed English product names/spellings, and confirm genuine ambiguity rather than guessing.
+
+### Implementation acceptance tests
+
+The access-control change is accepted only if:
+1. Locking SJN Question Bank does not lock Past Paper Question Bank, My Courses, My Analytics or other unlocked modules.
+2. Locking Past Paper Question Bank does not lock SJN Question Bank or unrelated modules.
+3. Locking Full-Length Past Papers, Mindletics, My Analytics, Mistake Diary or Academy Resources affects only that complete feature.
+4. Locking one My Courses session affects only that session/package; other sessions and general LMS features remain usable.
+5. Existing sign-in/session, dashboard and navigation behaviour remain unchanged.
+6. Existing exam start, active attempt, submit, Results, History, Review and Retake remain correct and student-isolated.
+7. No new sign-in, identity, navigation silo or per-question/per-chapter network check is introduced.
+8. Feature unlock/revoke changes take effect safely without corrupting an active attempt or historical records.
+
+**Status:** Product clarification recorded; implementation and Student DB/RLS changes remain separately scoped and unapproved until the Owner approves the concrete plan.
