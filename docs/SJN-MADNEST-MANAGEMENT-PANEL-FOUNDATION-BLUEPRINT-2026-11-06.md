@@ -171,3 +171,52 @@ The owner explicitly asked developers to remember these while designing Admin Pa
 At next chat start, read **this blueprint**, `docs/SJN-ADMIN-MANAGEMENT-CONSOLE-PLANNING-HANDOVER-2026-11-06.md`, `docs/SJN-FUTURE-FEATURES-AND-DEFERRED-DECISIONS-REGISTER.md`, `docs/SJN-LMS-MASTER-DEVELOPMENT-PLAN.md` and relevant feature handovers. Continue discussion by asking Owner to accept or adjust the **recommended policy defaults**, not re-asking already settled basics.
 
 **Current work is documentation/planning only. DO NOT create management app, admin user, Vercel project, SQL migration, Auth config, change Login label, turn on feature locks, release bank questions, alter LMS exam or deploy.** Wait for explicit implementation approval and first-phase scoped checklist.
+
+## 2026-11-17 — Owner-confirmed whole-feature access model and unified LMS continuity
+
+**Decision status: OWNER-CONFIRMED PRODUCT POLICY. Documentation only. No Student LMS code, database, RLS, API, auth, Vercel, DNS, production or deployment changes are authorized by this entry.**
+
+### 1. Main Student LMS access defaults
+
+- Registration remains **Open** by default, subject to the separately configurable registration policy already documented.
+- All general Student LMS features/modules are **Unlocked by default**.
+- Access controls apply to the **whole feature/module only**. Chief Admin can lock/unlock the complete feature globally; individual-student whole-feature overrides may be supported for authorized management users.
+- Specifically, the following are whole-feature controls: **SJN Question Bank**, **Past Paper Question Bank**, **Full-Length Past Papers**, **Mindletics**, **My Analytics**, **Mistake Diary**, **Academy Resources**, and any other separately supported LMS feature/module.
+- The two question banks are independent whole-bank controls. Locking one does not lock the other.
+- **Strictly prohibited product model:** no individual subject, chapter, topic, category, paper, question or MCQ commercial/access locks inside these features. Do not add per-subject or per-chapter lock toggles, per-paper paywalls, or per-question entitlements.
+
+### 2. My Courses is the explicit exception: access per complete course/test session
+
+- Each Academy-defined course/test session is independently listed and access-controlled (examples discussed: Genome session, Mock Test session, Full-Length/mock course session).
+- A session may be explicitly designated **Free** or require enrollment/granted access. Do not assume it is free because general practice is free.
+- Granting access unlocks the **entire selected session/package and its included tests**, subject to its schedule/availability rules. It does not unlock other sessions.
+- Do not subdivide a session into subject/chapter/topic/question-level commercial locks.
+
+### 3. Future-only whole-LMS premium mode and student onboarding choices
+
+- A future configurable mode may make the **entire Student LMS** Premium, with access granted to approved students. This is not the launch default and is not approved for implementation now.
+- Two onboarding alternatives remain open for that future mode: (A) Management Team creates/assigns a student ID/account and provides access; or (B) student signs in with email and submits an access request for management review/approval. Compare security, operational workload, recovery and support implications before recommending one. **No choice has been made.**
+- Built-in payment gateway is not a prerequisite; manual/offline/external payment verification may remain a separate operational process.
+- Registration policy (Open / Approval Required / Invite Only), account status, feature entitlements, course enrollment and any future whole-LMS premium mode are distinct controls. Changing registration policy must not silently suspend existing accounts.
+
+### 4. Unified Student LMS identity, session and navigation — core acceptance requirement
+
+- The Student LMS is one integrated application, not isolated feature silos. The authenticated student identity must remain continuous across Dashboard, Create Test, Practice Test, SJN Question Bank, Past Paper Question Bank, My Courses, Full-Length Past Papers, Mindletics, Analytics, Mistake Diary, Academy Resources and other modules.
+- Preserve the existing **24-hour authenticated session** policy and its established expiry/renewal behaviour. Do not introduce per-feature login, siloed auth, unnecessary re-authentication or a second student identity system.
+- A valid existing session must be recognized when a student navigates normally, refreshes, opens a direct LMS route/link, or opens another module. Direct navigation must not bypass authorization; it must restore/validate the same identity and then apply the relevant whole-feature/session entitlement.
+- Session expiry must invoke the established sign-in flow. Sign-out, account switching, cross-tab synchronization, suspended/blocked accounts and revoked access must remain secure and student-isolated.
+- Feature access checks must not create a database/network round trip on every MCQ navigation or exam interaction. Use a carefully designed server-authoritative, versioned/cached access profile with safe invalidation; exact design and threat model require review before implementation.
+- Preserve active exam answer/submit integrity during ordinary access-policy changes; emergency suspension semantics require a separately documented policy. Never allow one student's cached identity or entitlements to leak into another account.
+
+### 5. Engineering and release priorities
+
+1. Finish the current isolated Management Panel foundation and complete real Chief Admin browser UAT on the latest protected preview before expanding operations. Invitations remain gated until sender configuration and security/UAT pass.
+2. Build the Admin Panel's operational modules and audited permission model, with Chief Admin controlling staff membership and staff capabilities. Staff may manage student access only where explicitly granted.
+3. Design one centralized, server-enforced access-policy/entitlement service covering whole-feature locks, individual-student whole-feature overrides, complete course/session enrollment and the future optional whole-LMS premium mode. Keep the student LMS unified and minimize student-path work.
+4. **FF-008 remains a critical Student LMS release blocker:** safely segregate course/session-only MCQs from public practice-bank delivery and enforce course/session entitlement server-side. Do not simply revoke existing MCQ reads or break exam bootstrap, review, retake or history. No Student DB/RLS changes until a scoped migration and regression plan is separately reviewed and approved.
+5. Test the entire signed-in journey—not just exams—including direct links, refresh, Dashboard, all modules, 24-hour expiry, multiple tabs, mobile navigation, sign-out/account switch and revoked access. Preserve Create Test, exam, Results, Test History, Review, Retake, Analytics and Mistake Diary.
+6. Maintain a no-measurable-regression target for LMS performance, especially exam startup/navigation/submission. Management workloads must remain isolated and background operations bounded.
+
+### 6. Owner priority and approval boundary
+
+The immediate project priority remains completing the **SJN MedNest Management Panel**, not starting the future whole-LMS premium mode. The above decisions are product requirements for planning and documentation; they do not authorize implementation. Before any change, inspect the current code and prior records, explain scope/risk/impact, and obtain explicit approval for that change. Keep staging separate from main/production; no PR merge, production release, public launch, domain/DNS change or destructive data operation is implied.
