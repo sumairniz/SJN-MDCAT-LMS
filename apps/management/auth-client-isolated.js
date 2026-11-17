@@ -9,14 +9,11 @@ const TEAM=URL+"/functions/v1/mednest-isolated-team";
 const SECURITY=URL+"/functions/v1/mednest-isolated-stepup";
 const SAFE_ACTIONS=new Set(["me","profile.update","team.list","audit.list"]);
 const STORAGE_KEY="sjn-mednest-isolated-staff-v1";
-// Keep a Management login only for the current tab. A true page refresh is
-// allowed to continue the active work session; a fresh navigation into the
-// panel starts signed out. This is deliberately independent of Student LMS.
-const navigationType=performance.getEntriesByType("navigation")[0]?.type||"navigate";
-if(navigationType!=="reload")sessionStorage.removeItem(STORAGE_KEY);
+// Share one active Management session across tabs in the same browser.
+// Explicit sign-out clears it across tabs. This remains isolated from Student LMS.
 const client=createClient(URL,KEY,{auth:{
   autoRefreshToken:true,persistSession:true,detectSessionInUrl:false,
-  storage:sessionStorage,storageKey:STORAGE_KEY
+  storage:localStorage,storageKey:STORAGE_KEY
 }});
 const PERMS=Object.freeze({
  "content.view":"View academic content","content.create":"Create MCQs","content.edit":"Edit MCQs",
