@@ -75,3 +75,16 @@ test("Total and active management counters include Chief while directory remains
  assert.ok(js.includes('const team=members.filter(m=>m.role!=="chief_admin")'));
  assert.ok(js.includes('visible("chief-administrator-card",Boolean(chief))'));
 });
+
+test("Teacher MCQ editor exposes bounded Undo and Redo with keyboard shortcuts",()=>{
+ const html=read("apps/management/integrated-auth-preview.html");
+ const js=read("apps/management/content-studio.js");
+ const css=read("apps/management/content-studio.css");
+ for(const id of ["studio-undo","studio-redo","studio-autosave-status"])
+  assert.ok(html.includes('id="'+id+'"'),"missing "+id);
+ assert.ok(js.includes("editHistory.length>100"));
+ assert.ok(js.includes('event.key.toLowerCase()==="z"'));
+ assert.ok(js.includes('event.key.toLowerCase()==="y"'));
+ assert.ok(js.includes('resetEditHistory()'));
+ assert.ok(css.includes(".studio-history-controls"));
+});
