@@ -205,3 +205,49 @@ The access-control change is accepted only if:
 
 
 > **2026-11-17 — TEACHER MCQ EDITOR SAFETY IMPLEMENTATION (SOURCE COMMITTED; CI/UAT PENDING):** Added a bounded 100-state Undo/Redo history to the individual MCQ editor, with visible controls and Ctrl/Cmd+Z, Ctrl/Cmd+Y shortcuts. History resets when a question is opened/loaded and after explicit Save Question. Added debounced (1.1s after edit-history debounce) autosave of the active question into the existing isolated Management draft batch via the existing protected `batch.create` / `batch.save_rows` transport. Partial/incomplete fields are permitted by the existing server normalizer; full completeness validation remains at Save Question / academic routing. Autosave is draft-only, uses the existing 40-row chunk transport for initial multi-row batches, reports Saved/Failed states, and retries after transient failure while preserving the form. It does not submit for review or publish. Files: `apps/management/content-studio.js`, `apps/management/integrated-auth-preview.html`, `apps/management/content-studio.css`, test `tests/management-integrated-isolated-auth.test.js`. Commits: Undo/Redo UI+logic `a2f299a499e118e95e48a727a8f20c9e8a315eec`; CSS `b9f77468f70e27e5345e02850243de47dd24e589`; autosave `92d096f3333e13f586bd36754f11b3ae80dd677a`; teacher guidance `23484eadaadf93c5e1a5c7e54b5d39361a873553`; autosave test `6bbeafdd9dff7047d8bfe4213ba2c0d63b90fd07`. This is source-level implementation only until CI, protected preview and owner tests pass. Follow-up correctness guard: after first autosave, the newly created row is selected by its stable line number so the teacher's subsequent completeness-validated Save updates that same row rather than creating a duplicate. Commit `494490170d572ea6e7cd35d0531c23c244696754`. Limitations to verify: autosave requires the browser tab to remain alive long enough for the debounce/network request; sudden power loss or closing within the save window can still lose the latest keystrokes. Saved batch restore remains available after successful server acknowledgement. The existing browser `beforeunload` warning remains. No DB schema, Edge Function, student LMS, production, DNS or publish-path changes.
+
+
+---
+
+## 2026-11-17 OWNER CHECKPOINT — PAUSE / NEXT-CHAT RESUME
+
+### Audience and language correction for Management Panel / Content Studio
+
+The owner clarified that the intended users are **the small Management/academic team**, not necessarily teachers. Team members may be MBA students or other non-teaching team members. Their work is academic/content operations; they are not expected to be technical users.
+
+- Do not call the audience “teachers” or design the workflow around teacher-only roles.
+- Use neutral wording such as **Academic Team**, **Academic Operations**, **Team Member**, **Content Contributor**, and **Reviewer** where appropriate.
+- The interface must be straightforward for non-technical team members. Do not assume familiarity with databases, spreadsheets, MCQ schemas, deployment, or technical terminology.
+- Keep the scope grounded in academic operations: prepare/edit MCQs, organise syllabus-aligned content, save drafts, and participate in the approved review workflow according to permissions.
+- This is a small initial team, not a large school faculty or teacher-management platform. Avoid unnecessary role complexity.
+- The owner has paused active work because their ChatGPT Go usage/allowance is running low. **Do not continue implementing or redesigning now.** Resume from this exact checkpoint in the next chat after the owner returns.
+
+### Latest owner browser feedback
+
+The owner tested the deployed Management Panel preview and reported:
+- Undo works.
+- Redo also appears to work, though the owner described it as “a little” / not fully confidently verified. Treat Undo as owner-tested working and Redo as owner-tested but requiring another deliberate confirmation.
+- This is manual owner UAT, not a full QA sign-off.
+- Do not claim the owner verified autosave, interrupted-save recovery, two-tab login, or all browser edge cases unless separately tested.
+
+### Latest preview and code checkpoint
+
+- Branch: `sjn-phase1a-foundation`
+- Latest documented source commit: `214ad48408c1c013e498ebfa0f1d8dfa92288420`
+- Latest Management preview deployment: `dpl_4TABYGUz7QkF4wmXHEyusqJ2vAxy`
+- Preview URL: `https://sjn-mednest-management-alcrr049k-sjn1.vercel.app`
+- Vercel deployment state: READY.
+- CI run `44096300983` passed on commit `6bbeafdd9dff7047d8bfe4213ba2c0d63b90fd07`: 319 tests passed, CSS build/reproducibility and release-hygiene checks passed.
+- A small follow-up correction to preserve the selected row after autosaving a new MCQ was committed as `494490170d572ea6e7cd35d0531c23c244696754`, followed by a test assertion and documentation commits. The GitHub workflow lookup did not return a run for that later test commit. Therefore do not state that the final post-correction source state has fully passed CI until confirmed.
+- No production deployment, PR merge, custom-domain DNS, Student LMS change, or DB schema change was made as part of this checkpoint.
+
+### Exact next steps after the owner returns
+
+1. Reconfirm the latest preview and inspect CI for the newest commit before further edits.
+2. Ask the owner to confirm the Undo/Redo behaviour only if the next test requires it; do not make them repeat already reported results unnecessarily.
+3. Redesign the overall Content Studio for a **non-technical academic team**, not a teacher persona. First present a concise workflow/design proposal and obtain owner approval before implementation.
+4. Keep all existing safeguards: protected draft storage, autosave status/retry, Undo/Redo, completeness validation, separate SJN and Past Paper banks, audit history, approval controls, and no automatic publication.
+5. Test autosave/reopen/recovery, multi-tab sign-in, mobile layout, and existing MCQ draft/review flows before calling the feature complete.
+6. Continue with the Management Panel roadmap, then return to Student LMS security/FF-008 and release readiness in the established order.
+
+**Pause instruction:** End work here. The next chat should resume from this checkpoint; do not restart the project, re-audit already documented decisions from scratch, or interpret “teacher” as the required audience.
