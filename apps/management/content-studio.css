@@ -158,3 +158,11 @@
 #studio-focus-feedback:empty{display:none}
 @media(max-width:860px){.studio-focus-layout{grid-template-columns:minmax(175px,230px) minmax(0,1fr)}.studio-focus-main{padding:14px}.studio-focus-toolbar .tiny-text{text-align:left}}
 @media(max-width:650px){.studio-view-tab{flex:1 1 120px;padding:11px}.studio-focus-top{padding:12px}.studio-focus-layout{grid-template-columns:1fr}.studio-focus-sidebar{border-right:none;border-bottom:1px solid var(--line)}.studio-focus-questions{flex-direction:row;max-height:150px;overflow:auto}.studio-focus-question{min-width:145px;max-width:190px}.studio-focus-main{padding:14px}.studio-focus-toolbar{padding:12px}.studio-focus-toolbar button{flex:1 1 100px}.studio-focus-toolbar .tiny-text{flex-basis:100%}#studio-focus-editor-stage .studio-editor-grid{grid-template-columns:1fr}}
+
+/* Teacher editor safety controls: compact, discoverable and mobile-friendly. */
+.studio-editor-actions--safe{display:flex;flex-direction:column;gap:12px}
+.studio-history-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--panel-alt)}
+.studio-history-controls .tiny-text{flex:1 1 220px;min-width:150px}
+.studio-history-controls button:disabled{opacity:.42;cursor:not-allowed}
+.studio-editor-actions--safe>.studio-editor-actions{display:flex;gap:9px;flex-wrap:wrap}
+@media(max-width:520px){.studio-history-controls{align-items:stretch}.studio-history-controls button{flex:1 1 110px}.studio-history-controls .tiny-text{flex-basis:100%}.studio-editor-actions--safe>.studio-editor-actions button{flex:1 1 100%}}
