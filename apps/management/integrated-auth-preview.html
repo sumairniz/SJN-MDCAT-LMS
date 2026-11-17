@@ -488,10 +488,17 @@
         <div class="studio-field"><label for="studio-paper_code">Original paper code (optional)</label><input id="studio-paper_code" maxlength="100" placeholder="Blue / Code 2"></div>
       </div>
       <div class="studio-field studio-field--wide"><h3>Draft question preview</h3><div id="studio-live-preview" class="studio-mcq-preview" aria-live="polite"></div></div>
-      <div class="studio-editor-actions">
-        <button id="studio-save" class="primary-btn" type="submit">Save Question</button>
-        <button id="studio-save-next" class="secondary-btn" type="button">Save &amp; Next</button>
-        <button id="studio-cancel" class="secondary-btn" type="button">Cancel</button>
+      <div class="studio-editor-actions studio-editor-actions--safe">
+        <div class="studio-history-controls" role="group" aria-label="Edit history">
+          <button id="studio-undo" class="secondary-btn" type="button" disabled>↶ Undo</button>
+          <button id="studio-redo" class="secondary-btn" type="button" disabled>↷ Redo</button>
+          <span id="studio-autosave-status" class="tiny-text" role="status" aria-live="polite">Unsaved edits · Save Question to keep changes.</span>
+        </div>
+        <div class="studio-editor-actions">
+          <button id="studio-save" class="primary-btn" type="submit">Save Question</button>
+          <button id="studio-save-next" class="secondary-btn" type="button">Save &amp; Next</button>
+          <button id="studio-cancel" class="secondary-btn" type="button">Cancel</button>
+        </div>
       </div>
     </form>
   </section>
