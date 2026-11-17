@@ -5,12 +5,16 @@ const fs=require("node:fs");
 const path=require("node:path");
 const root=path.resolve(__dirname,"..");
 const read=p=>fs.readFileSync(path.join(root,p),"utf8");
-test("New professional preview uses the original shell without replacing rollback login",()=>{
+test("Management root serves the isolated-auth workspace and never loads the legacy Student Auth client",()=>{
  const base=read("apps/management/index.html");
  const preview=read("apps/management/integrated-auth-preview.html");
  const old=read("apps/management/auth-client.js");
  const integrated=read("apps/management/auth-client-isolated.js");
- assert.ok(base.includes('src="/auth-client.js"'));
+ assert.ok(base.includes('src="/auth-client-isolated.js"'));
+ assert.ok(!base.includes('src="/auth-client.js"'));
+ assert.ok(!base.includes("https://aozknkrwafowsrehdwlr.supabase.co"));
+ assert.ok(base.includes("independent Management Auth project"));
+ assert.ok(!base.includes("earlier Management Panel login remains available as rollback"));
  assert.ok(preview.includes('src="/auth-client-isolated.js"'));
  assert.ok(preview.includes('src="/app.js"'));
  for(const id of ['id="workspace"','id="team-preview"','id="chief-profile-form"','id="profile-preview"','id="audit-preview"','id="management-signin"'])
