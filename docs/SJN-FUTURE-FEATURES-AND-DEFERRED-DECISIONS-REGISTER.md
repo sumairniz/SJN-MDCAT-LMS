@@ -158,3 +158,11 @@ The following are real incomplete obligations but **must not** be confused with 
 - **OPEN — Chief UAT:** browser verification of sign-in, profile, team/audit reads, step-up delivery, MCQ drafts and sign-out remains pending.
 - **OPEN — FF-008:** Student course-only MCQ exposure remains a critical release blocker. No Student RLS changes made.
 - **OPEN — team onboarding:** keep invitations disabled until actual sender configuration and Chief UAT succeed.
+
+
+## 2026-11-17 — Management preview integration correction
+- **CLOSED:** make the isolated Management Auth workspace the deployed `/index.html` entry point. The earlier root shell was still loading Student LMS Auth, so it was not safe for Chief UAT. Updated the root and automated assertion; deployed a fresh protected preview after all 317 Foundation tests passed. New test URL: `https://sjn-mednest-management-hubnpth3l-sjn1.vercel.app`. Old preview is not to be used for sign-in.
+- **OPEN — Chief UAT:** verify actual Chief sign-in, profile, team/audit reads and step-up delivery from the new preview. Assistant has not entered credentials or OTP.
+- **OPEN — Staff onboarding:** invites remain disabled pending sender setup and security acceptance tests.
+- **OPEN — FF-008:** Student course-only MCQ public-read exposure remains a release blocker; no Student RLS changes were made.
+- Evidence and exact deployment/commit details: `docs/SJN-MEDNEST-MANAGEMENT-AUTH-RESTORATION-SECURITY-VERIFICATION-2026-11-17.md`.
