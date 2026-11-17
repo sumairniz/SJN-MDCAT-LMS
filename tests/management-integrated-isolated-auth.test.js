@@ -88,3 +88,15 @@ test("Teacher MCQ editor exposes bounded Undo and Redo with keyboard shortcuts",
  assert.ok(js.includes('resetEditHistory()'));
  assert.ok(css.includes(".studio-history-controls"));
 });
+
+test("Teacher editor autosaves incomplete working edits without publishing",()=>{
+ const js=read("apps/management/content-studio.js");
+ const html=read("apps/management/integrated-auth-preview.html");
+ assert.ok(js.includes("async function autoSaveEditor(revision)"));
+ assert.ok(js.includes("setTimeout(()=>autoSaveEditor(revision),1100)"));
+ assert.ok(js.includes('await saveDraftItems(items,{updateAll:items.length>1})'));
+ assert.ok(js.includes('Saved automatically · '));
+ assert.ok(js.includes('Autosave failed · Your edits remain here. Retrying…'));
+ assert.ok(html.includes("Changes save automatically to your private Management draft"));
+ assert.ok(html.includes("Nothing is published to students."));
+});
