@@ -22,7 +22,7 @@ test("Management root serves the isolated-auth workspace and never loads the leg
  assert.ok(old.includes('https://aozknkrwafowsrehdwlr.supabase.co'));
  assert.ok(integrated.includes('https://tdqbjhrmfluiinntmjfh.supabase.co'));
  assert.ok(!integrated.includes('https://aozknkrwafowsrehdwlr.supabase.co'));
- assert.ok(integrated.includes('storageKey:"sjn-mednest-isolated-staff-v1"'));
+ assert.ok(integrated.includes('storageKey:STORAGE_KEY'));
  assert.ok(integrated.includes('const STORAGE_KEY="sjn-mednest-isolated-staff-v1"'));
  assert.ok(integrated.includes('navigationType!=="reload"'));
  assert.ok(integrated.includes('sessionStorage.removeItem(STORAGE_KEY)'));
