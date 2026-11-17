@@ -250,3 +250,49 @@ The access-control change is accepted only if:
 8. Feature unlock/revoke changes take effect safely without corrupting an active attempt or historical records.
 
 **Status:** Product clarification recorded; implementation and Student DB/RLS changes remain separately scoped and unapproved until the Owner approves the concrete plan.
+
+
+---
+
+## 2026-11-17 OWNER CHECKPOINT — PAUSE / NEXT-CHAT RESUME
+
+### Audience and language correction for Management Panel / Content Studio
+
+The owner clarified that the intended users are **the small Management/academic team**, not necessarily teachers. Team members may be MBA students or other non-teaching team members. Their work is academic/content operations; they are not expected to be technical users.
+
+- Do not call the audience “teachers” or design the workflow around teacher-only roles.
+- Use neutral wording such as **Academic Team**, **Academic Operations**, **Team Member**, **Content Contributor**, and **Reviewer** where appropriate.
+- The interface must be straightforward for non-technical team members. Do not assume familiarity with databases, spreadsheets, MCQ schemas, deployment, or technical terminology.
+- Keep the scope grounded in academic operations: prepare/edit MCQs, organise syllabus-aligned content, save drafts, and participate in the approved review workflow according to permissions.
+- This is a small initial team, not a large school faculty or teacher-management platform. Avoid unnecessary role complexity.
+- The owner has paused active work because their ChatGPT Go usage/allowance is running low. **Do not continue implementing or redesigning now.** Resume from this exact checkpoint in the next chat after the owner returns.
+
+### Latest owner browser feedback
+
+The owner tested the deployed Management Panel preview and reported:
+- Undo works.
+- Redo also appears to work, though the owner described it as “a little” / not fully confidently verified. Treat Undo as owner-tested working and Redo as owner-tested but requiring another deliberate confirmation.
+- This is manual owner UAT, not a full QA sign-off.
+- Do not claim the owner verified autosave, interrupted-save recovery, two-tab login, or all browser edge cases unless separately tested.
+
+### Latest preview and code checkpoint
+
+- Branch: `sjn-phase1a-foundation`
+- Latest documented source commit: `214ad48408c1c013e498ebfa0f1d8dfa92288420`
+- Latest Management preview deployment: `dpl_4TABYGUz7QkF4wmXHEyusqJ2vAxy`
+- Preview URL: `https://sjn-mednest-management-alcrr049k-sjn1.vercel.app`
+- Vercel deployment state: READY.
+- CI run `44096300983` passed on commit `6bbeafdd9dff7047d8bfe4213ba2c0d63b90fd07`: 319 tests passed, CSS build/reproducibility and release-hygiene checks passed.
+- A small follow-up correction to preserve the selected row after autosaving a new MCQ was committed as `494490170d572ea6e7cd35d0531c23c244696754`, followed by a test assertion and documentation commits. The GitHub workflow lookup did not return a run for that later test commit. Therefore do not state that the final post-correction source state has fully passed CI until confirmed.
+- No production deployment, PR merge, custom-domain DNS, Student LMS change, or DB schema change was made as part of this checkpoint.
+
+### Exact next steps after the owner returns
+
+1. Reconfirm the latest preview and inspect CI for the newest commit before further edits.
+2. Ask the owner to confirm the Undo/Redo behaviour only if the next test requires it; do not make them repeat already reported results unnecessarily.
+3. Redesign the overall Content Studio for a **non-technical academic team**, not a teacher persona. First present a concise workflow/design proposal and obtain owner approval before implementation.
+4. Keep all existing safeguards: protected draft storage, autosave status/retry, Undo/Redo, completeness validation, separate SJN and Past Paper banks, audit history, approval controls, and no automatic publication.
+5. Test autosave/reopen/recovery, multi-tab sign-in, mobile layout, and existing MCQ draft/review flows before calling the feature complete.
+6. Continue with the Management Panel roadmap, then return to Student LMS security/FF-008 and release readiness in the established order.
+
+**Pause instruction:** End work here. The next chat should resume from this checkpoint; do not restart the project, re-audit already documented decisions from scratch, or interpret “teacher” as the required audience.
