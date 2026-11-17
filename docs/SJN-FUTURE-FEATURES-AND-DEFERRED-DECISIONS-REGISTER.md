@@ -150,3 +150,11 @@ The following are real incomplete obligations but **must not** be confused with 
 6. **Keep the register lean:** Do not add every bugfix, ephemeral proposal or test-only note as a feature. Preserve the distinction between product backlog, temporary release cleanup, academic content QA and production go-live.
 
 **Creation checkpoint (2026-11-01):** Consolidated from existing owner-approved documents on development HEAD 37d1be9d2. No application code, test, database record, schema, Vercel configuration, production environment or release authorization was changed by creating this file.
+
+
+## 2026-11-17 — Management Auth security verification checkpoint
+- **CLOSED (narrow security issue):** remove API execution from `mednest_content_batch_audit_status()`, an audit trigger function that Supabase Advisor flagged as publicly executable SECURITY DEFINER. Applied and verified in isolated Management Auth; trigger still works. Evidence: [Management Auth Restoration & Security Verification](SJN-MEDNEST-MANAGEMENT-AUTH-RESTORATION-SECURITY-VERIFICATION-2026-11-17.md), commit `8adfd602b5360b4d567f7648cb70a5325e589ce8`, migration `20261117120028`.
+- **OPEN — Auth hardening:** leaked-password protection remains disabled; review and configure separately.
+- **OPEN — Chief UAT:** browser verification of sign-in, profile, team/audit reads, step-up delivery, MCQ drafts and sign-out remains pending.
+- **OPEN — FF-008:** Student course-only MCQ exposure remains a critical release blocker. No Student RLS changes made.
+- **OPEN — team onboarding:** keep invitations disabled until actual sender configuration and Chief UAT succeed.
