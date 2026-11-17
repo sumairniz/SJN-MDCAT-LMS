@@ -7,7 +7,7 @@
  let drafts=[],selected=-1,filter="all",page=0;
  let savedBatchId=null,clientBatchKey=null,savedStatus="unsaved",dirty=false,advanceOnSave=false;
  let studioView="drafts",inspectMode=false,focusLine=null,focusPage=0,focusQuery="",editorSnapshot=null,saveInFlight=false;
- let editHistory=[],historyIndex=-1,historyTimer=null,historyApplying=false;
+ let editHistory=[],historyIndex=-1,historyTimer=null,historyApplying=false,autosaveTimer=null,autosaveRevision=0;
  const taxonomy=window.MedNestTaxonomy;
  let catalog=null,taxonomyReviewLine=null;
  const canon=s=>String(s||"").trim().replace(/\s+/g," ").toLocaleLowerCase("en");
@@ -201,6 +201,38 @@
  window.addEventListener("beforeunload",event=>{
    if(dirty||formChanged()){event.preventDefault();event.returnValue=""}
  });
+ let autosaveRetryTimer=null;
+ function scheduleEditorAutosave(){
+   clearTimeout(autosaveTimer);
+   const revision=++autosaveRevision;
+   autosaveTimer=setTimeout(()=>autoSaveEditor(revision),1100);
+ }
+ async function autoSaveEditor(revision){
+   if(revision!==autosaveRevision||locked()||inspectMode||
+      $("studio-editor").classList.contains("is-hidden"))return;
+   if(saveInFlight){autosaveRetryTimer=setTimeout(()=>autoSaveEditor(revision),700);return;}
+   const snapshot=readEditor(),entry=canonicalizeExact(snapshot),index=selected;
+   const position=index>=0?drafts[index].line:(drafts.length?Math.max(...drafts.map(x=>x.line))+1:1);
+   if(position>3000){$("studio-autosave-status").textContent="Autosave paused · Start another draft for more questions.";return;}
+   const candidate={line:position,entry};
+   const updatedRows=index>=0?drafts.map((x,i)=>i===index?candidate:x):[...drafts,candidate];
+   const items=dirty||!savedBatchId?updatedRows:[candidate];
+   try{
+     $("studio-autosave-status").textContent="Saving draft securely…";
+     await saveDraftItems(items,{updateAll:items.length>1});
+     drafts=updatedRows;
+     if(revision===autosaveRevision&&JSON.stringify(readEditor())===JSON.stringify(snapshot)){
+       editorSnapshot=JSON.stringify(snapshot);dirty=false;
+       $("studio-autosave-status").textContent="Saved automatically · "+new Date().toLocaleTimeString();
+       routeControls();renderFocus();
+     }else{dirty=true;routeControls();scheduleEditorAutosave();}
+   }catch(error){
+     dirty=true;routeControls();
+     $("studio-autosave-status").textContent="Autosave failed · Your edits remain here. Retrying…";
+     autosaveRetryTimer=setTimeout(()=>autoSaveEditor(revision),2500);
+     focusStateMessage("Autosave could not confirm the latest edit: "+error.message,true);
+   }
+ }
  function readEditor(){
    return Object.fromEntries(fields.map(name=>[name,$("studio-"+name).value]));
  }
@@ -223,8 +255,8 @@
      editHistory=editHistory.slice(0,historyIndex+1);editHistory.push(next);
      if(editHistory.length>100)editHistory.shift();
      historyIndex=editHistory.length-1;updateHistoryControls();
-     $("studio-autosave-status").textContent="Unsaved edits · Save Question to keep changes.";
-     modified();
+     $("studio-autosave-status").textContent="Unsaved changes · Saving automatically…";
+     modified();scheduleEditorAutosave();
    },180);
  }
  function applyHistory(index){
@@ -233,8 +265,8 @@
    for(const name of fields)$("studio-"+name).value=editHistory[index][name]||"";
    historyIndex=index;historyApplying=false;updateHistoryControls();
    window.MedNestMCQAssist?.previewNew();
-   $("studio-autosave-status").textContent="Change restored · Save Question to keep this version.";
-   modified();
+   $("studio-autosave-status").textContent="Change restored · Saving automatically…";
+   modified();scheduleEditorAutosave();
  }
  $("studio-undo").addEventListener("click",()=>applyHistory(historyIndex-1));
  $("studio-redo").addEventListener("click",()=>applyHistory(historyIndex+1));
@@ -595,6 +627,7 @@
      render();
      try{await reloadBatchList();$("studio-saved-batches").value=savedBatchId}
      catch(e){storageStatus("Question saved. Refresh the draft list to see the latest label.");}
+     clearTimeout(autosaveTimer);clearTimeout(autosaveRetryTimer);
      $("studio-autosave-status").textContent="Saved securely · "+new Date().toLocaleTimeString();
      resetEditHistory();
      focusStateMessage("Question "+position+" saved to your protected draft.");
