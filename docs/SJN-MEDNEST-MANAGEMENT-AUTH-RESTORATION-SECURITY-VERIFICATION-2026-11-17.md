@@ -109,3 +109,19 @@ Correction:
 - This is still a protected development preview, not a public or production deployment. No login/OTP was attempted by the assistant. Owner browser UAT remains pending.
 
 **Do not use the old preview URL for login.** The old deployment `sjn-mednest-management-eehnduq5q-sjn1.vercel.app` serves the legacy Student-linked shell. Use the new URL above for owner testing.
+
+## 11. FF-008 read-only code-path audit started (Student staging DB queries timed out)
+The Student staging project `aozknkrwafowsrehdwlr` reports `ACTIVE_HEALTHY`, but the Supabase SQL/table tools repeatedly returned connection timeouts during this session. No Student DB settings, schema, RLS or data were changed. Therefore the 2026-11-08 SQL policy finding is historical evidence and still needs a fresh live DB recheck once connections recover.
+
+Current development-branch source inspection confirms an additional, concrete exposure path:
+- `server.js` initializes its Student Supabase client with the public anon key (not service role).
+- `GET /api/content` has no `auth` middleware. It calls `readAllPublishedMcqs(supabase)` across the full `mcqs` table and returns `publicMcq(row)`, including question options, `correctIndex`, explanation and current revision ID.
+- `public/index.html` calls `api('/content')` during startup before the student has authenticated.
+- The browser stores the complete returned MCQ list in `mcqQuestionBank`.
+- `SJN MedNest Course Tests` questions are selected from that same list by the client in the Genome course start path. Thus the existing client-side course bank filter is not an entitlement boundary.
+- Authenticated `GET /api/course-tests` verifies the Student session and returns the Genome catalog, but there is no server-side course enrollment/entitlement check in the inspected handler. It returns the test manifest/MCQ IDs, while question/answer content is already present in the anonymous `/api/content` payload.
+- The source currently contains no entitlement table evidence in the prior audit. Fresh SQL confirmation remains pending because of the connection timeouts.
+
+This means the release blocker is not just the database's historical anon SELECT policy: the public application API also returns restricted bank answer data before login. Do not simply remove the course bank from the response until the course start, review, retake and history paths are migrated to a secure authenticated content endpoint; that would break the existing Course Test flow. Do not simply revoke `mcqs` SELECT until all legitimate client/API readers are audited.
+
+**Owner decision required before entitlement implementation:** confirm whether the existing Genome pilot session is explicitly intended to be free/public to all signed-in students, or must require a whole-session/course entitlement. No individual-MCQ premium flags will be used. After this policy decision, design and implement a server-enforced entitlement model in Student staging, migrate course question delivery out of the public `/api/content` response, and regression-test course start/resume/retake/history, ordinary question banks, past papers, analytics and Mistake Diary.
