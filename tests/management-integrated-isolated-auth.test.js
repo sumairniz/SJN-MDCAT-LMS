@@ -23,6 +23,12 @@ test("Management root serves the isolated-auth workspace and never loads the leg
  assert.ok(integrated.includes('https://tdqbjhrmfluiinntmjfh.supabase.co'));
  assert.ok(!integrated.includes('https://aozknkrwafowsrehdwlr.supabase.co'));
  assert.ok(integrated.includes('storageKey:"sjn-mednest-isolated-staff-v1"'));
+ assert.ok(integrated.includes('const STORAGE_KEY="sjn-mednest-isolated-staff-v1"'));
+ assert.ok(integrated.includes('navigationType!=="reload"'));
+ assert.ok(integrated.includes('sessionStorage.removeItem(STORAGE_KEY)'));
+ assert.ok(integrated.includes('storage:sessionStorage,storageKey:STORAGE_KEY'));
+ assert.ok(!integrated.includes('persistSession:true,detectSessionInUrl:false,\\n  storageKey:'));
+
 });
 test("Session authorization always passes isolated Chief server role verification",()=>{
  const s=read("apps/management/auth-client-isolated.js");
