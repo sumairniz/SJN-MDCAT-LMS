@@ -21,6 +21,23 @@ test("Content Studio redesign adds an Academic Team workspace header without rep
  assert.ok(css.includes("@media(max-width:520px)"));
 });
 
+test("Content Studio loads protected drafts when Management Auth finishes before its deferred script",()=>{
+ const auth=read("apps/management/auth-client-isolated.js");
+ const ui=read("apps/management/content-studio.js");
+ assert.ok(auth.includes('document.documentElement.dataset.managementAuthorized="true"'));
+ assert.ok(auth.includes('document.documentElement.dataset.managementAuthorized="false"'));
+ assert.ok(ui.includes('if(document.documentElement.dataset.managementAuthorized==="true")refreshAuthorizedDrafts()'));
+ assert.ok(ui.includes('window.addEventListener("mednest:authorized",refreshAuthorizedDrafts)'));
+});
+
+test("Both Add Question controls invoke the same direct editor action",()=>{
+ const ui=read("apps/management/content-studio.js");
+ assert.ok(ui.includes('$("studio-focus-add").addEventListener("click",startNewQuestion)'));
+ assert.ok(ui.includes('$("studio-new").addEventListener("click",startNewQuestion)'));
+ assert.ok(!ui.includes('$("studio-focus-add").addEventListener("click",()=>$("studio-new").click())'));
+ assert.ok(ui.includes('show("studio-editor",true);focusFormSnapshot();setStudioView("focus")'));
+});
+
 test("Content Studio redesign does not introduce duplicate IDs or teacher-only audience copy",()=>{
  const html=read("apps/management/integrated-auth-preview.html");
  const ids=[...html.matchAll(/\\bid="([^"]+)"/g)].map(m=>m[1]);
