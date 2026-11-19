@@ -335,3 +335,17 @@ The Owner approved the overall redesign direction on 2026-11-19. Scope is the ex
 - Preview deployment `dpl_837BmZcLnKdQfN71GWp2MP1Kh2ad` READY for commit `f49c8b294d135fdac2ce33af11a1fc311c63a83b`: `https://sjn-mednest-management-lc7wbjrtl-sjn1.vercel.app`. Vercel SSO protection remains enabled.
 - Scope unchanged: no Supabase schema/data/Edge Function changes, no Student LMS changes, no DNS/production changes, and PR #1 remains draft/unmerged.
 - Important verification boundary: automated CI validates code and regression guards; the owner must still test the protected preview in a browser to confirm saved drafts actually populate and Add Question opens the editor under the real signed-in Management session. Autosave, Save Question, reopen, and existing saved-draft integrity must be checked before calling the recovery fully owner-verified.
+
+
+## 2026-11-19 — Content Studio rollback to pre-redesign baseline
+
+Owner approved recovery-first sequence after the November 19 Content Studio presentation changes and subsequent Add Question/saved-draft recovery attempt did not resolve the browser-visible functional regression.
+
+- Restored these four files on `sjn-phase1a-foundation` to their exact contents at pre-redesign baseline commit `214ad48408c1c013e498ebfa0f1d8dfa92288420`: `apps/management/integrated-auth-preview.html`, `apps/management/content-studio.css`, `apps/management/content-studio.js`, and `apps/management/auth-client-isolated.js`.
+- Removed the visual-redesign-only test `tests/management-content-studio-redesign.test.js` because it asserted presentation markers rather than real draft/Add Question browser behavior.
+- This was a targeted file restore, not a branch reset. Management authentication/security changes outside these four files and all unrelated project work remain intact.
+- No Supabase schema, data, Edge Functions, saved draft records, Student LMS code, DNS, production deployment, or PR merge was changed.
+- The restored file blobs were re-fetched and verified to match the baseline commit exactly. The branch comparison now shows only the three existing project-document updates relative to that baseline; no application-code differences remain in the four restored paths.
+- GitHub Actions Foundation checks for the rollback commit were still running at documentation time (run `44577147590`). Do not describe CI as passed until its final result is checked.
+- Browser verification is still required: confirm saved-draft list visibility, opening an existing draft, Add Question opening the editor, saving/reopening, and refresh persistence. A successful CI run alone does not establish these behaviors.
+- Next sequence: finish CI check, publish/inspect the protected preview for this rollback commit, then have the owner verify the real browser workflow. Only after those checks pass should a new redesign be attempted in small independently tested steps.
