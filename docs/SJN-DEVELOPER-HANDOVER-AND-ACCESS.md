@@ -271,12 +271,10 @@ The Owner approved the overall redesign direction on 2026-11-19. Scope is the ex
 - HTML commit: `8c11309d39c79b93aea1568e635cdcdea94c6449`.
 - CSS commit: `9f55fda43d6e6654b6db4e3329d10655dd4b5b39`.
 - Regression test commit: `2594ba75dc6dca51b72803b5e5ef023cbcd0d55d`.
-- First redesign CI run `44561468360` completed successfully after the HTML/CSS pass. The newly added redesign-specific test was committed afterward; its own CI result must be checked before calling the full updated branch green.
+- Foundation Checks run `44561468360` passed for the HTML/CSS pass; the redesign-specific regression-test commit then passed run `44561601619`. The current branch head `d0b5234b2e3c097e51ee582df779c4e9e5436baa` also passed run `44561726128`.
+- A fresh Vercel deployment was created and reached `READY`: `dpl_HBNsrj8ovcr86m1yTxnEa63QLYxZ`, URL `https://sjn-mednest-management-9br70qc8h-sjn1.vercel.app`, commit `d0b5234b2e3c097e51ee582df779c4e9e5436baa`. Vercel project settings report SSO protection enabled for all deployments. Build log reports deployment completed; the web inspection endpoint could not access the SSO-protected page, so visual/browser UAT is not yet verified.
 - No Management Auth, Student LMS database, Edge Function, question data, student attempts/history, publishing service, production deployment, PR merge or DNS was changed.
 
 ### Remaining before calling the redesign complete
-1. Verify CI for the new redesign regression test commit.
-2. Inspect the deployed protected preview; the latest known READY deployment still points to older commit `214ad48408c1c013e498ebfa0f1d8dfa92288420`, so do not present it as containing this redesign.
-3. Confirm Vercel preview quota/conditions before any new preview deployment; do not buy or upgrade anything.
-4. Owner browser UAT on desktop and mobile: navigation, editor, preview, Undo/Redo, autosave/reopen/recovery, both question banks, Excel import, existing correction drafts and academic review.
-5. Record further screen-level improvements only after observed UAT; retain staging-only and explicit approval gates.
+1. Owner browser UAT on desktop and mobile: sign-in, navigation, editor, preview, Undo/Redo, autosave/reopen/recovery, both question banks, Excel import, existing correction drafts and academic review.
+2. Record further screen-level improvements only after observed UAT; retain staging-only and explicit approval gates.
