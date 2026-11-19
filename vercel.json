@@ -11,5 +11,8 @@
       "src": "/(.*)",
       "dest": "/server.js"
     }
+  ],
+  "regions": [
+    "bom1"
   ]
 }

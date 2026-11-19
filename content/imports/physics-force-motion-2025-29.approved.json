@@ -1,0 +1,533 @@
+{
+  "metadata": {
+    "status": "OWNER_APPROVED_FOR_STAGING_ONLY",
+    "year": 2025,
+    "count": 29,
+    "contentRule": "Original question, option text, answer key and source are immutable; reviewNumber is NOT permanent question ID.",
+    "productionPromotion": "Separate production approval and verified import required; Git merge does NOT copy Supabase records."
+  },
+  "questions": [
+    {
+      "reviewNumber": 1,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Distance & Displacement",
+      "source": "Sindh 2025",
+      "question": "A body moves along a semicircular path of radius 10 m from one end of the diameter to the other. The ratio of distance to displacement is:",
+      "options": [
+        "π: 1",
+        "1: π",
+        "π: 2",
+        "2: π"
+      ],
+      "correctIndex": 2,
+      "explanation": "Distance is the total length of the semicircular arc, πr = 10π m. Displacement is the straight-line separation between the two ends, equal to the diameter, 2r = 20 m. Therefore, distance : displacement = 10π : 20 = π : 2.",
+      "mnemonic": "Semicircle: Distance = πr, Displacement = 2r. Ratio = π:2."
+    },
+    {
+      "reviewNumber": 2,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Distance & Displacement",
+      "source": "SZABMU 2025",
+      "question": "A person moves 600 m towards north then 300 m towards south. Its displacement to distance ratio is:",
+      "options": [
+        "1:2",
+        "1:3",
+        "2:1",
+        "3:1"
+      ],
+      "correctIndex": 1,
+      "explanation": "Total distance = 600 + 300 = 900 m. Net displacement = 600 − 300 = 300 m north. Hence displacement : distance = 300 : 900 = 1 : 3.",
+      "mnemonic": "Opposite directions → subtract for displacement, add for distance."
+    },
+    {
+      "reviewNumber": 3,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Distance & Displacement",
+      "source": "KPK 2025",
+      "question": "A boat moves 4 km east and then 3 km north. Another boat moves 3 km north first and then 4 km east. Which statement is CORRECT about their final displacements?",
+      "options": [
+        "Both boats have the same displacement vector",
+        "The first boat's displacement is greater because it traveled east first",
+        "The second boat's displacement is greater because it travelled north first",
+        "Both boats end at different positions but cover the same distance"
+      ],
+      "correctIndex": 0,
+      "explanation": "Displacement depends only on initial and final positions, not on the order of travel. Both boats move 4 km east and 3 km north, so both have identical displacement vectors with magnitude √(4² + 3²) = 5 km, directed northeast.",
+      "mnemonic": "Same start + same finish = same displacement, regardless of route."
+    },
+    {
+      "reviewNumber": 4,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Speed & Velocity",
+      "source": "BUMHS 2025",
+      "question": "The average speed of a body in a given interval of time is equal to the average velocity, if:",
+      "options": [
+        "The speed of the body remains uniform.",
+        "The body moves with constant acceleration.",
+        "The body moves along a straight path.",
+        "The body returns to its starting point."
+      ],
+      "correctIndex": 2,
+      "explanation": "Average speed = total distance / total time, while average velocity = displacement / total time. Their numerical magnitudes are equal when distance equals the magnitude of displacement, which requires motion along a straight path without reversing direction. Therefore, option C represents the intended condition, although straight-line travel alone is insufficient if the body reverses.",
+      "mnemonic": "Distance = Displacement magnitude only for a straight, one-direction journey."
+    },
+    {
+      "reviewNumber": 5,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Acceleration",
+      "source": "SZABMU 2025",
+      "question": "Unequal changes occurring in velocity of a body is called",
+      "options": [
+        "Uniform acceleration",
+        "Uniform velocity",
+        "Instantaneous acceleration",
+        "Variable acceleration"
+      ],
+      "correctIndex": 3,
+      "explanation": "Acceleration is the rate of change of velocity. When velocity changes by unequal amounts during equal time intervals, acceleration is not constant. This is called variable or non-uniform acceleration.",
+      "mnemonic": "Equal velocity changes in equal times → uniform acceleration; unequal changes → variable acceleration."
+    },
+    {
+      "reviewNumber": 6,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Displacement-Time",
+      "source": "Sindh 2025",
+      "question": "A displacement time graph is a straight line inclined up at angle of 45° with X-axis, velocity of body according to this graph is:",
+      "options": [
+        "Increasing",
+        "Decreasing",
+        "Constant",
+        "Decreasing at start and then may decrease"
+      ],
+      "correctIndex": 2,
+      "explanation": "The slope of a displacement-time graph represents velocity. A straight line has a constant slope, so the body moves with constant velocity. The upward inclination indicates positive velocity.",
+      "mnemonic": "Displacement–time slope = Velocity. Straight slope = constant velocity."
+    },
+    {
+      "reviewNumber": 7,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Displacement-Time",
+      "source": "KPK 2025",
+      "question": "The area under the line on a displacement-time graph of a car moving with uniform velocity would be a:",
+      "options": [
+        "Rectangle",
+        "Triangle",
+        "Trapezium",
+        "Parallelogram"
+      ],
+      "correctIndex": 1,
+      "explanation": "For constant positive velocity and zero initial displacement, the displacement-time graph is a straight inclined line passing through the origin. The region between that line and the time axis forms a triangle. If initial displacement is nonzero, the region may instead form a trapezium. Unlike the area under a velocity-time graph, the area under a displacement-time graph does not directly represent displacement.",
+      "mnemonic": "Straight line through origin → triangular area. Remember: velocity comes from the slope of an s–t graph, not its area."
+    },
+    {
+      "reviewNumber": 8,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Equations of Motion",
+      "source": "KPK 2025",
+      "question": "A car starts from rest and moves with a uniform acceleration of 3 m/s2 What will be its velocity at 5 seconds?",
+      "options": [
+        "8 m/s",
+        "12 m/s",
+        "15 m/s",
+        "18 m/s"
+      ],
+      "correctIndex": 2,
+      "explanation": "Using the first equation of uniformly accelerated motion, v = u + at. Since the car starts from rest, u = 0. Therefore, v = 0 + (3)(5) = 15 m/s.",
+      "mnemonic": "Starts from rest → u = 0 → v = at."
+    },
+    {
+      "reviewNumber": 9,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "source": "NUMS 2025",
+      "question": "Range max at what angle:",
+      "options": [
+        "00",
+        "450",
+        "900",
+        "1800"
+      ],
+      "correctIndex": 1,
+      "explanation": "The horizontal range of a projectile on level ground is R = u²sin2θ/g. For a given initial speed, range is maximum when sin2θ = 1. Therefore, 2θ = 90°, giving θ = 45°.",
+      "mnemonic": "45° = Maximum Range; 90° = Maximum Height for the same initial speed."
+    },
+    {
+      "reviewNumber": 10,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "source": "UHS 2025",
+      "question": "A ball is thrown into the air with certain velocity v making an angle θ with horizontal. If air resistance is neglected, then at maximum height its velocity is:",
+      "options": [
+        "Equal to initial velocity",
+        "Half of initial velocity",
+        "Equal to zero",
+        "Minimum but not zero"
+      ],
+      "correctIndex": 3,
+      "explanation": "At maximum height, the vertical component of velocity becomes zero, but the horizontal component remains v cosθ. Hence, for an oblique projectile, its speed is minimum at the highest point but not zero.",
+      "mnemonic": "At the top: vy = 0, but vx = u cosθ remains."
+    },
+    {
+      "reviewNumber": 11,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "source": "UHS 2025",
+      "question": "A projectile is launched in air with certain angle; its velocity is maximum at:",
+      "options": [
+        "Point of projection",
+        "Highest point",
+        "Between launching and highest point",
+        "At all points"
+      ],
+      "correctIndex": 0,
+      "explanation": "Neglecting air resistance, a projectile loses speed while rising because its vertical velocity decreases. Its speed is minimum at maximum height. Therefore, among the points along its upward journey, the speed is maximum at projection. If it returns to its original launch height, however, its landing speed is also equal to its initial speed.",
+      "mnemonic": "Projectile rises → speed decreases; falls → speed increases. Same-level launch and landing → equal speeds."
+    },
+    {
+      "reviewNumber": 12,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "source": "UHS 2025",
+      "question": "If the horizontal range of a projectile becomes half of its maximum possible horizontal range, the probable angle of projection is;",
+      "options": [
+        "150",
+        "300",
+        "450",
+        "600"
+      ],
+      "correctIndex": 0,
+      "explanation": "Maximum range for fixed launch speed is Rmax = u²/g. Given R = Rmax/2, we obtain sin2θ = 1/2. Thus 2θ = 30° or 150°, giving θ = 15° or 75°. Of these, only 15° is provided in the options.",
+      "mnemonic": "Half the maximum range → 15° or 75°. Complementary angles give equal ranges."
+    },
+    {
+      "reviewNumber": 13,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "source": "Sindh 2025",
+      "question": "A body is projected with speed v making an angle θ with the horizontal and covers horizontal range R. If its speed is doubled, the new range will be:",
+      "options": [
+        "R/2",
+        "R",
+        "2R",
+        "4R"
+      ],
+      "correctIndex": 3,
+      "explanation": "For a fixed projection angle and the same launch and landing height, horizontal range is directly proportional to the square of initial speed: R = v²sin2θ/g. Doubling the speed gives R' = (2v)²sin2θ/g = 4R.",
+      "mnemonic": "Range ∝ Speed². Double speed → 4× range; triple speed → 9× range."
+    },
+    {
+      "reviewNumber": 14,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "source": "SZABMU 2025",
+      "question": "A football is kicked with a speed of 20 m/s at an angle of 30° with the horizontal, the maximum height it attains is:",
+      "options": [
+        "5 m",
+        "10 m",
+        "15 m",
+        "20 m"
+      ],
+      "correctIndex": 0,
+      "explanation": "Maximum height is H = u²sin²θ/(2g). Substituting u = 20 m/s, θ = 30°, and sin30° = 1/2 gives H = 400(1/4)/19.6 ≈ 5.1 m. Therefore, the nearest option is 5 m.",
+      "mnemonic": "Maximum Height = Vertical velocity squared / 2g. Use uy = u sinθ."
+    },
+    {
+      "reviewNumber": 15,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "source": "SZABMU 2025",
+      "question": "Two balls thrown with equal speeds but at different angles cover equal horizontal distance. If one is thrown at an angle of 40°, then the angle of projection of the other is:",
+      "options": [
+        "20°",
+        "30°",
+        "45°",
+        "50°"
+      ],
+      "correctIndex": 3,
+      "explanation": "On level ground and without air resistance, two projectiles launched at the same speed have equal horizontal ranges when their angles are complementary. Their angles add to 90°. Thus the second angle is 90° − 40° = 50°.",
+      "mnemonic": "Equal Range → Complementary angles. θ1 + θ2 = 90°."
+    },
+    {
+      "reviewNumber": 16,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "source": "KPK 2025",
+      "question": "A ball is projected at an angle 45° with an initial speed of 20 m/s on earth. How does RW (Range without air resistance) compare to RA (Range with air resistance)?",
+      "options": [
+        "RA will be greater than RW because air resistance reduces horizontal speed",
+        "RW will be equal to RA because gravity is unchanged",
+        "RA will be lesser than RW because air resistance reduces horizontal speed",
+        "RW will be lesser than RA because air resistance is random"
+      ],
+      "correctIndex": 2,
+      "explanation": "Air resistance opposes the motion of a projectile and reduces its horizontal velocity during flight. Under ordinary projectile conditions, this decreases its horizontal range compared with the ideal case without air resistance. Therefore, RA is less than RW.",
+      "mnemonic": "Air drag reduces range: RA < RW."
+    },
+    {
+      "reviewNumber": 17,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "source": "KPK 2025",
+      "question": "Which of the following statement about projectile motion is CORRECT?",
+      "options": [
+        "The horizontal velocity of a projectile changes constantly due to gravity",
+        "The vertical velocity of a projectile remains constant throughout the flight",
+        "At the highest point, the vertical velocity of the projectile is zero, but the horizontal velocity remains unchanged",
+        "The acceleration of the projectile is zero at the peak of its trajectory"
+      ],
+      "correctIndex": 2,
+      "explanation": "In ideal projectile motion, gravity acts vertically downward. Consequently, horizontal acceleration is zero, so horizontal velocity remains constant. At maximum height, the vertical velocity is momentarily zero, while acceleration remains g downward.",
+      "mnemonic": "At the highest point: vy = 0, ay = −g, vx = constant."
+    },
+    {
+      "reviewNumber": 18,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "source": "BUMHS 2025",
+      "question": "A ball is thrown vertically upward with a certain velocity making an angle with the horizontal (neglecting air resistance). With the passage of time horizontal component of velocity __________.",
+      "options": [
+        "Increases",
+        "Decreases",
+        "Remains same",
+        "First decreases then increases"
+      ],
+      "correctIndex": 2,
+      "explanation": "Gravity produces acceleration only in the vertical direction. With no air resistance, horizontal acceleration is zero, so the horizontal component of velocity remains constant throughout the flight. For strictly vertical upward motion, that horizontal component is zero throughout.",
+      "mnemonic": "No horizontal force → No horizontal acceleration → Constant horizontal velocity."
+    },
+    {
+      "reviewNumber": 19,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Laws of Motion",
+      "source": "UHS 2025",
+      "question": "A canon is placed on a smooth surface. When it fires a shell, the canon moves backward, this recoil occurs due to:",
+      "options": [
+        "Law of conservation of energy",
+        "Backward thrust of the gases",
+        "Newton's third law of motion",
+        "Newton's first law of motion"
+      ],
+      "correctIndex": 2,
+      "explanation": "According to Newton's third law, every action has an equal and opposite reaction. When the cannon exerts a forward force on the shell, the shell exerts an equal backward force on the cannon, producing recoil. Momentum conservation also explains the opposite motions of the cannon and shell.",
+      "mnemonic": "Shell forward → Cannon backward. Action and reaction are equal and opposite."
+    },
+    {
+      "reviewNumber": 20,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Laws of Motion",
+      "source": "Sindh 2025",
+      "question": "A body of mass 10 kg is falling through a viscous medium and reached terminal velocity. The net force on the body will be:",
+      "options": [
+        "0 N",
+        "9.8 N",
+        "98 N",
+        "980 N"
+      ],
+      "correctIndex": 0,
+      "explanation": "Terminal velocity is reached when the downward gravitational force is balanced by the combined upward resistance and buoyant forces. The resultant force becomes zero, producing zero acceleration according to Newton's second law.",
+      "mnemonic": "Terminal velocity → Forces balanced → Net Force = 0."
+    },
+    {
+      "reviewNumber": 21,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Laws of Motion",
+      "source": "Sindh 2025",
+      "question": "When a droplet reaches terminal velocity, its acceleration is:",
+      "options": [
+        "Zero",
+        "Variable",
+        "Not changed",
+        "Negative"
+      ],
+      "correctIndex": 0,
+      "explanation": "At terminal velocity, the droplet moves with constant velocity because the net force acting on it is zero. Since acceleration is the rate of change of velocity, its acceleration is zero.",
+      "mnemonic": "Terminal Velocity = Constant Velocity = Zero Acceleration."
+    },
+    {
+      "reviewNumber": 22,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Laws of Motion",
+      "source": "Sindh 2025",
+      "question": "A 150 kg car has its velocity reduced from 20 m/s to 10 m/s in 3.0 sec. How large was the average retarding force?",
+      "options": [
+        "500 N",
+        "2500 N",
+        "1500 N",
+        "1000 N"
+      ],
+      "correctIndex": 0,
+      "explanation": "Using Newton's second law, F = m(v − u)/t. Substituting the values gives F = 150(10 − 20)/3 = −500 N. The negative sign indicates that the force opposes the initial direction of motion. The magnitude of the retarding force is 500 N.",
+      "mnemonic": "Retarding force opposes motion. Negative sign = direction; magnitude = positive value."
+    },
+    {
+      "reviewNumber": 23,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Laws of Motion",
+      "source": "KPK 2025",
+      "question": "A passenger is standing in a stationary bus. When bus suddenly starts moving forward, the passenger falls backward. Which phenomenon best explains observation?",
+      "options": [
+        "Friction",
+        "Gravity",
+        "inertia",
+        "Acceleration"
+      ],
+      "correctIndex": 2,
+      "explanation": "Inertia is the tendency of a body to resist a change in its state of motion. When the bus suddenly accelerates forward, the passenger's feet move forward with the bus, while the upper body initially tends to remain at rest. This makes the passenger lean or fall backward relative to the bus.",
+      "mnemonic": "Bus starts → Passenger falls backward. Bus stops → Passenger falls forward."
+    },
+    {
+      "reviewNumber": 24,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Momentum",
+      "source": "Sindh 2025",
+      "question": "A ball of mass m strikes a wall and rebounds with the same speed in the opposite direction, taking the initial direction as positive, the change in the momentum of the ball is:",
+      "options": [
+        "0",
+        "mv",
+        "-2mv",
+        "-mv"
+      ],
+      "correctIndex": 2,
+      "explanation": "Initial momentum is pi = +mv. Since the ball rebounds with the same speed in the opposite direction, final momentum is pf = −mv. Therefore, Δp = pf − pi = −mv − (+mv) = −2mv. The negative sign represents the reversal of direction.",
+      "mnemonic": "Equal-speed rebound → Momentum change has magnitude 2mv, directed backward."
+    },
+    {
+      "reviewNumber": 25,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Impulse",
+      "source": "NUMS 2025",
+      "question": "The product of force and time is equal to",
+      "options": [
+        "Change in displacement",
+        "Change in velocity",
+        "Change in momentum",
+        "Change in acceleration"
+      ],
+      "correctIndex": 2,
+      "explanation": "Impulse is equal to the change in momentum of a body. For a constant force, J = FΔt = Δp. Thus, the product of force and the duration for which it acts equals the change in momentum.",
+      "mnemonic": "Impulse = Force × Time = Change in Momentum."
+    },
+    {
+      "reviewNumber": 26,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Law of Conservation of Momentum",
+      "source": "BUMHS 2025",
+      "question": "A rolling cart collides with a stationary cart of equal mass. After the collision, both move together, momentum is still conserved because:",
+      "options": [
+        "Masses are equal",
+        "No external force acts on the system",
+        "Both move with the same speed",
+        "Internal forces are very small"
+      ],
+      "correctIndex": 1,
+      "explanation": "The law of conservation of momentum states that the total momentum of a system remains constant when the net external force or external impulse is zero. During the collision, internal forces can change the momentum of individual carts, but they cannot change the total momentum of the isolated system. Although the carts stick together and kinetic energy is not conserved, momentum remains conserved.",
+      "mnemonic": "No net external force → Total momentum conserved, whether collision is elastic or inelastic."
+    },
+    {
+      "reviewNumber": 27,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Elastic & Inelastic Collision",
+      "source": "UHS 2025",
+      "question": "If a body having mass m1 (2 kg), moving with 5 m/s approaches another mass, m2 (3 kg) with speed of 1 m/s in same direction, relative speed of approach is 4 m/s. Relative speed of separation after collision will be:",
+      "options": [
+        "4 m/s",
+        "2 m/s",
+        "6 m/s",
+        "depends on masses"
+      ],
+      "correctIndex": 0,
+      "explanation": "In a perfectly elastic collision, the relative speed of separation is equal to the relative speed of approach. Relative speed of approach = 5 − 1 = 4 m/s. Therefore, relative speed of separation = 4 m/s.",
+      "mnemonic": "Perfectly Elastic Collision → Relative Speed of Approach = Relative Speed of Separation."
+    },
+    {
+      "reviewNumber": 28,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Elastic & Inelastic Collision",
+      "source": "SZABMU 2025",
+      "question": "A body of mass 2 kg moving with velocity 3 m/s collides with a body of mass 1 kg at rest. If they stick together, their common velocity after collision is:",
+      "options": [
+        "1 m/s",
+        "2 m/s",
+        "3 m/s",
+        "4 m/s"
+      ],
+      "correctIndex": 1,
+      "explanation": "Since the bodies stick together, the collision is perfectly inelastic. Applying conservation of linear momentum, m1u1 + m2u2 = (m1 + m2)v. Therefore, v = [(2)(3) + (1)(0)]/(2 + 1) = 6/3 = 2 m/s.",
+      "mnemonic": "Stick together → One common final velocity → Total initial momentum / Total mass."
+    },
+    {
+      "reviewNumber": 29,
+      "bank": "Past Papers Question Bank",
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Elastic & Inelastic Collision",
+      "source": "KPK 2025",
+      "question": "A 0.02 kg bullet moving at 300 m/s embeds itself a 2 kg block at rest on a smooth surface. What is velocity of the block-bullet system just after an Impact?",
+      "options": [
+        "2 m/s",
+        "3 m/s",
+        "4 m/s",
+        "5 m/s"
+      ],
+      "correctIndex": 1,
+      "explanation": "Because the bullet embeds in the block, they move together after impact. Assuming negligible external horizontal impulse, conservation of momentum gives (0.02)(300) + (2)(0) = (2.02)v. Thus, v = 6/2.02 ≈ 2.97 m/s. Therefore, the nearest option is 3 m/s.",
+      "mnemonic": "Bullet embeds → Perfectly inelastic collision → Common velocity = Initial momentum / Combined mass."
+    }
+  ]
+}

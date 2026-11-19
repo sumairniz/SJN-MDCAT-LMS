@@ -1,0 +1,296 @@
+{
+  "session": "genome",
+  "testNo": 3,
+  "title": "Reproduction — Chapter Test",
+  "sourceFile": "MDCAT_Reproduction_MCQs.pdf",
+  "questions": [
+    {
+      "number": 1,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "Which hormone is responsible for the development of male secondary sexual characteristics?",
+      "options": [
+        "Estrogen",
+        "Progesterone",
+        "Testosterone",
+        "Oxytocin"
+      ],
+      "correctIndex": 2,
+      "explanation": "Testosterone drives male secondary sexual characteristics at puberty."
+    },
+    {
+      "number": 2,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "Where does fertilization usually take place in the female reproductive system?",
+      "options": [
+        "Vagina",
+        "Uterus",
+        "Fallopian tube",
+        "Ovary"
+      ],
+      "correctIndex": 2,
+      "explanation": "Fertilization usually occurs in the ampulla of a fallopian tube."
+    },
+    {
+      "number": 3,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "What is the role of estrogen in the menstrual cycle?",
+      "options": [
+        "Maintains pregnancy",
+        "Causes ovulation",
+        "Builds up the uterine lining",
+        "Causes menstruation"
+      ],
+      "correctIndex": 2,
+      "explanation": "Estrogen promotes proliferation and thickening of the uterine endometrium."
+    },
+    {
+      "number": 4,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "The menstrual cycle is typically how many days long?",
+      "options": [
+        "20 days",
+        "28 days",
+        "35 days",
+        "14 days"
+      ],
+      "correctIndex": 1,
+      "explanation": "The average menstrual cycle is about 28 days, though normal cycles vary."
+    },
+    {
+      "number": 5,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "Which STD is caused by a virus?",
+      "options": [
+        "Gonorrhea",
+        "Syphilis",
+        "HIV/AIDS",
+        "Chlamydia"
+      ],
+      "correctIndex": 2,
+      "explanation": "HIV is a virus; gonorrhea, syphilis and chlamydia are bacterial infections."
+    },
+    {
+      "number": 6,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "What hormone triggers ovulation?",
+      "options": [
+        "FSH",
+        "LH",
+        "Estrogen",
+        "Progesterone"
+      ],
+      "correctIndex": 1,
+      "explanation": "The mid-cycle luteinizing hormone (LH) surge triggers ovulation."
+    },
+    {
+      "number": 7,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "Which part produces sperm in the male reproductive system?",
+      "options": [
+        "Prostate gland",
+        "Penis",
+        "Vas deferens",
+        "Testes"
+      ],
+      "correctIndex": 3,
+      "explanation": "The testes produce sperm in their seminiferous tubules."
+    },
+    {
+      "number": 8,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "Which STD can lead to damage in the brain if untreated for years?",
+      "options": [
+        "Gonorrhea",
+        "Syphilis",
+        "Herpes",
+        "HIV"
+      ],
+      "correctIndex": 1,
+      "explanation": "Untreated syphilis can progress to neurosyphilis and damage the brain."
+    },
+    {
+      "number": 9,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "Which structure produces progesterone after ovulation?",
+      "options": [
+        "Ovary",
+        "Corpus luteum",
+        "Fallopian tube",
+        "Uterus"
+      ],
+      "correctIndex": 1,
+      "explanation": "After ovulation the corpus luteum secretes progesterone."
+    },
+    {
+      "number": 10,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "Which hormone increases sharply just before ovulation?",
+      "options": [
+        "Progesterone",
+        "LH",
+        "FSH",
+        "Estrogen"
+      ],
+      "correctIndex": 1,
+      "explanation": "A surge in LH occurs just before ovulation."
+    },
+    {
+      "number": 11,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "The outermost part of the male reproductive system is:",
+      "options": [
+        "Urethra",
+        "Penis",
+        "Testis",
+        "Scrotum"
+      ],
+      "correctIndex": 1,
+      "explanation": "The penis is an external male reproductive organ; this item uses the provided key."
+    },
+    {
+      "number": 12,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "Which of the following is not a function of the placenta during pregnancy?",
+      "options": [
+        "Nutrient exchange",
+        "Waste removal",
+        "Oxygen supply",
+        "Production of sperm"
+      ],
+      "correctIndex": 3,
+      "explanation": "The placenta exchanges nutrients, oxygen and wastes; it does not produce sperm."
+    },
+    {
+      "number": 13,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "What causes menstruation to begin?",
+      "options": [
+        "High estrogen levels",
+        "Implantation of embryo",
+        "Drop in progesterone and estrogen",
+        "Ovulation"
+      ],
+      "correctIndex": 2,
+      "explanation": "Falling progesterone and estrogen levels lead to shedding of the uterine lining."
+    },
+    {
+      "number": 14,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "Which of the following STDs is not curable?",
+      "options": [
+        "Syphilis",
+        "Gonorrhea",
+        "HIV/AIDS",
+        "Chlamydia"
+      ],
+      "correctIndex": 2,
+      "explanation": "HIV infection has no curative treatment; the bacterial infections listed are treatable."
+    },
+    {
+      "number": 15,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "Which of these is a viral STD?",
+      "options": [
+        "Chlamydia",
+        "Gonorrhea",
+        "Herpes",
+        "Syphilis"
+      ],
+      "correctIndex": 2,
+      "explanation": "Herpes is caused by herpes simplex virus."
+    },
+    {
+      "number": 16,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "The function of FSH in females is to:",
+      "options": [
+        "Maintain uterine lining",
+        "Stimulate ovulation",
+        "Stimulate follicle growth",
+        "Release the egg"
+      ],
+      "correctIndex": 2,
+      "explanation": "FSH promotes growth and maturation of ovarian follicles."
+    },
+    {
+      "number": 17,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "Which part connects the uterus and ovary?",
+      "options": [
+        "Vagina",
+        "Cervix",
+        "Fallopian tube",
+        "Endometrium"
+      ],
+      "correctIndex": 2,
+      "explanation": "The fallopian tube connects the region near the ovary to the uterus."
+    },
+    {
+      "number": 18,
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": null,
+      "source": "TEST 03",
+      "question": "What is the main symptom of Gonorrhea?",
+      "options": [
+        "Cough",
+        "Painful urination",
+        "Hair loss",
+        "Swollen feet"
+      ],
+      "correctIndex": 1,
+      "explanation": "Painful urination can occur with gonorrhea, though many infections have no symptoms."
+    }
+  ]
+}

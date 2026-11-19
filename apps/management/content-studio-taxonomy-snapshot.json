@@ -1,0 +1,2362 @@
+{
+  "format": "SJN-MEDNEST-TAXONOMY-SNAPSHOT-v1",
+  "source_project": "student_staging_read_only",
+  "source_table": "public.mcqs",
+  "as_of": "2026-11-07",
+  "scope": "subject/chapter/topic metadata only; excludes course-only question pool",
+  "count": 392,
+  "entries": [
+    {
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "AIDS and HIV Infection",
+      "usage_count": 4
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "Classification of Viruses",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "HIV Glycoproteins",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "HIV/AIDS Prevention",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "Reverse Transcriptase",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "Vaccination",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "Viral Capsids",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Acellular Life",
+      "topic": "Viruses",
+      "usage_count": 6
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Alcoholic Fermentation",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Anaerobic Respiration",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Electron Transport Chain",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Inner Mitochondrial Membrane",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Krebs Cycle",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Krebs Cycle (NADH yield)",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Noncyclic Electron Flow",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Proton Gradient",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Bioenergetics",
+      "topic": "Respiration",
+      "usage_count": 6
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Adhesion of Water",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Biological Importance of Water",
+      "usage_count": 9
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Biological Molecules",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Carbohydrates",
+      "usage_count": 24
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Cell Composition",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Chitin",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Conjugated Molecules",
+      "usage_count": 11
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "DNA vs RNA Bases",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Energy Yield of Lipids",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Fibrous vs Globular Proteins",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Importance of Water",
+      "usage_count": 11
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Introduction to Biological Molecules",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Lipids",
+      "usage_count": 15
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Monosaccharides",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Nucleic Acid",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Nucleic Acids",
+      "usage_count": 21
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Polysaccharide Chain Length",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Polysaccharides",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Properties of Water",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Proteins",
+      "usage_count": 22
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Ribonucleic Acid (RNA)",
+      "usage_count": 10
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Structure of DNA",
+      "usage_count": 7
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Translation (Protein Synthesis)",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biological Molecules",
+      "topic": "Water in Living Cells",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biotechnology",
+      "topic": "Biotechnology and Health Care",
+      "usage_count": 12
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biotechnology",
+      "topic": "mRNA Vaccines",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Biotechnology",
+      "topic": "Nitrogen Fixation",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cell Organelles & Membranes",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cell Structure",
+      "usage_count": 5
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Chromosomes",
+      "usage_count": 11
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Cytoplasmic Organelles",
+      "usage_count": 16
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Cell Structure & Function",
+      "topic": "Prokaryotic and Eukaryotic Cell",
+      "usage_count": 2
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Cell Structure and Function",
+      "topic": "Cell Organelles",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Cell Structure and Function",
+      "topic": "Cell Wall",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Cell Structure and Function",
+      "topic": "Chromosomes",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Cell Structure and Function",
+      "topic": "Golgi Apparatus",
+      "usage_count": 2
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Cell Structure and Function",
+      "topic": "Mitochondria",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Cell Structure and Function",
+      "topic": "Secretory Pathway",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Chemical Coordination",
+      "topic": "Calcitonin",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Chemical Coordination",
+      "topic": "Growth Hormone",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Chemical Coordination",
+      "topic": "Pancreatic Hormones",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Arterial Wall Structure",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Blood Vessels",
+      "usage_count": 3
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Cardiac Cycle and Phases of Heartbeat",
+      "usage_count": 9
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Human Heart",
+      "usage_count": 4
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Circulation",
+      "topic": "Lymphatic System",
+      "usage_count": 8
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Digestion",
+      "topic": "Human Digestive System",
+      "usage_count": 11
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Enzyme Classes / Phosphate Transferases",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Enzyme Cofactors",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Enzyme Inhibition",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Enzyme Specificity",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Factors that Affect the Rate of Enzyme Reactions",
+      "usage_count": 4
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Inhibitors",
+      "usage_count": 5
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Mode of Enzyme Action",
+      "usage_count": 7
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Enzymes",
+      "topic": "Prosthetic Group",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Biogeography",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Concept of Evolution",
+      "usage_count": 2
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Darwinism",
+      "usage_count": 4
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Environmental pH",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Homologous Structures",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Lamarckism",
+      "usage_count": 7
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Monotremes",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Evolution",
+      "topic": "Natural Selection",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Gaseous Exchange",
+      "topic": "Carbon Dioxide Transport",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Gaseous Exchange",
+      "topic": "Hemoglobin–Oxygen Binding and Enzyme Claim",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Gaseous Exchange",
+      "topic": "Human Respiratory System",
+      "usage_count": 9
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Holozoic Nutrition",
+      "topic": "Protein Digestion",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "ADH Release from Posterior Pituitary",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Excretion",
+      "usage_count": 8
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Homeostasis (Kidney)",
+      "usage_count": 22
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Homeostasis",
+      "topic": "Thermoregulation",
+      "usage_count": 3
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Immunity",
+      "topic": "Antibacterial Agents",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Immunity",
+      "topic": "B-Cell Maturation",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Immunity",
+      "topic": "Kupffer Cells and Phagocytosis",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Immunity",
+      "topic": "Specific Defense Mechanism",
+      "usage_count": 10
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Epistasis",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Gene Linkage and Crossing Over",
+      "usage_count": 11
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Mendel's Laws of Inheritance",
+      "usage_count": 10
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Pseudoautosomal Genes",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "X-linked Recessive Inheritance",
+      "usage_count": 10
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Inheritance",
+      "topic": "Y-linked Inheritance",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Brain",
+      "usage_count": 16
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Hippocampus and Memory",
+      "usage_count": 2
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Meninges and Cerebrospinal Fluid",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurons",
+      "usage_count": 34
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Neurotoxins",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Osmoregulation and Hypothalamus",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Pancreatic Hormones",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Receptors",
+      "usage_count": 4
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Reflex Arc",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Nervous Coordination",
+      "topic": "Respiratory Centers",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Human Reproductive System",
+      "usage_count": 11
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Leydig Cells",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Menstrual Cycle",
+      "usage_count": 9
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Sexually Transmitted Diseases",
+      "usage_count": 4
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Reproduction",
+      "topic": "Testes and Spermatogenesis",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Arthritis",
+      "usage_count": 3
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Human Skeleton",
+      "usage_count": 12
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Joints",
+      "usage_count": 5
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscle Contraction",
+      "usage_count": 9
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Muscles",
+      "usage_count": 7
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Support & Movement",
+      "topic": "Skeletal Muscles",
+      "usage_count": 3
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Support and Movement",
+      "topic": "Epidermis",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Support and Movement",
+      "topic": "Muscle Contraction",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Support and Movement",
+      "topic": "Sarcomere",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Support and Movement",
+      "topic": "Sliding Filament Theory",
+      "usage_count": 1
+    },
+    {
+      "subject": "Biology",
+      "chapter": "Support and Movement",
+      "topic": "Smooth Muscles",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Alcohols and Phenols",
+      "topic": "Classification of Alcohols",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Alcohols and Phenols",
+      "topic": "Dehydration of Alcohols",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Alcohols and Phenols",
+      "topic": "Nomenclature, structure and reactivity of Alcohol",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Alcohols and Phenols",
+      "topic": "Nomenclature, structure and reactivity of Phenols",
+      "usage_count": 5
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Alcohols and Phenols",
+      "topic": "Phenolic Resins",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "IUPAC Nomenclature of Aldehydes",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Nomenclature and structure of Aldehydes and Ketones",
+      "usage_count": 3
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Oxidation of Ketones",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Reaction of Aldehydes and Ketones",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Aldehydes and Ketones",
+      "topic": "Reactivity of Aldehydes and Ketones",
+      "usage_count": 10
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Alkyl Halides",
+      "topic": "Nomenclature",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Alkyl Halides",
+      "topic": "Reactivity of Alkyl Halides",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Alkyl Halides",
+      "topic": "Substitution vs Elimination",
+      "usage_count": 4
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Bohr Atomic Model",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Bohr Radius",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Discovery of Proton",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Electronic Configuration",
+      "usage_count": 9
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Orbital Energies",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Paramagnetism and Unpaired Electrons",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Planck’s Quantum Theory",
+      "usage_count": 6
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Positive Rays",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Quantum Number",
+      "usage_count": 4
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Quantum Numbers",
+      "usage_count": 4
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Shapes of orbitals",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Spectrum of Hydrogen",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Biochemistry",
+      "topic": "Protein Structure",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Biochemistry",
+      "topic": "Proteins and Muscle Contraction",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Carboxylic Acids",
+      "topic": "Acid Anhydride Preparation",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Carboxylic Acids",
+      "topic": "Amide Functional Group",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Carboxylic Acids",
+      "topic": "Aromatic Dicarboxylic Acids",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Carboxylic Acids",
+      "topic": "Chemical Reactions/Reactivity",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Carboxylic Acids",
+      "topic": "Conversion of Carboxylic Acid",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Carboxylic Acids",
+      "topic": "Nomenclature, Structure and Preparation of Carboxylic Acid",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Carboxylic Acids",
+      "topic": "Reactions of Carboxylic Acids",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Application of Dipole Movement",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Bond Energy",
+      "usage_count": 3
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Bond Formation and Energy",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Dipole Movement",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Hybridization",
+      "usage_count": 3
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Percentage Ionic Character",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Sigma and Pi Bond",
+      "usage_count": 5
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Sigma and Pi Bonds",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "Sigma Overlap in Methyl Chloride",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Bonding",
+      "topic": "VSEPR Theory",
+      "usage_count": 7
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Buffer Solution",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Chemical Equilibrium",
+      "usage_count": 3
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Common Ion Effect",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Haber’s Process",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Kp and Kc",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Le Chatelier's principle",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Le Chatelier’s principle",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "pH and Buffers",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Equilibrium",
+      "topic": "Solubility Products",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Kinetics",
+      "topic": "Arrhenius Equation",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemical Kinetics",
+      "topic": "Order of Reaction",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Acidity of Alkynes",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Chemical Reactions of Benzenes",
+      "usage_count": 7
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Effect of Substituents",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Enyne Nomenclature",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Free Radical Mechanism",
+      "usage_count": 4
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "IUPAC System of Alkynes",
+      "usage_count": 3
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "MOT of Benzene",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Nomenclature of Alkanes",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Nomenclature of Alkenes",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Preparation of Alkanes",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Preparation of Alkynes",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Reactions of Alkynes",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Reactivity of Benzene",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Chemistry of Hydrocarbons",
+      "topic": "Structure and Reactivity of Alkenes",
+      "usage_count": 3
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Balancing Chemical Reaction",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Balancing Redox Reactions",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Oxidation and Reduction",
+      "usage_count": 3
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Oxidation States",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Redox Reaction",
+      "usage_count": 5
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Electrochemistry",
+      "topic": "Standard Hydrogen Electrode (SHE)",
+      "usage_count": 3
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Fundamental Principles of Organic Chemistry",
+      "topic": "Geometrical Isomerism",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Fundamental Principles of Organic Chemistry",
+      "topic": "Isomerism",
+      "usage_count": 4
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Absolute Zero",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Boyle Law",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Boyle’s Law",
+      "usage_count": 4
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Ideal Gas Equation",
+      "usage_count": 4
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Kinetic Molecular Theory",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Real and Ideal Gas",
+      "usage_count": 4
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Standard Temperature and Pressure (STP)",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Gases",
+      "topic": "Unit of “R”",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Hydrocarbons",
+      "topic": "Addition Reactions",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Hydrocarbons",
+      "topic": "Heterocyclic Compounds",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Hydrocarbons",
+      "topic": "IUPAC Nomenclature of Alkenes",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Hydrocarbons",
+      "topic": "Polymerization of Ethene",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Industrial Chemistry",
+      "topic": "Adhesive",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Industrial Chemistry",
+      "topic": "Dyes",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Industrial Chemistry",
+      "topic": "Polymers",
+      "usage_count": 3
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Introduction of Fundamentals Concept of Chemistry",
+      "topic": "Limiting and Excess Reactants",
+      "usage_count": 5
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Introduction of Fundamentals Concept of Chemistry",
+      "topic": "Limiting Reagent & Product Yield",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Introduction of Fundamentals Concept of Chemistry",
+      "topic": "Moles and Avogadro's Numbers",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Introduction of Fundamentals Concept of Chemistry",
+      "topic": "Moles and Avogadro’s Numbers",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Introduction of Fundamentals Concept of Chemistry",
+      "topic": "Yield",
+      "usage_count": 5
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "Anomalous behavior of Water",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "Boiling Point and Pressure",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "Evaporation, Boiling point and Vapor Pressure",
+      "usage_count": 5
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "Hydrogen Bonding",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "London Dispersion Forces",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Liquids",
+      "topic": "Properties of Liquids based on Kinetic Molecular Theory",
+      "usage_count": 3
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Macro Molecules",
+      "topic": "Classification of Proteins",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Macro Molecules",
+      "topic": "Enzymes as Biocatalyst",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Macro Molecules",
+      "topic": "Protein Digestion",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Chemical Kinetics",
+      "usage_count": 4
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Factors affecting rate of reaction",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Order of Reaction",
+      "usage_count": 6
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Reaction Kinetics",
+      "topic": "Rate Constant",
+      "usage_count": 4
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "S and P Block Elements",
+      "topic": "Atomic and Ionic Size",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "S and P Block Elements",
+      "topic": "Electronegativity Trends",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "S and P Block Elements",
+      "topic": "Group IA Density",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "S and P Block Elements",
+      "topic": "Ionization Energy Trends",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "S and P Block Elements",
+      "topic": "Metallic Bonding",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "S- and P- Block Elements",
+      "topic": "Properties and their Trends",
+      "usage_count": 5
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "S- and P- Block Elements",
+      "topic": "Reaction of Group II elements",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Solid",
+      "topic": "Crystal lattice",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Solid",
+      "topic": "Crystalline Solids",
+      "usage_count": 3
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Solid",
+      "topic": "Lattice Energy",
+      "usage_count": 3
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Solids",
+      "topic": "Crystal Habits",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Solids",
+      "topic": "Ionic Crystal Properties",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Stoichiometry",
+      "topic": "Mole and Avogadro Constant",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Thermo Chemistry and Energetics of Chemical Reaction",
+      "topic": "Decomposition versus Evaporation Energetics",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Thermo Chemistry and Energetics of Chemical Reaction",
+      "topic": "Different Terms Used",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Thermo Chemistry and Energetics of Chemical Reaction",
+      "topic": "Exothermic and Endothermic Reaction",
+      "usage_count": 5
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Thermo Chemistry and Energetics of Chemical Reaction",
+      "topic": "Hess's Law",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Thermo Chemistry and Energetics of Chemical Reaction",
+      "topic": "Internal Energies",
+      "usage_count": 2
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Thermochemistry",
+      "topic": "First Law of Thermodynamics",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Thermochemistry",
+      "topic": "Hess Law",
+      "usage_count": 1
+    },
+    {
+      "subject": "Chemistry",
+      "chapter": "Transition Elements",
+      "topic": "Electronic Structure",
+      "usage_count": 4
+    },
+    {
+      "subject": "English",
+      "chapter": "Formal and Lexical Aspect of Language",
+      "topic": "Active and Passive Voice",
+      "usage_count": 1
+    },
+    {
+      "subject": "English",
+      "chapter": "Formal and Lexical Aspect of Language",
+      "topic": "Adverb Phrases",
+      "usage_count": 1
+    },
+    {
+      "subject": "English",
+      "chapter": "Formal and Lexical Aspect of Language",
+      "topic": "Direct and Indirect Speech",
+      "usage_count": 1
+    },
+    {
+      "subject": "English",
+      "chapter": "Formal and Lexical Aspect of Language",
+      "topic": "Placement of Only",
+      "usage_count": 1
+    },
+    {
+      "subject": "English",
+      "chapter": "Formal and Lexical Aspect of Language",
+      "topic": "Synonyms in Context",
+      "usage_count": 1
+    },
+    {
+      "subject": "English",
+      "chapter": "Reading and Thinking Skills",
+      "topic": "Parody",
+      "usage_count": 1
+    },
+    {
+      "subject": "English",
+      "chapter": "Reading and Thinking Skills",
+      "topic": "Simile",
+      "usage_count": 1
+    },
+    {
+      "subject": "English",
+      "chapter": "Spellings",
+      "topic": "Spellings",
+      "usage_count": 6
+    },
+    {
+      "subject": "English",
+      "chapter": "Subject-Verb Agreement",
+      "topic": "Subject-Verb Agreement",
+      "usage_count": 2
+    },
+    {
+      "subject": "English",
+      "chapter": "Verb",
+      "topic": "Verb",
+      "usage_count": 2
+    },
+    {
+      "subject": "English",
+      "chapter": "Writing Skills",
+      "topic": "Incorrect Spellings",
+      "usage_count": 1
+    },
+    {
+      "subject": "English",
+      "chapter": "Writing Skills",
+      "topic": "Parallel Sentence Structure",
+      "usage_count": 1
+    },
+    {
+      "subject": "Logical Reasoning",
+      "chapter": "Course of Action",
+      "topic": "Travel Restrictions — Course of Action",
+      "usage_count": 1
+    },
+    {
+      "subject": "Logical Reasoning",
+      "chapter": "Letter and Symbols Series",
+      "topic": "Letter and Symbols Series",
+      "usage_count": 1
+    },
+    {
+      "subject": "Logical Reasoning",
+      "chapter": "Letter and Symbols Series",
+      "topic": "Letter Coding",
+      "usage_count": 1
+    },
+    {
+      "subject": "Logical Reasoning",
+      "chapter": "Letter and Symbols Series",
+      "topic": "Number Difference Series",
+      "usage_count": 1
+    },
+    {
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Deductions",
+      "topic": "Family Relations",
+      "usage_count": 1
+    },
+    {
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Deductions",
+      "topic": "Relative Age Comparisons",
+      "usage_count": 1
+    },
+    {
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Deductions",
+      "topic": "Syllogisms",
+      "usage_count": 1
+    },
+    {
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Blood Relations",
+      "usage_count": 1
+    },
+    {
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Fractions and Capacity",
+      "usage_count": 1
+    },
+    {
+      "subject": "Logical Reasoning",
+      "chapter": "Logical Problems",
+      "topic": "Logical Problems",
+      "usage_count": 16
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Alternating Current (AC)",
+      "topic": "AC Through Resistor, Capacitor & Inductor",
+      "usage_count": 4
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Alternating Current (AC)",
+      "topic": "Electromagnetic Waves",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Alternating Current (AC)",
+      "topic": "Phase & Phase Difference",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Atomic Spectra",
+      "topic": "Hydrogen Spectral Series",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Atomic Spectra",
+      "topic": "Hydrogen Spectrum / Spectral Series",
+      "usage_count": 4
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Circular Motion",
+      "topic": "Angular Acceleration",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Circular Motion",
+      "topic": "Angular Displacement",
+      "usage_count": 7
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Circular Motion",
+      "topic": "Relationship Between Linear & Angular Quantities",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Current Electricity",
+      "topic": "Negative Temperature Coefficient",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Current Electricity",
+      "topic": "Ohmic Conductors",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Current Electricity",
+      "topic": "RC Time Constant",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Current Electricity",
+      "topic": "Temperature Coefficient",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "Electric Power",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "EMF & Electric Potential Difference",
+      "usage_count": 4
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "Internal Resistance of a Cell",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "Ohm's Law",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "Resistance, Conductance, Resistivity & Conductivity",
+      "usage_count": 5
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Current Electricity / DC Circuits",
+      "topic": "Temperature Coefficient of Resistance",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Dawn of Modern Physics (Quantum Physics)",
+      "topic": "Particle Nature of Electromagnetic Radiation",
+      "usage_count": 5
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electromagnetic Induction",
+      "topic": "Electromagnetic Sensors",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electromagnetic Induction",
+      "topic": "Faraday Law",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electromagnetic Induction",
+      "topic": "Faraday's Law of Electromagnetic Induction",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electromagnetic Induction",
+      "topic": "Generator Effect",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electromagnetic Induction",
+      "topic": "Induced EMF & Induced Current",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electromagnetic Induction",
+      "topic": "Lenz's Law",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electromagnetic Induction",
+      "topic": "Transformer",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electromagnetism",
+      "topic": "Magnetic Flux Density",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electromagnetism",
+      "topic": "Magnetic Force",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electromagnetism",
+      "topic": "Magnetic Force and Angle",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electromagnetism / Magnetic Field",
+      "topic": "Magnetic Flux",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electromagnetism / Magnetic Field",
+      "topic": "Magnetic Force on a Moving Charge",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electromagnetism / Magnetic Field",
+      "topic": "Radius of Charged-Particle Path",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electronics",
+      "topic": "Biasing",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electronics",
+      "topic": "Bridge Rectifier",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electronics",
+      "topic": "PN Junction",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electronics",
+      "topic": "Rectification",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electronics",
+      "topic": "Rectification & Its Types",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electrostatics",
+      "topic": "Coulomb Law",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electrostatics",
+      "topic": "Electric Force",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Charging & Discharging of a Capacitor",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Coulomb's Law",
+      "usage_count": 7
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Electric Field",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Electric Field Intensity",
+      "usage_count": 7
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Electric Potential & Electric Potential Difference",
+      "usage_count": 4
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Electrostatics / Electric Field",
+      "topic": "Electric-Field Cancellation for Opposite Charges",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Bernoulli's Equation",
+      "usage_count": 5
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Drag Force & Stokes' Law",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Equation of Continuity",
+      "usage_count": 5
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Fluid & Its Types",
+      "usage_count": 3
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Laminar Flow",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Terminal Speed and Force Balance",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Fluid Dynamics",
+      "topic": "Terminal Velocity",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Acceleration",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Displacement-Time",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Displacement-Time & Velocity-Time Graphs",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Distance & Displacement",
+      "usage_count": 6
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Elastic & Inelastic Collision",
+      "usage_count": 7
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Equations of Motion",
+      "usage_count": 3
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Impulse",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Law of Conservation of Momentum",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Laws of Motion",
+      "usage_count": 7
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Momentum",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Momentum & Impulse",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Projectile Motion",
+      "usage_count": 19
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force & Motion",
+      "topic": "Speed & Velocity",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Conservation of Momentum",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Gravity and Projectiles",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Kinetic Energy",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Projectile Motion",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Projectile Range",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Force and Motion",
+      "topic": "Work and Angle",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Nuclear Physics",
+      "topic": "Half-Life",
+      "usage_count": 3
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Nuclear Physics",
+      "topic": "Medical Uses of Radiation",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Nuclear Physics",
+      "topic": "Nucleus",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Nuclear Physics",
+      "topic": "Radioactivity",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Oscillations",
+      "topic": "Simple Harmonic Motion (SHM) & Its Characteristics",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Oscillations",
+      "topic": "Uniform Circular Motion & SHM",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Quantum Physics",
+      "topic": "de Broglie Wavelength",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Quantum Physics",
+      "topic": "Photoelectric Effect",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Quantum Physics",
+      "topic": "Photon Momentum",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Rotational and Circular Motion",
+      "topic": "Angular Units",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Rotational and Circular Motion",
+      "topic": "Banked Curves",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Rotational and Circular Motion",
+      "topic": "Rotational Analogues",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Rotational and Circular Motion",
+      "topic": "Torque and Angular Acceleration",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Rotational and Circular Motion",
+      "topic": "Uniform Circular Motion",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "First Law of Thermodynamics",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Heat",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Molar Specific Heat",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Relation Between Molar Specific Heat at Constant Volume & Constant Pressure",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Specific Heat & Molar Specific Heat",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Work",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Thermodynamics",
+      "topic": "Work and Internal Energy",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Vectors",
+      "topic": "Scalar Product",
+      "usage_count": 4
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Vectors",
+      "topic": "Vector Product",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Doppler Effect",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Factors Affecting the Speed of Sound",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Interference of Waves",
+      "usage_count": 3
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Newton–Laplace Correction",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Principle of Superposition of Waves",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Speed of Sound in Air",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Standing Waves",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Stationary Waves",
+      "usage_count": 4
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Wave Intensity",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Wave Speed",
+      "usage_count": 3
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Waves & Their Classification",
+      "usage_count": 7
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Waves",
+      "topic": "Waves Between Media",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Work & Energy",
+      "topic": "Energy & Its Types (K.E. & P.E.)",
+      "usage_count": 3
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Work & Energy",
+      "topic": "Gravitational Potential Energy & Escape Energy",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Work & Energy",
+      "topic": "Implications of Energy Losses",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Work & Energy",
+      "topic": "Power",
+      "usage_count": 4
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Work & Energy",
+      "topic": "Spring Potential Energy",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Work & Energy",
+      "topic": "Work & Types of Work",
+      "usage_count": 2
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Work and Energy",
+      "topic": "Electrical Energy Units",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Work and Energy",
+      "topic": "Energy Efficiency",
+      "usage_count": 1
+    },
+    {
+      "subject": "Physics",
+      "chapter": "Work and Energy",
+      "topic": "Gravitational Potential Energy",
+      "usage_count": 1
+    }
+  ]
+}

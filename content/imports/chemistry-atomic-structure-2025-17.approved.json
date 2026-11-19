@@ -1,0 +1,320 @@
+{
+  "metadata": {
+    "status": "OWNER_APPROVED_FOR_STAGING_ONLY",
+    "approvedOn": "2026-10-24",
+    "examYear": 2025,
+    "count": 17,
+    "contentRule": "Preserve original question/options/source/key exactly; reviewNumber is a source grouping label, not database ID or quiz order",
+    "subject": "Chemistry",
+    "chapter": "Atomic Structure",
+    "productionPromotion": "Production Supabase is a separate database; use this vetted manifest after separate release approval, never assume Git merge transfers rows."
+  },
+  "questions": [
+    {
+      "reviewNumber": 12,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Discovery of Proton",
+      "source": "NUMS 2025",
+      "question": "How much heavier is a hydrogen atom is compared to electron?",
+      "options": [
+        "1937",
+        "1737",
+        "1837",
+        "1637"
+      ],
+      "correctIndex": 2,
+      "explanation": "A hydrogen atom consists of one proton and one electron. A proton is approximately 1836 times heavier than an electron. Therefore, the mass of a hydrogen atom is approximately 1837 times the mass of an electron.",
+      "mnemonic": "Proton ≈ 1836 electron masses; Hydrogen atom ≈ 1837 electron masses."
+    },
+    {
+      "reviewNumber": 2,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Planck’s Quantum Theory",
+      "source": "UHS 2025",
+      "question": "The value of Planck's constant is:",
+      "options": [
+        "6.6262x10⁻³⁰ J. sec",
+        "6.6262x10⁻³² J. sec",
+        "6.6262x10⁺³⁴ J. sec",
+        "6.6262x10⁻³⁴ J. sec"
+      ],
+      "correctIndex": 3,
+      "explanation": "Planck's constant is a fundamental physical constant that relates the energy of a photon to its frequency through the equation E = hν. Its approximate value is 6.626 × 10⁻³⁴ J·s.",
+      "mnemonic": "Planck's constant: h = 6.626 × 10⁻³⁴ J·s. Remember the negative exponent −34."
+    },
+    {
+      "reviewNumber": 3,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Planck’s Quantum Theory",
+      "source": "SZABMU 2025",
+      "question": "Highest energy for one quantum among radiation is:",
+      "options": [
+        "microwave",
+        "infrared",
+        "ultra violet",
+        "visible"
+      ],
+      "correctIndex": 2,
+      "explanation": "According to Planck's equation, E = hν, the energy of a photon is directly proportional to its frequency. Among the given radiations, ultraviolet has the highest frequency and therefore the highest photon energy.",
+      "mnemonic": "Higher Frequency → Higher Energy → Shorter Wavelength."
+    },
+    {
+      "reviewNumber": 4,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Planck’s Quantum Theory",
+      "source": "KPK 2025",
+      "question": "According to Planck's quantum theory, if the frequency of photon is doubled, the value of \"h\" will be?",
+      "options": [
+        "Doubled",
+        "Increased 3 times",
+        "Increased 4 times",
+        "Unchanged"
+      ],
+      "correctIndex": 3,
+      "explanation": "Planck's constant (h) is a universal constant, independent of the frequency of radiation. Doubling the frequency doubles the photon's energy, but the value of h remains unchanged.",
+      "mnemonic": "E = hν → Frequency changes Energy, not Planck's constant."
+    },
+    {
+      "reviewNumber": 1,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Quantum Numbers",
+      "source": "UHS 2025",
+      "question": "Shape of orbital is determined by quantum number:",
+      "options": [
+        "n",
+        "l",
+        "m",
+        "s"
+      ],
+      "correctIndex": 1,
+      "explanation": "The azimuthal quantum number (l) determines the shape of an orbital. For example, s orbitals are spherical (l = 0), while p orbitals are dumbbell-shaped (l = 1).",
+      "mnemonic": "n = Shell, l = Shape, m = Orientation, s = Spin."
+    },
+    {
+      "reviewNumber": 2,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Quantum Numbers",
+      "source": "UHS 2025",
+      "question": "Which set of quantum numbers is not allowed for an electron.",
+      "options": [
+        "n=2, l=1, m=0, s=+1/2",
+        "n=3, l=0, m=0, s=-1/2",
+        "n=2, l=2, m=1, s=+1/2",
+        "n=1, l=0, m=0, s=+1/2"
+      ],
+      "correctIndex": 2,
+      "explanation": "For a given principal quantum number n, the azimuthal quantum number l can have values from 0 to n−1. When n = 2, l can only be 0 or 1. Therefore, l = 2 is not allowed.",
+      "mnemonic": "Allowed values of l: 0 to (n−1). Maximum l = n−1."
+    },
+    {
+      "reviewNumber": 3,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Quantum Numbers",
+      "source": "BUMHS 2025",
+      "question": "n + l value for 4d orbital is:",
+      "options": [
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "correctIndex": 2,
+      "explanation": "For a 4d orbital, the principal quantum number n = 4 and the azimuthal quantum number l = 2 because it is a d orbital. Therefore, n + l = 4 + 2 = 6.",
+      "mnemonic": "s = 0, p = 1, d = 2, f = 3. For 4d → 4 + 2 = 6."
+    },
+    {
+      "reviewNumber": 4,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Quantum Numbers",
+      "source": "NUMS 2025",
+      "question": "The number of electrons in a subshell can be calculated by the formula:",
+      "options": [
+        "2l + 1",
+        "2l + 2",
+        "2(2 + l)",
+        "2(2l + 1)"
+      ],
+      "correctIndex": 3,
+      "explanation": "A subshell contains (2l + 1) orbitals, and each orbital can accommodate a maximum of two electrons. Therefore, the maximum number of electrons in a subshell is 2(2l + 1).",
+      "mnemonic": "Orbitals = 2l + 1; Electrons = 2(2l + 1)."
+    },
+    {
+      "reviewNumber": 17,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Shapes of orbitals",
+      "source": "Sindh 2025",
+      "question": "Which atom has at least single electron in dumbell shape orbital?",
+      "options": [
+        "H",
+        "He",
+        "Li",
+        "B"
+      ],
+      "correctIndex": 3,
+      "explanation": "Dumbbell-shaped orbitals are p orbitals. Boron (Z = 5) has the electronic configuration 1s² 2s² 2p¹, containing one electron in a p orbital. The other given atoms have electrons only in s orbitals.",
+      "mnemonic": "p = Dumbbell shape. Boron is the first element with a p electron."
+    },
+    {
+      "reviewNumber": 9,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Spectrum of Hydrogen",
+      "source": "KPK 2025",
+      "question": "Spectral series for hydrogen spectrum are:",
+      "options": [
+        "2",
+        "3",
+        "5",
+        "7"
+      ],
+      "correctIndex": 2,
+      "explanation": "The five commonly studied hydrogen spectral series are Lyman, Balmer, Paschen, Brackett and Pfund. They are produced when excited electrons return to lower energy levels, emitting radiation of specific wavelengths.",
+      "mnemonic": "L–B–P–B–P → Lyman, Balmer, Paschen, Brackett, Pfund."
+    },
+    {
+      "reviewNumber": 3,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Electronic Configuration",
+      "source": "UHS 2025",
+      "question": "Number of unpaired electrons in Boron in ground state is/are:",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "correctIndex": 0,
+      "explanation": "Boron has atomic number 5 and electronic configuration 1s² 2s² 2p¹. The single electron in the 2p subshell is unpaired. Therefore, boron has one unpaired electron.",
+      "mnemonic": "Boron = 2p¹ → One unpaired electron."
+    },
+    {
+      "reviewNumber": 4,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Electronic Configuration",
+      "source": "SZABMU 2025",
+      "question": "Number of electron with l=2 in an atom having atomic number 23 is:",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "correctIndex": 1,
+      "explanation": "Atomic number 23 belongs to Vanadium, having electronic configuration [Ar] 3d³ 4s². The quantum number l = 2 represents a d subshell. Since Vanadium has three electrons in 3d, the answer is 3.",
+      "mnemonic": "l = 2 → d subshell. Vanadium (23) → 3d³ → 3 electrons."
+    },
+    {
+      "reviewNumber": 5,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Electronic Configuration",
+      "source": "KPK 2025",
+      "question": "The energy of an orbital is determined by:",
+      "options": [
+        "Hund's Rule",
+        "Pauli exclusion principle",
+        "n+l rule",
+        "Boyles principle"
+      ],
+      "correctIndex": 2,
+      "explanation": "According to the (n + l) rule, orbitals in multi-electron atoms are generally filled in order of increasing (n + l) value. An orbital with a lower (n + l) value has lower energy; when values are equal, the orbital with lower n is filled first.",
+      "mnemonic": "Lower (n + l) → Lower Energy. If tied → Lower n first."
+    },
+    {
+      "reviewNumber": 6,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Electronic Configuration",
+      "source": "BUMHS 2025",
+      "question": "The electrons will enter which of these orbitals after filling the 3d orbital.",
+      "options": [
+        "4d",
+        "4f",
+        "4s",
+        "4p"
+      ],
+      "correctIndex": 3,
+      "explanation": "According to the Aufbau principle, electrons occupy orbitals in order of increasing energy. The relevant filling sequence is 4s → 3d → 4p. Therefore, after filling the 3d subshell, electrons enter 4p.",
+      "mnemonic": "Remember the filling sequence: 4s → 3d → 4p."
+    },
+    {
+      "reviewNumber": 7,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Electronic Configuration",
+      "source": "NUMS 2025",
+      "question": "When 5d orbital is complete, the entering electron goes into:",
+      "options": [
+        "6s",
+        "6p",
+        "6d",
+        "6f"
+      ],
+      "correctIndex": 1,
+      "explanation": "According to the Aufbau filling order, the 6p subshell is filled after completion of 5d. The relevant sequence is 6s → 4f → 5d → 6p. Therefore, the next electron enters 6p.",
+      "mnemonic": "6s → 4f → 5d → 6p. After 5d comes 6p."
+    },
+    {
+      "reviewNumber": 8,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Electronic Configuration",
+      "source": "Sindh 2025",
+      "question": "Which of the following is expected to be the most paramagnetic?",
+      "options": [
+        "³Li",
+        "⁴Be",
+        "⁵B",
+        "⁶C"
+      ],
+      "correctIndex": 3,
+      "explanation": "Paramagnetism is associated with unpaired electrons. Carbon (Z = 6) has electronic configuration 1s² 2s² 2p² and contains two unpaired electrons according to Hund's rule. It is therefore the most paramagnetic among the given atoms.",
+      "mnemonic": "More unpaired electrons → Greater paramagnetism. Carbon = 2 unpaired electrons."
+    },
+    {
+      "reviewNumber": 16,
+      "bank": "Past Papers Question Bank",
+      "subject": "Chemistry",
+      "chapter": "Atomic Structure",
+      "topic": "Bohr Atomic Model",
+      "source": "Sindh 2025",
+      "question": "The maximum probability of finding an electron is at a distance of:",
+      "options": [
+        "0.53 nm",
+        "0.35 nm",
+        "0.053 nm",
+        "0.0053 nm"
+      ],
+      "correctIndex": 2,
+      "explanation": "For the hydrogen atom in its ground state, the most probable radial distance of the electron from the nucleus is equal to the Bohr radius, approximately 0.529 Å or 0.053 nm.",
+      "mnemonic": "Bohr Radius = 0.529 Å = 0.0529 nm ≈ 0.053 nm."
+    }
+  ]
+}
