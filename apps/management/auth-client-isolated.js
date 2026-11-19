@@ -138,7 +138,6 @@ function selectedChoices(id){return [...$(id).querySelectorAll('input[type="chec
 async function signOut(){
  try{await client.auth.signOut({scope:"local"})}catch(_){}
  staff=null;authorized=false;editing=null;pendingSensitive=null;
- document.documentElement.dataset.managementAuthorized="false";
  $("member-profile-email").textContent="—";
  $("member-profile-name").textContent="Signed out";
  $("chief-administrator-identity").textContent="Protected account";
@@ -162,9 +161,7 @@ async function checkSession(){
  visible("team-invite-show",false);
  visible("team-invite-form",false);
  visible("team-edit-form",false);
- authorized=true;
- document.documentElement.dataset.managementAuthorized="true";
- window.dispatchEvent(new Event("mednest:authorized"));
+ if(!authorized){authorized=true;window.dispatchEvent(new Event("mednest:authorized"))}
 }
 async function signIn(event){
  event.preventDefault();if(busy)return;busy=true;$("signin-submit").disabled=true;
