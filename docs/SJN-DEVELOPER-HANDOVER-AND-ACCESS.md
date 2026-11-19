@@ -278,3 +278,15 @@ The Owner approved the overall redesign direction on 2026-11-19. Scope is the ex
 ### Remaining before calling the redesign complete
 1. Owner browser UAT on desktop and mobile: sign-in, navigation, editor, preview, Undo/Redo, autosave/reopen/recovery, both question banks, Excel import, existing correction drafts and academic review.
 2. Record further screen-level improvements only after observed UAT; retain staging-only and explicit approval gates.
+
+## 2026-11-19 Content Studio regression recovery — owner-approved
+- Owner approved the narrow recovery of the saved-draft and Add Question workflows after comparing the 17 Nov and 19 Nov browser recordings.
+- Root cause found for missing saved drafts: the isolated Management Auth client can restore/authorize a persisted session before the deferred Content Studio script registers its `mednest:authorized` listener. The event is therefore missed and the saved batch list is never fetched on that page load.
+- Fix: isolated Auth now exposes a non-secret, Management-only authorization-ready DOM state after successful server verification and clears it on sign-out. Content Studio both listens for future authorization events and checks that ready state at initialization, then refreshes the protected batch list. No draft rows are recreated, overwritten, deleted, or migrated.
+- Add Question fix: both visible Add Question controls now invoke one shared editor-opening function directly; the focus toolbar no longer depends on programmatically clicking a second button.
+- Regression tests added for the auth initialization race and both Add Question entry points.
+- Commits: auth `10d8c7cd9c6170fd219a5dde4d81413c562975cb`; Content Studio `0e76841553dfb3f0f494cf5ce30a6223275db419`; tests `f49c8b294d135fdac2ce33af11a1fc311c63a83b`.
+- GitHub Actions Foundation checks run `44570742092`: SUCCESS; full test suite 323 passed, 0 failed; CSS build/reproducibility and release-hygiene checks passed.
+- Preview deployment `dpl_837BmZcLnKdQfN71GWp2MP1Kh2ad` READY for commit `f49c8b294d135fdac2ce33af11a1fc311c63a83b`: `https://sjn-mednest-management-lc7wbjrtl-sjn1.vercel.app`. Vercel SSO protection remains enabled.
+- Scope unchanged: no Supabase schema/data/Edge Function changes, no Student LMS changes, no DNS/production changes, and PR #1 remains draft/unmerged.
+- Important verification boundary: automated CI validates code and regression guards; the owner must still test the protected preview in a browser to confirm saved drafts actually populate and Add Question opens the editor under the real signed-in Management session. Autosave, Save Question, reopen, and existing saved-draft integrity must be checked before calling the recovery fully owner-verified.
