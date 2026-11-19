@@ -174,7 +174,7 @@
  function focusFormSnapshot(){editorSnapshot=JSON.stringify(readEditor())}
  $("studio-focus-back").addEventListener("click",exitFocus);
  $("studio-open-workspace").addEventListener("click",()=>openWorkspace());
- $("studio-focus-add").addEventListener("click",startNewQuestion);
+ $("studio-focus-add").addEventListener("click",()=>$("studio-new").click());
  $("studio-focus-save").addEventListener("click",()=>{
    if(formChanged()){focusStateMessage("Save the open question first (Save Question / Save & Next).",true);return}
    $("studio-save-batch").click();
@@ -522,7 +522,7 @@
  }
  window.addEventListener("mednest:syllabus-updated",loadTaxonomy);
  loadTaxonomy();
- function startNewQuestion(){
+ $("studio-new").addEventListener("click",()=>{
    if(saveInFlight||!askAbandonForm())return;
    if(locked()){
      feedback("This draft is locked after submission. Start Another Draft or withdraw a pending request first.",true);return;
@@ -538,8 +538,7 @@
    show("studio-editor",true);focusFormSnapshot();setStudioView("focus");
    window.MedNestMCQAssist?.previewNew();
    $("studio-question").focus();
- }
- $("studio-new").addEventListener("click",startNewQuestion);
+ });
  $("studio-cancel").addEventListener("click",()=>{
    if(saveInFlight||!askAbandonForm())return;
    selected=-1;advanceOnSave=false;editorSnapshot=null;
@@ -808,9 +807,6 @@
  $("studio-editor").classList.add("is-hidden");
  $("studio-focus-editor-stage").append($("studio-editor"));
  setStudioView("drafts");
- const refreshAuthorizedDrafts=()=>reloadBatchList().catch(e=>storageStatus(e.message,true));
- window.addEventListener("mednest:authorized",refreshAuthorizedDrafts);
- // Auth may restore a persisted session before this deferred script registers its listener.
- if(document.documentElement.dataset.managementAuthorized==="true")refreshAuthorizedDrafts();
+ window.addEventListener("mednest:authorized",()=>reloadBatchList().catch(e=>storageStatus(e.message,true)));
  render();
 })();
