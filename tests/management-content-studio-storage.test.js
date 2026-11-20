@@ -77,6 +77,10 @@ test("Unpublished batch storage requires independent staff login and prohibits i
  assert.ok(bridge.includes('"batch.save_rows"'));
  assert.ok(bridge.includes('"batch.get"'));
  assert.ok(bridge.includes('"batch.list"'));
- assert.ok(!bridge.includes('"publish"'));
- assert.ok(!bridge.includes('"mcqs"'));
+ assert.ok(bridge.includes("https://aozknkrwafowsrehdwlr.supabase.co"));
+ assert.ok(bridge.includes("/functions/v1/mednest-content-publish"));
+ assert.ok(bridge.includes("async function publishBatch"));
+ assert.ok(bridge.includes("idempotent"));
+ assert.ok(!bridge.includes("service_role"));
+ assert.ok(!bridge.includes("SUPABASE_SERVICE_ROLE_KEY"));
 });
