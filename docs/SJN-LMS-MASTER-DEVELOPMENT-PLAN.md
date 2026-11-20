@@ -1464,3 +1464,6 @@ Owner approved recovery-first sequence after the November 19 Content Studio pres
 
 
 > **2026-11-21 — CORS FIX FINALIZED:** The four deployed Management Auth endpoints now use explicit secure-preview origin alternatives. Active versions: isolated auth v8, step-up v7, team v8, team-actions v8. CI push check passed at `33988de`; PR check pending. Browser sign-in still requires owner confirmation.
+
+
+> **2026-11-21 — LIVE LIBRARY / DRAFTS / ACTIVE V4 ROUTE FIX:** Live SQL confirms 1,275 Student Staging MCQs (1,129 regional, 146 general past-paper bank, 79 restricted course tests excluded) and Management Auth has 3 batches/6 rows/1 individual correction draft. The Library and Content Studio Edge Functions had stale CORS origin allowlists; deployed Library v5 and Content Studio v7 with secure preview origin allowed. V4 page shell was only in index.html; active integrated-auth-preview.html still used old shell. Applied V4 intro/nav to active route and added regression test. READY Vercel preview commit 78e88ac. Owner must verify Live Library and My Drafts in browser; no database records changed.
