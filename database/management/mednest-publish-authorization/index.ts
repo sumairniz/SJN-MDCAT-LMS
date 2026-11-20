@@ -3,7 +3,7 @@ import {createClient} from "https://esm.sh/@supabase/supabase-js@2.95.0?bundle";
 const URL=Deno.env.get("SUPABASE_URL")||"", SERVICE=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";
 const EXPECTED="https://tdqbjhrmfluiinntmjfh.supabase.co";
 const db=createClient(URL,SERVICE,{auth:{persistSession:false,autoRefreshToken:false}});
-const ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9]+|-git-sjn-phase1a-foundation)-sjn1\.vercel\.app$/;
+const ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9-]+)?(?:-sjn1)?\.vercel\.app$/;
 const uuid=x=>typeof x==="string"&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(x);
 const reply=(origin,status,data)=>new Response(JSON.stringify(data),{status,headers:{"content-type":"application/json","cache-control":"no-store,private","x-content-type-options":"nosniff","access-control-allow-origin":origin||"null","vary":"Origin"}});
 function validFields(f){
