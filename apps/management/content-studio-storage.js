@@ -4,6 +4,9 @@ import {createClient} from "https://esm.sh/@supabase/supabase-js@2.95.0?bundle";
 const URL="https://tdqbjhrmfluiinntmjfh.supabase.co";
 const KEY="sb_publishable_Redb-pOjNOSpDKg1uIbUBg_-PUCt5XX";
 const API=URL+"/functions/v1/mednest-content-studio";
+const STUDENT_URL="https://aozknkrwafowsrehdwlr.supabase.co";
+const STUDENT_KEY="sb_publishable_9CjKnd4hEIIvS7OXvTq_aA_tTkLsBts";
+const PUBLISH_API=STUDENT_URL+"/functions/v1/mednest-content-publish";
 const client=createClient(URL,KEY,{auth:{
  autoRefreshToken:true,persistSession:true,detectSessionInUrl:false,
  storageKey:"sjn-mednest-isolated-staff-v1"
@@ -60,8 +63,31 @@ async function load(batchId){
  }
  throw Error("Draft batch could not be fully loaded; no local changes applied.");
 }
+
+async function publishBatch(batchId,{onProgress,expectedCount}={}){
+ if(!/^[0-9a-f-]{36}$/i.test(batchId||""))throw Error("Open an approved saved batch before publishing.");
+ const {data:{session},error}=await client.auth.getSession();
+ if(error||!session?.access_token)throw Error("Sign in with your verified Management Auth account.");
+ let start=1,published=0,chunks=0;const receipts=[];
+ for(let attempt=0;attempt<76;attempt++){
+  const response=await fetch(PUBLISH_API,{method:"POST",credentials:"omit",cache:"no-store",
+   headers:{"content-type":"application/json","apikey":STUDENT_KEY,"authorization":"Bearer "+session.access_token},
+   body:JSON.stringify({action:"batch.publish_chunk",batch_id:batchId,start})});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw Error((data.error||"Student LMS Staging publication failed.")+
+    " Published "+published+" of "+(expectedCount||"the batch")+" questions before this response. You can safely retry the same approved batch; completed chunks are idempotent.");
+  if(!Number.isInteger(data.published_count)||!Array.isArray(data.items))throw Error("Student LMS returned an invalid publication receipt.");
+  published+=data.published_count;chunks++;receipts.push(...data.items);
+  onProgress?.(published,expectedCount||null,chunks);
+  if(!data.has_more) return {batchId,published,chunks,receipts};
+  if(!Number.isInteger(data.next_start)||data.next_start<=start||data.next_start>3000)throw Error("Invalid next-chunk cursor; completed chunks remain safely recorded.");
+  start=data.next_start;
+ }
+ throw Error("Batch exceeded the safe chunk limit. Published "+published+" questions; retry after inspecting the release receipts.");
+}
+
 window.MedNestStudioStorage=Object.freeze({
- list:()=>call("batch.list"),save,load,
+ list:()=>call("batch.list"),save,load,publishBatch,
  submitReview:batchId=>call("batch.submit_review",{batch_id:batchId}),
  prepareDirect:batchId=>call("batch.prepare_direct",{batch_id:batchId}),
  withdrawReview:batchId=>call("batch.withdraw_review",{batch_id:batchId}),
