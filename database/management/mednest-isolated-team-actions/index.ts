@@ -11,7 +11,7 @@ const INVITE_BASE="https://sjn-mednest-management-git-sjn-phase1a-foundation-sjn
 const WRITES_ENABLED=false; // Hard-disabled; configure secrets alone cannot switch on invitations.
 const SENDER_APPROVED=Deno.env.get("MEDNEST_STAFF_SENDER_VERIFIED")==="true";
 const REF="tdqbjhrmfluiinntmjfh";
-const ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9]+|-git-sjn-(?:phase1a-foundation|secure-content-publishing))-sjn1\.vercel\.app$/;
+const ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9]+|-git-sjn-phase1a-foundation|-git-sjn-secure-content-publishing)-sjn1\.vercel\.app$/;
 const db=createClient(URL,SERVICE,{auth:{persistSession:false,autoRefreshToken:false}});
 const response=(origin,status,data)=>new Response(JSON.stringify(data),{status,headers:{
  "content-type":"application/json","cache-control":"no-store, private","vary":"Origin",
