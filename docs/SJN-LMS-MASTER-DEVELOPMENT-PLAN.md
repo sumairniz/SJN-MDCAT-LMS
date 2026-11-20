@@ -1461,3 +1461,6 @@ Owner approved recovery-first sequence after the November 19 Content Studio pres
 
 
 > **2026-11-21 — MANAGEMENT SIGN-IN CONNECTIVITY FIX:** Owner screenshot investigated. Active login page uses the correct isolated Management Auth client; the actual fault was that the four Management Auth Edge Function CORS allowlists did not include the secure Content Studio branch preview origin. Updated and deployed isolated auth v7, step-up v6, team v7 and team-actions v7 to allow the exact HTTPS secure preview origin. New Vercel preview READY at the branch alias. No password reset/account recreation needed. Owner must retry browser sign-in; CI for the test assertion updates is pending.
+
+
+> **2026-11-21 — CORS FIX FINALIZED:** The four deployed Management Auth endpoints now use explicit secure-preview origin alternatives. Active versions: isolated auth v8, step-up v7, team v8, team-actions v8. CI push check passed at `33988de`; PR check pending. Browser sign-in still requires owner confirmation.
