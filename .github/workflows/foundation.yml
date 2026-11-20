@@ -2,7 +2,7 @@ name: Foundation checks
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, sjn-phase1a-foundation, sjn-content-studio-v4-implementation]
   push:
     branches: [sjn-phase1a-foundation]
 
