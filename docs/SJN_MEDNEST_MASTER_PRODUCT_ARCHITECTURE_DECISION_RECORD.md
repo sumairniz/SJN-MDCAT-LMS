@@ -506,8 +506,23 @@ This proposal must not undo:
 - Destination-aware creation/import, persistent context and server-side authorization.
 - Existing Student LMS and Test History non-regression requirements.
 
-### 15.7 Remaining design question and approval boundary
-The owner has asked for an independent assessment of Claude's proposal, not automatic acceptance. Therefore this revised two-mode navigation is **PROPOSED — NOT YET FINALIZED**. Studio Overview's exact role/removal and final navigation presentation remain open for owner review. No code, database, security, deployment or production changes are authorized by this review. Do not implement this navigation until the owner explicitly finalizes the design and separately approves implementation scope.
+### 15.7 Owner decision and approval boundary
+
+**Status: FINALIZED / OWNER-DECIDED — navigation design direction accepted on 21 November 2026. IMPLEMENTATION APPROVAL IS NOT GRANTED BY THIS DESIGN DECISION.**
+
+The owner explicitly agreed with the revised two-mode navigation and the assistant's refinements to Claude's proposal. The finalized direction is:
+- Content and Workflow are the two modes inside the central Question Content Studio.
+- Content mode uses the contextual destination tree and the Browse & Edit, Create, Bulk Upload and My Drafts workspace tabs.
+- My Drafts supports All My Destinations and selected-destination filtering; each draft displays and restores its true destination.
+- Workflow mode contains My Work Board, Academic Review and Release Centre, with distinct responsibilities and concise descriptions.
+- Jump-to search and Recently Opened are useful navigation conveniences subject to permissions.
+- Main Management Panel sidebar may optionally collapse to an accessible icon rail; it should not force two permanently expanded sidebars.
+- Mobile uses Content/Workflow tabs and a compact destination selector; tablet adapts the tree and preserves destination context.
+- Create Questions and Bulk Upload inherit a selected destination; when opened without one, they require explicit destination selection before editing/import. Destination context remains visible and is enforced server-side. Selecting a destination for new work is not permission to move existing records.
+
+**Studio Overview:** The owner has not separately chosen between a lightweight landing state and opening directly into Content mode. Preserve this as a small unresolved presentation detail. The recommended default is a lightweight landing state only if it adds useful destination shortcuts/recent destinations/compact overview; otherwise open Content mode directly. Do not let this unresolved detail block the finalized two-mode navigation architecture.
+
+This is finalization of the navigation design direction, not blanket approval to implement. Implementation still requires the owner's explicit approval for the relevant scope. No code, database, security, deployment, merge or production changes are authorized by this decision.
 
 ### 15.8 Change log
 | Date | Change |
