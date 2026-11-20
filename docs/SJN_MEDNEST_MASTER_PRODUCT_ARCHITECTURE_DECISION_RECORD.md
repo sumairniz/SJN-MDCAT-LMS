@@ -25,13 +25,27 @@ This document preserves:
 
 This is a living record, not a brief formula sheet. Update it in detail, including context and rationale, rather than recording only a one-line conclusion.
 
+### 1.1 Relationship to existing project documentation
+
+This master record is an **additional canonical index and consolidated decision source**. It does not mean that the previous handover documents, technical documentation, owner guide, deferred-feature register, active conversation log or source chat transcripts were unnecessary or should be discarded.
+
+The existing documents have different purposes and remain valuable:
+- **AI Developer Handover:** implementation instructions and safety contract for AI development.
+- **Human Developer Technical Handover:** detailed technical architecture and delivery context for a human developer.
+- **Owner Guide:** operational and learning guide for the Academy owner.
+- **Master Product, Architecture & Decision Record (this file):** cross-chat continuity, product decisions, exact reasoning, status distinctions, approvals, implementation records, test evidence and change history.
+- **Active Conversation & Decision Log:** detailed temporary record of current-session discussion, open issues and immediate next steps. Its important outcomes must be transferred into this master record.
+- **Original chats, transcripts, recordings and screenshots:** primary evidence for the actual discussion and context. Preserve/link them where possible; do not assume this master record replaces their full detail.
+
+When existing documents overlap, do not create competing truth. Record which document owns which subject and update the relevant document when its subject changes.
+
 ## 2. Authority, chronology and decision status
 
 ### 2.1 Evidence hierarchy
 
 When information conflicts, use this order:
 1. The owner's latest explicit instruction in the current conversation.
-2. The latest owner-approved decision recorded in this master record.
+2. The latest owner-confirmed decision recorded in this master record.
 3. Detailed source conversation/transcript and owner-provided recordings/screenshots.
 4. Current verified repository, database, and deployment state.
 5. Older handovers and temporary chat summaries.
@@ -39,26 +53,39 @@ When information conflicts, use this order:
 
 A technical discovery can establish what the system currently does, but it cannot silently change an owner requirement. Record the discovery and propose a safe reconciliation.
 
-### 2.2 Mandatory status labels
+### 2.2 Mandatory status labels — keep discussion, proposal, decision, approval, implementation and verification separate
 
-Use these labels for every material item:
-- **OWNER-APPROVED / FINALIZED** — explicit owner decision.
-- **IMPLEMENTED / VERIFIED** — actually implemented; state test method and environment.
-- **IMPLEMENTED / NOT FULLY VERIFIED** — code exists, but some verification is outstanding.
-- **PENDING TECHNICAL VERIFICATION** — requirement is accepted, current capability/feasibility is being inspected.
-- **PROPOSED — NOT APPROVED** — recommendation only.
-- **PENDING OWNER DECISION** — owner input genuinely required.
-- **DEFERRED** — deliberately postponed.
-- **REJECTED / REVERSED** — not to be used; record why.
-- **SUPERSEDED** — replaced by a later decision; retain history and link replacement.
+Every material item must have an explicit status. Do not collapse these stages:
 
-Never convert a proposal into an approved decision. Never call something verified merely because a deployment is READY or a screen appears.
+1. **DISCUSSED** — the topic, idea, concern or possible approach came up in conversation. This does not mean a proposal was accepted or a decision was made.
+2. **PROPOSED** — a specific recommendation or possible solution was put forward. It is not a decision and must not be implemented as though approved.
+3. **FINALIZED / OWNER-DECIDED** — the owner explicitly settled the product requirement, design choice or intended behavior. Record the exact decision and the reasoning/context. This means the product decision is settled, **not** that implementation is automatically authorized.
+4. **IMPLEMENTATION APPROVED** — the owner separately gave explicit permission to implement a defined scope. Record what was approved, what was excluded, the environment/branch boundaries and date. If scope changes materially, ask again.
+5. **IMPLEMENTED** — code/configuration or other changes were actually made. Record exact files, functions, components, database objects, migrations, commit and environment.
+6. **VERIFIED** — tests or owner checks actually confirmed behavior. Record test method, environment, result and any limitations. A successful deployment alone does not prove feature correctness.
+7. **PENDING TECHNICAL VERIFICATION** — a requirement or decision exists, but the present architecture/capability or safe implementation route has not yet been verified. This status does not permit quietly dropping the requirement or asking the owner to repeat a discussion that may already be documented.
+8. **PENDING OWNER DECISION** — a real product choice remains open and cannot be safely inferred from the existing decisions.
+9. **DEFERRED** — deliberately postponed; preserve reason and any condition for revisiting.
+10. **REJECTED / REVERSED** — a proposal or implementation was explicitly rejected or undone; preserve why and the replacement if any.
+11. **SUPERSEDED** — replaced by a later owner decision; retain the old decision and link the new one.
 
-### 2.3 Approval scope
+Use combinations where useful, for example: **FINALIZED / OWNER-DECIDED — IMPLEMENTATION NOT YET APPROVED**, or **IMPLEMENTED — VERIFICATION PENDING**.
 
-Approval of a design, implementation, preview deployment, merge, database migration, and production release are separate actions unless the owner explicitly combines them. Record the exact scope and date of every approval.
+**Critical rule:** A finalized decision is not blanket approval to code. The owner may later change their mind, refine a requirement, or want a different approach. Before implementing a finalized item, check whether explicit implementation approval exists for that exact scope. If it does not, request approval from the owner. Do not assume that a previous design approval, old instruction, or assistant recommendation authorizes all future implementation.
 
-**Latest owner instruction in this conversation (21 Nov 2026):** The owner explicitly instructed that the complete Question Content Studio redesign be finalized and implemented, and authorized proceeding. This supersedes the older 20–21 November temporary log's statement that implementation was not yet authorized. Work must still follow the existing staging-first and production-safety principles. Production release/merge must not be inferred from authorization to implement; obtain separate approval.
+### 2.3 Approval scope and owner control
+
+Product decision, detailed design sign-off, implementation approval, preview deployment, database migration, merge, and production release are separate approval gates unless the owner explicitly combines them.
+
+- The owner is the final authority for product decisions and implementation approval.
+- The assistant/developer must not mark a proposal as finalized without the owner's explicit agreement.
+- The assistant/developer must not mark implementation as approved merely because the owner said a design is finalized.
+- Before making code or infrastructure changes, identify the exact scope and check the approval record. If absent or ambiguous, ask the owner.
+- A previously finalized decision remains the recorded decision until the owner changes it. Do not repeatedly ask the owner to reconfirm it without a genuine new conflict or material change in circumstances.
+- If the owner changes a decision, append the new decision and mark the earlier one **SUPERSEDED**. Never erase the earlier reasoning or history.
+- Production merge/release must have its own explicit approval unless specifically included in a later owner instruction.
+
+**Current Content Studio scope:** In this project conversation on 21 November 2026, the owner explicitly instructed that the complete Question Content Studio redesign be implemented. Record that as implementation approval for that defined scope, subject to staging-first delivery and the existing exclusions. This is a specific historical authorization, not a general rule that future finalized decisions can be implemented without fresh approval. Production release/merge remains separate.
 
 ## 3. Project identity and technical foundation
 
@@ -106,7 +133,7 @@ The Management Panel includes these main modules (preserve existing working modu
 
 **Navigation ownership:** The main sidebar owns the top-level modules. Pages internal to Question Content Studio must not be duplicated as top-level sidebar entries.
 
-### 4.1 Central Question Content Studio — OWNER-APPROVED
+### 4.1 Central Question Content Studio — FINALIZED / OWNER-DECIDED
 
 There is **one central Question Content Studio**, not three independent MCQ editors or import engines. It has its own internal navigation and contextual workspace.
 
@@ -119,7 +146,7 @@ Courses & Sessions and Full-Length Past Papers remain separate top-level Managem
 
 Use existing question records and destination associations where appropriate. In particular, a full-length paper should reuse/link a Past Paper Question Bank question when appropriate rather than silently create unnecessary duplicate MCQ records. Preserve provenance, source identity, ownership and associations.
 
-### 4.2 Studio internal navigation — OWNER-APPROVED DIRECTION
+### 4.2 Studio internal navigation — FINALIZED / OWNER-DECIDED
 
 - Studio Overview
 - My Drafts
@@ -140,10 +167,10 @@ Single-home rules:
 
 Desktop: persistent main navigation plus Studio navigation. Tablet: adaptive navigation. Mobile: main slide-out drawer and compact Studio selector; do not force two permanent sidebars.
 
-## 5. Visual design system — OWNER-APPROVED DIRECTION
+## 5. Visual design system — FINALIZED DIRECTION
 
 - SJN red identity is the dominant brand accent; the earlier blue-dominant sample is superseded.
-- Proposed palette recorded in V4: SJN red `#D9485F`, deep red `#A92F46`, soft red `#FCECEF`, charcoal `#202631`, white and restrained neutral surfaces. Treat exact token tuning as part of visual implementation review, not a reason to revert to blue-dominant styling.
+- Palette direction recorded in V4: SJN red `#D9485F`, deep red `#A92F46`, soft red `#FCECEF`, charcoal `#202631`, white and restrained neutral surfaces. Exact token tuning remains subject to visual review.
 - Support both light and dark themes with the same component structure.
 - Balanced information density: professional, readable, efficient for frequent academic content work.
 - Consistent normal, hover, selected, focus and disabled states; clear icons and active indicators; subtle transitions/card lift; respect reduced-motion preferences.
@@ -266,7 +293,7 @@ Preserve:
 
 Do not casually refactor unrelated Student LMS functionality. Do not reintroduce autosave lag or false unsaved-change warnings. A warning is appropriate only when changes genuinely remain unacknowledged as saved.
 
-## 9. Images, diagrams, formulas and chemical notation — accepted end-to-end requirement
+## 9. Images, diagrams, formulas and chemical notation — FINALIZED REQUIREMENT; TECHNICAL DETAILS TO VERIFY
 
 The owner clarified that the Student LMS does **not currently have a complete image-based MCQ capability**. This is a planned new end-to-end capability, not a verified existing feature.
 
@@ -281,6 +308,8 @@ Required scope:
 8. Performance: optimize media and avoid slowing ordinary text-only questions.
 9. Import compatibility: define whether XLSX/CSV can reference images/formulas and provide clear validation if unsupported.
 10. Test Biology diagrams/labelled structures, Chemistry structures/reaction diagrams and Physics circuits/graphs.
+
+The requirement is accepted; technical implementation details must be recovered from prior discussions and verified against the actual code/schema. Technical verification is not permission to discard or silently narrow the requirement.
 
 **Continuity instruction for the next chat:** Do not reflexively ask the owner whether image rendering and published-version handling were ever discussed. First inspect the uploaded full conversation `Chat(1).txt`, earlier project chats/recordings if available, repository code and the most recent decision record. The owner has explicitly said that some technical details were already discussed in the previous conversation and should be retrieved before being raised again. If exact detail cannot be found, state precisely what sources were checked and ask only the smallest unresolved question.
 
@@ -302,7 +331,7 @@ The following was reported/verified during the 21 November 2026 continuation. Re
 
 ## 11. Current implementation authorization and delivery boundary
 
-**Latest instruction (21 November 2026):** Owner says to finalize and implement the complete redesign. Begin with inspection and implementation on the existing working branch/PR path. Do not restart architecture or create parallel systems.
+**Specific authorization recorded on 21 November 2026:** The owner explicitly instructed that the complete Question Content Studio redesign be implemented. Proceed on the existing feature branch/PR path, staging-first, within the scope described in this record. This authorization is specific to that redesign; it does not automatically authorize unrelated feature work, new paid services, destructive data operations, production migrations or production release.
 
 Delivery should be staged:
 1. Read this document and latest active decision log, full `Chat(1).txt`, original handovers and relevant implementation docs before coding.
@@ -321,16 +350,32 @@ At the start of every new SJN MedNest chat:
 2. Read the latest **Active Conversation & Decision Log** and the latest continuation checkpoint.
 3. Search for the relevant full source conversation/transcript by title and inspect it when the task refers to prior discussion. For this redesign, source includes `Chat(1).txt` / chat titled **English Project Continuation Clarification**.
 4. Inspect current GitHub branch/PR/commit and provider state if the task concerns implementation; never assume yesterday's deployment is still current.
-5. Build a short internal checklist of approved decisions, unresolved items, implemented/verified status and next action.
+5. Build a short internal checklist of discussed topics, proposals, finalized decisions, implementation approvals, implemented changes, verified results, unresolved matters and next action.
 6. Do not ask the owner to repeat information already in these records or source conversations.
 7. If a missing detail genuinely cannot be recovered, identify the exact missing detail and sources checked; ask one focused question only.
-8. After any owner decision or material implementation, update this master record and the active session log. Include rationale, affected files/functions/tables, tests, environment, commit/deployment, verification level and rollback notes.
+8. After any material discussion, proposal, owner decision, approval, implementation or test, update this master record and the active session log. Include context, exact wording/behavior, rationale, affected files/functions/tables, tests, environment, commit/deployment, verification level and rollback notes as applicable.
+9. Do not mark a discussion as a proposal, a proposal as finalized, a finalized decision as implementation-approved, or an implementation as verified unless the evidence supports that exact status.
 
-## 13. Change log
+## 13. Documentation maintenance workflow — OWNER-APPROVED
+
+For every meaningful project discussion:
+- Record what was **DISCUSSED**, even if no decision was reached, with the question/context and options considered.
+- Record each **PROPOSED** approach separately, including who/what suggested it, benefits, drawbacks and why it has or has not been accepted.
+- When the owner **FINALIZES** something, record the exact requirement/decision, reasoning, scope, constraints and any alternatives rejected.
+- Keep **IMPLEMENTATION APPROVAL** separate. Ask the owner before implementing a finalized decision unless explicit authorization for that exact scope is already recorded.
+- After implementation, record exact technical changes: repository path, component/function, database object/migration if any, relevant commit and environment.
+- After testing, record the actual test steps and results, who tested them, environment, limitations and whether verification is complete.
+- When the owner changes a previous decision, preserve the old entry as superseded and append the new decision, date, reason and impact. Do not erase history.
+- Keep the master record detailed enough that a future assistant/developer can understand not only **what** was decided but **why**, what was considered, what remains open and what is authorized next.
+
+At the end of a substantial chat/session, update the master record and create/update a dated Active Conversation & Decision Log or continuation checkpoint as needed. The Library may contain readable copies/snapshots, but GitHub remains the canonical, version-controlled master.
+
+## 14. Change log
 
 | Date | Change |
 |---|---|
-| 21 Nov 2026 | Created permanent master record to prevent cross-chat context loss. Consolidates Content Studio V4 architecture, visual direction, detailed screens, nine external review concerns and technical refinements, non-regression requirements, recent staging checkpoint, and the owner's latest implementation authorization. |
-| 21 Nov 2026 | Supersedes the earlier temporary-log statement that implementation was not yet authorized; production release remains separately gated. |
+| 21 Nov 2026 | Created permanent master record to prevent cross-chat context loss. Consolidates Content Studio V4 architecture, visual direction, detailed screens, nine external review concerns and technical refinements, non-regression requirements, recent staging checkpoint, and the owner's specific implementation authorization. |
+| 21 Nov 2026 | Clarified that this master record supplements rather than replaces existing AI Developer Handover, Human Developer Technical Handover, Owner Guide, deferred-feature register, active session logs and original source conversations. |
+| 21 Nov 2026 | Added the owner's governance rule: distinguish DISCUSSED, PROPOSED, FINALIZED, IMPLEMENTATION APPROVED, IMPLEMENTED and VERIFIED. Finalizing a decision never automatically grants implementation permission. Preserve prior decisions when superseded. |
 
 **End of master record.**
