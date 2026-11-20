@@ -529,4 +529,33 @@ This is finalization of the navigation design direction, not blanket approval to
 |---|---|
 | 21 Nov 2026 | Reviewed Claude's two-mode Content/Workflow proposal against original Chat(1).txt and V4 navigation decisions. Recorded assistant assessment, accepted elements, refinements, detailed Create/Bulk Upload destination behavior, responsive behavior and approval boundary. |
 
+
+## 16. Reference design ZIP access and editor save-action clarification (21 Nov 2026)
+
+**Status: DISCUSSED. Reference assets located in Library; raw inspection not completed. Save-action meanings below are proposed UX definitions, not verified current implementation behavior. No implementation approval granted.**
+
+### 16.1 Three visual reference ZIPs
+The three previously supplied reference archives are present in the user's Library under `/Online Academy`:
+- `Ref designs 1.zip` (about 1.59 MB)
+- `Ref designs 2.zip` (about 1.43 MB)
+- `ref designs 3.zip` (about 1.70 MB)
+
+The archives are reference/inspiration only. The owner explicitly says not to copy them; use them to inform a distinct SJN MedNest interface consistent with the finalized SJN-red visual direction, professional modern UI, ease of use, density, and workflows. During this retrieval, Library metadata confirmed the archives exist, but raw-byte materialization was denied because the Project files have no authorized raw-byte path. Therefore their internal screens have **not** been freshly inspected in this session. Do not claim to have opened or reviewed their contents. When a usable file-reading path becomes available, inspect all three archives and map useful patterns to the SJN design without copying.
+
+### 16.2 Save Question / Save Draft / Save & Next — conceptual distinction
+The owner asked what the three editor actions mean. The intended UX distinction to validate is:
+- **Save Question:** save the current MCQ as a normal question record in the selected destination, using the existing supported save/publish lifecycle. The button label alone must not imply student publication. Whether the saved record is immediately live or remains unpublished depends on the actual existing content/version/release model and must be verified before finalizing exact semantics.
+- **Save Draft:** save the current work as an unfinished draft so the author can return later. It should not make the question student-visible. Preserve the current draft/save acknowledgement behavior and destination context.
+- **Save & Next:** save the current question using the appropriate save path, then open a fresh editor for the next question while retaining the current destination and suitable classification context (e.g. subject/chapter where appropriate). It must not skip validation, lose entered data, or accidentally publish content.
+
+These are **proposed user-facing meanings**, not a verified description of the current code. Before implementation, inspect current editor handlers, persistence APIs, draft records, publication/version semantics, validation and navigation behavior. Resolve whether Save Question is a normal saved-but-unreleased record or an immediately student-visible record; do not assume. Keep three actions only if each has a distinct, understandable purpose. Consider contextual helper text/confirmation and success feedback so users know where the question was saved and whether it is a draft or released.
+
+### 16.3 Owner's implementation approach
+The owner says the design is still being discussed and is **not yet approved for implementation**. The expected process is to implement only after explicit approval, then inspect the working interface together and make practical refinements based on the owner's feedback. This iterative refinement process does not mean implementation can start now without approval. Preserve the finalized design and record later adjustments as new decisions, with previous history retained.
+
+### 16.4 Change log
+| Date | Change |
+|---|---|
+| 21 Nov 2026 | Recorded the three reference ZIP archive locations and the limitation that raw contents could not be opened in this retrieval; clarified they are inspiration, not templates to copy. Added conceptual distinctions for Save Question, Save Draft and Save & Next, explicitly pending code-level verification. Recorded that implementation approval is still pending and future visual refinements will be owner-led after preview. |
+
 **End of master record.**
