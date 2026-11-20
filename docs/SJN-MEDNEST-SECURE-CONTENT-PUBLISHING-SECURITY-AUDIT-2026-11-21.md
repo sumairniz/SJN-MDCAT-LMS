@@ -88,3 +88,16 @@ Use the existing projects only:
 - Dedicated GitHub implementation branch: created from `sjn-content-studio-v4-implementation`.
 - No schema, records, Edge Functions, secrets, deployments or production settings have been changed yet.
 - The existing production/legacy project and `main` remain out of scope.
+
+
+## 8. CI and preview verification update — 2026-11-21
+
+- GitHub Foundation Checks on PR #3 latest verified head `760432b176e2e75b69e1ec6b40c8293a48480e0b`: **SUCCESS**.
+- 326 test suite baseline was expanded by five secure publishing checks; final test job passed. Backend syntax, local Tailwind build, critical CSS check, byte-for-byte CSS reproducibility and release hygiene all passed.
+- Management Panel Vercel preview deployment: `dpl_HYJYna9mNehwZE8em3hbGcoPjX7K`, READY, commit `760432b`.
+- Preview URL: https://sjn-mednest-management-ja4jcouij-sjn1.vercel.app
+- The preview is SSO-protected. Automated browser UAT has not yet been performed; owner must sign in and inspect the Release Centre and correction queue.
+- Supabase Edge Functions are live: Management Auth authorization v5 (JWT verification enabled) and Student Staging publisher v4 (Management Auth JWT delegated to the Management Auth authorization service).
+- Student Staging publisher RPC is callable only by `service_role`; receipt ledger is not readable by `anon` or `authenticated`.
+- No real batch or correction has been published; receipt count remains zero. Atomic rollback test passed.
+- PR #3 remains Draft and unmerged. No production deployment or merge.
