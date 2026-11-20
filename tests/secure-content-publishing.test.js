@@ -8,6 +8,7 @@ test("Management Auth publishing endpoint revalidates the Chief session and appr
  const edge=read("database/management/mednest-publish-authorization/index.ts");
  assert.match(edge,/db\.auth\.getUser\(token\)/);
  assert.match(edge,/mednest_staff_session_live/);
+ assert.match(edge,/sjn-mednest-management\(\?:-\[a-z0-9-\]\+\)/);
  assert.match(edge,/actor\.status!=="active"/);
  assert.match(edge,/actor\.technical_role!=="chief_admin"/);
  assert.match(edge,/batch\.status!=="approved_for_release"/);
