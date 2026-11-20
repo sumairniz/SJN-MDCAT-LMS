@@ -5,7 +5,7 @@ import {createClient} from "https://esm.sh/@supabase/supabase-js@2.95.0?bundle";
 const URL=Deno.env.get("SUPABASE_URL")||"";
 const SERVICE=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";
 const REF="tdqbjhrmfluiinntmjfh";
-const ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9]+|-git-sjn-(?:phase1a-foundation|secure-content-publishing))-sjn1\.vercel\.app$/;
+const ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9]+|-git-sjn-phase1a-foundation|-git-sjn-secure-content-publishing)-sjn1\.vercel\.app$/;
 const db=createClient(URL,SERVICE,{auth:{autoRefreshToken:false,persistSession:false}});
 const reply=(origin,status,data)=>new Response(JSON.stringify(data),{status,headers:{
  "content-type":"application/json","cache-control":"no-store, private","vary":"Origin",
