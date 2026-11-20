@@ -5,9 +5,6 @@ import {createClient} from "https://esm.sh/@supabase/supabase-js@2.95.0?bundle";
 const URL="https://tdqbjhrmfluiinntmjfh.supabase.co";
 const KEY="sb_publishable_Redb-pOjNOSpDKg1uIbUBg_-PUCt5XX";
 const API=URL+"/functions/v1/mednest-content-studio";
-const STUDENT_URL="https://aozknkrwafowsrehdwlr.supabase.co";
-const STUDENT_KEY="sb_publishable_9CjKnd4hEIIvS7OXvTq_aA_tTkLsBts";
-const PUBLISH_API=STUDENT_URL+"/functions/v1/mednest-content-publish";
 const client=createClient(URL,KEY,{auth:{
  autoRefreshToken:true,persistSession:true,detectSessionInUrl:false,
  storageKey:"sjn-mednest-isolated-staff-v1"
