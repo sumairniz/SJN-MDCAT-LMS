@@ -119,3 +119,18 @@ Owner supplied screenshot showing the Management sign-in page reporting "Unable 
 ### Final CORS allowlist verification
 
 The deployed allowlist uses explicit alternatives for both legacy Phase 1A and current secure publishing branch origins (rather than a nested regex group), matching the existing regression test contract. Deployed active versions after this correction: isolated auth v8, isolated step-up v7, isolated team v8, isolated team-actions v8. GitHub push workflow at commit `33988de0143a887fd5c7d46df083fa6baeb81699` passed. Pull-request workflow is still running. The owner-facing preview remains the READY Vercel branch alias recorded above. Browser sign-in is not yet confirmed.
+
+
+## Live Library, Drafts and active Content Studio route incident — 2026-11-21
+
+Owner screenshot showed `Failed to fetch` in Live Library and no visible saved drafts. Read-only database checks confirmed the records remain present:
+- Student Staging `public.mcqs`: 1,275 total rows, including 1,129 regional-bank MCQs, 146 Past Papers Question Bank MCQs, and 79 restricted SJN MedNest Course Test MCQs. The restricted 79 remain excluded from Live Library and publishing.
+- Management Auth: 3 draft batches, 6 batch rows, 1 individual MCQ correction draft, 0 review submissions.
+
+**API root cause:** the Management Auth Edge Functions `mednest-mcq-library` and `mednest-content-studio` still allowed only the Phase 1A preview origin. Added the secure publishing preview origin to both allowlists and deployed `mednest-mcq-library` v5 and `mednest-content-studio` v7. JWT verification remains enabled. No data rows were changed.
+
+**UI root cause:** the active sign-in route loads `integrated-auth-preview.html`, not `index.html`. V4 redesign existed in `index.html`, but the active preview still had the older Content Studio shell. Copied the approved V4 page intro and nav shell into the active preview, preserving the existing editor, draft, library, storage and module IDs. Added regression assertions requiring the V4 shell on the active route.
+
+**Preview deployment:** READY, deployment `dpl_GZPk1T8tMqtUxxWeACD7Gw1tKx7h`, branch alias https://sjn-mednest-management-git-sjn-secure-content-publishing-sjn1.vercel.app, commit `78e88ac9766f08ea0403f8dc8ed3ae4beb5b10a1`. GitHub push and PR checks for the API CORS changes passed at `3efa3c3`; the active-route V4 shell change passed at `a474bad`; the latest regression test commit `78e88ac` was still running at documentation time.
+
+**Owner UAT still required:** sign in at the branch alias, hard refresh, confirm Live Library lists ordinary/regional MCQs and My Drafts shows the existing saved batches/individual draft. Do not create replacement drafts or import duplicates while checking. Confirmed row counts are from live SQL; UI retrieval after CORS deployment has not yet been independently browser-verified.
