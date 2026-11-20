@@ -28,11 +28,11 @@
    $("studio-save-batch").disabled=state==="pending_review"||state==="approved_for_release";
    show("studio-withdraw-review",state==="pending_review"&&!!savedBatchId);
    $("studio-route-status").textContent=state==="approved_for_release"
-    ?"Approved for release — NOT published to students. A separate secure publishing service is still required."
+    ?"Approved for release — eligible for controlled Student LMS Staging publication. Production remains out of scope."
     :state==="pending_review"
      ?"Awaiting independent academic review. The author cannot approve their own batch. Publication remains disabled."
      :dirty?"Unsaved changes. Save Draft before requesting review or release preparation."
-     :"Academic review is optional for authorized staff. Both routes require technical validation; neither publishes to the Student LMS.";
+     :"Academic review is optional for authorized staff. Technical validation is required; only approved content can enter the staging Release Centre.";
  }
  function modified(){dirty=true;routeControls()}
 
