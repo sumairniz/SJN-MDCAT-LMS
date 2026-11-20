@@ -1,4 +1,4 @@
-// SJN MedNest Academic Reviews — approval workflow only. NO student publication.
+// SJN MedNest Academic Review and controlled Student LMS Staging release.
 import {createClient} from "https://esm.sh/@supabase/supabase-js@2.95.0?bundle";
 const URL="https://tdqbjhrmfluiinntmjfh.supabase.co";
 const KEY="sb_publishable_Redb-pOjNOSpDKg1uIbUBg_-PUCt5XX";
@@ -7,6 +7,9 @@ const client=createClient(URL,KEY,{auth:{
  storageKey:"sjn-mednest-isolated-staff-v1"
 }});
 const ENDPOINT=URL+"/functions/v1/mednest-academic-review";
+const STUDENT_URL="https://aozknkrwafowsrehdwlr.supabase.co";
+const STUDENT_KEY="sb_publishable_9CjKnd4hEIIvS7OXvTq_aA_tTkLsBts";
+const PUBLISH_ENDPOINT=STUDENT_URL+"/functions/v1/mednest-content-publish";
 const $=id=>document.getElementById(id);
 let policy=null,drafts=[],queue=[],selected=null,loading=false,actorId=null;
 function status(message,error=false){
@@ -76,6 +79,25 @@ function drawQueue(){
   btn.className="studio-edit";btn.addEventListener("click",()=>openDetail(item.id));
   tbody.append(tr);
  }
+}
+async function publishCorrection(submissionId){
+ if(!window.confirm("Publish this approved MCQ correction to Student LMS STAGING only? A new immutable revision will be created. Existing student attempts and historical revisions will remain unchanged."))return;
+ busy(true);
+ try{
+  const {data:{session},error}=await client.auth.getSession();
+  if(error||!session?.access_token)throw Error("Sign in to Management Auth before publishing.");
+  const response=await fetch(PUBLISH_ENDPOINT,{method:"POST",cache:"no-store",credentials:"omit",
+   headers:{"content-type":"application/json","apikey":STUDENT_KEY,"authorization":"Bearer "+session.access_token},
+   body:JSON.stringify({action:"mcq.publish_correction",submission_id})});
+  const result=await response.json().catch(()=>({}));
+  if(!response.ok)throw Error(result.error||"Student LMS Staging correction publication failed.");
+  const item=result.items?.[0];
+  if(!item)throw Error("Student LMS returned no revision receipt.");
+  status((result.replayed?"Previously published; safe retry confirmed. ":"Published to Student LMS Staging. ")+
+   "MCQ #"+item.mcq_id+" · Revision #"+item.revision_no+" · Revision ID "+item.revision_id+
+   ". Existing attempt history remains on its original revision.");
+ }catch(e){status(e.message,true)}
+ finally{busy(false)}
 }
 async function getQueue(){
  const state=$("review-state").value;
