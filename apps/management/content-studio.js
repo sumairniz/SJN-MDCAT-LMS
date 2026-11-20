@@ -20,6 +20,9 @@
      state==="needs_changes"?"Changes Requested":state==="approved_for_release"?"Approved for Release":state;
    $("studio-batch-state").textContent=title+(dirty?" · Unsaved Changes":"");
    const canRoute=!!savedBatchId&&!dirty&&(state==="draft"||state==="needs_changes");
+   const canPublish=!!savedBatchId&&!dirty&&state==="approved_for_release";
+   $("studio-publish-batch").disabled=!canPublish;
+   $("studio-publish-batch").textContent=canPublish?"Publish Approved Batch to Student LMS Staging":"Publish to Student LMS Staging";
    $("studio-review-submit").disabled=!canRoute;
    $("studio-direct-prepare").disabled=!canRoute;
    $("studio-save-batch").disabled=state==="pending_review"||state==="approved_for_release";
@@ -793,6 +796,26 @@
  $("studio-review-submit").addEventListener("click",()=>changeRoute("submit"));
  $("studio-direct-prepare").addEventListener("click",()=>changeRoute("direct"));
  $("studio-withdraw-review").addEventListener("click",()=>changeRoute("withdraw"));
+ async function publishApprovedBatch(){
+   if(!savedBatchId||savedStatus!=="approved_for_release"||dirty||formChanged()){
+     storageStatus("Open a saved, approved and fully saved batch before publishing.",true);return;
+   }
+   if(!window.confirm("Publish this approved batch to Student LMS STAGING only? This creates new MCQs and immutable revisions. It does not publish to production."))return;
+   const button=$("studio-publish-batch");button.disabled=true;
+   storageStatus("Preparing secure Student LMS Staging publication…");
+   try{
+     const result=await storage().publishBatch(savedBatchId,{expectedCount:drafts.length,
+       onProgress:(done,total,chunks)=>storageStatus("Published "+done+(total?" of "+total:"")+" questions to Student LMS Staging · "+chunks+" atomic chunks…")});
+     storageStatus("Staging publication verified: "+result.published+" questions across "+result.chunks+" atomic chunks. Student LMS IDs and revision receipts were returned. Production was not changed.");
+     $("studio-publish-status").textContent="Completed · "+result.published+" MCQs published to Student LMS Staging. Save the returned release receipt before proceeding.";
+     $("studio-publish-status").dataset.error="false";
+   }catch(e){
+     storageStatus(e.message,true);
+     $("studio-publish-status").textContent=e.message;
+     $("studio-publish-status").dataset.error="true";
+   }finally{routeControls()}
+ }
+ $("studio-publish-batch").addEventListener("click",publishApprovedBatch);
  window.addEventListener("mednest:signed-out",()=>{
    // Browser memory must not retain sensitive staff draft content after sign-out.
    drafts=[];selected=-1;filter="all";page=0;
