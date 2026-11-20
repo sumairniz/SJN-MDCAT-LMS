@@ -1,0 +1,63 @@
+"use strict";
+const {test}=require("node:test");
+const assert=require("node:assert/strict");
+const fs=require("node:fs");
+const path=require("node:path");
+const read=p=>fs.readFileSync(path.resolve(__dirname,"..",p),"utf8");
+test("Management Auth publishing endpoint revalidates the Chief session and approved batch/correction",()=>{
+ const edge=read("database/management/mednest-publish-authorization/index.ts");
+ assert.match(edge,/db\.auth\.getUser\(token\)/);
+ assert.match(edge,/mednest_staff_session_live/);
+ assert.match(edge,/actor\.status!=="active"/);
+ assert.match(edge,/actor\.technical_role!=="chief_admin"/);
+ assert.match(edge,/batch\.status!=="approved_for_release"/);
+ assert.match(edge,/submission\.state!=="approved_for_release"/);
+ assert.match(edge,/draft\.version!==submission\.submitted_draft_version/);
+ assert.match(edge,/content\.publish/);
+ assert.ok(!edge.includes("aozknkrwafowsrehdwlr.supabase.co"));
+});
+test("Student Staging publisher delegates Management Auth identity and uses only its own service role",()=>{
+ const edge=read("database/student/mednest-content-publish/index.ts");
+ assert.match(edge,/EXPECTED="https:\/\/aozknkrwafowsrehdwlr\.supabase\.co"/);
+ assert.match(edge,/mednest-publish-authorization/);
+ assert.match(edge,/SUPABASE_SERVICE_ROLE_KEY/);
+ assert.match(edge,/mednest_publish_mcq_batch/);
+ assert.match(edge,/mcq\.publish_correction/);
+ assert.match(edge,/batch\.publish_chunk/);
+ assert.ok(!edge.includes("service_role"));
+});
+test("Atomic publishing SQL preserves immutable revisions and protects the receipt ledger",()=>{
+ const sql=read("database/student/mednest_secure_content_publish_bridge_20261121.sql");
+ assert.match(sql,/enable row level security/i);
+ assert.match(sql,/revoke all on table .* from anon,authenticated,public/i);
+ assert.match(sql,/grant select,insert,update,delete on table .* to service_role/i);
+ assert.match(sql,/security definer/i);
+ assert.match(sql,/revoke all on function .* from public,anon,authenticated/i);
+ assert.match(sql,/grant execute on function .* to service_role/i);
+ assert.match(sql,/payload_hash/);
+ assert.match(sql,/request_id/);
+ assert.match(sql,/insert into public\.mcq_revisions/i);
+ assert.match(sql,/current_revision_id=v_revision_id/i);
+ assert.match(sql,/for update/i);
+ assert.doesNotMatch(sql,/update public\.attempt_items/i);
+ assert.doesNotMatch(sql,/delete from public\.mcq_revisions/i);
+});
+test("Content Studio uses the Student Staging publisher without exposing privileged credentials",()=>{
+ const storage=read("apps/management/content-studio-storage.js");
+ const ui=read("apps/management/content-studio.js");
+ const html=read("apps/management/integrated-auth-preview.html");
+ assert.match(storage,/mednest-content-publish/);
+ assert.match(storage,/publishBatch/);
+ assert.match(storage,/idempotent/);
+ assert.match(ui,/Publish Approved Batch to Student LMS Staging/);
+ assert.match(html,/id="studio-release-centre"/);
+ assert.match(html,/STAGING ONLY/);
+ assert.doesNotMatch(storage,/SUPABASE_SERVICE_ROLE_KEY/);
+ assert.doesNotMatch(storage,/service_role/i);
+});
+test("Approved MCQ corrections expose a separate staging-only release action",()=>{
+ const review=read("apps/management/academic-review.js");
+ assert.match(review,/Publish to Staging/);
+ assert.match(review,/mcq\.publish_correction/);
+ assert.match(review,/revision_no/);
+});
