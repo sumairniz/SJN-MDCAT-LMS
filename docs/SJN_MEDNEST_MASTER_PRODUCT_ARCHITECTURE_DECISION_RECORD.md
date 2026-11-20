@@ -378,4 +378,44 @@ At the end of a substantial chat/session, update the master record and create/up
 | 21 Nov 2026 | Clarified that this master record supplements rather than replaces existing AI Developer Handover, Human Developer Technical Handover, Owner Guide, deferred-feature register, active session logs and original source conversations. |
 | 21 Nov 2026 | Added the owner's governance rule: distinguish DISCUSSED, PROPOSED, FINALIZED, IMPLEMENTATION APPROVED, IMPLEMENTED and VERIFIED. Finalizing a decision never automatically grants implementation permission. Preserve prior decisions when superseded. |
 
+
+
+### 13.1 Required depth for design documentation — OWNER-APPROVED
+
+The owner explicitly requires the master documentation to preserve the **full detailed design as it was presented and discussed**, not merely a compressed summary or a list of final decisions. The purpose is to prevent a future chat from having to repeat an entire screen-by-screen design exercise.
+
+Whenever a detailed design is discussed or proposed, document it at the same practical level of detail as the design presentation in chat. For each screen, module, workflow or component, include as applicable:
+
+1. **Purpose and user outcome:** why the screen exists, who uses it and what task it enables.
+2. **Information architecture and navigation:** exact parent/child hierarchy, entry points, destination context, back/next navigation and relationships with other modules.
+3. **Full layout specification:** page regions, sidebars, headers, panels, cards, tables, columns, tabs, accordions, drawers, modals, toolbars, forms and their order/placement.
+4. **Visible content:** labels, headings, helper text, metadata, badges/status text, summaries, empty-state wording and what information appears in each region.
+5. **Controls and interactions:** every meaningful button, link, menu, filter, selector, input and row action; what happens on click/selection/submission; confirmations; navigation outcomes; cancel behavior; and success/failure feedback.
+6. **Workflow and state transitions:** starting state, intermediate steps, validation, save behavior, status changes, approval/release boundaries, retry paths and final outcomes.
+7. **All relevant UI states:** normal, selected, hover, focus, disabled, loading, empty, no results, validation warning, partial success, failure, network interruption, permission restricted and unsaved/unacknowledged changes.
+8. **Responsive behavior:** desktop, tablet and mobile layout and interaction differences, including what collapses, moves, becomes a tab, drawer or stacked section.
+9. **Visual system:** theme, color usage, hierarchy, density, spacing intent, typography, icon meaning, active/hover/focus feedback, motion and accessibility considerations.
+10. **Data and technical behavior:** source of each displayed value, records/relationships, destination ownership, filtering/search rules, persistence, API/function dependencies, permissions and audit expectations. Clearly separate known current behavior from proposed future behavior.
+11. **Integration and non-regression:** affected Management Panel, Student LMS, analytics, attempts, review, history, import or other modules; what must remain unchanged; compatibility and migration considerations.
+12. **Examples and edge cases:** realistic illustrative examples, unusual inputs, duplicate/shared records, missing data, conflicting edits and recovery scenarios. Mark illustrative data as illustrative.
+13. **Alternatives and rationale:** options considered, strengths/risks, why one approach was recommended, owner feedback/corrections and why the final approach was selected.
+14. **Decision and approval status:** separately label DISCUSSED, PROPOSED, FINALIZED, IMPLEMENTATION APPROVED, IMPLEMENTED and VERIFIED. State exactly what is not yet decided or authorized.
+15. **Open questions and dependencies:** only genuine unresolved items, why they matter, what evidence is needed and whether owner input is required.
+
+For complex screens, use subsections and detailed tables/step-by-step flows rather than compressing information to save space. Preserve exact owner wording when it defines a requirement or constraint. Record corrections and rejected alternatives so they are not proposed again without new evidence.
+
+### 13.2 Chat-to-chat continuity package — OWNER-APPROVED
+
+At the end of each substantial design or development chat:
+- Update this master record with the full detail of newly discussed/proposed/finalized items and the current status.
+- Update the dated Active Conversation & Decision Log with the session's detailed chronology, important reasoning, screenshots/recording references, corrections and next steps.
+- If a screen-by-screen design was presented, preserve the complete screen specifications and interaction details, not merely the names of screens.
+- Keep source transcripts, screenshots and recordings referenced where available; the log/master record should explain their relevance.
+- Add a concise **Next Chat Start Here** section identifying the exact document sections and source transcripts to read, the current project/branch/PR/deployment checkpoint, decisions already settled, approvals available, open questions and immediate next action.
+- Never require the owner to repeat or re-approve something solely because a new chat has started. Reopen it only if the owner changes it or new technical evidence creates a real conflict.
+
+**The owner should be able to start a new chat by saying “continue SJN MedNest” and have the assistant retrieve and continue from the detailed records, without asking the owner to paste the previous conversation again.**
+
+| 21 Nov 2026 | Added the owner's requirement that detailed proposed and discussed designs be preserved screen-by-screen at full practical depth, including layouts, exact content, controls, interactions, states, responsive behavior, data/integrations, rationale, alternatives, status and approvals. Added a mandatory detailed chat-to-chat continuity package. |
+
 **End of master record.**
