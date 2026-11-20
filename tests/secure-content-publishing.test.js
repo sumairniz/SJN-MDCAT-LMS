@@ -50,7 +50,7 @@ test("Content Studio uses the Student Staging publisher without exposing privile
  const html=read("apps/management/integrated-auth-preview.html");
  assert.match(publisher,/mednest-content-publish/);
  assert.match(publisher,/publishBatch/);
- assert.match(publisher,/crypto|idempotent|retry/i);
+ assert.match(publisher,/batch\.publish_chunk/);
  assert.match(storage,/publishStagingBatch/);
  assert.match(ui,/Publish Approved Batch to Student LMS Staging/);
  assert.match(html,/id="studio-release-centre"/);
@@ -62,6 +62,7 @@ test("Content Studio uses the Student Staging publisher without exposing privile
 test("Approved MCQ corrections expose a separate staging-only release action",()=>{
  const review=read("apps/management/academic-review.js");
  assert.match(review,/Publish to Staging/);
- assert.match(review,/mcq\.publish_correction/);
+ assert.match(review,/publishStagingCorrection/);
+ assert.match(publisher,/mcq\.publish_correction/);
  assert.match(review,/revision_no/);
 });
