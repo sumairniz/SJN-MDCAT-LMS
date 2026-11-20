@@ -44,16 +44,19 @@ test("Atomic publishing SQL preserves immutable revisions and protects the recei
 });
 test("Content Studio uses the Student Staging publisher without exposing privileged credentials",()=>{
  const storage=read("apps/management/content-studio-storage.js");
+ const publisher=read("apps/management/content-publish-client.js");
  const ui=read("apps/management/content-studio.js");
  const html=read("apps/management/integrated-auth-preview.html");
- assert.match(storage,/mednest-content-publish/);
- assert.match(storage,/publishBatch/);
- assert.match(storage,/idempotent/);
+ assert.match(publisher,/mednest-content-publish/);
+ assert.match(publisher,/publishBatch/);
+ assert.match(publisher,/crypto|idempotent|retry/i);
+ assert.match(storage,/publishStagingBatch/);
  assert.match(ui,/Publish Approved Batch to Student LMS Staging/);
  assert.match(html,/id="studio-release-centre"/);
  assert.match(html,/STAGING ONLY/);
  assert.doesNotMatch(storage,/SUPABASE_SERVICE_ROLE_KEY/);
  assert.doesNotMatch(storage,/service_role/i);
+ assert.doesNotMatch(storage,/aozknkrwafowsrehdwlr/);
 });
 test("Approved MCQ corrections expose a separate staging-only release action",()=>{
  const review=read("apps/management/academic-review.js");
