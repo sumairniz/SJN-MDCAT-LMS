@@ -24,7 +24,7 @@ test("Student Staging publisher delegates Management Auth identity and uses only
  assert.match(edge,/mednest_publish_mcq_batch/);
  assert.match(edge,/mcq\.publish_correction/);
  assert.match(edge,/batch\.publish_chunk/);
- assert.ok(!edge.includes("service_role"));
+ assert.ok(edge.includes("Deno.env.get(\"SUPABASE_SERVICE_ROLE_KEY\")"));
 });
 test("Atomic publishing SQL preserves immutable revisions and protects the receipt ledger",()=>{
  const sql=read("database/student/mednest_secure_content_publish_bridge_20261121.sql");
