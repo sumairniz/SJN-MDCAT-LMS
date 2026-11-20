@@ -77,6 +77,10 @@ function drawQueue(){
   const td=control(tr,"td","");
   const btn=control(td,"button","Review Details");btn.type="button";
   btn.className="studio-edit";btn.addEventListener("click",()=>openDetail(item.id));
+  if(item.state==="approved_for_release"){
+   const publish=control(td,"button","Publish to Staging");publish.type="button";publish.className="studio-edit";
+   publish.addEventListener("click",()=>publishCorrection(item.id));
+  }
   tbody.append(tr);
  }
 }
