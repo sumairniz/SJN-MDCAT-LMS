@@ -392,7 +392,13 @@
       <button type="button" id="studio-direct-prepare" class="studio-edit">Prepare Without Academic Review</button>
       <button type="button" id="studio-withdraw-review" class="studio-edit is-hidden">Withdraw Review Request</button>
     </div>
-    <p class="tiny-text" id="studio-route-status">Both routes require a saved, technically valid batch. Preparing for release does not publish questions; publishing remains disabled until the separate Student LMS release service is approved.</p>
+    <p class="tiny-text" id="studio-route-status">Both routes require a saved, technically valid batch. Approval and student publication remain separate.</p>
+    <section class="studio-panel" id="studio-release-centre" aria-label="Student LMS staging release centre">
+      <div class="syllabus-heading"><h2>Release Centre</h2><span class="security-badge">STAGING ONLY</span></div>
+      <p>Only a saved batch in <strong>Approved for Release</strong> status can be published. The server rechecks your Management Auth session, staff permission, destination and question fields. Publishing creates new MCQs and immutable revisions; it never overwrites a published revision or changes existing attempts.</p>
+      <div class="studio-actions"><button type="button" id="studio-publish-batch" class="primary-btn" disabled>Publish to Student LMS Staging</button></div>
+      <p id="studio-publish-status" class="studio-feedback" role="status" aria-live="polite">Open an approved saved batch to enable staging publication.</p>
+    </section>
   </section>
   <div class="studio-summary" data-studio-page="drafts" aria-label="Draft import quality">
     <article><span>Draft questions</span><strong id="studio-total">0</strong></article>
