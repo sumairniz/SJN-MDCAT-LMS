@@ -61,6 +61,7 @@ test("Content Studio uses the Student Staging publisher without exposing privile
 });
 test("Approved MCQ corrections expose a separate staging-only release action",()=>{
  const review=read("apps/management/academic-review.js");
+ const publisher=read("apps/management/content-publish-client.js");
  assert.match(review,/Publish to Staging/);
  assert.match(review,/publishStagingCorrection/);
  assert.match(publisher,/mcq\.publish_correction/);
