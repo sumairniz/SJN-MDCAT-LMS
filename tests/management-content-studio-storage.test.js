@@ -67,7 +67,7 @@ test("Browser controls explicitly save/load drafts and clear sensitive memory on
  assert.ok(html.includes('id="studio-load-batch"'));
  assert.ok(html.includes('src="/content-studio-storage.js"'));
  assert.ok(!bridge.includes('STUDENT_SUPABASE'));
- assert.ok(!bridge.includes('aozknkrwafowsrehdwlr'));
+ assert.ok(bridge.includes("publishStagingBatch"));
 });
 test("Unpublished batch storage requires independent staff login and prohibits implicit publishing",()=>{
  const bridge=read("apps/management/content-studio-storage.js");
@@ -77,10 +77,11 @@ test("Unpublished batch storage requires independent staff login and prohibits i
  assert.ok(bridge.includes('"batch.save_rows"'));
  assert.ok(bridge.includes('"batch.get"'));
  assert.ok(bridge.includes('"batch.list"'));
- assert.ok(bridge.includes("https://aozknkrwafowsrehdwlr.supabase.co"));
- assert.ok(bridge.includes("/functions/v1/mednest-content-publish"));
+ assert.ok(bridge.includes("publishStagingBatch"));
  assert.ok(bridge.includes("async function publishBatch"));
- assert.ok(bridge.includes("idempotent"));
+ const publisher=read("apps/management/content-publish-client.js");
+ assert.ok(publisher.includes("batch.publish_chunk"));
+ assert.ok(publisher.includes("publishBatch"));
  assert.ok(!bridge.includes("service_role"));
  assert.ok(!bridge.includes("SUPABASE_SERVICE_ROLE_KEY"));
 });
