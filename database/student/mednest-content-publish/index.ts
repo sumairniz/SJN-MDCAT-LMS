@@ -4,7 +4,7 @@ const URL=Deno.env.get("SUPABASE_URL")||"", SERVICE=Deno.env.get("SUPABASE_SERVI
 const EXPECTED="https://aozknkrwafowsrehdwlr.supabase.co";
 const MGMT_AUTH="https://tdqbjhrmfluiinntmjfh.supabase.co/functions/v1/mednest-publish-authorization";
 const MGMT_KEY="sb_publishable_Redb-pOjNOSpDKg1uIbUBg_-PUCt5XX";
-const ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9]+|-git-sjn-phase1a-foundation)-sjn1\.vercel\.app$/;
+const ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9-]+)?(?:-sjn1)?\.vercel\.app$/;
 const db=createClient(URL,SERVICE,{auth:{persistSession:false,autoRefreshToken:false}});
 const reply=(origin,status,data)=>new Response(JSON.stringify(data),{status,headers:{"content-type":"application/json","cache-control":"no-store,private","x-content-type-options":"nosniff","access-control-allow-origin":origin||"null","vary":"Origin"}});
 async function digest(value){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(value));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,"0")).join("");}
