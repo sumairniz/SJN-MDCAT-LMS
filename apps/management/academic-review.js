@@ -1,4 +1,5 @@
-// SJN MedNest Academic Reviews — approval workflow only. NO student publication.
+import {publishCorrection as publishStagingCorrection} from "./content-publish-client.js";
+// SJN MedNest Academic Review and controlled Student LMS Staging release.
 import {createClient} from "https://esm.sh/@supabase/supabase-js@2.95.0?bundle";
 const URL="https://tdqbjhrmfluiinntmjfh.supabase.co";
 const KEY="sb_publishable_Redb-pOjNOSpDKg1uIbUBg_-PUCt5XX";
@@ -74,8 +75,25 @@ function drawQueue(){
   const td=control(tr,"td","");
   const btn=control(td,"button","Review Details");btn.type="button";
   btn.className="studio-edit";btn.addEventListener("click",()=>openDetail(item.id));
+  if(item.state==="approved_for_release"){
+   const publish=control(td,"button","Publish to Staging");publish.type="button";publish.className="studio-edit";
+   publish.addEventListener("click",()=>publishCorrection(item.id));
+  }
   tbody.append(tr);
  }
+}
+async function publishCorrection(submissionId){
+ if(!window.confirm("Publish this approved MCQ correction to Student LMS STAGING only? A new immutable revision will be created. Existing student attempts and historical revisions will remain unchanged."))return;
+ busy(true);
+ try{
+  const {data:{session},error}=await client.auth.getSession();
+  if(error||!session?.access_token)throw Error("Sign in to Management Auth before publishing.");
+  const result=await publishStagingCorrection(submissionId,session.access_token),item=result.item;
+  status((result.replayed?"Previously published; safe retry confirmed. ":"Published to Student LMS Staging. ")+
+   "MCQ #"+item.mcq_id+" · Revision #"+item.revision_no+" · Revision ID "+item.revision_id+
+   ". Existing attempt history remains on its original revision.");
+ }catch(e){status(e.message,true)}
+ finally{busy(false)}
 }
 async function getQueue(){
  const state=$("review-state").value;

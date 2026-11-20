@@ -187,7 +187,7 @@
         <option value="approved_for_release">Approved for release</option><option value="needs_changes">Needs changes</option>
         <option value="withdrawn">Withdrawn</option></select></div>
     <div class="studio-table-scroll"><table class="studio-table">
-      <thead><tr><th>MCQ ID</th><th>Source Bank</th><th>Review State</th><th>Reviewers</th><th>Action</th></tr></thead>
+      <thead><tr><th>MCQ ID</th><th>Source Bank</th><th>Review State</th><th>Reviewers</th><th>Actions</th></tr></thead>
       <tbody id="review-queue-list"><tr><td colspan="5">Review queue not yet loaded.</td></tr></tbody></table></div>
   </section>
   <section class="studio-panel is-hidden" id="review-detail-pane" aria-label="Review a submitted MCQ">
@@ -200,7 +200,7 @@
       <button type="button" id="review-request-changes">Request Changes</button>
       <button type="button" id="review-withdraw">Withdraw My Pending Review</button>
       <button type="button" id="review-close">Close</button></div>
-    <p class="studio-feedback">The system forbids self-approval and duplicate reviewers. An approval is not a student publication.</p>
+    <p class="studio-feedback">The system forbids self-approval and duplicate reviewers. Approved corrections can be released only through the separate authenticated Student LMS Staging Release Centre. Production remains out of scope.</p>
   </section>
   <p id="review-status" class="studio-feedback" role="status" aria-live="polite">Sign in to load academic review records.</p>
 </section>
@@ -247,10 +247,16 @@
           <p class="studio-feedback">Deletion uses reversible archive. New syllabus topics cannot change existing student Question Banks until legacy mapping and publication controls pass separate review.</p>
         </section>
         <section id="content-studio-preview" class="is-hidden" aria-label="Question Content Studio">
+  <header class="studio-page-intro">
+    <div><span class="studio-eyebrow">SJN MEDNEST ACADEMIC WORKSPACE</span><h1>Question Content Studio</h1><p>Create, organize and prepare academic question content across approved destinations.</p></div>
+    <span class="studio-intro-mark" aria-hidden="true">SJN</span>
+  </header>
   <div id="studio-view-nav" class="studio-view-nav" role="group" aria-label="Question management areas">
-    <button id="studio-nav-drafts" type="button" class="studio-view-tab is-current" data-studio-target="drafts" aria-pressed="true"><span aria-hidden="true">▣</span> My Drafts</button>
-    <button id="studio-nav-browse" type="button" class="studio-view-tab" data-studio-target="browse" aria-pressed="false"><span aria-hidden="true">⌕</span> Browse &amp; Edit</button>
-    <button id="studio-nav-import" type="button" class="studio-view-tab" data-studio-target="import" aria-pressed="false"><span aria-hidden="true">⇧</span> Bulk Upload</button>
+    <button id="studio-nav-drafts" type="button" class="studio-view-tab is-current" data-studio-target="drafts" aria-pressed="true"><span class="studio-nav-icon" aria-hidden="true">▣</span><span>My Drafts</span></button>
+    <button id="studio-nav-browse" type="button" class="studio-view-tab" data-studio-target="browse" aria-pressed="false"><span class="studio-nav-icon" aria-hidden="true">⌕</span><span>Live Library</span></button>
+    <button id="studio-nav-import" type="button" class="studio-view-tab" data-studio-target="import" aria-pressed="false"><span class="studio-nav-icon" aria-hidden="true">⇧</span><span>Bulk Upload</span></button>
+    <p class="studio-nav-caption">CONTENT WORKSPACE</p>
+    <p class="studio-nav-note">Use the destination context shown in each workflow before creating or importing questions.</p>
   </div>
   <section id="studio-focus-workspace" class="studio-focus-workspace is-hidden" aria-label="Focused MCQ draft workspace">
     <div class="studio-focus-top">
@@ -392,7 +398,13 @@
       <button type="button" id="studio-direct-prepare" class="studio-edit">Prepare Without Academic Review</button>
       <button type="button" id="studio-withdraw-review" class="studio-edit is-hidden">Withdraw Review Request</button>
     </div>
-    <p class="tiny-text" id="studio-route-status">Both routes require a saved, technically valid batch. Preparing for release does not publish questions; publishing remains disabled until the separate Student LMS release service is approved.</p>
+    <p class="tiny-text" id="studio-route-status">Both routes require a saved, technically valid batch. Approval and student publication remain separate.</p>
+    <section class="studio-panel" id="studio-release-centre" aria-label="Student LMS staging release centre">
+      <div class="syllabus-heading"><h2>Release Centre</h2><span class="security-badge">STAGING ONLY</span></div>
+      <p>Only a saved batch in <strong>Approved for Release</strong> status can be published. The server rechecks your Management Auth session, staff permission, destination and question fields. Publishing creates new MCQs and immutable revisions; it never overwrites a published revision or changes existing attempts.</p>
+      <div class="studio-actions"><button type="button" id="studio-publish-batch" class="primary-btn" disabled>Publish to Student LMS Staging</button></div>
+      <p id="studio-publish-status" class="studio-feedback" role="status" aria-live="polite">Open an approved saved batch to enable staging publication.</p>
+    </section>
   </section>
   <div class="studio-summary" data-studio-page="drafts" aria-label="Draft import quality">
     <article><span>Draft questions</span><strong id="studio-total">0</strong></article>

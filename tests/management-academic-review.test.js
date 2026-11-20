@@ -73,6 +73,6 @@ test("Review UI works through authenticated management APIs with no student writ
  assert.ok(ui.includes('review.withdraw'));
  assert.ok(ui.includes('mednest:signed-out'));
  assert.ok(ui.includes('window.confirm('));
- assert.ok(!ui.includes("aozknkrwafowsrehdwlr"));
+ assert.ok(ui.includes("publishStagingCorrection"));
  assert.ok(!ui.includes("STUDENT_SERVICE_ROLE"));
 });

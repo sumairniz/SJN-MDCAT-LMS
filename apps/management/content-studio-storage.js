@@ -1,3 +1,4 @@
+import {publishBatch as publishStagingBatch} from "./content-publish-client.js";
 // SJN MedNest Content Studio server-draft transport.
 // Independent staff Auth ONLY; no student Supabase URL, keys, or publishing actions.
 import {createClient} from "https://esm.sh/@supabase/supabase-js@2.95.0?bundle";
@@ -60,8 +61,15 @@ async function load(batchId){
  }
  throw Error("Draft batch could not be fully loaded; no local changes applied.");
 }
+
+async function publishBatch(batchId,{onProgress,expectedCount}={}){
+ const {data:{session},error}=await client.auth.getSession();
+ if(error||!session?.access_token)throw Error("Sign in with your verified Management Auth account.");
+ return publishStagingBatch(batchId,session.access_token,{onProgress,expectedCount});
+}
+
 window.MedNestStudioStorage=Object.freeze({
- list:()=>call("batch.list"),save,load,
+ list:()=>call("batch.list"),save,load,publishBatch,
  submitReview:batchId=>call("batch.submit_review",{batch_id:batchId}),
  prepareDirect:batchId=>call("batch.prepare_direct",{batch_id:batchId}),
  withdrawReview:batchId=>call("batch.withdraw_review",{batch_id:batchId}),
