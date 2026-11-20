@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main, sjn-phase1a-foundation, sjn-content-studio-v4-implementation]
   push:
-    branches: [sjn-phase1a-foundation]
+    branches: [sjn-phase1a-foundation, sjn-secure-content-publishing]
 
 permissions:
   contents: read
