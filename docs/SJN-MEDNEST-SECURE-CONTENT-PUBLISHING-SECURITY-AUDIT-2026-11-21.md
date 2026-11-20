@@ -101,3 +101,16 @@ Use the existing projects only:
 - Student Staging publisher RPC is callable only by `service_role`; receipt ledger is not readable by `anon` or `authenticated`.
 - No real batch or correction has been published; receipt count remains zero. Atomic rollback test passed.
 - PR #3 remains Draft and unmerged. No production deployment or merge.
+
+
+## Management sign-in connectivity incident — 2026-11-21
+
+Owner supplied screenshot showing the Management sign-in page reporting "Unable to connect to the Management Panel security service" before an authentication result. Investigation found that the active HTML imports `auth-client-isolated.js`, which correctly targets the independent Management Auth project `tdqbjhrmfluiinntmjfh`; the similarly named legacy `auth-client.js` is not loaded by this page and was not the active cause.
+
+**Root cause:** the deployed Management Auth Edge Function CORS allowlists (`mednest-isolated-auth`, `mednest-isolated-stepup`, `mednest-isolated-team`, `mednest-isolated-team-actions`) permitted the earlier Phase 1A preview origin but excluded the current `sjn-secure-content-publishing` Vercel branch preview origin. The browser's preflight/request was therefore rejected before Management Auth could respond, and the frontend displayed its generic connectivity error.
+
+**Correction deployed:** updated all four Edge Function origin allowlists to accept the exact current preview branch origin (and Vercel-generated deployment aliases) while retaining HTTPS, exact project host suffix, route scope and JWT verification. Active versions now: isolated auth v7, isolated step-up v6, isolated team v7, isolated team-actions v7. No student project or Student LMS auth was changed.
+
+**Preview:** Vercel deployment `dpl_7nSGcaigCag1RaiSenrtCT4XhDZi` READY, alias `sjn-mednest-management-git-sjn-secure-content-publishing-sjn1.vercel.app`, built from `f0b730f2543ba4c9560ed3a1831b5b5a47899ecc`. Browser sign-in retry and live session verification still require owner confirmation. Do not reset the password or recreate the Chief account based on this screenshot.
+
+**CI follow-up:** tests were updated to recognize the explicitly allowed secure publishing preview origin; rerun pending at commit `833de269f114a48f0d653efdde48584f1a8588cf` (test job in progress at documentation time).
