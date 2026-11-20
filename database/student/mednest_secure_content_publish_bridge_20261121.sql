@@ -11,3 +11,6 @@ revoke all on table public.mednest_content_publish_receipts from anon,authentica
 grant select,insert,update,delete on table public.mednest_content_publish_receipts to service_role;
 
 
+
+revoke all on function public.mednest_publish_mcq_batch(uuid,uuid,text,jsonb) from public,anon,authenticated;
+grant execute on function public.mednest_publish_mcq_batch(uuid,uuid,text,jsonb) to service_role;
