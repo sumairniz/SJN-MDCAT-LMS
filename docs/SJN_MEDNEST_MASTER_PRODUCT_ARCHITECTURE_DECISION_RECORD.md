@@ -418,4 +418,100 @@ At the end of each substantial design or development chat:
 
 | 21 Nov 2026 | Added the owner's requirement that detailed proposed and discussed designs be preserved screen-by-screen at full practical depth, including layouts, exact content, controls, interactions, states, responsive behavior, data/integrations, rationale, alternatives, status and approvals. Added a mandatory detailed chat-to-chat continuity package. |
 
+
+## 15. Navigation review — Claude's two-mode proposal (21 Nov 2026)
+
+**Status: DISCUSSED / REVIEWED. Assistant assessment recorded. Revised navigation recommendation is PROPOSED — NOT YET OWNER-FINALIZED. No code or deployment authorized by this review.**
+
+### 15.1 Source and problem identified
+The owner supplied Claude's review proposing two internal Studio modes: **Content** and **Workflow**. The concern is that the former eight-item internal navigation mixed three different concepts: content destinations (where work belongs), content actions (what users do), and workflow stages (where work currently stands). A flat menu risks allowing Create Questions or Bulk Upload to be entered without a destination and may become harder to extend as Studio features grow.
+
+This is a valid information-architecture concern. It does not reject the approved central Studio, common MCQ editor/import engine, or destination ownership model. It refines how users navigate those capabilities.
+
+### 15.2 Assessment of Claude's recommendations
+
+| Claude proposal | Assessment | Status |
+|---|---|---|
+| Two modes: Content and Workflow | Clear separation of content location/actions from cross-destination work stages. Recommended. | PROPOSED |
+| Content destination tree | Better than relying only on destination cards for frequent users. Show banks, course → test and region → paper hierarchy. | PROPOSED |
+| Content tabs: Browse & Edit, Create, Bulk Upload, My Drafts | Good grouping. My Drafts needs a cross-destination view/filter; it should not be trapped inside only one selected destination. | PROPOSED WITH REFINEMENT |
+| Workflow mode: My Work Board, Academic Review, Release Centre | Appropriate cross-destination grouping. Preserve separate responsibilities and avoid duplicate workflows. | PROPOSED |
+| Jump-to search | Useful shortcut; results must respect permissions and show destination context. | PROPOSED |
+| Recently opened | Useful compact convenience, not a competing navigation system. | PROPOSED |
+| Main Management sidebar collapses to icon strip | Useful optional space-saving behavior. Do not force two permanently expanded sidebars; retain accessible labels/tooltips and a way to expand. | PROPOSED WITH REFINEMENT |
+| Mobile destination dropdown and Content/Workflow tabs | Sensible responsive adaptation. | PROPOSED |
+| Studio Overview optional/removable | Do not decide solely from this proposal. Retain a lightweight landing state only if it adds orientation, destination selection, recent work or useful overview; otherwise the Content mode can open directly. | PENDING DESIGN DECISION |
+
+### 15.3 Proposed revised information architecture
+
+**Main Management Panel navigation remains unchanged.** Question Content Studio remains one top-level module. The proposed two-mode switch exists only inside the Studio.
+
+**Content mode — work with questions and their destination**
+- Persistent contextual destination tree:
+  - Question Banks → SJN Question Bank; Past Paper Question Bank.
+  - Courses & Sessions → Course → Test.
+  - Full-Length Past Papers → Region/category (as configured) → Paper.
+- Contextual breadcrumb always visible, e.g. Question Content Studio › Courses & Sessions › Genome › Test 03.
+- Content workspace tabs: Browse & Edit (existing Live Library function; no duplicate library); Create (existing Create Questions function); Bulk Upload; My Drafts.
+- Selected destination remains visible while moving among Browse & Edit, Create and Bulk Upload.
+- My Drafts supports All My Destinations and selected-destination filtering. Each draft displays its true destination; opening it restores that destination context. Do not move or reassign a draft merely because a different destination is selected.
+- Jump-to search and Recently Opened may provide shortcuts to permitted destinations. Search results must disclose destination and respect staff permissions.
+
+**Workflow mode — track and progress work across destinations**
+- My Work Board — overview of actual supported work statuses across destinations; links to the owning detailed workspace, not a duplicate editor or task engine.
+- Academic Review — optional requested reviews and reviewer actions; approval does not publish.
+- Release Centre — final release preparation, validation, authorization and explicit release confirmation; separate from review.
+- Each entry should have a concise one-line job description. Keep status ownership and release safeguards already specified in Sections 6.11–6.13.
+
+### 15.4 Destination inheritance and safety — proposed detailed behavior
+
+**Create Questions opened from a selected destination:**
+- Inherit the selected destination automatically.
+- Show a persistent Current destination label and breadcrumb before the editor opens and throughout the editing session.
+- State clearly that new questions will be associated with that destination.
+- Save is disabled until destination context and server-side permission are valid.
+- Changing destination requires an explicit user action, clear warning and confirmation. It must not silently move existing questions/drafts or change ownership of already-created records.
+
+**Bulk Upload opened from a selected destination:**
+- Inherit and display the destination before file selection.
+- Keep it visible through file selection, validation, row correction, batch review and final import confirmation.
+- Repeat destination and record count in the final pre-import summary.
+- Reject/stop the import if destination context or server-side permission is missing or changed unexpectedly.
+
+**Create Questions opened directly with no destination:**
+- Do not open an active editor that can save content.
+- Present a destination chooser for Question Banks, Courses & Sessions or Full-Length Past Papers, then the required child destination (bank, course/test or paper).
+- Open the editor only after a valid destination is selected and authorized.
+
+**Bulk Upload opened directly with no destination:**
+- Require the same explicit destination selection before file processing/import.
+- Do not accept or process a batch into an implicit/default destination.
+- Display destination again before final import commit.
+
+**Security and ownership:** UI labels are not authorization. Enforce destination access and allowed operations server-side. A destination selector for new content is not a record-move function. Moving existing content is a separate operation requiring its own design, permissions, impact preview, confirmation and audit.
+
+### 15.5 Responsive navigation proposal
+- Desktop: Studio mode switch is prominent. In Content mode, destination tree remains visible. Main Management Panel sidebar may collapse to a narrow icon rail on request to gain workspace width; avoid two full expanded sidebars competing for space. Provide accessible labels/tooltips and restore/expand control.
+- Tablet: adapt/collapse the destination tree and preserve a clear visible destination breadcrumb/selector.
+- Mobile: Content and Workflow become two tabs; destination tree becomes a compact selector/dropdown at the top (e.g. Genome › Test 03). Keep the selected destination visible in Create and Bulk Upload flows.
+
+### 15.6 Existing decisions preserved
+This proposal must not undo:
+- One central Studio and one shared MCQ editor/import engine.
+- Question Banks, Courses & Sessions and Full-Length Past Papers as distinct destinations.
+- Courses & Sessions and Full-Length Past Papers remaining separate top-level Management Panel modules for metadata/configuration.
+- My Drafts and Live Library having one detailed home each; Work Board is an overview only.
+- Academic Review being optional and separate from release.
+- Release Centre being the only final release preparation/confirmation home; approval never auto-publishes.
+- Destination-aware creation/import, persistent context and server-side authorization.
+- Existing Student LMS and Test History non-regression requirements.
+
+### 15.7 Remaining design question and approval boundary
+The owner has asked for an independent assessment of Claude's proposal, not automatic acceptance. Therefore this revised two-mode navigation is **PROPOSED — NOT YET FINALIZED**. Studio Overview's exact role/removal and final navigation presentation remain open for owner review. No code, database, security, deployment or production changes are authorized by this review. Do not implement this navigation until the owner explicitly finalizes the design and separately approves implementation scope.
+
+### 15.8 Change log
+| Date | Change |
+|---|---|
+| 21 Nov 2026 | Reviewed Claude's two-mode Content/Workflow proposal against original Chat(1).txt and V4 navigation decisions. Recorded assistant assessment, accepted elements, refinements, detailed Create/Bulk Upload destination behavior, responsive behavior and approval boundary. |
+
 **End of master record.**
