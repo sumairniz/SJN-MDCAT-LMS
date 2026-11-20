@@ -114,3 +114,8 @@ Owner supplied screenshot showing the Management sign-in page reporting "Unable 
 **Preview:** Vercel deployment `dpl_7nSGcaigCag1RaiSenrtCT4XhDZi` READY, alias `sjn-mednest-management-git-sjn-secure-content-publishing-sjn1.vercel.app`, built from `f0b730f2543ba4c9560ed3a1831b5b5a47899ecc`. Browser sign-in retry and live session verification still require owner confirmation. Do not reset the password or recreate the Chief account based on this screenshot.
 
 **CI follow-up:** tests were updated to recognize the explicitly allowed secure publishing preview origin; rerun pending at commit `833de269f114a48f0d653efdde48584f1a8588cf` (test job in progress at documentation time).
+
+
+### Final CORS allowlist verification
+
+The deployed allowlist uses explicit alternatives for both legacy Phase 1A and current secure publishing branch origins (rather than a nested regex group), matching the existing regression test contract. Deployed active versions after this correction: isolated auth v8, isolated step-up v7, isolated team v8, isolated team-actions v8. GitHub push workflow at commit `33988de0143a887fd5c7d46df083fa6baeb81699` passed. Pull-request workflow is still running. The owner-facing preview remains the READY Vercel branch alias recorded above. Browser sign-in is not yet confirmed.
