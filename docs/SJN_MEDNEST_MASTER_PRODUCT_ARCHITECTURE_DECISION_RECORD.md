@@ -558,4 +558,154 @@ The owner says the design is still being discussed and is **not yet approved for
 |---|---|
 | 21 Nov 2026 | Recorded the three reference ZIP archive locations and the limitation that raw contents could not be opened in this retrieval; clarified they are inspiration, not templates to copy. Added conceptual distinctions for Save Question, Save Draft and Save & Next, explicitly pending code-level verification. Recorded that implementation approval is still pending and future visual refinements will be owner-led after preview. |
 
+
+## 17. Read-only technical and live Supabase verification — Content Studio (24 Nov 2026)
+
+**Status: AUDIT COMPLETED FOR THE SCOPED WORKFLOWS. READ-ONLY ONLY. No source, database, function, deployment, PR, or production changes were made. Implementation approval remains NOT GRANTED.**
+
+### 17.1 Scope and evidence inspected
+
+The audit inspected the current `sjn-secure-content-publishing` branch and the connected live Supabase projects:
+- Management Auth: `tdqbjhrmfluiinntmjfh` (ACTIVE_HEALTHY).
+- Student LMS Staging: `aozknkrwafowsrehdwlr` (ACTIVE_HEALTHY).
+- The separate legacy/student project `yapvnevvjfewvafbjcgc` was listed as INACTIVE; it was not modified.
+
+Inspected frontend files:
+- `apps/management/content-studio.js`
+- `apps/management/content-studio-storage.js`
+- `apps/management/content-studio-core.js`
+- `apps/management/mcq-library.js`
+- `apps/management/mcq-editor-assist.js`
+- `apps/management/academic-review.js`
+- `apps/management/content-publish-client.js`
+- `apps/management/index.html`
+
+Inspected Management Auth Edge Function source and live deployments:
+- `mednest-content-studio` (live ACTIVE version 7)
+- `mednest-mcq-library` (live ACTIVE version 5)
+- `mednest-academic-review` (live ACTIVE version 2)
+
+Inspected relevant SQL definitions:
+- `database/management/isolated-content-studio-drafts-20261107.sql`
+- `database/management/isolated-mcq-library-draft-edits-20261108.sql`
+- `database/management/isolated-academic-review-workflow-20261108.sql`
+- `database/management/isolated-content-batch-audit-execute-hardening-20261117.sql`
+
+Live SQL reads checked table counts/statuses, review policy, relevant routine definitions, RLS flags, table grants and policy metadata. Supabase security advisors were queried for Management Auth and Student LMS Staging. No writes or test submissions were performed.
+
+### 17.2 Live Management Auth state (24 Nov 2026 audit)
+
+The live database returned:
+| Item | Live result |
+|---|---:|
+| Active staff membership records | 1 |
+| New-question draft batches | 3 |
+| New-question batch statuses | All 3 are `draft` |
+| New-question draft rows | 6 |
+| Existing-MCQ correction drafts | 2 |
+| Existing-MCQ correction draft states | Both `draft` |
+| Academic review submissions | 0 |
+| Existing-MCQ correction review policy | `one`, version 1 |
+
+The staff membership count is a record count only; no personal email or user identifier is recorded here. The live audit log contained draft-save actions for existing-MCQ correction drafts on 20 Nov and batch-save actions, most recently on 17 Nov. No question text or personal data is copied into this decision record.
+
+These counts confirm that draft storage has been used and that no academic review submission is currently recorded. They do not prove every user-interface path works end-to-end.
+
+### 17.3 Exact current save behavior — verified
+
+**New-question editor**
+- `Save Question` submits the current form, validates it, then persists the question into the protected Management Auth draft batch. It is not a student publication action.
+- `Save Draft` persists the complete current working batch to Management Auth, in chunks of up to 40 rows per request (with a 3,000-question batch ceiling).
+- `Save & Next` sets the advance flag and submits the same form. It waits for the save operation to succeed before opening the next existing question in the batch or a fresh question editor.
+- The first save of a new/dirty batch can persist all current rows; subsequent individual edits can persist only the changed row. The explicit batch-save action persists the batch.
+- A save failure keeps the form and marks it dirty; the UI reports that protected storage did not confirm the save.
+- The save confirmation explicitly says the question is in Management Auth and nothing has been published.
+
+**Existing-MCQ Library editor**
+- Its Save action is labelled and implemented as `Save Draft` through `mcqs.save_draft`.
+- It stores a proposed correction in Management Auth; it does not update the Student LMS source MCQ.
+- The source revision and draft version are checked. A changed source revision or stale draft version blocks the save.
+- The UI explicitly says academic review and release are still required.
+
+**Important clarification:** the current new-question `Save Question` label does NOT mean a released/live question. It saves into the protected batch draft. This resolves the ambiguity recorded in Section 16.2 for the currently inspected new-question workflow. The existing-Library correction workflow remains a separate correction-draft lifecycle.
+
+### 17.4 Autosave conflict — confirmed implementation discrepancy
+
+The current new-question editor has automatic network persistence:
+- After an edit is recorded (the history debounce is about 180 ms), it schedules autosave after 1,100 ms.
+- It sends draft data through the same protected server storage path.
+- If another save is in progress, it retries after 700 ms.
+- On failure, it reports the problem and retries after 2,500 ms.
+- Undo/redo also schedules autosave.
+
+This conflicts with the owner's established preference to remove autosave-induced lag and unnecessary network dependency. **Finding: confirmed product-requirement discrepancy.** Do not silently retain it in the redesign. A proposed future behavior is explicit/manual save only, with clear unsaved-state warning and acknowledgement; however, the precise replacement UX must be owner-confirmed before implementation. Do not remove autosave in code until implementation scope is separately approved.
+
+### 17.5 Live database access boundary and RLS findings
+
+The relevant Management Auth tables have RLS enabled. The audit found no row-level policies for these tables, and the Supabase security advisor reports the informational `rls_enabled_no_policy` finding. Separate privilege checks showed:
+- `anon` has no SELECT privilege on the inspected staff/draft/review/audit tables.
+- `authenticated` has no SELECT privilege on those tables.
+- `service_role` has the expected table access used by the server-side Edge Functions.
+
+The current architecture intentionally routes these operations through server-side functions using verified Management Auth sessions and the service role, while direct browser-role table access is revoked. In this specific arrangement, the empty policy list is not by itself evidence that draft records are publicly readable. Preserve this restrictive boundary; do not add broad RLS policies merely to silence the informational advisor. Reassess if direct client access is ever proposed.
+
+Relevant server routines inspected for existing-MCQ draft save and review submit/decision/withdraw/policy changes are `SECURITY INVOKER`; the SQL grants their execution to `service_role`. The functions check the live staff session and relevant actor permissions. The two-reviewer decision function blocks the author and the first reviewer from acting as the second reviewer.
+
+The Management Auth advisor also reported leaked-password protection disabled. This is a general Auth hardening recommendation, not a Content Studio implementation defect; it was not changed in this audit.
+
+### 17.6 Review-policy reconciliation
+
+The live existing-MCQ correction policy is `one` independent reviewer, version 1. The correction submission routine snapshots the policy and creates an `approved_for_release` submission immediately when policy mode is `direct`; otherwise it requires one or two reviewers. Review approval itself returns `published:false`.
+
+The new-question batch workflow is separate: it can be submitted for independent review or, by Chief Administrator, prepared directly as `approved_for_release`. Both routes explicitly leave student publication disabled.
+
+Therefore, the design principle “Academic Review is optional and approval never auto-publishes” can be preserved, but it must be implemented as two clearly explained workflows until their data models are intentionally unified. Do not change the live policy or merge the two mechanisms as part of UI redesign without separate approval.
+
+### 17.7 Critical preview-origin mismatch found in deployed Academic Review Edge Function
+
+The live deployed `mednest-academic-review` version 2 has an `ALLOWED_ORIGIN` regular expression that allows the management host and the `-git-sjn-phase1a-foundation` preview suffix, but does **not** allow the current `-git-sjn-secure-content-publishing` preview suffix.
+
+The current GitHub branch's Management Panel preview origin uses the `sjn-secure-content-publishing` branch suffix. As a result, Academic Review API requests made from that branch preview are expected to be rejected at the origin check (HTTP 403), even though the Content Studio and MCQ Library deployed functions have allowlists that include the secure-content-publishing suffix.
+
+**Finding: high-priority integration defect to reproduce and correct before relying on Academic Review from the current branch preview.** This is a source/deployment inspection finding; no live request was sent to test the rejection, and no function was changed. Before any fix, verify the exact current preview hostname and ensure the allowlist is narrow and consistent with the authorized Management Panel origins. Do not broadly allow arbitrary origins.
+
+### 17.8 MCQ Library search limitation — confirmed in current code
+
+The visible search placeholder promises ID, question phrase, bank, subject, chapter, topic and source. However, the current server query:
+- Filters bank and subject separately.
+- Treats the free-text query as an MCQ ID if numeric.
+- Otherwise applies `ilike` only to the `question` column.
+- Does not search chapter, topic or source text.
+
+The interface does not expose dedicated chapter/topic/source filters in the inspected markup. This matches the previously reported incomplete search behavior. **Finding: confirmed search/UI contract mismatch.** Design and implementation should make the search promise truthful and define chapter/topic/source filters or a safe combined search, with server-side query limits and performance testing. This is a separate scoped enhancement; do not silently change the student-facing MCQ schema or unrelated Test History features.
+
+### 17.9 Student Staging and non-regression observations
+
+Student LMS Staging has a separate active `mednest-content-publish` Edge Function and a separate publication-receipt table. The browser publisher calls that separate endpoint with a Management Auth access token; the new-question publisher is not the same endpoint as existing-MCQ correction publication. Existing correction publication is exposed through a separate action in Academic Review.
+
+The Staging security advisor returned a warning about `public.sjn_submit_practice_attempt(...)` being executable by `authenticated` as a `SECURITY DEFINER` function, plus the general leaked-password protection warning. This practice-submission finding is outside the Content Studio scope and must not be changed during this redesign. It should be recorded for a separate, careful security review because student attempt submission and Test History are protected non-regression areas.
+
+The table-list tool's estimated row counts for some Student LMS tables did not agree with the historical MCQ totals; no new exact MCQ inventory count was inferred from those estimates. This audit did not modify or test student attempts, Results, Review, Retake, Analytics or Mistake Diary.
+
+### 17.10 Consolidated findings and recommended order
+
+| Priority | Finding | Recommendation |
+|---|---|---|
+| High | Academic Review deployed origin allowlist excludes current secure branch preview | Reproduce on preview, then prepare a narrowly scoped allowlist correction for explicit approval |
+| High | Autosave conflicts with established performance preference | Design manual-save-only interaction and unsaved-change safeguards; do not alter code before approval |
+| Medium | MCQ Library free-text search only searches question text despite broader placeholder | Define and implement accurate chapter/topic/source search/filter behavior after approval |
+| Medium | New-question and correction review flows have separate models/policies | Preserve separation and explain status transitions; do not merge casually |
+| Informational | RLS-enabled Management tables have no policies | Current privilege checks show no direct anon/authenticated SELECT; preserve service-role-only access model |
+| Separate security review | Staging practice-submission SECURITY DEFINER advisor warning | Isolate for independent review; do not touch as part of Studio work |
+
+### 17.11 Implementation and approval boundary
+
+This audit is a read-only technical verification and does not grant implementation approval. The next phase should be a written technical change plan with file/function scope, migration impact (if any), tests, rollback, and non-regression checks. It must explicitly exclude Student LMS attempt/submission history and all unrelated student-facing modules. The owner must approve that implementation scope separately before code changes.
+
+### 17.12 Change log
+
+| Date | Change |
+|---|---|
+| 24 Nov 2026 | Completed read-only branch, live Management Auth and Student LMS Staging inspection. Verified save handlers, autosave behavior, live draft/review counts, review policy, RLS/table privileges, active Edge Function versions, preview-origin allowlist mismatch, and MCQ Library search limitation. Recorded findings and implementation boundary. No code, database, Edge Function, deployment, PR or production changes. |
+
 **End of master record.**
