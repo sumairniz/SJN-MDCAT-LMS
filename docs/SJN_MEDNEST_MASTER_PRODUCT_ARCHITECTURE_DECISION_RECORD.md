@@ -746,7 +746,6 @@ The owner confirmed that the incomplete MCQ Library search should be completed. 
 |---|---|
 | 24 Nov 2026 | Corrected the autosave requirement interpretation: no-autosave applies to Student LMS attempts, while Admin Content Studio should autosave with Undo/Redo. Fixed and deployed the Academic Review preview-origin allowlist as Edge Function version 3; re-fetched live source to verify the exact origin entry. MCQ Library search enhancement confirmed as required but not yet implemented. |
 
-**End of master record.**
 
 
 ## 19. MCQ Library search and classification filters — implementation (24 Nov 2026)
@@ -788,3 +787,76 @@ Read-only inspection of the existing MCQ source showed populated chapter/topic m
 | Date | Change |
 |---|---|
 | 24 Nov 2026 | Implemented Chapter/Topic facets and cross-field search in Management Panel; deployed Management Auth MCQ Library Edge Function v6. Awaiting Vercel preview and browser-level verification. |
+
+## 20. Session close and next-session handover — 24 November 2026
+
+### 20.1 Owner's continuity instruction
+The owner ended this session because it had become late and instructed that the next work session should resume from this exact checkpoint. The owner also emphasized that the full design decisions, implementation approach, questions, and detailed requirements must remain properly recorded so that no design work or prior discussion is lost between chats.
+
+**Handover rule:** On resumption, read this master record in full, especially Sections 4–10 (product/navigation/design/content requirements), Sections 17–19 (technical audit and current implementation), and this section. Do not ask the owner to repeat decisions already recorded. Where a genuine unresolved product choice remains, ask only that specific question.
+
+### 20.2 Current workstream and scope — reaffirmed
+- Current work is exclusively for the **Management Panel / Admin Panel**.
+- The **Student LMS is completely out of scope**. Do not modify its frontend, backend, database/schema, Edge Functions, student question/test engine, attempts/submissions, Test History, Results, Review, Retake, Analytics, Mistake Diary, or any student-facing behavior.
+- Management Auth changes and the Management Panel's own preview may be used only where required for the approved Admin Panel work.
+- Read-only inspection of Student LMS data is permissible only when genuinely necessary for the Admin Panel and within the existing authorized read-only boundary. No Student LMS writes.
+- No production release, PR merge, or destructive cleanup without separate explicit owner approval.
+
+### 20.3 MCQ Library search — latest owner verification
+The Chapter and Topic filter implementation described in Section 19 was checked by the owner in the interface. The owner confirmed that the filters behave correctly.
+
+Record the following as **IMPLEMENTED — OWNER-VERIFIED (UI behavior)**:
+- Chapter filter.
+- Topic filter.
+- Chapter-dependent Topic options.
+- Combined filtering behavior and the visible interface behavior checked by the owner.
+
+Do not overstate this as independent exhaustive backend/end-to-end verification of every free-text field. The Management Auth Edge Function v6 source/deployment was separately verified as described in Section 19.5.
+
+### 20.4 Correct Vercel project and deployment incident — must be handled carefully
+A deployment was mistakenly triggered on the Vercel project `sjn-mdcat-lms` instead of the dedicated Management Panel project. This was an operator error. The resulting deployment was:
+- Project: `sjn-mdcat-lms`
+- Deployment: `dpl_72vVGbf7JJFoNfqS1aB3zhmrFMNu`
+- URL: `https://sjn-mdcat-qx9wehlgy-sjn1.vercel.app`
+- Commit: `d787edf4530bb0ab98f7bd37733d33bd541ca4e9`
+- Build completed, but runtime logs showed application exit code 1 for requests to `/` and `/favicon.ico`.
+
+Do not treat that URL as the Management Panel preview. Do not assume or claim production impact or no impact without a fresh, evidence-based audit. Do not delete or alter this deployment/project as cleanup without explicit approval.
+
+The correct dedicated Management Vercel project is:
+- Project name: `sjn-mednest-management`
+- Project ID: `prj_Uhb73zzfpQjXxqa5bitk8jrp4uU2`
+- Team ID: `team_AOaL10r6OwIXpIy4XlO8DmSH`
+
+A deployment was then correctly triggered on this dedicated Management project:
+- Deployment: `dpl_CHdoEDEmNxn9GWd18ryi5nVB2o6P`
+- URL: `https://sjn-mednest-management-galrzajzp-sjn1.vercel.app`
+- Branch: `sjn-secure-content-publishing`
+- Commit: `d787edf4530bb0ab98f7bd37733d33bd541ca4e9`
+- Last observed state at session close: **BUILDING**. It had not yet been confirmed READY or runtime-tested.
+
+The existing Management project had no environment variables reported by the Vercel project inspection. Do not add secrets or change project settings speculatively. First inspect the Management app's actual entry point, Vercel root-directory/build configuration, and expected runtime configuration. Confirm the deployment is from the correct project, branch and commit before sharing any preview link. A successful build alone is not sufficient; verify runtime behavior and the intended Management Panel route.
+
+### 20.5 Next session — exact order of work
+1. Re-read this master record and preserve the complete approved Content Studio V4 design and requirements; do not restart design discovery.
+2. Check the correct Management deployment `dpl_CHdoEDEmNxn9GWd18ryi5nVB2o6P` for final state, build logs and runtime logs.
+3. Verify the dedicated Management Vercel project's root directory, build/output settings, entry point and required environment configuration by inspecting repository configuration and the existing working deployment. Do not infer configuration from the Student LMS project.
+4. If the deployment is not usable, identify the smallest Management-only correction and explain its exact impact before making any change that exceeds existing approval.
+5. Keep the mistakenly triggered Student LMS-project preview isolated as an incident; investigate impact only if needed, and do not perform cleanup without approval.
+6. Preserve the owner's already verified Chapter/Topic filters. Do not rewrite or disturb them while resolving preview routing/configuration.
+7. Continue with the next approved Management Panel task only after the correct preview is usable. Keep Student LMS untouched.
+8. Record every material design decision, owner question/answer, implementation detail, file/function/commit, deployment, test result, limitation and deferred item in this master record and the relevant detailed handover documents.
+
+### 20.6 Design-record completeness and source-of-truth rule
+The existing sections of this master record remain the canonical consolidated record of the Management Panel's product architecture, navigation, visual design direction, screen-by-screen requirements, editor behavior, shared-question safeguards, import workflow, review/release lifecycle, security boundaries, and implementation constraints. In particular:
+- Sections 4–10 preserve the product structure and detailed design/behavior requirements.
+- Sections 17–19 preserve the technical audit, owner clarification, fixes and MCQ Library implementation history.
+- The AI Developer Handover, Human Developer Technical Handover, Owner Guide, Active Conversation & Decision Log, and original source chats remain complementary records as explained in Section 1.1; do not replace them with a short summary.
+- If a requirement is not specified or a design detail is still genuinely undecided, record it as pending rather than inventing an answer or silently changing an approved design.
+
+### 20.7 Change log
+| Date | Change |
+|---|---|
+| 24 Nov 2026 | Recorded session close and exact next-session checkpoint; reaffirmed Management-only scope and Student LMS exclusion; recorded owner verification of Chapter/Topic filters; documented the incorrect Vercel project deployment as an incident and identified the correct Management project/deployment, whose state was still BUILDING at close. No additional code, database, deployment or cleanup action was performed as part of this documentation update. |
+
+**End of master record.**
