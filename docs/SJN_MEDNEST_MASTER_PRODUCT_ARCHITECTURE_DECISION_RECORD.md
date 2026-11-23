@@ -747,3 +747,44 @@ The owner confirmed that the incomplete MCQ Library search should be completed. 
 | 24 Nov 2026 | Corrected the autosave requirement interpretation: no-autosave applies to Student LMS attempts, while Admin Content Studio should autosave with Undo/Redo. Fixed and deployed the Academic Review preview-origin allowlist as Edge Function version 3; re-fetched live source to verify the exact origin entry. MCQ Library search enhancement confirmed as required but not yet implemented. |
 
 **End of master record.**
+
+
+## 19. MCQ Library search and classification filters — implementation (24 Nov 2026)
+
+**Status: IMPLEMENTED IN MANAGEMENT PANEL BRANCH; MANAGEMENT AUTH EDGE FUNCTION DEPLOYED; VERCEL PREVIEW BUILD PENDING.** Student LMS application code, schema, functions, and student records were not modified.
+
+### 19.1 Owner-approved behavior
+The MCQ Library search now supports:
+- Dedicated Bank, Subject, Chapter, and Topic filters.
+- Chapter options derived from chapter labels present in permitted MCQs for the selected Bank/Subject.
+- Topic options derived from topic labels available in the selected Bank/Subject; selecting a Chapter narrows Topic options to that Chapter.
+- Main search across MCQ ID, question text, bank, subject, chapter, topic, and source.
+- Combined filters and free-text search use AND semantics; the free-text term matches any of the listed fields.
+- Existing restricted Course Test exclusion and permitted bank allowlist remain unchanged.
+
+### 19.2 Implementation files and commits
+- `apps/management/index.html` — added Chapter and Topic selectors and corrected search guidance. Commit: `e446a6248484f508614917b99aafd7918865fc1e`.
+- `apps/management/mcq-library.js` — loads dynamic facets, resets dependent filters when Bank/Subject/Chapter changes, and sends all selected filters. Commit: `e03df926e7751ca57109b51d659456ee11ed9a1d`.
+- `database/management/mednest-mcq-library/index.ts` — added authenticated `mcqs.facets` operation and server-side combined filtering for `mcqs.list`. Commit: `7233b374ec7b7f4bc72fec4c851160ec4ecb4ba7`.
+- The facet query was subsequently paginated in 1,000-row pages (up to 50,000 rows) to avoid the default PostgREST response cap. Commit: `1cada17e89320f36fd06f9cc5bfba5aba2d97c17`.
+
+### 19.3 Live data observations used
+Read-only inspection of the existing MCQ source showed populated chapter/topic metadata across the permitted regional/past-paper banks, including provisional/legacy labels. The filters therefore use actual source MCQ labels rather than only the approved Management Auth syllabus tree, so existing classifications remain discoverable. No syllabus taxonomy rows were created or modified.
+
+### 19.4 Security and scope
+- The new facet operation is inside the existing Chief Administrator authenticated Edge Function and existing allowed-bank boundary.
+- The Student LMS API remains accessed only through its existing publishable/read-only client; no Student LMS write path was added.
+- MCQ result pagination remains 25 rows.
+- Existing course-only MCQ exclusion, edit-draft lifecycle, revision checks, and no-publication behavior are preserved.
+- No Student LMS frontend, database schema, Edge Function, attempts, Test History, Results, Review, Retake, Analytics, or Mistake Diary code/data was changed.
+
+### 19.5 Deployment and verification status
+- Management Auth Edge Function `mednest-mcq-library` deployed successfully as **version 6**, with JWT verification enabled.
+- The deployed function source was fetched back and confirmed to include `mcqs.facets` and the expanded search fields.
+- Vercel had not yet produced a preview deployment for the branch at the time of this record. Browser/UI testing and authenticated end-to-end searches remain pending; do not treat deployment/source verification as full functional verification.
+- No production deployment or PR merge was requested or performed.
+
+### 19.6 Change log
+| Date | Change |
+|---|---|
+| 24 Nov 2026 | Implemented Chapter/Topic facets and cross-field search in Management Panel; deployed Management Auth MCQ Library Edge Function v6. Awaiting Vercel preview and browser-level verification. |
