@@ -318,16 +318,20 @@
     <div class="studio-banner"><strong>Existing MCQ Library &amp; Direct Editor.</strong> Search original Question Bank and regional past-paper MCQs. Edit individually without Excel. Every Save creates an unpublished Chief-only correction draft; it does not modify student questions. Restricted Course Test MCQs are excluded from this library.</div>
     <div class="studio-panel">
       <div class="syllabus-heading"><h2>Browse Existing MCQs</h2><button type="button" class="studio-edit" id="mcq-lib-refresh">Refresh Questions</button></div>
-      <p>Search by MCQ ID, Question Bank, Subject, Chapter, Topic, source or part of the question statement. Restricted Course Tests are excluded. Edit only the fields you need; saving creates an unpublished correction draft.</p>
+      <p>Search by MCQ ID, question text, bank, subject, chapter, topic or source. Use the filters to narrow the results. Restricted Course Tests are excluded. Edit only the fields you need; saving creates an unpublished correction draft.</p>
       <div class="studio-toolbar">
         <label for="mcq-lib-search">Search everything in permitted MCQs</label><input type="search" id="mcq-lib-search" maxlength="120" placeholder="ID, question phrase, bank, subject, chapter, topic, source" autocomplete="off">
         <label for="mcq-lib-bank">Question bank / paper</label>
         <select id="mcq-lib-bank"><option value="">All ordinary / regional papers</option><option>Past Papers Question Bank</option><option>BUMHS MDCAT Past Papers</option><option>KMU MDCAT Past Papers</option><option>NUMS MDCAT Past Papers</option><option>SIBA MDCAT Past Papers</option><option>SZABMU MDCAT Past Papers</option><option>UHS MDCAT Past Papers</option></select>
         <label for="mcq-lib-subject">Subject</label>
         <select id="mcq-lib-subject"><option value="">All subjects</option><option>Biology</option><option>Chemistry</option><option>Physics</option><option>English</option><option>Logical Reasoning</option></select>
+        <label for="mcq-lib-chapter">Chapter</label>
+        <select id="mcq-lib-chapter"><option value="">All chapters</option></select>
+        <label for="mcq-lib-topic">Topic</label>
+        <select id="mcq-lib-topic"><option value="">All topics</option></select>
         <button type="button" id="mcq-lib-search-button" class="studio-edit">Search</button>
       </div>
-      <p class="tiny-text">Try: #95, Biomolecules, Carbohydrates, UHS 2025, or any part of the question statement. Use the Bank/Subject filters to refine results.</p>
+      <p class="tiny-text">Search by ID or any question phrase, or type a bank, subject, chapter, topic or source name. Chapter and Topic filters show classifications actually present in the selected bank and subject; Topic narrows to the selected chapter.</p>
       <p class="studio-feedback" id="mcq-lib-status" role="status" aria-live="polite">Sign in as Chief Administrator to view the protected MCQ Library.</p>
       <div class="studio-table-scroll"><table class="studio-table"><thead><tr><th>MCQ ID</th><th>Bank / Paper</th><th>Subject / Chapter</th><th>Question</th><th>Action</th></tr></thead>
         <tbody id="mcq-lib-results"><tr><td colspan="5">MCQ Library is not loaded yet.</td></tr></tbody></table></div>
