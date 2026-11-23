@@ -118,9 +118,14 @@ Deno.serve(async req=>{
    let facets=student.from("mcqs").select("chapter,topic")
     .in("bank",bank?[bank]:BANKS);
    if(subject)facets=facets.eq("subject",subject);
-   const {data,error}=await facets.order("chapter",{ascending:true}).range(0,9999);
-   if(error)return reply(origin,503,{error:"Chapter and topic filters temporarily unavailable"});
-   const rows=data||[];
+   const rows=[];
+   for(let offset=0;offset<50000;offset+=1000){
+    const {data,error}=await facets.order("chapter",{ascending:true})
+     .range(offset,offset+999);
+    if(error)return reply(origin,503,{error:"Chapter and topic filters temporarily unavailable"});
+    rows.push(...(data||[]));
+    if(!data||data.length<1000)break;
+   }
    const chapters=[...new Set(rows.map(x=>(x.chapter||"").trim()).filter(Boolean))]
     .sort((a,b)=>a.localeCompare(b));
    const topics=[...new Set(rows.filter(x=>!chapter||(x.chapter||"").trim()===chapter)
