@@ -708,4 +708,42 @@ This audit is a read-only technical verification and does not grant implementati
 |---|---|
 | 24 Nov 2026 | Completed read-only branch, live Management Auth and Student LMS Staging inspection. Verified save handlers, autosave behavior, live draft/review counts, review policy, RLS/table privileges, active Edge Function versions, preview-origin allowlist mismatch, and MCQ Library search limitation. Recorded findings and implementation boundary. No code, database, Edge Function, deployment, PR or production changes. |
 
+
+## 18. Owner clarification and Academic Review preview-origin fix (24 Nov 2026)
+
+### 18.1 Autosave requirement clarification — owner-confirmed
+
+The previous audit incorrectly treated the owner's earlier no-autosave requirement as applying to the Management Panel Content Studio. The owner clarified that the no-autosave requirement applies to the **Student LMS test-taking experience**, where network dependency and lag must be avoided.
+
+For the **Admin/Management Panel Content Studio**, the intended experience is an editor-style workflow:
+- Automatically save edits in the background.
+- Provide Undo and Redo so the author can reverse changes.
+- Preserve clear save status/acknowledgement and unsaved-change protection.
+- Avoid unnecessary lag and prevent autosave races or lost edits.
+
+Therefore, the existing Content Studio autosave is **not a requirement conflict**. It is aligned with the owner's intended Admin editor experience, subject to performance and reliability refinement. Do not remove autosave from the Admin Panel on the basis of the Student LMS requirement. The Student LMS no-autosave principle remains unchanged.
+
+### 18.2 Academic Review preview-origin correction — implemented
+
+The owner explicitly asked to fix finding 17.7. The exact allowlist in `database/management/mednest-academic-review/index.ts` was updated to include the specific `-git-sjn-secure-content-publishing` preview suffix. The allowlist remains anchored to the expected `sjn-mednest-management` Vercel hostname and does not permit arbitrary origins.
+
+- GitHub branch: `sjn-secure-content-publishing`
+- Source commit: `691083b0deebd15999d91ecee4f774543ead48cc`
+- Live Management Auth Edge Function: `mednest-academic-review`
+- Live deployment version after update: **3**
+- JWT verification remains enabled.
+- The deployed source was fetched again after deployment and confirmed to contain the new exact origin suffix.
+
+**Verification boundary:** source and deployment version were verified. A browser/API request from the actual Vercel preview was not executed in this step, so end-to-end CORS success remains pending preview verification. No database schema, review policy, staff permissions, Student LMS data, publishing logic or production application code was changed.
+
+### 18.3 MCQ Library search
+
+The owner confirmed that the incomplete MCQ Library search should be completed. This remains a planned enhancement; no search implementation has been changed in this step. Its scope should include truthful and useful searching/filtering across question ID/text, bank, subject, chapter, topic and source, with performance-safe server-side filtering and clear result behavior.
+
+### 18.4 Change log
+
+| Date | Change |
+|---|---|
+| 24 Nov 2026 | Corrected the autosave requirement interpretation: no-autosave applies to Student LMS attempts, while Admin Content Studio should autosave with Undo/Redo. Fixed and deployed the Academic Review preview-origin allowlist as Edge Function version 3; re-fetched live source to verify the exact origin entry. MCQ Library search enhancement confirmed as required but not yet implemented. |
+
 **End of master record.**
