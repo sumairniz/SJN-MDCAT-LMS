@@ -739,3 +739,102 @@ This repository audit is detailed source-and-test inspection, not a live product
 - Existing static legacy admin forms/localStorage in public/index.html are not evidence of a secure production Management Panel and must not be reused as a privileged admin backend.
 
 **Checkpoint:** Source inspection now covers Past Papers browser, exact Full-Length Past Papers Analytics hierarchy, Report an Issue presence/absence, Academy Resources and AI Tutor. No Student LMS code, database, configuration, records or deployment was changed.
+
+## 28. Live Supabase database audit — read-only inspection (24 November 2026)
+
+### 28.1 Scope and project identity
+
+Connected directly to the two known Supabase projects and confirmed both report ACTIVE_HEALTHY:
+- Student LMS Staging: `aozknkrwafowsrehdwlr`, PostgreSQL 17.11.0.003.
+- Management Auth: `tdqbjhrmfluiinntmjfh`, PostgreSQL 17.11.0.018.
+
+This was read-only inspection: project metadata, table/column/FK catalog, migrations, RLS policies, triggers, function metadata, storage policy metadata and Supabase security/performance advisors. No DDL, DML, auth setting, storage object or deployment was changed. No student-level personal records were queried.
+
+### 28.2 Student LMS live schema — VERIFIED
+
+Live public tables include:
+`mcqs`, `mcq_revisions`, `attempts`, `attempt_items`, `past_papers`, `courses`, `sjn_course_tests`, `sjn_mistake_annotations`, `academy_resource_folders`, `academy_resource_files`, plus Management integration support tables.
+
+Important contracts:
+- `mcqs` has stable bigint ID, bank, subject, nullable chapter/topic, question/options/correct answer, explanation/mnemonic/source and `current_revision_id`.
+- `mcq_revisions` stores immutable historical question content, revision number and classification/source metadata.
+- `attempt_items` stores attempt ID, user ID, position, MCQ ID, immutable revision ID, selected index and correctness.
+- Composite FK ownership links attempt items to their own attempt/user; revision references use RESTRICT.
+- Trigger `sjn_mcq_revisions_immutable` blocks UPDATE and DELETE of revisions.
+- `past_papers` stores title, year, description, ordered MCQ IDs as JSON, PDF URL and region. This confirms the existing paper catalogue does not currently have a normalized paper-question join table in the inspected live schema.
+- `sjn_course_tests` stores session_code, test_number, title, subject, nullable chapter, duration, availability, MCQ IDs JSON, syllabus JSON and published flag. No normalized session parent table or test-to-question FK was found in the inspected public schema; session identity is currently encoded in test rows by session_code.
+- `courses` is a separate table with title/description/chapters_json/body; do not confuse it with dynamic session/test records.
+- Mistake annotations are keyed by student and MCQ. Live FK to `mcqs` uses ON DELETE CASCADE, so a hard delete can remove annotations; immutable revision/attempt FK restrictions further reinforce retirement over deletion.
+- Resource folder/file tables have self-referencing folder hierarchy and RESTRICT delete rules.
+
+### 28.3 Student LMS live RLS and security posture — VERIFIED WITH OPEN QUESTIONS
+
+All inspected public Student LMS base tables have RLS enabled. Key observed policies:
+- Attempts and attempt_items: authenticated owner-only SELECT.
+- Historical revisions: SELECT only when the authenticated user has an attempt item referencing that revision.
+- Mistake annotations: owner-only SELECT; INSERT/UPDATE requires a matching genuinely incorrect selected answer by the same user.
+- Academy resource folders/files: authenticated SELECT only for published records; files additionally require a published parent folder.
+- Course test catalogue: authenticated SELECT where published=true.
+- Courses, MCQs, Past Papers and generic resources currently have broad SELECT policies for anon and authenticated roles with `USING (true)`.
+
+The broad public content SELECT policies are a significant exposure-design question: this database-level policy does not itself filter unpublished rows. It may be intentional if all rows in those tables are public/published or if other data paths constrain access, but this has not been proven. Before any admin publishing workflow is released, determine whether draft/unpublished MCQs or papers can exist in these tables and inspect all direct Data API paths. This audit did not query question contents or attempt to infer publication state from student records.
+
+RLS is enabled but FORCE ROW LEVEL SECURITY is false on the inspected public tables; this is common for table owners/service roles but must be considered alongside actual runtime roles. Storage policy catalog query returned no rows from the current query; bucket policy state therefore remains unverified, not assumed open or closed.
+
+### 28.4 Student LMS live foreign-key and deletion integrity — VERIFIED
+
+- Attempt items reference attempts with CASCADE and revision history with RESTRICT.
+- MCQ revisions reference MCQs with RESTRICT.
+- MCQ current revision uses a composite FK to the matching MCQ revision with RESTRICT.
+- Bookmarks reference MCQs with CASCADE.
+- Mistake annotations reference MCQs with CASCADE.
+- Past paper MCQ associations and course test MCQ associations are JSON arrays rather than normalized FK rows in the live schema. This means database FK constraints do not protect those JSON references; application-level validation and audit are required before MCQ retirement or paper/test editing.
+- Folder parent and resource file folder references use RESTRICT.
+
+### 28.5 Management Auth live schema — VERIFIED
+
+The Management Auth project has 12 public tables, all with RLS enabled. It includes staff membership, invitations, audit, step-up authentication, content batches/rows, MCQ edit drafts, syllabus nodes, academic-review submissions and review policy.
+
+The live schema confirms:
+- MCQ edit drafts preserve source MCQ ID, source bank, original revision ID, original fields, edited fields, optional syllabus topic, draft/discarded state and optimistic version.
+- Academic-review submissions snapshot submitted fields, source MCQ/revision, draft version, author, reviewers, review policy mode and states pending/needs_changes/approved_for_release/withdrawn.
+- Review submission references draft and staff identities with RESTRICT.
+- Content batches/rows use parent batch and owner identity with RESTRICT.
+- Syllabus nodes have parent hierarchy, kind, name/name_key, state, display order, revision and created/updated staff references; parent guard triggers run on insert/update.
+- This confirms the Management Auth database is a separate authoring/review domain; it does not itself prove live MCQ publication is complete.
+
+### 28.6 Management Auth RLS advisor findings — IMPORTANT, NEEDS SECURITY REVIEW
+
+Supabase Security Advisor reported 12 public Management Auth tables with RLS enabled but no policies:
+`mednest_academic_review_policies`, `mednest_academic_review_submissions`, `mednest_content_draft_batches`, `mednest_content_draft_rows`, `mednest_mcq_edit_drafts`, `mednest_staff_audit`, `mednest_staff_bootstrap`, `mednest_staff_invitations`, `mednest_staff_members`, `mednest_staff_stepup`, `mednest_staff_stepup_daily_quota`, `mednest_syllabus_nodes`.
+
+The live `pg_policies` query also returned no public-schema policies for this project. This is not automatically proof of a vulnerability: the application may intentionally access these tables only through trusted server-side service-role operations and tightly guarded RPCs. However, it is a high-priority architecture/security verification item. Before release, inspect every API route, client initialization, grants, RPC EXECUTE privileges and service-role boundary to prove that browser clients cannot directly access or mutate these tables. Do not “fix” this by adding generic authenticated policies; that could expose privileged management data. Do not change policies without a separate reviewed implementation plan.
+
+Security Advisor also reports leaked-password protection disabled. This is an Auth hardening recommendation requiring owner/security prioritization, not changed during this audit.
+
+Performance Advisor reports nine unindexed foreign keys across review, staff and syllabus tables. It also reports eight indexes unused at the advisor observation time. These are recommendations only; do not drop or add indexes blindly. Confirm workload and query plans before any change.
+
+### 28.7 Live migrations and functions
+
+- Student LMS migration history is present and includes the analytics, Mistake Diary, paper/course and Management integration schema work; complete migration list should be retained in the evidence attachment/next handover.
+- Management Auth has migrations through `restrict_content_batch_audit_trigger_rpc_20261117` (11 migrations listed).
+- Student project includes server-side `sjn_student_analytics`, `sjn_mistake_diary_catalog`, and attempt submission RPCs; inspected metadata identifies them as SECURITY INVOKER except submission RPC `sjn_submit_practice_attempt`, which is SECURITY DEFINER.
+- Management Auth has SECURITY INVOKER academic-review and MCQ-draft/syllabus functions plus SECURITY DEFINER staff auth/step-up/invitation functions. These require source-body and EXECUTE-grant review; function names/metadata alone do not prove their authorization checks.
+- Student project contains Management integration support tables/functions, including publish receipts and `mednest_publish_mcq_batch`. Existence of the RPC and receipt table is not proof that the entire frontend → Management authorization → Student staging publishing workflow is safely wired and verified.
+
+### 28.8 Supabase security/performance advisor summary
+
+Student LMS advisor output was retrieved, but the large response was truncated in the tool transcript; findings must be re-fetched in a focused pass before recording a complete Student LMS advisor inventory. Do not claim no findings.
+Management Auth advisor output explicitly included the 12 RLS-no-policy notices, leaked-password protection warning, nine unindexed FK notices and eight unused-index notices described above.
+
+### 28.9 Required next verification before integration approval
+
+1. Inspect Management Panel API routes and browser bundle to trace exactly how service-role credentials are kept server-side and how every route authenticates/authorizes each action.
+2. Inspect SQL bodies and EXECUTE grants for all SECURITY DEFINER functions, especially staff bootstrap, invitation, step-up, review and batch publish.
+3. Re-fetch Student LMS security/performance advisors in focused output; inspect storage bucket policies and bucket privacy settings.
+4. Verify published/unpublished content semantics and public Data API access for MCQs, past papers, courses and resources.
+5. Inspect exact current publication RPC body, receipt idempotency, cross-project credentials and source revision/version checks.
+6. Validate JSON MCQ associations for papers/course tests and historical attempt retention, without modifying data.
+7. Only after the above, write a reviewed compatibility/release-risk decision record. No schema policy change is authorized by this audit.
+
+**Checkpoint:** Live read-only Supabase catalog, RLS policy, FK, trigger, function metadata, migration and advisor inspection completed for both Student LMS Staging and Management Auth. The Management Auth RLS-without-policies finding is flagged for careful server-boundary review, not changed. No rows containing student personal content were queried. No database or application state was modified.
