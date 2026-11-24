@@ -145,3 +145,57 @@ Until student-side rendering is separately approved, implemented and verified:
 - The complete corrected visual design is still **PENDING OWNER REVIEW**.
 - Application implementation remains **NOT AUTHORIZED until the owner reviews and approves the complete visual design and the relevant implementation scope**.
 - No application code, schema, backend, Vercel or production changes are authorized by this documentation approval.
+
+
+## 10. Academic Reviews scope verification and navigation decision — 24 November 2026
+
+### 10.1 Source inspection — VERIFIED AGAINST CURRENT MANAGEMENT PANEL SOURCE
+
+The current branch's Management Panel source was inspected for the existing Academic Reviews page and navigation wiring:
+
+- `apps/management/index.html` (source SHA `603a453aff2b6320d3460857fe103665b86d91d5`) contains the existing global sidebar item labelled **Academic Reviews**, the Academic Review page section, the new-question batch status area, and the existing-MCQ correction queue and policy controls.
+- `apps/management/academic-review.js` (source SHA `008e45fec0713c9f8068941f7a92c3867198e1e8`) handles the MCQ correction review API, correction drafts, review queue, reviewer decisions, withdrawal, and the correction approval policy. The page's existing correction flow explicitly states that approval does not publish to students.
+- `apps/management/app.js` (source SHA `7f1f6365fb95292281b2f9f32f9ff6ded3eab478`) maps the global `reviews` navigation key to the Academic Reviews module and describes it as managing unpublished MCQ correction submissions, independent review decisions and Chief-configured approval policy.
+- The HTML page also contains a separate **New MCQ Batches — My Review Status** area. Its own explanatory text distinguishes new-question batch review/preparation from existing-MCQ correction review.
+
+The inspected page and navigation wiring support the conclusion that Academic Reviews is an **MCQ-only review destination with two distinct MCQ paths**:
+1. Corrections to existing/live MCQs.
+2. New MCQ submissions/batches.
+
+No course/session configuration, full-length paper configuration, syllabus taxonomy management, student-record management, staff permissions or other non-MCQ approval workflow was found to depend on this page in the inspected files. Syllabus taxonomy and bulk topic spelling correction tools are separate Management Panel areas/processes.
+
+**Verification boundary:** This is a source-level inspection of the current branch's relevant page and navigation files. It does not claim an exhaustive runtime dependency scan of every module or backend endpoint. Before implementation, perform a repository-wide reference search for the `reviews` module key, page IDs, event names and any deep links, then test every affected navigation/permission path. The current inspection is sufficient to support the proposed MCQ-only information architecture, but not to skip implementation-time regression checks.
+
+### 10.2 Owner decision — FINALIZED / OWNER-DECIDED
+
+The owner explicitly approved the proposed navigation change:
+
+- Remove the existing standalone global **Academic Reviews** item from the Management Panel sidebar.
+- Make **Question Content Studio → Workflow → Academic Review** the single navigation home.
+- This is an intentional change to the existing sidebar, not merely an additional shortcut.
+- Do not create a second Academic Review page or duplicate review engine.
+
+This supersedes the earlier pending alternatives in Sections 2, 6 and 9.1. The prior uncertainty is retained as historical traceability; the current owner decision is definitive.
+
+### 10.3 Accepted design requirements for the consolidated home
+
+1. **Question Content Studio sidebar badge:** Show a waiting-count badge on the Question Content Studio sidebar item. Count only review items genuinely awaiting action; exclude drafts, withdrawn items and completed/approved items. The count must respect the signed-in member's effective permissions and eligibility. Do not expose inaccessible queue totals.
+2. **Role/permission-based landing:** Staff with review permission land in Workflow → Academic Review. Authors without review permission land in Content mode. Members with both permissions retain access to both modes; use a sensible default/last Studio mode without treating display titles as authorization. Chief Administrator access remains governed by verified permissions.
+3. **Two filters on Academic Review:**
+   - **Corrections to live questions**
+   - **New questions**
+   
+   These are view filters over the two existing MCQ review paths. Keep their underlying data models, state transitions, policy rules and audit trails separate unless a later, separately approved technical design explicitly unifies them.
+4. **Approval is not publication:** Preserve the existing separation between review approval/preparation and student publication. This navigation decision does not authorize Student LMS changes or publication behavior.
+5. **Other modules remain independent:** Courses & Sessions, Full-Length Past Papers, Syllabus & Taxonomy, Student Management, Team & Permissions and other Management Panel modules do not become part of Academic Review merely because the navigation moves.
+
+### 10.4 Implementation status and authorization boundary
+
+- **Navigation/product decision:** FINALIZED / OWNER-DECIDED.
+- **Academic Reviews MCQ-only scope:** VERIFIED at the inspected source level, with the verification boundary stated above.
+- **Badge, role-based landing and two filters:** OWNER-APPROVED DESIGN REQUIREMENTS; technical implementation details and permission/query behavior require implementation-time verification.
+- **Complete visual design:** Still requires presentation and owner review unless separately approved in a later decision.
+- **Application implementation:** NOT AUTHORIZED merely by this navigation decision. Do not change code until the complete design and relevant implementation scope are approved.
+- **Student LMS:** OUT OF SCOPE; no student-facing code, database/schema, Edge Functions, authentication, attempts, Test History, Results, Review, Retake, Analytics or Mistake Diary changes.
+- **Production merge/release:** NOT AUTHORIZED.
+
