@@ -41,7 +41,26 @@ async function call(action,args={}){
 }
 function filters(){
  return {q:$("mcq-lib-search").value.trim(),bank:$("mcq-lib-bank").value,
-  subject:$("mcq-lib-subject").value,page};
+  subject:$("mcq-lib-subject").value,chapter:$("mcq-lib-chapter").value,
+  topic:$("mcq-lib-topic").value,page};
+}
+async function loadFacets(){
+ const chapterSelect=$("mcq-lib-chapter"),topicSelect=$("mcq-lib-topic");
+ const selectedChapter=chapterSelect.value,selectedTopic=topicSelect.value;
+ chapterSelect.disabled=true;topicSelect.disabled=true;
+ try{
+  const result=await call("mcqs.facets",{bank:$("mcq-lib-bank").value,
+   subject:$("mcq-lib-subject").value,chapter:selectedChapter});
+  chapterSelect.replaceChildren(new Option("All chapters",""));
+  for(const value of result.chapters||[])chapterSelect.add(new Option(value,value));
+  if((result.chapters||[]).includes(selectedChapter))chapterSelect.value=selectedChapter;
+  const activeChapter=chapterSelect.value;
+  const topics=activeChapter===selectedChapter?(result.topics||[]):[];
+  topicSelect.replaceChildren(new Option("All topics",""));
+  for(const value of topics)topicSelect.add(new Option(value,value));
+  if(topics.includes(selectedTopic))topicSelect.value=selectedTopic;
+ }catch(e){setStatus("Could not load chapter/topic filters: "+e.message,true)}
+ finally{chapterSelect.disabled=false;topicSelect.disabled=false}
 }
 function cell(text){
  const td=document.createElement("td");td.textContent=String(text??"");return td;
@@ -172,13 +191,20 @@ $("mcq-lib-search").addEventListener("keydown",e=>{
  if(e.key==="Enter"){e.preventDefault();page=0;search()}
 });
 for(const id of ["mcq-lib-bank","mcq-lib-subject"])
- $(id).addEventListener("change",()=>{page=0;search()});
+ $(id).addEventListener("change",async()=>{
+  $("mcq-lib-chapter").value="";$("mcq-lib-topic").value="";
+  page=0;await loadFacets();search();
+ });
+$("mcq-lib-chapter").addEventListener("change",async()=>{
+ $("mcq-lib-topic").value="";page=0;await loadFacets();search();
+});
+$("mcq-lib-topic").addEventListener("change",()=>{page=0;search()});
 $("mcq-lib-refresh").addEventListener("click",search);
 $("mcq-lib-prev").addEventListener("click",()=>{if(page>0){page--;search()}});
 $("mcq-lib-next").addEventListener("click",()=>{if((page+1)*25<total){page++;search()}});
 window.addEventListener("mednest:syllabus-updated",activeSyllabus);
 window.addEventListener("mednest:module",e=>{
- if(e.detail?.key==="questions"&&!loaded)search();
+ if(e.detail?.key==="questions"&&!loaded){loadFacets().then(search)}
 });
 window.addEventListener("mednest:signed-out",()=>{
  page=0;total=0;loaded=false;selection=null;

@@ -7,10 +7,10 @@ const STAFF_SERVICE=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";
 const EXPECTED_STAFF="https://tdqbjhrmfluiinntmjfh.supabase.co";
 const STUDENT_URL="https://aozknkrwafowsrehdwlr.supabase.co";
 const STUDENT_PUBLISHABLE="sb_publishable_9CjKnd4hEIIvS7OXvTq_aA_tTkLsBts";
-const ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9]+|-git-sjn-phase1a-foundation)-sjn1\.vercel\.app$/;
+const ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9]+|-git-sjn-phase1a-foundation|-git-sjn-secure-content-publishing)-sjn1\.vercel\.app$/;
 const staff=createClient(STAFF_URL,STAFF_SERVICE,{auth:{persistSession:false,autoRefreshToken:false}});
 const student=createClient(STUDENT_URL,STUDENT_PUBLISHABLE,{auth:{persistSession:false,autoRefreshToken:false}});
-const OPERATIONS=new Set(["mcqs.list","mcqs.get","mcqs.drafts","mcqs.save_draft"]);
+const OPERATIONS=new Set(["mcqs.list","mcqs.facets","mcqs.get","mcqs.drafts","mcqs.save_draft"]);
 const BANKS=[
   "Past Papers Question Bank",
   "BUMHS MDCAT Past Papers",
@@ -101,24 +101,54 @@ Deno.serve(async req=>{
  if(memberError||!member||member.technical_role!=="chief_admin"||
    member.status!=="active"||member.email!==(user.email||"").trim().toLowerCase())
   return reply(origin,403,{error:"Chief Administrator only"});
- if(body.action==="mcqs.list"){
-  const page=body.page??0;
+ if(body.action==="mcqs.facets"||body.action==="mcqs.list"){
   const bank=body.bank??"";
   const subject=body.subject??"";
+  const chapter=body.chapter??"";
+  const topic=body.topic??"";
   const q=body.q??"";
-  if(typeof bank!=="string"||typeof subject!=="string"||typeof q!=="string"||
+  const page=body.page??0;
+  if(typeof bank!=="string"||typeof subject!=="string"||
+    typeof chapter!=="string"||typeof topic!=="string"||typeof q!=="string"||
     !Number.isInteger(page)||page<0||page>500||
-    (bank&&!ALLOWED.has(bank))||
-    subject.length>100||q.length>120)
+    (bank&&!ALLOWED.has(bank))||subject.length>100||
+    chapter.length>160||topic.length>160||q.length>120)
    return reply(origin,400,{error:"Invalid MCQ search"});
+  if(body.action==="mcqs.facets"){
+   let facets=student.from("mcqs").select("chapter,topic")
+    .in("bank",bank?[bank]:BANKS);
+   if(subject)facets=facets.eq("subject",subject);
+   const rows=[];
+   for(let offset=0;offset<50000;offset+=1000){
+    const {data,error}=await facets.order("chapter",{ascending:true})
+     .range(offset,offset+999);
+    if(error)return reply(origin,503,{error:"Chapter and topic filters temporarily unavailable"});
+    rows.push(...(data||[]));
+    if(!data||data.length<1000)break;
+   }
+   const chapters=[...new Set(rows.map(x=>(x.chapter||"").trim()).filter(Boolean))]
+    .sort((a,b)=>a.localeCompare(b));
+   const topics=[...new Set(rows.filter(x=>!chapter||(x.chapter||"").trim()===chapter)
+    .map(x=>(x.topic||"").trim()).filter(Boolean))]
+    .sort((a,b)=>a.localeCompare(b));
+   return reply(origin,200,{chapters,topics,chapter_topic_rows:rows.length});
+  }
   let query=student.from("mcqs")
    .select("id,bank,subject,chapter,topic,question,source,current_revision_id",{count:"exact"})
    .in("bank",bank?[bank]:BANKS);
   if(subject)query=query.eq("subject",subject);
+  if(chapter)query=query.eq("chapter",chapter);
+  if(topic)query=query.eq("topic",topic);
   if(q.trim()){
-   const search=q.trim();
-   if(/^\d+$/.test(search))query=query.eq("id",Number(search));
-    else query=query.ilike("question","%"+search.replace(/[%_]/g,"\\$&")+"%");
+   const term=q.trim();
+   const quote=x=>'"'+x.replace(/\\/g,"\\\\").replace(/"/g,'\\"')+'"';
+   const pattern=quote("%"+term+"%");
+   const clauses=["question.ilike."+pattern,"bank.ilike."+pattern,
+    "subject.ilike."+pattern,"chapter.ilike."+pattern,"topic.ilike."+pattern,
+    "source.ilike."+pattern];
+   if(/^\\d+$/.test(term)&&Number.isSafeInteger(Number(term)))
+    clauses.unshift("id.eq."+String(Number(term)));
+   query=query.or(clauses.join(","));
   }
   const {data,count,error}=await query.order("id",{ascending:true})
    .range(page*25,page*25+24);

@@ -1434,3 +1434,36 @@ Owner approved recovery-first sequence after the November 19 Content Studio pres
 - GitHub Actions Foundation checks for the rollback commit were still running at documentation time (run `44577147590`). Do not describe CI as passed until its final result is checked.
 - Browser verification is still required: confirm saved-draft list visibility, opening an existing draft, Add Question opening the editor, saving/reopening, and refresh persistence. A successful CI run alone does not establish these behaviors.
 - Next sequence: finish CI check, publish/inspect the protected preview for this rollback commit, then have the owner verify the real browser workflow. Only after those checks pass should a new redesign be attempted in small independently tested steps.
+
+
+## 2026-11-21 — Owner-approved secure Content Studio publishing implementation
+
+**Owner authorization:** Explicit approval received in Chat 12 to implement the secure Management Auth → Student LMS Staging integration, subject to the documented safeguards. No production deployment, main merge, inactive original project changes, or unrelated LMS modifications authorized.
+
+**Live baseline verified:** Management Auth `tdqbjhrmfluiinntmjfh` and Student LMS Staging `aozknkrwafowsrehdwlr` are both ACTIVE_HEALTHY. Student staging baseline: 1,275 MCQs, 1,996 revisions, 2,140 attempt items, 0 missing/invalid current revisions, 0 orphan attempt references. Management Auth baseline: 3 draft batches, 6 draft rows, 1 individual MCQ edit draft, 0 review submissions, 1 active staff member.
+
+**Implemented on dedicated branch `sjn-secure-content-publishing`:**
+- Student Staging migration adds private RLS-enabled `mednest_content_publish_receipts` idempotency ledger and service-role-only atomic `mednest_publish_mcq_batch` routine.
+- Atomic routine supports create and edit modes, checks supported general Question Bank destinations, enforces four-option compatibility, rejects restricted Course Test content, compares expected revision on edits, inserts immutable revisions, updates current MCQ pointer and stores request receipts in the same transaction.
+- Management Auth Edge Function `mednest-publish-authorization` v3 validates Management Auth JWT, confirmed email, live staff session, active staff membership and Chief Admin or `content.publish` permission. It returns only approved batch chunks or frozen, independently approved MCQ correction payloads.
+- Student Staging Edge Function `mednest-content-publish` v3 accepts Management Auth tokens, delegates identity/permission checks to Management Auth, and performs writes using only Student Staging's own server-side service role.
+- Content Studio now has a staging-only Release Centre for batches in `approved_for_release`; approved MCQ correction queue has a separate staging publish action.
+- Batch publishing uses deterministic per-chunk idempotency keys, allowing safe retry after partial network failures. Each chunk is atomic.
+
+**Security gate retained:** FF-008 remains unresolved. Existing Student Staging `public.mcqs` SELECT policy grants anon/authenticated read across all banks, including 79 course-only MCQs. New publishing endpoints explicitly reject `SJN MedNest Course Tests`; no policy was removed or weakened. Do not release restricted course content until a separate safe entitlement migration is audited and tested.
+
+**Verification performed:** Student Staging migration applied and confirmed; atomic rollback test intentionally attempted a valid first row followed by a restricted course-only row and confirmed no data changed (1,275 MCQs, 1,996 revisions, 0 receipts). Student security advisor did not flag the new publishing function as publicly executable; existing unrelated advisor findings remain. No real approved batch or correction has yet been published, and the Management Panel Vercel preview/browser workflow still needs end-to-end testing.
+
+**Current boundaries:** No main merge, production deploy, inactive original project changes, Test History/attempt changes, existing MCQ updates outside the new revision flow, or bulk cleanup. Existing draft records preserved.
+
+
+> **2026-11-21 — SECURE CONTENT PUBLISHING BRIDGE IMPLEMENTED ON STAGING (OWNER APPROVED):** Dedicated branch `sjn-secure-content-publishing`, PR #3 (Draft; base `sjn-content-studio-v4-implementation`). Applied Student Staging private receipt ledger and atomic `mednest_publish_mcq_batch` RPC. Deployed Management Auth `mednest-publish-authorization` v5 (JWT verification enabled) and Student Staging `mednest-content-publish` v4 (Management JWT delegated to Management Auth for live session, active staff and Chief/`content.publish` authorization). The Student publisher uses only its own project service role. Added Content Studio Release Centre for approved new batches and separate approved correction publish action. Course-only content remains rejected while FF-008 is unresolved. Atomic rollback test passed; MCQ/revision/attempt counts remain 1,275 / 1,996 / 2,140 with 0 invalid current revisions. Anonymous/authenticated roles cannot execute the publishing RPC or read receipt rows. GitHub Foundation Checks passed on `760432b176e2e75b69e1ec6b40c8293a48480e0b`; syntax, 326+ test suite, CSS build/reproducibility and release hygiene passed. Management preview READY at https://sjn-mednest-management-ja4jcouij-sjn1.vercel.app (SSO protected). **Still pending:** owner browser UAT, synthetic approved batch and correction end-to-end publication, retry/receipt verification. No real MCQs published, no production changes, no main merge; PR remains Draft. FF-008 remains a separate security release blocker.
+
+
+> **2026-11-21 — MANAGEMENT SIGN-IN CONNECTIVITY FIX:** Owner screenshot investigated. Active login page uses the correct isolated Management Auth client; the actual fault was that the four Management Auth Edge Function CORS allowlists did not include the secure Content Studio branch preview origin. Updated and deployed isolated auth v7, step-up v6, team v7 and team-actions v7 to allow the exact HTTPS secure preview origin. New Vercel preview READY at the branch alias. No password reset/account recreation needed. Owner must retry browser sign-in; CI for the test assertion updates is pending.
+
+
+> **2026-11-21 — CORS FIX FINALIZED:** The four deployed Management Auth endpoints now use explicit secure-preview origin alternatives. Active versions: isolated auth v8, step-up v7, team v8, team-actions v8. CI push check passed at `33988de`; PR check pending. Browser sign-in still requires owner confirmation.
+
+
+> **2026-11-21 — LIVE LIBRARY / DRAFTS / ACTIVE V4 ROUTE FIX:** Live SQL confirms 1,275 Student Staging MCQs (1,129 regional, 146 general past-paper bank, 79 restricted course tests excluded) and Management Auth has 3 batches/6 rows/1 individual correction draft. The Library and Content Studio Edge Functions had stale CORS origin allowlists; deployed Library v5 and Content Studio v7 with secure preview origin allowed. V4 page shell was only in index.html; active integrated-auth-preview.html still used old shell. Applied V4 intro/nav to active route and added regression test. READY Vercel preview commit 78e88ac. Owner must verify Live Library and My Drafts in browser; no database records changed.

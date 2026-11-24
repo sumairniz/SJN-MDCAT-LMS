@@ -3,7 +3,7 @@ import {createClient} from "https://esm.sh/@supabase/supabase-js@2.95.0?bundle";
 const URL=Deno.env.get("SUPABASE_URL")||"";
 const SERVICE=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";
 const EXPECTED="https://tdqbjhrmfluiinntmjfh.supabase.co";
-const ALLOWED_ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9]+|-git-sjn-phase1a-foundation)-sjn1\.vercel\.app$/;
+const ALLOWED_ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9]+|-git-sjn-phase1a-foundation|-git-sjn-secure-content-publishing)-sjn1\.vercel\.app$/;
 const OPS=new Set(["review.policy","review.set_policy","review.drafts","review.submit","review.queue","review.detail","review.decide","review.withdraw"]);
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const isId=v=>typeof v==="string"&&UUID.test(v);

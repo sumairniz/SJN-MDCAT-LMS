@@ -5,7 +5,7 @@ import {createClient} from "https://esm.sh/@supabase/supabase-js@2.95.0?bundle";
 const URL=Deno.env.get("SUPABASE_URL")||"";
 const SERVICE=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";
 const EXPECTED="https://tdqbjhrmfluiinntmjfh.supabase.co";
-const ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9]+|-git-sjn-phase1a-foundation)-sjn1\.vercel\.app$/;
+const ORIGIN=/^https:\/\/sjn-mednest-management(?:-[a-z0-9]+|-git-sjn-phase1a-foundation|-git-sjn-secure-content-publishing)-sjn1\.vercel\.app$/;
 const db=createClient(URL,SERVICE,{auth:{persistSession:false,autoRefreshToken:false}});
 const ALLOWED=new Set(["batch.create","batch.list","batch.get","batch.save_rows","batch.submit_review","batch.prepare_direct","batch.withdraw_review","batch.review_decide"]);
 const COLUMNS=["bank","subject","chapter","topic","question","option_a","option_b","option_c","option_d","option_e","correct_option","explanation","mnemonic","source","region","year","paper_code"];

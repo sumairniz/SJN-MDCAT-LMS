@@ -8,9 +8,14 @@ const read=p=>fs.readFileSync(path.join(root,p),"utf8");
 
 test("Content Studio V4 establishes the SJN-branded responsive workspace without replacing editor modules",()=>{
   const html=read("apps/management/index.html");
+  const activePreview=read("apps/management/integrated-auth-preview.html");
   const css=read("apps/management/content-studio.css");
   const app=read("apps/management/app.js");
   assert.match(html,/<header class="studio-page-intro">/);
+  assert.match(activePreview,/<header class="studio-page-intro">/);
+  assert.match(activePreview,/data-studio-target="browse"/);
+  assert.match(activePreview,/Live Library/);
+  assert.doesNotMatch(activePreview,/Browse &amp; Edit/);
   assert.match(html,/Question Content Studio/);
   assert.match(html,/data-studio-target="drafts"/);
   assert.match(html,/data-studio-target="browse"/);
