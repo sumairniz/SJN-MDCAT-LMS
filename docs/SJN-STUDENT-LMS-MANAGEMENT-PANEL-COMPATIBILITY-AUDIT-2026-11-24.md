@@ -461,3 +461,84 @@ The exact authoring workflow and future course entitlement model remain pending 
 - Verify the live course API response and UI with a test account only if authorized, avoiding student PII.
 
 **Checkpoint:** Screenshots and repository source corroborate the current Genome staging pilot. They do not establish production readiness or secure paid enrollment. No Student LMS code, database, configuration or deployment was changed.
+
+
+## 18. Owner clarification — Courses & Sessions are dynamic, owner-created (24 November 2026)
+
+The owner clarified that course sessions are **not a fixed permanent catalogue**. The owner must be able to create and launch new sessions at their discretion through the Management Panel. Examples include a March Session, February Session, Mock Session, or other future session names/types. Each new session may contain its own tests uploaded/managed through the Admin/Management Panel. The number, names, timing and launch of sessions are owner-controlled and must not be hard-coded to the current Genome / Early Mock / Final Sprint examples.
+
+This clarification is consistent with the product direction previously discussed: the Management Panel is the control centre for academy sessions and their tests. The current Genome UI is a pilot/example of the student-facing experience, not the permanent limit or canonical list of sessions.
+
+**Required product model (direction recorded; detailed implementation still pending):**
+- Admin can create, edit, schedule, publish/launch, close/archive and manage multiple sessions over time, subject to future permission and lifecycle design.
+- Session identity must be stable and separate from its display name; changing a label must not break historical attempts.
+- Each session owns an ordered collection of test entries/manifests. Tests may be planned before content is uploaded; a planned schedule item must not appear launchable until the actual test is published and eligible.
+- The student My Courses page should derive its session cards and enrolled/available/locked presentation from the managed session catalogue and the student's access/enrollment state, not hard-coded client fixtures.
+- Session types and naming examples are illustrative, not an exhaustive fixed enum. Exact fields, lifecycle statuses, enrollment policy, and whether old sessions remain visible/archived require later design and owner review.
+- Preserve existing Genome course-test IDs, attempt history and progress linkage when transitioning from pilot data to a dynamic catalogue. Do not replace IDs or rewrite student attempts.
+- The owner confirms the existing visible chapter/topic labels in the pilot remain temporary test data; they are not final syllabus taxonomy.
+
+**Status:** OWNER CLARIFICATION / PRODUCT DIRECTION RECORDED. Dynamic session authoring is a required Management Panel capability; schema and implementation details remain pending technical design and owner approval.
+
+## 19. Results, Review, Retake and Test History — source audit checkpoint (24 November 2026)
+
+### 19.1 Test History frontend — VERIFIED
+
+Inspected `public/sjn-history.js` (blob SHA `8256375d234f97abca26de7107c577a903355b7d`) and `public/sjn-history.css` (blob SHA `0ff854ae12cd185eb2e94df384e4b578ce6dfbe1`).
+
+The Test History interface:
+- lists own-account tests with title/date, subjects, mode, score/accuracy and status;
+- shows in-progress drafts separately with answered/total progress and Resume;
+- supports search, source, mode, status and date sorting filters;
+- uses 25-row pagination;
+- provides Results, Review and Retake actions for completed tests;
+- disables Review/Retake for summary-only historical tests whose individual questions were not recorded;
+- shows a read-only question review with numbered navigation, answer filters, original selected answer/correct answer, explanations and mnemonics where present;
+- preserves own-account history and does not restyle the approved live MCQ examination interface.
+
+### 19.2 Historical question fidelity — VERIFIED IN SOURCE AND DESIGN RECORD
+
+For detailed attempts, History retrieves the saved attempt and its question items/revision snapshots. Review renders the saved question/answer data, not the current mutable MCQ as a replacement. This is essential: Management Panel edits must not alter what a student sees when reviewing an older attempt.
+
+Older summary-only attempts remain visible with their original score/date, but individual-question Review and Retake are unavailable. The UI explicitly explains that those questions were not recorded. Do not fabricate question history or silently remove those old attempts.
+
+### 19.3 Retake semantics — VERIFIED IN HISTORY SOURCE / HISTORICAL OWNER-APPROVED DESIGN
+
+History only launches Retake if the attempt is question-level detailed and the server payload marks retake available. It sends the saved ordered question identity payload through the existing retake launch bridge. The Stage 3B owner-approved design states that Retake creates an independent new attempt with the same MCQ IDs in exactly the same order; the original result remains untouched.
+
+Retake must remain an independent attempt, not an overwrite or reset of the original attempt. Course-test progress eligibility and independent History retakes must remain distinguishable as established in the Genome course flow.
+
+### 19.4 Results and review integration — VERIFIED IN SOURCE / HISTORICAL ACCEPTANCE RECORD
+
+The Results screen's Review Answers and Retake Test actions are gated until a saved attempt is verified. Test History can reopen a detailed saved result through the existing Results renderer; otherwise it displays a historical detail view. A previously documented Results → Review → Results disabled-button regression was fixed and owner-confirmed in the historical Stage 3C record. This audit does not claim a fresh browser regression run on the current branch.
+
+### 19.5 Critical compatibility requirements for Management Panel
+
+- Editing a published MCQ must create a new immutable revision; never rewrite revisions already referenced by attempt items.
+- Preserve stable MCQ IDs, revision IDs, ordered attempt items, selected answers, correctness and elapsed-time facts.
+- Do not hard-delete a question/revision referenced by attempts or bookmarks; retirement/archival needs a separate lifecycle and verified referential safeguards.
+- A new revision must not change historical Results, Review, Retake source content or Mistake Diary records for older attempts.
+- For Retake, the existing original ordered item set must remain reproducible even if the current question has since been edited or retired.
+- Course test identity and progress eligibility must remain intact; an independent Retake must not silently count as a scheduled course completion unless existing server rules explicitly say so.
+- Management Panel should show reference impact (“used in” tests/papers/courses/attempts) before destructive or scope-changing operations, but exact UI/permissions remain proposed pending owner approval.
+
+### 19.6 Remaining verification limits and screenshot request
+
+This checkpoint is based on current repository source and historical implementation/acceptance records. It is not a fresh live two-account security test, not a current live database schema verification, and not a new browser regression run.
+
+To verify the real visual flow against source, owner screenshots are still useful for:
+1. Results screen after completing a test (including the action buttons and performance insights);
+2. Review Answers screen with one correct, one incorrect and one skipped question if available;
+3. Test History list and one opened historical review;
+4. Retake launch screen or first question after starting a retake.
+
+Screenshots should avoid exposing email addresses or other personal information. They are optional if the owner prefers the audit to remain source-only.
+
+### 19.7 Claude proposal assessment update
+
+- **#4 retire instead of delete:** Strongly supported as a safety direction by immutable revision and attempt references, but no complete owner-approved retirement feature is verified.
+- **#8 ordering and counts:** Attempt item position and saved course manifests make order a strict invariant, not a cosmetic preference.
+- **#9 student preview:** Must reflect the versioned question shown at the time of the attempt, as well as current destination-specific rendering; preview acceptance should be checked separately.
+- **#11 model support:** Results/Review/Retake/History have an established question-level version contract. The Management Panel must integrate with it rather than create a competing history or scoring pipeline.
+
+**Checkpoint:** Source-level Results/Review/Retake/History compatibility requirements recorded. No Student LMS code, database, student records, Management Panel application or deployment was changed.
