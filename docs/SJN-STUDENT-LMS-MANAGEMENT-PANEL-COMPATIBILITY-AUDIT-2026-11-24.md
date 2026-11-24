@@ -128,3 +128,59 @@ All 11 are **PROPOSED BY CLAUDE — NOT OWNER-APPROVED**. This audit will assess
 - Course preview and History source entry points inspected.
 - Remaining journeys, database/API contracts and proposal assessments are **PENDING**.
 - No code, database, configuration, deployment or Student LMS changes made.
+
+
+## 9. Past Papers journey — deeper source verification (24 November 2026)
+
+### 9.1 Browser/catalogue boundary — VERIFIED
+
+Direct source and test inspection confirms `public/sjn-pastpapers.js` is a pre-attempt catalogue/browser only. Its own source comment states it does not create tests, publish questions or read PDFs; the authenticated existing exam renderer remains the only quiz interface.
+
+- The catalogue receives its paper rows through `setPapers(rows)`; this browser module itself does not fetch or write data.
+- It accepts only rows whose region is one of the six configured categories, whose ID is a safe integer, whose `mcqIds` is a nonempty array capped at 200, and whose title is a string.
+- Region selection filters the supplied published-paper rows. A paper card displays its region, year, title, description and MCQ count.
+- A paper's Start Paper control reveals Tutor Mode and Timed Mode choices. The delegated handler calls `window.SJNStartPublishedPaper(paperId, mode)` only when the selected paper still belongs to the active region.
+- Empty regional collections show a disabled sample card clearly labelled not published; they cannot launch a quiz.
+- No PDF viewer or PDF loading belongs to this browser module.
+
+### 9.2 Existing exam launch reuse — VERIFIED AT TEST/HTML CONTRACT LEVEL
+
+`tests/pastpapers-browser-ui.test.js` asserts that published-paper launch uses `window.SJNStartPublishedPaper` and the existing authenticated exam launcher (`launchGeneratedQuiz(questions)`), with a single consistent question bank for the selected paper. It explicitly rejects using the random Create Test draw for a published paper.
+
+The source test also checks the six region cards, empty-state disabled examples, year-wise paper cards and Tutor/Timed choices. This is strong source/test evidence for the intended launch contract, but it is not a live authenticated end-to-end test of a real published paper in this audit.
+
+### 9.3 Important distinction: question bank versus full-length paper
+
+The Student LMS region-first Past Papers catalogue is a full-paper examination entry point. It must not be conflated with the separate Past Paper Question Bank used for practice-question selection and analytics. The Management Content Studio must preserve these as distinct destinations and their associations/provenance.
+
+### 9.4 Remaining Past Papers verification
+
+Still to inspect:
+- `SJNStartPublishedPaper` full implementation and the exact source of `pastPapersList`.
+- Server/API validation and catalogue source, including whether the catalogue is static, database-backed or assembled through a protected endpoint.
+- The exact paper-to-MCQ association and order guarantees.
+- Submission metadata/source tagging and how a full paper is identified in Results, Review, Retake, History and Analytics.
+- Any mismatch between the UI's 200-question cap and actual backend/schema limits.
+- Live staging evidence, if available read-only, without exposing or copying student personal data.
+
+## 10. Additional confirmed Student LMS compatibility constraints
+
+### 10.1 Four-option student rendering — VERIFIED IN EXAM SOURCE
+
+The inspected exam renderer builds option labels from `ABCD`, and saved-attempt review validation requires exactly four options with a correct index in the range 0–3. The Management draft validator's optional Option E therefore cannot be assumed student-compatible. Any A–E release remains blocked until the complete student-side lifecycle is separately designed, approved, implemented and verified.
+
+### 10.2 Report an Issue — UI exists; persistence explicitly inactive
+
+The inspected `public/sjn-phase4-preview.js` opens a report dialog, requires at least one reason checkbox and accepts optional details. Its submit handler explicitly states that backend and authenticated report storage are deferred and displays: “Report submission is not active yet. Nothing has been sent or saved.” Thus a visible dialog is not evidence of a functioning reporting workflow. Claude's proposed Admin-side Student Reports workflow is a possible future extension, not an existing integrated feature.
+
+### 10.3 No per-answer autosave
+
+The same exam source comments that answers are not written during MCQ interactions. The existing Save & Exit flow persists an explicit student checkpoint; do not infer that every answer is autosaved. This is consistent with the owner's established no-autosave decision for student test-taking.
+
+## 11. Evidence status after this pass
+
+**Verified from source and tests:** six region categories; region-first navigation; catalogue-only responsibilities; disabled unpublished empty-state cards; Tutor/Timed choices; existing exam launcher handoff contract; separate full-paper versus question-bank concept; four-option saved review contract; Report an Issue UI currently does not persist; no per-answer writes.
+
+**Not yet verified:** live paper records and exact catalogue API; complete full-paper attempt-to-history metadata chain; exact schema constraints and all source provenance; full server-side security and authorization for each journey; real live browser test with a published paper.
+
+The audit remains **IN PROGRESS**. No application, database, configuration or deployment changes were made.
