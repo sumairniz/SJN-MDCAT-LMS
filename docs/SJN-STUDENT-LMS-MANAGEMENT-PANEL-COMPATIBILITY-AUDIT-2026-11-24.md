@@ -184,3 +184,98 @@ The same exam source comments that answers are not written during MCQ interactio
 **Not yet verified:** live paper records and exact catalogue API; complete full-paper attempt-to-history metadata chain; exact schema constraints and all source provenance; full server-side security and authorization for each journey; real live browser test with a published paper.
 
 The audit remains **IN PROGRESS**. No application, database, configuration or deployment changes were made.
+
+
+## 12. Create Practice Test — source and owner-policy audit (24 November 2026)
+
+### 12.1 Existing student journey — VERIFIED
+
+The current `public/index.html` wizard and `tests/create-test-stage2.test.js` establish the following behavior:
+
+- Question bank is selected first; the current UI/test wording treats the SJN Question Bank and Past Papers Question Bank as separate sources.
+- Practice scope choices include All Subjects, One or Multiple Subjects, Custom Quiz and Topic Drill (the internal scope IDs remain stable).
+- All Subjects goes directly to Settings after loading all available subjects.
+- One or Multiple Subjects goes from subject selection to Settings with all chapters.
+- Custom Quiz permits one or more subjects, then an optional chapter selection; leaving chapters unselected means all chapters in the chosen subjects.
+- Topic Drill requires at least one chapter, then proceeds to Topics, then Settings. Science topics must be explicitly selected and are scoped to the selected chapters. Changing chapters on Back removes now-stale topic selections.
+- English and Logical Reasoning are explicitly treated as single-level categories: the selected chapter is also the topic; the UI shows an explanatory note and no extra topic checkboxes. No nested topic selection is required.
+- Only subjects, chapters and topics present in the loaded published MCQ pool are offered. Empty subject/chapter lists do not get fabricated chapter cards.
+- The requested question count starts blank for ordinary new tests; invalid/blank values are rejected rather than silently defaulted to one.
+- Tutor and Timed modes use the shared exam launcher. Retake uses the saved verified question order instead of a new random selection.
+
+### 12.2 Metadata behavior and Claude proposal #1 — PARTLY CORRECT / NEEDS REFINEMENT
+
+**Verified current behavior:** Question selection and filtering use `bank`, `subject`, `chapter` and `topic` values from the loaded MCQ records. Science Topic Drill uses explicit subject+chapter+topic selection. English/Logical Reasoning are single-level, with the chapter acting as the topic in the student experience. The test fixtures include both `topic:null` and `topic:'Verb'` examples for English, so the current contract does not require a duplicate topic value to be populated for every flat-category question.
+
+**Assessment:** Claude is directionally right that metadata must reflect the subject's actual syllabus structure, and that courses/papers may have different metadata rules. But the proposal to always show one selection that fills both chapter and topic for English/Logical Reasoning is not established as the existing data contract; the student tests explicitly permit `topic:null`. Requiring both fields or backfilling duplicates could alter analytics, source records or existing questions. Do not implement this rule without inspecting actual stored rows and analytics aggregation, then presenting the owner with a precise mapping decision.
+
+**Status:** PROPOSED BY CLAUDE; partially supported by current UX; exact persistence/analytics rule PENDING DATA AND ANALYTICS AUDIT; NOT OWNER-APPROVED.
+
+### 12.3 Missing metadata and placeholder values — CONFLICT FOUND / FURTHER AUDIT REQUIRED
+
+The current student selection functions contain fallback expressions `q.chapter || 'General Chapter'` and `q.topic || 'General Topic'` when constructing selection keys and displaying topic choices. However, the same source also has a comment and behavior to omit empty chapter headings and tests that reject showing a fabricated “General Chapter” in the chapter selector. English/Logical Reasoning null-topic cases are deliberately valid and have no extra topic choice.
+
+Therefore Claude's absolute proposal “never use General Topic/General Chapter” is too broad as written: fallback labels exist internally in the selection key logic, while visible UI behavior is more selective. The data, rendering and analytics consequences have not yet been traced. In particular, the phrase “General Topic” may be an internal fallback key rather than a visible analytics category.
+
+**Status:** PROPOSED BY CLAUDE; PARTIAL SOURCE CONFLICT; PENDING DATA/ANALYTICS TRACE. Do not remove or migrate fallback semantics until all consumers are mapped.
+
+### 12.4 Filter rules — OWNER-APPROVED AND VERIFIED
+
+The owner-approved 22 October filter decision record and current code/tests establish:
+
+- Five multi-select filters: Unused (default), Incorrect, Skipped, Marked and Correct. There is no Used filter.
+- OR/union semantics across selected filters, deduplicated by stable MCQ identity.
+- Correct/Incorrect/Skipped use the student's latest completed attempt for that question; Skipped means unanswered in the latest completed attempt.
+- Marked is an independent persistent bookmark state.
+- Unfinished drafts do not change Unused or Skipped classification.
+- Filter history is read from authenticated, user-scoped immutable `attempt_items` and bookmarks. It does not infer from old score-only records or draft answers.
+- The status API is authenticated, paginated (1,000 rows per page), rejects incomplete/unverifiable reads and returns 503 rather than silently classifying incomplete history.
+- The UI fails closed until history is verified; an explicit retry is available. Account switches invalidate pending results to avoid cross-account leakage.
+- Direct course/past-paper/retake/resume entry points bypass normal Create Test filters as appropriate.
+
+References: `docs/SJN-CREATE-TEST-FILTERS-DECISIONS-2026-10-22.md`, `lib/practice-question-status.js`, `server.js` (`/api/practice/question-status`), `tests/practice-question-filters.test.js`.
+
+### 12.5 Automatic chapter distribution — OWNER-AGREED POLICY, IMPLEMENTATION NOT VERIFIED HERE
+
+The owner-approved policy document dated 6 November 2026 states that multi-chapter Create Practice Test must use automatic distribution only; no Custom Distribution controls. It must be balanced but meaningfully weighted by overall published eligible MCQ inventory per selected chapter, while never bypassing the student's chosen filter. If a chapter cannot fill its target, use only genuinely eligible questions and redistribute the remainder to other selected chapters when feasible. If the combined eligible pool cannot meet the requested total, explain the limitation honestly. The exact weighting/rounding algorithm and implementation remain documented as not yet implemented in that policy.
+
+This is a binding owner-agreed product rule, but the current active branch's allocator implementation has not yet been fully traced or tested against the 6 November policy. Do not infer implementation merely from the existence of the policy or from generic random shuffle logic.
+
+Reference: `docs/SJN-CREATE-TEST-AUTOMATIC-CHAPTER-DISTRIBUTION-POLICY-2026-11-06.md`.
+
+### 12.6 Question identity, revision and option constraints — VERIFIED AT VALIDATION BOUNDARY
+
+- The student launcher refuses to start if loaded questions lack valid positive revision IDs.
+- The submission validator accepts a maximum of 200 questions, requires unique MCQ IDs and positive revision IDs, and only accepts selected answer indices 0–3 (A–D).
+- Saved manual drafts also cap at 200, require unique MCQ and revision IDs, and accept answer indices 0–3.
+- The selected test's question identities and revisions are carried into the explicit submission/draft payload; the browser does not supply the answer key or score as trusted grading input.
+- Retake validates that the selected historical questions are canonical objects from the currently loaded bank and preserves their saved order.
+
+References: `lib/practice-submission.js`, `lib/practice-drafts.js`, `tests/phase4-quiz-launch.test.js`.
+
+### 12.7 Claude's metadata/taxonomy proposals — interim classification
+
+| Claude proposal | Interim evidence-based assessment | Status |
+|---|---|---|
+| #1 Subject/Chapter/Topic required rules by subject and destination | Science hierarchy and flat English/Logical Reasoning behavior partly verified; destination-specific storage rules not yet verified | PARTLY CORRECT / PENDING DATA AUDIT |
+| #2 No General Chapter/General Topic or Unspecified | Visible UI and internal fallback-key behavior differ; absolute rule is too broad | PARTIAL CONFLICT / PENDING ANALYTICS TRACE |
+| #3 Taxonomy controlled only by approved Syllabus & Taxonomy; no spreadsheet auto-create; duplicate detection/merge | Not yet verified against actual Management taxonomy and Student data/analytics dependencies | PENDING TAXONOMY AND SCHEMA AUDIT |
+| #4 Retire instead of delete; attempted question must not be hard-deleted | Stable historical question/revision identity is established, but actual retirement/deletion semantics and FK protections not yet inspected | PENDING SCHEMA/REFERENCE AUDIT |
+| #5 Structured source provenance (exam/board/year/paper code) | Student records carry a source string in the exam UI and paper-specific selection metadata exists; exact schema and course/full-paper inheritance not yet verified | PARTLY SUPPORTED / PENDING SOURCE CONTRACT AUDIT |
+| #6 Option E | Conflicts with verified four-option exam and saved-review contracts; cannot be released today | NOT STUDENT-COMPATIBLE / RELEASE BLOCKED |
+| #7 Empty destinations / phased rollout | Student course area is a staging Genome pilot plus illustrative content; Full-Length Papers have empty-state samples. Management-side destination readiness remains to be audited | PARTLY SUPPORTED / PENDING MANAGEMENT MODULE AUDIT |
+| #8 Question order and expected-vs-uploaded count | Paper and attempt order are important, but exact management publishing/count contract not yet audited | PENDING |
+| #9 Student preview must exactly match student view | Existing student rendering contract is available; exact Management preview parity has not been verified | VALID GOAL / PENDING RENDERER AUDIT |
+| #10 Student Reports workflow | Student Report Issue UI exists but explicitly does not submit or persist; Admin workflow is new future work | FUTURE PROPOSAL / NOT EXISTING |
+| #11 Existing models and Student-side support matrix | Required outcome of this audit; not yet complete | AUDIT DELIVERABLE / IN PROGRESS |
+
+## 13. Next audit areas
+
+1. Trace the actual MCQ loading/API query and source database schema for both banks, including source fields, chapter/topic nulls and current revisions.
+2. Trace analytics grouping for missing/flat metadata and verify whether General Chapter/General Topic can become visible categories.
+3. Inspect Syllabus & Taxonomy management implementation, taxonomy persistence and duplicate/rename/move/delete impact.
+4. Inspect actual question/paper/course associations, retirement/deletion semantics, historical references and source provenance.
+5. Continue with Courses & Sessions and their course-test manifests/access policy, then Results/Review/Retake/History and Mistake Diary.
+6. Complete the point-by-point 11-proposal assessment and prepare a corrected compatibility specification for owner review.
+
+**Checkpoint:** This is a source-level and owner-document reconciliation, not a live student account end-to-end test or a fresh database inspection. No Student LMS code, database, configuration, Management Panel application or deployment was changed.
