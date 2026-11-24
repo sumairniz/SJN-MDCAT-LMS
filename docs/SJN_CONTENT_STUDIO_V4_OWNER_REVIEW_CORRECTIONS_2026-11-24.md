@@ -105,3 +105,43 @@ The owner explicitly clarified after the initial recording that the three number
 - Image/formula controls: valid safety concern. Do not let teachers create content that the current student experience cannot display. The safest interim visual state is hidden/disabled controls until student-side rendering is separately approved, implemented and verified. This recommendation does not authorize Student LMS work.
 
 **Attribution correction:** Any wording in this record that previously described these three items as "owner-requested corrections" is superseded by this section. They are Claude AI recommendations assessed by ChatGPT. Only an explicit subsequent owner decision can promote any of them to FINALIZED / OWNER-DECIDED.
+
+
+## 9. Owner approval of Claude AI recommendations — 24 November 2026
+
+The owner subsequently clarified: where ChatGPT independently agrees that a Claude AI point is correct or a strong recommendation, the owner approves proceeding with that recommendation ("if you also agree, approve it and do it"). This approval promotes the following recommendations into the accepted design specification. It does **not** mean Claude authored the decisions; their origin remains attributed to Claude, and the owner's approval is recorded separately.
+
+### 9.1 Sidebar accuracy and Academic Reviews navigation disclosure — APPROVED REQUIREMENT; ROUTING CHOICE STILL PENDING
+
+Approved:
+- Use the actual Management Panel navigation labels and preserve existing modules; do not use invented sidebar labels.
+- Explicitly disclose that making Academic Review accessible only inside Studio → Workflow would remove/change the existing global **Academic Reviews** navigation entry.
+- Do not silently remove or relocate it.
+
+Still not decided:
+- Whether the existing global Academic Reviews entry is removed in favor of Workflow-only navigation, or retained as a shortcut to the same single workspace.
+- Until the owner chooses, the next design must show both alternatives or preserve the current global entry as the non-destructive baseline and clearly mark the alternative. No implementation or navigation removal is authorized.
+
+### 9.2 My Drafts scope switch — APPROVED
+
+Incorporate the two-scope switch:
+- **This destination**
+- **All my destinations**
+
+When opened from a selected destination, default to **This destination**. Switching scopes filters the view only and must never change a draft's actual destination, ownership, identity or permissions. When opened without a selected destination, show the entry behavior clearly in the next visual design rather than implying a destination context.
+
+### 9.3 Image and Formula controls — APPROVED SAFETY REQUIREMENT
+
+Until student-side rendering is separately approved, implemented and verified:
+- Hide or disable Image and Formula authoring controls in the Management Content Studio.
+- Do not permit teachers to create student-facing content that the current Student LMS cannot render.
+- If disabled controls are shown, include a concise explanation that student-side rendering is not yet supported.
+- Image/formula end-to-end support remains a future product requirement requiring a separate Student LMS scope and explicit approval.
+- This approval does not authorize any Student LMS code, database, Edge Function, authentication or deployment changes.
+
+### 9.4 Approval boundary remains
+
+- These recommendations are now **OWNER-APPROVED DESIGN REQUIREMENTS**.
+- The complete corrected visual design is still **PENDING OWNER REVIEW**.
+- Application implementation remains **NOT AUTHORIZED until the owner reviews and approves the complete visual design and the relevant implementation scope**.
+- No application code, schema, backend, Vercel or production changes are authorized by this documentation approval.
