@@ -860,3 +860,51 @@ The existing sections of this master record remain the canonical consolidated re
 | 24 Nov 2026 | Recorded session close and exact next-session checkpoint; reaffirmed Management-only scope and Student LMS exclusion; recorded owner verification of Chapter/Topic filters; documented the incorrect Vercel project deployment as an incident and identified the correct Management project/deployment, whose state was still BUILDING at close. No additional code, database, deployment or cleanup action was performed as part of this documentation update. |
 
 **End of master record.**
+
+## 21. 24 November 2026 — Student LMS compatibility audit continuation and session checkpoint
+
+### 21.1 Owner's latest instructions
+- Continue detailed Student LMS audit so Management Panel integration preserves the existing student experience.
+- Current chapter/topic names are temporary test data, not final approved syllabus taxonomy. Owner's limited test accounts were used to test the LMS.
+- Course sessions/tests are dynamic and owner-managed. Examples: March Session, February Session and Mock Session. Owner must be able to create sessions and manage tests under them through Management Panel. Do not assume a fixed session catalogue.
+- Report an Issue was previously created as an interface/partial feature but was not fully integrated or enabled. Correct status: PARTIAL / NOT FULLY INTEGRATED / NOT ENABLED, pending source/screenshot reconciliation. The source audit did not locate a complete connected workflow; it must not be described as entirely nonexistent. Do not assume persistence or implement before locating/reconciling the partial implementation.
+- Do not use unrelated third-party images as examples of SJN MedNest. Use owner-provided SJN screenshots and approved design references. Any new visual must be original and SJN-specific, labelled as a proposal. Never imply external sample images are the actual product.
+- Owner requires every detail to be documented so work can resume in this or a new chat without repeating context.
+
+### 21.2 Corrected Analytics hierarchy
+Full-Length Past Papers Analytics has the complete drill-down: Full-Length Past Papers catalogue → individual paper → Subject Breakdown → Chapter breakdown → Topic rows. Topic rows include answered, correct, incorrect, skipped and accuracy metrics. Catalogue cards expose region, year, title, accuracy, attempts and question count. Reinspection of paperView(data) in public/sjn-analytics.js confirms this. The earlier abbreviated paper-level-only description was incomplete and is superseded.
+Past Papers Question Bank Analytics is separate, with its own bank → subject → chapter → topic structure. Preserve both.
+
+### 21.3 Live database audit evidence and boundaries
+Read-only Supabase inspection covered Student LMS Staging aozknkrwafowsrehdwlr and Management Auth tdqbjhrmfluiinntmjfh; both reported ACTIVE_HEALTHY.
+Student LMS findings: stable MCQ IDs and immutable mcq_revisions; attempt_items reference MCQ IDs and exact revisions; attempts have composite ownership references; past_papers stores region/title/year/description/ordered MCQ IDs as JSON/PDF URL; sjn_course_tests stores session_code/test number/title/subject/nullable chapter/duration/availability/MCQ IDs JSON/syllabus JSON/published flag; no normalized session-parent table found in inspected public schema; courses is separate from dynamic course-test/session rows; Mistake Diary annotations keyed by student and MCQ, with MCQ deletion cascade; Academy resource folders/files have restrictive parent relationships.
+All inspected public Student LMS base tables have RLS enabled. Some content tables (MCQs, Past Papers, courses and generic resources) have broad SELECT policies for anon/authenticated with USING(true). This requires investigation of unpublished-content semantics and direct Data API paths before any publishing workflow is released; do not assume automatically vulnerable or safe. FORCE RLS is false on inspected public tables. Storage policy query did not establish bucket privacy/policies; remains unverified.
+Management Auth findings: 12 public tables have RLS enabled but no policies, including staff, invitations, audit, drafts, review, syllabus and step-up. This may be intentional if access is exclusively through trusted server-side service-role routes/RPCs; prove the boundary before release. Do not add generic authenticated policies. Security Advisor reports leaked-password protection disabled. Performance Advisor reports nine unindexed foreign keys and eight indexes unused at observation time. No settings, policies or indexes were changed.
+Management Auth contains MCQ draft, content batch/rows, syllabus and academic-review tables. Their existence does not prove publishing is fully wired. Both projects contain publishing integration support artifacts, including mednest_publish_mcq_batch and receipts; existence alone is not proof of secure end-to-end publishing.
+
+### 21.4 Technical audit status
+Source/database inspection completed: Student Analytics including exact Full-Length Past Papers hierarchy; Mistake Diary V1.2; regional Past Papers browser and shared exam launch; Academy Resources private R2/PDF.js flow; SJN AI Tutor; Report an Issue source search with owner clarification; live Supabase public table/column/FK/RLS/policy/trigger/function metadata and advisor inspection for both projects.
+Still open: (1) Management Panel API routes/browser bundle and service-role boundary; (2) SECURITY DEFINER function bodies and EXECUTE grants; (3) focused Student LMS advisor output; (4) storage bucket privacy/policies; (5) public Data API publication visibility; (6) publish RPC/idempotency/cross-project credentials/version checks; (7) locate Report an Issue partial interface; (8) run regression suites; (9) fresh browser walkthroughs; (10) live paper/session catalogue and JSON association validation; (11) consolidated compatibility/release-risk decision.
+
+### 21.5 Visual design continuity
+Preserve the existing Content Studio V4 direction and owner decisions recorded in SJN_CONTENT_STUDIO_V4_SOURCE_RECONCILIATION_AND_DESIGN_TRACEABILITY_2026-11-24.md, SJN_CONTENT_STUDIO_V4_OWNER_REVIEW_CORRECTIONS_2026-11-24.md and this Master Product Architecture Decision Record. Do not restart design discovery or replace approved references with unrelated sample images. The complete visual design still requires reconciliation/presentation and explicit owner review where the traceability record says pending. Owner permits updates but the baseline must not be lost.
+
+### 21.6 Scope and safety reaffirmed
+- Management Panel only for product work. Student LMS remains read-only audit scope.
+- Do not modify Student LMS frontend/backend/database/schema/RLS/Edge Functions/Auth settings/attempts/student records/Test History/Results/Review/Retake/Analytics/Mistake Diary/Past Papers/Academy Resources.
+- No production merge/release, PR merge, destructive action or Vercel target/configuration changes without explicit approval.
+- Preserve Test History and existing student behavior.
+- Claude's 11 proposals are not owner-approved; classify each as correct/partial/incorrect/unsupported and seek owner decision.
+- Current chapter/topic labels are temporary pilot data; course sessions are dynamic and owner-created; Report an Issue is partial/unintegrated/disabled pending source reconciliation.
+
+### 21.7 Exact next-session starting sequence
+1. Read this section and latest Student LMS Compatibility Audit.
+2. Continue Management Auth security-boundary audit: route code, browser code, secret usage, authorization middleware and RPC grants/bodies.
+3. Re-fetch focused Student LMS advisors and inspect storage/publication policy state.
+4. Locate Report an Issue partial implementation through repository-wide search; request prior screenshot/location only after repo checks.
+5. Execute relevant regression tests and record actual results.
+6. Finish consolidated compatibility specification, then present SJN-specific design update for owner review.
+7. No implementation or database changes until separately approved.
+
+### 21.8 Change log
+24 Nov 2026 — Added detailed Student audit continuity checkpoint; corrected Full-Length Past Papers Analytics hierarchy; recorded owner clarifications about temporary taxonomy, dynamic sessions and partially implemented Report an Issue; reaffirmed no unrelated reference images and strict Student LMS read-only boundary.
