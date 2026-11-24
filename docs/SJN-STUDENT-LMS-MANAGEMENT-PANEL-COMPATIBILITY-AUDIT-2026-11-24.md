@@ -661,3 +661,81 @@ The tests were inspected but not executed in this audit. No fresh browser test o
 - **#11 existing support:** Mistake Diary V1.2 is implemented and historically owner-accepted on staging; this does not establish a connected Student Reports workflow.
 
 **Checkpoint:** Analytics and Mistake Diary source-level audit completed. The audit distinguishes code/test evidence from live database and browser verification. No Student LMS code, database, student records, Management Panel application or deployment was changed.
+
+## 22. Full-Length Past Papers Analytics — corrected exact hierarchy (24 November 2026)
+
+Reinspection of public/sjn-analytics.js confirms the earlier short summary saying Full-Length Past Papers were presented only at paper level was incomplete. The paperView(data) implementation provides a complete drill-down:
+1. Papers catalogue cards show paper title, region, year, accuracy, recorded attempt count and paper question count.
+2. Selecting a paper opens its individual analytics.
+3. Subject Breakdown lists subjects for that selected paper.
+4. Expanding a subject reveals chapter breakdown.
+5. Expanding a chapter reveals topic rows.
+6. Topic rows show answered count, correctness/incorrect/skipped statistics and accuracy.
+
+Paper analytics are grouped from data.nodes where source_type is papers and group_key is the selected paper title, then grouped successively by subject, chapter and topic. Empty chapter/topic labels render as Not classified in this paper-specific view. This differs from Question Banks analytics, which has its own bank → subject → chapter → topic navigation and catalog coverage.
+
+**Correction:** The earlier summary was incomplete. This section is the corrected source-backed description. Management Panel must preserve this full hierarchy and must not confuse Full-Length Past Papers with Past Papers Question Bank.
+
+## 23. Student Past Papers browsing and exam-launch contract
+
+Inspected public/sjn-pastpapers.js (blob SHA b444b5a1d897a3855736c7dd28451137c190c11a) and tests/pastpapers-browser-ui.test.js.
+
+The student-facing Full-Length Past Papers library has six fixed top-level category IDs in this source: Sindh, Punjab, KPK, Balochistan, Federal and NUMS. It shows region/category cards, then year-wise published paper cards. Each published card displays year, title, description, question count and Published status, then lets the student choose an attempt mode. The module is a pre-attempt browser only; it delegates the actual exam to the existing authenticated exam renderer. It does not own a separate quiz/scoring/history engine. The source filters catalogue entries to recognized region IDs, numeric IDs, nonempty ordered MCQ IDs (maximum 200) and string titles.
+
+The browser tests cover regional browsing, safe escaped rendering, no embedded PDF/iframe/duplicate quiz engine, and connection to the shared paper attempt launch. The region list is currently hard-coded in this student browsing component; Management Panel's future paper catalogue should respect the existing region identity contract while any expansion/change requires an explicit owner decision.
+
+## 24. Report an Issue — source audit finding
+
+A repository-wide inspection of the current public/index.html, server.js, API route modules and tracked file tree found no implemented student-facing Report an Issue module, submission endpoint, persistence table, staff queue or report lifecycle in the current branch source inspected.
+
+The earlier description of a Report an Issue UI is not confirmed by the current source snapshot. It may have been a proposal, screenshot/temporary experiment, or code outside the inspected branch; do not assume it is implemented. There is no verified report-to-Management workflow in this audit.
+
+**Management Panel implication:** Claude proposal #10 remains a proposed future workflow only. Do not implement its categories, statuses, Has a problem tags or Open in Editor behavior as if they were existing Student LMS contracts. A future Student Reports feature requires separate owner approval and a student UI/API/data model, authenticated ownership, attempt/question context, abuse/rate limits, staff permissions, immutable reported revision, retention/privacy policy and audit trail. No report persistence was discovered by source inspection.
+
+## 25. Academy Resources — detailed source and handover audit
+
+Inspected public/sjn-academy-resources.js (blob SHA ce6f13b2ed78a7d537d276b02dfabed3396b3623), lib/academy-resources.js (blob SHA c8408b2412c5040e8488ceaae5ab18e7a200fdbc), tests/academy-resources.test.js, and docs/ACADEMY-RESOURCES-HANDOVER-2026-11-03.md.
+
+Verified behavior:
+- Authenticated catalogue API returns only published folders and files, ordered by sort order and title, with private/no-store caching.
+- Folder hierarchy is parent-child and browsed progressively; published PDFs appear within collections.
+- Opening a file validates UUID, publication state and published parent folder; only PDF MIME type and safe PDF object-key paths are allowed.
+- PDF bytes are not proxied through Vercel. The backend creates a short-lived (180-second) signed Cloudflare R2 GET URL for the dedicated sjn-mednest-academy-resources bucket.
+- Browser PDF.js reader supports page navigation, page number, zoom, fit-width, expand/restore, close, continuous page scroll, cancellation of previous loads, render scheduling and focus/keyboard accessibility.
+- Small PDFs up to 256 KiB may be held in a bounded in-memory cache (max four files); cache is cleared on account reset. No browser localStorage/sessionStorage cache is used.
+- Diagnostics record timing only, scoped to Academy Resources.
+- Existing regression tests cover authenticated routes, publication checks, signed URL safety, private PDF handling, reader interactions and layout.
+- The handover records the owner's decision on 5 November to stop speculative PDF speed experiments and prioritize Admin Panel. The feature is functionally stable but not guaranteed fast; loading is network-dependent. Hybrid range/stream optimization was not approved as default; do not restart without explicit owner prioritization.
+
+**Management Panel implication:** Future resource management needs folder hierarchy, PDF metadata, upload/replace/publication controls and secure R2 object handling. This audit does not establish a current Admin upload module or live bucket/database state. Preserve private access and published-parent checks. Do not change PDF storage or reader performance as part of Content Studio work without separate approval.
+
+## 26. SJN AI Tutor — detailed source and handover audit
+
+Inspected public/sjn-ai-tutor.js (blob SHA 2097720bc4920c2be80db5ef70cbad4edf51e6fb), lib/ai-tutor.js (blob SHA b3ff5dd05b76c0f6d1e4cf6319a275b62232725d), tests/ai-tutor.test.js, tests/ai-tutor-reliability.test.js, tests/ai-tutor-format.test.js and the AI Tutor handover.
+
+Verified source contract:
+- AI Tutor is a standalone authenticated optional API at /api/ai/status and /api/ai/tutor, isolated from exam, History, Results and MCQ engine dependencies.
+- Provider is Google Gemini through server-side REST; API key is read from server environment, not browser code.
+- Prompt limit is 2,200 characters; conversation context is validated and bounded; dynamic response token budget is selected by prompt intent.
+- One bounded retry is permitted for transient network/5xx errors; 429 is not retried. Provider errors are mapped to user-safe messages. Requests time out after 30 seconds; incomplete/MAX_TOKENS responses are explicitly flagged.
+- Per-user request controls are in-memory per warm server instance, not a durable global quota. Provider quota/availability cannot be guaranteed.
+- Frontend has safe structured answer formatting, including Markdown and math support through lazy KaTeX loading; AI-generated HTML is not trusted. User messages remain text.
+- Privacy notice warns that questions may be processed by Google and students should not enter private information.
+- Historical handover says preserve the existing tutor personality and do not alter the purple UI as part of reliability work; actual visual redesign was not accepted as final.
+- Existing tests cover isolation from exam modules, formatting and reliability/error paths. They were inspected, not executed in this audit.
+
+**Management Panel implication:** AI Tutor settings/availability, model/provider configuration and usage controls are separate from Question Content Studio. No Management Panel AI Tutor configuration workflow was verified. Do not add provider keys, billing controls or AI content generation to Content Studio scope without separate approval.
+
+## 27. Remaining global audit gaps and limits
+
+This repository audit is detailed source-and-test inspection, not a live production or staging penetration test. The following remain open:
+- Live read-only database schema, foreign-key graph, grants, RLS and storage policy verification for Student LMS.
+- Verify actual current staging data/region catalog and analytics output without exposing student personal data.
+- Fresh browser walkthrough for Results, Review, Retake, History, Analytics, Mistake Diary, Past Papers, Academy Resources and AI Tutor; screenshots requested where needed.
+- Execute relevant regression test suites and record actual results/commit.
+- Full-length paper metadata, region taxonomy and question-to-paper ordering must be compared against live rows and actual student attempt examples.
+- Complete security audit of every MCQ read path and course entitlement; FF-008 remains a release blocker for restricted course content until proven fixed.
+- Current branch source does not show Report an Issue persistence or management queue; owner confirmation is needed before adding it to scope.
+- Existing static legacy admin forms/localStorage in public/index.html are not evidence of a secure production Management Panel and must not be reused as a privileged admin backend.
+
+**Checkpoint:** Source inspection now covers Past Papers browser, exact Full-Length Past Papers Analytics hierarchy, Report an Issue presence/absence, Academy Resources and AI Tutor. No Student LMS code, database, configuration, records or deployment was changed.
