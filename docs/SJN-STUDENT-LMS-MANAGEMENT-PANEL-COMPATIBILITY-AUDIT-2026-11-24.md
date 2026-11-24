@@ -542,3 +542,122 @@ Screenshots should avoid exposing email addresses or other personal information.
 - **#11 model support:** Results/Review/Retake/History have an established question-level version contract. The Management Panel must integrate with it rather than create a competing history or scoring pipeline.
 
 **Checkpoint:** Source-level Results/Review/Retake/History compatibility requirements recorded. No Student LMS code, database, student records, Management Panel application or deployment was changed.
+
+
+## 20. My Analytics — source and regression-test audit (24 November 2026)
+
+### 20.1 Student-facing information architecture — VERIFIED
+
+Inspected `public/sjn-analytics.js` (blob SHA `b7221ee3e6f45049095f7ba210f549ef69d72abc`) and `public/sjn-analytics.css`. Four top-level sections are implemented:
+- Overview
+- Question Banks
+- Courses
+- Past Papers
+
+The source catalog distinguishes SJN Question Bank, Past Papers Question Bank, My Courses and Full-Length Past Papers. This is an important distinction: Past Papers Question Bank is a practice bank with subject/chapter/topic drill-down, while Full-Length Past Papers is an exam/paper-level destination.
+
+Date filters include All Time, Last 24 Hours, Last 7 Days, Last 15 Days, Last 30 Days, Last 90 Days, Previous Month and Custom Range. The client validates date range input, passes timezone offset, caches up to five period results in memory for 90 seconds, and clears cache/state on account change. It does not use localStorage/sessionStorage for Analytics data.
+
+### 20.2 Metrics and hierarchy — VERIFIED IN SOURCE
+
+- Overview distinguishes total answered instances from unique answered MCQs; skipped items remain separate. Unique answered counts distinct MCQ IDs with an actual selected answer, not skipped-only appearances.
+- Bank views support Subject → Chapter → Topic, with available question-bank catalog counts and distinct coverage information.
+- The strength classification requires at least 15 answered items before labelling performance Strong / Developing / Needs attention; smaller samples are treated as More practice needed. This is a display evidence threshold, not an exam readiness prediction.
+- Course analytics are separated by individual course test/attempt and provide subject/chapter breakdowns. Independent retakes are not merged into a single managed course result.
+- Full-Length Past Papers are presented at paper level with region/year/catalog identity, not as question-bank topic drill-down.
+- Daily trends aggregate counts into date buckets; they are not predictive readiness estimates.
+
+### 20.3 Backend and data integrity — VERIFIED IN SOURCE
+
+`server.js` exposes authenticated, read-only `GET /api/student-analytics`, sets private/no-store response caching, validates date/time inputs and invokes `sjn_student_analytics`. The response is tagged with the authenticated user ID; the client rejects a mismatched identity or incomplete summary.
+
+The inspected SQL migration defines an authenticated SECURITY INVOKER function scoped to `auth.uid()`, using detailed attempts (`details_version=1`), attempt items and immutable MCQ revisions for historical outcomes. It returns aggregated results rather than student attempt rows. Summary-only legacy attempts are counted separately and are not assigned invented question-level answers.
+
+Important limitation: migrations and source describe the intended database function/policies, but this audit did not execute a fresh live read-only schema/RLS/grants check. The Analytics handover documents earlier staging-only application and a staging QA sample; that is historical evidence, not proof of the current live state.
+
+### 20.4 Test coverage — VERIFIED IN REPOSITORY
+
+`tests/student-analytics.test.js` and `tests/student-analytics-render.test.js` cover source separation, date periods, 15-answer evidence threshold, account isolation/cache reset, authenticated read-only API, SECURITY INVOKER/auth.uid SQL, total-vs-unique semantics, mobile layout and runtime rendering/navigation. Test files were inspected; this audit did not run the CI suite or perform a new browser/device test.
+
+### 20.5 Management Panel implications
+
+- Keep the two Past Paper destinations distinct in editor and analytics metadata.
+- Do not force topic-level analytics for courses; current contract is course test → subject/chapter breakdown.
+- Do not treat current pilot chapter/topic strings as final syllabus taxonomy. They are temporary test data per owner clarification.
+- Preserve stable MCQ identity and immutable revision history for all analytics outcomes.
+- Course session/test analytics must resolve from the owner-managed dynamic session/test catalogue in future, rather than assuming Genome is the only session.
+- Any future taxonomy rename/merge must be evaluated for historical grouping effects. The analytics implementation groups historical records using revision metadata and catalog/coverage joins; live database behavior and version handling require a dedicated schema check before implementation.
+- Do not add extra counts, filters or analytics dimensions beyond approved existing behavior without owner approval.
+
+### 20.6 Claude proposal assessment update
+
+- **#1 metadata rules:** Analytics supports distinct bank and course/paper source semantics, but it does not justify finalizing required/optional Chapter/Topic rules for all destinations. Existing pilot labels remain temporary.
+- **#2 missing chapter/topic:** The UI/source treats blank grouping values distinctly in several contexts; no universal “General Topic” canonical taxonomy rule should be adopted without checking all renderers and current data. Keep as pending assessment.
+- **#3 strict taxonomy:** The need for a centrally managed taxonomy is consistent with the product direction, but duplicate detection/merge rules and impact workflow are not implemented or owner-approved by this audit.
+- **#8 ordering/counts:** Analytics uses ordered attempt items and separate per-test breakdowns; preserve these identities and metrics.
+- **#11 existing support:** Existing analytics covers the four destinations and the above metrics, but dynamic future session authoring and final taxonomy management are not established by the Analytics module.
+
+## 21. Mistake Diary — source, schema and regression-test audit (24 November 2026)
+
+### 21.1 Owner-accepted student experience — VERIFIED AGAINST SOURCE AND HISTORICAL OWNER ACCEPTANCE RECORD
+
+Inspected `public/sjn-mistakes.js` (blob SHA `b98ae24f70de830faf0519a737b282546e1c2e8f`), `lib/mistake-diary.js`, `public/sjn-mistakes.css`, `tests/mistake-diary.test.js` and `docs/SJN-MISTAKE-DIARY-V1-HANDOVER-2026-11-05.md`.
+
+The V1.2 handover records explicit owner acceptance (“Mistake Diary finalize / done”) on 6 November 2026. Preserve this as a finalized existing Student LMS feature; this audit is not permission to redesign it.
+
+Current supported source navigation:
+- Question Banks: Subject → Chapter
+- My Courses: Course → Test
+- Full-Length Past Papers: original paper identity (not repeated per subject/chapter)
+
+The diary automatically derives genuinely incorrect saved answers (selected answer exists and is incorrect) from detailed attempts. It presents the latest incorrect occurrence for each unique MCQ and records the number of wrong submissions. It does not manufacture individual question history for summary-only legacy attempts.
+
+Question detail includes the original A–D options, highlights the correct answer and student's incorrect selection, and displays the explanation and mnemonic from the saved revision. Students can manually assign one of four categories:
+- Information Gap
+- Conceptual Mistake
+- Silly Mistake
+- Retention Gap
+
+The diary also supports Need Review, In Progress and Mastered; optional learning notes (maximum 1,200 characters); Previous/Next navigation; and explicit Save Changes. No autosave. Navigation guards warn before discarding unsaved edits.
+
+### 21.2 Data and security model — VERIFIED IN SOURCE; LIVE STATE NOT RECHECKED
+
+The inspected V1 migration defines student-owned annotations keyed by `(user_id, mcq_id)`, with RLS and SECURITY INVOKER view/function access. Insert/update policies require a genuinely incorrect saved attempt item for the authenticated student. The diary view joins the saved `mcq_revision_id`, derives the latest wrong response and includes original question/options/explanation/mnemonic. It does not update attempts, attempt items, revisions or scores.
+
+The API validates source grouping, category/status values, pagination and note length, scopes reads/writes by authenticated user ID, and upserts annotations on `user_id,mcq_id`. After saving an annotation, the client refreshes the authoritative catalog summary.
+
+The migration includes `ON DELETE CASCADE` from annotation rows to both auth user and MCQ. The latter means deleting an MCQ would remove its annotation row; combined with historical attempt references, this reinforces the need to avoid hard-delete and to verify the full live FK graph before any retirement/deletion workflow.
+
+A later V1.1 catalog grouping migration changes how the navigation catalog groups Course Tests and Full-Length Papers; it does not alter underlying attempts, answers or annotations. V1.2 desktop layout aligns category chips on the left and Review Status on the right, while retaining mobile dropdown behavior.
+
+### 21.3 Test coverage — VERIFIED IN REPOSITORY
+
+`tests/mistake-diary.test.js` asserts:
+- only genuinely incorrect, selected saved answers are derived;
+- immutable revisions and student ownership are respected;
+- the view is SECURITY INVOKER and RLS enabled;
+- no attempt/revision updates or destructive attempt-table operations;
+- all four categories and three review statuses;
+- original A–D answer highlighting;
+- validated source groupings, paging, note length and user-scoped upsert;
+- desktop category-chip alignment and mobile controls.
+
+The tests were inspected but not executed in this audit. No fresh browser test or live RLS/grants check was performed.
+
+### 21.4 Management Panel implications
+
+- Mistake Diary is a student-facing downstream consumer of immutable question revisions. Admin edits must never rewrite historical revision content.
+- Preserve stable MCQ IDs; annotation identity is keyed to MCQ ID, while displayed question/answer content comes from the latest wrong attempt's revision.
+- Retiring a question must preserve historical attempts and existing student annotations; do not hard-delete.
+- The Management Panel may eventually receive student issue reports and route them to content correction workflows, but Mistake Diary categories are the student's learning classification and must not be reused as issue-report categories.
+- Preserve manual Save Changes and no-autosave in the student Mistake Diary. This is separate from any accepted Management Content Studio draft-editing autosave/Undo direction.
+- Preserve the owner-accepted V1.2 interface unless the owner explicitly approves a separate future change.
+
+### 21.5 Claude proposal assessment update
+
+- **#4 retire instead of delete:** Strongly supported as a safety requirement; the MCQ FK cascade on annotations makes hard deletion especially risky. A full retirement feature is not verified.
+- **#9 student preview:** The diary demonstrates that historical student display depends on saved revision content, original options, explanation and mnemonic. Management preview must distinguish current draft preview from historical attempt rendering.
+- **#10 Student Reports:** Mistake Diary's category and annotation model is not a student reporting workflow. Do not treat the two as equivalent or infer report persistence from Mistake Diary.
+- **#11 existing support:** Mistake Diary V1.2 is implemented and historically owner-accepted on staging; this does not establish a connected Student Reports workflow.
+
+**Checkpoint:** Analytics and Mistake Diary source-level audit completed. The audit distinguishes code/test evidence from live database and browser verification. No Student LMS code, database, student records, Management Panel application or deployment was changed.
