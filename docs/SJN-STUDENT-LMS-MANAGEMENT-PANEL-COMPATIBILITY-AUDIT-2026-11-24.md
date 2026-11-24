@@ -307,3 +307,83 @@ The next pass will focus on the technical data model rather than judging tempora
 - whether question deletion/retirement is supported and how references are protected.
 
 No live database writes or schema changes are authorized.
+
+
+## 16. Technical data-contract audit — source migrations and server (24 November 2026)
+
+### 16.1 Owner's temporary-taxonomy clarification applied to interpretation
+
+The current visible chapter/topic values are test data and cannot be used as the final approved syllabus. The findings below describe the technical contract and historical test implementation only; they do not endorse the current labels.
+
+### 16.2 Published question payload — VERIFIED IN SERVER SOURCE
+
+`server.js` loads all published `mcqs` through `readAllPublishedMcqs`, reads `courses` and `past_papers`, and returns:
+- bank, subject, chapter and topic;
+- question, options, correct index;
+- current revision ID;
+- explanation, mnemonic and source;
+- course records with `chapters_json` exposed as `chapters`;
+- full-paper records with `mcq_ids_json` exposed as `mcqIds`.
+
+The public payload normalizes null chapter/topic/source/explanation/mnemonic values to empty strings. It rejects an incomplete published-question/revision read rather than returning a seemingly valid empty catalogue. This is the server payload shape, not a final Management Panel write contract.
+
+### 16.3 Question metadata storage and revisions — VERIFIED IN MIGRATION SOURCE
+
+The Stage 3B question-history migration defines immutable `mcq_revisions` snapshots with:
+- `mcq_id` identity linked to `mcqs(id)` using `ON DELETE RESTRICT`;
+- revision number, bank, subject, nullable chapter, nullable topic, nullable source;
+- question text, JSON options, correct index, explanation and mnemonic;
+- exactly four options and A–D correct index;
+- unique revision number per MCQ and unique (MCQ, revision) identity.
+
+It adds `mcqs.current_revision_id` with a composite FK to the revision belonging to that same MCQ and `ON DELETE RESTRICT`. Revision UPDATE and DELETE are blocked by an immutability trigger. This supports the safety direction behind preserving history, but it does not prove that an MCQ retirement/archival workflow exists.
+
+**Important migration caveat:** The retrieved `20261018_stage3b_question_history_foundation.sql` explicitly labels itself “REVIEW ONLY, NOT EXECUTED” and says separate owner approval is required. Therefore the migration text proves the designed schema, not by itself the live staging schema. Later migrations and source code reference these objects, but a live read-only schema check is still needed to prove current deployment state.
+
+### 16.4 Attempt history preserves question revision and order — VERIFIED IN MIGRATION/RPC SOURCE
+
+The designed `attempt_items` records retain attempt ID, user ID, position, MCQ ID, MCQ revision ID, selected option and correctness. They enforce unique question identity per attempt and reference the immutable revision with `ON DELETE RESTRICT`. The published-paper submission RPC validates the current revision and derives the answer key server-side; it does not trust browser-supplied keys, question text or score. Submission supports up to 200 questions, four answer positions A–D, and Tutor/Timed modes.
+
+This makes immutable revision history and stable question identity essential Management Panel compatibility requirements. Editing an existing published question must create a new version rather than mutate historical snapshots.
+
+### 16.5 Taxonomy is currently text-based in question/revision records — VERIFIED IN MIGRATION SOURCE
+
+The inspected revision migration stores `bank`, `subject`, `chapter`, `topic` as text columns; `chapter`, `topic` and `source` are nullable. No chapter_id/topic_id foreign-key relationship is defined in this migration. This does not exclude a separate syllabus taxonomy table elsewhere; a complete repository search and live schema check remain necessary.
+
+**Implication:** Do not assume the Management Panel can safely rename/merge a taxonomy node by updating a normalized foreign-key row. In the inspected historical question model, taxonomy labels are embedded in each revision snapshot. A canonical taxonomy layer would be a new controlled relationship or mapping and must preserve historical labels and analytics semantics.
+
+### 16.6 Analytics semantics — VERIFIED IN MIGRATION SOURCE
+
+The student Analytics RPC:
+- reads only completed attempts with `details_version=1`;
+- joins attempt items to the immutable MCQ revision for historical question metadata;
+- groups by source type, bank, subject, chapter and topic;
+- normalizes null/blank chapter and topic to empty strings in grouping;
+- explicitly suppresses topic for Course Tests;
+- distinguishes SJN Question Bank, Past Papers Question Bank, full MDCAT paper source and courses;
+- derives bank catalog, lifetime coverage, period coverage and per-course-test breakdown.
+
+Thus the current analytics grouping is based on revision-snapshot labels for attempt facts, not simply the current editable MCQ row. The visible display treatment of empty groups still requires frontend inspection. Temporary taxonomy values in the current small test account must not be promoted into the final taxonomy.
+
+### 16.7 Mistake Diary source and grouping — VERIFIED IN MIGRATION/SERVER SOURCE
+
+Mistake Diary V1 is based on genuinely saved incorrect answers in verified question-level attempts. It selects the latest wrong response per student/MCQ, joins the exact revision snapshot, and exposes the four-option question and answer state. Student annotations use four categories (`information`, `conceptual`, `silly`, `retention`) and review statuses. The catalog groups bank mistakes by subject/chapter, course mistakes by course test, and full-paper mistakes by paper title. Course and paper grouping intentionally does not use the bank subject/chapter tree.
+
+The annotation table's MCQ foreign key uses `ON DELETE CASCADE`, while attempt items and revision references use restrictive links. This is an important cross-feature dependency: hard deletion could remove student annotations even if immutable historical attempt/revision rows restrict deletion. A real retirement policy and deletion protection must be designed only after live schema verification and all references are inventoried.
+
+### 16.8 Claude proposal status updated by this pass
+
+- **#1 metadata:** The historical question/revision schema confirms text fields and nullable chapter/topic/source. Science-vs-flat subject semantics remain tied to temporary test labels and must not become final taxonomy rules. PARTLY VERIFIED; FINAL MAPPING PENDING OWNER SYLLABUS.
+- **#2 placeholders:** Server normalizes nulls to empty strings; Analytics groups null/blank as empty strings; internal wizard fallback labels are a separate UI selection concern. Do not create visible “General Topic” taxonomy from these defaults. FINAL UI treatment pending full frontend audit.
+- **#3 taxonomy:** No taxonomy IDs/foreign keys were found in the inspected question/revision migration. Controlled canonical taxonomy is a plausible Management Panel responsibility but requires a new design; current storage does not prove an existing taxonomy module contract.
+- **#4 retire vs delete:** Revisions and attempt references are restrictive; annotations cascade from MCQ deletion. Retirement is a reasonable safeguard but not yet an existing verified capability.
+- **#5 provenance:** Revision has nullable free-text `source`; paper catalog carries region/year/title and ordered MCQ IDs. Structured provenance is not proven as an existing normalized source schema.
+- **#6 Option E:** Four-option constraints confirmed at question revision, attempt submission, review and Mistake Diary boundaries.
+- **#8 order/count:** Paper MCQ ID arrays and attempt-item positions preserve ordered question identity; UI expected-vs-uploaded content-management controls remain unverified.
+- **#11 model support:** Current question/revision/attempt/analytics/Mistake Diary contracts are now partially mapped; live schema and remaining source modules are still needed.
+
+### 16.9 Critical limits of this checkpoint
+
+This is repository-source and migration-text inspection only. No database connection was used and no migration was run. The migration's own “REVIEW ONLY, NOT EXECUTED” status means live deployed schema must not be inferred from migration text. Temporary student taxonomy labels remain excluded from final academic decisions.
+
+No Student LMS code, data, database, configuration, Management Panel application or deployment was changed.
