@@ -6,7 +6,7 @@
 
 ## 1. Review context
 
-The owner reviewed the assistant's 24 November 2026 written design proposal in the conversation, not the GitHub source-reconciliation document. The owner explicitly approved the proposal as a **written specification subject to corrections**, but did **not** approve it as a final visual design. Do not describe the visual design as approved or complete.
+The owner clarified that the three review points reproduced in the 24 November 2026 message were written by **Claude AI**, not authored or independently decided by the owner. The owner asked ChatGPT to assess whether Claude's comments were correct. Therefore, the points below are recorded as **Claude AI recommendations and ChatGPT's assessment**, not as owner instructions or owner-approved decisions. The owner has not approved the proposal as a final visual design. Do not describe the visual design as approved or complete.
 
 The owner confirmed the following elements as good:
 - Content/Workflow switch appears only inside the Question Content Studio header, beside Auto / Dark / Light.
@@ -16,7 +16,7 @@ The owner confirmed the following elements as good:
 - Empty, error and no-permission states are represented; Release Centre includes a disabled-permission state.
 - Technical unknowns are labelled verification pending rather than represented as existing capabilities.
 
-## 2. Correction 1 — preserve the real Management Panel sidebar and make navigation change explicit
+## 2. Claude AI recommendation 1 — preserve the real Management Panel sidebar and make navigation change explicit
 
 The previous written mockup used inaccurate sidebar labels and omitted existing modules. The real existing sidebar names supplied by the owner are:
 - Team & Permissions
@@ -25,7 +25,7 @@ The previous written mockup used inaccurate sidebar labels and omitted existing 
 - Feature & Enrollment Access
 - My Profile
 
-The corrected design must use the actual existing Management Panel navigation and must not invent replacement names such as "Staff & Permissions", "Reports & Analytics" or "Audit & Activity". Preserve every other existing sidebar item from the actual live panel; do not infer the complete sidebar from this list alone.
+Claude's observation is valid: the written mockup used inaccurate sidebar labels and omitted existing modules. The corrected design should use the actual existing Management Panel navigation and must not invent replacement names such as "Staff & Permissions", "Reports & Analytics" or "Audit & Activity". Preserve every other existing sidebar item from the actual live panel; do not infer the complete sidebar from this list alone.
 
 **Academic Reviews navigation change — PENDING OWNER DECISION.**
 
@@ -35,11 +35,11 @@ The previous proposal placed Academic Review only inside Workflow mode, which wo
 
 Do not silently remove or relocate the existing navigation item. No choice has been made by this review.
 
-## 3. Correction 2 — My Drafts destination scope switch
+## 3. Claude AI recommendation 2 — My Drafts destination scope switch
 
 The previous proposal was inconsistent: My Drafts was presented inside a selected destination workspace, while its contents were described as drafts from all destinations.
 
-The owner requires a clear scope switch in My Drafts:
+Claude recommends a clear scope switch in My Drafts. This is a sound UX recommendation and is consistent with the earlier project direction to keep My Drafts distinct from Browse & Edit, but the exact two-scope labels/default behavior were not verified as a previously owner-finalized decision in the retrieved conversation records:
 - **This destination**
 - **All my destinations**
 
@@ -55,9 +55,9 @@ Behavior:
 
 This correction supersedes the inconsistent wording in the earlier written proposal that described one all-destinations view without a scope switch.
 
-## 4. Correction 3 — image and formula controls must not expose unsupported student-facing content
+## 4. Claude AI recommendation 3 — image and formula controls must not expose unsupported student-facing content
 
-The owner identified a conflict between the planned authoring capability and the explicit boundary that the Student LMS is out of scope for current work.
+Claude identified a genuine safety concern: planned authoring controls could allow staff to create image/formula questions that the current Student LMS cannot render. The existing project boundary keeps Student LMS changes out of current work.
 
 The corrected specification must state:
 - Image and formula support remains a desired end-to-end product requirement.
@@ -69,7 +69,7 @@ The corrected specification must state:
 
 The safe default in the visual proposal should be disabled controls with a short explanation that student rendering is not yet supported, unless a more suitable inaccessible/hidden state is justified and explicitly reviewed. No student-side implementation is authorized by this record.
 
-## 5. Required changes to the next owner-facing design
+## 5. Recommended changes to the next owner-facing design
 
 The next complete visual design must:
 1. Use the actual Management Panel shell/sidebar, including the owner's real labels and existing modules. Inspect the exact current screenshot/live interface before claiming pixel-level fidelity.
@@ -80,13 +80,14 @@ The next complete visual design must:
 6. Preserve the distinction between a written specification and final visual design approval.
 7. Present the complete corrected visual design for owner review before any implementation.
 
-## 6. Approval and change boundaries
+## 6. Attribution, assessment and approval boundaries
 
-- **Written specification:** APPROVED SUBJECT TO THE CORRECTIONS ABOVE.
+- **Claude AI review points:** REVIEWED BY CHATGPT; generally sound recommendations, not owner instructions.
+- **Written specification:** The owner previously said it was acceptable as a written specification subject to corrections; this does not approve the visual design.
 - **Final visual design:** NOT APPROVED; a corrected visual design must be presented and reviewed.
-- **Academic Reviews sidebar relocation/removal:** PENDING OWNER DECISION.
-- **My Drafts scope switch:** OWNER-REQUESTED CORRECTION; incorporate in next design.
-- **Image/Formula controls:** OWNER-REQUESTED SAFETY CORRECTION; hidden or disabled until separate student-side approval, implementation and verification.
+- **Academic Reviews sidebar relocation/removal:** PENDING OWNER DECISION. Claude correctly flagged that moving it would alter existing navigation; no owner decision has been made.
+- **My Drafts scope switch:** CLAUDE AI RECOMMENDATION; ChatGPT assesses it as a sound UX improvement. Exact labels/default should be shown in the next design for owner review.
+- **Image/Formula controls:** CLAUDE AI SAFETY RECOMMENDATION; ChatGPT assesses the concern as valid. Keep controls hidden/disabled until student-side rendering is separately approved, implemented and verified; this is a proposed safe design, not an owner-issued instruction.
 - **Management implementation:** NOT AUTHORIZED by this review; wait for final visual design approval and applicable implementation authorization.
 - **Student LMS:** OUT OF SCOPE. No frontend, backend, database/schema, Edge Function, authentication, test-taking, results, review, analytics, history or other student-facing changes.
 - **Production merge/release:** Not authorized.
@@ -94,3 +95,13 @@ The next complete visual design must:
 ## 7. Documentation and continuity
 
 This addendum preserves the owner's actual review rather than silently overwriting earlier decisions. The previous reconciliation document remains as the prior proposal and source traceability record; this addendum records the subsequent corrections and their approval status. Future sessions must read both documents and the Master Product Architecture Decision Record before presenting or implementing further Studio design work.
+
+
+## 8. 24 November attribution clarification from owner
+
+The owner explicitly clarified after the initial recording that the three numbered comments came from Claude AI and were pasted for independent evaluation. They were not the owner's own instructions. ChatGPT's assessment:
+- Sidebar mismatch and the need to disclose the Academic Reviews navigation consequence: valid observation. Whether to retain the global sidebar entry or make it Workflow-only remains undecided.
+- My Drafts scope switch: sound and useful UX recommendation. It resolves the mismatch between a destination-context tab and an all-destinations list. Earlier records establish My Drafts as a dedicated draft workspace distinct from Browse & Edit, but the exact two labels/default were not verified as a previously owner-finalized requirement.
+- Image/formula controls: valid safety concern. Do not let teachers create content that the current student experience cannot display. The safest interim visual state is hidden/disabled controls until student-side rendering is separately approved, implemented and verified. This recommendation does not authorize Student LMS work.
+
+**Attribution correction:** Any wording in this record that previously described these three items as "owner-requested corrections" is superseded by this section. They are Claude AI recommendations assessed by ChatGPT. Only an explicit subsequent owner decision can promote any of them to FINALIZED / OWNER-DECIDED.
