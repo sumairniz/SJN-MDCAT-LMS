@@ -387,3 +387,77 @@ The annotation table's MCQ foreign key uses `ON DELETE CASCADE`, while attempt i
 This is repository-source and migration-text inspection only. No database connection was used and no migration was run. The migration's own “REVIEW ONLY, NOT EXECUTED” status means live deployed schema must not be inferred from migration text. Temporary student taxonomy labels remain excluded from final academic decisions.
 
 No Student LMS code, data, database, configuration, Management Panel application or deployment was changed.
+
+
+## 17. Courses & Sessions — owner screenshots and source audit (24 November 2026)
+
+### 17.1 Owner-supplied Student LMS screenshots — direct UI evidence
+
+The owner supplied four screenshots showing:
+1. My Courses landing page: two enrolled sessions (Genome Test Session 2026 and Early Mock Session) and one explore/locked session (Final Sprint Mock Series). The banner explicitly says this is a staging testing environment, Genome tests are real, other sessions are illustrative and production is unchanged.
+2. Genome session page: 100-test plan, progress indicator, filters All / Available / Unattempted / Upcoming / Completed, and a list of session tests with title, MCQ count, subject, completion and availability.
+3. Genome session Details → Schedule modal: schedule entries are numbered, with test title, test type, subject, date, MCQ count and duration where available. The schedule describes Tests 01–100 as an academic plan independent of availability and student progress. Tests 01–03 are shown without dates; subsequent entries are dated.
+4. A specific test detail page: test overview (question count, duration, availability, scheduled/available-anytime label, subject, attempt status, last completed result, selected mode, retake action) alongside a separate Test Syllabus panel showing subject and chapter.
+
+These screenshots corroborate the staging-only distinction and the visible student journey. They do not prove database contents, enrollment security or production behavior.
+
+### 17.2 Current source implementation — Genome versus illustrative sessions
+
+Direct inspection of `public/sjn-courses.js` (blob SHA `bf028c477ff273f0a8e95e894e6ec61ae9b6cf27`) confirms:
+- Three session cards are defined in the client: Genome, Early Mock, Final Sprint.
+- Genome is the only session loaded from the authenticated live course-test API. Early Mock and Final Sprint have hard-coded illustrative test data.
+- The UI itself labels Genome as the authenticated pilot and the other sessions illustrative; it warns “Production unchanged.”
+- The Genome schedule file `public/sjn-genome-schedule.js` contains 97 planned rows (tests 04–100). The UI combines these planning rows with uploaded/published tests 01–03 to display a 100-test plan. A schedule row is not itself a published/launchable test.
+- Session cards show enrollment state, progress, session details and schedule. Genome test list filters All, Available, Unattempted, Upcoming and Completed.
+- Test detail view shows overview and syllabus separately, including MCQ count, duration, availability, date, subject, attempt status, latest completed result and Tutor/Timed selection.
+- A saved in-progress draft resumes in its original mode; a completed test can be retaken through the existing History attempt flow.
+- The test syllabus renderer shows a “Full Syllabus” state for full-syllabus tests; otherwise it groups chapter labels under subject headings. These displayed chapter labels are temporary test data per the owner's clarification, not final taxonomy.
+
+### 17.3 Authenticated course-test API and student ownership — VERIFIED IN SERVER SOURCE, LIVE STATE NOT RECHECKED
+
+`server.js` exposes authenticated `GET /api/course-tests`. It reads published rows from `sjn_course_tests` for session code `genome`, and reads the requesting user's attempts and drafts with explicit `user_id = authenticated user` filters. It calculates course completion from server-saved attempts, distinguishes independent History retakes from course-progress-eligible attempts, and lets a newer manual Save & Exit draft coexist with the last completed result.
+
+The response includes stable course-test ID, test number/title, subject/chapter, duration, availability, ordered MCQ IDs, syllabus JSON, latest result and resumable draft metadata. The endpoint validates that every published test has a valid nonempty MCQ ID array of at most 200 items. It returns 503 if catalogue, attempt or draft reads cannot be verified.
+
+The browser bridge uses the same authenticated exam engine and History APIs for start, resume, result and retake. The course test selection carries `courseTestId` and `courseProgressEligible` into the shared submission flow. This is not a separate scoring/history engine.
+
+### 17.4 Critical access-control caveat — existing FF-008 blocker remains
+
+The existing 8 November read-only audit documents that the staging `mcqs` table had an anon SELECT policy and that course enrollment/entitlement enforcement was not established at the table level. The current source has an authenticated course-test catalogue endpoint, but this does not by itself prove that restricted MCQ rows and answer keys cannot be fetched through other direct readers.
+
+Therefore:
+- Do not assume that the UI's “Enrolled” / “Locked” badges are security enforcement.
+- Do not treat the current Genome pilot as a production-ready enrollment/paid-access model.
+- The earlier FF-008 finding remains a production release blocker for restricted/premium course content until a complete current read-only API/RLS/grants audit and owner-approved access policy are completed.
+- Do not revoke current public MCQ access or change RLS as part of this design audit; doing so could break existing student readers.
+
+### 17.5 Management Panel implications
+
+The Management Panel's eventual Courses & Sessions module must represent at least:
+- session identity, title, description, type, dates/duration, enrollment/access state;
+- ordered test manifests, each with stable test identity/number, title, test type, subject, schedule/availability, MCQ count and duration;
+- subject/chapter syllabus mapping or a Full Syllabus designation;
+- exact ordered MCQ associations and publication state;
+- student attempt/progress integration using the existing courseTestId contract;
+- separation between a planned schedule entry and a published/launchable test;
+- distinction between the real Genome pilot and illustrative sessions in current staging.
+
+The exact authoring workflow and future course entitlement model remain pending owner design and security verification. Temporary chapter/topic labels must not be adopted as canonical taxonomy.
+
+### 17.6 Claude proposal assessment update
+
+- **#1 destination-specific metadata:** Course test UI currently exposes subject and syllabus chapter groups; exact production taxonomy is temporary. Management needs a course-test manifest model, but mandatory/optional Chapter/Topic rules cannot be finalized from these test fixtures.
+- **#7 empty destinations/phased rollout:** The screenshot and source confirm Early Mock/Final Sprint are illustrative and Genome is the real pilot. The proposed rollout order is reasonable as a planning option, not an owner decision.
+- **#8 ordering and counts:** Strongly supported as a real requirement: the student UI shows numbered tests and question counts; server manifests carry ordered MCQ IDs; 97 schedule-only entries are not published tests. Management must distinguish planned, uploaded/published, available, completed.
+- **#9 student preview:** Screenshot provides a concrete preview contract for course tests, including overview and syllabus. Exact visual parity remains a future acceptance test.
+- **#11 existing model support:** Genome has an existing authenticated API and shared exam/history integration; other displayed sessions are illustrative client-side fixtures, not complete live course authoring/enrollment support.
+
+### 17.7 Remaining verification for Courses
+
+- Inspect actual current staging tables, constraints, RLS and grants read-only; migration/source text alone is insufficient.
+- Confirm the live catalogue row count, published states, MCQ manifest order and schedule-vs-publication relationship without exposing student personal data.
+- Inspect exact server-side course launch and submission validation, including entitlement enforcement and access bypasses.
+- Compare Analytics and Mistake Diary treatment of course tests.
+- Verify the live course API response and UI with a test account only if authorized, avoiding student PII.
+
+**Checkpoint:** Screenshots and repository source corroborate the current Genome staging pilot. They do not establish production readiness or secure paid enrollment. No Student LMS code, database, configuration or deployment was changed.
