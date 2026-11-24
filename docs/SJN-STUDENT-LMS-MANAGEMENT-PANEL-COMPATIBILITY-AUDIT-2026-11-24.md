@@ -279,3 +279,31 @@ References: `lib/practice-submission.js`, `lib/practice-drafts.js`, `tests/phase
 6. Complete the point-by-point 11-proposal assessment and prepare a corrected compatibility specification for owner review.
 
 **Checkpoint:** This is a source-level and owner-document reconciliation, not a live student account end-to-end test or a fresh database inspection. No Student LMS code, database, configuration, Management Panel application or deployment was changed.
+
+
+## 14. Owner clarification — current student taxonomy values are temporary (24 November 2026)
+
+The owner clarified that the chapter names and topic names currently visible in the Student LMS are **TEMPORARY TEST DATA**, not the final approved syllabus taxonomy. The small number of student accounts used so far are the owner's own test accounts, created to test the examination system and student experience. The currently visible chapter/topic names must therefore not be treated as authoritative syllabus names, approved taxonomy, or a final content model.
+
+Consequences for this audit and Management Panel integration:
+- Do not use currently visible chapter/topic labels as the canonical syllabus list.
+- Do not infer that the current taxonomy is complete, approved, or representative of the final course/syllabus structure.
+- Audit the technical shape of taxonomy storage, references, validation, analytics grouping and historical snapshots separately from the correctness of the labels.
+- Treat current Student LMS chapter/topic records and labels as temporary test fixtures unless the owner later identifies particular records as approved.
+- The Management Panel should ultimately provide the controlled source of approved taxonomy, but the exact upload/approval/propagation workflow remains to be designed and owner-approved.
+- Existing student test accounts and their test attempts are not a reliable source for deciding the final academic taxonomy.
+- This clarification supersedes any earlier assumption in this audit that current visible chapter/topic names represent the final academic syllabus.
+
+**Status:** OWNER CLARIFICATION — RECORDED; taxonomy labels TEMPORARY; technical data-model audit may continue read-only.
+
+## 15. Next audit checkpoint — taxonomy/data contract
+
+The next pass will focus on the technical data model rather than judging temporary labels. It will inspect repository migrations, server routes, query helpers and tests to establish:
+- where subjects, chapters and topics are stored or denormalized;
+- whether they are plain text, IDs, foreign keys, JSON, or a combination;
+- how MCQs reference taxonomy and what is required/nullable;
+- how taxonomy changes affect attempts, revisions, analytics and saved question snapshots;
+- whether paper/source metadata is structured or free text;
+- whether question deletion/retirement is supported and how references are protected.
+
+No live database writes or schema changes are authorized.
